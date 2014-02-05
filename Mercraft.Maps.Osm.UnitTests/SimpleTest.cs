@@ -6,9 +6,8 @@ using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Pbf;
 using Mercraft.Maps.UI;
-using Mercraft.Maps.UI.Rendering;
 using Mercraft.Maps.UI.Scenes;
-
+using Mercraft.Math.Primitives;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.Osm.UnitTests
@@ -32,7 +31,7 @@ namespace Mercraft.Maps.Osm.UnitTests
         public void CanGetOsmGeo()
         {
             var dataSource = GetDataSource();
-            var box = GetBox();
+            var box = CreateBox();
 
             var osmGeos = dataSource.Get(box, null);
            
@@ -43,7 +42,7 @@ namespace Mercraft.Maps.Osm.UnitTests
         public void CanFillScene()
         {
             var dataSource = GetDataSource();
-            var box = GetBox();
+            var box = CreateBox();
 
             var translator = new EmptyStyleTranslator();
 
@@ -59,8 +58,7 @@ namespace Mercraft.Maps.Osm.UnitTests
         public void CanFillSmallScene()
         {
             var dataSource = GetDataSource();
-            View2D view = CreateView(200,200, 19);
-            var box = SandboxHelper.CreateBox(view);
+            var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
             var translator = new EmptyStyleTranslator();
@@ -70,15 +68,16 @@ namespace Mercraft.Maps.Osm.UnitTests
 
             styleSceneManager.FillScene(dataSource, box, projection);
 
-            Assert.AreEqual(38, translator.TranslatedOsmGeos.Count);
+            Assert.AreEqual(36, translator.TranslatedOsmGeos.Count);
         }
 
         [Test]
         public void CanFillOneBuilding()
         {
             var dataSource = GetDataSource();
-            View2D view = CreateView(30, 30, 19, 51.26371, 4.7853);
-            var box = SandboxHelper.CreateBox(view);
+            //View2D view = CreateView(30, 30, 19, 51.26371, 4.7853);
+
+            var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
             var translator = new EmptyStyleTranslator();
@@ -94,25 +93,37 @@ namespace Mercraft.Maps.Osm.UnitTests
 
         #region Helpers
 
+        private GeoCoordinateBox CreateBox(double height = 500, double width = 500, double latitude = 51.26371, double longitude = 4.7854, int zoomLevel = 16)
+        {
+            const int DefaultZoom = 15;
+            IProjection projection = new WebMercatorProjection();
+            bool xInverted = false;
+            bool yInverted = false;
+            double realZoom = System.Math.Pow(2, zoomLevel - DefaultZoom) * 256.0; ;
+
+            width = width / realZoom;
+            height = height / realZoom;
+
+            int angleY = 0;
+
+            double[] sceneCenter = projection.ToPixel(latitude, longitude);
+
+            var rectangle = RectangleF2D.FromBoundsAndCenter(width, height,
+                (float)sceneCenter[0], (float)sceneCenter[1], angleY);
+
+            var boundingBox = rectangle.BoundingBox;
+
+            return new GeoCoordinateBox(
+                projection.ToGeoCoordinates(boundingBox.Min[0], boundingBox.Min[1]),
+                projection.ToGeoCoordinates(boundingBox.Max[0], boundingBox.Max[1]));
+        }
+
         private IDataSourceReadOnly GetDataSource()
         {
             return MemoryDataSource
                 .CreateFromPBFStream(new FileInfo(TestHelper.TestFilePath).OpenRead());
         }
 
-        public View2D CreateView(float height = 500, float width = 500, float zoom = 16,
-            double latitude = 51.26371, double longitude = 4.7854)
-        {
-            var center = new GeoCoordinate(latitude, longitude);
-            // {RectF:[(16819.08984375,10931.2509765625),(16820.06640625,10932.2275390625)]}
-            return SandboxHelper.CreateView(center, height, width, zoom, 0, false, true);
-        }
-
-        private GeoCoordinateBox GetBox()
-        {
-            var view = CreateView();
-            return SandboxHelper.CreateBox(view);
-        }
 
         #endregion
     }

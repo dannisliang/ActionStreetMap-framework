@@ -51,7 +51,6 @@
     <Compile Include="EmptyScene.cs" />
     <Compile Include="EmptyStyleTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SandboxHelper.cs" />
     <Compile Include="SimpleTest.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
