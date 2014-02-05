@@ -65,9 +65,6 @@
     <Compile Include="Geometries\Polygon.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="GeoCoordinateBox.cs" />
-    <Compile Include="Math\Random\IRandomGenerator.cs" />
-    <Compile Include="Math\Random\RandomGenerator.cs" />
-    <Compile Include="Math\Random\StaticRandomGenerator.cs" />
     <Compile Include="Projections\IProjection.cs" />
     <Compile Include="Projections\WebMercatorProjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,4 @@
-﻿using Mercraft.Maps.Core.Math.Random;
-using Mercraft.Math.Primitives;
+﻿using Mercraft.Math.Primitives;
 using Mercraft.Math.Units.Angle;
 using Mercraft.Math.Units.Distance;
 
@@ -148,35 +147,6 @@ namespace Mercraft.Maps.Core
 
             return new GeoCoordinate(this.Latitude + (meter.Value / latDistance.Value) * 0.1,
                 this.Longitude + (meter.Value / lonDistance.Value) * 0.1);
-        }
-
-        /// <summary>
-        /// Offsets this coordinate in a random direction.
-        /// </summary>
-        /// <param name="meter"></param>
-        /// <returns></returns>
-        public GeoCoordinate OffsetRandom(Meter meter)
-        {
-            return this.OffsetRandom(StaticRandomGenerator.Get(), meter);
-        }
-
-        /// <summary>
-        /// Offsets this coordinate in a random direction.
-        /// </summary>
-        /// <param name="randomGenerator"></param>
-        /// <param name="meter"></param>
-        /// <returns></returns>
-        public GeoCoordinate OffsetRandom(IRandomGenerator randomGenerator, Meter meter)
-        {
-            GeoCoordinate offsetCoordinate = this.OffsetWithDistances(meter.Value /
-                System.Math.Sqrt(2));
-            double offsetLat = offsetCoordinate.Latitude - this.Latitude;
-            double offsetLon = offsetCoordinate.Longitude - this.Longitude;
-
-            offsetLat = (1.0 - randomGenerator.Generate(2.0)) * offsetLat;
-            offsetLon = (1.0 - randomGenerator.Generate(2.0)) * offsetLon;
-
-            return new GeoCoordinate(this.Latitude + offsetLat, this.Longitude + offsetLon);
         }
 
         #endregion

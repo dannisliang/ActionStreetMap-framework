@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Mercraft.Maps.Core.Math.Random;
 
 namespace Mercraft.Maps.Core
 {
@@ -169,17 +168,6 @@ namespace Mercraft.Maps.Core
             }
         }
 
-        /// <summary>
-        /// Generates a random string.
-        /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static string RandomString(int length)
-        {
-            byte[] randBuffer = new byte[length];
-            StaticRandomGenerator.Get().Generate(randBuffer);
-            return System.Convert.ToBase64String(randBuffer).Remove(length);
-        }
 
         /// <summary>
         /// Converts a number of milliseconds from 1/1/1970 into a standard DateTime.
