@@ -6,7 +6,7 @@ using Mercraft.Maps.Osm.Entities;
 namespace Mercraft.Maps.Osm.Streams
 {
     /// <summary>
-    /// Base class for any (streamable) source of osm data (Nodes, Ways and Relations).
+    /// Base class for any (streamable) source of osm data (NodeIds, Ways and Relations).
     /// </summary>
     public abstract class OsmStreamSource : IEnumerable<Element>, IEnumerator<Element>
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Collections.Tags;
 
 namespace Mercraft.Maps.Osm.Entities
@@ -19,7 +20,37 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Holds the list of nodes.
         /// </summary>
-        public List<long>  Nodes { get; set; }
+        public List<long>  NodeIds { get; set; }
+
+        public List<Node> Nodes { get; set; }
+
+
+        /// <summary>
+        /// Returns all the coordinates in this way in the same order as the nodes.
+        /// </summary>
+        /// <returns></returns>
+        public List<GeoCoordinate> GetCoordinates()
+        {
+            var coordinates = new List<GeoCoordinate>();
+
+            for (int idx = 0; idx < this.Nodes.Count; idx++)
+            {
+                coordinates.Add(this.Nodes[idx].Coordinate);
+            }
+
+            return coordinates;
+        }
+
+        /// <summary>
+        /// Returns true if this way is closed (firstnode == lastnode).
+        /// </summary>
+        /// <returns></returns>
+        public bool IsClosed()
+        {
+            return this.Nodes != null &&
+                this.Nodes.Count > 1 &&
+                this.Nodes[0].Id == this.Nodes[this.Nodes.Count - 1].Id;
+        }
 
         /// <summary>
         /// Returns a description of this object.
@@ -49,7 +80,7 @@ namespace Mercraft.Maps.Osm.Entities
         {
             Way way = new Way();
             way.Id = id;
-            way.Nodes = new List<long>(nodes);
+            way.NodeIds = new List<long>(nodes);
             return way;
         }
 
@@ -64,7 +95,7 @@ namespace Mercraft.Maps.Osm.Entities
         {
             Way way = new Way();
             way.Id = id;
-            way.Nodes = new List<long>(nodes);
+            way.NodeIds = new List<long>(nodes);
             way.Tags = tags;
             return way;
         }

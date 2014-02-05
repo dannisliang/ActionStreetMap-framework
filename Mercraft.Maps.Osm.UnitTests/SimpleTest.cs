@@ -118,7 +118,7 @@ namespace Mercraft.Maps.Osm.UnitTests
                 projection.ToGeoCoordinates(boundingBox.Max[0], boundingBox.Max[1]));
         }
 
-        private IDataSourceReadOnly GetDataSource()
+        private MemoryDataSource GetDataSource()
         {
             return MemoryDataSource
                 .CreateFromPBFStream(new FileInfo(TestHelper.TestFilePath).OpenRead());

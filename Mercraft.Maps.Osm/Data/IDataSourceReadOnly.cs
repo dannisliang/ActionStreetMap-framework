@@ -37,7 +37,7 @@ namespace Mercraft.Maps.Osm.Data
 
         #endregion
 
-        #region Nodes
+        #region NodeIds
 
         /// <summary>
         /// Returns the node(s) with the given id(s).

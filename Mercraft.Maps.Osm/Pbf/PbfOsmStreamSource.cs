@@ -149,12 +149,12 @@ namespace Mercraft.Maps.Osm.Pbf
 
                 var simple_way = new Entities.Way();
                 simple_way.Id = way.id;
-                simple_way.Nodes = new List<long>(way.refs.Count);
+                simple_way.NodeIds = new List<long>(way.refs.Count);
                 long node_id = 0;
                 for (int node_idx = 0; node_idx < way.refs.Count; node_idx++)
                 {
                     node_id = node_id + way.refs[node_idx];
-                    simple_way.Nodes.Add(node_id);
+                    simple_way.NodeIds.Add(node_id);
                 }
                 if (way.keys.Count > 0)
                 {

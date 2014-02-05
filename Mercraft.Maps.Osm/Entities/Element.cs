@@ -4,7 +4,7 @@ using Mercraft.Maps.Core.Collections.Tags;
 namespace Mercraft.Maps.Osm.Entities
 {
     /// <summary>
-    /// Primive used as a base class for any osm object that has a meaning on the map (Nodes, Ways and Relations).
+    /// Primive used as a base class for any osm object that has a meaning on the map (NodeIds, Ways and Relations).
     /// </summary>
     public abstract class Element
     {

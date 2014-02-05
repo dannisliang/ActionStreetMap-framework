@@ -1,4 +1,5 @@
 ﻿
+using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Collections.Tags;
 
 namespace Mercraft.Maps.Osm.Entities
@@ -25,6 +26,11 @@ namespace Mercraft.Maps.Osm.Entities
         /// The longitude.
         /// </summary>
         public double? Longitude { get; set; }
+
+        /// <summary>
+        /// The coordinates of this node.
+        /// </summary>
+        public GeoCoordinate Coordinate { get; set; }
 
         /// <summary>
         /// Returns a description of this object.

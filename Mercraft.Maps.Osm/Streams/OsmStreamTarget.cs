@@ -3,7 +3,7 @@
 namespace Mercraft.Maps.Osm.Streams
 {
     /// <summary>
-    /// Any target of osm data (Nodes, Ways and Relations).
+    /// Any target of osm data (NodeIds, Ways and Relations).
     /// </summary>
     public abstract class OsmStreamTarget
     {

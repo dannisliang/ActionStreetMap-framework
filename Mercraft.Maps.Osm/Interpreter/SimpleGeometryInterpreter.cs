@@ -5,7 +5,7 @@ using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Attributes;
 using Mercraft.Maps.Core.Collections.Tags;
 using Mercraft.Maps.Core.Geometries;
-using Mercraft.Maps.Osm.Complete;
+using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Interpreter
 {
@@ -17,33 +17,33 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// <summary>
         /// Interprets an OSM-object and returns the corresponding geometry.
         /// </summary>
-        /// <param name="osmObject"></param>
+        /// <param name="element"></param>
         /// <returns></returns>
-        public override GeometryCollection Interpret(CompleteOsmGeo osmObject)
+        public override GeometryCollection Interpret(Element element)
         {
             // DISCLAIMER: this is a very very very simple geometry interpreter and
             // contains hardcoded all relevant tags.
 
             GeometryCollection collection = new GeometryCollection();
             TagsCollectionBase tags;
-            if (osmObject != null)
+            if (element != null)
             {
-                switch (osmObject.Type)
+                switch (element.Type)
                 {
-                    case CompleteOsmType.Node:
+                    case ElementType.Node:
                         TagsCollection newCollection = new TagsCollection(
-                            osmObject.Tags);
+                            element.Tags);
                         newCollection.RemoveKey("FIXME");
                         newCollection.RemoveKey("node");
                         newCollection.RemoveKey("source");
 
                         if (newCollection.Count > 0)
                         { // there is still some relevant information left.
-                            collection.Add(new Point((osmObject as CompleteNode).Coordinate));
+                            collection.Add(new Point((element as Node).Coordinate));
                         }
                         break;
-                    case CompleteOsmType.Way:
-                        tags = osmObject.Tags;
+                    case ElementType.Way:
+                        tags = element.Tags;
 
                         bool isArea = false;
                         if ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||
@@ -81,19 +81,19 @@ namespace Mercraft.Maps.Osm.Interpreter
 
                         if (isArea)
                         { // area tags leads to simple polygon
-                            LineairRing lineairRing = new LineairRing((osmObject as CompleteWay).GetCoordinates().ToArray<GeoCoordinate>());
+                            LineairRing lineairRing = new LineairRing((element as Way).GetCoordinates().ToArray<GeoCoordinate>());
                             lineairRing.Attributes = new SimpleGeometryAttributeCollection(tags);
                             collection.Add(lineairRing);
                         }
                         else
                         { // no area tag leads to just a line.
-                            LineString lineString = new LineString((osmObject as CompleteWay).GetCoordinates().ToArray<GeoCoordinate>());
+                            LineString lineString = new LineString((element as Way).GetCoordinates().ToArray<GeoCoordinate>());
                             lineString.Attributes = new SimpleGeometryAttributeCollection(tags);
                             collection.Add(lineString);
                         }
                         break;
-                    case CompleteOsmType.Relation:
-                        CompleteRelation relation = (osmObject as CompleteRelation);
+                    case ElementType.Relation:
+                        Relation relation = (element as Relation);
                         tags = relation.Tags;
 
                         string typeValue;
@@ -182,7 +182,7 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// </summary>
         /// <param name="relation"></param>
         /// <returns></returns>
-        private Geometry InterpretMultipolygonRelation(CompleteRelation relation)
+        private Geometry InterpretMultipolygonRelation(Relation relation)
         {
             Geometry geometry = null;
             if (relation.Members == null)
@@ -191,20 +191,20 @@ namespace Mercraft.Maps.Osm.Interpreter
             }
 
             // build lists of outer and inner ways.
-            var ways = new List<KeyValuePair<bool, CompleteWay>>(); // outer=true
-            foreach (CompleteRelationMember member in relation.Members)
+            var ways = new List<KeyValuePair<bool, Way>>(); // outer=true
+            foreach (RelationMember member in relation.Members)
             {
-                if (member.Role == "inner" &&
-                    member.Member is CompleteWay)
+                if (member.MemberRole == "inner" &&
+                    member.Member is Way)
                 { // an inner member.
-                    ways.Add(new KeyValuePair<bool, CompleteWay>(
-                        false, member.Member as CompleteWay));
+                    ways.Add(new KeyValuePair<bool, Way>(
+                        false, member.Member as Way));
                 }
-                else if (member.Role == "outer" &&
-                    member.Member is CompleteWay)
+                else if (member.MemberRole == "outer" &&
+                    member.Member is Way)
                 { // an outer member.
-                    ways.Add(new KeyValuePair<bool, CompleteWay>(
-                        true, member.Member as CompleteWay));
+                    ways.Add(new KeyValuePair<bool, Way>(
+                        true, member.Member as Way));
                 }
             }
             
@@ -216,7 +216,7 @@ namespace Mercraft.Maps.Osm.Interpreter
             if (!this.AssignRings(ways, out rings))
             {
                 //OsmSharp.Logging.Log.TraceEvent("OsmSharp.Osm.Interpreter.SimpleGeometryInterpreter", TraceEventType.Error,
-                //    string.Format("Ring assignment failed: invalid multipolygon relation [{0}] detected!", relation.Id));
+                //    string.Format("Ring assignment failed: invalid multipolygon relation [{0}] detected!", relation.MemberId));
             }
             // group the rings and create a multipolygon.
             geometry = this.GroupRings(rings);
@@ -346,7 +346,7 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// <param name="rings"></param>
         /// <returns></returns>
         private bool AssignRings(
-            List<KeyValuePair<bool, CompleteWay>> ways, out List<KeyValuePair<bool, LineairRing>> rings)
+            List<KeyValuePair<bool, Way>> ways, out List<KeyValuePair<bool, LineairRing>> rings)
         {
             return this.AssignRings(ways, new bool[ways.Count], out rings);
         }
@@ -359,7 +359,7 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// <param name="rings"></param>
         /// <returns></returns>
         private bool AssignRings(
-            List<KeyValuePair<bool, CompleteWay>> ways, bool[] assignedFlags, out List<KeyValuePair<bool, LineairRing>> rings)
+            List<KeyValuePair<bool, Way>> ways, bool[] assignedFlags, out List<KeyValuePair<bool, LineairRing>> rings)
         {
             bool assigned = false;
             for (int idx = 0; idx < ways.Count; idx++)
@@ -392,7 +392,7 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// <param name="assignedFlags"></param>
         /// <param name="ring"></param>
         /// <returns></returns>
-        private bool AssignRing(List<KeyValuePair<bool, CompleteWay>> ways, int way, bool[] assignedFlags, out LineairRing ring)
+        private bool AssignRing(List<KeyValuePair<bool, Way>> ways, int way, bool[] assignedFlags, out LineairRing ring)
         {
             List<GeoCoordinate> coordinates = null;
             assignedFlags[way] = true;
@@ -406,11 +406,11 @@ namespace Mercraft.Maps.Osm.Interpreter
                 bool roleFlag = ways[way].Key;
 
                 // complete the ring.
-                List<CompleteNode> nodes = new List<CompleteNode>(ways[way].Value.Nodes);
+                List<Node> nodes = new List<Node>(ways[way].Value.Nodes);
                 if (this.CompleteRing(ways, assignedFlags, nodes, roleFlag))
                 { // the ring was completed!
                     coordinates = new List<GeoCoordinate>(nodes.Count);
-                    foreach (CompleteNode node in nodes)
+                    foreach (Node node in nodes)
                     {
                         coordinates.Add(node.Coordinate);
                     }
@@ -434,18 +434,18 @@ namespace Mercraft.Maps.Osm.Interpreter
         /// <param name="nodes"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        private bool CompleteRing(List<KeyValuePair<bool, CompleteWay>> ways, bool[] assignedFlags, 
-            List<CompleteNode> nodes, bool? role)
+        private bool CompleteRing(List<KeyValuePair<bool, Way>> ways, bool[] assignedFlags, 
+            List<Node> nodes, bool? role)
         {
             for (int idx = 0; idx < ways.Count; idx++)
             {
                 if (!assignedFlags[idx])
                 { // way not assigned.
-                    KeyValuePair<bool, CompleteWay> wayEntry = ways[idx];
-                    CompleteWay nextWay = wayEntry.Value;
+                    KeyValuePair<bool, Way> wayEntry = ways[idx];
+                    Way nextWay = wayEntry.Value;
                     if (!role.HasValue || wayEntry.Key == role.Value)
                     { // only try matching roles if the role has been set.
-                        List<CompleteNode> nextNodes = null;
+                        List<Node> nextNodes = null;
                         if (nodes[nodes.Count - 1].Id == nextWay.Nodes[0].Id)
                         { // last node of the previous way is the first node of the next way.
                             nextNodes = nextWay.Nodes.GetRange(1, nextWay.Nodes.Count - 1);

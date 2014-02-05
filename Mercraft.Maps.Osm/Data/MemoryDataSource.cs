@@ -192,8 +192,8 @@ namespace Mercraft.Maps.Osm.Data
         public void AddNode(Node node)
         {
             if (node == null) throw new ArgumentNullException();
-            if (!node.Id.HasValue) throw new ArgumentException("Nodes without a valid id cannot be saved!");
-            if (!node.Latitude.HasValue || !node.Longitude.HasValue) throw new ArgumentException("Nodes without a valid longitude/latitude pair cannot be saved!");
+            if (!node.Id.HasValue) throw new ArgumentException("NodeIds without a valid id cannot be saved!");
+            if (!node.Latitude.HasValue || !node.Longitude.HasValue) throw new ArgumentException("NodeIds without a valid longitude/latitude pair cannot be saved!");
 
             _nodes[node.Id.Value] = node;
 
@@ -444,9 +444,9 @@ namespace Mercraft.Maps.Osm.Data
 
             _ways[way.Id.Value] = way;
 
-            if(way.Nodes != null)
+            if(way.NodeIds != null)
             {
-                foreach(long nodeId in way.Nodes)
+                foreach(long nodeId in way.NodeIds)
                 {
                     HashSet<long> wayIds;
                     if (!_waysPerNode.TryGetValue(nodeId, out wayIds))
