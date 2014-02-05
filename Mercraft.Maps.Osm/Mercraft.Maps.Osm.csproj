@@ -49,10 +49,7 @@
   <ItemGroup>
     <Compile Include="Data\DataSourceReadOnlyBase.cs" />
     <Compile Include="Data\IDataSourceReadOnly.cs" />
-    <Compile Include="Data\INodeSource.cs" />
-    <Compile Include="Data\IOsmGeoSource.cs" />
-    <Compile Include="Data\IRelationSource.cs" />
-    <Compile Include="Data\IWaySource.cs" />
+    <Compile Include="Data\ElementSourceInterfaces.cs" />
     <Compile Include="Data\MemoryDataSource.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Interpreter\GeometryInterpreter.cs" />

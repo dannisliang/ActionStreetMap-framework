@@ -11,7 +11,7 @@ namespace Mercraft.Maps.Osm.Data
     /// <summary>
     /// Represents a generic readonly data source. 
     /// </summary>
-    public interface IDataSourceReadOnly : IOsmGeoSource
+    public interface IDataSourceReadOnly : IElementSource
     {
         /// <summary>
         /// Returns the bounding box of the data in this source if possible.
