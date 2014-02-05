@@ -132,7 +132,7 @@ namespace Mercraft.Maps.Osm.Pbf
                         }
                     }
                 }
-                simpleNode.TimeStamp = Utilities.FromUnixTime((long)node.info.timestamp * 
+                simpleNode.TimeStamp = FromUnixTime((long)node.info.timestamp * 
                     (long)block.date_granularity);
                 simpleNode.Visible = true;
                 simpleNode.Version = (uint)node.info.version;
@@ -173,7 +173,7 @@ namespace Mercraft.Maps.Osm.Pbf
                 if (way.info != null)
                 { // add the metadata if any.
                     simple_way.ChangeSetId = way.info.changeset;
-                    simple_way.TimeStamp = Utilities.FromUnixTime((long)way.info.timestamp *
+                    simple_way.TimeStamp = FromUnixTime((long)way.info.timestamp *
                         (long)block.date_granularity);
                     simple_way.UserId = way.info.uid;
                     simple_way.UserName = Encoding.UTF8.GetString(block.stringtable.s[way.info.user_sid]);
@@ -234,7 +234,7 @@ namespace Mercraft.Maps.Osm.Pbf
                 if (relation.info != null)
                 { // read metadata if any.
                     simple_relation.ChangeSetId = relation.info.changeset;
-                    simple_relation.TimeStamp = Utilities.FromUnixTime((long)relation.info.timestamp *
+                    simple_relation.TimeStamp = FromUnixTime((long)relation.info.timestamp *
                         (long)block.date_granularity);
                     simple_relation.UserId = relation.info.uid;
                     simple_relation.UserName = Encoding.UTF8.GetString(block.stringtable.s[relation.info.user_sid]);
@@ -246,6 +246,13 @@ namespace Mercraft.Maps.Osm.Pbf
             }
             throw new Exception(string.Format("Pbf primitive with type {0} not supported!",
                 PbfPrimitive.GetType().ToString()));
+        }
+
+
+        private static DateTime FromUnixTime(long milliseconds)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return epoch.AddMilliseconds(milliseconds);
         }
 
         #endregion
