@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\Rotation.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Primitives\BoxF2D.cs" />
     <Compile Include="Primitives\Enumerators\Lines\ILineList.cs" />
