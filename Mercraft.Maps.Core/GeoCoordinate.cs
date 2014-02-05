@@ -12,6 +12,8 @@ namespace Mercraft.Maps.Core
     /// </summary>
     public class GeoCoordinate : PointF2D
     {
+        public const double RadiusOfEarth = 6371000;
+
         /// <summary>
         /// Creates a geo coordinate.
         /// </summary>
@@ -86,7 +88,7 @@ namespace Mercraft.Maps.Core
         /// <returns></returns>
         public Meter DistanceEstimate(GeoCoordinate point)
         {
-            Meter radius_earth = Constants.RadiusOfEarth;
+            Meter radius_earth = RadiusOfEarth;
 
             double lat1_rad = (this.Latitude / 180d) * System.Math.PI;
             double lon1_rad = (this.Longitude / 180d) * System.Math.PI;
@@ -109,7 +111,7 @@ namespace Mercraft.Maps.Core
         /// <remarks>http://en.wikipedia.org/wiki/Haversine_formula</remarks>
         public Meter DistanceReal(GeoCoordinate point)
         {
-            Meter radius_earth = Constants.RadiusOfEarth;
+            Meter radius_earth = RadiusOfEarth;
 
             Radian lat1_rad = new Degree(this.Latitude);
             Radian lon1_rad = new Degree(this.Longitude);
