@@ -11,7 +11,7 @@ namespace Mercraft.Maps.UI
     /// <summary>
     /// Represents a style interpreter.
     /// </summary>
-    public abstract class StyleTranslator
+    public abstract class ElementTranslator
     {
         /// <summary>
         /// Translates the given OSM objects into corresponding geometries.

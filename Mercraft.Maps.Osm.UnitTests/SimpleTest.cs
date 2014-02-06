@@ -47,10 +47,10 @@ namespace Mercraft.Maps.Osm.UnitTests
             var dataSource = GetDataSource();
             var box = CreateBox();
 
-            var translator = new EmptyStyleTranslator();
+            var translator = new EmptyElementTranslator();
 
             IScene scene = new EmptyScene();
-            var styleSceneManager = new StyleSceneManager(scene, translator);
+            var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, new WebMercatorProjection());
 
@@ -64,10 +64,10 @@ namespace Mercraft.Maps.Osm.UnitTests
             var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
-            var translator = new EmptyStyleTranslator();
+            var translator = new EmptyElementTranslator();
 
             IScene scene = new EmptyScene();
-            var styleSceneManager = new StyleSceneManager(scene, translator);
+            var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, projection);
 
@@ -83,10 +83,10 @@ namespace Mercraft.Maps.Osm.UnitTests
             var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
-            var translator = new EmptyStyleTranslator();
+            var translator = new EmptyElementTranslator();
 
             IScene scene = new EmptyScene();
-            var styleSceneManager = new StyleSceneManager(scene, translator);
+            var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, projection);
 

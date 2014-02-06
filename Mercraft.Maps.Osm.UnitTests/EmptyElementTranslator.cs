@@ -9,7 +9,7 @@ using Mercraft.Maps.UI.Scenes;
 
 namespace Mercraft.Maps.Osm.UnitTests
 {
-    public class EmptyStyleTranslator: StyleTranslator
+    public class EmptyElementTranslator: ElementTranslator
     {
         private List<Element> _osmGeos = new List<Element>();
 

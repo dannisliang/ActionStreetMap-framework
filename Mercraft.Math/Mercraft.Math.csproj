@@ -55,7 +55,6 @@
     <Compile Include="Primitives\RectangleF2D.cs" />
     <Compile Include="Primitives\VectorF2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Collections\SortedSet.cs" />
     <Compile Include="Units\Angle\Degree.cs" />
     <Compile Include="Units\Angle\Radian.cs" />
     <Compile Include="Units\Distance\Kilometer.cs" />

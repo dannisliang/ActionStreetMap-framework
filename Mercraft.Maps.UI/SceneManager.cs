@@ -11,7 +11,7 @@ namespace Mercraft.Maps.UI
     /// <summary>
     /// Manages the objects in a scene for a style translator.
     /// </summary>
-    public class StyleSceneManager
+    public class SceneManager
     {
         /// <summary>
         /// Holds the scene.
@@ -21,7 +21,7 @@ namespace Mercraft.Maps.UI
         /// <summary>
         /// Holds the style translator.
         /// </summary>
-        private StyleTranslator _translator;
+        private ElementTranslator _translator;
 
         /// <summary>
         /// Holds the interpreted nodes.
@@ -42,7 +42,7 @@ namespace Mercraft.Maps.UI
         /// <summary>
         /// Creates a new style scene manager.
         /// </summary>
-        public StyleSceneManager(IScene scene, StyleTranslator translator)
+        public SceneManager(IScene scene, ElementTranslator translator)
         {
             _scene = scene;
             _translator = translator;
@@ -61,11 +61,11 @@ namespace Mercraft.Maps.UI
         /// <param name="projection"></param>
         public void FillScene(IDataSourceReadOnly dataSource, GeoCoordinateBox box, IProjection projection)
         {
-            IList<Element> osmGeos = dataSource.Get(box, null);
-            foreach (var osmGeo in osmGeos)
+            IList<Element> elements = dataSource.Get(box, null);
+            foreach (var element in elements)
             { // translate each object into scene object.
                 LongIndex index = null;
-                switch (osmGeo.Type)
+                switch (element.Type)
                 {
                     case ElementType.Node:
                         index = _translatedNodes;
@@ -77,12 +77,12 @@ namespace Mercraft.Maps.UI
                         index = _translatedRelations;
                         break;
                 }
-                if (!index.Contains(osmGeo.Id.Value))
+                if (!index.Contains(element.Id.Value))
                 {
                     // object was not yet interpreted.
-                    index.Add(osmGeo.Id.Value);
+                    index.Add(element.Id.Value);
 
-                    _translator.Translate(_scene, dataSource, projection, osmGeo);
+                    _translator.Translate(_scene, dataSource, projection, element);
                 }
             }
         }
