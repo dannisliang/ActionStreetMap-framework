@@ -68,10 +68,7 @@
     <Compile Include="Entities\Relation.cs" />
     <Compile Include="Entities\RelationMember.cs" />
     <Compile Include="Streams\OsmStreamSource.cs" />
-    <Compile Include="Streams\OsmStreamTarget.cs" />
     <Compile Include="Entities\Way.cs" />
-    <Compile Include="Tiles\Tile.cs" />
-    <Compile Include="Tiles\TileRange.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

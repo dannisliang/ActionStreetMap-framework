@@ -21,9 +21,12 @@ namespace Mercraft.Maps.Osm.UnitTests
             using (Stream stream = new FileStream(TestHelper.TestFilePath, FileMode.Open))
             {
                 var source = new PbfOsmStreamSource(stream);
-                var target = new EmptyOsmStreamTarget(source);
-
-                target.Pull();
+                source.Initialize();
+                // pulling
+                while (source.MoveNext())
+                {
+                    object sourceObject = source.Current();
+                }
             }
         }
 
