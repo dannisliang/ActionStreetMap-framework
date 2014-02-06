@@ -51,6 +51,7 @@
     <Compile Include="Data\IDataSourceReadOnly.cs" />
     <Compile Include="Data\ElementSourceInterfaces.cs" />
     <Compile Include="Data\MemoryDataSource.cs" />
+    <Compile Include="ElementTranslator.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Interpreter\GeometryInterpreter.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Relation.cs" />
     <Compile Include="Entities\RelationMember.cs" />
+    <Compile Include="SceneManager.cs" />
     <Compile Include="Streams\OsmStreamSource.cs" />
     <Compile Include="Entities\Way.cs" />
   </ItemGroup>
@@ -79,6 +81,10 @@
     <ProjectReference Include="..\Mercraft.Math\Mercraft.Math.csproj">
       <Project>{27c40e91-30d0-4290-b489-8cd1b306a125}</Project>
       <Name>Mercraft.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercraft.Models\Mercraft.Models.csproj">
+      <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
+      <Name>Mercraft.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

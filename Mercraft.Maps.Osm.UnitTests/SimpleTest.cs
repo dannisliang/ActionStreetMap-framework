@@ -5,9 +5,8 @@ using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Pbf;
-using Mercraft.Maps.UI;
-using Mercraft.Maps.UI.Scenes;
 using Mercraft.Math.Primitives;
+using Mercraft.Models;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.Osm.UnitTests

@@ -1,5 +1,5 @@
 ﻿using System;
-using Mercraft.Maps.UI.Scenes;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.UnitTests
 {

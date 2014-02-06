@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Maps.Core.Geometries;
+
 using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Interpreter;
-using Mercraft.Maps.UI;
-using Mercraft.Maps.UI.Scenes;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.UnitTests
 {
