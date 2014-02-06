@@ -44,12 +44,8 @@
     <Compile Include="Collections\LongIndex\LongIndexLeaf.cs" />
     <Compile Include="Collections\LongIndex\LongIndexNode.cs" />
     <Compile Include="Geometries\Geometry.cs" />
-    <Compile Include="Geometries\GeometryCollection.cs" />
     <Compile Include="Geometries\LineairRing.cs" />
     <Compile Include="Geometries\LineString.cs" />
-    <Compile Include="Geometries\MultiLineString.cs" />
-    <Compile Include="Geometries\MultiPoint.cs" />
-    <Compile Include="Geometries\MultiPolygon.cs" />
     <Compile Include="Geometries\Point.cs" />
     <Compile Include="Geometries\Polygon.cs" />
     <Compile Include="GeoCoordinate.cs" />
