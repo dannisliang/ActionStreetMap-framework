@@ -1,6 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Collections.Tags;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -35,7 +34,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Returns a description of this object.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             string tags = "{no tags}";
@@ -55,10 +53,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Creates a new node.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <returns></returns>
         public static Node Create(long id, double latitude, double longitude)
         {
             Node node = new Node();
@@ -71,12 +65,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Creates a new node.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="tags"></param>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <returns></returns>
-        public static Node Create(long id, TagsCollectionBase tags, double latitude, double longitude)
+        public static Node Create(long id, ICollection<Tag> tags, double latitude, double longitude)
         {
             Node node = new Node();
             node.Id = id;

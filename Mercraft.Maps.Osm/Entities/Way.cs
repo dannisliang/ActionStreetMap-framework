@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Collections.Tags;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -91,7 +90,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <param name="nodes"></param>
         /// <param name="tags"></param>
         /// <returns></returns>
-        public static Way Create(long id, TagsCollectionBase tags, params long[] nodes)
+        public static Way Create(long id, ICollection<Tag> tags, params long[] nodes)
         {
             Way way = new Way();
             way.Id = id;

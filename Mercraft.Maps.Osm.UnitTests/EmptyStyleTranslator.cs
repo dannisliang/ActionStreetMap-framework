@@ -11,7 +11,6 @@ namespace Mercraft.Maps.Osm.UnitTests
 {
     public class EmptyStyleTranslator: StyleTranslator
     {
-        private GeometryInterpreter _geometryInterpreter = new SimpleGeometryInterpreter();
         private List<Element> _osmGeos = new List<Element>();
 
 

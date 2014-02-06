@@ -1,5 +1,5 @@
 ﻿using System;
-using Mercraft.Maps.Core.Collections.Tags;
+using System.Collections.Generic;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -21,7 +21,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The tags.
         /// </summary>
-        public TagsCollectionBase Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; }
 
         /// <summary>
         /// The changeset id.

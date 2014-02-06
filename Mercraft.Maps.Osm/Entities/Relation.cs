@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Maps.Core.Collections.Tags;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -24,7 +23,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Returns a description of this object.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             string tags = "{no tags}";
@@ -42,9 +40,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Creates a new relation.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="members"></param>
-        /// <returns></returns>
         public static Relation Create(long id, params RelationMember[] members)
         {
             Relation relation = new Relation();
@@ -56,11 +51,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Creates a new relation.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="tags"></param>
-        /// <param name="members"></param>
-        /// <returns></returns>
-        public static Relation Create(long id, TagsCollectionBase tags, params RelationMember[] members)
+        public static Relation Create(long id, ICollection<Tag> tags, params RelationMember[] members)
         {
             Relation relation = new Relation();
             relation.Id = id;

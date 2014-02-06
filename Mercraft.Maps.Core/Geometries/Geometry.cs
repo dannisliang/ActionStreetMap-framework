@@ -1,7 +1,4 @@
-﻿
-using Mercraft.Maps.Core.Attributes;
-
-namespace Mercraft.Maps.Core.Geometries
+﻿namespace Mercraft.Maps.Core.Geometries
 {
     /// <summary>
     /// Base class for all geometries.
@@ -23,13 +20,5 @@ namespace Mercraft.Maps.Core.Geometries
         /// <returns></returns>
         public abstract bool IsInside(GeoCoordinateBox box);
 
-        #region Attributes
-
-        /// <summary>
-        /// Gets/sets the attribute collection.
-        /// </summary>
-        public GeometryAttributeCollection Attributes { get; set; }
-
-        #endregion
     }
 }

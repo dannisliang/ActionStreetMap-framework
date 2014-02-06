@@ -51,9 +51,9 @@
     <Compile Include="Data\IDataSourceReadOnly.cs" />
     <Compile Include="Data\ElementSourceInterfaces.cs" />
     <Compile Include="Data\MemoryDataSource.cs" />
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Interpreter\GeometryInterpreter.cs" />
-    <Compile Include="Interpreter\SimpleGeometryInterpreter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
     <Compile Include="Entities\ElementType.cs" />

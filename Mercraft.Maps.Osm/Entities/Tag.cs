@@ -1,9 +1,11 @@
-﻿
-namespace Mercraft.Maps.Core.Collections.Tags
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Mercraft.Maps.Osm.Entities
 {
-    /// <summary>
-    /// Represents a tag (a key-value pair).
-    /// </summary>
     public struct Tag
     {
         /// <summary>
@@ -12,7 +14,7 @@ namespace Mercraft.Maps.Core.Collections.Tags
         /// <param name="key"></param>
         /// <param name="value"></param>
         public Tag(string key, string value)
-            :this()
+            : this()
         {
             this.Key = key;
             this.Value = value;
@@ -27,17 +29,6 @@ namespace Mercraft.Maps.Core.Collections.Tags
         /// The value of the tag.
         /// </summary>
         public string Value { get; set; }
-
-        /// <summary>
-        /// Creates a new tag.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Tag Create(string key, string value)
-        {
-            return new Tag(key, value);
-        }
 
         /// <summary>
         /// Returns a description of this tag.

@@ -1,13 +1,9 @@
-﻿// Mercraft.Maps - OpenStreetMap (OSM) SDK
-// Copyright (C) 2013 Abelshausen Ben
-// 
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
-using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Collections.Tags;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Streams;
 
@@ -120,13 +116,13 @@ namespace Mercraft.Maps.Osm.Pbf
                     + ((double)block.granularity * (double)node.lon));
                 if (node.keys.Count > 0)
                 {
-                    simpleNode.Tags = new TagsCollection();
+                    simpleNode.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < node.keys.Count; tag_idx++)
                     {
                         string key = Encoding.UTF8.GetString(block.stringtable.s[(int)node.keys[tag_idx]]);
                         string value = Encoding.UTF8.GetString(block.stringtable.s[(int)node.vals[tag_idx]]);
 
-                        if (!simpleNode.Tags.ContainsKey(key))
+                        if (simpleNode.Tags.All(tag => tag.Key != key))
                         {
                             simpleNode.Tags.Add(new Tag() { Key = key, Value = value });
                         }
@@ -158,13 +154,13 @@ namespace Mercraft.Maps.Osm.Pbf
                 }
                 if (way.keys.Count > 0)
                 {
-                    simple_way.Tags = new TagsCollection();
+                    simple_way.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < way.keys.Count; tag_idx++)
                     {
                         string key = Encoding.UTF8.GetString(block.stringtable.s[(int)way.keys[tag_idx]]);
                         string value = Encoding.UTF8.GetString(block.stringtable.s[(int)way.vals[tag_idx]]);
 
-                        if (!simple_way.Tags.ContainsKey(key))
+                        if (simple_way.Tags.All(tag => tag.Key != key))
                         {
                             simple_way.Tags.Add(new Tag(key, value));
                         }
@@ -219,13 +215,13 @@ namespace Mercraft.Maps.Osm.Pbf
                 }
                 if (relation.keys.Count > 0)
                 {
-                    simple_relation.Tags = new TagsCollection();
+                    simple_relation.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < relation.keys.Count; tag_idx++)
                     {
                         string key = Encoding.UTF8.GetString(block.stringtable.s[(int)relation.keys[tag_idx]]);
                         string value = Encoding.UTF8.GetString(block.stringtable.s[(int)relation.vals[tag_idx]]);
 
-                        if (!simple_relation.Tags.ContainsKey(key))
+                        if (simple_relation.Tags.All(tag => tag.Key != key))
                         {
                             simple_relation.Tags.Add(new Tag(key, value));
                         }

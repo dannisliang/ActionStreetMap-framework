@@ -39,20 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\GeometryAttribute.cs" />
-    <Compile Include="Attributes\GeometryAttributeCollection.cs" />
-    <Compile Include="Attributes\IGeometryAttributesIndex.cs" />
-    <Compile Include="Attributes\SimpleGeometryAttributeCollection.cs" />
     <Compile Include="Collections\LongIndex\ILongIndexNode.cs" />
     <Compile Include="Collections\LongIndex\LongIndex.cs" />
     <Compile Include="Collections\LongIndex\LongIndexLeaf.cs" />
     <Compile Include="Collections\LongIndex\LongIndexNode.cs" />
     <Compile Include="Collections\ObjectTable.cs" />
-    <Compile Include="Collections\Tags\ITagsSource.cs" />
-    <Compile Include="Collections\Tags\StringTableTagsCollection.cs" />
-    <Compile Include="Collections\Tags\Tag.cs" />
-    <Compile Include="Collections\Tags\TagsCollection.cs" />
-    <Compile Include="Collections\Tags\TagsCollectionBase.cs" />
     <Compile Include="Geometries\Geometry.cs" />
     <Compile Include="Geometries\GeometryCollection.cs" />
     <Compile Include="Geometries\LineairRing.cs" />
@@ -67,7 +58,6 @@
     <Compile Include="Projections\IProjection.cs" />
     <Compile Include="Projections\WebMercatorProjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TagExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Math\Mercraft.Math.csproj">
