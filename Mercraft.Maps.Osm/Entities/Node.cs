@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
+using Mercraft.Maps.Osm.Interpreter;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -8,14 +9,6 @@ namespace Mercraft.Maps.Osm.Entities
     /// </summary>
     public class Node : Element
     {
-        /// <summary>
-        /// Creates a new simple node.
-        /// </summary>
-        public Node()
-        {
-            this.Type = ElementType.Node;
-        }
-
         /// <summary>
         /// The latitude.
         /// </summary>
@@ -30,6 +23,12 @@ namespace Mercraft.Maps.Osm.Entities
         /// The coordinates of this node.
         /// </summary>
         public GeoCoordinate Coordinate { get; set; }
+
+
+        public override void Accept(IElementVisitor elementVisitor)
+        {
+            elementVisitor.VisitNode(this);
+        }
 
         /// <summary>
         /// Returns a description of this object.
@@ -48,33 +47,5 @@ namespace Mercraft.Maps.Osm.Entities
             return string.Format("Node[{0}]{1}", this.Id.Value, tags);
         }
 
-        #region Construction Methods
-
-        /// <summary>
-        /// Creates a new node.
-        /// </summary>
-        public static Node Create(long id, double latitude, double longitude)
-        {
-            Node node = new Node();
-            node.Id = id;
-            node.Latitude = latitude;
-            node.Longitude = longitude;
-            return node;
-        }
-
-        /// <summary>
-        /// Creates a new node.
-        /// </summary>
-        public static Node Create(long id, ICollection<Tag> tags, double latitude, double longitude)
-        {
-            Node node = new Node();
-            node.Id = id;
-            node.Latitude = latitude;
-            node.Longitude = longitude;
-            node.Tags = tags;
-            return node;
-        }
-
-        #endregion
     }
 }

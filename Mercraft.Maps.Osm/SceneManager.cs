@@ -56,27 +56,18 @@ namespace Mercraft.Maps.Osm
         /// <summary>
         /// Fills the scene with objects from the given datasource that existing inside the given boundingbox with the given projection.
         /// </summary>
-        /// <param name="dataSource"></param>
-        /// <param name="box"></param>
-        /// <param name="projection"></param>
         public void FillScene(IDataSourceReadOnly dataSource, GeoCoordinateBox box, IProjection projection)
         {
             IList<Element> elements = dataSource.Get(box, null);
             foreach (var element in elements)
             { // translate each object into scene object.
                 LongIndex index = null;
-                switch (element.Type)
-                {
-                    case ElementType.Node:
-                        index = _translatedNodes;
-                        break;
-                    case ElementType.Way:
-                        index = _translatedWays;
-                        break;
-                    case ElementType.Relation:
-                        index = _translatedRelations;
-                        break;
-                }
+
+                element.Accept(new ElementVisitor(
+                    _ => index = _translatedNodes,
+                    _ => index = _translatedWays,
+                    _ => index = _translatedRelations));
+               
                 if (!index.Contains(element.Id.Value))
                 {
                     // object was not yet interpreted.

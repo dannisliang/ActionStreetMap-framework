@@ -60,14 +60,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the relations for the given object.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        IList<Relation> GetRelationsFor(ElementType type, long id);
-
-        /// <summary>
-        /// Returns all the relations for the given object.
-        /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         IList<Relation> GetRelationsFor(Element obj);

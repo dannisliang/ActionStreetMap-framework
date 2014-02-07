@@ -46,14 +46,15 @@ namespace Mercraft.Maps.Osm.UnitTests
             var dataSource = GetDataSource();
             var box = CreateBox();
 
-            var translator = new EmptyElementTranslator();
+            var visitor = new CountableElementVisitor();
+            var translator = new ElementTranslator(visitor);
 
             IScene scene = new EmptyScene();
             var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, new WebMercatorProjection());
 
-            Assert.AreEqual(3856, translator.TranslatedOsmGeos.Count);
+            Assert.AreEqual(3856, visitor.Elements.Count);
         }
 
         [Test]
@@ -63,14 +64,15 @@ namespace Mercraft.Maps.Osm.UnitTests
             var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
-            var translator = new EmptyElementTranslator();
+            var visitor = new CountableElementVisitor();
+            var translator = new ElementTranslator(visitor);
 
             IScene scene = new EmptyScene();
             var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, projection);
 
-            Assert.AreEqual(36, translator.TranslatedOsmGeos.Count);
+            Assert.AreEqual(36, visitor.Elements.Count);
         }
 
         [Test]
@@ -82,14 +84,15 @@ namespace Mercraft.Maps.Osm.UnitTests
             var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
             var projection = new WebMercatorProjection();
 
-            var translator = new EmptyElementTranslator();
+            var visitor = new CountableElementVisitor();
+            var translator = new ElementTranslator(visitor);
 
             IScene scene = new EmptyScene();
             var styleSceneManager = new SceneManager(scene, translator);
 
             styleSceneManager.FillScene(dataSource, box, projection);
 
-            Assert.AreEqual(2, translator.TranslatedOsmGeos.Count);
+            Assert.AreEqual(2, visitor.Elements.Count);
         }
 
 

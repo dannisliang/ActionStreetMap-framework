@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Maps.Osm.Interpreter;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -8,17 +9,15 @@ namespace Mercraft.Maps.Osm.Entities
     public class Relation : Element
     {
         /// <summary>
-        /// Creates new simple relation.
-        /// </summary>
-        public Relation()
-        {
-            this.Type = ElementType.Relation;
-        }
-
-        /// <summary>
         /// The relation members.
         /// </summary>
         public List<RelationMember> Members { get; set; }
+
+
+        public override void Accept(IElementVisitor elementVisitor)
+        {
+            elementVisitor.VisitRelation(this);
+        }
 
         /// <summary>
         /// Returns a description of this object.
@@ -35,29 +34,6 @@ namespace Mercraft.Maps.Osm.Entities
                 return string.Format("Relation[null]{0}", tags);
             }
             return string.Format("Relation[{0}]{1}", this.Id.Value, tags);
-        }
-
-        /// <summary>
-        /// Creates a new relation.
-        /// </summary>
-        public static Relation Create(long id, params RelationMember[] members)
-        {
-            Relation relation = new Relation();
-            relation.Id = id;
-            relation.Members = new List<RelationMember>(members);
-            return relation;
-        }
-
-        /// <summary>
-        /// Creates a new relation.
-        /// </summary>
-        public static Relation Create(long id, ICollection<Tag> tags, params RelationMember[] members)
-        {
-            Relation relation = new Relation();
-            relation.Id = id;
-            relation.Members = new List<RelationMember>(members);
-            relation.Tags = tags;
-            return relation;
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Mercraft.Maps.Osm.Entities
 {
     public struct Tag
@@ -11,8 +6,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Creates a new tag.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         public Tag(string key, string value)
             : this()
         {
@@ -33,7 +26,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Returns a description of this tag.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("{0}={1}", this.Key, this.Value);
@@ -42,8 +34,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj is Tag)
@@ -57,7 +47,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
-        /// <returns></returns>
         public override int GetHashCode()
         {
             if (this.Key == null && this.Value == null)

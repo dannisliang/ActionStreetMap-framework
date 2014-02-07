@@ -10,51 +10,27 @@ namespace Mercraft.Maps.Osm
     /// <summary>
     /// Represents a style interpreter.
     /// </summary>
-    public abstract class ElementTranslator
+    public class ElementTranslator
     {
-        /// <summary>
-        /// Translates the given OSM objects into corresponding geometries.
-        /// </summary>
-        /// <param name="projection"></param>
-        /// <param name="source"></param>
-        /// <param name="element"></param>
-        public virtual void Translate(IScene scene, IDataSourceReadOnly source, IProjection projection, Element element)
+        private IElementVisitor _translateVisitor;
+
+        public ElementTranslator(IElementVisitor translateVisitor)
         {
-            switch (element.Type)
-            {
-                case ElementType.Node:
-                    this.Translate(scene, projection, PopulateNode(element as Node));
-                    break;
-                case ElementType.Way:
-                    this.Translate(scene, projection, PopulateWay(element as Way, source));
-                    break;
-                case ElementType.Relation:
-                    this.Translate(scene, projection, PopulateRelation(element as Relation, source));
-                    break;
-            }
+            _translateVisitor = translateVisitor;
         }
 
         /// <summary>
-        /// Translates the given Node into corresponding geometries.
+        /// Translates the given OSM objects into corresponding geometries.
         /// </summary>
-        public abstract void Translate(IScene scene, IProjection projection, Node node);
+        public virtual void Translate(IScene scene, IDataSourceReadOnly source, IProjection projection, Element element)
+        {
+            element.Accept(new ElementVisitor(
+                node => PopulateNode(node),
+                way => PopulateWay(way, source),
+                relation => PopulateRelation(relation, source)));
 
-        /// <summary>
-        /// Translates the given Way into corresponding geometries.
-        /// </summary>
-        public abstract void Translate(IScene scene, IProjection projection, Way way);
-
-        /// <summary>
-        /// Translates the given Relation into corresponding geometries.
-        /// </summary>
-        public abstract void Translate(IScene scene, IProjection projection, Relation relation);
-
-        /// <summary>
-        /// Returns true if this style applies to the given object.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public abstract bool AppliesTo(Element element);
+            element.Accept(_translateVisitor);
+        }
 
 
         #region Populates given elements
@@ -84,32 +60,23 @@ namespace Mercraft.Maps.Osm
 
         private Relation PopulateRelation(Relation relation, IDataSourceReadOnly source)
         {
-            List<RelationMember> members = new List<RelationMember>(relation.Members.Count);
+            var members = new List<RelationMember>(relation.Members.Count);
+
             for (int idx = 0; idx < relation.Members.Count; idx++)
             {
                 RelationMember member = relation.Members[idx];
                 long memberId = member.MemberId.Value;
-                switch (relation.Members[idx].MemberType.Value)
-                {
-                    case ElementType.Node:
-                        Node node = source.GetNode(memberId);
-                        if (node == null)
-                            return null;
-                        member.Member = node;
-                        break;
-                    case ElementType.Way:
-                        Way way = source.GetWay(memberId);
-                        if (way == null)
-                            return null;
-                        member.Member = way;
-                        break;
-                    case ElementType.Relation:
-                        Relation relationMember = source.GetRelation(memberId);
-                        if (relationMember == null)
-                            return null;
-                        member.Member = relationMember;
-                        break;
-                }
+
+                Element element = null;
+                member.Member.Accept(new ElementVisitor(
+                    _ => { element = source.GetNode(memberId); },
+                    _ => { element = source.GetWay(memberId); },
+                    _ => { element = source.GetRelation(memberId); }));
+
+                if (element == null)
+                    return null;
+
+                member.Member = element;
                 members.Add(member);
             }
             relation.Members = members;

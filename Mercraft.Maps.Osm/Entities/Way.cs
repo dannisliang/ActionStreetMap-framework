@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
+using Mercraft.Maps.Osm.Interpreter;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -9,19 +10,17 @@ namespace Mercraft.Maps.Osm.Entities
     public class Way : Element
     {
         /// <summary>
-        /// Creates a new simple way.
-        /// </summary>
-        public Way()
-        {
-            this.Type = ElementType.Way;
-        }
-
-        /// <summary>
         /// Holds the list of nodes.
         /// </summary>
         public List<long>  NodeIds { get; set; }
 
         public List<Node> Nodes { get; set; }
+
+
+        public override void Accept(IElementVisitor elementVisitor)
+        {
+            elementVisitor.VisitWay(this);
+        }
 
 
         /// <summary>
@@ -67,36 +66,6 @@ namespace Mercraft.Maps.Osm.Entities
                 return string.Format("Way[null]{0}", tags);
             }
             return string.Format("Way[{0}]{1}", this.Id.Value, tags);
-        }
-
-        /// <summary>
-        /// Creates a new way.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="nodes"></param>
-        /// <returns></returns>
-        public static Way Create(long id, params long[] nodes)
-        {
-            Way way = new Way();
-            way.Id = id;
-            way.NodeIds = new List<long>(nodes);
-            return way;
-        }
-
-        /// <summary>
-        /// Creates a new way.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="nodes"></param>
-        /// <param name="tags"></param>
-        /// <returns></returns>
-        public static Way Create(long id, ICollection<Tag> tags, params long[] nodes)
-        {
-            Way way = new Way();
-            way.Id = id;
-            way.NodeIds = new List<long>(nodes);
-            way.Tags = tags;
-            return way;
         }
     }
 }

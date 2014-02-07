@@ -7,11 +7,8 @@ namespace Mercraft.Maps.Osm.Entities
     public class RelationMember
     {
         /// <summary>
-        /// The type of this relation member.
+        /// Member
         /// </summary>
-        public ElementType? MemberType { get; set; }
-
-
         public Element Member { get; set; }
 
         /// <summary>
@@ -24,16 +21,5 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public string MemberRole { get; set; }
 
-        /// <summary>
-        /// Creates a new relation member.
-        /// </summary>
-        public static RelationMember Create(int memberId, string memberRole, ElementType memberType)
-        {
-            RelationMember member = new RelationMember();
-            member.MemberId = memberId;
-            member.MemberRole = memberRole;
-            member.MemberType = memberType;
-            return member;
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Maps.Osm.Interpreter;
 
 namespace Mercraft.Maps.Osm.Entities
 {
@@ -13,10 +14,12 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public long? Id { get; set; }
 
-        /// <summary>
+        /*/// <summary>
         /// The type.
         /// </summary>
-        public ElementType Type { get; protected set; }
+        public ElementType Type { get; protected set; }*/
+
+        public abstract void Accept(IElementVisitor elementVisitor);
 
         /// <summary>
         /// The tags.

@@ -65,22 +65,10 @@ namespace Mercraft.Maps.Osm.Data
         public abstract IList<Relation> GetRelations(IList<long> ids);
 
         /// <summary>
-        /// Returns all relations containing the object with the given type and id.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public abstract IList<Relation> GetRelationsFor(ElementType type, long id);
-
-        /// <summary>
         /// Returns all relations containg the given object as a member.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public IList<Relation> GetRelationsFor(Element obj)
-        {
-            return this.GetRelationsFor(obj.Type, obj.Id.Value);
-        }
+        public abstract IList<Relation> GetRelationsFor(Element element);
+
 
         /// <summary>
         /// Returns the way with the given id.

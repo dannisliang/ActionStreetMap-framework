@@ -129,28 +129,17 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Adds a new osmgeo object.
         /// </summary>
-        /// <param name="element"></param>
         public void Add(Element element)
         {
-            if (element is Node)
-            {
-                this.AddNode(element as Node);
-            }
-            else if (element is Way)
-            {
-                this.AddWay(element as Way);
-            }
-            else if (element is Relation)
-            {
-                this.AddRelation(element as Relation);
-            }
+            element.Accept(new ElementVisitor(
+                AddNode,
+                AddWay,
+                AddRelation));
         }
 
         /// <summary>
         /// Returns the node with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public override Node GetNode(long id)
         {
             Node node = null;
@@ -161,8 +150,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the node(s) with the given id(s).
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public override IList<Node> GetNodes(IList<long> ids)
         {
             List<Node> nodes = new List<Node>();
@@ -179,7 +166,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all nodes in this memory datasource.
         /// </summary>
-        /// <returns></returns>
         public IEnumerable<Node> GetNodes()
         {
             return _nodes.Values;
@@ -188,7 +174,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Adds a node.
         /// </summary>
-        /// <param name="node"></param>
         public void AddNode(Node node)
         {
             if (node == null) throw new ArgumentNullException();
@@ -211,7 +196,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Removes a node.
         /// </summary>
-        /// <param name="id"></param>
         public void RemoveNode(long id)
         {
             _nodes.Remove(id);
@@ -220,8 +204,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public override Relation GetRelation(long id)
         {
             Relation relation = null;
@@ -232,8 +214,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation(s) with the given id(s).
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public override IList<Relation> GetRelations(IList<long> ids)
         {
             List<Relation> relations = new List<Relation>();
@@ -250,7 +230,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all relations in this memory datasource.
         /// </summary>
-        /// <returns></returns>
         public IEnumerable<Relation> GetRelations()
         {
             return _relations.Values;
@@ -259,7 +238,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Adds a relation.
         /// </summary>
-        /// <param name="relation"></param>
         public void AddRelation(Relation relation)
         {
             if (relation == null) throw new ArgumentNullException();
@@ -269,33 +247,25 @@ namespace Mercraft.Maps.Osm.Data
 
             if (relation.Members != null)
             {
-                foreach (var member in relation.Members)
+                foreach (var relationMember in relation.Members)
                 {
                     HashSet<long> relationsIds = null;
-                    switch(member.MemberType.Value)
+                    Action<Dictionary<long, HashSet<long>>> relationPerElementAction = 
+                        relationPerElement =>
                     {
-                        case ElementType.Node:
-                            if (!_relationsPerNode.TryGetValue(member.MemberId.Value, out relationsIds))
-                            {
-                                relationsIds = new HashSet<long>();
-                                _relationsPerNode.Add(member.MemberId.Value, relationsIds);
-                            }
-                            break;
-                        case ElementType.Way:
-                            if (!_relationsPerWay.TryGetValue(member.MemberId.Value, out relationsIds))
-                            {
-                                relationsIds = new HashSet<long>();
-                                _relationsPerWay.Add(member.MemberId.Value, relationsIds);
-                            }
-                            break;
-                        case ElementType.Relation:
-                            if (!_relationsPerRelation.TryGetValue(member.MemberId.Value, out relationsIds))
-                            {
-                                relationsIds = new HashSet<long>();
-                                _relationsPerRelation.Add(member.MemberId.Value, relationsIds);
-                            }
-                            break;
-                    }
+                        long id = relationMember.MemberId.Value;
+                        if (!relationPerElement.TryGetValue(id, out relationsIds))
+                        {
+                            relationsIds = new HashSet<long>();
+                            relationPerElement.Add(id, relationsIds);
+                        }
+                    };
+
+                    relationMember.Member.Accept(new ElementVisitor(
+                       _ => relationPerElementAction(_relationsPerNode),
+                       _ => relationPerElementAction(_relationsPerWay),
+                       _ => relationPerElementAction(_relationsPerRelation)));
+
                     relationsIds.Add(relation.Id.Value);
                 }
             }
@@ -313,46 +283,29 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all relations that have the given object as a member.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public override IList<Relation> GetRelationsFor(ElementType type, long id)
+        public override IList<Relation> GetRelationsFor(Element element)
         {
-            List<Relation> relations = new List<Relation>();
+            long id = element.Id.Value;
             HashSet<long> relationIds = null;
-            switch(type)
-            {
-                case ElementType.Node:
-                    if (!_relationsPerNode.TryGetValue(id, out relationIds))
-                    {
-                        return relations;
-                    }
-                    break;
-                case ElementType.Way:
-                    if (!_relationsPerWay.TryGetValue(id, out relationIds))
-                    {
-                        return relations;
-                    }
-                    break;
-                case ElementType.Relation:
-                    if (!_relationsPerRelation.TryGetValue(id, out relationIds))
-                    {
-                        return relations;
-                    }
-                    break;
-            }
+            
+            element.Accept(new ElementVisitor(
+                _ => { _relationsPerNode.TryGetValue(id, out relationIds); },
+                _ => { _relationsPerWay.TryGetValue(id, out relationIds); },
+                _ => { _relationsPerRelation.TryGetValue(id, out relationIds); }));
+
+            if (relationIds == null)
+                return new List<Relation>(); 
+
+            var relations = new List<Relation>();
             foreach (long relationId in relationIds)
-            {
-                relations.Add(this.GetRelation(relationId));
-            }
+                relations.Add(GetRelation(relationId));
+
             return relations;
         }
 
         /// <summary>
         /// Returns the way with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public override Way GetWay(long id)
         {
             Way way = null;
@@ -363,8 +316,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the way(s) with the given id(s).
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public override IList<Way> GetWays(IList<long> ids)
         {
             List<Way> relations = new List<Way>();
@@ -381,7 +332,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all ways in this memory datasource.
         /// </summary>
-        /// <returns></returns>
         public IEnumerable<Way> GetWays()
         {
             return _ways.Values;
@@ -390,8 +340,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the ways for a given node.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public override IList<Way> GetWaysFor(long id)
         {
             HashSet<long> wayIds = null;
@@ -407,10 +355,8 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Returns all ways containing one or more of the given idx.
+        /// Returns all ways containing one or more of the given ids.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public IList<Way> GetWaysFor(IEnumerable<long> ids)
         {
             HashSet<long> allWayIds = new HashSet<long>();
@@ -436,7 +382,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Adds a way.
         /// </summary>
-        /// <param name="way"></param>
         public void AddWay(Way way)
         {
             if (way == null) throw new ArgumentNullException();
@@ -462,7 +407,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Removes a way.
         /// </summary>
-        /// <param name="id"></param>
         public void RemoveWay(long id)
         {
             _ways.Remove(id);
@@ -471,9 +415,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the objects within a given bounding box and filtered by a given filter.
         /// </summary>
-        /// <param name="box"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
         public override IList<Element> Get(GeoCoordinateBox box, IFilter filter)
         {
             List<Element> res = new List<Element>();
@@ -494,11 +435,11 @@ namespace Mercraft.Maps.Osm.Data
             res.AddRange(this.GetWaysFor(ids).Cast<Element>()); // the .Cast<> is here for Windows Phone.
 
             // get relations containing any of the nodes or ways in the current results-list.
-            List<Relation> relations = new List<Relation>();
-            HashSet<long> relationIds = new HashSet<long>();
+            var relations = new List<Relation>();
+            var relationIds = new HashSet<long>();
             foreach (Element osmGeo in res)
             {
-                IList<Relation> relationsFor = this.GetRelationsFor(osmGeo);
+                IList<Relation> relationsFor = GetRelationsFor(osmGeo);
                 foreach (Relation relation in relationsFor)
                 {
                     if (!relationIds.Contains(relation.Id.Value))
@@ -512,11 +453,11 @@ namespace Mercraft.Maps.Osm.Data
             // recursively add all relations containing other relations as a member.
             do
             {
-                res.AddRange(relations.Cast<Element>()); // the .Cast<> is here for Windows Phone.
-                List<Relation> newRelations = new List<Relation>();
-                foreach (Element osmGeo in relations)
+                res.AddRange(relations); // the .Cast<> is here for Windows Phone.
+                var newRelations = new List<Relation>();
+                foreach (Relation element in relations)
                 {
-                    IList<Relation> relationsFor = this.GetRelationsFor(osmGeo);
+                    IList<Relation> relationsFor = GetRelationsFor(element);
                     foreach (Relation relation in relationsFor)
                     {
                         if (!relationIds.Contains(relation.Id.Value))
@@ -531,7 +472,7 @@ namespace Mercraft.Maps.Osm.Data
 
             if (filter != null)
             {
-                List<Element> filtered = new List<Element>();
+                var filtered = new List<Element>();
                 foreach (Element geo in res)
                 {
                     if (filter.Evaluate(geo))
@@ -549,48 +490,25 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Creates a new memory data source from all the data in the given osm-stream.
         /// </summary>
-        /// <param name="sourceStream"></param>
-        /// <returns></returns>
         public static MemoryDataSource CreateFrom(OsmStreamSource sourceStream)
         {
             // reset if possible.
-            if (sourceStream.CanReset) { sourceStream.Reset(); }
+            if (sourceStream.CanReset)
+                sourceStream.Reset();
 
             // enumerate all objects and add them to a new datasource.
-            MemoryDataSource dataSource = new MemoryDataSource();
-            foreach (var osmGeo in sourceStream)
-            {
-                if (osmGeo != null)
-                {
-                    switch(osmGeo.Type)
-                    {
-                        case ElementType.Node:
-                            dataSource.AddNode(osmGeo as Node);
-                            break;
-                        case ElementType.Way:
-                            dataSource.AddWay(osmGeo as Way);
-                            break;
-                        case ElementType.Relation:
-                            dataSource.AddRelation(osmGeo as Relation);
-                            break;
-                    }
-                }
-            }
+            var dataSource = new MemoryDataSource();
+
+            var elementVisitor = new ElementVisitor(
+                dataSource.AddNode,
+                dataSource.AddWay,
+                dataSource.AddRelation);
+
+            foreach (var element in sourceStream)
+                element.Accept(elementVisitor);
+
             return dataSource;
         }
-
-        /*
-#if !WINDOWS_PHONE
-        /// <summary>
-        /// Creates a new memory data source from all the data in the given osm xml stream.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public static MemoryDataSource CreateFromXmlStream(Stream stream)
-        {
-            return MemoryDataSource.CreateFrom(new OsmSharp.Osm.Xml.Streams.XmlOsmStreamSource(stream));
-        }
-#endif*/
 
         /// <summary>
         /// Creates a new memory data source from all the data in the given osm pbf stream.

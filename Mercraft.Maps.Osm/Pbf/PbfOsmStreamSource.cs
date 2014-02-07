@@ -200,13 +200,13 @@ namespace Mercraft.Maps.Osm.Pbf
                         switch (relation.types[member_idx])
                         {
                             case Relation.MemberType.NODE:
-                                member.MemberType = ElementType.Node;
+                                member.Member = new Entities.Node();
                                 break;
                             case Relation.MemberType.WAY:
-                                member.MemberType = ElementType.Way;
+                                member.Member = new Entities.Way();
                                 break;
                             case Relation.MemberType.RELATION:
-                                member.MemberType = ElementType.Relation;
+                                member.Member = new Entities.Relation();
                                 break;
                         }
 
