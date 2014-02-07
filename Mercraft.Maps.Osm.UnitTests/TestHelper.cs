@@ -9,6 +9,5 @@ namespace Mercraft.Maps.Osm.UnitTests
     internal static class TestHelper
     {
         public const string TestFilePath = @"..\..\..\Assets\kempen.osm.pbf";
-        public const string TestMapCssPath = @"..\..\..\Assets\default.mapcss";
     }
 }

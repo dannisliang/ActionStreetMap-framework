@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Maps.Osm.Interpreter;
 
 namespace Mercraft.Maps.Osm.Entities
 {

@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace Mercraft.Maps.Osm.UnitTests
 {
     [TestFixture]
-    class SimpleTest
+    class ElementTests
     {
         [Test]
         public void CanPullPbfStream()

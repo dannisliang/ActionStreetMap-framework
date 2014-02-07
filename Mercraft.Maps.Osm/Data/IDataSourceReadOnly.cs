@@ -42,8 +42,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the node(s) with the given id(s).
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         IList<Node> GetNodes(IList<long> ids);
 
         #endregion
@@ -53,15 +51,11 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation(s) with the given id(s).
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         IList<Relation> GetRelations(IList<long> ids);
 
         /// <summary>
         /// Returns all the relations for the given object.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         IList<Relation> GetRelationsFor(Element obj);
 
         #endregion
@@ -71,22 +65,16 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the way(s) with given id.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         IList<Way> GetWays(IList<long> ids);
 
         /// <summary>
         /// Returns the way(s) for a given node.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         IList<Way> GetWaysFor(long id);
 
         /// <summary>
         /// Returns the way(s) for a given node.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         IList<Way> GetWaysFor(Node node);
 
         #endregion
@@ -96,9 +84,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the objects in this dataset that evaluate the filter to true.
         /// </summary>
-        /// <param name="box"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
         IList<Element> Get(GeoCoordinateBox box, IFilter filter);
 
         #endregion

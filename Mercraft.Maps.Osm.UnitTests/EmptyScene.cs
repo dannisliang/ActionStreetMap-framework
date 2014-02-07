@@ -1,5 +1,4 @@
-﻿using System;
-using Mercraft.Models;
+﻿using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.UnitTests
 {

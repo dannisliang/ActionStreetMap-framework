@@ -54,7 +54,6 @@
     <Compile Include="ElementTranslator.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Filters\IFilter.cs" />
-    <Compile Include="Interpreter\GeometryInterpreter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
     <Compile Include="IElementVisitor.cs" />
