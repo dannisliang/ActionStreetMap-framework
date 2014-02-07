@@ -1,13 +1,7 @@
 ﻿using System.IO;
-using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Formats.Pbf;
 using Mercraft.Maps.UnitTests.Stubs;
-using Mercraft.Math.Primitives;
-using Mercraft.Models;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Osm
@@ -15,21 +9,6 @@ namespace Mercraft.Maps.UnitTests.Osm
     [TestFixture]
     class ElementTests
     {
-        [Test]
-        public void CanPullPbfStream()
-        {
-            using (Stream stream = new FileStream(TestHelper.TestPbfFilePath, FileMode.Open))
-            {
-                var source = new PbfOsmStreamSource(stream);
-                source.Initialize();
-                // pulling
-                while (source.MoveNext())
-                {
-                    Element element = source.Current();
-                }
-            }
-        }
-
         [Test]
         public void CanGetOsmGeo()
         {
@@ -45,7 +24,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         }
 
         [Test]
-        public void CanFillScene()
+        public void CanFillBoundingBox()
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
@@ -63,7 +42,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         }
 
         [Test]
-        public void CanFillSmallScene()
+        public void CanFillSmallBoundingBox()
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
@@ -81,7 +60,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         }
 
         [Test]
-        public void CanFillOneBuilding()
+        public void CanFillOneBuildingBoundingBox()
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {

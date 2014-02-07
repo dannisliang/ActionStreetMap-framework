@@ -7,6 +7,7 @@ namespace Mercraft.Maps.UnitTests
     internal static class TestHelper
     {
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\kempen.osm.pbf";
+        public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\berlin_house.osm.xml";
 
         public static GeoCoordinateBox CreateBox(double height = 500, double width = 500, double latitude = 51.26371, double longitude = 4.7854, int zoomLevel = 16)
         {

@@ -20,8 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Maps", "Maps", "{EDF7B2E6-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Core", "Mercraft.Maps.Core\Mercraft.Maps.Core.csproj", "{7CB16489-62EE-4E10-8FF3-D4E1DA70CC14}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssets", "Tests\TestAssets", "{4EF881B0-6969-41C3-A859-BF5B36A47082}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssets", "TestAssets", "{4EF881B0-6969-41C3-A859-BF5B36A47082}"
 	ProjectSection(SolutionItems) = preProject
+		Tests\TestAssets\berlin_house.osm.xml = Tests\TestAssets\berlin_house.osm.xml
 		Tests\TestAssets\kempen.osm.pbf = Tests\TestAssets\kempen.osm.pbf
 	EndProjectSection
 EndProject

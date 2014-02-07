@@ -27,7 +27,6 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 Assert.AreEqual(6, scene.Buildings.Count);
             }
-
         }
     }
 }

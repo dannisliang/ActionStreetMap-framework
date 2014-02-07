@@ -55,6 +55,12 @@
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
+    <Compile Include="Formats\Xml\v0_6\Extensions.cs" />
+    <Compile Include="Formats\Xml\v0_6\osm.cs">
+      <DependentUpon>osm.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Formats\Xml\XmlOsmStreamSource.cs" />
+    <Compile Include="Formats\Xml\XmlSimpleConverter.cs" />
     <Compile Include="Visitors\BuildingVisitor.cs" />
     <Compile Include="Visitors\IElementVisitor.cs" />
     <Compile Include="Formats\Pbf\Decompressor.cs" />
@@ -71,9 +77,7 @@
     <Compile Include="Streams\OsmStreamSource.cs" />
     <Compile Include="Entities\Way.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Formats\Xml\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Maps.Core\Mercraft.Maps.Core.csproj">
       <Project>{7cb16489-62ee-4e10-8ff3-d4e1da70cc14}</Project>
@@ -89,6 +93,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Formats\Xml\v0_6\osm.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Formats\Pbf\osmformat.proto" />
   </ItemGroup>

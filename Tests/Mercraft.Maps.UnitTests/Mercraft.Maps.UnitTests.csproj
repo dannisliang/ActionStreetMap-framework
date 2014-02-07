@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Osm\BuildingTests.cs" />
+    <Compile Include="Osm\FormatTests.cs" />
     <Compile Include="Stubs\CountableElementVisitor.cs" />
     <Compile Include="Stubs\CountableScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
