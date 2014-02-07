@@ -1,37 +1,84 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Projections;
+using Mercraft.Maps.Core.Collections.LongIndex;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Models;
+using Mercraft.Maps.Osm.Filters;
 
 namespace Mercraft.Maps.Osm
 {
     /// <summary>
-    /// Represents a style interpreter.
+    /// Manages elements in bbox
     /// </summary>
-    public class ElementTranslator
+    public class ElementManager
     {
-        private IElementVisitor _translateVisitor;
+        private IElementVisitor _elementVisitor;
 
-        public ElementTranslator(IElementVisitor translateVisitor)
+        /// <summary>
+        /// Holds the interpreted nodes.
+        /// </summary>
+        private LongIndex _translatedNodes;
+
+        /// <summary>
+        /// Holds the interpreted relations.
+        /// </summary>
+        private LongIndex _translatedRelations;
+
+        /// <summary>
+        /// Holds the interpreted way.
+        /// </summary>
+        private LongIndex _translatedWays;
+
+
+        /// <summary>
+        /// Creates a new style scene manager.
+        /// </summary>
+        public ElementManager(IElementVisitor elementVisitor)
         {
-            _translateVisitor = translateVisitor;
+            _elementVisitor = elementVisitor;
+
+            _translatedNodes = new LongIndex();
+            _translatedWays = new LongIndex();
+            _translatedRelations = new LongIndex();
+
         }
 
         /// <summary>
-        /// Translates the given OSM objects into corresponding geometries.
+        /// Fills the scene with objects from the given datasource that existing inside the given boundingbox with the given projection.
         /// </summary>
-        public virtual void Translate(IScene scene, IDataSourceReadOnly source, IProjection projection, Element element)
+        public void FillBoundingBox(IDataSourceReadOnly dataSource, GeoCoordinateBox box, IFilter filter = null)
+        {
+            IList<Element> elements = dataSource.Get(box, filter);
+            foreach (var element in elements)
+            { // translate each object into scene object.
+                LongIndex index = null;
+
+                element.Accept(new ElementVisitor(
+                    _ => index = _translatedNodes,
+                    _ => index = _translatedWays,
+                    _ => index = _translatedRelations));
+               
+                if (!index.Contains(element.Id.Value))
+                {
+                    // object was not yet interpreted.
+                    index.Add(element.Id.Value);
+                    Populate(dataSource, element);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Populates the given OSM objects into corresponding geometries.
+        /// </summary>
+        private void Populate(IDataSourceReadOnly source, Element element)
         {
             element.Accept(new ElementVisitor(
                 node => PopulateNode(node),
                 way => PopulateWay(way, source),
                 relation => PopulateRelation(relation, source)));
 
-            element.Accept(_translateVisitor);
+            element.Accept(_elementVisitor);
         }
-
 
         #region Populates given elements
 
@@ -84,5 +131,6 @@ namespace Mercraft.Maps.Osm
         }
 
         #endregion
+
     }
 }

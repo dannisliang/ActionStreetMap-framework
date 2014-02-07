@@ -52,12 +52,10 @@ namespace Mercraft.Maps.UnitTests.Osm
                 var box = CreateBox();
 
                 var visitor = new CountableElementVisitor();
-                var translator = new ElementTranslator(visitor);
 
-                IScene scene = new EmptyScene();
-                var styleSceneManager = new SceneManager(scene, translator);
+                var elementManager = new ElementManager(visitor);
 
-                styleSceneManager.FillScene(dataSource, box, new WebMercatorProjection());
+                elementManager.FillBoundingBox(dataSource, box);
 
                 Assert.AreEqual(3856, visitor.Elements.Count);
             }               
@@ -70,15 +68,12 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
                 var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
-                var projection = new WebMercatorProjection();
 
                 var visitor = new CountableElementVisitor();
-                var translator = new ElementTranslator(visitor);
 
-                IScene scene = new EmptyScene();
-                var styleSceneManager = new SceneManager(scene, translator);
+                var elementManager = new ElementManager(visitor);
 
-                styleSceneManager.FillScene(dataSource, box, projection);
+                elementManager.FillBoundingBox(dataSource, box);
 
                 Assert.AreEqual(36, visitor.Elements.Count);
             }
@@ -92,15 +87,12 @@ namespace Mercraft.Maps.UnitTests.Osm
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
 
                 var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
-                var projection = new WebMercatorProjection();
 
                 var visitor = new CountableElementVisitor();
-                var translator = new ElementTranslator(visitor);
 
-                IScene scene = new EmptyScene();
-                var styleSceneManager = new SceneManager(scene, translator);
+                var elementManager = new ElementManager(visitor);
 
-                styleSceneManager.FillScene(dataSource, box, projection);
+                elementManager.FillBoundingBox(dataSource, box);
 
                 Assert.AreEqual(2, visitor.Elements.Count);
             }
