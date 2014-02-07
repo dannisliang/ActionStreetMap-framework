@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Text;
 using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Projections;
+using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Pbf;
@@ -10,7 +9,7 @@ using Mercraft.Math.Primitives;
 using Mercraft.Models;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.Osm.UnitTests
+namespace Mercraft.Maps.UnitTests.Osm
 {
     [TestFixture]
     class ElementTests

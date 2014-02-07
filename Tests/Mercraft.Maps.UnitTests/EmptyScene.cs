@@ -1,6 +1,6 @@
 ﻿using Mercraft.Models;
 
-namespace Mercraft.Maps.Osm.UnitTests
+namespace Mercraft.Maps.UnitTests
 {
     public class EmptyScene: IScene
     {

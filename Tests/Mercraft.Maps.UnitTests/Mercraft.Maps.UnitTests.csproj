@@ -7,8 +7,8 @@
     <ProjectGuid>{427274F0-276E-401B-960C-D78DDAF24B5B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercraft.Maps.Osm.UnitTests</RootNamespace>
-    <AssemblyName>Mercraft.Maps.Osm.UnitTests</AssemblyName>
+    <RootNamespace>Mercraft.Maps.UnitTests</RootNamespace>
+    <AssemblyName>Mercraft.Maps.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -57,19 +57,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Maps.Core\Mercraft.Maps.Core.csproj">
+    <ProjectReference Include="..\..\Mercraft.Maps.Core\Mercraft.Maps.Core.csproj">
       <Project>{7cb16489-62ee-4e10-8ff3-d4e1da70cc14}</Project>
       <Name>Mercraft.Maps.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj">
+    <ProjectReference Include="..\..\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj">
       <Project>{f07af685-2554-4032-a35f-bb6d5632f1c2}</Project>
       <Name>Mercraft.Maps.Osm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Math\Mercraft.Math.csproj">
+    <ProjectReference Include="..\..\Mercraft.Math\Mercraft.Math.csproj">
       <Project>{27c40e91-30d0-4290-b489-8cd1b306a125}</Project>
       <Name>Mercraft.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Models\Mercraft.Models.csproj">
+    <ProjectReference Include="..\..\Mercraft.Models\Mercraft.Models.csproj">
       <Project>{78C3B696-0486-41F9-BA24-5E85F417D98F}</Project>
       <Name>Mercraft.Models</Name>
     </ProjectReference>
