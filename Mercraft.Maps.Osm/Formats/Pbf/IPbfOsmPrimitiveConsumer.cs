@@ -1,5 +1,5 @@
 ﻿
-namespace Mercraft.Maps.Osm.Pbf
+namespace Mercraft.Maps.Osm.Formats.Pbf
 {
     /// <summary>
     /// Consumers Osm PBF primitives.

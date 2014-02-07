@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Streams;
 
-namespace Mercraft.Maps.Osm.Pbf
+namespace Mercraft.Maps.Osm.Formats.Pbf
 {
     /// <summary>
     /// A source of Pbf formatted OSM data.
@@ -104,9 +103,9 @@ namespace Mercraft.Maps.Osm.Pbf
             }
 
             PrimitiveBlock block = PbfPrimitive.Key; // get the block properties this object comes from.
-            if (PbfPrimitive.Value is Mercraft.Maps.Osm.Pbf.Node)
+            if (PbfPrimitive.Value is Mercraft.Maps.Osm.Formats.Pbf.Node)
             {
-                var node = (PbfPrimitive.Value as Mercraft.Maps.Osm.Pbf.Node);
+                var node = (PbfPrimitive.Value as Mercraft.Maps.Osm.Formats.Pbf.Node);
                 var simpleNode = new Entities.Node();
                 simpleNode.ChangeSetId = node.info.changeset;
                 simpleNode.Id = node.id;
@@ -139,9 +138,9 @@ namespace Mercraft.Maps.Osm.Pbf
 
                 return simpleNode;
             }
-            else if (PbfPrimitive.Value is Mercraft.Maps.Osm.Pbf.Way)
+            else if (PbfPrimitive.Value is Mercraft.Maps.Osm.Formats.Pbf.Way)
             {
-                var way = (PbfPrimitive.Value as Mercraft.Maps.Osm.Pbf.Way);
+                var way = (PbfPrimitive.Value as Mercraft.Maps.Osm.Formats.Pbf.Way);
 
                 var simple_way = new Entities.Way();
                 simple_way.Id = way.id;
@@ -179,9 +178,9 @@ namespace Mercraft.Maps.Osm.Pbf
 
                 return simple_way;
             }
-            else if (PbfPrimitive.Value is Mercraft.Maps.Osm.Pbf.Relation)
+            else if (PbfPrimitive.Value is Mercraft.Maps.Osm.Formats.Pbf.Relation)
             {
-                var relation = (PbfPrimitive.Value as Mercraft.Maps.Osm.Pbf.Relation);
+                var relation = (PbfPrimitive.Value as Mercraft.Maps.Osm.Formats.Pbf.Relation);
 
                 var simple_relation = new Entities.Relation();
                 simple_relation.Id = relation.id;
@@ -263,7 +262,7 @@ namespace Mercraft.Maps.Osm.Pbf
         /// <summary>
         /// Holds the primitives decompressor.
         /// </summary>
-        private Mercraft.Maps.Osm.Pbf.Decompressor _decompressor;
+        private Decompressor _decompressor;
 
         /// <summary>
         /// Initializes the Pbf reader.
@@ -271,7 +270,7 @@ namespace Mercraft.Maps.Osm.Pbf
         private void InitializePbfReader()
         {
             _reader = new PbfReader(_stream);
-            _decompressor = new Mercraft.Maps.Osm.Pbf.Decompressor(this);
+            _decompressor = new Decompressor(this);
 
             this.InitializeBlockCache();
         }

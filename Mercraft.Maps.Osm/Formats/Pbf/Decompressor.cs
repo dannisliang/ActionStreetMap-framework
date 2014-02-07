@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace Mercraft.Maps.Osm.Pbf
+namespace Mercraft.Maps.Osm.Formats.Pbf
 {
     /// <summary>
     /// 'Decompresses' dense formatted primitives to their regular counterparts.

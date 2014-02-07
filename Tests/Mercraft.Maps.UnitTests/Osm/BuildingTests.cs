@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanProcessBuildings()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
                 var box = TestHelper.CreateBox(200, 200, 51.26371, 4.7853, 19);

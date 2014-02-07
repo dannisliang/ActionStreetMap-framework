@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 // Generated from: osmformat.proto
-namespace Mercraft.Maps.Osm.Pbf
+namespace Mercraft.Maps.Osm.Formats.Pbf
 {
   /// <summary>
   /// 

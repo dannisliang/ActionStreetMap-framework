@@ -4,7 +4,7 @@ using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Pbf;
+using Mercraft.Maps.Osm.Formats.Pbf;
 using Mercraft.Maps.UnitTests.Stubs;
 using Mercraft.Math.Primitives;
 using Mercraft.Models;
@@ -18,7 +18,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanPullPbfStream()
         {
-            using (Stream stream = new FileStream(TestHelper.TestFilePath, FileMode.Open))
+            using (Stream stream = new FileStream(TestHelper.TestPbfFilePath, FileMode.Open))
             {
                 var source = new PbfOsmStreamSource(stream);
                 source.Initialize();
@@ -33,7 +33,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanGetOsmGeo()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                  var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
                  var box = TestHelper.CreateBox();
@@ -47,7 +47,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFillScene()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
                 var box = TestHelper.CreateBox();
@@ -65,7 +65,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFillSmallScene()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
                 var box = TestHelper.CreateBox(200, 200, 51.26371, 4.7853, 19);
@@ -83,7 +83,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFillOneBuilding()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
 

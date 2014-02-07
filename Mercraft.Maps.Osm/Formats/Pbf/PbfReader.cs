@@ -19,10 +19,9 @@
 using System;
 using System.IO;
 using Ionic.Zlib;
-using Mercraft.Maps.Osm.PBF;
 using ProtoBuf;
 
-namespace Mercraft.Maps.Osm.Pbf
+namespace Mercraft.Maps.Osm.Formats.Pbf
 {
     /// <summary>
     /// Reads PBF files.

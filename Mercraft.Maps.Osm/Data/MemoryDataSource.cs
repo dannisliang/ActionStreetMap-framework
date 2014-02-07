@@ -5,7 +5,7 @@ using System.Linq;
 using Mercraft.Maps.Core;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Filters;
-using Mercraft.Maps.Osm.Pbf;
+using Mercraft.Maps.Osm.Formats.Pbf;
 using Mercraft.Maps.Osm.Streams;
 using Mercraft.Maps.Osm.Visitors;
 using Node = Mercraft.Maps.Osm.Entities.Node;
