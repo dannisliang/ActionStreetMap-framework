@@ -4,6 +4,7 @@ using System.Text;
 using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Projections;
 using Mercraft.Maps.Osm.Data;
+using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Pbf;
 using Mercraft.Math.Primitives;
 using Mercraft.Models;
@@ -24,7 +25,7 @@ namespace Mercraft.Maps.Osm.UnitTests
                 // pulling
                 while (source.MoveNext())
                 {
-                    object sourceObject = source.Current();
+                    Element element = source.Current();
                 }
             }
         }
@@ -32,67 +33,78 @@ namespace Mercraft.Maps.Osm.UnitTests
         [Test]
         public void CanGetOsmGeo()
         {
-            var dataSource = GetDataSource();
-            var box = CreateBox();
+            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            {
+                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                 var box = CreateBox();
 
-            var osmGeos = dataSource.Get(box, null);
-           
-            Assert.AreEqual(3856, osmGeos.Count);
+                 var osmGeos = dataSource.Get(box, null);
+
+                 Assert.AreEqual(3856, osmGeos.Count);
+            }           
         }
 
         [Test]
         public void CanFillScene()
         {
-            var dataSource = GetDataSource();
-            var box = CreateBox();
+            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            {
+                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                var box = CreateBox();
 
-            var visitor = new CountableElementVisitor();
-            var translator = new ElementTranslator(visitor);
+                var visitor = new CountableElementVisitor();
+                var translator = new ElementTranslator(visitor);
 
-            IScene scene = new EmptyScene();
-            var styleSceneManager = new SceneManager(scene, translator);
+                IScene scene = new EmptyScene();
+                var styleSceneManager = new SceneManager(scene, translator);
 
-            styleSceneManager.FillScene(dataSource, box, new WebMercatorProjection());
+                styleSceneManager.FillScene(dataSource, box, new WebMercatorProjection());
 
-            Assert.AreEqual(3856, visitor.Elements.Count);
+                Assert.AreEqual(3856, visitor.Elements.Count);
+            }               
         }
 
         [Test]
         public void CanFillSmallScene()
         {
-            var dataSource = GetDataSource();
-            var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
-            var projection = new WebMercatorProjection();
+            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            {
+                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                var box = CreateBox(200, 200, 51.26371, 4.7853, 19);
+                var projection = new WebMercatorProjection();
 
-            var visitor = new CountableElementVisitor();
-            var translator = new ElementTranslator(visitor);
+                var visitor = new CountableElementVisitor();
+                var translator = new ElementTranslator(visitor);
 
-            IScene scene = new EmptyScene();
-            var styleSceneManager = new SceneManager(scene, translator);
+                IScene scene = new EmptyScene();
+                var styleSceneManager = new SceneManager(scene, translator);
 
-            styleSceneManager.FillScene(dataSource, box, projection);
+                styleSceneManager.FillScene(dataSource, box, projection);
 
-            Assert.AreEqual(36, visitor.Elements.Count);
+                Assert.AreEqual(36, visitor.Elements.Count);
+            }
         }
 
         [Test]
         public void CanFillOneBuilding()
         {
-            var dataSource = GetDataSource();
-            //View2D view = CreateView(30, 30, 19, 51.26371, 4.7853);
+            using (Stream stream = new FileInfo(TestHelper.TestFilePath).OpenRead())
+            {
+                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
 
-            var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
-            var projection = new WebMercatorProjection();
+                var box = CreateBox(30, 30, 51.26371, 4.7853, 19);
+                var projection = new WebMercatorProjection();
 
-            var visitor = new CountableElementVisitor();
-            var translator = new ElementTranslator(visitor);
+                var visitor = new CountableElementVisitor();
+                var translator = new ElementTranslator(visitor);
 
-            IScene scene = new EmptyScene();
-            var styleSceneManager = new SceneManager(scene, translator);
+                IScene scene = new EmptyScene();
+                var styleSceneManager = new SceneManager(scene, translator);
 
-            styleSceneManager.FillScene(dataSource, box, projection);
+                styleSceneManager.FillScene(dataSource, box, projection);
 
-            Assert.AreEqual(2, visitor.Elements.Count);
+                Assert.AreEqual(2, visitor.Elements.Count);
+            }
         }
 
 
@@ -122,13 +134,6 @@ namespace Mercraft.Maps.Osm.UnitTests
                 projection.ToGeoCoordinates(boundingBox.Min[0], boundingBox.Min[1]),
                 projection.ToGeoCoordinates(boundingBox.Max[0], boundingBox.Max[1]));
         }
-
-        private MemoryDataSource GetDataSource()
-        {
-            return MemoryDataSource
-                .CreateFromPBFStream(new FileInfo(TestHelper.TestFilePath).OpenRead());
-        }
-
 
         #endregion
     }
