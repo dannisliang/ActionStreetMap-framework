@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Osm\CountableElementVisitor.cs" />
+    <Compile Include="Osm\BuildingTests.cs" />
+    <Compile Include="Stubs\CountableElementVisitor.cs" />
+    <Compile Include="Stubs\CountableScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Osm\ElementTests.cs" />
     <Compile Include="TestHelper.cs" />

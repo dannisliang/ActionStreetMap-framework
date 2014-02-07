@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Entities;
+using Mercraft.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace Mercraft.Maps.UnitTests.Stubs
 {
     public class CountableElementVisitor: IElementVisitor
     {

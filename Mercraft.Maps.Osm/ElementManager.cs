@@ -4,6 +4,7 @@ using Mercraft.Maps.Core.Collections.LongIndex;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Filters;
+using Mercraft.Maps.Osm.Visitors;
 
 namespace Mercraft.Maps.Osm
 {

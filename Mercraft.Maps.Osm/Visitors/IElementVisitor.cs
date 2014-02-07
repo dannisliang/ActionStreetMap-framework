@@ -1,7 +1,7 @@
 ﻿using System;
 using Mercraft.Maps.Osm.Entities;
 
-namespace Mercraft.Maps.Osm
+namespace Mercraft.Maps.Osm.Visitors
 {
     public interface IElementVisitor
     {

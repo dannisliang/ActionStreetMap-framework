@@ -55,7 +55,8 @@
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
-    <Compile Include="IElementVisitor.cs" />
+    <Compile Include="Visitors\BuildingVisitor.cs" />
+    <Compile Include="Visitors\IElementVisitor.cs" />
     <Compile Include="Pbf\Decompressor.cs" />
     <Compile Include="Pbf\fileformat.cs" />
     <Compile Include="Pbf\IPbfOsmPrimitiveConsumer.cs" />
