@@ -1,4 +1,6 @@
-namespace Mercraft.Maps.Core.Projections
+using Mercraft.Models;
+
+namespace Mercraft.Maps.Osm.Projections
 {
 	/// <summary>
 	/// An abstract of a projection.

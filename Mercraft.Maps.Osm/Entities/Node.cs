@@ -1,6 +1,6 @@
 ﻿
-using Mercraft.Maps.Core;
 using Mercraft.Maps.Osm.Visitors;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.Entities
 {

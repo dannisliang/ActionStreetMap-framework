@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Models.Primitives;
 
-namespace Mercraft.Maps.Core
+namespace Mercraft.Models
 {
     /// <summary>
     /// Represents a geo coordinate bounding box.

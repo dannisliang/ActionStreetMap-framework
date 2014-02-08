@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Mercraft.Maps.Core;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Format.Xml.v0_6;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
 {
@@ -804,7 +804,5 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
         #endregion
 
         #endregion
-
-
     }
 }

@@ -1,14 +1,14 @@
-﻿
+﻿using Mercraft.Models;
 using Mercraft.Models.Units.Angle;
 
-namespace Mercraft.Maps.Core.Projections
+namespace Mercraft.Maps.Osm.Projections
 {
     /// <summary>
     /// Projection that corresponds to the projection used for webtiles. This will project webtiles nicely into 256x256 squares.
     /// </summary>
     /// <remarks>http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
     /// Zoom level 16 is used as the default level.</remarks>
-    public class WebMercatorProjection : IProjection
+    public class MercatorProjection : IProjection
     {
         /// <summary>
         /// Holds the constant default zoom level.

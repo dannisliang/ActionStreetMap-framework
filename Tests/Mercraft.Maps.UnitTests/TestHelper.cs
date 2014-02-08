@@ -1,5 +1,5 @@
-﻿using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Projections;
+﻿using Mercraft.Maps.Osm.Projections;
+using Mercraft.Models;
 using Mercraft.Models.Primitives;
 
 namespace Mercraft.Maps.UnitTests
@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests
         public static GeoCoordinateBox CreateBox(double height = 500, double width = 500, double latitude = 51.26371, double longitude = 4.7854, int zoomLevel = 16)
         {
             const int DefaultZoom = 15;
-            IProjection projection = new WebMercatorProjection();
+            IProjection projection = new MercatorProjection();
             bool xInverted = false;
             bool yInverted = false;
             double realZoom = System.Math.Pow(2, zoomLevel - DefaultZoom) * 256.0; ;

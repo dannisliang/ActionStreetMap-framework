@@ -2,7 +2,7 @@
 using Mercraft.Models.Units.Angle;
 using Mercraft.Models.Units.Distance;
 
-namespace Mercraft.Maps.Core
+namespace Mercraft.Models
 {
     /// <summary>
     /// Represents a standard geo coordinate.

@@ -59,10 +59,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Mercraft.Maps.Core\Mercraft.Maps.Core.csproj">
-      <Project>{7cb16489-62ee-4e10-8ff3-d4e1da70cc14}</Project>
-      <Name>Mercraft.Maps.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj">
       <Project>{f07af685-2554-4032-a35f-bb6d5632f1c2}</Project>
       <Name>Mercraft.Maps.Osm</Name>

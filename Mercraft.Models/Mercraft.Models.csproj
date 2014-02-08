@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeoCoordinate.cs" />
+    <Compile Include="GeoCoordinateBox.cs" />
     <Compile Include="Scenas\Building.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Scenas\IScene.cs" />

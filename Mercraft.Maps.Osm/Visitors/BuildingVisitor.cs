@@ -40,6 +40,5 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             return tags.ContainsKey("building") && !tags.IsFalse("building");
         }
-
     }
 }

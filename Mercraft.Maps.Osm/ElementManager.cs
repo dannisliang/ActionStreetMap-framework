@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Maps.Core;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions.LongIndex;
 using Mercraft.Maps.Osm.Filters;
 using Mercraft.Maps.Osm.Visitors;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm
 {
