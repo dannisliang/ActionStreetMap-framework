@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Core;
-using Mercraft.Maps.Core.Collections.LongIndex;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
+using Mercraft.Maps.Osm.Extensions.LongIndex;
 using Mercraft.Maps.Osm.Filters;
 using Mercraft.Maps.Osm.Visitors;
 
@@ -41,7 +41,6 @@ namespace Mercraft.Maps.Osm
             _translatedNodes = new LongIndex();
             _translatedWays = new LongIndex();
             _translatedRelations = new LongIndex();
-
         }
 
         /// <summary>

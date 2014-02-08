@@ -1,5 +1,5 @@
 ﻿
-namespace Mercraft.Maps.Core.Collections.LongIndex
+namespace Mercraft.Maps.Osm.Extensions.LongIndex
 {
     internal interface ILongIndexNode
     {

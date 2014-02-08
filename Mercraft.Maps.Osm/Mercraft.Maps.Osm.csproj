@@ -37,16 +37,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Zlib.Portable">
       <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\LongIndex\ILongIndexNode.cs" />
+    <Compile Include="Extensions\LongIndex\LongIndex.cs" />
+    <Compile Include="Extensions\LongIndex\LongIndexLeaf.cs" />
+    <Compile Include="Extensions\LongIndex\LongIndexNode.cs" />
     <Compile Include="Data\DataSourceReadOnlyBase.cs" />
     <Compile Include="Data\IDataSourceReadOnly.cs" />
     <Compile Include="Data\ElementSourceInterfaces.cs" />
