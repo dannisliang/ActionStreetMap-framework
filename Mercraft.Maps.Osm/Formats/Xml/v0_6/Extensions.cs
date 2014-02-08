@@ -102,7 +102,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                 }
             }
 
-            // set the user info.
+           /* // set the user info.
             if (xml_obj.uidSpecified)
             {
                 new_obj.UserId = xml_obj.uid;
@@ -122,7 +122,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             }
 
             // set the visible flag.
-            new_obj.Visible = xml_obj.visible;
+            new_obj.Visible = xml_obj.visible;*/
             return new_obj;
         }
 
@@ -161,7 +161,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                 }
             }
 
-            // set the user info.
+            /*// set the user info.
             if (xml_obj.uidSpecified)
             {
                 new_obj.UserId = xml_obj.uid;
@@ -178,7 +178,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             if (xml_obj.timestampSpecified)
             {
                 new_obj.TimeStamp = xml_obj.timestamp;
-            }
+            }*/
 
             // set the visible flag.
             new_obj.Visible = xml_obj.visible;
@@ -213,7 +213,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                 }
             }
 
-            // set the user info.
+            /*// set the user info.
             if (xml_obj.uidSpecified)
             {
                 new_obj.UserId = (int)xml_obj.uid;
@@ -231,7 +231,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             {
                 new_obj.TimeStamp = xml_obj.timestamp;
             }
-
+            */
             // set the visible flag.
             new_obj.Visible = xml_obj.visible;
             return new_obj;

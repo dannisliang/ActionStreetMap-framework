@@ -107,7 +107,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
             {
                 var node = (PbfPrimitive.Value as Mercraft.Maps.Osm.Formats.Pbf.Node);
                 var simpleNode = new Entities.Node();
-                simpleNode.ChangeSetId = node.info.changeset;
+                //simpleNode.ChangeSetId = node.info.changeset;
                 simpleNode.Id = node.id;
                 simpleNode.Latitude = .000000001 * ((double)block.lat_offset 
                     + ((double)block.granularity * (double)node.lat));
@@ -127,13 +127,13 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                         }
                     }
                 }
-                simpleNode.TimeStamp = FromUnixTime((long)node.info.timestamp * 
-                    (long)block.date_granularity);
+                //simpleNode.TimeStamp = FromUnixTime((long)node.info.timestamp * 
+                //    (long)block.date_granularity);
                 simpleNode.Visible = true;
-                simpleNode.Version = (uint)node.info.version;
-                simpleNode.UserId = node.info.uid;
-                simpleNode.UserName = Encoding.UTF8.GetString(block.stringtable.s[node.info.user_sid]);
-                simpleNode.Version = (ulong)node.info.version;
+                //simpleNode.Version = (uint)node.info.version;
+                //simpleNode.UserId = node.info.uid;
+                //simpleNode.UserName = Encoding.UTF8.GetString(block.stringtable.s[node.info.user_sid]);
+                //simpleNode.Version = (ulong)node.info.version;
                 simpleNode.Visible = true;
 
                 return simpleNode;
@@ -167,12 +167,12 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                 }
                 if (way.info != null)
                 { // add the metadata if any.
-                    simple_way.ChangeSetId = way.info.changeset;
-                    simple_way.TimeStamp = FromUnixTime((long)way.info.timestamp *
-                        (long)block.date_granularity);
-                    simple_way.UserId = way.info.uid;
-                    simple_way.UserName = Encoding.UTF8.GetString(block.stringtable.s[way.info.user_sid]);
-                    simple_way.Version = (ulong)way.info.version;
+                    //simple_way.ChangeSetId = way.info.changeset;
+                    //simple_way.TimeStamp = FromUnixTime((long)way.info.timestamp *
+                    //    (long)block.date_granularity);
+                    //simple_way.UserId = way.info.uid;
+                    //simple_way.UserName = Encoding.UTF8.GetString(block.stringtable.s[way.info.user_sid]);
+                    //simple_way.Version = (ulong)way.info.version;
                 }
                 simple_way.Visible = true;
 
@@ -228,12 +228,12 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                 }
                 if (relation.info != null)
                 { // read metadata if any.
-                    simple_relation.ChangeSetId = relation.info.changeset;
-                    simple_relation.TimeStamp = FromUnixTime((long)relation.info.timestamp *
-                        (long)block.date_granularity);
-                    simple_relation.UserId = relation.info.uid;
-                    simple_relation.UserName = Encoding.UTF8.GetString(block.stringtable.s[relation.info.user_sid]);
-                    simple_relation.Version = (ulong)relation.info.version;
+                    //simple_relation.ChangeSetId = relation.info.changeset;
+                    //simple_relation.TimeStamp = FromUnixTime((long)relation.info.timestamp *
+                    //    (long)block.date_granularity);
+                    //simple_relation.UserId = relation.info.uid;
+                    //simple_relation.UserName = Encoding.UTF8.GetString(block.stringtable.s[relation.info.user_sid]);
+                    //simple_relation.Version = (ulong)relation.info.version;
                 }
                 simple_relation.Visible = true;
 

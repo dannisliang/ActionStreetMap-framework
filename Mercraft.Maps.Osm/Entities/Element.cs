@@ -27,14 +27,17 @@ namespace Mercraft.Maps.Osm.Entities
         public ICollection<Tag> Tags { get; set; }
 
         /// <summary>
-        /// The changeset id.
-        /// </summary>
-        public long? ChangeSetId { get; set; }
-
-        /// <summary>
         /// The visible flag.
         /// </summary>
         public bool? Visible { get; set; }
+
+        // NOTE not interesting in this information
+        // and skipping it can improve performance
+
+        /*/// <summary>
+        /// The changeset id.
+        /// </summary>
+        public long? ChangeSetId { get; set; }
 
         /// <summary>
         /// The timestamp.
@@ -54,6 +57,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The username.
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; }*/
     }
 }

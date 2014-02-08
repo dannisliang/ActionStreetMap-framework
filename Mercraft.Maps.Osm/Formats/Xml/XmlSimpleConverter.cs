@@ -20,27 +20,21 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 node.Id = nd.id;
             }
 
-            // set changeset.
+            // set visible.
+            node.Visible = !nd.visibleSpecified || nd.visible;
+
+
+           /* // set changeset.
             if (nd.changesetSpecified)
             {
                 node.ChangeSetId = nd.changeset;
-            }
-
-            // set visible.
-            if (nd.visibleSpecified)
-            {
-                node.Visible = nd.visible;
-            }
-            else
-            { // if visible is not specified it is default true.
-                node.Visible = true;
             }
 
             // set timestamp.
             if (nd.timestampSpecified)
             {
                 node.TimeStamp = nd.timestamp;
-            }
+            }*/
 
             // set latitude.
             if (nd.latSpecified)
@@ -54,7 +48,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 node.Longitude = nd.lon;
             }
 
-            // set uid
+          /*  // set uid
             if (nd.uidSpecified)
             {
                 node.UserId = nd.uid;
@@ -67,7 +61,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             }
 
             // set user
-            node.UserName = nd.user;
+            node.UserName = nd.user;*/
 
             // set tags.
             node.Tags = XmlSimpleConverter.ConvertToTags(nd.tag);
@@ -85,11 +79,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 way.Id = wa.id;
             }
 
-            // set changeset.
-            if (wa.changesetSpecified)
-            {
-                way.ChangeSetId = wa.changeset;
-            }
 
             // set visible.
             if (wa.visibleSpecified)
@@ -101,13 +90,20 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 way.Visible = true;
             }
 
+            /*// set changeset.
+            if (wa.changesetSpecified)
+            {
+                way.ChangeSetId = wa.changeset;
+            }
+
+
             // set timestamp.
             if (wa.timestampSpecified)
             {
                 way.TimeStamp = wa.timestamp;
-            }
+            }*/
 
-            // set uid
+           /* // set uid
             if (wa.uidSpecified)
             {
                 way.UserId = wa.uid;
@@ -120,7 +116,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             }
 
             // set user
-            way.UserName = wa.user;
+            way.UserName = wa.user;*/
 
             // set tags.
             way.Tags = XmlSimpleConverter.ConvertToTags(wa.tag);
@@ -148,12 +144,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 relation.Id = re.id;
             }
 
-            // set changeset.
-            if (re.changesetSpecified)
-            {
-                relation.ChangeSetId = re.changeset;
-            }
-
             // set visible.
             if (re.visibleSpecified)
             {
@@ -163,6 +153,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             { // if visible is not specified it is default true.
                 relation.Visible = true;
             }
+
+            /*// set changeset.
+            if (re.changesetSpecified)
+            {
+                relation.ChangeSetId = re.changeset;
+            }
+        
 
             // set timestamp.
             if (re.timestampSpecified)
@@ -183,7 +180,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             }
 
             // set user
-            relation.UserName = re.user;
+            relation.UserName = re.user;*/
 
             // set tags.
             relation.Tags = XmlSimpleConverter.ConvertToTags(re.tag);
