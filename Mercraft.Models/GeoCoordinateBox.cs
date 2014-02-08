@@ -18,7 +18,7 @@ namespace Mercraft.Models
         /// </summary>
         /// <param name="points"></param>
         public GeoCoordinateBox(IList<GeoCoordinate> points)
-            : base(points.Cast<PointF2D>().ToArray<PointF2D>())
+            : base(points.ToArray<PointF2D>())
         {
 
         }

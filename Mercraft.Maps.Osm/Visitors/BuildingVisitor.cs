@@ -27,7 +27,15 @@ namespace Mercraft.Maps.Osm.Visitors
             if (!IsBuilding(way.Tags)) 
                 return;
 
-            var building = new Building();
+            var building = new Building()
+            {
+                Coordinates = way.GetCoordinates(),
+                Tags = way.Tags.Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value)).ToList()
+            };
+
+
+            // Process tags and populate building object with information for rendering (e.g. color, address)
+
             _scene.AddBuilding(building);
         }
 
