@@ -18,7 +18,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.GetBoundingBox(defaultMapPoint, 0.5);
+                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 0.5);
 
                 var osmGeos = dataSource.Get(bbox, null);
 
@@ -32,7 +32,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
-                var bbox = BoundingBox.GetBoundingBox(defaultMapPoint, 0.3);
+                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 0.3);
 
                 var visitor = new CountableElementVisitor();
 
@@ -51,7 +51,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.GetBoundingBox(new MapPoint(51.26371, 4.7853), 0.01);
+                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(51.26371, 4.7853), 0.01);
 
                 var visitor = new CountableElementVisitor();
 
@@ -70,7 +70,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.GetBoundingBox(new MapPoint(51.26371, 4.7853), 0.005);
+                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(51.26371, 4.7853), 0.005);
 
                 var visitor = new CountableElementVisitor();
 

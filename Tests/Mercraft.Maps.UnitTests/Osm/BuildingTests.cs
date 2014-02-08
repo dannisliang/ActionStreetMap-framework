@@ -19,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
 
-                var bbox = BoundingBox.GetBoundingBox(new MapPoint(52.529814, 13.388015), 0.2);
+                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(52.529814, 13.388015), 0.2);
 
                 var scene = new CountableScene();
 

@@ -37,7 +37,7 @@ namespace Mercraft.Models
         #region Operations
 
         /// <summary>
-        /// Adds two bounding boxes together yielding as result the smallest box that surrounds both.
+        /// Adds point to bounding boxes together yielding as result the smallest box that surrounds both.
         /// </summary>
         public static BoundingBox operator +(BoundingBox a, MapPoint b)
         {
@@ -57,12 +57,12 @@ namespace Mercraft.Models
         # region Creation
 
         /// <summary>
-        /// half length of the bounding box
+        /// Creates bounding box
         /// </summary>
         /// <param name="point">Center</param>
         /// <param name="halfSideInKm">Half length of the bounding box</param>
         /// <returns></returns>
-        public static BoundingBox GetBoundingBox(MapPoint point, double halfSideInKm)
+        public static BoundingBox CreateBoundingBox(MapPoint point, double halfSideInKm)
         {
             // Bounding box surrounding the point at given coordinates,
             // assuming local approximation of Earth surface as a sphere
@@ -110,8 +110,5 @@ namespace Mercraft.Models
         }
 
         #endregion
-
     }
-
-
 }
