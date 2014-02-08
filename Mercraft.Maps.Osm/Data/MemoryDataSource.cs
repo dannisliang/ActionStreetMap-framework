@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Filters;
+using Mercraft.Maps.Osm.Format.Xml.v0_6;
 using Mercraft.Maps.Osm.Formats.Pbf;
 using Mercraft.Maps.Osm.Streams;
 using Mercraft.Maps.Osm.Visitors;
@@ -19,6 +20,11 @@ namespace Mercraft.Maps.Osm.Data
     /// </summary>
     public class MemoryDataSource : DataSourceReadOnlyBase
     {
+        /// <summary>
+        /// Holds the current bounding box.
+        /// </summary>
+        private BoundingBox _box = null;
+
         /// <summary>
         /// Creates a new memory data structure using the default geometry interpreter.
         /// </summary>
@@ -45,8 +51,6 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private void InitializeDataStructures()
         {
-            _id = Guid.NewGuid(); // creates a new Guid.
-
             _nodes = new Dictionary<long, Node>();
             _ways = new Dictionary<long, Way>();
             _relations = new Dictionary<long, Relation>();
@@ -75,57 +79,6 @@ namespace Mercraft.Maps.Osm.Data
         private Dictionary<long, HashSet<long>> _relationsPerRelation;
 
         #endregion
-
-        /// <summary>
-        /// Holds the current bounding box.
-        /// </summary>
-        private GeoCoordinateBox _box = null;
-
-        /// <summary>
-        /// Returns the bounding box around all nodes.
-        /// </summary>
-        public override GeoCoordinateBox BoundingBox
-        {
-            get { return _box; }
-        }
-
-        /// <summary>
-        /// Gets/Sets the name of this source.
-        /// </summary>
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Holds the current Guid.
-        /// </summary>
-        private Guid _id;
-
-        /// <summary>
-        /// Returns the id.
-        /// </summary>
-        public override Guid Id
-        {
-            get { return _id; }
-        }
-
-        /// <summary>
-        /// Returns true if there is a bounding box.
-        /// </summary>
-        public override bool HasBoundinBox
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Returns true if this source is readonly.
-        /// </summary>
-        public override bool IsReadOnly
-        {
-            get { return true; }
-        }
 
         /// <summary>
         /// Adds a new osmgeo object.
@@ -185,12 +138,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (_box == null)
             {
-                _box = new GeoCoordinateBox(new GeoCoordinate(node.Latitude.Value, node.Longitude.Value),
-                    new GeoCoordinate(node.Latitude.Value, node.Longitude.Value));
+                _box = new BoundingBox(new MapPoint(node.Latitude.Value, node.Longitude.Value),
+                    new MapPoint(node.Latitude.Value, node.Longitude.Value));
             }
             else
             {
-                _box = _box + new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
+                _box = _box + new MapPoint(node.Latitude.Value, node.Longitude.Value);
             }
         }
 
@@ -416,7 +369,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the objects within a given bounding box and filtered by a given filter.
         /// </summary>
-        public override IList<Element> Get(GeoCoordinateBox box, IFilter filter)
+        public override IList<Element> Get(BoundingBox bbox, IFilter filter)
         {
             List<Element> res = new List<Element>();
 
@@ -424,8 +377,8 @@ namespace Mercraft.Maps.Osm.Data
             HashSet<long> ids = new HashSet<long>();
             foreach (Node node in _nodes.Values)
             {
-                if ((filter == null || filter.Evaluate(node)) && 
-                    box.Contains(new GeoCoordinate(node.Latitude.Value, node.Longitude.Value)))
+                if ((filter == null || filter.Evaluate(node)) &&
+                    bbox.Contains(node.Latitude.Value, node.Longitude.Value))
                 {
                     res.Add(node);
                     ids.Add(node.Id.Value);
@@ -433,7 +386,7 @@ namespace Mercraft.Maps.Osm.Data
             }
 
             // load all ways that contain the nodes that have been found.
-            res.AddRange(this.GetWaysFor(ids).Cast<Element>()); // the .Cast<> is here for Windows Phone.
+            res.AddRange(GetWaysFor(ids));
 
             // get relations containing any of the nodes or ways in the current results-list.
             var relations = new List<Relation>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.Entities
 {

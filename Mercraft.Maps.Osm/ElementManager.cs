@@ -43,10 +43,7 @@ namespace Mercraft.Maps.Osm
             _translatedRelations = new LongIndex();
         }
 
-        /// <summary>
-        /// Fills the scene with objects from the given datasource that existing inside the given boundingbox with the given projection.
-        /// </summary>
-        public void FillBoundingBox(IDataSourceReadOnly dataSource, GeoCoordinateBox box, IFilter filter = null)
+        public void FillScene(IDataSourceReadOnly dataSource, BoundingBox box, IFilter filter = null)
         {
             IList<Element> elements = dataSource.Get(box, filter);
             foreach (var element in elements)
@@ -84,7 +81,7 @@ namespace Mercraft.Maps.Osm
 
         private Node PopulateNode(Node node)
         {
-            node.Coordinate = new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
+            node.Coordinate = new MapPoint(node.Latitude.Value, node.Longitude.Value);
             return node;
         }
 

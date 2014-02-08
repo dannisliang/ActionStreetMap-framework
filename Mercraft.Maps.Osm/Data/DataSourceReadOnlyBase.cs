@@ -13,14 +13,6 @@ namespace Mercraft.Maps.Osm.Data
     public abstract class DataSourceReadOnlyBase : IDataSourceReadOnly
     {
         /// <summary>
-        /// Returns true when this data-source is readonly.
-        /// </summary>
-        public virtual bool IsReadOnly
-        {
-            get { return true; }
-        }
-
-        /// <summary>
         /// Returns the node with the given id.
         /// </summary>
         /// <param name="id"></param>
@@ -112,33 +104,8 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all objects inside the given boundingbox and according to the given filter.
         /// </summary>
-        /// <param name="box"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public abstract IList<Element> Get(GeoCoordinateBox box, IFilter filter);
+        public abstract IList<Element> Get(BoundingBox bbox, IFilter filter);
 
-        /// <summary>
-        /// Returns the boundingbox of the data in this datasource.
-        /// </summary>
-        public abstract GeoCoordinateBox BoundingBox
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Returns the id of this datasource.
-        /// </summary>
-        public abstract Guid Id
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Returns true if this datasource has a boundingbox.
-        /// </summary>
-        public abstract bool HasBoundinBox
-        {
-            get;
-        }
+      
     }
 }

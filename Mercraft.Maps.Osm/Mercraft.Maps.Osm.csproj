@@ -62,8 +62,6 @@
     </Compile>
     <Compile Include="Formats\Xml\XmlOsmStreamSource.cs" />
     <Compile Include="Formats\Xml\XmlSimpleConverter.cs" />
-    <Compile Include="Projections\IProjection.cs" />
-    <Compile Include="Projections\MercatorProjection.cs" />
     <Compile Include="Visitors\BuildingVisitor.cs" />
     <Compile Include="Visitors\IElementVisitor.cs" />
     <Compile Include="Formats\Pbf\Decompressor.cs" />

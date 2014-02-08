@@ -13,29 +13,6 @@ namespace Mercraft.Maps.Osm.Data
     /// </summary>
     public interface IDataSourceReadOnly : IElementSource
     {
-        /// <summary>
-        /// Returns the bounding box of the data in this source if possible.
-        /// </summary>
-        GeoCoordinateBox BoundingBox { get; }
-
-        /// <summary>
-        /// The unique id for this datasource.
-        /// </summary>
-        Guid Id { get; }
-        
-        #region Features
-
-        /// <summary>
-        /// Returns true if this datasource is bounded.
-        /// </summary>
-        bool HasBoundinBox { get; }
-
-        /// <summary>
-        /// Returns true if this datasource is readonly.
-        /// </summary>
-        bool IsReadOnly { get; }
-
-        #endregion
 
         #region NodeIds
 
@@ -84,7 +61,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the objects in this dataset that evaluate the filter to true.
         /// </summary>
-        IList<Element> Get(GeoCoordinateBox box, IFilter filter);
+        IList<Element> Get(BoundingBox bbox, IFilter filter);
 
         #endregion
 

@@ -4,9 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Models.Units.Distance;
-using Mercraft.Models.Units.Speed;
-using Mercraft.Models.Units.Weight;
 
 namespace Mercraft.Maps.Osm.Extensions
 {
@@ -90,7 +87,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxSpeed(this ICollection<Tag> tags, out KilometerPerHour result)
+        public static bool TryGetMaxSpeed(this ICollection<Tag> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -108,7 +105,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxWeight(this ICollection<Tag> tags, out Kilogram result)
+        public static bool TryGetMaxWeight(this ICollection<Tag> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -125,7 +122,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxAxleLoad(this ICollection<Tag> tags, out Kilogram result)
+        public static bool TryGetMaxAxleLoad(this ICollection<Tag> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -142,7 +139,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxHeight(this ICollection<Tag> tags, out Meter result)
+        public static bool TryGetMaxHeight(this ICollection<Tag> tags, out double result)
         {
             result = double.MaxValue;
 
@@ -161,7 +158,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxWidth(this ICollection<Tag> tags, out Meter result)
+        public static bool TryGetMaxWidth(this ICollection<Tag> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -178,7 +175,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxLength(this IDictionary<string, string> tags, out Meter result)
+        public static bool TryGetMaxLength(this IDictionary<string, string> tags, out double result)
         {
             result = double.MaxValue;
 
@@ -199,7 +196,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="s"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryParseSpeed(string s, out KilometerPerHour result)
+        public static bool TryParseSpeed(string s, out double result)
         {
             result = double.MaxValue;
 
@@ -225,22 +222,22 @@ namespace Mercraft.Maps.Osm.Extensions
             }
 
             // try km/h
-            if (KilometerPerHour.TryParse(s, out result))
+            if (double.TryParse(s, out result))
             {
                 return true;
             }
 
             // try mph.
-            MilesPerHour resultMph;
-            if(MilesPerHour.TryParse(s, out resultMph))
+            double resultMph;
+            if (double.TryParse(s, out resultMph))
             {
                 result = resultMph;
                 return true;
             }
 
             // try knots.
-            Knots resultKnots;
-            if (Knots.TryParse(s, out resultKnots))
+            double resultKnots;
+            if (double.TryParse(s, out resultKnots))
             {
                 result = resultKnots;
                 return true;
@@ -255,7 +252,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="s"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryParseWeight(string s, out Kilogram result)
+        public static bool TryParseWeight(string s, out double result)
         {
             result = double.MaxValue;
 
@@ -266,7 +263,7 @@ namespace Mercraft.Maps.Osm.Extensions
             Match tonnesMatch = tonnesRegex.Match(s);
             if (tonnesMatch.Success)
             {
-                result = (Kilogram)(double.Parse(tonnesMatch.Groups[1].Value, CultureInfo.InvariantCulture) * 1000);
+                result = (double.Parse(tonnesMatch.Groups[1].Value, CultureInfo.InvariantCulture) * 1000);
                 return true;
             }
 
@@ -279,7 +276,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="s"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryParseLength(string s, out Meter result)
+        public static bool TryParseLength(string s, out double result)
         {
             result = double.MaxValue;
 

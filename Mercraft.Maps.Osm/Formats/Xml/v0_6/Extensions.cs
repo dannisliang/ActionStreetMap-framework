@@ -22,13 +22,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
         /// </summary>
         /// <param name="bounds"></param>
         /// <returns></returns>
-        public static GeoCoordinateBox ConvertFrom(this bounds bounds)
+        public static BoundingBox ConvertFrom(this bounds bounds)
         {
             if (bounds != null)
             {
-                return new GeoCoordinateBox(
-                    new GeoCoordinate((double)bounds.maxlat, (double)bounds.maxlon),
-                    new GeoCoordinate((double)bounds.minlat, (double)bounds.minlon));
+                return new BoundingBox(
+                    new MapPoint((double)bounds.maxlat, (double)bounds.maxlon),
+                    new MapPoint((double)bounds.minlat, (double)bounds.minlon));
             }
             return null;
         }
@@ -38,15 +38,15 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
         /// </summary>
         /// <param name="bound"></param>
         /// <returns></returns>
-        public static GeoCoordinateBox ConvertFrom(this bound bound)
+        public static BoundingBox ConvertFrom(this bound bound)
         {
             if (bound != null)
             {
                 string[] bounds = bound.box.Split(',');
-                return new GeoCoordinateBox(
-                    new GeoCoordinate(double.Parse(bounds[0], CultureInfo.InvariantCulture),
+                return new BoundingBox(
+                    new MapPoint(double.Parse(bounds[0], CultureInfo.InvariantCulture),
                         double.Parse(bounds[1], CultureInfo.InvariantCulture)),
-                    new GeoCoordinate(double.Parse(bounds[2], CultureInfo.InvariantCulture),
+                    new MapPoint(double.Parse(bounds[2], CultureInfo.InvariantCulture),
                         double.Parse(bounds[3], CultureInfo.InvariantCulture)));
             }
             return null;
@@ -246,17 +246,17 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static bounds ConvertTo(this GeoCoordinateBox box)
+        public static bounds ConvertTo(this BoundingBox box)
         {
             bounds b = new bounds();
 
-            b.maxlat = box.MaxLat;
+            b.maxlat = box.MaxPoint.Latitude;
             b.maxlatSpecified = true;
-            b.maxlon = box.MaxLon;
+            b.maxlon = box.MaxPoint.Longitude;
             b.maxlonSpecified = true;
-            b.minlat = box.MinLat;
+            b.minlat = box.MinPoint.Latitude;
             b.minlatSpecified = true;
-            b.minlon = box.MinLon;
+            b.minlon = box.MinPoint.Longitude;
             b.minlonSpecified = true;
 
             return b;
