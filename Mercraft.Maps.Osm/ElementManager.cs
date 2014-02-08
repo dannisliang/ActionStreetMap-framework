@@ -43,9 +43,12 @@ namespace Mercraft.Maps.Osm
             _translatedRelations = new LongIndex();
         }
 
-        public void Fill(IDataSourceReadOnly dataSource, BoundingBox box, IFilter filter = null)
+        /// <summary>
+        /// Visits all elements in datasource which are located in bbox
+        /// </summary>
+        public void VisitBoundingBox(IDataSourceReadOnly dataSource, BoundingBox bbox, IFilter filter = null)
         {
-            IList<Element> elements = dataSource.Get(box, filter);
+            IList<Element> elements = dataSource.Get(bbox, filter);
             foreach (var element in elements)
             { // translate each object into scene object.
                 LongIndex index = null;

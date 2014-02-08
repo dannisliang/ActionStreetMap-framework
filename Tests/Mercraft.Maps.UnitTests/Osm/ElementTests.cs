@@ -38,7 +38,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager(visitor);
 
-                elementManager.Fill(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox);
 
                 Assert.AreEqual(2566, visitor.Elements.Count);
             }               
@@ -57,7 +57,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager(visitor);
 
-                elementManager.Fill(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox);
 
                 Assert.AreEqual(21, visitor.Elements.Count);
             }
@@ -76,7 +76,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager(visitor);
 
-                elementManager.Fill(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox);
 
                 Assert.AreEqual(2, visitor.Elements.Count);
             }
