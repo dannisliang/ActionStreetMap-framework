@@ -25,7 +25,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager(new BuildingVisitor(scene));
 
-                elementManager.FillScene(dataSource, bbox);
+                elementManager.Fill(dataSource, bbox);
 
                 Assert.AreEqual(30, scene.Buildings.Count);
             }

@@ -43,7 +43,7 @@ namespace Mercraft.Maps.Osm
             _translatedRelations = new LongIndex();
         }
 
-        public void FillScene(IDataSourceReadOnly dataSource, BoundingBox box, IFilter filter = null)
+        public void Fill(IDataSourceReadOnly dataSource, BoundingBox box, IFilter filter = null)
         {
             IList<Element> elements = dataSource.Get(box, filter);
             foreach (var element in elements)
