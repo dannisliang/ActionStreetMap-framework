@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Filters;
@@ -15,8 +14,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the node with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public virtual Node GetNode(long id)
         {
             IList<Node> nodes = this.GetNodes(new List<long>(new long[] { id }));
@@ -30,15 +27,11 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all nodes with the given ids.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public abstract IList<Node> GetNodes(IList<long> ids);
 
         /// <summary>
         /// Returns the relation with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public virtual Relation GetRelation(long id)
         {
             IList<Relation> relations = this.GetRelations(new List<long>(new long[] { id }));
@@ -52,8 +45,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation with the given ids.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public abstract IList<Relation> GetRelations(IList<long> ids);
 
         /// <summary>
@@ -65,8 +56,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the way with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public virtual Way GetWay(long id)
         {
             IList<Way> ways = this.GetWays(new List<long>(new long[] { id }));
@@ -80,22 +69,16 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the ways with the given ids.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
         public abstract IList<Way> GetWays(IList<long> ids);
 
         /// <summary>
         /// Returns all the ways containing the node with the given id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public abstract IList<Way> GetWaysFor(long id);
 
         /// <summary>
         /// Returns all the ways containing the given node.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         public virtual IList<Way> GetWaysFor(Node node)
         {
             return this.GetWaysFor(node.Id.Value);

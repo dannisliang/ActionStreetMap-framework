@@ -24,10 +24,10 @@ namespace Mercraft.Maps.Osm.Entities
 
 
         /// <summary>
-        /// Returns all the coordinates in this way in the same order as the nodes.
+        /// Returns all the ponts in this way in the same order as the nodes.
         /// </summary>
         /// <returns></returns>
-        public List<MapPoint> GetCoordinates()
+        public List<MapPoint> GetPoints()
         {
             var coordinates = new List<MapPoint>();
 

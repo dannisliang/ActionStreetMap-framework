@@ -29,7 +29,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
             var building = new Building()
             {
-                Coordinates = way.GetCoordinates(),
+                Points = way.GetPoints(),
                 Tags = way.Tags.Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value)).ToList()
             };
 

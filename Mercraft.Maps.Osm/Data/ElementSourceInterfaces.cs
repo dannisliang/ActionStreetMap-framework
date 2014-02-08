@@ -19,8 +19,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns a node with the given id from this source.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         Node GetNode(long id);
     }
 
@@ -32,8 +30,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns a relation with the given id from this source.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         Relation GetRelation(long id);
     }
 
@@ -45,8 +41,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns a way with the given id from this source.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         Way GetWay(long id);
     }
 }
