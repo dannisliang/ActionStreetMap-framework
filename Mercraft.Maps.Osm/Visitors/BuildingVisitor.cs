@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Maps.Osm.Entities;
+using Mercraft.Maps.Osm.Extensions;
 using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.Visitors
@@ -21,7 +23,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public void VisitWay(Way way)
         {
-            if (!IsBuilding(way)) 
+            if (!IsBuilding(way.Tags)) 
                 return;
 
             var building = new Building();
@@ -33,11 +35,9 @@ namespace Mercraft.Maps.Osm.Visitors
         }
 
 
-        private bool IsBuilding(Way way)
+        private bool IsBuilding(ICollection<Tag> tags)
         {
-            return way.Tags.Any(t =>
-                t.Key.Equals("building", StringComparison.OrdinalIgnoreCase) &&
-                t.Value.Equals("yes", StringComparison.OrdinalIgnoreCase));
+            return tags.ContainsKey("building") && !tags.IsFalse("building");
         }
 
     }

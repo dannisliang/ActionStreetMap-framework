@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                 var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
                  var box = TestHelper.CreateBox();
 
                  var osmGeos = dataSource.Get(box, null);
@@ -28,7 +28,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
                 var box = TestHelper.CreateBox();
 
                 var visitor = new CountableElementVisitor();
@@ -46,7 +46,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
                 var box = TestHelper.CreateBox(200, 200, 51.26371, 4.7853, 19);
 
                 var visitor = new CountableElementVisitor();
@@ -64,7 +64,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
+                var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
                 var box = TestHelper.CreateBox(30, 30, 51.26371, 4.7853, 19);
 

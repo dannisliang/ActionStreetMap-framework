@@ -516,9 +516,14 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static MemoryDataSource CreateFromPBFStream(Stream stream)
+        public static MemoryDataSource CreateFromPbfStream(Stream stream)
         {
             return MemoryDataSource.CreateFrom(new PbfOsmStreamSource(stream));
+        }
+
+        public static MemoryDataSource CreateFromXmlStream(Stream stream)
+        {
+            return MemoryDataSource.CreateFrom(new Mercraft.Maps.Osm.Formats.Xml.XmlOsmStreamSource(stream));
         }
 
         #endregion

@@ -57,9 +57,9 @@ namespace Mercraft.Maps.Osm.Formats.Xml
         public override void Initialize()
         {
             _next = null;
-            _serNode = new XmlSerializer(typeof(OsmSharp.Osm.Xml.v0_6.node));
-            _serWay = new XmlSerializer(typeof(OsmSharp.Osm.Xml.v0_6.way));
-            _serRelation = new XmlSerializer(typeof(OsmSharp.Osm.Xml.v0_6.relation));
+            _serNode = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.node));
+            _serWay = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.way));
+            _serRelation = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
 
             this.Reset();
         }
@@ -125,25 +125,25 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                     {
                          case "node":
                              osmObj = _serNode.Deserialize(reader);
-                             if (osmObj is OsmSharp.Osm.Xml.v0_6.node)
+                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.node)
                              {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as OsmSharp.Osm.Xml.v0_6.node);
+                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.node);
                                  return true;
                              }
                              break;
                          case "way":
                              osmObj = _serWay.Deserialize(reader);
-                             if (osmObj is OsmSharp.Osm.Xml.v0_6.way)
+                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.way)
                              {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as OsmSharp.Osm.Xml.v0_6.way);
+                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.way);
                                  return true;
                              }
                              break;
                          case "relation":
                              osmObj = _serRelation.Deserialize(reader);
-                             if (osmObj is OsmSharp.Osm.Xml.v0_6.relation)
+                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.relation)
                              {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as OsmSharp.Osm.Xml.v0_6.relation);
+                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.relation);
                                  return true;
                              }
                              break;

@@ -52,6 +52,7 @@
     <Compile Include="Data\ElementSourceInterfaces.cs" />
     <Compile Include="Data\MemoryDataSource.cs" />
     <Compile Include="Entities\Tag.cs" />
+    <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />

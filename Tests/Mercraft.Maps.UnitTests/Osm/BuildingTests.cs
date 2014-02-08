@@ -14,10 +14,11 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanProcessBuildings()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
+            using (Stream stream = new FileInfo(TestHelper.TestXmlFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromPBFStream(stream);
-                var box = TestHelper.CreateBox(200, 200, 51.26371, 4.7853, 19);
+                var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
+
+                var box = TestHelper.CreateBox(500, 500, 52.529814, 13.388015, 15);
 
                 var scene = new CountableScene();
 
@@ -25,7 +26,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.FillBoundingBox(dataSource, box);
 
-                Assert.AreEqual(6, scene.Buildings.Count);
+                Assert.AreEqual(30, scene.Buildings.Count);
             }
         }
     }

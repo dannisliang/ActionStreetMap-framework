@@ -1,21 +1,4 @@
-﻿// OsmSharp - OpenStreetMap (OSM) SDK
-// Copyright (C) 2013 Abelshausen Ben
-// 
-// This file is part of OsmSharp.
-// 
-// OsmSharp is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
-// 
-// OsmSharp is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
-
+﻿
 using System.Collections.Generic;
 using Mercraft.Maps.Osm.Entities;
 
@@ -27,7 +10,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
     internal static class XmlSimpleConverter
     {
 
-        internal static Node ConvertToSimple(OsmSharp.Osm.Xml.v0_6.node nd)
+        internal static Node ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.node nd)
         {
             Node node = new Node();
 
@@ -92,7 +75,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return node;
         }
 
-        internal static Way ConvertToSimple(OsmSharp.Osm.Xml.v0_6.way wa)
+        internal static Way ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.way wa)
         {
             Way way = new Way();
 
@@ -155,7 +138,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return way;
         }
 
-        internal static Relation ConvertToSimple(OsmSharp.Osm.Xml.v0_6.relation re)
+        internal static Relation ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.relation re)
         {
             Relation relation = new Relation();
 
@@ -211,7 +194,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 relation.Members = new List<RelationMember>();
                 for (int idx = 0; idx < re.member.Length; idx++)
                 {
-                    OsmSharp.Osm.Xml.v0_6.member mem = re.member[idx];
+                    Mercraft.Maps.Osm.Format.Xml.v0_6.member mem = re.member[idx];
                     RelationMember relation_member = new RelationMember();
                     // set memberid
                     if (mem.refSpecified)
@@ -227,13 +210,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                     {
                         switch (mem.type)
                         {
-                            case OsmSharp.Osm.Xml.v0_6.memberType.node:
+                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.node:
                                 relation_member.Member = new Node();
                                 break;
-                            case OsmSharp.Osm.Xml.v0_6.memberType.way:
+                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.way:
                                 relation_member.Member = new Way();
                                 break;
-                            case OsmSharp.Osm.Xml.v0_6.memberType.relation:
+                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.relation:
                                 relation_member.Member = new Way();
                                 break;
                         }
@@ -246,13 +229,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return relation;
         }
 
-        private static ICollection<Tag> ConvertToTags(OsmSharp.Osm.Xml.v0_6.tag[] tag)
+        private static ICollection<Tag> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
         {
             List<Tag> tags = null;
             if (tag != null && tag.Length > 0)
             {
                 tags = new List<Tag>();
-                foreach (OsmSharp.Osm.Xml.v0_6.tag t in tag)
+                foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag t in tag)
                 {
                     tags.Add( new Tag(t.k, t.v));
                 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Mercraft.Maps.Core;
 using Mercraft.Maps.Osm.Entities;
-using OsmSharp.Osm.Xml.v0_6;
+using Mercraft.Maps.Osm.Format.Xml.v0_6;
 
 namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
 {
@@ -96,7 +96,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             // set the tags.
             if (xml_obj.tag != null)
             {
-                foreach (OsmSharp.Osm.Xml.v0_6.tag tag in xml_obj.tag)
+                foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
                     new_obj.Tags.Add(new Tag(tag.k, tag.v));
                 }
@@ -155,7 +155,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             // set the tags.
             if (xml_obj.tag != null)
             {
-                foreach (OsmSharp.Osm.Xml.v0_6.tag tag in xml_obj.tag)
+                foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
                     new_obj.Tags.Add(new Tag(tag.k, tag.v));
                 }
@@ -207,7 +207,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             // set the tags.
             if (xml_obj.tag != null)
             {
-                foreach (OsmSharp.Osm.Xml.v0_6.tag tag in xml_obj.tag)
+                foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
                     new_obj.Tags.Add(new Tag(tag.k, tag.v));
                 }
