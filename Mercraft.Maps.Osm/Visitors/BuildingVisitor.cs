@@ -4,6 +4,7 @@ using System.Linq;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions;
 using Mercraft.Models;
+using Mercraft.Models.Scenas;
 
 namespace Mercraft.Maps.Osm.Visitors
 {

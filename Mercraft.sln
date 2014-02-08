@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssets", "TestAssets", 
 		Tests\TestAssets\kempen.osm.pbf = Tests\TestAssets\kempen.osm.pbf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Math", "Mercraft.Math\Mercraft.Math.csproj", "{27C40E91-30D0-4290-B489-8CD1B306A125}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Models", "Mercraft.Models\Mercraft.Models.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
 EndProject
 Global
@@ -48,10 +46,6 @@ Global
 		{7CB16489-62EE-4E10-8FF3-D4E1DA70CC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CB16489-62EE-4E10-8FF3-D4E1DA70CC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CB16489-62EE-4E10-8FF3-D4E1DA70CC14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27C40E91-30D0-4290-B489-8CD1B306A125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27C40E91-30D0-4290-B489-8CD1B306A125}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27C40E91-30D0-4290-B489-8CD1B306A125}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27C40E91-30D0-4290-B489-8CD1B306A125}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78C3B696-0486-41F9-BA24-5E85F417D98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78C3B696-0486-41F9-BA24-5E85F417D98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78C3B696-0486-41F9-BA24-5E85F417D98F}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -67,10 +67,6 @@
       <Project>{f07af685-2554-4032-a35f-bb6d5632f1c2}</Project>
       <Name>Mercraft.Maps.Osm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mercraft.Math\Mercraft.Math.csproj">
-      <Project>{27c40e91-30d0-4290-b489-8cd1b306a125}</Project>
-      <Name>Mercraft.Math</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Mercraft.Models\Mercraft.Models.csproj">
       <Project>{78C3B696-0486-41F9-BA24-5E85F417D98F}</Project>
       <Name>Mercraft.Models</Name>

@@ -1,4 +1,5 @@
-﻿using Mercraft.Math.Units.Angle;
+﻿
+using Mercraft.Models.Units.Angle;
 
 namespace Mercraft.Maps.Core.Projections
 {

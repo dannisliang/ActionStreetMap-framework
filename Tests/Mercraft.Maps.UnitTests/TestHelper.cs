@@ -1,6 +1,6 @@
 ﻿using Mercraft.Maps.Core;
 using Mercraft.Maps.Core.Projections;
-using Mercraft.Math.Primitives;
+using Mercraft.Models.Primitives;
 
 namespace Mercraft.Maps.UnitTests
 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Models;
+using Mercraft.Models.Scenas;
 
 namespace Mercraft.Maps.UnitTests.Stubs
 {

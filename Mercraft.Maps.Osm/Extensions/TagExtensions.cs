@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Math.Units.Distance;
-using Mercraft.Math.Units.Speed;
-using Mercraft.Math.Units.Weight;
+using Mercraft.Models.Units.Distance;
+using Mercraft.Models.Units.Speed;
+using Mercraft.Models.Units.Weight;
 
 namespace Mercraft.Maps.Osm.Extensions
 {

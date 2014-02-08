@@ -1,7 +1,6 @@
 ﻿
-using System.Collections;
 using System.Collections.Generic;
-using Mercraft.Math.Primitives;
+using Mercraft.Models.Primitives;
 
 namespace Mercraft.Maps.Core.Geometries
 {

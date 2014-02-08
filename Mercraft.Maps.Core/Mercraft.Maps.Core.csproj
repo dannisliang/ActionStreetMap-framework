@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Math\Mercraft.Math.csproj">
-      <Project>{27c40e91-30d0-4290-b489-8cd1b306a125}</Project>
-      <Name>Mercraft.Math</Name>
+    <ProjectReference Include="..\Mercraft.Models\Mercraft.Models.csproj">
+      <Project>{78C3B696-0486-41F9-BA24-5E85F417D98F}</Project>
+      <Name>Mercraft.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

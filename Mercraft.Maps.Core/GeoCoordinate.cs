@@ -1,6 +1,6 @@
-﻿using Mercraft.Math.Primitives;
-using Mercraft.Math.Units.Angle;
-using Mercraft.Math.Units.Distance;
+﻿using Mercraft.Models.Primitives;
+using Mercraft.Models.Units.Angle;
+using Mercraft.Models.Units.Distance;
 
 namespace Mercraft.Maps.Core
 {

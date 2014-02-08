@@ -18,7 +18,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
 
-                var box = TestHelper.CreateBox(500, 500, 52.529814, 13.388015, 15);
+                var box = TestHelper.CreateBox(500, 500, 52.529814, 13.388015, 16);
 
                 var scene = new CountableScene();
 
