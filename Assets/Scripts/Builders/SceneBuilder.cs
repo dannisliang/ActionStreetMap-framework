@@ -16,7 +16,7 @@ namespace Mercraft.Scene.Builders
     {
         void Start()
         {
-             Build();
+            Build();
         }
 
         #region Test4
@@ -28,7 +28,7 @@ namespace Mercraft.Scene.Builders
             //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
             //var center = new MapPoint(51.26371, 4.7854);
 
-            var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\berlin_house.osm.xml";
+            var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Projects\Tests\TestAssets\berlin_house.osm.xml";
             var center = new MapPoint(52.529814, 13.388015);
             
             using (Stream stream = new FileInfo(file).OpenRead())
