@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0E7FD182-1940-99E2-AF56-8BDD2C445843}</ProjectGuid>
+    <ProjectGuid>{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace></RootNamespace>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
@@ -60,23 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="UnityVS.mercraft.UnityScript.Plugins.unityproj">
-      <Project>{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}</Project>
-      <Name>UnityVS.mercraft.UnityScript.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityVS.mercraft.CSharp.Plugins.csproj">
-      <Project>{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}</Project>
-      <Name>UnityVS.mercraft.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\Scripts\Autorun.cs" />
-    <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
-    <Compile Include="Assets\Scripts\Builders\SceneBuilder.cs" />
-    <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
-    <None Include="Assets\Dependencies\Mercraft.Models.dll" />
-    <None Include="Assets\Dependencies\protobuf-net.dll" />
-    <None Include="Assets\Dependencies\Zlib.Portable.dll" />
+    <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

@@ -75,6 +75,7 @@ namespace Mercraft.Scene.Builders
             var faceTriangleCount = verticiesLength*6;
             Array.Resize(ref indecies, oldIndeciesLength + faceTriangleCount);
 
+
             int j = 0;
             for (var i = 0; i < verticiesLength - 1; i++)
             {
