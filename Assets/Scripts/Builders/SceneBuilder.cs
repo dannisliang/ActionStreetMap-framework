@@ -16,7 +16,7 @@ namespace Mercraft.Scene.Builders
     {
         void Start()
         {
-             //Build();
+             Build();
         }
 
         #region Test4
