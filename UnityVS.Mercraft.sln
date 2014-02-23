@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.Mercraft.CSharp", "UnityVS.Mercraft.CSharp.csproj", "{0E7FD182-1940-99E2-AF56-8BDD2C445843}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.Mercraft.CSharp", "UnityVS.Mercraft.CSharp.csproj", "{1BA7EC0F-BE6C-2548-E5F4-E84D9C886DE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Osm", "Projects\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
@@ -15,6 +17,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BA7EC0F-BE6C-2548-E5F4-E84D9C886DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BA7EC0F-BE6C-2548-E5F4-E84D9C886DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA7EC0F-BE6C-2548-E5F4-E84D9C886DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
