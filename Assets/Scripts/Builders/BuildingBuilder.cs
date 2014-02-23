@@ -55,16 +55,32 @@ namespace Mercraft.Scene.Builders
 
         private int[] GetTriangles(Vector2[] verticies2D)
         {
+            var verticiesLength = verticies2D.Length;
             var indecies = PolygonTriangulation.GetTriangles(verticies2D);
             var length = indecies.Length;
 
-            Array.Resize(ref indecies, length * 2);
-
-            var i = 0;
-
-            for (i = 0; i < length; i++)
+            // add top
+            Array.Resize(ref indecies, length*2);
+            for (var i = 0; i < length; i++)
             {
-                indecies[i + length] = indecies[i] + verticies2D.Length;
+                indecies[i + length] = indecies[i] + verticiesLength;
+            }
+
+            // process square faces
+            var oldIndeciesLength = indecies.Length;
+            var faceTriangleCount = verticiesLength*6;
+            Array.Resize(ref indecies, oldIndeciesLength + faceTriangleCount);
+
+            int j = 0;
+            for (var i = 0; i < verticiesLength - 1; i++)
+            {
+                indecies[i + oldIndeciesLength + j] = i;
+                indecies[i + oldIndeciesLength + ++j] = i + 1;
+                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
+
+                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
+                indecies[i + oldIndeciesLength + ++j] = i + 1;
+                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength + 1;
             }
 
             return indecies;
@@ -73,7 +89,6 @@ namespace Mercraft.Scene.Builders
         private Vector2[] GetUV(Vector2[] verticies2D)
         {
             var length = verticies2D.Length;
-
             var uvs = new Vector2[length * 2];
 
             for (int i = 0; i < length; i++)
@@ -111,6 +126,8 @@ namespace Mercraft.Scene.Builders
             renderer.material.color = Color.green;
 
             mf.mesh = mesh;
+
+            OurNewMesh.AddComponent<MeshCollider>();
 
             Debug.Log("mesh created!");
         }
