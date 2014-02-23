@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace Mercraft.Scene.Builders
 {
+    /// <summary>
+    /// Builds game object which represents building
+    /// </summary>
     public class BuildingBuilder
     {
         private readonly MapPoint _center;
@@ -33,7 +36,8 @@ namespace Mercraft.Scene.Builders
         {
             var length = geoCoordinates.Count;
 
-            if (geoCoordinates[0] == geoCoordinates[length - 1]) length--;
+            if (geoCoordinates[0] == geoCoordinates[length - 1]) 
+                length--;
 
             return geoCoordinates
                 .Select(g => GeoProjection.ToMapCoordinates(_center, g))
@@ -104,19 +108,18 @@ namespace Mercraft.Scene.Builders
         {
             Debug.Log("try to create mesh..");
 
-            
-            var OurNewMesh = new GameObject(name);
+            var gameObject = new GameObject(name);
             Mesh mesh = new Mesh();
-            mesh.name = "MyScripted";
+            mesh.name = "BuildingScript";
             
             mesh.vertices = GetVerticies3D(verticies2D);
             mesh.uv = GetUV(verticies2D);
             mesh.triangles = GetTriangles(verticies2D);
 
             mesh.RecalculateNormals();
-            var mf = OurNewMesh.AddComponent<MeshFilter>();
+            var mf = gameObject.AddComponent<MeshFilter>();
 
-            var renderer = OurNewMesh.AddComponent<MeshRenderer>();
+            var renderer = gameObject.AddComponent<MeshRenderer>();
             renderer.material.shader = Shader.Find("Particles/Additive");
             
             var tex = new Texture2D(1, 1);
@@ -127,7 +130,7 @@ namespace Mercraft.Scene.Builders
 
             mf.mesh = mesh;
 
-            OurNewMesh.AddComponent<MeshCollider>();
+            gameObject.AddComponent<MeshCollider>();
 
             Debug.Log("mesh created!");
         }
