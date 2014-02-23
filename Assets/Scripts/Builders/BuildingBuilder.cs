@@ -57,6 +57,9 @@ namespace Mercraft.Scene.Builders
             return verticies3D;
         }
 
+
+        // TODO optimization: we needn't triangles for floor!
+
         private int[] GetTriangles(Vector2[] verticies2D)
         {
             var verticiesLength = verticies2D.Length;
@@ -72,20 +75,20 @@ namespace Mercraft.Scene.Builders
 
             // process square faces
             var oldIndeciesLength = indecies.Length;
-            var faceTriangleCount = verticiesLength*6;
+            var faceTriangleCount = verticiesLength * 6;
             Array.Resize(ref indecies, oldIndeciesLength + faceTriangleCount);
 
-
             int j = 0;
-            for (var i = 0; i < verticiesLength - 1; i++)
+            for (var i = 0; i < verticiesLength; i++)
             {
+                var nextPoint = i < (verticiesLength - 1) ? i + 1 : 0;
                 indecies[i + oldIndeciesLength + j] = i;
-                indecies[i + oldIndeciesLength + ++j] = i + 1;
+                indecies[i + oldIndeciesLength + ++j] = nextPoint;
                 indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
 
                 indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
-                indecies[i + oldIndeciesLength + ++j] = i + 1;
-                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength + 1;
+                indecies[i + oldIndeciesLength + ++j] = nextPoint;
+                indecies[i + oldIndeciesLength + ++j] = nextPoint + verticiesLength;
             }
 
             return indecies;
