@@ -19,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(52.529814, 13.388015), 0.2);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 0.2);
 
                 var scene = new CountableScene();
 
@@ -41,7 +41,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(51.26371, 4.7854), 1);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1);
 
                 var scene = new CountableScene();
 

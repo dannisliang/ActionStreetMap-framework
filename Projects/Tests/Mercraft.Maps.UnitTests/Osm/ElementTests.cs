@@ -10,7 +10,7 @@ namespace Mercraft.Maps.UnitTests.Osm
     [TestFixture]
     class ElementTests
     {
-        private MapPoint defaultMapPoint = new MapPoint(51.26371, 4.7854);
+        private GeoCoordinate defaultMapPoint = new GeoCoordinate(51.26371, 4.7854);
         [Test]
         public void CanGetElements()
         {
@@ -51,7 +51,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(51.26371, 4.7853), 0.01);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 0.01);
 
                 var visitor = new CountableElementVisitor();
 
@@ -70,7 +70,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new MapPoint(51.26371, 4.7853), 0.005);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 0.005);
 
                 var visitor = new CountableElementVisitor();
 

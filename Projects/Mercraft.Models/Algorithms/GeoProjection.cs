@@ -9,7 +9,7 @@ namespace Mercraft.Models.Algorithms
         /// <summary>
         /// http://stackoverflow.com/questions/3024404/transform-longitude-latitude-into-meters?rq=1
         /// </summary>
-        public static Vector2 ToMapCoordinates(MapPoint relativeNullPoint, MapPoint p)
+        public static Vector2 ToMapCoordinates(GeoCoordinate relativeNullPoint, GeoCoordinate p)
         {
             // The circumference at the equator (latitude 0)
             const int latitudeEquator = 40075160;

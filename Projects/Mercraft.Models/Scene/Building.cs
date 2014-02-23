@@ -14,6 +14,6 @@ namespace Mercraft.Models.Scene
         /// </summary>
         public ICollection<KeyValuePair<string, string>> Tags { get; set; }
 
-        public ICollection<MapPoint> Points { get; set; }
+        public ICollection<GeoCoordinate> Points { get; set; }
     }
 }

@@ -138,12 +138,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (_box == null)
             {
-                _box = new BoundingBox(new MapPoint(node.Latitude.Value, node.Longitude.Value),
-                    new MapPoint(node.Latitude.Value, node.Longitude.Value));
+                _box = new BoundingBox(new GeoCoordinate(node.Latitude.Value, node.Longitude.Value),
+                    new GeoCoordinate(node.Latitude.Value, node.Longitude.Value));
             }
             else
             {
-                _box = _box + new MapPoint(node.Latitude.Value, node.Longitude.Value);
+                _box = _box + new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
             }
         }
 

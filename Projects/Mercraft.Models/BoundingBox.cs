@@ -10,14 +10,14 @@ namespace Mercraft.Models
     /// </summary>
     public class BoundingBox
     {
-        public MapPoint MinPoint { get; set; }
-        public MapPoint MaxPoint { get; set; }
+        public GeoCoordinate MinPoint { get; set; }
+        public GeoCoordinate MaxPoint { get; set; }
         
         // Semi-axes of WGS-84 geoidal reference
         private const double WGS84_a = 6378137.0; // Major semiaxis [m]
         private const double WGS84_b = 6356752.3; // Minor semiaxis [m]
 
-        public BoundingBox(MapPoint minPoint, MapPoint maxPoint)
+        public BoundingBox(GeoCoordinate minPoint, GeoCoordinate maxPoint)
         {
             MinPoint = minPoint;
             MaxPoint = maxPoint;
@@ -29,7 +29,7 @@ namespace Mercraft.Models
                  (MaxPoint.Longitude > longitude && longitude >= MinPoint.Longitude);
         }
 
-        public bool Contains(MapPoint point)
+        public bool Contains(GeoCoordinate point)
         {
             return Contains(point.Latitude, point.Longitude);
         }
@@ -39,13 +39,13 @@ namespace Mercraft.Models
         /// <summary>
         /// Adds point to bounding boxes together yielding as result the smallest box that surrounds both.
         /// </summary>
-        public static BoundingBox operator +(BoundingBox a, MapPoint b)
+        public static BoundingBox operator +(BoundingBox a, GeoCoordinate b)
         {
-            MapPoint minPoint = new MapPoint(
+            GeoCoordinate minPoint = new GeoCoordinate(
                 a.MinPoint.Latitude < b.Latitude ? a.MinPoint.Latitude : b.Latitude,
                 a.MinPoint.Longitude < b.Longitude ? a.MinPoint.Longitude : b.Longitude);
 
-            MapPoint maxPoint = new MapPoint(
+            GeoCoordinate maxPoint = new GeoCoordinate(
                 a.MaxPoint.Latitude > b.Latitude ? a.MaxPoint.Latitude : b.Latitude,
                 a.MaxPoint.Longitude > b.Longitude ? a.MaxPoint.Longitude : b.Longitude);
 
@@ -62,7 +62,7 @@ namespace Mercraft.Models
         /// <param name="point">Center</param>
         /// <param name="halfSideInKm">Half length of the bounding box</param>
         /// <returns></returns>
-        public static BoundingBox CreateBoundingBox(MapPoint point, double halfSideInKm)
+        public static BoundingBox CreateBoundingBox(GeoCoordinate point, double halfSideInKm)
         {
             // Bounding box surrounding the point at given coordinates,
             // assuming local approximation of Earth surface as a sphere
@@ -82,8 +82,8 @@ namespace Mercraft.Models
             var lonMax = lon + halfSide/pradius;
 
             return new BoundingBox(
-                new MapPoint(MathUtility.Rad2Deg(latMin), MathUtility.Rad2Deg(lonMin)),
-                new MapPoint(MathUtility.Rad2Deg(latMax), MathUtility.Rad2Deg(lonMax)));
+                new GeoCoordinate(MathUtility.Rad2Deg(latMin), MathUtility.Rad2Deg(lonMin)),
+                new GeoCoordinate(MathUtility.Rad2Deg(latMax), MathUtility.Rad2Deg(lonMax)));
         }
 
 

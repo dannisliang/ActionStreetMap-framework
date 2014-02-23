@@ -1,6 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Models;
 using Mercraft.Models.Algorithms;
@@ -12,113 +10,38 @@ namespace Mercraft.Scene.Builders
     /// <summary>
     /// Builds game object which represents building
     /// </summary>
-    public class BuildingBuilder
+    public class BuildingBuilder : ISceneObjectBuilder<Building>
     {
-        private readonly MapPoint _center;
-
+        private GeoCoordinate _center;
         private float _buildingFloor;
         private float _buildingTop;
 
-        public BuildingBuilder(MapPoint center)
+        public BuildingBuilder(GeoCoordinate center)
         {
             _center = center;
             _buildingFloor = 0;
             _buildingTop = 40;
         }
 
-        public void Build(string name, Building building)
+        public GameObject Build(string name, Building building)
         {
-            var vertices = GetMapCoordinates(building.Points.ToList());
-            BuildGameObject(name, vertices);
+            var vertices = PolygonHelper.GetVerticies2D(_center, building.Points.ToList());
+            return BuildGameObject(name, vertices);
         }
 
-        private Vector2[] GetMapCoordinates(IList<MapPoint> geoCoordinates)
+        private GameObject BuildGameObject(string name, Vector2[] verticies2D)
         {
-            var length = geoCoordinates.Count;
+            // NOTE test code: for testing purpose only!
 
-            if (geoCoordinates[0] == geoCoordinates[length - 1]) 
-                length--;
-
-            return geoCoordinates
-                .Select(g => GeoProjection.ToMapCoordinates(_center, g))
-                .Take(length).ToArray();
-        }
-
-        private Vector3[] GetVerticies3D(Vector2[] verticies2D)
-        {
-            var length = verticies2D.Length;
-            var verticies3D = new Vector3[length * 2];
-            for (int i = 0; i < length; i++)
-            {
-                verticies3D[i] = new Vector3(verticies2D[i].x, _buildingFloor, verticies2D[i].y);
-                verticies3D[i + length] = new Vector3(verticies2D[i].x, _buildingTop, verticies2D[i].y);
-            }
-
-            return verticies3D;
-        }
-
-
-        // TODO optimization: we needn't triangles for floor!
-
-        private int[] GetTriangles(Vector2[] verticies2D)
-        {
-            var verticiesLength = verticies2D.Length;
-            var indecies = PolygonTriangulation.GetTriangles(verticies2D);
-            var length = indecies.Length;
-
-            // add top
-            Array.Resize(ref indecies, length*2);
-            for (var i = 0; i < length; i++)
-            {
-                indecies[i + length] = indecies[i] + verticiesLength;
-            }
-
-            // process square faces
-            var oldIndeciesLength = indecies.Length;
-            var faceTriangleCount = verticiesLength * 6;
-            Array.Resize(ref indecies, oldIndeciesLength + faceTriangleCount);
-
-            int j = 0;
-            for (var i = 0; i < verticiesLength; i++)
-            {
-                var nextPoint = i < (verticiesLength - 1) ? i + 1 : 0;
-                indecies[i + oldIndeciesLength + j] = i;
-                indecies[i + oldIndeciesLength + ++j] = nextPoint;
-                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
-
-                indecies[i + oldIndeciesLength + ++j] = i + verticiesLength;
-                indecies[i + oldIndeciesLength + ++j] = nextPoint;
-                indecies[i + oldIndeciesLength + ++j] = nextPoint + verticiesLength;
-            }
-
-            return indecies;
-        }
-
-        private Vector2[] GetUV(Vector2[] verticies2D)
-        {
-            var length = verticies2D.Length;
-            var uvs = new Vector2[length * 2];
-
-            for (int i = 0; i < length; i++)
-            {
-                uvs[i] = new Vector2(verticies2D[i].x, verticies2D[i].y);
-                uvs[i + length] = new Vector2(verticies2D[i].x, verticies2D[i].y);
-            }
-
-            return uvs;
-        }
-
-        private void BuildGameObject(string name, Vector2[] verticies2D)
-        {
             Debug.Log("try to create mesh..");
 
             var gameObject = new GameObject(name);
             Mesh mesh = new Mesh();
             mesh.name = "BuildingScript";
-            
-            mesh.vertices = GetVerticies3D(verticies2D);
-            mesh.uv = GetUV(verticies2D);
-            mesh.triangles = GetTriangles(verticies2D);
+
+            mesh.vertices = PolygonHelper.GetVerticies3D(verticies2D, _buildingTop, _buildingFloor);
+            mesh.uv = PolygonHelper.GetUV(verticies2D);
+            mesh.triangles = PolygonHelper.GetTriangles(verticies2D);
 
             mesh.RecalculateNormals();
             var mf = gameObject.AddComponent<MeshFilter>();
@@ -137,6 +60,7 @@ namespace Mercraft.Scene.Builders
             gameObject.AddComponent<MeshCollider>();
 
             Debug.Log("mesh created!");
+            return gameObject;
         }
     }
 }

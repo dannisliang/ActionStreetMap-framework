@@ -1,6 +1,6 @@
 ﻿namespace Mercraft.Models
 {
-    public class MapPoint
+    public class GeoCoordinate
     {
         /// <summary>
         /// Latitude in degrees
@@ -12,7 +12,7 @@
         /// </summary>
         public double Longitude { get; set; } 
 
-        public MapPoint(double latitude, double longitude)
+        public GeoCoordinate(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;

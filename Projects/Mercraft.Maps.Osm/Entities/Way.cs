@@ -27,9 +27,9 @@ namespace Mercraft.Maps.Osm.Entities
         /// Returns all the ponts in this way in the same order as the nodes.
         /// </summary>
         /// <returns></returns>
-        public List<MapPoint> GetPoints()
+        public List<GeoCoordinate> GetPoints()
         {
-            var coordinates = new List<MapPoint>();
+            var coordinates = new List<GeoCoordinate>();
 
             for (int idx = 0; idx < this.Nodes.Count; idx++)
             {

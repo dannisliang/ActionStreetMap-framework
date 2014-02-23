@@ -26,19 +26,19 @@ namespace Mercraft.Scene.Builders
         {
             var b1 = new Building()
             {
-                Points = new List<MapPoint>()
+                Points = new List<GeoCoordinate>()
                 {
-                    new MapPoint(52.5302492,13.3868234),
-                    new MapPoint(52.5304374,13.3866118),
-                    new MapPoint(52.5304738,13.3866946),
-                    new MapPoint(52.530385,13.3868148),
-                    new MapPoint(52.5304272,13.3869328),
-                    new MapPoint(52.5303328,13.3870465),
-                    new MapPoint(52.5303093,13.3869838),
+                    new GeoCoordinate(52.5302492,13.3868234),
+                    new GeoCoordinate(52.5304374,13.3866118),
+                    new GeoCoordinate(52.5304738,13.3866946),
+                    new GeoCoordinate(52.530385,13.3868148),
+                    new GeoCoordinate(52.5304272,13.3869328),
+                    new GeoCoordinate(52.5303328,13.3870465),
+                    new GeoCoordinate(52.5303093,13.3869838),
                 }
             };
 
-            var center = new MapPoint(52.529814, 13.388015);
+            var center = new GeoCoordinate(52.529814, 13.388015);
             var builder = new BuildingBuilder(center);
 
             builder.Build("building1", b1);
@@ -49,10 +49,10 @@ namespace Mercraft.Scene.Builders
             Debug.Log("Start to create building..");
 
             //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
-            //var center = new MapPoint(51.26371, 4.7854);
+            //var center = new GeoCoordinate(51.26371, 4.7854);
 
             var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
-            var center = new MapPoint(52.529814, 13.388015);
+            var center = new GeoCoordinate(52.529814, 13.388015);
             
             using (Stream stream = new FileInfo(file).OpenRead())
             {

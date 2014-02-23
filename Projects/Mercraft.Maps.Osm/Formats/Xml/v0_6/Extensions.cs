@@ -27,8 +27,8 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             if (bounds != null)
             {
                 return new BoundingBox(
-                    new MapPoint((double)bounds.maxlat, (double)bounds.maxlon),
-                    new MapPoint((double)bounds.minlat, (double)bounds.minlon));
+                    new GeoCoordinate((double)bounds.maxlat, (double)bounds.maxlon),
+                    new GeoCoordinate((double)bounds.minlat, (double)bounds.minlon));
             }
             return null;
         }
@@ -44,9 +44,9 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             {
                 string[] bounds = bound.box.Split(',');
                 return new BoundingBox(
-                    new MapPoint(double.Parse(bounds[0], CultureInfo.InvariantCulture),
+                    new GeoCoordinate(double.Parse(bounds[0], CultureInfo.InvariantCulture),
                         double.Parse(bounds[1], CultureInfo.InvariantCulture)),
-                    new MapPoint(double.Parse(bounds[2], CultureInfo.InvariantCulture),
+                    new GeoCoordinate(double.Parse(bounds[2], CultureInfo.InvariantCulture),
                         double.Parse(bounds[3], CultureInfo.InvariantCulture)));
             }
             return null;

@@ -84,7 +84,7 @@ namespace Mercraft.Maps.Osm
 
         private Node PopulateNode(Node node)
         {
-            node.Coordinate = new MapPoint(node.Latitude.Value, node.Longitude.Value);
+            node.Coordinate = new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
             return node;
         }
 

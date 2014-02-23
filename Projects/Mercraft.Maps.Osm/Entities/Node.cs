@@ -22,7 +22,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The coordinates of this node.
         /// </summary>
-        public MapPoint Coordinate { get; set; }
+        public GeoCoordinate Coordinate { get; set; }
 
 
         public override void Accept(IElementVisitor elementVisitor)
