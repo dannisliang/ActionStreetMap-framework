@@ -386,7 +386,7 @@ namespace Mercraft.Maps.Osm.Data
             }
 
             // load all ways that contain the nodes that have been found.
-            res.AddRange(GetWaysFor(ids));
+            res.AddRange(GetWaysFor(ids).Cast<Element>());
 
             // get relations containing any of the nodes or ways in the current results-list.
             var relations = new List<Relation>();
@@ -407,7 +407,7 @@ namespace Mercraft.Maps.Osm.Data
             // recursively add all relations containing other relations as a member.
             do
             {
-                res.AddRange(relations); // the .Cast<> is here for Windows Phone.
+                res.AddRange(relations.Cast<Element>()); // the .Cast<> is here for Windows Phone.
                 var newRelations = new List<Relation>();
                 foreach (Relation element in relations)
                 {

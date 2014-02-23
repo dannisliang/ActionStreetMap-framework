@@ -31,7 +31,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <returns></returns>
         public static bool IsTrue(this ICollection<Tag> tags, string tagKey)
         {
-            if (tags == null || string.IsNullOrWhiteSpace(tagKey))
+            if (tags == null || IsNullOrWhiteSpace(tagKey))
                 return false;
 
             // TryGetValue tests if the 'tagKey' is present, returns true if the associated value can be interpreted as true.
@@ -49,7 +49,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <returns></returns>
         public static bool IsFalse(this ICollection<Tag> tags, string tagKey)
         {
-            if (tags == null || string.IsNullOrWhiteSpace(tagKey))
+            if (tags == null || IsNullOrWhiteSpace(tagKey))
                 return false;
             string tagValue;
             return tags.TryGetValue(tagKey, out tagValue) &&
@@ -91,7 +91,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxspeed", out tagValue) || string.IsNullOrWhiteSpace(tagValue) ||
+            if (tags == null || !tags.TryGetValue("maxspeed", out tagValue) || IsNullOrWhiteSpace(tagValue) ||
                 tagValue == "none" || tagValue == "signals" || tagValue == "signs" || tagValue == "no")
                 return false;
             return TagExtensions.TryParseSpeed(tagValue, out result);
@@ -109,7 +109,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxweight", out tagValue) || string.IsNullOrWhiteSpace(tagValue))
+            if (tags == null || !tags.TryGetValue("maxweight", out tagValue) || IsNullOrWhiteSpace(tagValue))
                 return false;
             return TagExtensions.TryParseWeight(tagValue, out result);
         }
@@ -126,7 +126,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxaxleload", out tagValue) || string.IsNullOrWhiteSpace(tagValue))
+            if (tags == null || !tags.TryGetValue("maxaxleload", out tagValue) || IsNullOrWhiteSpace(tagValue))
                 return false;
             return TagExtensions.TryParseWeight(tagValue, out result);
         }
@@ -144,7 +144,7 @@ namespace Mercraft.Maps.Osm.Extensions
             result = double.MaxValue;
 
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxheight", out tagValue) || string.IsNullOrWhiteSpace(tagValue))
+            if (tags == null || !tags.TryGetValue("maxheight", out tagValue) || IsNullOrWhiteSpace(tagValue))
                 return false;
 
             return TagExtensions.TryParseLength(tagValue, out result);
@@ -162,7 +162,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxwidth", out tagValue) || string.IsNullOrWhiteSpace(tagValue))
+            if (tags == null || !tags.TryGetValue("maxwidth", out tagValue) || IsNullOrWhiteSpace(tagValue))
                 return false;
             return TagExtensions.TryParseLength(tagValue, out result);
         }
@@ -180,7 +180,7 @@ namespace Mercraft.Maps.Osm.Extensions
             result = double.MaxValue;
 
             string tagValue;
-            if (tags == null || !tags.TryGetValue("maxlength", out tagValue) || string.IsNullOrWhiteSpace(tagValue))
+            if (tags == null || !tags.TryGetValue("maxlength", out tagValue) || IsNullOrWhiteSpace(tagValue))
                 return false;
 
             return TagExtensions.TryParseLength(tagValue, out result);
@@ -200,7 +200,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
 
-            if (string.IsNullOrWhiteSpace(s))
+            if (IsNullOrWhiteSpace(s))
                 return false;
 
             if (s[0] != '0' && s[0] != '1' && s[0] != '2' && s[0] != '3' && s[0] != '4' &&
@@ -256,7 +256,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
 
-            if (string.IsNullOrWhiteSpace(s))
+            if (IsNullOrWhiteSpace(s))
                 return false;
 
             Regex tonnesRegex = new Regex("^" + REGEX_DECIMAL + REGEX_UNIT_TONNES + "$", RegexOptions.IgnoreCase);
@@ -280,7 +280,7 @@ namespace Mercraft.Maps.Osm.Extensions
         {
             result = double.MaxValue;
 
-            if (string.IsNullOrWhiteSpace(s))
+            if (IsNullOrWhiteSpace(s))
                 return false;
 
             Regex metresRegex = new Regex("^" + REGEX_DECIMAL + REGEX_UNIT_METERS + "$", RegexOptions.IgnoreCase);
@@ -331,10 +331,15 @@ namespace Mercraft.Maps.Osm.Extensions
         /// </summary>
         public static bool ContainsKey(this ICollection<Tag> tags, string key)
         {
-            return tags.Any(tag => tag.Key == key);
+            return tags != null && tags.Any(tag => tag.Key == key);
         }
 
         #endregion
+
+        public static bool IsNullOrWhiteSpace(string str)
+        {
+            return str == null || str.Trim() == "";
+        }
 
     }
 }
