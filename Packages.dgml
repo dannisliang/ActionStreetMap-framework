@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Tests\Mercraft.Maps.UnitTests" Label="Mercraft.Maps.UnitTests" Category="Project" />
+    <Node Id="Moq 4.2.1312.1622" Label="Moq 4.2.1312.1622" Category="Package" />
+    <Node Id="NUnit 2.6.3" Label="NUnit 2.6.3" Category="Package" />
+    <Node Id="Core\Mercraft.Maps.Osm" Label="Mercraft.Maps.Osm" Category="Project" />
+    <Node Id="protobuf-net 2.0.0.668" Label="protobuf-net 2.0.0.668" Category="Package" />
+    <Node Id="Zlib.Portable 1.9.2" Label="Zlib.Portable 1.9.2" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="Tests\Mercraft.Maps.UnitTests" Target="Moq 4.2.1312.1622" Category="Installed Package" />
+    <Link Source="Tests\Mercraft.Maps.UnitTests" Target="NUnit 2.6.3" Category="Installed Package" />
+    <Link Source="Core\Mercraft.Maps.Osm" Target="protobuf-net 2.0.0.668" Category="Installed Package" />
+    <Link Source="Core\Mercraft.Maps.Osm" Target="Zlib.Portable 1.9.2" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+  </Styles>
+</DirectedGraph>
