@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.IO;
 
 using Mercraft.Maps.Osm;
@@ -16,10 +17,32 @@ namespace Mercraft.Scene.Builders
     {
         void Start()
         {
-            Build();
+            BuildSingle();
         }
 
-        #region Test4
+        #region Build functions
+
+        public void BuildSingle()
+        {
+            var b1 = new Building()
+            {
+                Points = new List<MapPoint>()
+                {
+                    new MapPoint(52.5302492,13.3868234),
+                    new MapPoint(52.5304374,13.3866118),
+                    new MapPoint(52.5304738,13.3866946),
+                    new MapPoint(52.530385,13.3868148),
+                    new MapPoint(52.5304272,13.3869328),
+                    new MapPoint(52.5303328,13.3870465),
+                    new MapPoint(52.5303093,13.3869838),
+                }
+            };
+
+            var center = new MapPoint(52.529814, 13.388015);
+            var builder = new BuildingBuilder(center);
+
+            builder.Build("building1", b1);
+        }
 
         public void Build()
         {

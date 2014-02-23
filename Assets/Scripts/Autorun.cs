@@ -17,7 +17,7 @@ namespace Mercraft.Scene
         private static void RunOnce()
         {
             Debug.Log("RunOnce!");
-            (new SceneBuilder()).Build();
+            (new SceneBuilder()).BuildSingle();
             EditorApplication.update -= RunOnce;
         }
     }
