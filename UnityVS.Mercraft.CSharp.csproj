@@ -75,7 +75,7 @@
     <Compile Include="Assets\Scripts\Autorun.cs" />
     <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
     <Compile Include="Assets\Scripts\Builders\ISceneObjectBuilder.cs" />
-    <Compile Include="Assets\Scripts\Builders\SceneBuilder.cs" />
+    <Compile Include="Assets\Scripts\DemoSceneLoader.cs" />
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
     <None Include="Assets\Dependencies\Mercraft.Models.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />

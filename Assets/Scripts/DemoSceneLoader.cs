@@ -1,28 +1,21 @@
 ﻿
 using System.Collections.Generic;
 using System.IO;
-
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Models;
 using Mercraft.Models.Scene;
+using Mercraft.Scene.Builders;
+using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-namespace Mercraft.Scene.Builders
+namespace Mercraft.Scene
 {
-    //[ExecuteInEditMode]
-    public class SceneBuilder: MonoBehaviour
+    class DemoSceneLoader
     {
-        void Start()
-        {
-            BuildSingle();
-        }
-
-        #region Build functions
-
-        public void BuildSingle()
+        [MenuItem("OSM/Generate Single Building")]
+        static void BuildSingle()
         {
             var b1 = new Building()
             {
@@ -41,10 +34,12 @@ namespace Mercraft.Scene.Builders
             var center = new GeoCoordinate(52.529814, 13.388015);
             var builder = new BuildingBuilder(center);
 
-            builder.Build("building1", b1);
+            Object.DestroyImmediate(GameObject.Find("Building1"));
+            builder.Build("Building1", b1);
         }
 
-        public void Build()
+        [MenuItem("OSM/Generate Berlin Small Part")]
+        static void Build()
         {
             Debug.Log("Start to create building..");
 
@@ -53,7 +48,7 @@ namespace Mercraft.Scene.Builders
 
             var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
             var center = new GeoCoordinate(52.529814, 13.388015);
-            
+
             using (Stream stream = new FileInfo(file).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
@@ -71,14 +66,13 @@ namespace Mercraft.Scene.Builders
                 for (int i = 0; i < scene.Buildings.Count; i++)
                 {
                     var building = scene.Buildings[i];
-                    builder.Build("Building"+i, building);
+                    var name = "Building" + i;
+                    Object.DestroyImmediate(GameObject.Find(name));
+                    builder.Build(name, building);
                 }
             }
             Debug.Log("Done");
 
         }
-
-        #endregion
-
     }
 }
