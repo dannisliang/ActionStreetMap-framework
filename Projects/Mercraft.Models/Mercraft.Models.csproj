@@ -44,14 +44,6 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="MathUtility.cs" />
-    <Compile Include="Primitives\ConstantValue.cs" />
-    <Compile Include="Primitives\Line.cs" />
-    <Compile Include="Primitives\Polygon.cs" />
-    <Compile Include="Primitives\PolygonDirection.cs" />
-    <Compile Include="Primitives\PolygonShape.cs" />
-    <Compile Include="Primitives\PolygonType.cs" />
-    <Compile Include="Primitives\PrimitiveExtensions.cs" />
-    <Compile Include="Primitives\VertexType.cs" />
     <Compile Include="Scene\Building.cs" />
     <Compile Include="Scene\CountableScene.cs" />
     <Compile Include="Scene\IScene.cs" />

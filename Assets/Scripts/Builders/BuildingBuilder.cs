@@ -32,7 +32,6 @@ namespace Mercraft.Scene.Builders
         private GameObject BuildGameObject(string name, Vector2[] verticies2D)
         {
             // NOTE test code: for testing purpose only!
-
             Debug.Log("try to create mesh..");
 
             var gameObject = new GameObject(name);
