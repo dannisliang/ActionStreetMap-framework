@@ -18,7 +18,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 0.5);
+                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 500);
 
                 var osmGeos = dataSource.Get(bbox, null);
 
@@ -32,13 +32,13 @@ namespace Mercraft.Maps.UnitTests.Osm
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
-                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 0.3);
+                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 300);
 
                 var visitor = new CountableElementVisitor();
 
-                var elementManager = new ElementManager(visitor);
+                var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox, visitor);
 
                 Assert.AreEqual(2566, visitor.Elements.Count);
             }               
@@ -51,13 +51,13 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 0.01);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 10);
 
                 var visitor = new CountableElementVisitor();
 
-                var elementManager = new ElementManager(visitor);
+                var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox, visitor);
 
                 Assert.AreEqual(21, visitor.Elements.Count);
             }
@@ -70,13 +70,13 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 0.005);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 5);
 
                 var visitor = new CountableElementVisitor();
 
-                var elementManager = new ElementManager(visitor);
+                var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox, visitor);
 
                 Assert.AreEqual(2, visitor.Elements.Count);
             }

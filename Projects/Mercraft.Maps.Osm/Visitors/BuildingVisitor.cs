@@ -16,7 +16,6 @@ namespace Mercraft.Maps.Osm.Visitors
             _scene = scene;
         }
 
-
         public void VisitNode(Node node)
         {
         }

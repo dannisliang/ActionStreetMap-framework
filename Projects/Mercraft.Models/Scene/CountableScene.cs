@@ -4,16 +4,23 @@ namespace Mercraft.Models.Scene
 {
     public class CountableScene : IScene
     {
-        public List<Building> Buildings { get; private set; }
+        private List<Building> _buildings;
+        public IEnumerable<Building> Buildings
+        {
+            get
+            {
+                return _buildings;
+            }
+        }
 
         public CountableScene()
         {
-            Buildings = new List<Building>();
+            _buildings = new List<Building>();
         }
 
         public void AddBuilding(Building building)
         {
-            Buildings.Add(building);
+            _buildings.Add(building);
         }
     }
 }

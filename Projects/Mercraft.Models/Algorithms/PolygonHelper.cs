@@ -24,7 +24,7 @@ namespace Mercraft.Models.Algorithms
                 length--;
 
             return geoCoordinates
-                .Select(g => GeoProjection.ToMapCoordinates(center, g))
+                .Select(g => GeoProjection.ToMapCoordinate(center, g))
                 .Take(length).ToArray();
         }
 

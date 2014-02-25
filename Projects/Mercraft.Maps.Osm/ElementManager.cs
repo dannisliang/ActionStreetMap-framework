@@ -13,7 +13,10 @@ namespace Mercraft.Maps.Osm
     /// </summary>
     public class ElementManager
     {
-        private IElementVisitor _elementVisitor;
+        /// <summary>
+        /// Filters OSM elements
+        /// </summary>
+        private IFilter _filter;
 
         /// <summary>
         /// Holds the interpreted nodes.
@@ -30,14 +33,15 @@ namespace Mercraft.Maps.Osm
         /// </summary>
         private LongIndex _translatedWays;
 
+        public ElementManager(): this(null){}
 
         /// <summary>
         /// Creates a new style scene manager.
         /// </summary>
-        public ElementManager(IElementVisitor elementVisitor)
+        public ElementManager(IFilter filter)
         {
-            _elementVisitor = elementVisitor;
-
+            //_elementVisitor = elementVisitor;
+            _filter = filter;
             _translatedNodes = new LongIndex();
             _translatedWays = new LongIndex();
             _translatedRelations = new LongIndex();
@@ -46,9 +50,9 @@ namespace Mercraft.Maps.Osm
         /// <summary>
         /// Visits all elements in datasource which are located in bbox
         /// </summary>
-        public void VisitBoundingBox(IDataSourceReadOnly dataSource, BoundingBox bbox, IFilter filter = null)
+        public void VisitBoundingBox(IDataSourceReadOnly dataSource, BoundingBox bbox, IElementVisitor visitor)
         {
-            IList<Element> elements = dataSource.Get(bbox, filter);
+            IList<Element> elements = dataSource.Get(bbox, _filter);
             foreach (var element in elements)
             { // translate each object into scene object.
                 LongIndex index = null;
@@ -62,7 +66,7 @@ namespace Mercraft.Maps.Osm
                 {
                     // object was not yet interpreted.
                     index.Add(element.Id.Value);
-                    Populate(dataSource, element);
+                    Populate(dataSource, visitor, element);
                 }
             }
         }
@@ -70,14 +74,14 @@ namespace Mercraft.Maps.Osm
         /// <summary>
         /// Populates the given OSM objects into corresponding geometries.
         /// </summary>
-        private void Populate(IDataSourceReadOnly source, Element element)
+        private void Populate(IDataSourceReadOnly source, IElementVisitor visitor, Element element)
         {
             element.Accept(new ElementVisitor(
                 node => PopulateNode(node),
                 way => PopulateWay(way, source),
                 relation => PopulateRelation(relation, source)));
 
-            element.Accept(_elementVisitor);
+            element.Accept(visitor);
         }
 
         #region Populates given elements

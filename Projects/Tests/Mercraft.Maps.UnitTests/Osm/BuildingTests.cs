@@ -1,5 +1,6 @@
 ﻿
 using System.IO;
+using System.Linq;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -19,15 +20,15 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 0.2);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 200);
 
                 var scene = new CountableScene();
 
-                var elementManager = new ElementManager(new BuildingVisitor(scene));
+                var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox, new BuildingVisitor(scene));
 
-                Assert.AreEqual(30, scene.Buildings.Count);
+                Assert.AreEqual(30, scene.Buildings.Count());
 
                 DumpScene(scene);
 
@@ -41,15 +42,15 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1000);
 
                 var scene = new CountableScene();
 
-                var elementManager = new ElementManager(new BuildingVisitor(scene));
+                var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+                elementManager.VisitBoundingBox(dataSource, bbox, new BuildingVisitor(scene));
 
-                Assert.AreEqual(1453, scene.Buildings.Count);
+                Assert.AreEqual(1453, scene.Buildings.Count());
             }
         }
 
@@ -58,9 +59,10 @@ namespace Mercraft.Maps.UnitTests.Osm
             using (var file = File.CreateText(@"f:\scene.txt"))
             {
                 file.WriteLine("BUILDINGS:");
-                for (int i = 0; i < scene.Buildings.Count; i++)
+                var buildings = scene.Buildings.ToList();
+                for (int i = 0; i < buildings.Count; i++)
                 {
-                    var building = scene.Buildings[i];
+                    var building = buildings[i];
                     file.WriteLine("\tBuilding {0}", (i+1));
                     var lineOffset = "\t\t";
                     file.WriteLine("{0}Tags:", lineOffset);

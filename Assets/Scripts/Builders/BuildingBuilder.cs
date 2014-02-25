@@ -20,7 +20,7 @@ namespace Mercraft.Scene.Builders
         {
             _center = center;
             _buildingFloor = 0;
-            _buildingTop = 40;
+            _buildingTop = 1;
         }
 
         public GameObject Build(string name, Building building)

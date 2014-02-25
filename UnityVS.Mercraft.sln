@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 Project("{1FAC5C55-277D-4884-94A4-83DBDAF57E56}") = "UnityVS.mercraft.UnityScript.Plugins", "UnityVS.mercraft.UnityScript.Plugins.unityproj", "{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp.Plugins", "UnityVS.mercraft.CSharp.Plugins.csproj", "{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp", "UnityVS.mercraft.CSharp.csproj", "{0E7FD182-1940-99E2-AF56-8BDD2C445843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp.Plugins", "UnityVS.mercraft.CSharp.Plugins.csproj", "{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Osm", "Projects\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
 EndProject
@@ -23,14 +23,14 @@ Global
 		{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7FD182-1940-99E2-AF56-8BDD2C445843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F07AF685-2554-4032-A35F-BB6D5632F1C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F07AF685-2554-4032-A35F-BB6D5632F1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F07AF685-2554-4032-A35F-BB6D5632F1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,19 +1,26 @@
 ﻿
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Models;
+using Mercraft.Models.Map;
 using Mercraft.Models.Scene;
 using Mercraft.Scene.Builders;
 using UnityEditor;
 using UnityEngine;
 
-namespace Mercraft.Scene
+namespace Mercraft.Scene.Demo
 {
     class DemoSceneLoader
     {
+        [MenuItem("OSM/Test")]
+        static void BuildTestObject()
+        {
+            new FloorBuilder().Build();
+        }
+
         [MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
@@ -48,29 +55,54 @@ namespace Mercraft.Scene
 
             var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
             var center = new GeoCoordinate(52.529814, 13.388015);
+            var buildingBuilder = new BuildingBuilder(center);
 
             using (Stream stream = new FileInfo(file).OpenRead())
             {
                 var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
+                var sceneBuilder = new OsmSceneBuilder(
+                 new DefaultDataSourceProvider(dataSource),
+                 new ElementManager());
 
-                var bbox = BoundingBox.CreateBoundingBox(center, 1);
+                var tileProvider = new TileProvider(sceneBuilder, center, 1000);
+                var tile = tileProvider.GetTile(new Vector2(0, 0));
+                var buildings = tile.Scene.Buildings.ToList();
 
-                var scene = new CountableScene();
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    var building = buildings[i];
+                    var name = "Building" + i;
+                    Object.DestroyImmediate(GameObject.Find(name));
+                    buildingBuilder.Build(name, building);
+                }
 
-                var elementManager = new ElementManager(new BuildingVisitor(scene));
+            }
 
-                elementManager.VisitBoundingBox(dataSource, bbox);
+
+            /* using (Stream stream = new FileInfo(file).OpenRead())
+            {
+                var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
+
+                var bbox = BoundingBox.CreateBoundingBox(center, 1000);
+
+                var sceneBuilder = new OsmSceneBuilder(
+                    new DefaultDataSourceProvider(dataSource), 
+                    new ElementManager());
+
+                var scene = sceneBuilder.Build(center, bbox);
 
                 var builder = new BuildingBuilder(center);
 
-                for (int i = 0; i < scene.Buildings.Count; i++)
+                var buildings = scene.Buildings.ToList();
+
+                for (int i = 0; i < buildings.Count; i++)
                 {
-                    var building = scene.Buildings[i];
+                    var building = buildings[i];
                     var name = "Building" + i;
                     Object.DestroyImmediate(GameObject.Find(name));
                     builder.Build(name, building);
                 }
-            }
+            }*/
             Debug.Log("Done");
 
         }

@@ -60,26 +60,25 @@ namespace Mercraft.Models
         /// Creates bounding box
         /// </summary>
         /// <param name="point">Center</param>
-        /// <param name="halfSideInKm">Half length of the bounding box</param>
+        /// <param name="halfSideInM">Half length of the bounding box</param>
         /// <returns></returns>
-        public static BoundingBox CreateBoundingBox(GeoCoordinate point, double halfSideInKm)
+        public static BoundingBox CreateBoundingBox(GeoCoordinate point, double halfSideInM)
         {
             // Bounding box surrounding the point at given coordinates,
             // assuming local approximation of Earth surface as a sphere
             // of radius given by WGS84
             var lat = MathUtility.Deg2Rad(point.Latitude);
             var lon = MathUtility.Deg2Rad(point.Longitude);
-            var halfSide = 1000 * halfSideInKm;
 
             // Radius of Earth at given latitude
             var radius = WGS84EarthRadius(lat);
             // Radius of the parallel at given latitude
             var pradius = radius* Math.Cos(lat);
 
-            var latMin = lat - halfSide/radius;
-            var latMax = lat + halfSide/radius;
-            var lonMin = lon - halfSide/pradius;
-            var lonMax = lon + halfSide/pradius;
+            var latMin = lat - halfSideInM / radius;
+            var latMax = lat + halfSideInM / radius;
+            var lonMin = lon - halfSideInM / pradius;
+            var lonMax = lon + halfSideInM / pradius;
 
             return new BoundingBox(
                 new GeoCoordinate(MathUtility.Rad2Deg(latMin), MathUtility.Rad2Deg(lonMin)),
