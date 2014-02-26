@@ -42,8 +42,30 @@
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="Algorithms\PolygonTriangulation.cs" />
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Dependencies\Component.cs" />
+    <Compile Include="Dependencies\ComponentExtensions.cs" />
+    <Compile Include="Dependencies\Container.cs" />
+    <Compile Include="Dependencies\DependencyAttribute.cs" />
+    <Compile Include="Dependencies\IContainer.cs" />
+    <Compile Include="Dependencies\Interception\Behaviors\ExecuteBehavior.cs" />
+    <Compile Include="Dependencies\Interception\Behaviors\IBehavior.cs" />
+    <Compile Include="Dependencies\Interception\IInterceptor.cs" />
+    <Compile Include="Dependencies\Interception\IMethodReturn.cs" />
+    <Compile Include="Dependencies\Interception\InterceptionContext.cs" />
+    <Compile Include="Dependencies\Interception\InterfaceInterceptor.cs" />
+    <Compile Include="Dependencies\Interception\IProxy.cs" />
+    <Compile Include="Dependencies\Interception\MethodInvocation.cs" />
+    <Compile Include="Dependencies\Interception\MethodReturn.cs" />
+    <Compile Include="Dependencies\Interception\ProxyBase.cs" />
+    <Compile Include="Dependencies\Lifetime\ExternalLifetimeManager.cs" />
+    <Compile Include="Dependencies\Lifetime\ILifetimeManager.cs" />
+    <Compile Include="Dependencies\Lifetime\SingletonLifetimeManager.cs" />
+    <Compile Include="Dependencies\Lifetime\TransientLifetimeManager.cs" />
+    <Compile Include="Dependencies\TypeHelper.cs" />
     <Compile Include="GeoCoordinate.cs" />
-    <Compile Include="MathUtility.cs" />
+    <Compile Include="Map\TileSettings.cs" />
+    <Compile Include="Utilities\Lazy.cs" />
+    <Compile Include="Utilities\MathUtility.cs" />
     <Compile Include="Scene\Building.cs" />
     <Compile Include="Scene\CountableScene.cs" />
     <Compile Include="Scene\IScene.cs" />
@@ -51,6 +73,8 @@
     <Compile Include="Scene\ISceneBuilder.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\TileProvider.cs" />
+    <Compile Include="Utilities\Guard.cs" />
+    <Compile Include="Utilities\Tuple.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

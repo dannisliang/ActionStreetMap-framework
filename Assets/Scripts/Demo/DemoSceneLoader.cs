@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assets.Scripts;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Models;
@@ -53,6 +54,12 @@ namespace Mercraft.Scene.Demo
             //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
             //var center = new GeoCoordinate(51.26371, 4.7854);
 
+            /*var center = new GeoCoordinate(52.529814, 13.388015);
+            var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
+
+            var gameLoader = new GameLoader();
+            gameLoader.Load(file, center);*/
+
             var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
             var center = new GeoCoordinate(52.529814, 13.388015);
             var buildingBuilder = new BuildingBuilder(center);
@@ -64,7 +71,11 @@ namespace Mercraft.Scene.Demo
                  new DefaultDataSourceProvider(dataSource),
                  new ElementManager());
 
-                var tileProvider = new TileProvider(sceneBuilder, center, 1000);
+                var tileProvider = new TileProvider(sceneBuilder, new TileSettings()
+                {
+                    RelativeNullPoint = center,
+                    Size = 1000
+                });
                 var tile = tileProvider.GetTile(new Vector2(0, 0));
                 var buildings = tile.Scene.Buildings.ToList();
 
@@ -78,31 +89,6 @@ namespace Mercraft.Scene.Demo
 
             }
 
-
-            /* using (Stream stream = new FileInfo(file).OpenRead())
-            {
-                var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
-
-                var bbox = BoundingBox.CreateBoundingBox(center, 1000);
-
-                var sceneBuilder = new OsmSceneBuilder(
-                    new DefaultDataSourceProvider(dataSource), 
-                    new ElementManager());
-
-                var scene = sceneBuilder.Build(center, bbox);
-
-                var builder = new BuildingBuilder(center);
-
-                var buildings = scene.Buildings.ToList();
-
-                for (int i = 0; i < buildings.Count; i++)
-                {
-                    var building = buildings[i];
-                    var name = "Building" + i;
-                    Object.DestroyImmediate(GameObject.Find(name));
-                    builder.Build(name, building);
-                }
-            }*/
             Debug.Log("Done");
 
         }

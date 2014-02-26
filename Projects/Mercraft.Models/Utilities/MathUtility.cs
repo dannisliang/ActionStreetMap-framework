@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Mercraft.Models
+namespace Mercraft.Models.Utilities
 {
     public static class MathUtility
     {

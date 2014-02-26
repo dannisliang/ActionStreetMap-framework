@@ -5,6 +5,7 @@ using System.Text;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Models;
+using Mercraft.Models.Dependencies;
 using Mercraft.Models.Scene;
 
 namespace Mercraft.Maps.Osm
@@ -14,6 +15,7 @@ namespace Mercraft.Maps.Osm
         private readonly IDataSourceProvider _dataSourceProvider;
         private readonly ElementManager _elementManager;
 
+        [Dependency]
         public OsmSceneBuilder(IDataSourceProvider dataSourceProvider, ElementManager elementManager)
         {
             _dataSourceProvider = dataSourceProvider;
