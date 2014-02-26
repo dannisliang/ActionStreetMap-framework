@@ -84,6 +84,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">
+      <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
+      <Name>Mercraft.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mercraft.Models\Mercraft.Models.csproj">
       <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
       <Name>Mercraft.Models</Name>

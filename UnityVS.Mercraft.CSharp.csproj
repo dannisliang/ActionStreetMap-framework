@@ -78,10 +78,21 @@
     <Compile Include="Assets\Scripts\Builders\ISceneObjectBuilder.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <Compile Include="Assets\Bootstrapper\GameLoader.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Dependencies\Mercraft.Models.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Dependencies\protobuf-net.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Dependencies\Zlib.Portable.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

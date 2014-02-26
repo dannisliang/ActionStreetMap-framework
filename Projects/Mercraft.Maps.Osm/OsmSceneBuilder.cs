@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Models;
-using Mercraft.Models.Dependencies;
 using Mercraft.Models.Scene;
 
 namespace Mercraft.Maps.Osm

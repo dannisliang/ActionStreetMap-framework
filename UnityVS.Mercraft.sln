@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Models", "Projects
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.UnitTests", "Projects\Tests\Mercraft.Maps.UnitTests\Mercraft.Maps.UnitTests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Infrastructure", "Projects\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj", "{C77A889A-90D7-4787-A6BC-35772473639E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C77A889A-90D7-4787-A6BC-35772473639E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C77A889A-90D7-4787-A6BC-35772473639E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C77A889A-90D7-4787-A6BC-35772473639E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C77A889A-90D7-4787-A6BC-35772473639E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
