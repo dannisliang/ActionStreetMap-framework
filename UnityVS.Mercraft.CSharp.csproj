@@ -48,6 +48,9 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Mercraft.Infrastructure">
+      <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Maps.Osm">
       <HintPath>Assets\Dependencies\Mercraft.Maps.Osm.dll</HintPath>
     </Reference>
@@ -72,27 +75,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Bootstrappers\ComponentRoot.cs" />
+    <Compile Include="Assets\Bootstrappers\OsmBootstrapper.cs" />
+    <Compile Include="Assets\Bootstrappers\SceneBootstrapper.cs" />
+    <Compile Include="Assets\Bootstrappers\InfrastructureBootstrapper.cs" />
+    <Compile Include="Assets\Bootstrappers\SettingsBootstrapper.cs" />
+    <Compile Include="Assets\Infrastructure\UnityConsoleTrace.cs" />
     <Compile Include="Assets\Scripts\Autorun.cs" />
     <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
     <Compile Include="Assets\Scripts\Builders\FloorBuilder.cs" />
     <Compile Include="Assets\Scripts\Builders\ISceneObjectBuilder.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
-    <Compile Include="Assets\Bootstrapper\GameLoader.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Dependencies\Mercraft.Models.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Dependencies\protobuf-net.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Dependencies\Zlib.Portable.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

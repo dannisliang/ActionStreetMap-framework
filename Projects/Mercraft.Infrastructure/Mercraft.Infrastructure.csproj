@@ -56,6 +56,7 @@
     <Compile Include="Dependencies\Lifetime\SingletonLifetimeManager.cs" />
     <Compile Include="Dependencies\Lifetime\TransientLifetimeManager.cs" />
     <Compile Include="Dependencies\TypeHelper.cs" />
+    <Compile Include="Diagnostic\DefaultTrace.cs" />
     <Compile Include="Diagnostic\ITrace.cs" />
     <Compile Include="Diagnostic\TraceCategory.cs" />
     <Compile Include="Diagnostic\TraceCategoryManager.cs" />

@@ -1,4 +1,5 @@
-﻿using Mercraft.Models;
+﻿using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models;
 
 namespace Mercraft.Maps.Osm.Data
 {
@@ -22,6 +23,7 @@ namespace Mercraft.Maps.Osm.Data
     {
         private readonly IDataSourceReadOnly _dataSource;
 
+        [Dependency]
         public DefaultDataSourceProvider(IDataSourceReadOnly dataSource)
         {
             _dataSource = dataSource;

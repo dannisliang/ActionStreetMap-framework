@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions.LongIndex;
@@ -33,6 +34,7 @@ namespace Mercraft.Maps.Osm
         /// </summary>
         private LongIndex _translatedWays;
 
+        [Dependency]
         public ElementManager(): this(null){}
 
         /// <summary>

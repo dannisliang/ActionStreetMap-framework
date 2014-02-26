@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Algorithms;
 using Mercraft.Models.Scene;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Mercraft.Models.Tiles
         private readonly TileSettings _settings;
         private readonly Dictionary<Vector2, Tile> _tiles;
 
+        [Dependency]
         public TileProvider(ISceneBuilder sceneBuilder, TileSettings settings)
         {
             _sceneBuilder = sceneBuilder;

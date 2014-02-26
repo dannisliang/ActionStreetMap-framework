@@ -1,16 +1,18 @@
 ﻿
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Assets.Scripts;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
+using Assets.Bootstrappers;
+using Assets.Infrastructure;
+using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Models;
-using Mercraft.Models.Map;
 using Mercraft.Models.Scene;
+using Mercraft.Models.Tiles;
 using Mercraft.Scene.Builders;
 using UnityEditor;
 using UnityEngine;
+using Component = Mercraft.Infrastructure.Dependencies.Component;
 
 namespace Mercraft.Scene.Demo
 {
@@ -51,6 +53,22 @@ namespace Mercraft.Scene.Demo
         {
             Debug.Log("Start to create building..");
 
+            var componentRoot = new ComponentRoot();
+
+            var tileProvider = componentRoot.Container.Resolve<TileProvider>();
+            var geoCenter = componentRoot.Container.Resolve<GeoCoordinate>("Settings.GeoCenter");
+
+            var tile = tileProvider.GetTile(new Vector2(0, 0));
+            var buildings = tile.Scene.Buildings.ToList();
+            var buildingBuilder = new BuildingBuilder(geoCenter);
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                var building = buildings[i];
+                var name = "Building" + i;
+                Object.DestroyImmediate(GameObject.Find(name));
+                buildingBuilder.Build(name, building);
+            }
+
             //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
             //var center = new GeoCoordinate(51.26371, 4.7854);
 
@@ -60,7 +78,7 @@ namespace Mercraft.Scene.Demo
             var gameLoader = new GameLoader();
             gameLoader.Load(file, center);*/
 
-            var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
+            /*var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
             var center = new GeoCoordinate(52.529814, 13.388015);
             var buildingBuilder = new BuildingBuilder(center);
 
@@ -89,7 +107,7 @@ namespace Mercraft.Scene.Demo
 
             }
 
-            Debug.Log("Done");
+            Debug.Log("Done");*/
 
         }
     }

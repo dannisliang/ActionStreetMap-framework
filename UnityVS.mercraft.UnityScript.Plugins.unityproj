@@ -46,6 +46,9 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Mercraft.Infrastructure">
+      <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Maps.Osm">
       <HintPath>Assets\Dependencies\Mercraft.Maps.Osm.dll</HintPath>
     </Reference>

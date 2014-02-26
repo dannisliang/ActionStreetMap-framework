@@ -10,14 +10,12 @@
         /// </summary>
         string Name { get; }
 
-        /// <summary>
-        /// Run plugin
-        /// </summary>
-        bool Run();
+        #region Component root events
 
-        /// <summary>
-        /// Update plugin
-        /// </summary>
+        bool Load();
         bool Update();
+        bool Unload();
+
+        #endregion
     }
 }

@@ -21,13 +21,14 @@ namespace Mercraft.Infrastructure.Bootstrap
         [Dependency]
         public ITrace Trace { get; set; }
 
-        [Dependency("Bootstrapping.Plugin")]
+        [Dependency]
         public TraceCategory Category { get; set; }
 
         #region IBootstrapperPlugin members
 
-        public abstract bool Run();
+        public abstract bool Load();
         public abstract bool Update();
+        public abstract bool Unload();
 
         #endregion
     }
