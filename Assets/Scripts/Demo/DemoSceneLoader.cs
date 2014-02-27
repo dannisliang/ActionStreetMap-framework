@@ -1,19 +1,13 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Bootstrappers;
-using Assets.Infrastructure;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Core;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
+using Mercraft.Explorer;
 using Mercraft.Scene.Builders;
 using UnityEditor;
 using UnityEngine;
-using Component = Mercraft.Infrastructure.Dependencies.Component;
 
 namespace Mercraft.Scene.Demo
 {

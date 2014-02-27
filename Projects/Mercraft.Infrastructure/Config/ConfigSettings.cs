@@ -10,12 +10,11 @@
     /// </summary>
     public class ConfigSettings
     {
-        public const string AppConfigFileName = "Mercraft.Infrastructure.Config.config";
         private ConfigElement _root;
 
-        private ConfigSettings()
+        public ConfigSettings(string appConfigFileName)
         {
-            this._root = GetMergedElement(AppConfigFileName, ""); 
+            this._root = GetMergedElement(appConfigFileName, ""); 
         }
 
         /// <summary>

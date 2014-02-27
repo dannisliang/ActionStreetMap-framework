@@ -1,8 +1,7 @@
-﻿
-using Mercraft.Infrastructure.Diagnostic;
+﻿using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
-namespace Assets.Infrastructure
+namespace Mercraft.Explorer.Infrastructure
 {
     public class UnityConsoleTrace: DefaultTrace
     {

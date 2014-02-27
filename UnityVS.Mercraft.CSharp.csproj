@@ -49,6 +49,9 @@
     <Reference Include="Mercraft.Core">
       <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Mercraft.Explorer">
+      <HintPath>Assets\Dependencies\Mercraft.Explorer.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Infrastructure">
       <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
     </Reference>
@@ -73,17 +76,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Bootstrappers\ComponentRoot.cs" />
-    <Compile Include="Assets\Bootstrappers\InfrastructureBootstrapper.cs" />
-    <Compile Include="Assets\Bootstrappers\OsmBootstrapper.cs" />
-    <Compile Include="Assets\Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="Assets\Bootstrappers\SettingsBootstrapper.cs" />
-    <Compile Include="Assets\Infrastructure\UnityConsoleTrace.cs" />
     <Compile Include="Assets\Scripts\Autorun.cs" />
     <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
     <Compile Include="Assets\Scripts\Builders\FloorBuilder.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <None Include="Assets\Dependencies\Mercraft.Core.dll" />
+    <None Include="Assets\Dependencies\Mercraft.Explorer.dll" />
     <None Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />

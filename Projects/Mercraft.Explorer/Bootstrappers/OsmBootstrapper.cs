@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 
-namespace Assets.Bootstrappers
+namespace Mercraft.Explorer.Bootstrappers
 {
     public class OsmBootstrapper: BootstrapperPlugin
     {
@@ -17,8 +16,6 @@ namespace Assets.Bootstrappers
 
         public override bool Load()
         {
-            UnityEngine.Debug.Log("Osm");
-
             Stream stream = new FileInfo(OsmFile).OpenRead();
             Container.RegisterInstance<IDataSourceReadOnly>(MemoryDataSource.CreateFromXmlStream(stream));
             Container.Register(Component.For<IDataSourceProvider>().Use<DefaultDataSourceProvider>().Singleton());

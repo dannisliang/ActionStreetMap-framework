@@ -1,9 +1,8 @@
-﻿
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Core.Tiles;
+using Mercraft.Infrastructure.Bootstrap;
 
-namespace Assets.Bootstrappers
+namespace Mercraft.Explorer.Bootstrappers
 {
     public class SettingsBootstrapper: BootstrapperPlugin
     {

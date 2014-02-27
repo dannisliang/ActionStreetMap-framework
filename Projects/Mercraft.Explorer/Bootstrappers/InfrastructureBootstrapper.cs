@@ -1,10 +1,9 @@
-﻿
-using Assets.Infrastructure;
+﻿using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
-namespace Assets.Bootstrappers
+namespace Mercraft.Explorer.Bootstrappers
 {
     public class InfrastructureBootstrapper: IBootstrapperPlugin
     {

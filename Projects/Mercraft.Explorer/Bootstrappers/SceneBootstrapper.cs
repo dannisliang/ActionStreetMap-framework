@@ -1,10 +1,10 @@
-﻿using Mercraft.Infrastructure.Bootstrap;
+﻿using Mercraft.Core.Scene;
+using Mercraft.Core.Tiles;
+using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Tiles;
 
-namespace Assets.Bootstrappers
+namespace Mercraft.Explorer.Bootstrappers
 {
     public class SceneBootstrapper: BootstrapperPlugin
     {
@@ -14,7 +14,6 @@ namespace Assets.Bootstrappers
 
         public override bool Load()
         {
-            UnityEngine.Debug.Log("Scene");
             Container.Register(Component.For<ISceneBuilder>().Use<OsmSceneBuilder>().Singleton());
             Container.Register(Component.For<TileProvider>().Use<TileProvider>().Singleton());
 

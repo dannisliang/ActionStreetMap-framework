@@ -49,6 +49,9 @@
     <Reference Include="Mercraft.Core">
       <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Mercraft.Explorer">
+      <HintPath>Assets\Dependencies\Mercraft.Explorer.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Infrastructure">
       <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
     </Reference>
