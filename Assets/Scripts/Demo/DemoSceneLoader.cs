@@ -48,6 +48,11 @@ namespace Mercraft.Scene.Demo
         {
             Debug.Log("Start to create building..");
 
+            var componentRoot = new ComponentRoot(@"app.config");
+            componentRoot.RunGame(new GeoCoordinate(51.26371, 4.7854));
+
+            Debug.Log("Generate Berlin Small Part: Done");
+
            /* var componentRoot = new ComponentRoot();
 
             var tileProvider = componentRoot.Container.Resolve<TileProvider>();
