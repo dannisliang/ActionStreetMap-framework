@@ -37,6 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\BootstrapperPlugin.cs" />
+    <Compile Include="Bootstrap\BootstrapperService.cs" />
+    <Compile Include="Bootstrap\IBootsrtrapperService.cs" />
     <Compile Include="Bootstrap\IBootstrapperPlugin.cs" />
     <Compile Include="Config\ConfigElement.cs" />
     <Compile Include="Config\ConfigMerger.cs" />
@@ -66,8 +68,6 @@
     <Compile Include="Dependencies\TypeHelper.cs" />
     <Compile Include="Diagnostic\DefaultTrace.cs" />
     <Compile Include="Diagnostic\ITrace.cs" />
-    <Compile Include="Diagnostic\TraceCategory.cs" />
-    <Compile Include="Diagnostic\TraceCategoryManager.cs" />
     <Compile Include="Diagnostic\TraceRecord.cs" />
     <Compile Include="Utilities\Guard.cs" />
     <Compile Include="Primitives\Lazy.cs" />

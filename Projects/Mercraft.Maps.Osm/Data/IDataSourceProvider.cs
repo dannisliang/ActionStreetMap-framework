@@ -1,4 +1,6 @@
-﻿using Mercraft.Infrastructure.Dependencies;
+﻿using System.IO;
+using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core;
 
 namespace Mercraft.Maps.Osm.Data
@@ -23,10 +25,15 @@ namespace Mercraft.Maps.Osm.Data
     {
         private readonly IDataSourceReadOnly _dataSource;
 
-        [Dependency]
-        public DefaultDataSourceProvider(IDataSourceReadOnly dataSource)
+        [Dependency("")]
+        public DefaultDataSourceProvider(IConfigSection config)
         {
-            _dataSource = dataSource;
+            string filePath = config.GetString("path");
+            bool isXml = config.GetBool("path/@xml");
+            Stream stream = new FileInfo(filePath).OpenRead();
+            _dataSource = isXml
+                ? MemoryDataSource.CreateFromXmlStream(stream)
+                : MemoryDataSource.CreateFromPbfStream(stream);
         }
 
         public IDataSourceReadOnly Get(GeoCoordinate coordinate)

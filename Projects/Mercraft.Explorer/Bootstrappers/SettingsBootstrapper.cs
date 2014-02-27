@@ -1,27 +1,30 @@
 ﻿using Mercraft.Core;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
     public class SettingsBootstrapper: BootstrapperPlugin
     {
-        private readonly TileSettings _tileSettings = new TileSettings()
-        {
-            RelativeNullPoint = new GeoCoordinate(52.529814, 13.388015),
-            Size = 1000
-        };
+        private TileSettings _tileSettings;
 
-        public SettingsBootstrapper(): base("Bootstrappers.Settings")
+        public SettingsBootstrapper(IConfigSection configSection) : base(configSection)
         {
         }
 
-        public override bool Load()
+        public override bool Run()
         {
+            var tileSize = ConfigSection.GetFloat("tile/@size");
+            _tileSettings = new TileSettings()
+            {
+                Size = tileSize
+            };
+
             // NOTE: external lifecycle manager is used in case of RegisterInstance
             // so, we need to hold reference for these object to prevent GC
             Container.RegisterInstance(_tileSettings, "Settings.Tile");
-            Container.RegisterInstance(_tileSettings.RelativeNullPoint, "Settings.GeoCenter");
+            
             return true;
         }
 
@@ -30,7 +33,7 @@ namespace Mercraft.Explorer.Bootstrappers
             return true;
         }
 
-        public override bool Unload()
+        public override bool Stop()
         {
             return true;
         }

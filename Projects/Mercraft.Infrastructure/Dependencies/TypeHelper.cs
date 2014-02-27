@@ -18,8 +18,8 @@ namespace Mercraft.Infrastructure.Dependencies
         public static ConstructorInfo GetConstructor(Type type, Type[] cstorSignature)
         {
             var constructor = type.GetConstructor(cstorSignature);
-            Guard.IsNotNull(constructor, "constructor",
-                                 String.Format("Unable to find appropriate constructor of type: {0}", type));
+            //Guard.IsNotNull(constructor, "constructor",
+            //                     String.Format("Unable to find appropriate constructor of type: {0}", type));
             return constructor;
         }
 

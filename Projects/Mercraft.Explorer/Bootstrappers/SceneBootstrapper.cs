@@ -1,6 +1,9 @@
-﻿using Mercraft.Core.Scene;
+﻿using Mercraft.Core;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
 
@@ -8,14 +11,15 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class SceneBootstrapper: BootstrapperPlugin
     {
-        public SceneBootstrapper(): base("Bootstrappers.Scene")
+        public SceneBootstrapper(IConfigSection configSection) : base(configSection)
         {
         }
 
-        public override bool Load()
+        public override bool Run()
         {
             Container.Register(Component.For<ISceneBuilder>().Use<OsmSceneBuilder>().Singleton());
             Container.Register(Component.For<TileProvider>().Use<TileProvider>().Singleton());
+            Container.Register(Component.For<IPositionListener>().Use<ZoneLoader>().Singleton());
 
             return true;
         }
@@ -25,7 +29,7 @@ namespace Mercraft.Explorer.Bootstrappers
             return true;
         }
 
-        public override bool Unload()
+        public override bool Stop()
         {
             return true;
         }

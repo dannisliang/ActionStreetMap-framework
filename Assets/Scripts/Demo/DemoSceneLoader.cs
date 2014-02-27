@@ -48,7 +48,7 @@ namespace Mercraft.Scene.Demo
         {
             Debug.Log("Start to create building..");
 
-            var componentRoot = new ComponentRoot();
+           /* var componentRoot = new ComponentRoot();
 
             var tileProvider = componentRoot.Container.Resolve<TileProvider>();
             var geoCenter = componentRoot.Container.Resolve<GeoCoordinate>("Settings.GeoCenter");
@@ -62,7 +62,7 @@ namespace Mercraft.Scene.Demo
                 var name = "Building" + i;
                 Object.DestroyImmediate(GameObject.Find(name));
                 buildingBuilder.Build(name, building);
-            }
+            }*/
 
             //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
             //var center = new GeoCoordinate(51.26371, 4.7854);

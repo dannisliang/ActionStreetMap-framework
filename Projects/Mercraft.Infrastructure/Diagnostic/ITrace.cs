@@ -20,7 +20,7 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// <summary>
         /// Writes message to trace using category provided
         /// </summary>
-        void Info(TraceCategory category, string message);
+        void Info(string category, string message);
 
         /// <summary>
         /// Writes record to trace
@@ -35,7 +35,7 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// <summary>
         /// Writes message to trace using category provided
         /// </summary>
-        void Warn(TraceCategory category, string message);
+        void Warn(string category, string message);
 
         /// <summary>
         /// Writes record to trace
@@ -50,7 +50,7 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// <summary>
         /// Writes message to trace
         /// </summary>
-        void Error(TraceCategory category, string message, Exception exception);
+        void Error(string category, string message, Exception exception);
 
         /// <summary>
         /// Writes record to trace
@@ -65,7 +65,7 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// <summary>
         /// Writes message to trace
         /// </summary>
-        void Fatal(TraceCategory category, string message, Exception exception);
+        void Fatal(string category, string message, Exception exception);
 
         /// <summary>
         /// Writes record to trace

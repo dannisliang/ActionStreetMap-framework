@@ -12,9 +12,9 @@
 
         #region Component root events
 
-        bool Load();
+        bool Run();
         bool Update();
-        bool Unload();
+        bool Stop();
 
         #endregion
     }

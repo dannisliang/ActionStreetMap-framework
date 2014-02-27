@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
@@ -8,17 +10,16 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class OsmBootstrapper: BootstrapperPlugin
     {
-        private const string OsmFile = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
-
-        public OsmBootstrapper(): base("Bootstrappers.Osm")
+        public OsmBootstrapper(IConfigSection configSection) : base(configSection)
         {
         }
 
-        public override bool Load()
+        public override bool Run()
         {
-            Stream stream = new FileInfo(OsmFile).OpenRead();
-            Container.RegisterInstance<IDataSourceReadOnly>(MemoryDataSource.CreateFromXmlStream(stream));
-            Container.Register(Component.For<IDataSourceProvider>().Use<DefaultDataSourceProvider>().Singleton());
+            var section = ConfigSection.GetSection("dataSourceProvider");
+            var dataSourceProviderType = section.GetType("@type");
+
+            Container.Register(Component.For<IDataSourceProvider>().Use(dataSourceProviderType, section));
             Container.Register(Component.For<ElementManager>().Use<ElementManager>().Singleton());
 
             return true;
@@ -29,7 +30,7 @@ namespace Mercraft.Explorer.Bootstrappers
             return true;
         }
 
-        public override bool Unload()
+        public override bool Stop()
         {
             return true;
         }

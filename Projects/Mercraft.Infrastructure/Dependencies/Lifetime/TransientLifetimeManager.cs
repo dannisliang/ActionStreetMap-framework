@@ -11,6 +11,7 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
     {
         public Type InterfaceType { get; set; }
         public Type TargetType { get; set; }
+        public bool NeedResolveCstorArgs { get; set; }
         public object[] CstorArgs { get; set; }
         public System.Reflection.ConstructorInfo Constructor { get; set; }
 

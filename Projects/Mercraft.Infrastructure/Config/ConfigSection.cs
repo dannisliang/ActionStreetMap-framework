@@ -67,6 +67,23 @@
             }
         }
 
+        public float GetFloat(string xpath)
+        {
+            return new ConfigElement(this._element.Node, xpath).GetFloat();
+        }
+
+        public float GetFloat(string xpath, float defaultValue)
+        {
+            try
+            {
+                return this.GetFloat(xpath);
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
         /// <summary>
         /// Returns bool
         /// </summary>

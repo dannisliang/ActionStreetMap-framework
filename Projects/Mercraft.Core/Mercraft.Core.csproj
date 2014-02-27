@@ -43,6 +43,7 @@
     <Compile Include="Algorithms\PolygonTriangulation.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
+    <Compile Include="IPositionListener.cs" />
     <Compile Include="Scene\ISceneModelVisitor.cs" />
     <Compile Include="Scene\Models\Road.cs" />
     <Compile Include="Tiles\TileSettings.cs" />

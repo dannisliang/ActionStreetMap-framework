@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Algorithms;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene;
 using UnityEngine;
 
@@ -21,13 +20,15 @@ namespace Mercraft.Core.Tiles
             _tiles = new Dictionary<Vector2, Tile>();
         }
 
-        public Tile GetTile(Vector2 mapPoint)
+        public Tile GetTile(Vector2 mapPoint, GeoCoordinate relativeNullPoint)
         {
             // TODO mapPoint should be the center of tile!
             if (_tiles.ContainsKey(mapPoint))
                 return _tiles[mapPoint];
 
-            var coordinate = GeoProjection.ToGeoCoordinate(_settings.RelativeNullPoint, mapPoint);
+            //var center
+
+            var coordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, mapPoint);
             
             // TODO invesigate tile size/bbox radius optimal ratio
             var radius = _settings.Size / 2;

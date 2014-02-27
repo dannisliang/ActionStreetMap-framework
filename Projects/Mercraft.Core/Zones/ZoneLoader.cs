@@ -5,27 +5,23 @@ using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
-    public class ZoneLoader
+    public class ZoneLoader: IPositionListener
     {
         private readonly TileProvider _tileProvider;
         private readonly IEnumerable<IGameObjectBuilder> _gameOnObjectBuilders;
 
         [Dependency]
-        public ZoneLoader(TileProvider tileProvider, IEnumerable<IGameObjectBuilder> gameOnObjectBuilders)
+        public ZoneLoader(TileProvider tileProvider/*, IEnumerable<IGameObjectBuilder> gameOnObjectBuilders*/)
         {
             _tileProvider = tileProvider;
-            _gameOnObjectBuilders = gameOnObjectBuilders;
+            //_gameOnObjectBuilders = gameOnObjectBuilders;
         }
 
-        public void Load(Vector2 position)
+        public void OnPositionChanged(Vector2 position)
         {
-            var tile = _tileProvider.GetTile(position);
-
-           /* foreach (var gameOnObjectBuilder in _gameOnObjectBuilders)
-            {
-                gameOnObjectBuilder.Build()
-            }*/
-
+            // Load zone if needed
+            //var tile = _tileProvider.GetTile(position);
+            // TODO
         }
     }
 }

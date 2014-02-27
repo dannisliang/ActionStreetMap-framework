@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
@@ -41,6 +42,7 @@
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
     <Compile Include="Bootstrappers\SettingsBootstrapper.cs" />
+    <Compile Include="IGameRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\UnityConsoleTrace.cs" />
   </ItemGroup>

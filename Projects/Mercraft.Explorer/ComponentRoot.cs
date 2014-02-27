@@ -1,21 +1,31 @@
-﻿using Mercraft.Explorer.Bootstrappers;
+﻿using Mercraft.Core;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using UnityEngine;
+using Component = Mercraft.Infrastructure.Dependencies.Component;
 
 namespace Mercraft.Explorer
 {
     /// <summary>
     /// Represents application component root
     /// </summary>
-    public class ComponentRoot
+    public class ComponentRoot : IGameRunner, IPositionListener
     {
-        private IContainer _container;
+        /// <summary>
+        /// Holds config reference
+        /// </summary>
+        private readonly ConfigSettings _config;
 
-        public ComponentRoot()
-        {
-            InitializeDefault();
-        }
+        /// <summary>
+        /// DI container
+        /// </summary>
+        private readonly IContainer _container = new Container();
+        
+        /// <summary>
+        /// Actual zone loader
+        /// </summary>
+        private IPositionListener _positionListener;
 
         public ComponentRoot(string configPath)
         {
@@ -25,47 +35,34 @@ namespace Mercraft.Explorer
 
         public ComponentRoot(ConfigSettings configSettings)
         {
+            _config = configSettings;
             InitializeFromConfig(configSettings);
         }
 
-        /// <summary>
-        /// Creates bootstrappers from config
-        /// </summary>
-        /// <param name="configSettings"></param>
         private void InitializeFromConfig(ConfigSettings configSettings)
         {
+            _container.RegisterInstance(configSettings);
+
+            // register bootstrapping service which will register all dependencies using configuration
+            var bootSection = configSettings.GetSection("system/bootstrapping");
+            var bootServiceType = bootSection.GetType("@type");
+
+            _container.Register(Component.For<IBootstrapperService>()
+                .Use(bootServiceType, bootSection).Singleton());
+            
+            // run bootstrappers
+            _container.Resolve<IBootstrapperService>().Run();
         }
 
-        /// <summary>
-        /// Creates default bootstrappers
-        /// </summary>
-        private void InitializeDefault()
+        public void RunGame(GeoCoordinate coordinate)
         {
-            _container = new Container();
-
-            BootstrapPlugin<InfrastructureBootstrapper>("Bootstrappers.Infrastructure");
-            BootstrapPlugin<SettingsBootstrapper>("Bootstrappers.Settings");
-            BootstrapPlugin<OsmBootstrapper>("Bootstrappers.Osm");
-            BootstrapPlugin<SceneBootstrapper>("Bootstrappers.Scene");
+            // TODO register position here
+            _positionListener = _container.Resolve<IPositionListener>();
         }
 
-        private void BootstrapPlugin<T>(string name)
+        public void OnPositionChanged(Vector2 position)
         {
-            _container.Register(Component.For<IBootstrapperPlugin>()
-                .Use<T>()
-                .Named(name)
-                .Singleton());
-
-            _container.Resolve<IBootstrapperPlugin>(name).Load();
-        }
-
-        // NOTE shouldn't be exposed
-        public IContainer Container
-        {
-            get
-            {
-                return _container;
-            }
+            _positionListener.OnPositionChanged(position);
         }
     }
 }

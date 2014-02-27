@@ -24,6 +24,8 @@ namespace Mercraft.Infrastructure.Dependencies
         internal string Name { get; private set; }
         internal List<IBehavior> Behaviors { get { return _behaviors; } }
 
+        internal bool NeedResolveCstorArgs { get; private set; }
+
         #endregion
 
         #region Private fields
@@ -66,7 +68,6 @@ namespace Mercraft.Infrastructure.Dependencies
         /// </summary>
         public Component Use<T>(params object[] args)
         {
-
             return Use(typeof (T), args);
         }
 
@@ -82,8 +83,15 @@ namespace Mercraft.Infrastructure.Dependencies
             Guard.IsNull(Constructor, "Constructor", "Multiply Use call forbidden");
             TargetType = t;
             Args = args;
+            NeedResolveCstorArgs = false;
             return this;
         }
+
+        /*public Component ResolveCstorArgs(bool fact)
+        {
+            NeedResolveCstorArgs = fact;
+            return this;
+        }*/
 
         /// <summary>
         /// Links component to usage of implementation by t
@@ -104,6 +112,7 @@ namespace Mercraft.Infrastructure.Dependencies
             Guard.IsNull(Args, "Args", "Multiply Use call forbidden");
             TargetType = t;
             Constructor = TypeHelper.GetConstructor(t, args);
+            NeedResolveCstorArgs = true;
             return this;
         }
 
@@ -112,7 +121,7 @@ namespace Mercraft.Infrastructure.Dependencies
         /// </summary>
         public Component Use<T>()
         {
-            return Use(typeof(T), new object[] { });
+            return Use(typeof(T), new Type[] { });
         }
 
         /// <summary>

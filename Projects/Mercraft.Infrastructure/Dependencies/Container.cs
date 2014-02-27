@@ -76,7 +76,7 @@ namespace Mercraft.Infrastructure.Dependencies
                 lifetimeManager.Constructor = TypeHelper.GetConstructor(lifetimeManager.TargetType, typeof (DependencyAttribute));
 
             //NOTE: resolve all parameters of provided constructor
-            if (lifetimeManager.Constructor != null)
+            if (lifetimeManager.Constructor != null && lifetimeManager.NeedResolveCstorArgs)
                 lifetimeManager.CstorArgs = lifetimeManager.Constructor.GetParameters().Select(p=> Resolve(p.ParameterType)).ToArray();
             return lifetimeManager;
         }
@@ -154,6 +154,7 @@ namespace Mercraft.Infrastructure.Dependencies
         public IContainer Register(Component component)
         {
             var lifetimeManager =  component.LifetimeManager ?? Activator.CreateInstance(_lifetimeManager) as ILifetimeManager;
+            lifetimeManager.NeedResolveCstorArgs = component.NeedResolveCstorArgs;
             lifetimeManager.Constructor = component.Constructor;
             return RegisterType(component.InterfaceType, component.TargetType, component.Name,
                                 lifetimeManager,

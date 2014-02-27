@@ -89,6 +89,14 @@
         }
 
         /// <summary>
+        /// Returns float
+        /// </summary>
+        public float GetFloat()
+        {
+            return float.Parse(this.GetString());
+        }
+
+        /// <summary>
         /// Returns boolean
         /// </summary>
         public bool GetBool()

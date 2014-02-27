@@ -1,30 +1,30 @@
-﻿using Mercraft.Explorer.Infrastructure;
+﻿
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
-    public class InfrastructureBootstrapper: IBootstrapperPlugin
+    public class InfrastructureBootstrapper: BootstrapperPlugin
     {
-        public string Name { get { return "Bootstrappers.Infrastructure"; } }
-
-        [Dependency]
-        private IContainer Container { get; set; }
-
-        public bool Load()
+        public InfrastructureBootstrapper(IConfigSection configSection) : base(configSection)
         {
-            Container.Register(Component.For<ITrace>().Use<UnityConsoleTrace>().Named("").Singleton());
-            Container.Register(Component.For<TraceCategory>().Use<TraceCategory>("Default").Singleton());
+        }
+
+        public override bool Run()
+        {
+            var logType = ConfigSection.GetType("log/@type");
+            Container.Register(Component.For<ITrace>().Use(logType, new object[0]).Singleton());
             return true;
         }
 
-        public bool Update()
+        public override bool Update()
         {
             return true;
         }
 
-        public bool Unload()
+        public override bool Stop()
         {
             return true;
         }

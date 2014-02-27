@@ -24,6 +24,11 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         ConstructorInfo Constructor { get; set; }
 
         /// <summary>
+        /// True if cstor args are types which should be resolved
+        /// </summary>
+        bool NeedResolveCstorArgs { get; set; }
+
+        /// <summary>
         /// Constructor's parameters
         /// </summary>
         object[] CstorArgs { get; set; }

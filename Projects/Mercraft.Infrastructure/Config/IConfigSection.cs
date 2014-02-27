@@ -50,6 +50,21 @@
         int GetInt(string xpath, int defaultValue);
 
         /// <summary>
+        /// Returns float
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <returns></returns>
+        float GetFloat(string xpath);
+
+        /// <summary>
+        /// Returns float
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        float GetFloat(string xpath, float defaultValue);
+
+        /// <summary>
         /// Returns bool
         /// </summary>
         /// <param name="xpath"></param>

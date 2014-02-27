@@ -14,7 +14,7 @@ namespace Mercraft.Infrastructure.Diagnostic
             this.WriteRecord(RecordType.Info, new TraceRecord() { Message = message });
         }
 
-        public void Info(TraceCategory category, string message)
+        public void Info(string category, string message)
         {
             this.WriteRecord(RecordType.Info, new TraceRecord() { Category = category, Message = message });
         }
@@ -29,7 +29,7 @@ namespace Mercraft.Infrastructure.Diagnostic
             this.WriteRecord(RecordType.Warn, new TraceRecord() { Message = message });
         }
 
-        public void Warn(TraceCategory category, string message)
+        public void Warn(string category, string message)
         {
             this.WriteRecord(RecordType.Warn, new TraceRecord() { Category = category, Message = message });
         }
@@ -44,7 +44,7 @@ namespace Mercraft.Infrastructure.Diagnostic
             this.WriteRecord(RecordType.Error, new TraceRecord() { Message = message, Exception = exception });
         }
 
-        public void Error(TraceCategory category, string message, Exception exception)
+        public void Error(string category, string message, Exception exception)
         {
             this.WriteRecord(RecordType.Error, new TraceRecord() { Category = category, Message = message, Exception = exception });
         }
@@ -59,7 +59,7 @@ namespace Mercraft.Infrastructure.Diagnostic
             this.WriteRecord(RecordType.Fatal, new TraceRecord() { Message = message, Exception = exception });
         }
 
-        public void Fatal(TraceCategory category, string message, Exception exception)
+        public void Fatal(string category, string message, Exception exception)
         {
             this.WriteRecord(RecordType.Fatal, new TraceRecord() { Category = category, Message = message, Exception = exception });
         }

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Mercraft.Core;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
+using Mercraft.Infrastructure.Config;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -9,16 +11,25 @@ namespace Mercraft.Maps.UnitTests.Explorer
     [TestFixture]
     public class BootstrapTests
     {
-        [Test]
+        [Test(Description = "Tests whether we can run game using default bootstrappers defined in test.config")]
         public void CanUseComponentRoot()
         {
-            var componentRoot = new ComponentRoot();
+            // Arrange
+            var center = new GeoCoordinate(52.529814, 13.388015);
 
-            var tileProvider = componentRoot.Container.Resolve<TileProvider>();
-            var tile = tileProvider.GetTile(new Vector2(0, 0));
+            // Act
+            var config = new ConfigSettings("test.config");
+            var componentRoot = new ComponentRoot(config);
 
-            var buildings = tile.Scene.Buildings.ToList();
-            Assert.AreEqual(30, buildings.Count);
+            componentRoot.RunGame(center);
+
+            // Assert
+
+            //var tileProvider = componentRoot.Container.Resolve<TileProvider>();
+            //var tile = tileProvider.GetTile(new Vector2(0, 0));
+
+           // var buildings = tile.Scene.Buildings.ToList();
+           // Assert.AreEqual(30, buildings.Count);
         }
     }
 }
