@@ -1,8 +1,9 @@
 ﻿
 using System.Linq;
-using Mercraft.Models;
-using Mercraft.Models.Algorithms;
-using Mercraft.Models.Scene;
+using Mercraft.Core;
+using Mercraft.Core.Algorithms;
+using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Zones;
 using UnityEngine;
 
 namespace Mercraft.Scene.Builders
@@ -10,7 +11,7 @@ namespace Mercraft.Scene.Builders
     /// <summary>
     /// Builds game object which represents building
     /// </summary>
-    public class BuildingBuilder : ISceneObjectBuilder<Building>
+    public class BuildingBuilder : IGameObjectBuilder<Building>
     {
         private GeoCoordinate _center;
         private float _buildingFloor;
@@ -21,6 +22,11 @@ namespace Mercraft.Scene.Builders
             _center = center;
             _buildingFloor = 0;
             _buildingTop = 3;
+        }
+
+        public GameObject Build(string name, object instance)
+        {
+            return Build(name, (Building)instance);
         }
 
         public GameObject Build(string name, Building building)

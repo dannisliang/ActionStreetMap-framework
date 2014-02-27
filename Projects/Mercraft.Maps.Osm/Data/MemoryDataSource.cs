@@ -8,7 +8,7 @@ using Mercraft.Maps.Osm.Format.Xml.v0_6;
 using Mercraft.Maps.Osm.Formats.Pbf;
 using Mercraft.Maps.Osm.Streams;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Models;
+using Mercraft.Core;
 using Node = Mercraft.Maps.Osm.Entities.Node;
 using Relation = Mercraft.Maps.Osm.Entities.Relation;
 using Way = Mercraft.Maps.Osm.Entities.Way;

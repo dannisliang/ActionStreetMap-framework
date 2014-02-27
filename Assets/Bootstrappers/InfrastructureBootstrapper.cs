@@ -3,7 +3,6 @@ using Assets.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Models;
 
 namespace Assets.Bootstrappers
 {

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp.Plu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Osm", "Projects\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Models", "Projects\Mercraft.Models\Mercraft.Models.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Core", "Projects\Mercraft.Core\Mercraft.Core.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.UnitTests", "Projects\Tests\Mercraft.Maps.UnitTests\Mercraft.Maps.UnitTests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
 EndProject

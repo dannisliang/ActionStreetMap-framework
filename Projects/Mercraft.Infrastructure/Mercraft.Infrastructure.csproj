@@ -32,10 +32,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\BootstrapperPlugin.cs" />
     <Compile Include="Bootstrap\IBootstrapperPlugin.cs" />
+    <Compile Include="Config\ConfigElement.cs" />
+    <Compile Include="Config\ConfigMerger.cs" />
+    <Compile Include="Config\ConfigSection.cs" />
+    <Compile Include="Config\ConfigSettings.cs" />
+    <Compile Include="Config\IConfigSection.cs" />
+    <Compile Include="Config\IConfigurable.cs" />
     <Compile Include="Dependencies\Component.cs" />
     <Compile Include="Dependencies\ComponentExtensions.cs" />
     <Compile Include="Dependencies\Container.cs" />
@@ -66,6 +74,7 @@
     <Compile Include="Primitives\Tuple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

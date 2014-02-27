@@ -2,8 +2,8 @@
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Models;
-using Mercraft.Models.Scene;
+using Mercraft.Core;
+using Mercraft.Core.Scene;
 
 namespace Mercraft.Maps.Osm
 {

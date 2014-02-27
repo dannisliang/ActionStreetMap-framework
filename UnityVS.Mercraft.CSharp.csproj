@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E7FD182-1940-99E2-AF56-8BDD2C445843}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,14 +46,14 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Mercraft.Core">
+      <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Infrastructure">
       <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Mercraft.Maps.Osm">
       <HintPath>Assets\Dependencies\Mercraft.Maps.Osm.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Models">
-      <HintPath>Assets\Dependencies\Mercraft.Models.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>Assets\Dependencies\protobuf-net.dll</HintPath>
@@ -76,19 +74,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Bootstrappers\ComponentRoot.cs" />
+    <Compile Include="Assets\Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Assets\Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Assets\Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="Assets\Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Assets\Bootstrappers\SettingsBootstrapper.cs" />
     <Compile Include="Assets\Infrastructure\UnityConsoleTrace.cs" />
     <Compile Include="Assets\Scripts\Autorun.cs" />
     <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
     <Compile Include="Assets\Scripts\Builders\FloorBuilder.cs" />
-    <Compile Include="Assets\Scripts\Builders\ISceneObjectBuilder.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
+    <None Include="Assets\Dependencies\Mercraft.Core.dll" />
     <None Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
-    <None Include="Assets\Dependencies\Mercraft.Models.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />
     <None Include="Assets\Dependencies\Zlib.Portable.dll" />
   </ItemGroup>

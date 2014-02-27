@@ -46,14 +46,14 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Mercraft.Core">
+      <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Infrastructure">
       <HintPath>Assets\Dependencies\Mercraft.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Mercraft.Maps.Osm">
       <HintPath>Assets\Dependencies\Mercraft.Maps.Osm.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Models">
-      <HintPath>Assets\Dependencies\Mercraft.Models.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>Assets\Dependencies\protobuf-net.dll</HintPath>

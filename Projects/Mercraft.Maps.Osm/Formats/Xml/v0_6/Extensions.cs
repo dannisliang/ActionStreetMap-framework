@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Format.Xml.v0_6;
-using Mercraft.Models;
+using Mercraft.Core;
 
 namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
 {

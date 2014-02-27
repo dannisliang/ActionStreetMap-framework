@@ -1,7 +1,7 @@
 ﻿
 using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Models;
-using Mercraft.Models.Tiles;
+using Mercraft.Core;
+using Mercraft.Core.Tiles;
 
 namespace Assets.Bootstrappers
 {

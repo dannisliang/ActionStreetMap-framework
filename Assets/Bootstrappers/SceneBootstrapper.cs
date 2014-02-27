@@ -1,8 +1,8 @@
 ﻿using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
-using Mercraft.Models.Scene;
-using Mercraft.Models.Tiles;
+using Mercraft.Core.Scene;
+using Mercraft.Core.Tiles;
 
 namespace Assets.Bootstrappers
 {

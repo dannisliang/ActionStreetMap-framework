@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Filters;
-using Mercraft.Models;
+using Mercraft.Core;
 
 
 namespace Mercraft.Maps.Osm.Data

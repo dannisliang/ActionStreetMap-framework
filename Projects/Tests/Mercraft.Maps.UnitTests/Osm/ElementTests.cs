@@ -2,7 +2,7 @@
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.UnitTests.Stubs;
-using Mercraft.Models;
+using Mercraft.Core;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Osm

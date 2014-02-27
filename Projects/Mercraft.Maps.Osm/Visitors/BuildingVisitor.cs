@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions;
-using Mercraft.Models.Scene;
+using Mercraft.Core.Scene;
 
 namespace Mercraft.Maps.Osm.Visitors
 {

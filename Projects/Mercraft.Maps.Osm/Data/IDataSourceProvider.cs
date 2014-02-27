@@ -1,5 +1,5 @@
 ﻿using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models;
+using Mercraft.Core;
 
 namespace Mercraft.Maps.Osm.Data
 {
