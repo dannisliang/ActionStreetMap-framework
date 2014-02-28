@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core;
-using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
-using Mercraft.Scene.Builders;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +14,7 @@ namespace Mercraft.Scene.Demo
         [MenuItem("OSM/Test")]
         static void BuildTestObject()
         {
-            new FloorBuilder().Build();
+            //new FloorBuilder().Build();
         }
 
         [MenuItem("OSM/Generate Single Building")]
@@ -37,10 +35,12 @@ namespace Mercraft.Scene.Demo
             };
 
             var center = new GeoCoordinate(52.529814, 13.388015);
+            /*
+
             var builder = new BuildingBuilder(center);
 
             Object.DestroyImmediate(GameObject.Find("Building1"));
-            builder.Build("Building1", b1);
+            builder.Build("Building1", b1);*/
         }
 
         [MenuItem("OSM/Generate Berlin Small Part")]

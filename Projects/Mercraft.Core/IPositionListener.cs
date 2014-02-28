@@ -4,6 +4,7 @@ namespace Mercraft.Core
 {
     public interface IPositionListener
     {
-        void OnPositionChanged(Vector2 position);
+        void OnMapPositionChanged(Vector2 position);
+        void OnGeoPositionChanged(GeoCoordinate position);
     }
 }

@@ -79,8 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Autorun.cs" />
-    <Compile Include="Assets\Scripts\Builders\BuildingBuilder.cs" />
-    <Compile Include="Assets\Scripts\Builders\FloorBuilder.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <None Include="app.config" />
     <None Include="app.system.config" />

@@ -14,6 +14,7 @@ namespace Mercraft.Explorer
     {
         /// <summary>
         /// Holds config reference
+        /// NOTE Do not remove!
         /// </summary>
         private readonly ConfigSettings _config;
 
@@ -56,13 +57,20 @@ namespace Mercraft.Explorer
 
         public void RunGame(GeoCoordinate coordinate)
         {
-            // TODO register position here
             _positionListener = _container.Resolve<IPositionListener>();
+
+            OnGeoPositionChanged(coordinate);
+            OnMapPositionChanged(new Vector2(0, 0));
         }
 
-        public void OnPositionChanged(Vector2 position)
+        public void OnMapPositionChanged(Vector2 position)
         {
-            _positionListener.OnPositionChanged(position);
+            _positionListener.OnMapPositionChanged(position);
+        }
+
+        public void OnGeoPositionChanged(GeoCoordinate position)
+        {
+            _positionListener.OnGeoPositionChanged(position);
         }
     }
 }

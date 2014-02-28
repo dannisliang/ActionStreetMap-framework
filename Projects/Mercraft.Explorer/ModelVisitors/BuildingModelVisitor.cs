@@ -1,39 +1,40 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Zones;
 using UnityEngine;
 
-namespace Mercraft.Scene.Builders
+namespace Mercraft.Explorer.ModelVisitors
 {
-    /// <summary>
-    /// Builds game object which represents building
-    /// </summary>
-    public class BuildingBuilder : IGameObjectBuilder<Building>
+    public class BuildingModelVisitor: ISceneModelVisitor
     {
-        private GeoCoordinate _center;
-        private float _buildingFloor;
-        private float _buildingTop;
+        private readonly float _buildingFloor;
+        private readonly float _buildingTop;
 
-        public BuildingBuilder(GeoCoordinate center)
+        public BuildingModelVisitor()
         {
-            _center = center;
             _buildingFloor = 0;
             _buildingTop = 3;
         }
 
-        public GameObject Build(string name, object instance)
+        #region ISceneModelVisitor implementation
+
+        public void VisitBuilding(GeoCoordinate center, GameObject parent, Building building)
         {
-            return Build(name, (Building)instance);
+            var vertices = PolygonHelper.GetVerticies2D(center, building.Points.ToList());
+            var name = Guid.NewGuid().ToString();
+            BuildGameObject(name, vertices);
         }
 
-        public GameObject Build(string name, Building building)
+        public void VisitRoad(GeoCoordinate center, GameObject parent, Road road)
         {
-            var vertices = PolygonHelper.GetVerticies2D(_center, building.Points.ToList());
-            return BuildGameObject(name, vertices);
         }
+
+        #endregion
 
         private GameObject BuildGameObject(string name, Vector2[] verticies2D)
         {
@@ -53,7 +54,7 @@ namespace Mercraft.Scene.Builders
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
             renderer.material.shader = Shader.Find("Particles/Additive");
-            
+
             var tex = new Texture2D(1, 1);
             tex.SetPixel(0, 0, Color.green);
             tex.Apply();
