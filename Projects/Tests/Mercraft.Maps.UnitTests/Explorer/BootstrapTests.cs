@@ -14,14 +14,10 @@ namespace Mercraft.Maps.UnitTests.Explorer
         [Test(Description = "Tests whether we can run game using default bootstrappers defined in test.config")]
         public void CanUseComponentRoot()
         {
-            // Arrange
-            var center = new GeoCoordinate(52.529814, 13.388015);
-
             // Act
-            var config = new ConfigSettings("test.config");
-            var componentRoot = new ComponentRoot(config);
+            var componentRoot = new ComponentRoot(TestHelper.ConfigRootFile);
 
-            componentRoot.RunGame(center);
+            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
 
             // Assert
 

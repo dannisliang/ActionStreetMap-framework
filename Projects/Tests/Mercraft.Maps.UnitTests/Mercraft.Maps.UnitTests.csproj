@@ -57,10 +57,12 @@
     <Compile Include="Infrastructure\Stubs\ConfigurableClass.cs" />
     <Compile Include="Osm\BuildingTests.cs" />
     <Compile Include="Osm\FormatTests.cs" />
-    <Compile Include="Stubs\CountableElementVisitor.cs" />
+    <Compile Include="Osm\Stubs\CountableElementVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Osm\ElementTests.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="Zones\Stubs\TestZoneLoader.cs" />
+    <Compile Include="Zones\ZoneLoaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

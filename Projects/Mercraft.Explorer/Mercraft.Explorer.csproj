@@ -42,7 +42,6 @@
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="Bootstrappers\SettingsBootstrapper.cs" />
     <Compile Include="GameObjects\FloorBuilder.cs" />
     <Compile Include="IGameRunner.cs" />
     <Compile Include="GameObjects\BuildingModelVisitor.cs" />

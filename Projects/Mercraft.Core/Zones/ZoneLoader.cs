@@ -1,58 +1,63 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Scene;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Tiles;
 using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
-    public class ZoneLoader: IPositionListener
+    public class ZoneLoader: IPositionListener, IConfigurable
     {
-        private readonly TileProvider _tileProvider;
-        private readonly IFloorBuilder _floorBuilder;
-        private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
-        
-        private GeoCoordinate _relativeNullPoint;
-        private List<Zone> _zones = new List<Zone>();
+        protected readonly TileProvider TileProvider;
+        protected readonly IFloorBuilder FloorBuilder;
+        protected readonly IEnumerable<ISceneModelVisitor> SceneModelVisitors;
+
+        protected Vector2 CurrentPosition { get; set; }
+        protected float Offset { get; set; }
+        protected GeoCoordinate RelativeNullPoint { get; set; }
+
+        protected Dictionary<Tile, Zone> Zones { get; set; }
 
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
             IFloorBuilder floorBuilder,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors)
         {
-            _tileProvider = tileProvider;
-            _floorBuilder = floorBuilder;
-            _sceneModelVisitors = sceneModelVisitors;
+            TileProvider = tileProvider;
+            FloorBuilder = floorBuilder;
+            SceneModelVisitors = sceneModelVisitors;
+
+            Zones = new Dictionary<Tile, Zone>();
+            CurrentPosition = new Vector2();
         }
 
-        public void OnMapPositionChanged(Vector2 position)
+        public virtual void OnMapPositionChanged(Vector2 position)
         {
-            if(CheckPosition(position)) 
+            var tile = TileProvider.GetTile(position, RelativeNullPoint);
+
+            if(Zones.ContainsKey(tile))
                 return;
-            
-            // Load zone if needed
-            var tile = _tileProvider.GetTile(position, _relativeNullPoint);
-            var zone = new Zone(tile, _floorBuilder, _sceneModelVisitors);
+
+            // Build zone
+            var zone = new Zone(tile, FloorBuilder, SceneModelVisitors);
             zone.Build();
-            _zones.Add(zone);           
+            Zones.Add(tile, zone);           
         }
 
-        public void OnGeoPositionChanged(GeoCoordinate position)
+        public virtual void OnGeoPositionChanged(GeoCoordinate position)
         {
-            _relativeNullPoint = position;
+            RelativeNullPoint = position;
             
             // TODO need think about this
-            _zones = new List<Zone>();
+            // TODO Destroy existing!
+            Zones = new Dictionary<Tile, Zone>();
         }
 
-        /// <summary>
-        /// Checks current position whether we need to load new zone
-        /// </summary>
-        private bool CheckPosition(Vector2 position)
+        public void Configure(IConfigSection configSection)
         {
-            // TODO
-            return _zones.Any();
+            Offset = configSection.GetFloat("offset");
         }
     }
 }

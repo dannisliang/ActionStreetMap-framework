@@ -14,17 +14,37 @@ namespace Mercraft.Explorer
     /// </summary>
     public class ComponentRoot : IGameRunner, IPositionListener
     {
+
+        #region Privates state. Try avoid usage of the corresponding properties except unit tests
         /// <summary>
         /// Holds config reference
         /// NOTE Do not remove!
         /// </summary>
         private readonly ConfigSettings _config;
 
+        public ConfigSettings Config
+        {
+            get
+            {
+                return _config;
+            }
+        }
+
         /// <summary>
         /// DI container
         /// </summary>
         private readonly IContainer _container = new Container();
-        
+
+        public IContainer Container
+        {
+            get
+            {
+                return _container;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Actual zone loader
         /// </summary>

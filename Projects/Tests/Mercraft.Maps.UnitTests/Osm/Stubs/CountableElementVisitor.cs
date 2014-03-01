@@ -2,7 +2,7 @@
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.UnitTests.Stubs
+namespace Mercraft.Maps.UnitTests.Osm.Stubs
 {
     public class CountableElementVisitor: IElementVisitor
     {

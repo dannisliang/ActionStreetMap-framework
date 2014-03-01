@@ -85,25 +85,6 @@
             return null;
         }
 
-
-        /*#region Singleton
-
-        private static object _syncLock = new object();
-        private volatile static ConfigSettings _instance;
-        public static ConfigSettings Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    lock (_syncLock)
-                        if (_instance == null)
-                            _instance = new ConfigSettings();
-                return _instance;
-            }
-        }
-
-        #endregion*/
-
         /// <summary>
         /// Get section
         /// </summary>

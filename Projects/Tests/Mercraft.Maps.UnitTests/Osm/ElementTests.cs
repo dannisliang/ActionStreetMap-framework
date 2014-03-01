@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.UnitTests.Stubs;
 using Mercraft.Core;
+using Mercraft.Maps.UnitTests.Osm.Stubs;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Osm
