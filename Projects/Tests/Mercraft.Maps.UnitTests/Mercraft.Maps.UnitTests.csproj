@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Explorer\BootstrapTests.cs" />
+    <Compile Include="Explorer\Stubs\TestBuildingModelBuilder.cs" />
     <Compile Include="Explorer\Stubs\TestFloorBuilder.cs" />
+    <Compile Include="Infrastructure\ConfigTests.cs" />
     <Compile Include="Infrastructure\ContainerTests.cs" />
     <Compile Include="Infrastructure\Stubs\ClassA.cs" />
     <Compile Include="Infrastructure\Stubs\CollectionDependencyClass.cs" />
@@ -65,16 +67,10 @@
     <None Include="test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="test.scene.config">
+    <None Include="test.merge.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="test.stubs.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="test.zone.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="test.boot.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
