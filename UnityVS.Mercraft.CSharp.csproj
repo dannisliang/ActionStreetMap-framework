@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Autorun.cs" />
+    <Compile Include="Assets\Scripts\Demo\CharacterBehavior.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <None Include="Assets\Dependencies\Mercraft.Core.dll" />
     <None Include="Assets\Dependencies\Mercraft.Explorer.dll" />

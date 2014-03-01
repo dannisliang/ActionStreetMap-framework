@@ -30,7 +30,8 @@ namespace Mercraft.Explorer.Render
             _shader = Shader.Find(configSection.GetString("shader"));
 
             var colorString = configSection.GetString("color");
-            _color = (Color)Enum.Parse(typeof(Color), colorString);
+            _color = Color.green;
+            //(Color)Enum.Parse(typeof(Color), colorString);
         }
     }
 }

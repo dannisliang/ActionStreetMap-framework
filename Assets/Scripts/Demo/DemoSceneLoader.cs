@@ -1,13 +1,11 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
-using Mercraft.Core.Scene.Models;
+﻿using System.Collections.Generic;
 using Mercraft.Core;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer;
 using UnityEditor;
 using UnityEngine;
 
-namespace Mercraft.Scene.Demo
+namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {

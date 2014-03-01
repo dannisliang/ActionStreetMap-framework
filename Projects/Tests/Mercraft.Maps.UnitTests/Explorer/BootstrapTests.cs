@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
+using Mercraft.Explorer.Render;
 using Mercraft.Infrastructure.Config;
 using NUnit.Framework;
 using UnityEngine;
@@ -26,6 +28,21 @@ namespace Mercraft.Maps.UnitTests.Explorer
 
            // var buildings = tile.Scene.Buildings.ToList();
            // Assert.AreEqual(30, buildings.Count);
+        }
+
+        [Test]
+        public void CanResolveBuildingModelVisitors()
+        {
+            // Arrange
+            var componentRoot = new ComponentRoot(TestHelper.ConfigRootFile);
+            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
+
+            // Act
+            var modelVisitors = componentRoot.Container.ResolveAll<ISceneModelVisitor>()
+                .ToList();
+
+            // Assert
+            Assert.AreEqual(2, modelVisitors.Count());
         }
     }
 }

@@ -10,8 +10,8 @@ namespace Mercraft.Explorer.GameObjects
         {
             // TODO calculater real values
             var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            floor.transform.position = new Vector3(500, 30, 500);
-            floor.transform.localScale = new Vector3(10, 1, 10);
+            floor.transform.position = new Vector3(0, 0, 0);
+            floor.transform.localScale = new Vector3(1000, 1, 1000);
 
             return floor;
         }

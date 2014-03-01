@@ -40,17 +40,19 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         /// <returns></returns>
         public object GetInstance(string name)
         {
+            object target = _instance;
             if (_instance == null)
             {
                 _instance = (Constructor ?? TypeHelper.GetConstructor(TargetType, CstorArgs))
                     .Invoke(CstorArgs);
                 _proxy = InterceptionContext.CreateProxy(InterfaceType, _instance);
-            }
-            var target = _proxy ?? _instance;
-            var configurable = target as IConfigurable;
-            if (configurable != null && ConfigSection != null)
-            {
-                configurable.Configure(ConfigSection);
+
+                target = _proxy ?? _instance;
+                var configurable = target as IConfigurable;
+                if (configurable != null && ConfigSection != null)
+                {
+                    configurable.Configure(ConfigSection);
+                }
             }
 
             return target;
