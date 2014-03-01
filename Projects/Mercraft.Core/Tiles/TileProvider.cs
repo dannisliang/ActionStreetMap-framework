@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Scene;
@@ -29,23 +30,25 @@ namespace Mercraft.Core.Tiles
             _tiles = new List<Tile>();
         }
 
-        /*public bool IsBoundPosition(Vector2 position)
-        {
-            Tile tile = GetTile(position, _offset);
-            return tile == null;
-        }*/
-
         public Tile GetTile(Vector2 position, GeoCoordinate relativeNullPoint)
         {
             // check whether we're in tile with offset - no need to preload tile
             Tile tile = GetTile(position, _offset);
             if (tile != null)
             {
-                Trace.Info(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
+                LogTileFound(tile, position);
                 return tile;
             }
 
             var nextTileCenter = GetNextTileCenter(position);
+
+            // try to find existing tile
+            tile = GetTile(nextTileCenter);
+            if (tile != null)
+            {
+                LogTileFound(tile, position);
+                return tile;
+            }
 
             // calculate geo center
             var geoCoordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, nextTileCenter);
@@ -54,10 +57,10 @@ namespace Mercraft.Core.Tiles
 
             var scene = _sceneBuilder.Build(geoCoordinate, bbox);
 
-            tile = new Tile(scene, geoCoordinate, nextTileCenter, _tileSize);
+            tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
             _tiles.Add(tile);
-            Trace.Info(LogTag, String.Format("Created tile with center: ({0},{1}), size:{2}, geo: {3}:{4}",
-                nextTileCenter.x, nextTileCenter.y, _tileSize, geoCoordinate.Latitude, geoCoordinate.Longitude));
+            Trace.Info(LogTag, String.Format("Created tile with center: {0}, size:{1}, geo: {2}",
+                nextTileCenter, _tileSize, geoCoordinate));
             return tile;
         }
 
@@ -65,6 +68,11 @@ namespace Mercraft.Core.Tiles
         {
             // TODO change to FirstOrDefault after ensure that only one tile is found
             return _tiles.SingleOrDefault(t => t.Contains(position, offset));
+        }
+
+        private Tile GetTile(Vector2 tileCenter)
+        {
+            return _tiles.SingleOrDefault(t => tileCenter.AreSame(t.TileMapCenter));
         }
 
         private Vector2 GetNextTileCenter(Vector2 position)
@@ -79,38 +87,20 @@ namespace Mercraft.Core.Tiles
             if (tile == null)
                 throw new InvalidOperationException("Instant position changing detected!");
 
-            var direction = GetDirection(tile, position);
-            Trace.Info("", String.Format("Next tile position: {0}", position));
-            switch (direction)
-            {
-                case Direction.Left:
-                    return new Vector2(tile.TileMapCenter.x - _tileSize, tile.TileMapCenter.y);
-                case Direction.Right:
-                    return new Vector2(tile.TileMapCenter.x + _tileSize, tile.TileMapCenter.y);
-                case Direction.Top:
-                    return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y + _tileSize);
-                case Direction.Bottom:
-                    return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y - _tileSize);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        /// Determine tile direction using current position
-        /// </summary>
-        private Direction GetDirection(Tile tile, Vector2 position)
-        {
+            // top
             if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.TopRight))
-                return Direction.Top;
+                return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y + _tileSize);
 
-            if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.BottomRight))
-                return Direction.Left;
+            // left
+            if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.BottomLeft))
+                return new Vector2(tile.TileMapCenter.x - _tileSize, tile.TileMapCenter.y);
 
+            // right
             if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopRight, tile.BottomRight))
-                return Direction.Right;
+                return new Vector2(tile.TileMapCenter.x + _tileSize, tile.TileMapCenter.y);
 
-            return Direction.Bottom;
+            // bottom
+            return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y - _tileSize);
         }
 
         /// <summary>
@@ -128,18 +118,15 @@ namespace Mercraft.Core.Tiles
             return alpha > 0 && beta > 0 && gamma > 0;
         }
 
+        private void LogTileFound(Tile tile, Vector2 position)
+        {
+            Trace.Info(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
+        }
+
         public void Configure(IConfigSection configSection)
         {
             _tileSize = configSection.GetFloat("tile/@size");
             _offset = configSection.GetFloat("tile/@offset");
-        }
-
-        private enum Direction
-        {
-            Left,
-            Right,
-            Top,
-            Bottom
         }
     }
 }

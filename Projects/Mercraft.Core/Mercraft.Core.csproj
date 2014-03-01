@@ -47,6 +47,7 @@
     <Compile Include="Scene\IFloorBuilder.cs" />
     <Compile Include="Scene\ISceneModelVisitor.cs" />
     <Compile Include="Scene\Models\Road.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
     <Compile Include="Scene\Models\Building.cs" />
     <Compile Include="Scene\CountableScene.cs" />

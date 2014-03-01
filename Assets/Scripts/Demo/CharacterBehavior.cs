@@ -9,7 +9,7 @@ namespace Assets.Scripts.Demo
     {
         private float FloatEpsilon = 1;
         private ComponentRoot component;
-        private Vector3 position;
+        private Vector2 position2D;
 
         // Use this for initialization
         void Start ()
@@ -23,12 +23,12 @@ namespace Assets.Scripts.Demo
 	
         // Update is called once per frame
         void Update () {
-            if (Math.Abs(transform.position.x - position.x) > FloatEpsilon
-                && Math.Abs(transform.position.z - position.y) > FloatEpsilon)
+            if (Math.Abs(transform.position.x - position2D.x) > FloatEpsilon
+                || Math.Abs(transform.position.z - position2D.y) > FloatEpsilon)
             {
                 Debug.Log("position change detect:" + transform.position);
-                position = new Vector2(transform.position.x, transform.position.y);
-                component.OnMapPositionChanged(position);
+                position2D = new Vector2(transform.position.x, transform.position.z);
+                component.OnMapPositionChanged(position2D);
             }
         }
     }
