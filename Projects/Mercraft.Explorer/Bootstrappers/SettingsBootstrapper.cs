@@ -9,10 +9,6 @@ namespace Mercraft.Explorer.Bootstrappers
     {
         private TileSettings _tileSettings;
 
-        public SettingsBootstrapper(IConfigSection configSection) : base(configSection)
-        {
-        }
-
         public override bool Run()
         {
             var tileSize = ConfigSection.GetFloat("tile/@size");

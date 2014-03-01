@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
@@ -27,6 +28,11 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         /// True if cstor args are types which should be resolved
         /// </summary>
         bool NeedResolveCstorArgs { get; set; }
+
+        /// <summary>
+        /// Config section of object
+        /// </summary>
+        IConfigSection ConfigSection { get; set; }
 
         /// <summary>
         /// Constructor's parameters

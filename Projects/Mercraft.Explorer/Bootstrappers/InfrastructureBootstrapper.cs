@@ -8,10 +8,6 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class InfrastructureBootstrapper: BootstrapperPlugin
     {
-        public InfrastructureBootstrapper(IConfigSection configSection) : base(configSection)
-        {
-        }
-
         public override bool Run()
         {
             var logType = ConfigSection.GetType("log/@type");

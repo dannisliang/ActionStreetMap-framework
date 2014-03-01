@@ -38,6 +38,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
@@ -46,6 +48,11 @@
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Explorer\BootstrapTests.cs" />
+    <Compile Include="Explorer\Stubs\TestFloorBuilder.cs" />
+    <Compile Include="Infrastructure\ContainerTests.cs" />
+    <Compile Include="Infrastructure\Stubs\ClassA.cs" />
+    <Compile Include="Infrastructure\Stubs\CollectionDependencyClass.cs" />
+    <Compile Include="Infrastructure\Stubs\ConfigurableClass.cs" />
     <Compile Include="Osm\BuildingTests.cs" />
     <Compile Include="Osm\FormatTests.cs" />
     <Compile Include="Stubs\CountableElementVisitor.cs" />
@@ -58,7 +65,16 @@
     <None Include="test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="test.system.config">
+    <None Include="test.scene.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="test.stubs.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="test.zone.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="test.boot.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

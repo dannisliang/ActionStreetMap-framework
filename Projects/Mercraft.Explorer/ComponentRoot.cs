@@ -1,7 +1,9 @@
-﻿using Mercraft.Core;
+﻿using System;
+using Mercraft.Core;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using UnityEngine;
 using Component = Mercraft.Infrastructure.Dependencies.Component;
 
@@ -42,14 +44,24 @@ namespace Mercraft.Explorer
 
         private void InitializeFromConfig(ConfigSettings configSettings)
         {
+            // config root
             _container.RegisterInstance(configSettings);
 
-            // register bootstrapping service which will register all dependencies using configuration
-            var bootSection = configSettings.GetSection("system/bootstrapping");
-            var bootServiceType = bootSection.GetType("@type");
+            // component configurator
+            _container.Register(Component
+                .For<ComponentConfigurator>()
+                .Use<ComponentConfigurator>()
+                .Singleton());
 
-            _container.Register(Component.For<IBootstrapperService>()
-                .Use(bootServiceType, bootSection).Singleton());
+            // register bootstrapping service which will register all dependencies
+            var bootSection = configSettings.GetSection("system/bootstrapping");
+            var bootServiceType = bootSection.GetType(ConfigKeys.Type);
+
+            _container.Register(Component
+                .For<IBootstrapperService>()
+                .Use(bootServiceType, new Type[0])
+                .SetConfig(bootSection)
+                .Singleton());
             
             // run bootstrappers
             _container.Resolve<IBootstrapperService>().Run();

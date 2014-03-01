@@ -1,25 +1,25 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Tiles;
-using Mercraft.Core.Zones;
+﻿using Mercraft.Explorer.Render;
 using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
     public class SceneBootstrapper: BootstrapperPlugin
     {
-        public SceneBootstrapper(IConfigSection configSection) : base(configSection)
-        {
-        }
-
         public override bool Run()
         {
-            Container.Register(Component.For<ISceneBuilder>().Use<OsmSceneBuilder>().Singleton());
-            Container.Register(Component.For<TileProvider>().Use<TileProvider>().Singleton());
-            Container.Register(Component.For<IPositionListener>().Use<ZoneLoader>().Singleton());
+            //NOTE: No interface yet
+            // TODO extract interface if possible
+            // register mesh builders
+            foreach (var builderConfig in ConfigSection.GetSections("meshes/builders/builder"))
+            {
+                Configurator.RegisterComponent(builderConfig);
+            }
+
+            // register mesh renders
+            foreach (var renderConfig in ConfigSection.GetSections("meshes/renders/render"))
+            {
+                Configurator.RegisterNamedComponent<IMeshRenderer>(renderConfig);
+            }
 
             return true;
         }

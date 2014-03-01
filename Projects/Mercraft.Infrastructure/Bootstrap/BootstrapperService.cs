@@ -2,27 +2,28 @@
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
     /// Provides default functionality to execute startup plugins
     /// </summary>
-    public class BootstrapperService: IBootstrapperService
+    public class BootstrapperService: IBootstrapperService, IConfigurable
     {
         private readonly IEnumerable<IBootstrapperPlugin> _plugins;
-        private readonly IConfigSection _configSection;
-        
+        private IConfigSection _configSection;
+
         [Dependency]
         public IContainer Container { get; set; }
 
         [Dependency]
-        public BootstrapperService(IConfigSection configSection)
-        {
-            _configSection = configSection;
-        }
-        
-        public BootstrapperService(Container container, IBootstrapperPlugin[] plugins)
+        public ComponentConfigurator Configurator { get; set; }
+
+        [Dependency]
+        public BootstrapperService() { }
+
+        public BootstrapperService(Container container, IEnumerable<IBootstrapperPlugin> plugins)
         {
             Container = container;
             _plugins = plugins;
@@ -35,9 +36,7 @@ namespace Mercraft.Infrastructure.Bootstrap
             var bootstrappers = _configSection.GetSections("bootstrappers/bootstrapper");
             foreach (var bootsrapperSection in bootstrappers)
             {
-                var name = bootsrapperSection.GetString("@name");
-                var type = bootsrapperSection.GetType("@type");
-                Container.Register(Component.For<IBootstrapperPlugin>().Use(type, bootsrapperSection).Named(name).Singleton());
+                Configurator.RegisterNamedComponent<IBootstrapperPlugin>(bootsrapperSection);
             }
             IsInitialized = true;
         }
@@ -82,5 +81,10 @@ namespace Mercraft.Infrastructure.Bootstrap
         }
 
         #endregion
+
+        public void Configure(IConfigSection configSection)
+        {
+            _configSection = configSection;
+        }
     }
 }

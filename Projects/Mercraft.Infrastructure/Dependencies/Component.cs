@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies.Interception;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Dependencies.Lifetime;
@@ -23,8 +24,8 @@ namespace Mercraft.Infrastructure.Dependencies
         internal ConstructorInfo Constructor { get; private set; }
         internal string Name { get; private set; }
         internal List<IBehavior> Behaviors { get { return _behaviors; } }
-
         internal bool NeedResolveCstorArgs { get; private set; }
+        internal IConfigSection ConfigSection { get; private set; }
 
         #endregion
 
@@ -130,6 +131,12 @@ namespace Mercraft.Infrastructure.Dependencies
         public Component Named(string name)
         {
             Name = name;
+            return this;
+        }
+
+        public Component SetConfig(IConfigSection configSection)
+        {
+            ConfigSection = configSection;
             return this;
         }
 

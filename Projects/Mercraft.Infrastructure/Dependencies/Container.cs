@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,7 +48,20 @@ namespace Mercraft.Infrastructure.Dependencies
 
                 //try to find using only type and delegate resolving of instance by name to LifetimeManager that
                 //can be useful in custom lifetime managers
-                var altKey = _typeMapping.Keys.Single(k => k.Item2 == type);
+                var altKey = _typeMapping.Keys.SingleOrDefault(k => k.Item2 == type);
+
+                // auto resolving of IEnumerable<T> feature
+                if (altKey.Item1 == null && altKey.Item2 == null && IsEnumerable(type))
+                {
+                    var generticType = type.GetGenericArguments()[0];
+                    var result = ResolveAll(generticType);
+
+                    var methodInfo = typeof(Enumerable).GetMethod("Cast");
+                    var genericMethod = methodInfo.MakeGenericMethod(generticType);
+                    var castResult = genericMethod.Invoke(null, new []{result}) as IEnumerable;
+                    return castResult;
+                }
+
                 //inject container dependency here if attribute is specified
                 return ResolveDependencies(ResolveLifetime(_typeMapping[altKey]).GetInstance(name));
             }
@@ -77,8 +91,17 @@ namespace Mercraft.Infrastructure.Dependencies
 
             //NOTE: resolve all parameters of provided constructor
             if (lifetimeManager.Constructor != null && lifetimeManager.NeedResolveCstorArgs)
-                lifetimeManager.CstorArgs = lifetimeManager.Constructor.GetParameters().Select(p=> Resolve(p.ParameterType)).ToArray();
+                lifetimeManager.CstorArgs = lifetimeManager.Constructor.GetParameters()
+                    .Select(p=> Resolve(p.ParameterType)).ToArray();
+
+
+
             return lifetimeManager;
+        }
+
+        private bool IsEnumerable(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof (IEnumerable<>);
         }
 
         /// <summary>
@@ -156,9 +179,13 @@ namespace Mercraft.Infrastructure.Dependencies
             var lifetimeManager =  component.LifetimeManager ?? Activator.CreateInstance(_lifetimeManager) as ILifetimeManager;
             lifetimeManager.NeedResolveCstorArgs = component.NeedResolveCstorArgs;
             lifetimeManager.Constructor = component.Constructor;
-            return RegisterType(component.InterfaceType, component.TargetType, component.Name,
-                                lifetimeManager,
-                                component.Args ?? _emptyArguments);
+            lifetimeManager.ConfigSection = component.ConfigSection;
+            return RegisterType(
+                component.InterfaceType, 
+                component.TargetType, 
+                component.Name,
+                lifetimeManager,
+                component.Args ?? _emptyArguments);
         }
 
         #endregion

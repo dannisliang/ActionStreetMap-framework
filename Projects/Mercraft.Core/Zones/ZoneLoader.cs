@@ -10,15 +10,19 @@ namespace Mercraft.Core.Zones
     public class ZoneLoader: IPositionListener
     {
         private readonly TileProvider _tileProvider;
+        private readonly IFloorBuilder _floorBuilder;
         private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
         
         private GeoCoordinate _relativeNullPoint;
         private List<Zone> _zones = new List<Zone>();
 
         [Dependency]
-        public ZoneLoader(TileProvider tileProvider, IEnumerable<ISceneModelVisitor> sceneModelVisitors)
+        public ZoneLoader(TileProvider tileProvider, 
+            IFloorBuilder floorBuilder,
+            IEnumerable<ISceneModelVisitor> sceneModelVisitors)
         {
             _tileProvider = tileProvider;
+            _floorBuilder = floorBuilder;
             _sceneModelVisitors = sceneModelVisitors;
         }
 
@@ -29,7 +33,7 @@ namespace Mercraft.Core.Zones
             
             // Load zone if needed
             var tile = _tileProvider.GetTile(position, _relativeNullPoint);
-            var zone = new Zone(tile, null);
+            var zone = new Zone(tile, _floorBuilder, _sceneModelVisitors);
             zone.Build();
             _zones.Add(zone);           
         }
@@ -38,7 +42,7 @@ namespace Mercraft.Core.Zones
         {
             _relativeNullPoint = position;
             
-            // NOTE need think about this
+            // TODO need think about this
             _zones = new List<Zone>();
         }
 
@@ -47,6 +51,7 @@ namespace Mercraft.Core.Zones
         /// </summary>
         private bool CheckPosition(Vector2 position)
         {
+            // TODO
             return _zones.Any();
         }
     }

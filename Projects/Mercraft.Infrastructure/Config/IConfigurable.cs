@@ -2,6 +2,6 @@
 {
     public interface IConfigurable
     {
-        void Configure(IConfigSection config);
+        void Configure(IConfigSection configSection);
     }
 }

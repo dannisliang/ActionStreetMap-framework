@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core;
 
 namespace Mercraft.Maps.Osm.Data
@@ -21,24 +20,23 @@ namespace Mercraft.Maps.Osm.Data
     /// TODO: for development purpose only - real implementation should be able 
     /// to return different dataSources by geo coordinates
     /// </summary>
-    public class DefaultDataSourceProvider : IDataSourceProvider
+    public class DefaultDataSourceProvider : IDataSourceProvider, IConfigurable
     {
-        private readonly IDataSourceReadOnly _dataSource;
-
-        [Dependency("")]
-        public DefaultDataSourceProvider(IConfigSection config)
-        {
-            string filePath = config.GetString("path");
-            bool isXml = config.GetBool("path/@xml");
-            Stream stream = new FileInfo(filePath).OpenRead();
-            _dataSource = isXml
-                ? MemoryDataSource.CreateFromXmlStream(stream)
-                : MemoryDataSource.CreateFromPbfStream(stream);
-        }
+        private IDataSourceReadOnly _dataSource;
 
         public IDataSourceReadOnly Get(GeoCoordinate coordinate)
         {
             return _dataSource;
+        }
+
+        public void Configure(IConfigSection configSection)
+        {
+            string filePath = configSection.GetString("file");
+            bool isXml = configSection.GetBool("file/@xml");
+            Stream stream = new FileInfo(filePath).OpenRead();
+            _dataSource = isXml
+                ? MemoryDataSource.CreateFromXmlStream(stream)
+                : MemoryDataSource.CreateFromPbfStream(stream);
         }
     }
 }

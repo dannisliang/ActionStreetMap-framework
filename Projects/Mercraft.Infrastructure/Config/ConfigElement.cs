@@ -23,28 +23,37 @@
         {
             this._node = root;
             this._xpath = xpath;
+
             this.Initialize();
         }
 
         private void Initialize()
         {
-            string[] paths = this._xpath.Split('/');
-
-            XElement current = this._node;
-            for (int i = 0; i < paths.Length; i++)
+            try
             {
-                if (paths[i].StartsWith("@"))
+                string[] paths = this._xpath.Split('/');
+
+                XElement current = this._node;
+                for (int i = 0; i < paths.Length; i++)
                 {
-                    this._attribute = current.Attribute(paths[i].Substring(1));
-                    return;
+                    if (paths[i].StartsWith("@"))
+                    {
+                        this._attribute = current.Attribute(paths[i].Substring(1));
+                        this._node = null;
+                        return;
+                    }
+
+                    current = current.Element(paths[i]);
+                    if (current == null)
+                        break;
                 }
 
-                current = current.Element(paths[i]);
-                if (current == null)
-                    break;
+                this._node = current;
             }
-
-            this._node = current;
+            catch (Exception ex)
+            {
+                throw new ArgumentException(String.Format("Unable to process xml. xpath:{0}\n node:{1}", _xpath, _node), ex);
+            }
         }
 
         /// <summary>

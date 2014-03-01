@@ -1,4 +1,5 @@
 ﻿using System;
+using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
@@ -16,6 +17,7 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         public Type InterfaceType { get; set; }
         public Type TargetType { get; set; }
         public bool NeedResolveCstorArgs { get; set; }
+        public IConfigSection ConfigSection { get; set; }
         public object[] CstorArgs { get; set; }
         
 
