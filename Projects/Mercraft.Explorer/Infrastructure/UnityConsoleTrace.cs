@@ -1,4 +1,5 @@
-﻿using Mercraft.Infrastructure.Diagnostic;
+﻿using System;
+using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
@@ -13,15 +14,22 @@ namespace Mercraft.Explorer.Infrastructure
                     Debug.LogException(record.Exception);
                     break;
                 case RecordType.Error:
-                    Debug.LogError(record);
+                    Debug.LogError(ConvertRecord(record));
                     break;
                 case RecordType.Info:
-                    Debug.Log(record);
+                    Debug.Log(ConvertRecord(record));
                     break;
                 case RecordType.Warn:
-                    Debug.LogWarning(record);
+                    Debug.LogWarning(ConvertRecord(record));
                     break;
             }
+        }
+
+
+        private string ConvertRecord(TraceRecord record)
+        {
+            var category = record.Category ?? "";
+            return String.Format("{0}:{1}", category, record.Message);
         }
     }
 }

@@ -18,16 +18,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
         {
             // Act
             var componentRoot = new ComponentRoot(TestHelper.ConfigRootFile);
-
             componentRoot.RunGame(TestHelper.BerlinGeoCenter);
-
-            // Assert
-
-            //var tileProvider = componentRoot.Container.Resolve<TileProvider>();
-            //var tile = tileProvider.GetTile(new Vector2(0, 0));
-
-           // var buildings = tile.Scene.Buildings.ToList();
-           // Assert.AreEqual(30, buildings.Count);
         }
 
         [Test]

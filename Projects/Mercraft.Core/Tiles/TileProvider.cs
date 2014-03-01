@@ -5,17 +5,22 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Scene;
+using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Mercraft.Core.Tiles
 {
     public class TileProvider: IConfigurable
     {
+        private readonly string LogTag = typeof (TileProvider).Name;
         private float _tileSize;
         private float _offset;
 
         private readonly ISceneBuilder _sceneBuilder;
         private readonly List<Tile> _tiles;
+
+        [Dependency]
+        private ITrace Trace { get; set; }
 
         [Dependency]
         public TileProvider(ISceneBuilder sceneBuilder)
@@ -35,7 +40,10 @@ namespace Mercraft.Core.Tiles
             // check whether we're in tile with offset - no need to preload tile
             Tile tile = GetTile(position, _offset);
             if (tile != null)
+            {
+                Trace.Info(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
                 return tile;
+            }
 
             var nextTileCenter = GetNextTileCenter(position);
 
@@ -48,7 +56,8 @@ namespace Mercraft.Core.Tiles
 
             tile = new Tile(scene, geoCoordinate, nextTileCenter, _tileSize);
             _tiles.Add(tile);
-
+            Trace.Info(LogTag, String.Format("Created tile with center: ({0},{1}), size:{2}, geo: {3}:{4}",
+                nextTileCenter.x, nextTileCenter.y, _tileSize, geoCoordinate.Latitude, geoCoordinate.Longitude));
             return tile;
         }
 
@@ -71,7 +80,7 @@ namespace Mercraft.Core.Tiles
                 throw new InvalidOperationException("Instant position changing detected!");
 
             var direction = GetDirection(tile, position);
-
+            Trace.Info("", String.Format("Next tile position: {0}", position));
             switch (direction)
             {
                 case Direction.Left:

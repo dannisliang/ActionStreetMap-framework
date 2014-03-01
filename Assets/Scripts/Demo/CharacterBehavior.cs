@@ -19,7 +19,6 @@ namespace Assets.Scripts.Demo
 
             Debug.Log("Run Game");
             component.RunGame(new GeoCoordinate(52.529814, 13.388015));
-
         }
 	
         // Update is called once per frame

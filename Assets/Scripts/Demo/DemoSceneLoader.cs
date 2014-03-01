@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
+using Mercraft.Explorer.GameObjects;
+using Mercraft.Explorer.Meshes;
+using Mercraft.Explorer.Render;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,15 +14,25 @@ namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {
-        [MenuItem("OSM/Test")]
-        static void BuildTestObject()
+        [MenuItem("OSM/Generate Floor")]
+        static void BuildFloor()
         {
-            //new FloorBuilder().Build();
+            Debug.Log("Generate Floor..");
+
+            var center = new GeoCoordinate(52.529814, 13.388015);
+            var componentRoot = new ComponentRoot(@"Config/app.config");
+
+            var floorBuilder = componentRoot.Container.Resolve<IFloorBuilder>();
+
+            floorBuilder.Build(new Tile(new CountableScene(), center, new Vector2(0, 0), 10));
+
+            Debug.Log("Generate Floor: Done");
         }
 
         [MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
+            Debug.Log("Generate Single Building..");
             var b1 = new Building()
             {
                 Points = new List<GeoCoordinate>()
@@ -33,80 +48,30 @@ namespace Assets.Scripts.Demo
             };
 
             var center = new GeoCoordinate(52.529814, 13.388015);
-            /*
+            /*var visitor = new BuildingModelVisitor(
+                new PolygonMeshBuilder(),
+                new DefaultMeshRenderer(Shader.Find("Bumped Diffuse"), Color.green),
+                0,
+                1.5f);
 
-            var builder = new BuildingBuilder(center);
+            visitor.VisitBuilding(center, null, b1);*/
 
-            Object.DestroyImmediate(GameObject.Find("Building1"));
-            builder.Build("Building1", b1);*/
+            var componentRoot = new ComponentRoot(@"Config/app.config");
+            var visitor = componentRoot.Container.Resolve<ISceneModelVisitor>("building");
+            visitor.VisitBuilding(center, null, b1);
+
+            Debug.Log("Generate Single Building: Done");
         }
 
         [MenuItem("OSM/Generate Berlin Small Part")]
-        static void Build()
+        static void BuildSmallPart()
         {
-            Debug.Log("Start to create building..");
+            Debug.Log("Generate Berlin Small Part..");
 
-            var componentRoot = new ComponentRoot(@"app.config");
+            var componentRoot = new ComponentRoot(@"Config/app.config");
             componentRoot.RunGame(new GeoCoordinate(51.26371, 4.7854));
 
             Debug.Log("Generate Berlin Small Part: Done");
-
-           /* var componentRoot = new ComponentRoot();
-
-            var tileProvider = componentRoot.Container.Resolve<TileProvider>();
-            var geoCenter = componentRoot.Container.Resolve<GeoCoordinate>("Settings.GeoCenter");
-
-            var tile = tileProvider.GetTile(new Vector2(0, 0));
-            var buildings = tile.Scene.Buildings.ToList();
-            var buildingBuilder = new BuildingBuilder(geoCenter);
-            for (int i = 0; i < buildings.Count; i++)
-            {
-                var building = buildings[i];
-                var name = "Building" + i;
-                Object.DestroyImmediate(GameObject.Find(name));
-                buildingBuilder.Build(name, building);
-            }*/
-
-            //var file = @"c:\Users\Ilya.Builuk\Documents\Source\mercraft\Tests\TestAssets\kempen.osm.pbf";
-            //var center = new GeoCoordinate(51.26371, 4.7854);
-
-            /*var center = new GeoCoordinate(52.529814, 13.388015);
-            var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
-
-            var gameLoader = new GameLoader();
-            gameLoader.Load(file, center);*/
-
-            /*var file = @".\Projects\Tests\TestAssets\berlin_house.osm.xml";
-            var center = new GeoCoordinate(52.529814, 13.388015);
-            var buildingBuilder = new BuildingBuilder(center);
-
-            using (Stream stream = new FileInfo(file).OpenRead())
-            {
-                var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
-                var sceneBuilder = new OsmSceneBuilder(
-                 new DefaultDataSourceProvider(dataSource),
-                 new ElementManager());
-
-                var tileProvider = new TileProvider(sceneBuilder, new TileSettings()
-                {
-                    RelativeNullPoint = center,
-                    Size = 1000
-                });
-                var tile = tileProvider.GetTile(new Vector2(0, 0));
-                var buildings = tile.Scene.Buildings.ToList();
-
-                for (int i = 0; i < buildings.Count; i++)
-                {
-                    var building = buildings[i];
-                    var name = "Building" + i;
-                    Object.DestroyImmediate(GameObject.Find(name));
-                    buildingBuilder.Build(name, building);
-                }
-
-            }
-
-            Debug.Log("Done");*/
-
         }
     }
 }

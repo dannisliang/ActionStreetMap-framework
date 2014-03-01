@@ -1,5 +1,6 @@
 ﻿using System;
 using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Render
@@ -10,6 +11,18 @@ namespace Mercraft.Explorer.Render
         private Color _color;
 
         public string Name { get; private set; }
+
+        [Dependency]
+        public DefaultMeshRenderer()
+        {
+            
+        }
+
+        public DefaultMeshRenderer(Shader shader, Color color)
+        {
+            _shader = shader;
+            _color = color;
+        }
 
         public void Render(GameObject gameObject)
         {
