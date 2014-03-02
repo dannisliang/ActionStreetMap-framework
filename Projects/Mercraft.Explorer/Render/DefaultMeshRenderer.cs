@@ -1,50 +1,24 @@
-﻿using System;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
+﻿using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Render
 {
     public class DefaultMeshRenderer: IMeshRenderer, IConfigurable
     {
-        private Shader _shader;
-        private Color _color;
+        private string _materialPath;
 
         public string Name { get; private set; }
-
-        [Dependency]
-        public DefaultMeshRenderer()
-        {
-            
-        }
-
-        public DefaultMeshRenderer(Shader shader, Color color)
-        {
-            _shader = shader;
-            _color = color;
-        }
 
         public void Render(GameObject gameObject)
         {
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material.shader = _shader;
-
-            var tex = new Texture2D(1, 1);
-            tex.SetPixel(0, 0, _color);
-            tex.Apply();
-            renderer.material.mainTexture = tex;
-            renderer.material.color = _color;
+            renderer.renderer.material = Resources.Load<Material>(_materialPath);
         }
 
         public void Configure(IConfigSection configSection)
         {
             Name = configSection.GetString("@name");
-
-            _shader = Shader.Find(configSection.GetString("shader"));
-
-            var colorString = configSection.GetString("color");
-            _color = Color.green;
-            //(Color)Enum.Parse(typeof(Color), colorString);
+            _materialPath = configSection.GetString("material/@path");
         }
     }
 }

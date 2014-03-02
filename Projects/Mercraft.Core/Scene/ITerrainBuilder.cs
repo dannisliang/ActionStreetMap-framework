@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mercraft.Core.Scene
 {
-    public interface IFloorBuilder
+    public interface ITerrainBuilder
     {
         GameObject Build(Tile tile);
     }

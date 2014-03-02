@@ -9,23 +9,23 @@ namespace Mercraft.Core.Zones
     public class Zone
     {
         private readonly Tile _tile;
-        private readonly IFloorBuilder _floorBuilder;
+        private readonly ITerrainBuilder _terrainBuilder;
         private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
 
         private GameObject _floor;
 
         public Zone(Tile tile, 
-            IFloorBuilder floorBuilder,
+            ITerrainBuilder terrainBuilder,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors)
         {
             _tile = tile;
-            _floorBuilder = floorBuilder;
+            _terrainBuilder = terrainBuilder;
             _sceneModelVisitors = sceneModelVisitors;
         }
 
         public void Build()
         {
-            _floor = _floorBuilder.Build(_tile);
+            _floor = _terrainBuilder.Build(_tile);
             // Visit buildings
             foreach (var building in _tile.Scene.Buildings)
             {

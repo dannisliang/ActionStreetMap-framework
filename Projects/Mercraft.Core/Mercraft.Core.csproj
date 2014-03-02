@@ -45,7 +45,7 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="IPositionListener.cs" />
-    <Compile Include="Scene\IFloorBuilder.cs" />
+    <Compile Include="Scene\ITerrainBuilder.cs" />
     <Compile Include="Scene\ISceneModelVisitor.cs" />
     <Compile Include="Scene\Models\Road.cs" />
     <Compile Include="Utilities\Extensions.cs" />

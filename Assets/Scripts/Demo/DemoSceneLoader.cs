@@ -4,29 +4,29 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
-//using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {
-        //[MenuItem("OSM/Generate Floor")]
+        [MenuItem("OSM/Generate Terrain")]
         static void BuildFloor()
         {
-            Debug.Log("Generate Floor..");
+            Debug.Log("Generate Terrain..");
 
             var center = new GeoCoordinate(52.529814, 13.388015);
             var componentRoot = new ComponentRoot(@"Config/app.config");
 
-            var floorBuilder = componentRoot.Container.Resolve<IFloorBuilder>();
+            var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
 
             floorBuilder.Build(new Tile(new MapScene(), center, new Vector2(0, 0), 10));
 
-            Debug.Log("Generate Floor: Done");
+            Debug.Log("Generate Terrain: Done");
         }
 
-        //[MenuItem("OSM/Generate Single Building")]
+        [MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
@@ -45,6 +45,25 @@ namespace Assets.Scripts.Demo
             };
 
             var center = new GeoCoordinate(52.529814, 13.388015);
+
+            var componentRoot = new ComponentRoot(@"Config/app.config");
+
+            var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
+
+            var floor = floorBuilder.Build(new Tile(
+                    null, 
+                    new GeoCoordinate(52.529814, 13.388015),
+                    new Vector2(0, 0),
+                    50));
+
+            var visitor = componentRoot.Container.Resolve<ISceneModelVisitor>("building");
+            visitor.VisitBuilding(center, floor, b1);
+
+            Debug.Log("Generate Single Building: Done");
+        }
+
+        static void BuildCustomStyled()
+        {
             /*var visitor = new BuildingModelVisitor(
                 new PolygonMeshBuilder(),
                 new DefaultMeshRenderer(Shader.Find("Bumped Diffuse"), Color.green),
@@ -52,15 +71,9 @@ namespace Assets.Scripts.Demo
                 1.5f);
 
             visitor.VisitBuilding(center, null, b1);*/
-
-            var componentRoot = new ComponentRoot(@"Config/app.config");
-            var visitor = componentRoot.Container.Resolve<ISceneModelVisitor>("building");
-            visitor.VisitBuilding(center, null, b1);
-
-            Debug.Log("Generate Single Building: Done");
         }
 
-        //[MenuItem("OSM/Generate Berlin Small Part")]
+        [MenuItem("OSM/Generate Berlin Small Part")]
         static void BuildSmallPart()
         {
             Debug.Log("Generate Berlin Small Part..");

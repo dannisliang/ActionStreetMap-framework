@@ -11,9 +11,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     public class TestZoneLoader : ZoneLoader
     {
         [Dependency]
-        public TestZoneLoader(TileProvider tileProvider, IFloorBuilder floorBuilder,
+        public TestZoneLoader(TileProvider tileProvider, ITerrainBuilder terrainBuilder,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
-                base(tileProvider, floorBuilder, sceneModelVisitors)
+                base(tileProvider, terrainBuilder, sceneModelVisitors)
         {
         }
 

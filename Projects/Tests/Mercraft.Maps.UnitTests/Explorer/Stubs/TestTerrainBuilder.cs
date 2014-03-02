@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Explorer.Stubs
 {
-    public class TestFloorBuilder: IFloorBuilder
+    public class TestTerrainBuilder: ITerrainBuilder
     {
         public GameObject Build(Tile tile)
         {

@@ -50,6 +50,10 @@ namespace Mercraft.Explorer.GameObjects
            
             var mf = gameObject.AddComponent<MeshFilter>();
             mf.mesh = _meshBuilder.BuildMesh(verticies2D, _buildingTop, _buildingFloor);
+           
+            // NOTE do we need call this?
+            MeshHelper.TangentSolver(gameObject.GetComponent<MeshFilter>().mesh);
+
             _meshRenderer.Render(gameObject);
 
             gameObject.AddComponent<MeshCollider>();
