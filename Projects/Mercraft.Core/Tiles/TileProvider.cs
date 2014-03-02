@@ -21,7 +21,7 @@ namespace Mercraft.Core.Tiles
         private readonly List<Tile> _tiles;
 
         [Dependency]
-        private ITrace Trace { get; set; }
+        public ITrace Trace { get; set; }
 
         [Dependency]
         public TileProvider(ISceneBuilder sceneBuilder)

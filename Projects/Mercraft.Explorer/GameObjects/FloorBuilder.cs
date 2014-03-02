@@ -13,7 +13,7 @@ namespace Mercraft.Explorer.GameObjects
         private readonly string LogTag = typeof (FloorBuilder).Name;
 
         [Dependency]
-        private ITrace Trace { get; set; }
+        public ITrace Trace { get; set; }
         
         public GameObject Build(Tile tile)
         {

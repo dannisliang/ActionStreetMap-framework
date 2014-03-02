@@ -11,6 +11,8 @@
     <AssemblyName>Mercraft.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +42,19 @@
     <Compile Include="Bootstrap\BootstrapperService.cs" />
     <Compile Include="Bootstrap\IBootsrtrapperService.cs" />
     <Compile Include="Bootstrap\IBootstrapperPlugin.cs" />
+    <Compile Include="Compression\Zlib\CRC32.cs" />
+    <Compile Include="Compression\Zlib\Deflate.cs" />
+    <Compile Include="Compression\Zlib\DeflateStream.cs" />
+    <Compile Include="Compression\Zlib\GZipStream.cs" />
+    <Compile Include="Compression\Zlib\Inflate.cs" />
+    <Compile Include="Compression\Zlib\InfTree.cs" />
+    <Compile Include="Compression\Zlib\ParallelDeflateOutputStream.cs" />
+    <Compile Include="Compression\Zlib\Tree.cs" />
+    <Compile Include="Compression\Zlib\Zlib.cs" />
+    <Compile Include="Compression\Zlib\ZlibBaseStream.cs" />
+    <Compile Include="Compression\Zlib\ZlibCodec.cs" />
+    <Compile Include="Compression\Zlib\ZlibConstants.cs" />
+    <Compile Include="Compression\Zlib\ZlibStream.cs" />
     <Compile Include="Config\ComponentConfigurator.cs" />
     <Compile Include="Config\ConfigElement.cs" />
     <Compile Include="Config\ConfigMerger.cs" />
@@ -76,8 +91,11 @@
     <Compile Include="Primitives\Tuple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Compression\README.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

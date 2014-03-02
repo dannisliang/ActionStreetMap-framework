@@ -4,17 +4,14 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
-using Mercraft.Explorer.GameObjects;
-using Mercraft.Explorer.Meshes;
-using Mercraft.Explorer.Render;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {
-        [MenuItem("OSM/Generate Floor")]
+        //[MenuItem("OSM/Generate Floor")]
         static void BuildFloor()
         {
             Debug.Log("Generate Floor..");
@@ -29,7 +26,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Floor: Done");
         }
 
-        [MenuItem("OSM/Generate Single Building")]
+        //[MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
@@ -63,7 +60,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Single Building: Done");
         }
 
-        [MenuItem("OSM/Generate Berlin Small Part")]
+        //[MenuItem("OSM/Generate Berlin Small Part")]
         static void BuildSmallPart()
         {
             Debug.Log("Generate Berlin Small Part..");
