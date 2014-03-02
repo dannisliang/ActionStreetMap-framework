@@ -27,7 +27,7 @@ namespace Mercraft.Maps.Osm
         /// <param name="bbox">Bounding box</param>
         public IScene Build(GeoCoordinate center, BoundingBox bbox)
         {
-            var scene = new CountableScene();
+            var scene = new MapScene();
             var visitor = new CompositeVisitor(new List<IElementVisitor>
             {
                 new BuildingVisitor(scene)

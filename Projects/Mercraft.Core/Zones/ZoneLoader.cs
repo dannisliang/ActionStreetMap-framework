@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;

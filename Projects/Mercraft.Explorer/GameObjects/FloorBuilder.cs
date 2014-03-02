@@ -1,4 +1,5 @@
 ﻿using System;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
@@ -32,7 +33,6 @@ namespace Mercraft.Explorer.GameObjects
 
         private void AttachTexture(GameObject gameObject)
         {
-
             System.Random r = new System.Random(DateTime.Now.Millisecond);
             var color = new Color(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
 
@@ -43,6 +43,8 @@ namespace Mercraft.Explorer.GameObjects
             texture2D.Apply();
             meshRenderer.material.mainTexture = (Texture)texture2D;
             meshRenderer.material.color = color;
+           
+            MeshHelper.TangentSolver(gameObject.GetComponent<MeshFilter>().mesh);
         }
     }
 }

@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\GeoProjection.cs" />
+    <Compile Include="Algorithms\MeshHelper.cs" />
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="Algorithms\PolygonTriangulation.cs" />
     <Compile Include="BoundingBox.cs" />
@@ -50,7 +51,7 @@
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
     <Compile Include="Scene\Models\Building.cs" />
-    <Compile Include="Scene\CountableScene.cs" />
+    <Compile Include="Scene\MapScene.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\ISceneBuilder.cs" />

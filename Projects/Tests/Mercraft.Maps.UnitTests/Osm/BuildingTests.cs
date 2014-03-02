@@ -22,7 +22,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 200);
 
-                var scene = new CountableScene();
+                var scene = new MapScene();
 
                 var elementManager = new ElementManager();
 
@@ -30,8 +30,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 Assert.AreEqual(30, scene.Buildings.Count());
 
-                DumpScene(scene);
-
+                //DumpScene(scene);
             }
         }
 
@@ -44,7 +43,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1000);
 
-                var scene = new CountableScene();
+                var scene = new MapScene();
 
                 var elementManager = new ElementManager();
 
@@ -54,12 +53,12 @@ namespace Mercraft.Maps.UnitTests.Osm
             }
         }
 
-        private void DumpScene(CountableScene scene)
+        private void DumpScene(MapScene mapScene)
         {
             using (var file = File.CreateText(@"f:\scene.txt"))
             {
                 file.WriteLine("BUILDINGS:");
-                var buildings = scene.Buildings.ToList();
+                var buildings = mapScene.Buildings.ToList();
                 for (int i = 0; i < buildings.Count; i++)
                 {
                     var building = buildings[i];

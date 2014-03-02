@@ -24,7 +24,7 @@ namespace Assets.Scripts.Demo
 
             var floorBuilder = componentRoot.Container.Resolve<IFloorBuilder>();
 
-            floorBuilder.Build(new Tile(new CountableScene(), center, new Vector2(0, 0), 10));
+            floorBuilder.Build(new Tile(new MapScene(), center, new Vector2(0, 0), 10));
 
             Debug.Log("Generate Floor: Done");
         }

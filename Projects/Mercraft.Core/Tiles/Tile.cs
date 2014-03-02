@@ -1,6 +1,4 @@
-﻿using System.Security;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
+﻿using Mercraft.Core.Scene;
 using UnityEngine;
 
 namespace Mercraft.Core.Tiles
@@ -11,9 +9,9 @@ namespace Mercraft.Core.Tiles
     public class Tile
     {
         /// <summary>
-        /// Stores tile center coordinate in lat/lon
+        /// Stores map center coordinate in lat/lon
         /// </summary>
-        public GeoCoordinate TileGeoCenter { get; private set; }
+        public GeoCoordinate RelativeNullPoint { get; private set; }
 
         /// <summary>
         /// Stores tile center coordinate in Unity metrics
@@ -35,10 +33,10 @@ namespace Mercraft.Core.Tiles
         public Vector2 BottomLeft { get; set; }
         public Vector2 BottomRight { get; set; }
 
-        public Tile(IScene scene, GeoCoordinate tileGeoCenter, Vector2 tileMapCenter, float size)
+        public Tile(IScene scene, GeoCoordinate relativeNullPoint, Vector2 tileMapCenter, float size)
         {
             Scene = scene;
-            TileGeoCenter = tileGeoCenter;
+            RelativeNullPoint = relativeNullPoint;
             TileMapCenter = tileMapCenter;
             Size = size;
 
@@ -50,7 +48,7 @@ namespace Mercraft.Core.Tiles
         }
 
         /// <summary>
-        /// Checks whether absolute position locates in tile with offset
+        /// Checks whether absolute position locates in tile with bound offset
         /// </summary>
         /// <param name="position">Absolute position in game</param>
         /// <param name="offset">offset from bounds</param>
@@ -61,17 +59,5 @@ namespace Mercraft.Core.Tiles
 
             return result;
         }
-
-        /*/// <summary>
-        /// Checks whether absolute position locates in tile
-        /// </summary>
-        /// <param name="position">Absolute position in game</param>
-        public bool Contains(Vector2 position)
-        {
-            var result = (position.x > _topLeft.x) && (position.y < _topLeft.y) &&
-                   (position.x < _bottomRight.x) && (position.y > _bottomRight.y);
-
-            return result;
-        }*/
     }
 }

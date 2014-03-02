@@ -31,7 +31,7 @@ namespace Mercraft.Core.Zones
             {
                 foreach (var sceneModelVisitor in _sceneModelVisitors)
                 {
-                    sceneModelVisitor.VisitBuilding(_tile.TileGeoCenter, _floor, building);
+                    sceneModelVisitor.VisitBuilding(_tile.RelativeNullPoint, _floor, building);
                 }
             }
         }

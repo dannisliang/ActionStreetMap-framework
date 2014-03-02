@@ -3,7 +3,7 @@ using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.Scene
 {
-    public class CountableScene : IScene
+    public class MapScene : IScene
     {
         private List<Building> _buildings;
         public IEnumerable<Building> Buildings
@@ -14,7 +14,7 @@ namespace Mercraft.Core.Scene
             }
         }
 
-        public CountableScene()
+        public MapScene()
         {
             _buildings = new List<Building>();
         }
