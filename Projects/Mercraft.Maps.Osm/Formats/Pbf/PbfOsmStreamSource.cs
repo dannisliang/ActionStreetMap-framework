@@ -118,8 +118,8 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     simpleNode.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < node.keys.Count; tag_idx++)
                     {
-                        string key = Encoding.UTF8.GetString(block.stringtable.s[(int)node.keys[tag_idx]]);
-                        string value = Encoding.UTF8.GetString(block.stringtable.s[(int)node.vals[tag_idx]]);
+                        string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)node.keys[tag_idx]]));
+                        string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)node.vals[tag_idx]]));
 
                         if (simpleNode.Tags.All(tag => tag.Key != key))
                         {
@@ -156,8 +156,8 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     simple_way.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < way.keys.Count; tag_idx++)
                     {
-                        string key = Encoding.UTF8.GetString(block.stringtable.s[(int)way.keys[tag_idx]]);
-                        string value = Encoding.UTF8.GetString(block.stringtable.s[(int)way.vals[tag_idx]]);
+                        string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)way.keys[tag_idx]]));
+                        string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)way.vals[tag_idx]]));
 
                         if (simple_way.Tags.All(tag => tag.Key != key))
                         {
@@ -191,8 +191,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     for (int member_idx = 0; member_idx < relation.types.Count; member_idx++)
                     {
                         member_id = member_id + relation.memids[member_idx];
-                        string role = Encoding.UTF8.GetString(
-                            block.stringtable.s[relation.roles_sid[member_idx]]);
+                        string role = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[relation.roles_sid[member_idx]]));
                         var member = new RelationMember();
                         member.MemberId = member_id;
                         member.MemberRole = role;
@@ -217,8 +216,8 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     simple_relation.Tags = new List<Tag>();
                     for (int tag_idx = 0; tag_idx < relation.keys.Count; tag_idx++)
                     {
-                        string key = Encoding.UTF8.GetString(block.stringtable.s[(int)relation.keys[tag_idx]]);
-                        string value = Encoding.UTF8.GetString(block.stringtable.s[(int)relation.vals[tag_idx]]);
+                        string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)relation.keys[tag_idx]]));
+                        string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int)relation.vals[tag_idx]]));
 
                         if (simple_relation.Tags.All(tag => tag.Key != key))
                         {

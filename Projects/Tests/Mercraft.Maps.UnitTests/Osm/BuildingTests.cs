@@ -72,7 +72,7 @@ namespace Mercraft.Maps.UnitTests.Osm
                     file.WriteLine("{0}Points:", lineOffset);
                     foreach (var point in building.Points)
                     {
-                        file.WriteLine("{0}\t{1},{2}", lineOffset, point.Latitude, point.Longitude);
+                        file.WriteLine("{0}\tnew GeoCoordinate({1},{2}),", lineOffset, point.Latitude, point.Longitude);
                     }
                 }
             }
