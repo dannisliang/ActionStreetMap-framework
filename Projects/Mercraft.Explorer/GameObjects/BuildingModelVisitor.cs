@@ -49,17 +49,7 @@ namespace Mercraft.Explorer.GameObjects
             var gameObject = new GameObject(name);
            
             var mf = gameObject.AddComponent<MeshFilter>();
-
-            var mesh = new Mesh();
-            mesh.name = "BuildingMesh";
-
-            _meshBuilder.BuildMesh(mesh, verticies2D, _buildingFloor, _buildingTop);
-
-            mf.mesh = mesh;
-           
-            // NOTE do we need call this?
-            MeshHelper.TangentSolver(gameObject.GetComponent<MeshFilter>().mesh);
-
+            mf.mesh = _meshBuilder.BuildMesh(verticies2D, _buildingTop, _buildingFloor);
             _meshRenderer.Render(gameObject);
 
             gameObject.AddComponent<MeshCollider>();
