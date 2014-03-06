@@ -10,7 +10,7 @@ namespace Mercraft.Explorer.Bootstrappers
         public override bool Run()
         {
             var dataSourceProviderSection = ConfigSection.GetSection("dataSourceProvider");
-            Configurator.RegisterComponent<IDataSourceProvider>(dataSourceProviderSection);
+            Configurator.RegisterComponent<IElementSourceProvider>(dataSourceProviderSection);
 
             Container.Register(Component.For<ElementManager>().Use<ElementManager>().Singleton());
 

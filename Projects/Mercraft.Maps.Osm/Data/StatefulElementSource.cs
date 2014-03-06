@@ -1,34 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Filters;
-using Mercraft.Maps.Osm.Format.Xml.v0_6;
-using Mercraft.Maps.Osm.Formats.Pbf;
-using Mercraft.Maps.Osm.Streams;
-using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
-using Node = Mercraft.Maps.Osm.Entities.Node;
-using Relation = Mercraft.Maps.Osm.Entities.Relation;
-using Way = Mercraft.Maps.Osm.Entities.Way;
+using Mercraft.Maps.Osm.Entities;
+using Mercraft.Maps.Osm.Visitors;
 
 namespace Mercraft.Maps.Osm.Data
 {
     /// <summary>
     /// An in-memory data repository of OSM data primitives.
     /// </summary>
-    public class MemoryDataSource : DataSourceReadOnlyBase
+    public abstract class StatefulElementSource : IElementSource
     {
         /// <summary>
         /// Holds the current bounding box.
         /// </summary>
         private BoundingBox _box = null;
 
+        protected bool IsInitialized { get; set; }
+
         /// <summary>
         /// Creates a new memory data structure using the default geometry interpreter.
         /// </summary>
-        public MemoryDataSource()
+        public StatefulElementSource()
         {
             this.InitializeDataStructures();
         }
@@ -36,7 +30,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Creates a new memory data structure using the default geometry interpreter.
         /// </summary>
-        public MemoryDataSource(params Element[] initial)
+        public StatefulElementSource(params Element[] initial)
         {
             this.InitializeDataStructures();
 
@@ -94,7 +88,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the node with the given id.
         /// </summary>
-        public override Node GetNode(long id)
+        public Node GetNode(long id)
         {
             Node node = null;
             _nodes.TryGetValue(id, out node);
@@ -104,7 +98,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the node(s) with the given id(s).
         /// </summary>
-        public override IList<Node> GetNodes(IList<long> ids)
+        public IList<Node> GetNodes(IList<long> ids)
         {
             List<Node> nodes = new List<Node>();
             if (ids != null)
@@ -158,7 +152,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation with the given id.
         /// </summary>
-        public override Relation GetRelation(long id)
+        public Relation GetRelation(long id)
         {
             Relation relation = null;
             _relations.TryGetValue(id, out relation);
@@ -168,7 +162,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the relation(s) with the given id(s).
         /// </summary>
-        public override IList<Relation> GetRelations(IList<long> ids)
+        public IList<Relation> GetRelations(IList<long> ids)
         {
             List<Relation> relations = new List<Relation>();
             if (ids != null)
@@ -204,16 +198,16 @@ namespace Mercraft.Maps.Osm.Data
                 foreach (var relationMember in relation.Members)
                 {
                     HashSet<long> relationsIds = null;
-                    Action<Dictionary<long, HashSet<long>>> relationPerElementAction = 
+                    Action<Dictionary<long, HashSet<long>>> relationPerElementAction =
                         relationPerElement =>
-                    {
-                        long id = relationMember.MemberId.Value;
-                        if (!relationPerElement.TryGetValue(id, out relationsIds))
                         {
-                            relationsIds = new HashSet<long>();
-                            relationPerElement.Add(id, relationsIds);
-                        }
-                    };
+                            long id = relationMember.MemberId.Value;
+                            if (!relationPerElement.TryGetValue(id, out relationsIds))
+                            {
+                                relationsIds = new HashSet<long>();
+                                relationPerElement.Add(id, relationsIds);
+                            }
+                        };
 
                     relationMember.Member.Accept(new ElementVisitor(
                        _ => relationPerElementAction(_relationsPerNode),
@@ -237,18 +231,18 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all relations that have the given object as a member.
         /// </summary>
-        public override IList<Relation> GetRelationsFor(Element element)
+        public IList<Relation> GetRelationsFor(Element element)
         {
             long id = element.Id.Value;
             HashSet<long> relationIds = null;
-            
+
             element.Accept(new ElementVisitor(
                 _ => { _relationsPerNode.TryGetValue(id, out relationIds); },
                 _ => { _relationsPerWay.TryGetValue(id, out relationIds); },
                 _ => { _relationsPerRelation.TryGetValue(id, out relationIds); }));
 
             if (relationIds == null)
-                return new List<Relation>(); 
+                return new List<Relation>();
 
             var relations = new List<Relation>();
             foreach (long relationId in relationIds)
@@ -260,7 +254,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the way with the given id.
         /// </summary>
-        public override Way GetWay(long id)
+        public Way GetWay(long id)
         {
             Way way = null;
             _ways.TryGetValue(id, out way);
@@ -270,7 +264,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the way(s) with the given id(s).
         /// </summary>
-        public override IList<Way> GetWays(IList<long> ids)
+        public IList<Way> GetWays(IList<long> ids)
         {
             List<Way> relations = new List<Way>();
             if (ids != null)
@@ -294,7 +288,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the ways for a given node.
         /// </summary>
-        public override IList<Way> GetWaysFor(long id)
+        public IList<Way> GetWaysFor(long id)
         {
             HashSet<long> wayIds = null;
             List<Way> ways = new List<Way>();
@@ -343,9 +337,9 @@ namespace Mercraft.Maps.Osm.Data
 
             _ways[way.Id.Value] = way;
 
-            if(way.NodeIds != null)
+            if (way.NodeIds != null)
             {
-                foreach(long nodeId in way.NodeIds)
+                foreach (long nodeId in way.NodeIds)
                 {
                     HashSet<long> wayIds;
                     if (!_waysPerNode.TryGetValue(nodeId, out wayIds))
@@ -369,16 +363,18 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns all the objects within a given bounding box and filtered by a given filter.
         /// </summary>
-        public override IList<Element> Get(BoundingBox bbox, IFilter filter)
+        public virtual IEnumerable<Element> Get(BoundingBox bbox)
         {
+            if (!IsInitialized)
+                Initialize();
+
             List<Element> res = new List<Element>();
 
             // load all nodes and keep the ids in a collection.
             HashSet<long> ids = new HashSet<long>();
             foreach (Node node in _nodes.Values)
             {
-                if ((filter == null || filter.Evaluate(node)) &&
-                    bbox.Contains(node.Latitude.Value, node.Longitude.Value))
+                if (bbox.Contains(node.Latitude.Value, node.Longitude.Value))
                 {
                     res.Add(node);
                     ids.Add(node.Id.Value);
@@ -424,61 +420,25 @@ namespace Mercraft.Maps.Osm.Data
                 relations = newRelations;
             } while (relations.Count > 0);
 
-            if (filter != null)
-            {
-                var filtered = new List<Element>();
-                foreach (Element geo in res)
-                {
-                    if (filter.Evaluate(geo))
-                    {
-                        filtered.Add(geo);
-                    }
-                }
-            }
-
             return res;
         }
 
-        #region Create Functions
-
-        /// <summary>
-        /// Creates a new memory data source from all the data in the given osm-stream.
-        /// </summary>
-        public static MemoryDataSource CreateFrom(OsmStreamSource sourceStream)
+        public virtual void Initialize()
         {
-            // reset if possible.
-            if (sourceStream.CanReset)
-                sourceStream.Reset();
+            if(!IsInitialized)
+                throw new InvalidOperationException("You should call other Initialize(IEnumerable<Element>) method before this one");
+        }
 
-            // enumerate all objects and add them to a new datasource.
-            var dataSource = new MemoryDataSource();
-
+        public void Initialize(IEnumerable<Element> sourceStream)
+        {
             var elementVisitor = new ElementVisitor(
-                dataSource.AddNode,
-                dataSource.AddWay,
-                dataSource.AddRelation);
+                AddNode,
+                AddWay,
+                AddRelation);
 
             foreach (var element in sourceStream)
                 element.Accept(elementVisitor);
-
-            return dataSource;
+            IsInitialized = true;
         }
-
-        /// <summary>
-        /// Creates a new memory data source from all the data in the given osm pbf stream.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public static MemoryDataSource CreateFromPbfStream(Stream stream)
-        {
-            return MemoryDataSource.CreateFrom(new PbfOsmStreamSource(stream));
-        }
-
-        public static MemoryDataSource CreateFromXmlStream(Stream stream)
-        {
-            return MemoryDataSource.CreateFrom(new Mercraft.Maps.Osm.Formats.Xml.XmlOsmStreamSource(stream));
-        }
-
-        #endregion
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
+using Mercraft.Maps.Osm.Formats.Xml;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
@@ -18,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestXmlFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromXmlStream(stream);
+                var dataSource = new XmlElementSource(stream);
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 200);
 
@@ -26,7 +27,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox, new BuildingVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
 
                 Assert.AreEqual(30, scene.Buildings.Count());
 
@@ -39,7 +40,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                var dataSource = MemoryDataSource.CreateFromPbfStream(stream);
+                var dataSource = new PbfElementSource(stream);
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1000);
 
@@ -47,7 +48,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(dataSource, bbox, new BuildingVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
 
                 Assert.AreEqual(1453, scene.Buildings.Count());
             }

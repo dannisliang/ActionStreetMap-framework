@@ -18,7 +18,7 @@ namespace Assets.Scripts.Demo
 	        component = new ComponentRoot(@"Config\app.config");
 
             Debug.Log("Run Game");
-            //component.RunGame(new GeoCoordinate(52.529814, 13.388015));
+            component.RunGame(new GeoCoordinate(52.529814, 13.388015));
         }
 	
         // Update is called once per frame
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Demo
             {
                 Debug.Log("position change detect:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
-               //component.OnMapPositionChanged(position2D);
+               component.OnMapPositionChanged(position2D);
             }
         }
     }

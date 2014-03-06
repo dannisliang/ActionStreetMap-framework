@@ -57,7 +57,6 @@
     <Compile Include="Infrastructure\Stubs\CollectionDependencyClass.cs" />
     <Compile Include="Infrastructure\Stubs\ConfigurableClass.cs" />
     <Compile Include="Osm\BuildingTests.cs" />
-    <Compile Include="Osm\FormatTests.cs" />
     <Compile Include="Osm\OsmPerformanceTests.cs" />
     <Compile Include="Osm\Stubs\CountableElementVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

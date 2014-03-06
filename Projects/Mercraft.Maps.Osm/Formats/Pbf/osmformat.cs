@@ -233,7 +233,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     /// </summary>
     public PrimitiveGroup() {}
     
-    private readonly global::System.Collections.Generic.List<Node> _nodes = new global::System.Collections.Generic.List<Node>();
+    private global::System.Collections.Generic.List<Node> _nodes = new global::System.Collections.Generic.List<Node>();
     /// <summary>
     /// 
     /// </summary>
@@ -241,6 +241,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     public global::System.Collections.Generic.List<Node> nodes
     {
       get { return _nodes; }
+      set { _nodes = value; }
     }
   
 

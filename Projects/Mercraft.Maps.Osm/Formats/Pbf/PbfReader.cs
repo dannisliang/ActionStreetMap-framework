@@ -51,30 +51,6 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         }
 
         /// <summary>
-        /// Reads PFB OSM data from a stream.
-        /// </summary>
-        /// <param name="consumer">The consumer to send the data to.</param>
-        public void ReadAll(IPbfPrimitiveBlockConsumer consumer)
-        {
-            // check parameters.
-            if (consumer == null)
-            {
-                throw new ArgumentNullException("consumer");
-            }
-
-            // start processing.
-            PrimitiveBlock block = this.MoveNext();
-            while (block != null)
-            {
-                // report the next block to the consumer.
-                consumer.ProcessPrimitiveBlock(block);
-
-                // move to the next block.
-                block = this.MoveNext();
-            }
-        }
-
-        /// <summary>
         /// Moves to the next primitive block, returns null at the end.
         /// </summary>
         /// <returns></returns>

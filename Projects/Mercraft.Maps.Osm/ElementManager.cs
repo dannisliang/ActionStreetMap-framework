@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Extensions.LongIndex;
-using Mercraft.Maps.Osm.Filters;
+using Mercraft.Maps.Osm.Formats;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
 
@@ -15,75 +13,28 @@ namespace Mercraft.Maps.Osm
     public class ElementManager
     {
         /// <summary>
-        /// Filters OSM elements
-        /// </summary>
-        private IFilter _filter;
-
-        /// <summary>
-        /// Holds the interpreted nodes.
-        /// </summary>
-        private LongIndex _translatedNodes;
-
-        /// <summary>
-        /// Holds the interpreted relations.
-        /// </summary>
-        private LongIndex _translatedRelations;
-
-        /// <summary>
-        /// Holds the interpreted way.
-        /// </summary>
-        private LongIndex _translatedWays;
-
-        [Dependency]
-        public ElementManager(): this(null){}
-
-        /// <summary>
-        /// Creates a new style scene manager.
-        /// </summary>
-        public ElementManager(IFilter filter)
-        {
-            //_elementVisitor = elementVisitor;
-            _filter = filter;
-            _translatedNodes = new LongIndex();
-            _translatedWays = new LongIndex();
-            _translatedRelations = new LongIndex();
-        }
-
-        /// <summary>
         /// Visits all elements in datasource which are located in bbox
         /// </summary>
-        public void VisitBoundingBox(IDataSourceReadOnly dataSource, BoundingBox bbox, IElementVisitor visitor)
+        public void VisitBoundingBox(BoundingBox bbox, IElementSource elementSource,  IElementVisitor visitor)
         {
-            IList<Element> elements = dataSource.Get(bbox, _filter);
+            IEnumerable<Element> elements = elementSource.Get(bbox);
             foreach (var element in elements)
-            { // translate each object into scene object.
-                LongIndex index = null;
-
-                element.Accept(new ElementVisitor(
-                    _ => index = _translatedNodes,
-                    _ => index = _translatedWays,
-                    _ => index = _translatedRelations));
-               
-                if (!index.Contains(element.Id.Value))
-                {
-                    // object was not yet interpreted.
-                    index.Add(element.Id.Value);
-                    Populate(dataSource, visitor, element);
-                }
+            { 
+               Populate(element, elementSource);
+               element.Accept(visitor); 
             }
         }
 
         /// <summary>
         /// Populates the given OSM objects into corresponding geometries.
         /// </summary>
-        private void Populate(IDataSourceReadOnly source, IElementVisitor visitor, Element element)
+        private void Populate(Element element, IElementSource elementSource)
         {
             element.Accept(new ElementVisitor(
                 node => PopulateNode(node),
-                way => PopulateWay(way, source),
-                relation => PopulateRelation(relation, source)));
-
-            element.Accept(visitor);
+                way => PopulateWay(way, elementSource),
+                relation => PopulateRelation(relation, elementSource)));
+ 
         }
 
         #region Populates given elements
@@ -94,14 +45,14 @@ namespace Mercraft.Maps.Osm
             return node;
         }
 
-        private Way PopulateWay(Way way, IDataSourceReadOnly nodeSource)
+        private Way PopulateWay(Way way, IElementSource elementSource)
         {
             int nodeCount = way.NodeIds.Count;
             way.Nodes = new List<Node>(nodeCount);
             for (int idx = 0; idx < nodeCount; idx++)
             {
                 long nodeId = way.NodeIds[idx];
-                Node node = nodeSource.GetNode(nodeId);
+                Node node = elementSource.GetNode(nodeId);
                 if (node == null)
                     return null;
                 PopulateNode(node);
@@ -111,7 +62,7 @@ namespace Mercraft.Maps.Osm
             return way;
         }
 
-        private Relation PopulateRelation(Relation relation, IDataSourceReadOnly source)
+        private Relation PopulateRelation(Relation relation, IElementSource elementSource)
         {
             var members = new List<RelationMember>(relation.Members.Count);
 
@@ -122,9 +73,9 @@ namespace Mercraft.Maps.Osm
 
                 Element element = null;
                 member.Member.Accept(new ElementVisitor(
-                    _ => { element = source.GetNode(memberId); },
-                    _ => { element = source.GetWay(memberId); },
-                    _ => { element = source.GetRelation(memberId); }));
+                    _ => { element = elementSource.GetNode(memberId); },
+                    _ => { element = elementSource.GetWay(memberId); },
+                    _ => { element = elementSource.GetRelation(memberId); }));
 
                 if (element == null)
                     return null;

@@ -1,18 +1,19 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Ionic.Zlib;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Streams;
+using Mercraft.Maps.Osm.Formats.Xml;
 
-namespace Mercraft.Maps.Osm.Formats.Xml
+namespace Mercraft.Maps.Osm.Data
 {
     /// <summary>
     /// A stream reader that reads from OSM Xml.
     /// </summary>
-    public class XmlOsmStreamSource : OsmStreamSource
+    public class XmlElementSource : StatefulElementSource, IEnumerator<Element>, IEnumerable<Element>
     {
         private XmlReader _reader;
 
@@ -34,7 +35,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
         /// Creates a new OSM Xml processor source.
         /// </summary>
         /// <param name="stream"></param>
-        public XmlOsmStreamSource(Stream stream) :
+        public XmlElementSource(Stream stream) :
             this(stream, false)
         {
 
@@ -45,7 +46,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="gzip"></param>
-        public XmlOsmStreamSource(Stream stream, bool gzip)
+        public XmlElementSource(Stream stream, bool gzip)
         {
             _stream = stream;
             _gzip = gzip;
@@ -62,12 +63,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             _serRelation = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
 
             this.Reset();
+            Initialize(this);
         }
         
         /// <summary>
         /// Resets this source.
         /// </summary>
-        public override void Reset()
+        public void Reset()
         {
             // create the xml reader settings.
             var settings = new XmlReaderSettings();
@@ -93,10 +95,15 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             _reader = XmlReader.Create(textReader, settings);
         }
 
+        object IEnumerator.Current
+        {
+            get { return Current; }
+        }
+
         /// <summary>
         /// Returns true if this source can be reset.
         /// </summary>
-        public override bool CanReset
+        public bool CanReset
         {
             get
             {
@@ -108,7 +115,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
         /// Moves this source to the next object.
         /// </summary>
         /// <returns></returns>
-        public override bool MoveNext()
+        public bool MoveNext()
         {
             while (_reader.Read())
             {
@@ -158,22 +165,27 @@ namespace Mercraft.Maps.Osm.Formats.Xml
         /// Returns the current object.
         /// </summary>
         /// <returns></returns>
-        public override Element Current()
-        {
-            return _next;
-        }
-
+        public Element Current { get { return _next; }}
+        
         /// <summary>
         /// Disposes all resources associated with this stream.
         /// </summary>
-        public override void Dispose()
+        public void Dispose()
         {
-            base.Dispose();
-
             if (_disposeStream)
             {
                 _stream.Dispose();
             }
+        }
+
+        public IEnumerator<Element> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

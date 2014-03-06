@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -9,13 +10,13 @@ namespace Mercraft.Maps.Osm
 {
     public class OsmSceneBuilder: ISceneBuilder
     {
-        private readonly IDataSourceProvider _dataSourceProvider;
+        private readonly IElementSourceProvider _elementSourceProvider;
         private readonly ElementManager _elementManager;
 
         [Dependency]
-        public OsmSceneBuilder(IDataSourceProvider dataSourceProvider, ElementManager elementManager)
+        public OsmSceneBuilder(IElementSourceProvider elementSourceProvider, ElementManager elementManager)
         {
-            _dataSourceProvider = dataSourceProvider;
+            _elementSourceProvider = elementSourceProvider;
             _elementManager = elementManager;
         }
 
@@ -33,9 +34,9 @@ namespace Mercraft.Maps.Osm
                 new BuildingVisitor(scene)
             });
 
-            var dataSource = _dataSourceProvider.Get(center);
+            var elementSource = _elementSourceProvider.Get(center);
 
-            _elementManager.VisitBoundingBox(dataSource, bbox, visitor);
+            _elementManager.VisitBoundingBox(bbox, elementSource, visitor);
 
             return scene;
         }

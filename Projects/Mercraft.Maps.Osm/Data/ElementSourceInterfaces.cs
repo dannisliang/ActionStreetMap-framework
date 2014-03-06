@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Data
@@ -8,7 +9,7 @@ namespace Mercraft.Maps.Osm.Data
     /// </summary>
     public interface IElementSource : INodeSource, IWaySource, IRelationSource
     {
-
+        IEnumerable<Element> Get(BoundingBox bbox);
     }
 
     /// <summary>

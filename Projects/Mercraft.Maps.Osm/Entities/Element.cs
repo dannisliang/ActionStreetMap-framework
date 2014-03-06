@@ -14,13 +14,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public long? Id { get; set; }
 
-        /*/// <summary>
-        /// The type.
-        /// </summary>
-        public ElementType Type { get; protected set; }*/
-
-        public abstract void Accept(IElementVisitor elementVisitor);
-
         /// <summary>
         /// The tags.
         /// </summary>
@@ -31,32 +24,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public bool? Visible { get; set; }
 
-        // NOTE not interesting in this information
-        // and skipping it can improve performance
-
-        /*/// <summary>
-        /// The changeset id.
-        /// </summary>
-        public long? ChangeSetId { get; set; }
-
-        /// <summary>
-        /// The timestamp.
-        /// </summary>
-        public DateTime? TimeStamp { get; set; }
-
-        /// <summary>
-        /// The version.
-        /// </summary>
-        public ulong? Version { get; set; }
-
-        /// <summary>
-        /// The userid.
-        /// </summary>
-        public long? UserId { get; set; }
-
-        /// <summary>
-        /// The username.
-        /// </summary>
-        public string UserName { get; set; }*/
+        public abstract void Accept(IElementVisitor elementVisitor);
     }
 }

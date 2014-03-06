@@ -86,6 +86,8 @@ namespace Assets.Scripts.Demo
             componentRoot.RunGame(new GeoCoordinate(51.26371, 4.7854));
 
             Debug.Log("Generate Berlin Small Part: Done");
+
+            componentRoot.OnMapPositionChanged(new Vector2(0,0));
         }
     }
 }

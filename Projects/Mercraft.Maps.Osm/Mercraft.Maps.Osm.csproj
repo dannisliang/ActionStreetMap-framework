@@ -41,15 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\IDataSourceProvider.cs" />
+    <Compile Include="Data\IElementSourceProvider.cs" />
+    <Compile Include="Data\PbfElementSource.cs" />
+    <Compile Include="Data\StatefulElementSource.cs" />
     <Compile Include="Extensions\LongIndex\ILongIndexNode.cs" />
     <Compile Include="Extensions\LongIndex\LongIndex.cs" />
     <Compile Include="Extensions\LongIndex\LongIndexLeaf.cs" />
     <Compile Include="Extensions\LongIndex\LongIndexNode.cs" />
-    <Compile Include="Data\DataSourceReadOnlyBase.cs" />
-    <Compile Include="Data\IDataSourceReadOnly.cs" />
     <Compile Include="Data\ElementSourceInterfaces.cs" />
-    <Compile Include="Data\MemoryDataSource.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Filters\IFilter.cs" />
@@ -59,24 +58,19 @@
     <Compile Include="Formats\Xml\v0_6\osm.cs">
       <DependentUpon>osm.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Formats\Xml\XmlOsmStreamSource.cs" />
+    <Compile Include="Data\XmlElementSource.cs" />
     <Compile Include="Formats\Xml\XmlSimpleConverter.cs" />
     <Compile Include="OsmSceneBuilder.cs" />
     <Compile Include="Visitors\BuildingVisitor.cs" />
     <Compile Include="Visitors\CompositeVisitor.cs" />
     <Compile Include="Visitors\IElementVisitor.cs" />
-    <Compile Include="Formats\Pbf\Decompressor.cs" />
     <Compile Include="Formats\Pbf\fileformat.cs" />
-    <Compile Include="Formats\Pbf\IPbfOsmPrimitiveConsumer.cs" />
-    <Compile Include="Formats\Pbf\IPbfPrimitiveBlockConsumer.cs" />
     <Compile Include="Formats\Pbf\osmformat.cs" />
-    <Compile Include="Formats\Pbf\PbfOsmStreamSource.cs" />
     <Compile Include="Formats\Pbf\PbfReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Relation.cs" />
     <Compile Include="Entities\RelationMember.cs" />
     <Compile Include="ElementManager.cs" />
-    <Compile Include="Streams\OsmStreamSource.cs" />
     <Compile Include="Entities\Way.cs" />
   </ItemGroup>
   <ItemGroup />

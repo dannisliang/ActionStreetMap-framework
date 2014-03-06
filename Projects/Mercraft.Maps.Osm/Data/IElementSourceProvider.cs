@@ -1,30 +1,30 @@
 ﻿using System.IO;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Maps.Osm.Data
 {
     /// <summary>
     /// Provides the way to get OSM datasource by geocoordinate
     /// </summary>
-    public interface IDataSourceProvider
+    public interface IElementSourceProvider
     {
         /// <summary>
         /// Returns OSM datasource by geocoordinate
         /// </summary>
-        IDataSourceReadOnly Get(GeoCoordinate coordinate);
+        IElementSource Get(GeoCoordinate coordinate);
     }
 
     /// <summary>
-    /// Trivial implementation of IDataSourceProvider
+    /// Trivial implementation of IElementSourceProvider
     /// TODO: for development purpose only - real implementation should be able 
     /// to return different dataSources by geo coordinates
     /// </summary>
-    public class DefaultDataSourceProvider : IDataSourceProvider, IConfigurable
+    public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable
     {
-        private IDataSourceReadOnly _dataSource;
+        private IElementSource _dataSource;
 
-        public IDataSourceReadOnly Get(GeoCoordinate coordinate)
+        public IElementSource Get(GeoCoordinate coordinate)
         {
             return _dataSource;
         }
@@ -35,8 +35,12 @@ namespace Mercraft.Maps.Osm.Data
             bool isXml = configSection.GetBool("file/@xml");
             Stream stream = new FileInfo(filePath).OpenRead();
             _dataSource = isXml
-                ? MemoryDataSource.CreateFromXmlStream(stream)
-                : MemoryDataSource.CreateFromPbfStream(stream);
+                ? (IElementSource)new XmlElementSource(stream)
+                : (IElementSource)new PbfElementSource(stream);
+
+            // ? MemoryDataSource.CreateFromXmlStream(stream)
+            // : MemoryDataSource.CreateFromPbfStream(stream);
         }
     }
+
 }
