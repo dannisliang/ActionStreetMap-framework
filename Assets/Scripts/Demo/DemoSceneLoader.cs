@@ -17,7 +17,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Terrain..");
 
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new ComponentRoot(@"Config/app.config");
+            var componentRoot = new GameRunner(@"Config/app.config");
 
             var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Demo
 
             var center = new GeoCoordinate(52.529814, 13.388015);
 
-            var componentRoot = new ComponentRoot(@"Config/app.config");
+            var componentRoot = new GameRunner(@"Config/app.config");
 
             var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
 
@@ -82,7 +82,7 @@ namespace Assets.Scripts.Demo
         {
             Debug.Log("Generate Berlin Small Part..");
 
-            var componentRoot = new ComponentRoot(@"Config/app.config");
+            var componentRoot = new GameRunner(@"Config/app.config");
             componentRoot.RunGame(new GeoCoordinate(51.26371, 4.7854));
 
             Debug.Log("Generate Berlin Small Part: Done");

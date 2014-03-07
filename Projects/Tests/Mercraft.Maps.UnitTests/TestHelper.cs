@@ -5,6 +5,7 @@ namespace Mercraft.Maps.UnitTests
 {
     internal static class TestHelper
     {
+        public static readonly GeoCoordinate SmallPbfFileCenter = new GeoCoordinate(52.529814, 13.388015);
         public static readonly GeoCoordinate BerlinGeoCenter = new GeoCoordinate(52.529814, 13.388015);
 
         public const string ConfigRootFile = "test.config";

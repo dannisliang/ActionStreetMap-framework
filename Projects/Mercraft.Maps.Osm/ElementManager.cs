@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Formats;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
 
@@ -12,6 +11,9 @@ namespace Mercraft.Maps.Osm
     /// </summary>
     public class ElementManager
     {
+
+        private Dictionary<long, Node> _resolveUnusedNodes = new Dictionary<long, Node>();
+
         /// <summary>
         /// Visits all elements in datasource which are located in bbox
         /// </summary>
@@ -49,14 +51,41 @@ namespace Mercraft.Maps.Osm
         {
             int nodeCount = way.NodeIds.Count;
             way.Nodes = new List<Node>(nodeCount);
-            for (int idx = 0; idx < nodeCount; idx++)
+            var latestIndex = nodeCount - 1;
+            for (int idx = 0; idx <= latestIndex; idx++)
             {
                 long nodeId = way.NodeIds[idx];
                 Node node = elementSource.GetNode(nodeId);
+
+                // NOTE As result, we need sort nodes in the same order like nodeIds property before create polygon!
                 if (node == null)
-                    return null;
+                {
+                    // try to resolve in HashSet
+                    if (_resolveUnusedNodes.ContainsKey(nodeId))
+                    {
+                        node = _resolveUnusedNodes[nodeId];
+                        // this is necessary due to fact that first and last items the same
+                        if (idx == latestIndex && way.NodeIds[0] == way.NodeIds[latestIndex])
+                            _resolveUnusedNodes.Remove(nodeId);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 PopulateNode(node);
                 way.Nodes.Add(node);
+            }
+
+            if (way.Nodes.Count != way.NodeIds.Count)
+            {
+                // Push all nodes to HashSet and return null
+                foreach (var node in way.Nodes)
+                {
+                    if (!_resolveUnusedNodes.ContainsKey(node.Id.Value))
+                        _resolveUnusedNodes.Add(node.Id.Value, node);
+                }
+                return null;
             }
 
             return way;
@@ -77,8 +106,7 @@ namespace Mercraft.Maps.Osm
                     _ => { element = elementSource.GetWay(memberId); },
                     _ => { element = elementSource.GetRelation(memberId); }));
 
-                if (element == null)
-                    return null;
+                if (element == null) continue;
 
                 member.Member = element;
                 members.Add(member);

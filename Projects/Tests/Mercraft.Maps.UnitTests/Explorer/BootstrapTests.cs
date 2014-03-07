@@ -17,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
         public void CanUseComponentRoot()
         {
             // Act
-            var componentRoot = new ComponentRoot(TestHelper.ConfigRootFile);
+            var componentRoot = new GameRunner(TestHelper.ConfigRootFile);
             componentRoot.RunGame(TestHelper.BerlinGeoCenter);
         }
 
@@ -25,7 +25,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
         public void CanResolveBuildingModelVisitors()
         {
             // Arrange
-            var componentRoot = new ComponentRoot(TestHelper.ConfigRootFile);
+            var componentRoot = new GameRunner(TestHelper.ConfigRootFile);
             componentRoot.RunGame(TestHelper.BerlinGeoCenter);
 
             // Act

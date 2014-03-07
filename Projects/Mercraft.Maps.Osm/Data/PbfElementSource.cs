@@ -126,13 +126,9 @@ namespace Mercraft.Maps.Osm.Data
             for (int nodeIdx = 0; nodeIdx < way.refs.Count; nodeIdx++)
             {
                 nodeId = nodeId + way.refs[nodeIdx];
-                if (_nodeIds.Contains(nodeId))
-                {
-                    elementWay.NodeIds.Add(nodeId);
-                }
-                // TODO possible situation of partial fulfilling
+                elementWay.NodeIds.Add(nodeId);
             }
-            if (!elementWay.NodeIds.Any())
+            if (!elementWay.NodeIds.Any(nid => _nodeIds.Contains(nid)))
                 return;
 
             if (way.keys.Any())
@@ -288,17 +284,24 @@ namespace Mercraft.Maps.Osm.Data
 
         public Entities.Node GetNode(long id)
         {
-            return _elements[id] as Entities.Node;
+            return GetElement<Entities.Node>(id);
         }
 
         public Entities.Way GetWay(long id)
         {
-            return _elements[id] as Entities.Way;
+            return GetElement<Entities.Way>(id);
         }
 
         public Entities.Relation GetRelation(long id)
         {
-            return _elements[id] as Entities.Relation;
+            return GetElement<Entities.Relation>(id);
+        }
+
+        private T GetElement<T>(long id) where T : Entities.Element
+        {
+            if (!_elements.ContainsKey(id))
+                return null;
+            return _elements[id] as T;
         }
     }
 }

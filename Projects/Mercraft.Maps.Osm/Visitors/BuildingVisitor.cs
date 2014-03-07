@@ -23,7 +23,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public void VisitWay(Way way)
         {
-            if (!IsBuilding(way.Tags)) 
+            if (!way.IsComplete || !IsBuilding(way.Tags)) 
                 return;
 
             var building = new Building()

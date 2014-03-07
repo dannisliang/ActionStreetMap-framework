@@ -8,14 +8,14 @@ namespace Assets.Scripts.Demo
     public class CharacterBehavior : MonoBehaviour
     {
         private float FloatEpsilon = 1;
-        private ComponentRoot component;
+        private GameRunner component;
         private Vector2 position2D;
 
         // Use this for initialization
         void Start ()
         {
             Debug.Log("onStart");
-	        component = new ComponentRoot(@"Config\app.config");
+	        component = new GameRunner(@"Config\app.config");
 
             Debug.Log("Run Game");
             component.RunGame(new GeoCoordinate(52.529814, 13.388015));

@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
-    <Compile Include="ComponentRoot.cs" />
+    <Compile Include="GameRunner.cs" />
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />

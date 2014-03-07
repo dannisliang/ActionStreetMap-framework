@@ -15,13 +15,13 @@ namespace Mercraft.Maps.UnitTests.Osm
     public class BuildingTests
     {
         [Test]
-        public void CanProcessBuildings()
+        public void CanProcessBuildingsXml()
         {
             using (Stream stream = new FileInfo(TestHelper.TestXmlFilePath).OpenRead())
             {
                 var dataSource = new XmlElementSource(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.529814, 13.388015), 200);
+                var bbox = BoundingBox.CreateBoundingBox(TestHelper.SmallPbfFileCenter, 200);
 
                 var scene = new MapScene();
 
@@ -36,7 +36,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         }
 
         [Test]
-        public void CanProcessLargerArea()
+        public void CanProcessLargerAreaPbf()
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
@@ -51,31 +51,6 @@ namespace Mercraft.Maps.UnitTests.Osm
                 elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
 
                 Assert.AreEqual(1453, scene.Buildings.Count());
-            }
-        }
-
-        private void DumpScene(MapScene mapScene)
-        {
-            using (var file = File.CreateText(@"f:\scene.txt"))
-            {
-                file.WriteLine("BUILDINGS:");
-                var buildings = mapScene.Buildings.ToList();
-                for (int i = 0; i < buildings.Count; i++)
-                {
-                    var building = buildings[i];
-                    file.WriteLine("\tBuilding {0}", (i+1));
-                    var lineOffset = "\t\t";
-                    file.WriteLine("{0}Tags:", lineOffset);
-                    foreach (var tag in building.Tags)
-                    {
-                        file.WriteLine("{0}\t{1}:{2}",lineOffset, tag.Key, tag.Value);
-                    }
-                    file.WriteLine("{0}Points:", lineOffset);
-                    foreach (var point in building.Points)
-                    {
-                        file.WriteLine("{0}\tnew GeoCoordinate({1},{2}),", lineOffset, point.Latitude, point.Longitude);
-                    }
-                }
             }
         }
     }

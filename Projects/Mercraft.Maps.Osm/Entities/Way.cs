@@ -39,15 +39,20 @@ namespace Mercraft.Maps.Osm.Entities
             return coordinates;
         }
 
-        /// <summary>
-        /// Returns true if this way is closed (firstnode == lastnode).
-        /// </summary>
-        /// <returns></returns>
-        public bool IsClosed()
+        public bool IsComplete
         {
-            return this.Nodes != null &&
-                this.Nodes.Count > 1 &&
-                this.Nodes[0].Id == this.Nodes[this.Nodes.Count - 1].Id;
+            get
+            {
+                return Nodes.Count == NodeIds.Count;
+            }
+        }
+
+        public bool IsClosed
+        {
+            get
+            {
+                return Nodes[0].Id == Nodes[Nodes.Count - 1].Id;
+            }
         }
 
         /// <summary>

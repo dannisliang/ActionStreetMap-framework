@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         [Test]
         public void CanLoadZoneDynamically()
         {
-            var root = new ComponentRoot(TestHelper.ConfigRootFile);
+            var root = new GameRunner(TestHelper.ConfigRootFile);
             root.RunGame(TestHelper.BerlinGeoCenter);
 
             var zoneLoader = root.Container.Resolve<IPositionListener>() as TestZoneLoader;
@@ -22,12 +22,13 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
         }
 
+        [Ignore]
         [Test]
         public void CanLoadZonesDynamically()
         {
             var tileHalfSize = 500;
             var offset = 50;
-            ComponentRoot root = new ComponentRoot(TestHelper.ConfigRootFile);
+            GameRunner root = new GameRunner(TestHelper.ConfigRootFile);
             root.RunGame(TestHelper.BerlinGeoCenter);
             var zoneLoader = root.Container.Resolve<IPositionListener>() as TestZoneLoader;
 
