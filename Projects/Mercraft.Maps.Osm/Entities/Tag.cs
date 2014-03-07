@@ -38,8 +38,7 @@ namespace Mercraft.Maps.Osm.Entities
         {
             if (obj is Tag)
             {
-                return this.Key == ((Tag)obj).Key &&
-                    this.Value == ((Tag)obj).Value;
+                return this.Key == ((Tag)obj).Key && this.Value == ((Tag)obj).Value;
             }
             return false;
         }
@@ -63,8 +62,7 @@ namespace Mercraft.Maps.Osm.Entities
                 return 103254761 ^
                     this.Key.GetHashCode();
             }
-            return this.Key.GetHashCode() ^
-                this.Value.GetHashCode();
+            return this.Key.GetHashCode() ^ this.Value.GetHashCode();
         }
     }
 }

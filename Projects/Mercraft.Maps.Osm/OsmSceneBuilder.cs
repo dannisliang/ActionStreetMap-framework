@@ -24,9 +24,8 @@ namespace Mercraft.Maps.Osm
         /// Builds scene using center coordinate and bounding box
         /// TODO Probably, we needn't both parameters at the same time
         /// </summary>
-        /// <param name="center">Center of bbox</param>
         /// <param name="bbox">Bounding box</param>
-        public IScene Build(GeoCoordinate center, BoundingBox bbox)
+        public IScene Build(BoundingBox bbox)
         {
             var scene = new MapScene();
             var visitor = new CompositeVisitor(new List<IElementVisitor>
@@ -34,7 +33,7 @@ namespace Mercraft.Maps.Osm
                 new BuildingVisitor(scene)
             });
 
-            var elementSource = _elementSourceProvider.Get(center);
+            var elementSource = _elementSourceProvider.Get(bbox);
 
             _elementManager.VisitBoundingBox(bbox, elementSource, visitor);
 

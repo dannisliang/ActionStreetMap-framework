@@ -11,7 +11,6 @@ namespace Mercraft.Maps.Osm
     /// </summary>
     public class ElementManager
     {
-
         private Dictionary<long, Node> _resolveUnusedNodes = new Dictionary<long, Node>();
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace Mercraft.Maps.Osm
 
         private Node PopulateNode(Node node)
         {
-            node.Coordinate = new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
+            node.Coordinate = new GeoCoordinate(node.Latitude, node.Longitude);
             return node;
         }
 
@@ -79,11 +78,13 @@ namespace Mercraft.Maps.Osm
 
             if (way.Nodes.Count != way.NodeIds.Count)
             {
-                // Push all nodes to HashSet and return null
+                // way with any unresolved node is useless
+                // memorize all resolved nodes and wait for next bbox request
+                // to resolve the rest
                 foreach (var node in way.Nodes)
                 {
-                    if (!_resolveUnusedNodes.ContainsKey(node.Id.Value))
-                        _resolveUnusedNodes.Add(node.Id.Value, node);
+                    if (!_resolveUnusedNodes.ContainsKey(node.Id))
+                        _resolveUnusedNodes.Add(node.Id, node);
                 }
                 return null;
             }
@@ -98,7 +99,7 @@ namespace Mercraft.Maps.Osm
             for (int idx = 0; idx < relation.Members.Count; idx++)
             {
                 RelationMember member = relation.Members[idx];
-                long memberId = member.MemberId.Value;
+                long memberId = member.MemberId;
 
                 Element element = null;
                 member.Member.Accept(new ElementVisitor(

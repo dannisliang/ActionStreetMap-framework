@@ -160,28 +160,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                     new_obj.Tags.Add(new Tag(tag.k, tag.v));
                 }
             }
-
-            /*// set the user info.
-            if (xml_obj.uidSpecified)
-            {
-                new_obj.UserId = xml_obj.uid;
-            }
-            new_obj.UserName = xml_obj.user;
-
-            // set the changeset info.
-            if (xml_obj.changesetSpecified)
-            {
-                new_obj.ChangeSetId = xml_obj.changeset;
-            }
-
-            // set the timestamp flag.
-            if (xml_obj.timestampSpecified)
-            {
-                new_obj.TimeStamp = xml_obj.timestamp;
-            }*/
-
-            // set the visible flag.
-            new_obj.Visible = xml_obj.visible;
             return new_obj;
         }
 
@@ -212,28 +190,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                     new_obj.Tags.Add(new Tag(tag.k, tag.v));
                 }
             }
-
-            /*// set the user info.
-            if (xml_obj.uidSpecified)
-            {
-                new_obj.UserId = (int)xml_obj.uid;
-            }
-            new_obj.UserName = xml_obj.user;
-
-            // set the changeset info.
-            if (xml_obj.changesetSpecified)
-            {
-                new_obj.ChangeSetId = (int)xml_obj.changeset;
-            }
-
-            // set the timestamp flag.
-            if (xml_obj.timestampSpecified)
-            {
-                new_obj.TimeStamp = xml_obj.timestamp;
-            }
-            */
-            // set the visible flag.
-            new_obj.Visible = xml_obj.visible;
             return new_obj;
         }
 

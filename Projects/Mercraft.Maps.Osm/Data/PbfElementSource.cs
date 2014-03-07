@@ -112,8 +112,8 @@ namespace Mercraft.Maps.Osm.Data
                     elementNode.Tags.Add(new Tag(key, value));
                 }
             }
-            _elements.Add(elementNode.Id.Value, elementNode);
-            _nodeIds.Add(elementNode.Id.Value);
+            _elements.Add(elementNode.Id, elementNode);
+            _nodeIds.Add(elementNode.Id);
         }
 
 
@@ -142,8 +142,8 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
 
-            _elements.Add(elementWay.Id.Value, elementWay);
-            _wayIds.Add(elementWay.Id.Value);
+            _elements.Add(elementWay.Id, elementWay);
+            _wayIds.Add(elementWay.Id);
         }
 
         private void SearchRelation(PrimitiveBlock block, Formats.Pbf.Relation relation)
@@ -193,8 +193,8 @@ namespace Mercraft.Maps.Osm.Data
                     elementRelation.Tags.Add(new Tag(key, value));
                 }
             }
-            _elements.Add(elementRelation.Id.Value, elementRelation);
-            _relationIds.Add(elementRelation.Id.Value);
+            _elements.Add(elementRelation.Id, elementRelation);
+            _relationIds.Add(elementRelation.Id);
         }
 
         /// <summary>

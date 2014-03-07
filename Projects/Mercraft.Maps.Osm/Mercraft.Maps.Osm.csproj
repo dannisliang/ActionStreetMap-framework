@@ -44,14 +44,9 @@
     <Compile Include="Data\IElementSourceProvider.cs" />
     <Compile Include="Data\PbfElementSource.cs" />
     <Compile Include="Data\StatefulElementSource.cs" />
-    <Compile Include="Extensions\LongIndex\ILongIndexNode.cs" />
-    <Compile Include="Extensions\LongIndex\LongIndex.cs" />
-    <Compile Include="Extensions\LongIndex\LongIndexLeaf.cs" />
-    <Compile Include="Extensions\LongIndex\LongIndexNode.cs" />
     <Compile Include="Data\IElementSource.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Extensions\TagExtensions.cs" />
-    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
     <Compile Include="Formats\Xml\v0_6\Extensions.cs" />

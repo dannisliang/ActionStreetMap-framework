@@ -10,7 +10,7 @@ namespace Mercraft.Maps.Osm.Visitors
     /// </summary>
     public class CompositeVisitor: IElementVisitor
     {
-        private List<IElementVisitor> _visitors = new List<IElementVisitor>();
+        private readonly List<IElementVisitor> _visitors = new List<IElementVisitor>();
 
         public CompositeVisitor(IEnumerable<IElementVisitor> visitors)
         {

@@ -3,6 +3,9 @@ using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
+    /// <summary>
+    /// Visitor for OSM elements
+    /// </summary>
     public interface IElementVisitor
     {
         void VisitNode(Node node);
@@ -10,10 +13,8 @@ namespace Mercraft.Maps.Osm.Visitors
         void VisitRelation(Relation relation);
     }
 
-
-
     /// <summary>
-    /// Helper class which provides the way to pass simply actions instead of subclassing
+    /// Helper class which provides the way to use actions instead of subclassing
     /// </summary>
     public class ElementVisitor : IElementVisitor
     {

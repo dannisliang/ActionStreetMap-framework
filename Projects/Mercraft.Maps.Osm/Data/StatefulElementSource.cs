@@ -124,20 +124,16 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         public void AddNode(Node node)
         {
-            if (node == null) throw new ArgumentNullException();
-            if (!node.Id.HasValue) throw new ArgumentException("NodeIds without a valid id cannot be saved!");
-            if (!node.Latitude.HasValue || !node.Longitude.HasValue) throw new ArgumentException("NodeIds without a valid longitude/latitude pair cannot be saved!");
-
-            _nodes[node.Id.Value] = node;
+            _nodes[node.Id] = node;
 
             if (_box == null)
             {
-                _box = new BoundingBox(new GeoCoordinate(node.Latitude.Value, node.Longitude.Value),
-                    new GeoCoordinate(node.Latitude.Value, node.Longitude.Value));
+                _box = new BoundingBox(new GeoCoordinate(node.Latitude, node.Longitude),
+                    new GeoCoordinate(node.Latitude, node.Longitude));
             }
             else
             {
-                _box = _box + new GeoCoordinate(node.Latitude.Value, node.Longitude.Value);
+                _box = _box + new GeoCoordinate(node.Latitude, node.Longitude);
             }
         }
 
@@ -189,9 +185,7 @@ namespace Mercraft.Maps.Osm.Data
         public void AddRelation(Relation relation)
         {
             if (relation == null) throw new ArgumentNullException();
-            if (!relation.Id.HasValue) throw new ArgumentException("Relations without a valid id cannot be saved!");
-
-            _relations[relation.Id.Value] = relation;
+            _relations[relation.Id] = relation;
 
             if (relation.Members != null)
             {
@@ -201,7 +195,7 @@ namespace Mercraft.Maps.Osm.Data
                     Action<Dictionary<long, HashSet<long>>> relationPerElementAction =
                         relationPerElement =>
                         {
-                            long id = relationMember.MemberId.Value;
+                            long id = relationMember.MemberId;
                             if (!relationPerElement.TryGetValue(id, out relationsIds))
                             {
                                 relationsIds = new HashSet<long>();
@@ -214,7 +208,7 @@ namespace Mercraft.Maps.Osm.Data
                        _ => relationPerElementAction(_relationsPerWay),
                        _ => relationPerElementAction(_relationsPerRelation)));
 
-                    relationsIds.Add(relation.Id.Value);
+                    relationsIds.Add(relation.Id);
                 }
             }
         }
@@ -233,7 +227,7 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         public IList<Relation> GetRelationsFor(Element element)
         {
-            long id = element.Id.Value;
+            long id = element.Id;
             HashSet<long> relationIds = null;
 
             element.Accept(new ElementVisitor(
@@ -333,9 +327,8 @@ namespace Mercraft.Maps.Osm.Data
         public void AddWay(Way way)
         {
             if (way == null) throw new ArgumentNullException();
-            if (!way.Id.HasValue) throw new ArgumentException("Ways without a valid id cannot be saved!");
 
-            _ways[way.Id.Value] = way;
+            _ways[way.Id] = way;
 
             if (way.NodeIds != null)
             {
@@ -347,7 +340,7 @@ namespace Mercraft.Maps.Osm.Data
                         wayIds = new HashSet<long>();
                         _waysPerNode.Add(nodeId, wayIds);
                     }
-                    wayIds.Add(way.Id.Value);
+                    wayIds.Add(way.Id);
                 }
             }
         }
@@ -374,10 +367,10 @@ namespace Mercraft.Maps.Osm.Data
             HashSet<long> ids = new HashSet<long>();
             foreach (Node node in _nodes.Values)
             {
-                if (bbox.Contains(node.Latitude.Value, node.Longitude.Value))
+                if (bbox.Contains(node.Latitude, node.Longitude))
                 {
                     res.Add(node);
-                    ids.Add(node.Id.Value);
+                    ids.Add(node.Id);
                 }
             }
 
@@ -392,10 +385,10 @@ namespace Mercraft.Maps.Osm.Data
                 IList<Relation> relationsFor = GetRelationsFor(osmGeo);
                 foreach (Relation relation in relationsFor)
                 {
-                    if (!relationIds.Contains(relation.Id.Value))
+                    if (!relationIds.Contains(relation.Id))
                     {
                         relations.Add(relation);
-                        relationIds.Add(relation.Id.Value);
+                        relationIds.Add(relation.Id);
                     }
                 }
             }
@@ -410,10 +403,10 @@ namespace Mercraft.Maps.Osm.Data
                     IList<Relation> relationsFor = GetRelationsFor(element);
                     foreach (Relation relation in relationsFor)
                     {
-                        if (!relationIds.Contains(relation.Id.Value))
+                        if (!relationIds.Contains(relation.Id))
                         {
                             newRelations.Add(relation);
-                            relationIds.Add(relation.Id.Value);
+                            relationIds.Add(relation.Id);
                         }
                     }
                 }

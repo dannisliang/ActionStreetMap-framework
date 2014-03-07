@@ -14,7 +14,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The member id.
         /// </summary>
-        public long? MemberId { get; set; }
+        public long MemberId { get; set; }
 
         /// <summary>
         /// The member role.

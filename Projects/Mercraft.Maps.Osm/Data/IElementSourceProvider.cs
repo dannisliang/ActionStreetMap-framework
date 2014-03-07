@@ -12,7 +12,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns OSM datasource by geocoordinate
         /// </summary>
-        IElementSource Get(GeoCoordinate coordinate);
+        IElementSource Get(BoundingBox bbox);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ namespace Mercraft.Maps.Osm.Data
     {
         private IElementSource _dataSource;
 
-        public IElementSource Get(GeoCoordinate coordinate)
+        public IElementSource Get(BoundingBox bbox)
         {
             return _dataSource;
         }

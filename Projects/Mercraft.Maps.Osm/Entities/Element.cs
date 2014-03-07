@@ -12,18 +12,27 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The id.
         /// </summary>
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// The tags.
         /// </summary>
         public ICollection<Tag> Tags { get; set; }
 
-        /// <summary>
-        /// The visible flag.
-        /// </summary>
-        public bool? Visible { get; set; }
-
         public abstract void Accept(IElementVisitor elementVisitor);
+
+        /// <summary>
+        /// Returns a description of this object.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string tags = "{no tags}";
+            if (this.Tags != null && this.Tags.Count > 0)
+            {
+                tags = this.Tags.ToString();
+            }
+            return string.Format("Way[{0}]{1}", this.Id, tags);
+        }
     }
 }

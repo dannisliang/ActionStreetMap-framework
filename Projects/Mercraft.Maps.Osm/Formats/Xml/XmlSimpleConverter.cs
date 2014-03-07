@@ -20,22 +20,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 node.Id = nd.id;
             }
 
-            // set visible.
-            node.Visible = !nd.visibleSpecified || nd.visible;
-
-
-           /* // set changeset.
-            if (nd.changesetSpecified)
-            {
-                node.ChangeSetId = nd.changeset;
-            }
-
-            // set timestamp.
-            if (nd.timestampSpecified)
-            {
-                node.TimeStamp = nd.timestamp;
-            }*/
-
             // set latitude.
             if (nd.latSpecified)
             {
@@ -79,45 +63,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 way.Id = wa.id;
             }
 
-
-            // set visible.
-            if (wa.visibleSpecified)
-            {
-                way.Visible = wa.visible;
-            }
-            else
-            { // if visible is not specified it is default true.
-                way.Visible = true;
-            }
-
-            /*// set changeset.
-            if (wa.changesetSpecified)
-            {
-                way.ChangeSetId = wa.changeset;
-            }
-
-
-            // set timestamp.
-            if (wa.timestampSpecified)
-            {
-                way.TimeStamp = wa.timestamp;
-            }*/
-
-           /* // set uid
-            if (wa.uidSpecified)
-            {
-                way.UserId = wa.uid;
-            }
-
-            // set version
-            if (wa.versionSpecified)
-            {
-                way.Version = wa.version;
-            }
-
-            // set user
-            way.UserName = wa.user;*/
-
             // set tags.
             way.Tags = XmlSimpleConverter.ConvertToTags(wa.tag);
 
@@ -143,44 +88,6 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             {
                 relation.Id = re.id;
             }
-
-            // set visible.
-            if (re.visibleSpecified)
-            {
-                relation.Visible = re.visible;
-            }
-            else
-            { // if visible is not specified it is default true.
-                relation.Visible = true;
-            }
-
-            /*// set changeset.
-            if (re.changesetSpecified)
-            {
-                relation.ChangeSetId = re.changeset;
-            }
-        
-
-            // set timestamp.
-            if (re.timestampSpecified)
-            {
-                relation.TimeStamp = re.timestamp;
-            }
-
-            // set uid
-            if (re.uidSpecified)
-            {
-                relation.UserId = re.uid;
-            }
-
-            // set version
-            if (re.versionSpecified)
-            {
-                relation.Version = re.version;
-            }
-
-            // set user
-            relation.UserName = re.user;*/
 
             // set tags.
             relation.Tags = XmlSimpleConverter.ConvertToTags(re.tag);

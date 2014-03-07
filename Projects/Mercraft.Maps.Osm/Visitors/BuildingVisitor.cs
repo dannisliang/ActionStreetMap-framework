@@ -10,12 +10,14 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class BuildingVisitor: IElementVisitor
     {
-        private IScene _scene;
+        private readonly IScene _scene;
 
         public BuildingVisitor(IScene scene)
         {
             _scene = scene;
         }
+
+        #region IElementVisitor implementation
 
         public void VisitNode(Node node)
         {
@@ -29,12 +31,13 @@ namespace Mercraft.Maps.Osm.Visitors
             var building = new Building()
             {
                 Points = way.GetPoints(),
-                Tags = way.Tags.Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value)).ToList()
+                Tags = way.Tags
+                    .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
+                    .ToList()
             };
 
-
-            // Process tags and populate building object with information for rendering (e.g. color, address)
-
+            // TODO Process tags and populate building object with any useful information 
+            // for rendering (e.g. color, address, etc)
             _scene.AddBuilding(building);
         }
 
@@ -42,6 +45,7 @@ namespace Mercraft.Maps.Osm.Visitors
         { 
         }
 
+        #endregion
 
         private bool IsBuilding(ICollection<Tag> tags)
         {

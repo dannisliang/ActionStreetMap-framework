@@ -54,23 +54,5 @@ namespace Mercraft.Maps.Osm.Entities
                 return Nodes[0].Id == Nodes[Nodes.Count - 1].Id;
             }
         }
-
-        /// <summary>
-        /// Returns a description of this object.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            string tags = "{no tags}";
-            if (this.Tags != null && this.Tags.Count > 0)
-            {
-                tags = this.Tags.ToString();
-            }
-            if (!this.Id.HasValue)
-            {
-                return string.Format("Way[null]{0}", tags);
-            }
-            return string.Format("Way[{0}]{1}", this.Id.Value, tags);
-        }
     }
 }

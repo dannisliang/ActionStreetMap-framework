@@ -55,7 +55,7 @@ namespace Mercraft.Core.Tiles
             
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize / 2);
 
-            var scene = _sceneBuilder.Build(geoCoordinate, bbox);
+            var scene = _sceneBuilder.Build(bbox);
 
             tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
             _tiles.Add(tile);
