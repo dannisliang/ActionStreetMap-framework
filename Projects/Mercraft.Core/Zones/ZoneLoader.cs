@@ -9,6 +9,8 @@ namespace Mercraft.Core.Zones
 {
     public class ZoneLoader: IPositionListener, IConfigurable
     {
+        private const string OffsetKey = "offset";
+
         protected readonly TileProvider TileProvider;
         protected readonly ITerrainBuilder TerrainBuilder;
         protected readonly IEnumerable<ISceneModelVisitor> SceneModelVisitors;
@@ -56,7 +58,7 @@ namespace Mercraft.Core.Zones
 
         public void Configure(IConfigSection configSection)
         {
-            Offset = configSection.GetFloat("offset");
+            Offset = configSection.GetFloat(OffsetKey);
         }
     }
 }

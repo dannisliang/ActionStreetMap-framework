@@ -31,6 +31,8 @@ namespace Mercraft.Core.Zones
             {
                 foreach (var sceneModelVisitor in _sceneModelVisitors)
                 {
+                    // TODO probably, we need to return built game object 
+                    // to be able to perform cleanup on our side
                     sceneModelVisitor.VisitBuilding(_tile.RelativeNullPoint, _floor, building);
                 }
             }

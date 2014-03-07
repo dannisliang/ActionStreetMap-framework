@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Mercraft.Core.Algorithms
 {
+    /// <summary>
+    /// Provides the way to perform triangulation for given polygon
+    /// </summary>
     public class PolygonTriangulation
     {
         public static int[] GetTriangles(Vector2[] verticies)
