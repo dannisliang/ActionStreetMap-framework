@@ -48,7 +48,7 @@
     <Compile Include="Extensions\LongIndex\LongIndex.cs" />
     <Compile Include="Extensions\LongIndex\LongIndexLeaf.cs" />
     <Compile Include="Extensions\LongIndex\LongIndexNode.cs" />
-    <Compile Include="Data\ElementSourceInterfaces.cs" />
+    <Compile Include="Data\IElementSource.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Filters\IFilter.cs" />

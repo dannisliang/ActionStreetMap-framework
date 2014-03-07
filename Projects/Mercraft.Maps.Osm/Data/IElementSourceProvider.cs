@@ -37,9 +37,6 @@ namespace Mercraft.Maps.Osm.Data
             _dataSource = isXml
                 ? (IElementSource)new XmlElementSource(stream)
                 : (IElementSource)new PbfElementSource(stream);
-
-            // ? MemoryDataSource.CreateFromXmlStream(stream)
-            // : MemoryDataSource.CreateFromPbfStream(stream);
         }
     }
 

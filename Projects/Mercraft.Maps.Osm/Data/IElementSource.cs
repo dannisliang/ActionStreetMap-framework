@@ -7,38 +7,25 @@ namespace Mercraft.Maps.Osm.Data
     /// <summary>
     /// Represents an abstract source of Element objects.
     /// </summary>
-    public interface IElementSource : INodeSource, IWaySource, IRelationSource
+    public interface IElementSource
     {
+        /// <summary>
+        /// Returns elements which are located in the corresponding bbox
+        /// </summary>
+        /// <param name="bbox"></param>
+        /// <returns></returns>
         IEnumerable<Element> Get(BoundingBox bbox);
-    }
-
-    /// <summary>
-    /// Represents any source of nodes.
-    /// </summary>
-    public interface INodeSource
-    {
+        
         /// <summary>
         /// Returns a node with the given id from this source.
         /// </summary>
         Node GetNode(long id);
-    }
 
-    /// <summary>
-    /// Represents any source of relations.
-    /// </summary>
-    public interface IRelationSource
-    {
         /// <summary>
         /// Returns a relation with the given id from this source.
         /// </summary>
         Relation GetRelation(long id);
-    }
 
-    /// <summary>
-    /// Represents any source of ways.
-    /// </summary>
-    public interface IWaySource
-    {
         /// <summary>
         /// Returns a way with the given id from this source.
         /// </summary>
