@@ -11,6 +11,8 @@ namespace Mercraft.Infrastructure.Bootstrap
     /// </summary>
     public class BootstrapperService: IBootstrapperService, IConfigurable
     {
+        private const string BootConfigKey = "bootstrappers/bootstrapper";
+
         private readonly IEnumerable<IBootstrapperPlugin> _plugins;
         private IConfigSection _configSection;
 
@@ -33,7 +35,7 @@ namespace Mercraft.Infrastructure.Bootstrap
 
         private void Initialze()
         {
-            var bootstrappers = _configSection.GetSections("bootstrappers/bootstrapper");
+            var bootstrappers = _configSection.GetSections(BootConfigKey);
             foreach (var bootsrapperSection in bootstrappers)
             {
                 Configurator.RegisterNamedComponent<IBootstrapperPlugin>(bootsrapperSection);

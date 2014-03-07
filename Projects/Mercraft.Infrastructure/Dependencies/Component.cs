@@ -59,7 +59,7 @@ namespace Mercraft.Infrastructure.Dependencies
         /// <returns></returns>
         public Component AddBehavior(IBehavior behavior)
         {
-            if(!Behaviors.Any(b => b.Name == behavior.Name))
+            if(Behaviors.All(b => b.Name != behavior.Name))
                 Behaviors.Add(behavior);
             return this;
         }
@@ -87,12 +87,6 @@ namespace Mercraft.Infrastructure.Dependencies
             NeedResolveCstorArgs = false;
             return this;
         }
-
-        /*public Component ResolveCstorArgs(bool fact)
-        {
-            NeedResolveCstorArgs = fact;
-            return this;
-        }*/
 
         /// <summary>
         /// Links component to usage of implementation by t

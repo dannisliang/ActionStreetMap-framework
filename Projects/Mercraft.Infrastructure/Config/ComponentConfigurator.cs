@@ -17,12 +17,12 @@ namespace Mercraft.Infrastructure.Config
 
         public void RegisterComponent<T>(IConfigSection componentSection)
         {
-            RegisterComponent(typeof(T), "", componentSection);
+            RegisterComponent(typeof(T), String.Empty, componentSection);
         }
 
         public void RegisterComponent(IConfigSection componentSection)
         {
-            RegisterComponent(null, "", componentSection);
+            RegisterComponent(null, String.Empty, componentSection);
         }
 
         public void RegisterNamedComponent<T>(IConfigSection componentSection)
