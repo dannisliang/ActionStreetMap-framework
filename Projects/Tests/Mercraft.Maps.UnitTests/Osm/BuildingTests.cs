@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Formats.Xml;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
