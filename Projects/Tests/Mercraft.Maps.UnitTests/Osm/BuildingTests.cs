@@ -54,5 +54,26 @@ namespace Mercraft.Maps.UnitTests.Osm
                 Assert.AreEqual(1438, scene.Buildings.Count()); 
             }
         }
+
+        [Test]
+        public void CanProcessLevelsTag()
+        {
+            const int defaultLevelCount = 5;
+            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
+            {
+                var dataSource = new PbfElementSource(stream);
+
+                var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
+
+                var scene = new MapScene();
+
+                var elementManager = new ElementManager();
+
+                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
+
+                var leveledBuildings = scene.Buildings.Where(b => b.LevelCount != defaultLevelCount).ToList();
+                Assert.AreEqual(68, leveledBuildings.Count);
+            }
+        }
     }
 }

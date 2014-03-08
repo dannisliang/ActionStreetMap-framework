@@ -46,6 +46,7 @@
     <Compile Include="Data\StatefulElementSource.cs" />
     <Compile Include="Data\IElementSource.cs" />
     <Compile Include="Entities\Tag.cs" />
+    <Compile Include="Extensions\ConverterHelper.cs" />
     <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />

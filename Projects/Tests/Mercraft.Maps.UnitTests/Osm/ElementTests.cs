@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.CodeDom;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Mercraft.Maps.Osm;
 using Mercraft.Core;
@@ -13,6 +15,7 @@ namespace Mercraft.Maps.UnitTests.Osm
     class ElementTests
     {
         private GeoCoordinate defaultMapPoint = new GeoCoordinate(51.26371, 4.7854);
+        
         [Test]
         public void CanGetElements()
         {
@@ -22,12 +25,28 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 500);
 
-                var osmGeos = dataSource.Get(bbox);
+                var elements = dataSource.Get(bbox);
 
-                Assert.AreEqual(6025, osmGeos.Count());
+                Assert.AreEqual(6025, elements.Count());
             }           
         }
 
+        [Test]
+        public void CanGetRelations()
+        {
+            using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
+            {
+                var dataSource = new PbfElementSource(stream);
+                var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 1000);
+
+                var elements = dataSource.Get(bbox);
+
+                var relations = elements.OfType<Relation>().Select(element => element);
+
+                Assert.AreEqual(39, relations.Count());
+
+            }
+        }
 
         [Test]
         public void CanFillBoundingBox()

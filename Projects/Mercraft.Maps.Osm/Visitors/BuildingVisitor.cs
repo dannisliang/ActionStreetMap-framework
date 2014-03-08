@@ -10,7 +10,10 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class BuildingVisitor: IElementVisitor
     {
+        private const int DefaultBuildingLevelsCount = 5;
+
         private readonly IScene _scene;
+
 
         public BuildingVisitor(IScene scene)
         {
@@ -32,13 +35,15 @@ namespace Mercraft.Maps.Osm.Visitors
             {
                 Id = way.Id.ToString(),
                 Points = way.GetPoints(),
+
+                // TODO remove tags on building
                 Tags = way.Tags
                     .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
                     .ToList()
             };
 
-            // TODO Process tags and populate building object with any useful information 
-            // for rendering (e.g. color, address, etc)
+            ProcessTags(building, way);
+
             _scene.AddBuilding(building);
         }
 
@@ -48,10 +53,27 @@ namespace Mercraft.Maps.Osm.Visitors
 
         #endregion
 
+
         private bool IsBuilding(ICollection<Tag> tags)
         {
             return tags.ContainsKey("building") && !tags.IsFalse("building");
         }
 
+        private void ProcessTags(Building building, Way way)
+        {
+            building.LevelCount = GetTagValue("building:levels", way, DefaultBuildingLevelsCount, ConverterProvider.IntConverter);
+        }
+
+        private T GetTagValue<T>(string tagKey, Way way, T defaultValue, Func<string, T> converter)
+        {
+            var @value = "";
+            if (way.Tags.TryGetValue(tagKey, out @value))
+            {
+                var convertedValue = converter(@value);
+                if (!EqualityComparer<T>.Default.Equals(convertedValue, default(T)))
+                    return convertedValue;
+            }
+            return defaultValue;
+        }
     }
 }

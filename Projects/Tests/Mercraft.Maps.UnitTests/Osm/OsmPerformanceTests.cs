@@ -25,9 +25,9 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 
-                var osmGeos = dataSource.Get(bbox);
+                var elements = dataSource.Get(bbox);
 
-                Assert.AreEqual(30999, osmGeos.Count()); //  actual is 31043
+                Assert.AreEqual(30999, elements.Count()); //  actual is 31043
                 perfLogger.Stop();
             }  
 

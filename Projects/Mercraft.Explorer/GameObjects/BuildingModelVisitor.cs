@@ -16,15 +16,14 @@ namespace Mercraft.Explorer.GameObjects
     public class BuildingModelVisitor: ISceneModelVisitor, IConfigurable
     {
         private const string MeshRenderNameKey = @"render/@name";
-        private const string HeightFloorKey = @"height/@floor";
-        private const string HeightTopKey = @"height/@top";
+        private const string BuildingLevelHeightKey = @"height/@level";
 
         private PolygonMeshBuilder _meshBuilder;
         private IEnumerable<IMeshRenderer> _meshRenderers;
 
         private IMeshRenderer _meshRenderer;
-        private float _buildingFloor;
-        private float _buildingTop;
+
+        private float _levelHeight;
 
         [Dependency]
         public BuildingModelVisitor(PolygonMeshBuilder meshBuilder, IEnumerable<IMeshRenderer> meshRenderers)
@@ -39,7 +38,14 @@ namespace Mercraft.Explorer.GameObjects
         {
             var vertices = PolygonHelper.GetVerticies2D(center, building.Points.ToList());
             var name = Guid.NewGuid().ToString();
-            BuildGameObject(name, vertices, parent);
+
+            // TODO floor should be calculated using parent object
+            var floor = 1;
+
+            // TODO use height if defined?
+            var top = floor + building.LevelCount * _levelHeight;
+
+            BuildGameObject(name, vertices, parent, top, floor);
         }
 
         public void VisitRoad(GeoCoordinate center, GameObject parent, Road road)
@@ -48,12 +54,12 @@ namespace Mercraft.Explorer.GameObjects
 
         #endregion
 
-        private void BuildGameObject(string name, Vector2[] verticies2D, GameObject parent)
+        private void BuildGameObject(string name, Vector2[] verticies2D, GameObject parent, float top, float floor)
         {
             var gameObject = new GameObject(name);
-           
+          
             var mf = gameObject.AddComponent<MeshFilter>();
-            mf.mesh = _meshBuilder.BuildMesh(verticies2D, _buildingTop, _buildingFloor);
+            mf.mesh = _meshBuilder.BuildMesh(verticies2D, top, floor);
             _meshRenderer.Render(gameObject);
 
             gameObject.AddComponent<MeshCollider>();
@@ -66,8 +72,7 @@ namespace Mercraft.Explorer.GameObjects
             var renderName = configSection.GetString(MeshRenderNameKey);
             _meshRenderer = _meshRenderers.Single(mr => mr.Name == renderName);
 
-            _buildingFloor = configSection.GetFloat(HeightFloorKey);
-            _buildingTop = configSection.GetFloat(HeightTopKey);
+            _levelHeight = configSection.GetFloat(BuildingLevelHeightKey);
 
             _meshRenderers = null;
         }

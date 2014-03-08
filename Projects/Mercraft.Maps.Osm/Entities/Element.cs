@@ -30,9 +30,14 @@ namespace Mercraft.Maps.Osm.Entities
             string tags = "{no tags}";
             if (this.Tags != null && this.Tags.Count > 0)
             {
-                tags = this.Tags.ToString();
+                tags = "tags:{";
+                foreach (var tag in Tags)
+                {
+                    tags += string.Format("{0}:{1},", tag.Key, tag.Value);
+                }
+                tags += "}";
             }
-            return string.Format("Way[{0}]{1}", this.Id, tags);
+            return string.Format("{0}[{1}]{2}", GetType().Name, this.Id, tags);
         }
     }
 }
