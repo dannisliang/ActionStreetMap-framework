@@ -7,10 +7,12 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class OsmBootstrapper: BootstrapperPlugin
     {
+        private const string DataSourceProviderKey = "dataSourceProvider";
+
         public override bool Run()
         {
-            var dataSourceProviderSection = ConfigSection.GetSection("dataSourceProvider");
-            Configurator.RegisterComponent<IElementSourceProvider>(dataSourceProviderSection);
+            Configurator.RegisterComponent<IElementSourceProvider>(
+                ConfigSection.GetSection(DataSourceProviderKey));
 
             Container.Register(Component.For<ElementManager>().Use<ElementManager>().Singleton());
 

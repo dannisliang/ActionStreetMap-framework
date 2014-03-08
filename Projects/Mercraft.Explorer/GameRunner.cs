@@ -14,36 +14,19 @@ namespace Mercraft.Explorer
     /// </summary>
     public class GameRunner : IGameRunner, IPositionListener
     {
+        private const string SystemBootKey = "system/bootstrapping";
 
-        #region Privates state. Try avoid usage of the corresponding properties except unit tests
+        /// <summary>
+        /// DI container
+        /// </summary>
+        private readonly IContainer _container;
+
         /// <summary>
         /// Holds config reference
         /// NOTE Do not remove!
         /// </summary>
         private readonly ConfigSettings _config;
-
-        public ConfigSettings Config
-        {
-            get
-            {
-                return _config;
-            }
-        }
-
-        /// <summary>
-        /// DI container
-        /// </summary>
-        private readonly IContainer _container = new Container();
-
-        public IContainer Container
-        {
-            get
-            {
-                return _container;
-            }
-        }
-
-        #endregion
+       
 
         /// <summary>
         /// Actual zone loader
@@ -51,21 +34,21 @@ namespace Mercraft.Explorer
         private IPositionListener _positionListener;
 
         public GameRunner(string configPath)
+            : this(new Container(), new ConfigSettings(configPath))
         {
-            var configSettings = new ConfigSettings(configPath);
-            InitializeFromConfig(configSettings);
         }
 
-        public GameRunner(ConfigSettings configSettings)
+        public GameRunner(Container container, ConfigSettings configSettings)
         {
+            _container = container;
             _config = configSettings;
-            InitializeFromConfig(configSettings);
+            Initialize();
         }
 
-        private void InitializeFromConfig(ConfigSettings configSettings)
+        private void Initialize()
         {
             // config root
-            _container.RegisterInstance(configSettings);
+            _container.RegisterInstance(_config);
 
             // component configurator
             _container.Register(Component
@@ -74,7 +57,7 @@ namespace Mercraft.Explorer
                 .Singleton());
 
             // register bootstrapping service which will register all dependencies
-            var bootSection = configSettings.GetSection("system/bootstrapping");
+            var bootSection = _config.GetSection(SystemBootKey);
             var bootServiceType = bootSection.GetType(ConfigKeys.Type);
 
             _container.Register(Component

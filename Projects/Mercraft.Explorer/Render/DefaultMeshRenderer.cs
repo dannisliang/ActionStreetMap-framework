@@ -5,6 +5,9 @@ namespace Mercraft.Explorer.Render
 {
     public class DefaultMeshRenderer: IMeshRenderer, IConfigurable
     {
+        private const string MeshRenderNameKey = "@name";
+        private const string MaterialPathKey = "material/@path";
+
         private string _materialPath;
 
         public string Name { get; private set; }
@@ -17,8 +20,8 @@ namespace Mercraft.Explorer.Render
 
         public void Configure(IConfigSection configSection)
         {
-            Name = configSection.GetString("@name");
-            _materialPath = configSection.GetString("material/@path");
+            Name = configSection.GetString(MeshRenderNameKey);
+            _materialPath = configSection.GetString(MaterialPathKey);
         }
     }
 }

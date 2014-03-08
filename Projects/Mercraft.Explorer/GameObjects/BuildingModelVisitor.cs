@@ -15,6 +15,10 @@ namespace Mercraft.Explorer.GameObjects
 {
     public class BuildingModelVisitor: ISceneModelVisitor, IConfigurable
     {
+        private const string MeshRenderNameKey = @"render/@name";
+        private const string HeightFloorKey = @"height/@floor";
+        private const string HeightTopKey = @"height/@top";
+
         private PolygonMeshBuilder _meshBuilder;
         private IEnumerable<IMeshRenderer> _meshRenderers;
 
@@ -59,11 +63,11 @@ namespace Mercraft.Explorer.GameObjects
 
         public void Configure(IConfigSection configSection)
         {
-            var renderName = configSection.GetString("render/@name");
+            var renderName = configSection.GetString(MeshRenderNameKey);
             _meshRenderer = _meshRenderers.Single(mr => mr.Name == renderName);
 
-            _buildingFloor = configSection.GetFloat("height/@floor");
-            _buildingTop = configSection.GetFloat("height/@top");
+            _buildingFloor = configSection.GetFloat(HeightFloorKey);
+            _buildingTop = configSection.GetFloat(HeightTopKey);
 
             _meshRenderers = null;
         }

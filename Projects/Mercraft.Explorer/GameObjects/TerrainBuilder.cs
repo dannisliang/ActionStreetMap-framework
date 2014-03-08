@@ -11,6 +11,8 @@ namespace Mercraft.Explorer.GameObjects
 {
     public class TerrainBuilder : ITerrainBuilder, IConfigurable
     {
+        private const string MaterialPathKey = "material/@path";
+
         private readonly string LogTag = typeof (TerrainBuilder).Name;
 
         private string _materialPath;
@@ -40,7 +42,7 @@ namespace Mercraft.Explorer.GameObjects
 
         public void Configure(IConfigSection configSection)
         {
-            _materialPath = configSection.GetString("material/@path");
+            _materialPath = configSection.GetString(MaterialPathKey);
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System.Linq;
-using Mercraft.Core;
 using Mercraft.Core.Scene;
-using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
-using Mercraft.Explorer.Render;
 using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Explorer
 {
@@ -25,11 +22,12 @@ namespace Mercraft.Maps.UnitTests.Explorer
         public void CanResolveBuildingModelVisitors()
         {
             // Arrange
-            var componentRoot = new GameRunner(TestHelper.ConfigRootFile);
-            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
+            var container = new Container();
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
+            root.RunGame(TestHelper.BerlinGeoCenter);
 
             // Act
-            var modelVisitors = componentRoot.Container.ResolveAll<ISceneModelVisitor>()
+            var modelVisitors = container.ResolveAll<ISceneModelVisitor>()
                 .ToList();
 
             // Assert

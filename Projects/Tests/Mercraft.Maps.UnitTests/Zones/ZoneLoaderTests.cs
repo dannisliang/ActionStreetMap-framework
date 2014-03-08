@@ -1,6 +1,8 @@
 ﻿
 using Mercraft.Core;
 using Mercraft.Explorer;
+using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.UnitTests.Zones.Stubs;
 using NUnit.Framework;
 using UnityEngine;
@@ -13,10 +15,11 @@ namespace Mercraft.Maps.UnitTests.Zones
         [Test]
         public void CanLoadZoneDynamically()
         {
-            var root = new GameRunner(TestHelper.ConfigRootFile);
+            var container = new Container();
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
             root.RunGame(TestHelper.BerlinGeoCenter);
 
-            var zoneLoader = root.Container.Resolve<IPositionListener>() as TestZoneLoader;
+            var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
@@ -28,9 +31,10 @@ namespace Mercraft.Maps.UnitTests.Zones
         {
             var tileHalfSize = 500;
             var offset = 50;
-            GameRunner root = new GameRunner(TestHelper.ConfigRootFile);
+            var container = new Container();
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
             root.RunGame(TestHelper.BerlinGeoCenter);
-            var zoneLoader = root.Container.Resolve<IPositionListener>() as TestZoneLoader;
+            var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
             // same zone
             root.OnMapPositionChanged(new Vector2(tileHalfSize - offset - 1, 0));

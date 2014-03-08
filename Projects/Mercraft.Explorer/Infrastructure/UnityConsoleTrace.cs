@@ -25,7 +25,6 @@ namespace Mercraft.Explorer.Infrastructure
             }
         }
 
-
         private string ConvertRecord(TraceRecord record)
         {
             var category = record.Category ?? "";
