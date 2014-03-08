@@ -48,7 +48,7 @@ namespace Mercraft.Core.Algorithms
         ///</summary>
 
         //a Line in 2D coordinate system: ax+by+c=0
-        private class Line
+        internal class Line
         {
             //line: ax+by+c=0;
             private double a;
@@ -122,7 +122,7 @@ namespace Mercraft.Core.Algorithms
             }
         }
 
-        private class LineSegment : Line
+        internal class LineSegment : Line
         {
             //line: ax+by+c=0, with start point and end point
             //direction from start point ->end point
@@ -189,129 +189,9 @@ namespace Mercraft.Core.Algorithms
             {
                 return Math.Max(m_startPoint.y, m_endPoint.y);
             }
-
-    
-
-            /************************************************
-             * Offset the line segment to generate a new line segment
-             * If the offset direction is along the x-axis or y-axis, 
-             * Parameter is true, other wise it is false
-             * ***********************************************/
-            /* public LineSegment OffsetLine(double distance, bool rightOrDown)
-             {
-                 //offset a line with a given distance, generate a new line
-                 //rightOrDown=true means offset to x incress direction,
-                 // if the line is horizontal, offset to y incress direction
-
-                 LineSegment line;
-                 Vector2 newStartPoint = new Vector2();
-                 Vector2 newEndPoint = new Vector2();
-
-                 double alphaInRad = this.GetLineAngle(); // 0-PI
-                 if (rightOrDown)
-                 {
-                     if (this.HorizontalLine()) //offset to y+ direction
-                     {
-                         newStartPoint.x = (float) this.m_startPoint.x;
-                         newStartPoint.y = (float)(this.m_startPoint.y + distance);
-
-                         newEndPoint.x = (float) this.m_endPoint.x;
-                         newEndPoint.y = (float) (this.m_endPoint.y + distance);
-                         line = new LineSegment(newStartPoint, newEndPoint);
-                     }
-                     else //offset to x+ direction
-                     {
-                         if (Math.Sin(alphaInRad) > 0)
-                         {
-                             newStartPoint.x = (float)(m_startPoint.x + Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newStartPoint.y = (float) (m_startPoint.y - Math.Abs(distance * Math.Cos(alphaInRad)));
-
-                             newEndPoint.x = (float)(m_endPoint.x + Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newEndPoint.y = (float) (m_endPoint.y - Math.Abs(distance * Math.Cos(alphaInRad)));
-
-                             line = new LineSegment(
-                                            newStartPoint, newEndPoint);
-                         }
-                         else //sin(FalphaInRad)<0
-                         {
-                             newStartPoint.x = (float) (m_startPoint.x + Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newStartPoint.y = (float) (m_startPoint.y + Math.Abs(distance * Math.Cos(alphaInRad)));
-                             newEndPoint.x = (float) (m_endPoint.x + Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newEndPoint.y = (float) (m_endPoint.y + Math.Abs(distance * Math.Cos(alphaInRad)));
-
-                             line = new LineSegment(
-                                 newStartPoint, newEndPoint);
-                         }
-                     }
-                 }//{rightOrDown}
-                 else //leftOrUp
-                 {
-                     if (this.HorizontalLine()) //offset to y directin
-                     {
-                         newStartPoint.x = m_startPoint.x;
-                         newStartPoint.y = (float)(m_startPoint.y - distance);
-
-                         newEndPoint.x = m_endPoint.x;
-                         newEndPoint.y = (float) (m_endPoint.y - distance);
-                         line = new LineSegment(newStartPoint, newEndPoint);
-                     }
-                     else //offset to x directin
-                     {
-                         if (Math.Sin(alphaInRad) >= 0)
-                         {
-                             newStartPoint.x = (float)(m_startPoint.x - Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newStartPoint.y = (float) (m_startPoint.y + Math.Abs(distance * Math.Cos(alphaInRad)));
-                             newEndPoint.x = (float) (m_endPoint.x - Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newEndPoint.y = (float) (m_endPoint.y + Math.Abs(distance * Math.Cos(alphaInRad)));
-
-                             line = new LineSegment(
-                                 newStartPoint, newEndPoint);
-                         }
-                         else //sin(FalphaInRad)<0
-                         {
-                             newStartPoint.x = (float) (m_startPoint.x - Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newStartPoint.y = (float) (m_startPoint.y - Math.Abs(distance * Math.Cos(alphaInRad)));
-                             newEndPoint.x = (float) (m_endPoint.x - Math.Abs(distance * Math.Sin(alphaInRad)));
-                             newEndPoint.y = (float) (m_endPoint.y - Math.Abs(distance * Math.Cos(alphaInRad)));
-
-                             line = new LineSegment(
-                                 newStartPoint, newEndPoint);
-                         }
-                     }
-                 }
-                 return line;
-             }*/
-
-            /********************************************************
-             To check whether 2 lines segments have an intersection
-             *********************************************************/
-            /* public bool IntersectedWith(LineSegment line)
-             {
-                 double x1 = this.m_startPoint.x;
-                 double y1 = this.m_startPoint.y;
-                 double x2 = this.m_endPoint.x;
-                 double y2 = this.m_endPoint.y;
-                 double x3 = line.m_startPoint.x;
-                 double y3 = line.m_startPoint.y;
-                 double x4 = line.m_endPoint.x;
-                 double y4 = line.m_endPoint.y;
-
-                 double de = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
-                 //if de<>0 then //lines are not parallel
-                 if (Math.Abs(de - 0) < ConstantValue.SmallValue) //not parallel
-                 {
-                     double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / de;
-                     double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / de;
-
-                     return ((ub > 0) && (ub < 1));
-
-                 }
-                     return false;
-             }*/
-
         }
 
-        private class Polygon
+        internal class Polygon
         {
 
             private Vector2[] m_aVertices;
@@ -497,8 +377,7 @@ namespace Mercraft.Core.Algorithms
 
             Restriction: the polygon is not self intersecting
             *****************************************/
-            public static PolygonDirection PointsDirection(
-                Vector2[] points)
+            public static PolygonDirection PointsDirection(Vector2[] points)
             {
                 int nCount = 0, j = 0, k = 0;
                 int nPoints = points.Length;
@@ -525,7 +404,7 @@ namespace Mercraft.Core.Algorithms
                 }
 
                 if (nCount < 0)
-                    return PolygonDirection.Count_Clockwise;
+                    return PolygonDirection.CountClockwise;
                 else if (nCount > 0)
                     return PolygonDirection.Clockwise;
                 else
@@ -550,14 +429,14 @@ namespace Mercraft.Core.Algorithms
 
         }
 
-        private enum PolygonDirection
+        internal enum PolygonDirection
         {
             Unknown,
             Clockwise,
-            Count_Clockwise
+            CountClockwise
         }
 
-        private class PolygonShape
+        internal class PolygonShape
         {
             private Vector2[] m_aInputVertices;
             private Vector2[] m_aUpdatedPolygonVertices;
@@ -826,14 +705,14 @@ namespace Mercraft.Core.Algorithms
             }
         }
 
-        private enum VertexType
+        internal enum VertexType
         {
             ErrorPoint,
             ConvexPoint,
             ConcavePoint
         }
 
-        private static class PrimitiveExtensions
+        internal static class PrimitiveExtensions
         {
             public static bool SamePoint(Vector2 point1, Vector2 point2)
             {

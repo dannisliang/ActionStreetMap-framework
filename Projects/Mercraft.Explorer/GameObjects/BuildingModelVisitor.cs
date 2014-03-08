@@ -37,6 +37,10 @@ namespace Mercraft.Explorer.GameObjects
         public void VisitBuilding(GeoCoordinate center, GameObject parent, Building building)
         {
             var vertices = PolygonHelper.GetVerticies2D(center, building.Points.ToList());
+
+            // TODO Sort in place!
+            vertices = PolygonHelper.SortVertices(vertices);
+
             var name = Guid.NewGuid().ToString();
 
             // TODO floor should be calculated using parent object

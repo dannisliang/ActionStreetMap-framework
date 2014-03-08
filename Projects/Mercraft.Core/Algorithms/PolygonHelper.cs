@@ -28,6 +28,26 @@ namespace Mercraft.Core.Algorithms
                 .Take(length).ToArray();
         }
 
+        /// <summary>
+        /// Sorts verticies in clockwise order
+        /// </summary>
+        public static Vector2[] SortVertices(Vector2[] verticies)
+        {
+            var direction = PolygonTriangulation.Polygon.PointsDirection(verticies);
+
+            switch (direction)
+            {
+                case PolygonTriangulation.PolygonDirection.Clockwise:
+                    return verticies.Reverse().ToArray();
+                case PolygonTriangulation.PolygonDirection.CountClockwise:
+                    return verticies;
+                default:
+                    // TODO need to understand what to do
+                    return verticies;
+                    //throw new NotImplementedException("Need to sort vertices!");
+            }
+        }
+
         public static Vector3[] GetVerticies3D(Vector2[] verticies2D, float top, float floor)
         {
             var length = verticies2D.Length;
