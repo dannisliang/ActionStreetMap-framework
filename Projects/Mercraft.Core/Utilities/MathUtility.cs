@@ -29,5 +29,10 @@ namespace Mercraft.Core.Utilities
         {
             return Math.Abs(a - b) < epsilon;
         }
+
+        public static bool AreEqual(double a, double b, double epsilon = double.Epsilon)
+        {
+            return Math.Abs(a - b) < epsilon;
+        }
     }
 }

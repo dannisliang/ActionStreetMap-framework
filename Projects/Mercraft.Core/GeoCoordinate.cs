@@ -1,21 +1,48 @@
-﻿namespace Mercraft.Core
+﻿using Mercraft.Core.Utilities;
+
+namespace Mercraft.Core
 {
-    public class GeoCoordinate
+    public struct GeoCoordinate
     {
         /// <summary>
         /// Latitude in degrees
         /// </summary>
-        public double Latitude { get; set; }
+        public readonly double Latitude;
 
         /// <summary>
         /// Longitude in degrees
         /// </summary>
-        public double Longitude { get; set; } 
+        public readonly double Longitude;
 
         public GeoCoordinate(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
+        }
+
+        public static bool operator ==(GeoCoordinate a, GeoCoordinate b)
+        {
+            return MathUtility.AreEqual(a.Latitude, b.Latitude) &&
+                   MathUtility.AreEqual(a.Longitude, b.Longitude);
+        }
+
+        public static bool operator !=(GeoCoordinate a, GeoCoordinate b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is GeoCoordinate))
+                return false;
+            var coord = (GeoCoordinate)other;
+            return MathUtility.AreEqual(Latitude, coord.Latitude) &&
+                   MathUtility.AreEqual(Longitude, coord.Longitude);
+        }
+
+        public override int GetHashCode()
+        {
+            return Latitude.GetHashCode() ^ Longitude.GetHashCode() << 2;
         }
 
         public override string ToString()

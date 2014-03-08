@@ -23,7 +23,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
             using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
             {
                 var elementSource = new PbfElementSource(stream);
-                var bbox = BoundingBox.CreateBoundingBox(center, 100);
+                var bbox = BoundingBox.CreateBoundingBox(center, 1000);
 
                 var scene = new MapScene();
                 var visitor = new CompositeVisitor(new List<IElementVisitor>
@@ -36,12 +36,16 @@ namespace Mercraft.Maps.UnitTests.Explorer
 
                 var buildings = scene.Buildings.ToList();
 
+                int i = 1;
                 foreach (var building in buildings)
                 {
                     var verticies2D = PolygonHelper.GetVerticies2D(center, building.Points.ToList());
                     PolygonHelper.GetVerticies3D(verticies2D, 1, 10);
                     PolygonHelper.GetUV(verticies2D);
                     PolygonHelper.GetTriangles(verticies2D);
+                    if(i % 10 == 0)
+                        Console.WriteLine(i + "\n");
+                    i++;
                 }
             }
         }

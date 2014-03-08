@@ -25,11 +25,12 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public void VisitWay(Way way)
         {
-            if (!way.IsComplete || !IsBuilding(way.Tags)) 
+            if (!way.IsComplete || way.Nodes.Count < 3 || !IsBuilding(way.Tags)) 
                 return;
 
             var building = new Building()
             {
+                Id = way.Id.ToString(),
                 Points = way.GetPoints(),
                 Tags = way.Tags
                     .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
@@ -51,5 +52,6 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             return tags.ContainsKey("building") && !tags.IsFalse("building");
         }
+
     }
 }

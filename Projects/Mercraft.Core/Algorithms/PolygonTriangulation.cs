@@ -395,8 +395,6 @@ namespace Mercraft.Core.Algorithms
             ***************************************/
             public Vector2? NextPoint(Vector2 vertex)
             {
-                Vector2 nextPt = new Vector2();
-
                 int nIndex;
                 nIndex = VertexIndex(vertex);
                 if (nIndex == -1)

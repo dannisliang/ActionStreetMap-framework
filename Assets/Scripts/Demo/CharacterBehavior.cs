@@ -18,7 +18,8 @@ namespace Assets.Scripts.Demo
 	        component = new GameRunner(@"Config\app.config");
 
             Debug.Log("Run Game");
-            component.RunGame(new GeoCoordinate(52.529814, 13.388015));
+            component.RunGame(new GeoCoordinate(52.531036, 13.384866)); // Invlidenstr. 117
+            //52.529814, 13.388015));
         }
 	
         // Update is called once per frame

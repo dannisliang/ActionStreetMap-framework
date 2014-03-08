@@ -8,6 +8,7 @@ namespace Mercraft.Core.Scene.Models
     /// </summary>
     public class Building
     {
+        public string Id { get; set; }
         /// <summary>
         ///  Contains copy tags from OSM layer. For development purposes only:
         /// all necessary tag info (e.g. color, address) should be processed and applied to scene

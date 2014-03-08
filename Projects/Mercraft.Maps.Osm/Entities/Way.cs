@@ -33,6 +33,10 @@ namespace Mercraft.Maps.Osm.Entities
 
             for (int idx = 0; idx < this.Nodes.Count; idx++)
             {
+                if (idx > 0 &&  Nodes[idx - 1].Coordinate ==  Nodes[idx].Coordinate)
+                {
+                    continue;
+                }
                 coordinates.Add(this.Nodes[idx].Coordinate);
             }
 

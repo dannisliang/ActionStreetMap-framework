@@ -1,7 +1,6 @@
 ﻿using System;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using NUnit.Framework;
 using UnityEngine;
 

@@ -4,29 +4,32 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
-using UnityEditor;
+using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
+//using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {
-        [MenuItem("OSM/Generate Terrain")]
+        //[MenuItem("OSM/Generate Terrain")]
         static void BuildFloor()
         {
             Debug.Log("Generate Terrain..");
 
+            Container container = new Container();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(@"Config/app.config");
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
 
-            var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
+            var floorBuilder = container.Resolve<ITerrainBuilder>();
 
             floorBuilder.Build(new Tile(new MapScene(), center, new Vector2(0, 0), 10));
 
             Debug.Log("Generate Terrain: Done");
         }
 
-        [MenuItem("OSM/Generate Single Building")]
+        //[MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
@@ -34,25 +37,33 @@ namespace Assets.Scripts.Demo
             {
                 Points = new List<GeoCoordinate>()
                 {
-			new GeoCoordinate(52.5295083,13.3889532),
-			new GeoCoordinate(52.5294599,13.3887466),
-			new GeoCoordinate(52.5293253,13.3888356),
-			new GeoCoordinate(52.529354,13.3889638),
-			new GeoCoordinate(52.5292772,13.3890143),
-			new GeoCoordinate(52.529244,13.3888741),
-			new GeoCoordinate(52.5291502,13.3889361),
-			new GeoCoordinate(52.5291819,13.389071),
-			new GeoCoordinate(52.5291244,13.3891088),
-			new GeoCoordinate(52.5291505,13.3891865),
-			new GeoCoordinate(52.5295083,13.3889532),
+			        /*new GeoCoordinate(52.5295083,13.3889532),
+			        new GeoCoordinate(52.5294599,13.3887466),
+			        new GeoCoordinate(52.5293253,13.3888356),
+			        new GeoCoordinate(52.529354,13.3889638),
+			        new GeoCoordinate(52.5292772,13.3890143),
+			        new GeoCoordinate(52.529244,13.3888741),
+			        new GeoCoordinate(52.5291502,13.3889361),
+			        new GeoCoordinate(52.5291819,13.389071),
+			        new GeoCoordinate(52.5291244,13.3891088),
+			        new GeoCoordinate(52.5291505,13.3891865),
+			        new GeoCoordinate(52.5295083,13.3889532),*/
+
+
+                    new GeoCoordinate(52.535882,13.394282),
+                    new GeoCoordinate(52.5359336,13.3944478),
+                    new GeoCoordinate(52.5358092,13.3945627),
+                    new GeoCoordinate(52.535759,13.3943978),
+                    new GeoCoordinate(52.535882,13.394282),
+                    new GeoCoordinate(52.535882,13.394282),
                 }
             };
 
+            Container container = new Container();
             var center = new GeoCoordinate(52.529814, 13.388015);
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
 
-            var componentRoot = new GameRunner(@"Config/app.config");
-
-            var floorBuilder = componentRoot.Container.Resolve<ITerrainBuilder>();
+            var floorBuilder = container.Resolve<ITerrainBuilder>();
 
             var floor = floorBuilder.Build(new Tile(
                     null, 
@@ -60,7 +71,7 @@ namespace Assets.Scripts.Demo
                     new Vector2(0, 0),
                     50));
 
-            var visitor = componentRoot.Container.Resolve<ISceneModelVisitor>("building");
+            var visitor = container.Resolve<ISceneModelVisitor>("building");
             visitor.VisitBuilding(center, floor, b1);
 
             Debug.Log("Generate Single Building: Done");
@@ -77,7 +88,7 @@ namespace Assets.Scripts.Demo
             visitor.VisitBuilding(center, null, b1);*/
         }
 
-        [MenuItem("OSM/Generate Berlin Small Part")]
+        //[MenuItem("OSM/Generate Berlin Small Part")]
         static void BuildSmallPart()
         {
             Debug.Log("Generate Berlin Small Part..");
