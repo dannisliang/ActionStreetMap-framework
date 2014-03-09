@@ -1,0 +1,67 @@
+ruleset      ::= rule | ruleset rule;
+
+rule         ::= selectors declarations | import;
+
+import       ::= AT "import" "url" "(" QUOTED ")" ID ";";
+
+selectors    ::= uSelectors | uSelectors ",";
+
+uSelectors   ::= selector | uSelectors "," selector;
+
+selector     ::= subselector | selector subselector;
+
+subselector  ::= object SPACE | object zoom | object zoom tests | maybeClass;
+
+zoom         ::= PIPE "z" range | ;
+
+range        ::= NUMBER | NUMBER "-" NUMBER | NUMBER "-" | "-" NUMBER;
+
+tests        ::= test | tests test;
+
+test         ::= "[" condition "]";
+
+condition    ::= tag binary value | unary tag | tag;
+
+tag          ::= key | tag ":" key;
+
+key          ::= ID;
+
+value        ::= ID | REGEX | NUMBER;
+
+binary       ::= "=" | "!=" | "=~" | "<" | ">" | "<=" | ">=";
+
+unary        ::= "-" | "!";
+
+maybeClass   ::= class | "!" class;
+
+class        ::= "." ID | ":" ID;
+
+object       ::= "node" | "way" | "relation" | "area" | "line" | "canvas" | "*" | ;
+
+declarations ::= declaration | declarations declaration;
+
+declaration  ::= "{" styleset "}" | "{" "}";
+
+styleset     ::= uStyleset | uStyleset ";" ;
+
+uStyleset    ::= style | uStyleset ";" style;
+
+style        ::= key ":" specifier;
+
+specifier    ::= named | sizes | colour | url | eval;
+
+named        ::= ID;
+
+sizes        ::= size | sizes "," size;
+
+size         ::= NUMBER units;
+
+colour       ::= HASHCOLOUR | "rgb" "(" NUMBER "," NUMBER "," NUMBER ")" | "rgba" "(" NUMBER "," NUMBER "," NUMBER "," NUMBER ")";
+
+url          ::= "url" "(" urlContent ")";
+
+urlContent   ::= QUOTED | eval;
+
+units        ::= "px" | "pt" | "%" | ;
+
+eval         ::= "eval" "(" QUOTED ")";

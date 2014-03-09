@@ -46,6 +46,9 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>Assets\Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Core">
       <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
     </Reference>

@@ -7,7 +7,7 @@ namespace Assets.Scripts.Demo
 {
     public class CharacterBehavior : MonoBehaviour
     {
-        private float FloatEpsilon = 1;
+        private float Delta = 1;
         private GameRunner component;
         private Vector2 position2D;
 
@@ -24,8 +24,8 @@ namespace Assets.Scripts.Demo
 	
         // Update is called once per frame
         void Update () {
-            if (Math.Abs(transform.position.x - position2D.x) > FloatEpsilon
-                || Math.Abs(transform.position.z - position2D.y) > FloatEpsilon)
+            if (Math.Abs(transform.position.x - position2D.x) > Delta
+                || Math.Abs(transform.position.z - position2D.y) > Delta)
             {
                 Debug.Log("position change detect:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);

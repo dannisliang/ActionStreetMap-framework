@@ -46,6 +46,9 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>Assets\Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Mercraft.Core">
       <HintPath>Assets\Dependencies\Mercraft.Core.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Demo\CharacterBehavior.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
+    <None Include="Assets\Dependencies\Antlr3.Runtime.dll" />
     <None Include="Assets\Dependencies\Mercraft.Core.dll" />
     <None Include="Assets\Dependencies\Mercraft.Explorer.dll" />
     <None Include="Assets\Dependencies\Mercraft.Infrastructure.dll" />

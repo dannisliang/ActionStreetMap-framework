@@ -52,21 +52,6 @@ namespace Assets.Scripts.Demo
 			        new GeoCoordinate(52.5291505,13.3891865),
 			        new GeoCoordinate(52.5295083,13.3889532),
                 }
-
-                /*Points = new List<GeoCoordinate>()
-                {
-			        new GeoCoordinate(52.5295083,13.3889532),
-                    new GeoCoordinate(52.5291505,13.3891865),
-                    new GeoCoordinate(52.5291244,13.3891088),
-                    new GeoCoordinate(52.5291819,13.389071),
-                    new GeoCoordinate(52.5291502,13.3889361),
-                    new GeoCoordinate(52.529244,13.3888741),
-                    new GeoCoordinate(52.5292772,13.3890143),
-                    new GeoCoordinate(52.529354,13.3889638),
-                    new GeoCoordinate(52.5293253,13.3888356),
-                    new GeoCoordinate(52.5294599,13.3887466),
-			        new GeoCoordinate(52.5295083,13.3889532),
-                }*/
             };
 
 
@@ -87,17 +72,6 @@ namespace Assets.Scripts.Demo
 
             Debug.Log("Generate Single Building: Done");          
 
-        }
-
-        static void BuildCustomStyled()
-        {
-            /*var visitor = new BuildingModelVisitor(
-                new PolygonMeshBuilder(),
-                new DefaultMeshRenderer(Shader.Find("Bumped Diffuse"), Color.green),
-                0,
-                1.5f);
-
-            visitor.VisitBuilding(center, null, b1);*/
         }
 
         [MenuItem("OSM/Generate Berlin Small Part")]
