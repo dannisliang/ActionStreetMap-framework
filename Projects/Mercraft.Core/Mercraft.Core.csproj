@@ -52,12 +52,10 @@
     <Compile Include="IPositionListener.cs" />
     <Compile Include="MapCss\Domain\Declaration.cs" />
     <Compile Include="MapCss\Domain\Rule.cs" />
-    <Compile Include="MapCss\Domain\Selectors\AreaSelector.cs" />
-    <Compile Include="MapCss\Domain\Selectors\NodeSelector.cs" />
-    <Compile Include="MapCss\Domain\Selectors\Selector.cs" />
-    <Compile Include="MapCss\Domain\Selectors\WaySelector.cs" />
+    <Compile Include="MapCss\Domain\Selector.cs" />
     <Compile Include="MapCss\Domain\Stylesheet.cs" />
     <Compile Include="MapCss\MapCssFormatException.cs" />
+    <Compile Include="MapCss\StylesheetProvider.cs" />
     <Compile Include="MapCss\Parser\MapCssLexer.cs" />
     <Compile Include="MapCss\Parser\MapCssParser.cs" />
     <Compile Include="MapCss\Visitors\DeclarationMapCssVisitor.cs" />

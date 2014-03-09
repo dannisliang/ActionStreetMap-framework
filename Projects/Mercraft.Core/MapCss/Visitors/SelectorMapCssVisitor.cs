@@ -1,6 +1,6 @@
 ﻿using System;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.MapCss.Domain.Selectors;
+using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
@@ -10,26 +10,11 @@ namespace Mercraft.Core.MapCss.Visitors
 
         public override  Selector VisitSelector(CommonTree selectorTree)
         {
-            Selector selector = null;
+            var selector = new Selector();
             var selectorAttrTree = selectorTree.Children[1] as CommonTree;
             var selectorType = (selectorTree.Children[0] as CommonTree).Text;
-            switch (selectorType)
-            {
-                case "area":
-                    selector = new AreaSelector();
-                    break;
-                case "node":
-                    selector = new NodeSelector();
-                    break;
-                case "way":
-                    selector = new WaySelector();
-                    break;
-                case "relation":
-                    // TODO
-                    break;
-                default:
-                    throw new ArgumentException("Unknow selector type: {0}", selectorType);
-            }
+
+            selector.Type = selectorType;
 
             var operation = selectorAttrTree.Children[0].Text;
             if (operation == OperationExistName)

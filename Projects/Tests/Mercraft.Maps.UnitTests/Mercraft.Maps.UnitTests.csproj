@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Explorer\GameObjectsTests.cs" />
+    <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="PerformanceLogger.cs" />
     <Compile Include="Explorer\BootstrapTests.cs" />
     <Compile Include="Explorer\Stubs\TestBuildingModelBuilder.cs" />

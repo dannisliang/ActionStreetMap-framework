@@ -1,6 +1,5 @@
 ﻿using Antlr.Runtime.Tree;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.MapCss.Domain.Selectors;
 
 namespace Mercraft.Core.MapCss.Visitors
 {

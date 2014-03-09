@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.MapCss.Domain.Selectors;
 
 namespace Mercraft.Core.MapCss.Domain
 {
