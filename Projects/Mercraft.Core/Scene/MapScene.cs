@@ -5,23 +5,44 @@ namespace Mercraft.Core.Scene
 {
     public class MapScene : IScene
     {
-        private List<Building> _buildings;
-        public IEnumerable<Building> Buildings
+        #region Areas
+
+        private List<Area> _areas;
+        public IEnumerable<Area> Areas
         {
             get
             {
-                return _buildings;
+                return _areas;
             }
         }
+        public void AddArea(Area area)
+        {
+            _areas.Add(area);
+        }
+
+        #endregion
+
+        #region Ways
+
+        private List<Way> _ways;
+        public IEnumerable<Way> Ways
+        {
+            get
+            {
+                return _ways;
+            }
+        }
+        public void AddWay(Way way)
+        {
+            _ways.Add(way);
+        }
+
+        #endregion
 
         public MapScene()
         {
-            _buildings = new List<Building>();
+            _areas = new List<Area>();
+            _ways = new List<Way>();
         }
-
-        public void AddBuilding(Building building)
-        {
-            _buildings.Add(building);
-        }
-    }
+   }
 }

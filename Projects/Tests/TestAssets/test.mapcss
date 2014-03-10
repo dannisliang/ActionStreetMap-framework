@@ -1,5 +1,5 @@
 /* ===== Placenames ===== */
-node[place=town]										{ text: name; text-color: #534d38; text-halo-radius: 2; text-halo-color: white; font-size: 18; }
+node[place=town]										{ text: name; height: eval("tag('levels')"); }
 node[place=city]										{ text: name; text-color: #534d38; text-halo-radius: 2; text-halo-color: white; font-size: 22; }
 
 /* ===== Landuse ===== */

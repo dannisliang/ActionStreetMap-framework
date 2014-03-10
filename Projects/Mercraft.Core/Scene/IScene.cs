@@ -9,7 +9,10 @@ namespace Mercraft.Core.Scene
     /// </summary>
     public interface IScene
     {
-        void AddBuilding(Building building);
-        IEnumerable<Building> Buildings { get; }
+        void AddArea(Area area);
+        void AddWay(Way way);
+
+        IEnumerable<Area> Areas { get; }
+        IEnumerable<Way> Ways { get; }
     }
 }

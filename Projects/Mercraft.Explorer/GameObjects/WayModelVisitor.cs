@@ -3,11 +3,10 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Stubs
+namespace Mercraft.Explorer.GameObjects
 {
-    public class TestBuildingModelVisitor : ISceneModelVisitor
-    { 
-
+    public class WayModelVisitor: ISceneModelVisitor
+    {
         public void VisitArea(GeoCoordinate center, GameObject parent, Area area)
         {
             

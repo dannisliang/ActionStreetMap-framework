@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Mercraft.Core.Scene.Models
 {
-    public class Road
+    public abstract class Model
     {
+        public string Id { get; set; }
+
         public ICollection<KeyValuePair<string, string>> Tags { get; set; }
     }
 }

@@ -14,11 +14,11 @@ namespace Mercraft.Maps.UnitTests
             using (var file = File.CreateText(@"f:\scene.txt"))
             {
                 file.WriteLine("BUILDINGS:");
-                var buildings = mapScene.Buildings.ToList();
-                for (int i = 0; i < buildings.Count; i++)
+                var area = mapScene.Areas.ToList();
+                for (int i = 0; i < area.Count; i++)
                 {
-                    var building = buildings[i];
-                    file.WriteLine("\tBuilding {0}", (i + 1));
+                    var building = area[i];
+                    file.WriteLine(@"\Areas {0}", (i + 1));
                     var lineOffset = "\t\t";
                     file.WriteLine("{0}Tags:", lineOffset);
                     foreach (var tag in building.Tags)

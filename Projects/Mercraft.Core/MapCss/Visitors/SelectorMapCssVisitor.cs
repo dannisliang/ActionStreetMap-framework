@@ -6,30 +6,40 @@ namespace Mercraft.Core.MapCss.Visitors
 {
     public class SelectorMapCssVisitor : MapCssVisitorBase
     {
-        private const string OperationExistName = "OP_EXIST";
-
-        public override  Selector VisitSelector(CommonTree selectorTree)
+        public override Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
-            var selector = new Selector();
-            var selectorAttrTree = selectorTree.Children[1] as CommonTree;
-            var selectorType = (selectorTree.Children[0] as CommonTree).Text;
+            Selector selector = null;
 
-            selector.Type = selectorType;
-
-            var operation = selectorAttrTree.Children[0].Text;
-            if (operation == OperationExistName)
+            switch (selectorType)
             {
-                if (selectorAttrTree.ChildCount != 2)
+                case "node":
+                    selector = new NodeSelector();
+                    break;
+                case "way":
+                     selector = new WaySelector();
+                    break;
+                case "area":
+                    selector = new AreaSelector();
+                    break;
+                default:
+                    throw new MapCssFormatException(selectorTree, 
+                        String.Format("Unknown selector type: {0}", selectorType));
+            }
+
+            var operation = selectorTree.Children[0].Text;
+            if (operation == MapCssStrings.OperationExist)
+            {
+                if (selectorTree.ChildCount != 2)
                 {
-                    throw new MapCssFormatException(selectorAttrTree, "Wrong 'exist' selector operation");
+                    throw new MapCssFormatException(selectorTree, "Wrong 'exist' selector operation");
                 }
-                selector.Tag = selectorAttrTree.Children[1].Text;
+                selector.Tag = selectorTree.Children[1].Text;
             }
             else
             {
-                if (selectorAttrTree.ChildCount != 3)
+                if (selectorTree.ChildCount != 3)
                 {
-                    throw new MapCssFormatException(selectorAttrTree,
+                    throw new MapCssFormatException(selectorTree, 
                         String.Format("Wrong '{0}' selector operation", operation));
                 }
 
@@ -38,12 +48,12 @@ namespace Mercraft.Core.MapCss.Visitors
                     case "=":
                         break;
                     default:
-                        throw new MapCssFormatException(selectorAttrTree,
+                        throw new MapCssFormatException(selectorTree,
                             String.Format("Not supported selector operation: {0}", operation));
                 }
 
-                selector.Tag = selectorAttrTree.Children[1].Text;
-                selector.Value = selectorAttrTree.Children[2].Text;
+                selector.Tag = selectorTree.Children[1].Text;
+                selector.Value = selectorTree.Children[2].Text;
             }
             selector.Operation = operation;
 

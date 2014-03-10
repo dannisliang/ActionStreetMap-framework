@@ -15,7 +15,7 @@ namespace Mercraft.Core.MapCss.Visitors
             return null;
         }
 
-        public virtual Selector VisitSelector(CommonTree selectorTree)
+        public virtual Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
             return null;
         }

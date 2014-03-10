@@ -27,7 +27,8 @@ namespace Mercraft.Core.Zones
         {
             _floor = _terrainBuilder.Build(_tile);
             // Visit buildings
-            foreach (var building in _tile.Scene.Buildings)
+            
+            /*foreach (var building in _tile.Scene.Buildings)
             {
                 foreach (var sceneModelVisitor in _sceneModelVisitors)
                 {
@@ -35,7 +36,7 @@ namespace Mercraft.Core.Zones
                     // to be able to perform cleanup on our side
                     sceneModelVisitor.VisitBuilding(_tile.RelativeNullPoint, _floor, building);
                 }
-            }
+            }*/
         }
     }
 }

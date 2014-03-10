@@ -28,13 +28,15 @@ namespace Mercraft.Maps.UnitTests.Explorer
                 var scene = new MapScene();
                 var visitor = new CompositeVisitor(new List<IElementVisitor>
                 {
-                    new BuildingVisitor(scene)
+                    new AreaVisitor(scene)
                 });
 
                 var elementManager = new ElementManager();
                 elementManager.VisitBoundingBox(bbox, elementSource, visitor);
 
-                var buildings = scene.Buildings.ToList();
+                var buildings = scene.Areas.Where(a => a.Tags.Any(t => t.Key.Contains("building"))).
+                    Where(a => a.Points.Count > 2) // filter some specific ways with building tag
+                    .ToList();
 
                 int i = 1;
                 foreach (var building in buildings)

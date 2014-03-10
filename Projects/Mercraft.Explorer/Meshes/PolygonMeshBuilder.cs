@@ -1,18 +1,26 @@
-﻿using Mercraft.Core.Algorithms;
+﻿using System.Collections.Generic;
+using Mercraft.Core.Algorithms;
+using Mercraft.Core.MapCss.Domain;
+using Mercraft.Core.Scene.Models;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Meshes
 {
-    public class PolygonMeshBuilder
+    public class PolygonMeshBuilder: IMeshBuilder
     {
-        public Mesh BuildMesh(Vector2[] verticies2D, float top,  float floor)
+        public Mesh Build(Vector2[] verticies, Model model, Rule rule)
         {
             var mesh = new Mesh();
             mesh.name = "PolygonMesh";
 
-            mesh.vertices = PolygonHelper.GetVerticies3D(verticies2D, top, floor);
-            mesh.uv = PolygonHelper.GetUV(verticies2D);
-            mesh.triangles = PolygonHelper.GetTriangles(verticies2D);
+            var top = rule.Evaluate<float>(model, "height");
+
+            // TODO calc floor position
+            var floor = 0;
+
+            mesh.vertices = PolygonHelper.GetVerticies3D(verticies, top, floor);
+            mesh.uv = PolygonHelper.GetUV(verticies);
+            mesh.triangles = PolygonHelper.GetTriangles(verticies);
 
             mesh.RecalculateNormals();
 

@@ -26,11 +26,10 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new AreaVisitor(scene));
 
-                Assert.AreEqual(30, scene.Buildings.Count());
-
-                //DumpScene(scene);
+                Assert.AreEqual(36, scene.Areas.Count());
+                Assert.AreEqual(30, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
         }
 
@@ -47,14 +46,14 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new AreaVisitor(scene));
 
-                // actual is 1453, but due to cross-border node resolving algorithm we got less items
-                Assert.AreEqual(1438, scene.Buildings.Count()); 
+                Assert.AreEqual(1620, scene.Areas.Count());
+                Assert.AreEqual(1438, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
         }
 
-        [Test]
+       /* [Test]
         public void CanProcessLevelsTag()
         {
             const int defaultLevelCount = 5;
@@ -70,9 +69,9 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
 
-                var leveledBuildings = scene.Buildings.Where(b => b.LevelCount != defaultLevelCount).ToList();
+                var leveledBuildings = scene.Areas.Where(b => b.LevelCount != defaultLevelCount).ToList();
                 Assert.AreEqual(68, leveledBuildings.Count);
             }
-        }
+        }*/
     }
 }

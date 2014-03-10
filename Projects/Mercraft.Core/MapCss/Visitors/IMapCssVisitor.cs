@@ -9,7 +9,7 @@ namespace Mercraft.Core.MapCss.Visitors
 
         Rule VisitRule(CommonTree ruleTree);
 
-        Selector VisitSelector(CommonTree selectorTree);
+        Selector VisitSelector(CommonTree selectorTree, string selectorType);
 
         Declaration VisitDeclaration(CommonTree declarationTree);
     }

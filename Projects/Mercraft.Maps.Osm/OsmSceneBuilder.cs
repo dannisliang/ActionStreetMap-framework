@@ -30,7 +30,7 @@ namespace Mercraft.Maps.Osm
             var scene = new MapScene();
             var visitor = new CompositeVisitor(new List<IElementVisitor>
             {
-                new BuildingVisitor(scene)
+                new AreaVisitor(scene)
             });
 
             var elementSource = _elementSourceProvider.Get(bbox);

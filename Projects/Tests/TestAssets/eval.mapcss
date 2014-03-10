@@ -1,0 +1,3 @@
+way[highway][lanes]    										{width: eval(cond(num(tag('lanes')) >= 1, metric('3.6m")-metric('10cm'), 0))
+area[building=residental][building:levels]					{ mesh: polygon; height: eval(num(tag('building:levels')) * 2); }
+area[building=residental]									{ mesh: polygon; height: 10; }

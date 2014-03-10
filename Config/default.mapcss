@@ -1,0 +1,2 @@
+area[building=residental][building:levels]					{ mesh: polygon; height: eval("tag('building:levels') * 2"); }
+area[building=residental]									{ mesh: polygon; height: 10; }

@@ -16,6 +16,12 @@ namespace Mercraft.Core.MapCss.Visitors
             declaration.Qualifier = declarationTree.Children[0].Text;
             declaration.Value = declarationTree.Children[1].Text;
 
+            if (declaration.Value == "EVAL_CALL")
+            {
+                declaration.IsEval = true;
+                declaration.Value = (declarationTree.Children[1] as CommonTree).Children[0].Text;
+            }
+
             return declaration;
         }
     }

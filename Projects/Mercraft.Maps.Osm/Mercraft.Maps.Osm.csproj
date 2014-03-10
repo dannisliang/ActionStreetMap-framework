@@ -57,7 +57,7 @@
     <Compile Include="Data\XmlElementSource.cs" />
     <Compile Include="Formats\Xml\XmlSimpleConverter.cs" />
     <Compile Include="OsmSceneBuilder.cs" />
-    <Compile Include="Visitors\BuildingVisitor.cs" />
+    <Compile Include="Visitors\AreaVisitor.cs" />
     <Compile Include="Visitors\CompositeVisitor.cs" />
     <Compile Include="Visitors\IElementVisitor.cs" />
     <Compile Include="Formats\Pbf\fileformat.cs" />

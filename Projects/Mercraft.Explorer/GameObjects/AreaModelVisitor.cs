@@ -13,30 +13,33 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.GameObjects
 {
-    public class BuildingModelVisitor: ISceneModelVisitor, IConfigurable
+    public class AreaModelVisitor: ISceneModelVisitor, IConfigurable
     {
-        private const string MeshRenderNameKey = @"render/@name";
-        private const string BuildingLevelHeightKey = @"height/@level";
+      //  private const string MeshRenderNameKey = @"render/@name";
+       // private const string BuildingLevelHeightKey = @"height/@level";
 
         private PolygonMeshBuilder _meshBuilder;
         private IEnumerable<IMeshRenderer> _meshRenderers;
 
         private IMeshRenderer _meshRenderer;
 
-        private float _levelHeight;
+        //private float _levelHeight;
 
         [Dependency]
-        public BuildingModelVisitor(PolygonMeshBuilder meshBuilder, IEnumerable<IMeshRenderer> meshRenderers)
+        public AreaModelVisitor(PolygonMeshBuilder meshBuilder, IEnumerable<IMeshRenderer> meshRenderers)
         {
             _meshBuilder = meshBuilder;
-            _meshRenderers = meshRenderers;
+            //_meshRenderers = meshRenderers;
         }
 
         #region ISceneModelVisitor implementation
 
-        public void VisitBuilding(GeoCoordinate center, GameObject parent, Building building)
+        public void VisitArea(GeoCoordinate center, GameObject parent, Area area)
         {
-            var vertices = PolygonHelper.GetVerticies2D(center, building.Points.ToList());
+
+            // TODO determine mesh builder from style!
+
+           /* var vertices = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
 
             // TODO Sort in place!
             vertices = PolygonHelper.SortVertices(vertices);
@@ -49,16 +52,16 @@ namespace Mercraft.Explorer.GameObjects
             // TODO use height if defined?
             var top = floor + building.LevelCount * _levelHeight;
 
-            BuildGameObject(name, vertices, parent, top, floor);
+            BuildGameObject(name, vertices, parent, top, floor);*/
         }
 
-        public void VisitRoad(GeoCoordinate center, GameObject parent, Road road)
+        public void VisitWay(GeoCoordinate center, GameObject parent, Way way)
         {
         }
 
         #endregion
 
-        private void BuildGameObject(string name, Vector2[] verticies2D, GameObject parent, float top, float floor)
+        /*private void BuildGameObject(string name, Vector2[] verticies2D, GameObject parent, float top, float floor)
         {
             var gameObject = new GameObject(name);
           
@@ -69,16 +72,16 @@ namespace Mercraft.Explorer.GameObjects
             gameObject.AddComponent<MeshCollider>();
 
             gameObject.transform.parent = parent.transform;
-        }
+        }*/
 
         public void Configure(IConfigSection configSection)
         {
-            var renderName = configSection.GetString(MeshRenderNameKey);
+           /* var renderName = configSection.GetString(MeshRenderNameKey);
             _meshRenderer = _meshRenderers.Single(mr => mr.Name == renderName);
 
             _levelHeight = configSection.GetFloat(BuildingLevelHeightKey);
 
-            _meshRenderers = null;
+            _meshRenderers = null;*/
         }
     }
 }

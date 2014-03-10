@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mercraft.Core;
 using Mercraft.Core.MapCss;
+using Mercraft.Core.Scene.Models;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.MapCss
@@ -27,8 +30,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual(18, stylesheet.Rules.Count);
 
             Assert.AreEqual(1, stylesheet.Rules[0].Selectors.Count);
-            Assert.AreEqual(5, stylesheet.Rules[0].Declarations.Count);
-            Assert.AreEqual("node", stylesheet.Rules[0].Selectors[0].Type);
+            Assert.AreEqual(2, stylesheet.Rules[0].Declarations.Count);
+            
             Assert.AreEqual("place", stylesheet.Rules[0].Selectors[0].Tag);
             Assert.AreEqual("town", stylesheet.Rules[0].Selectors[0].Value);
             Assert.AreEqual("=", stylesheet.Rules[0].Selectors[0].Operation);
@@ -38,6 +41,28 @@ namespace Mercraft.Maps.UnitTests.MapCss
             
             Assert.AreEqual(6, stylesheet.Rules[15].Selectors.Count);
             Assert.AreEqual(6, stylesheet.Rules[15].Declarations.Count);
+        }
+
+        [Test]
+        public void CanFilterSeveralTags()
+        {
+            var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
+            var stylesheet = provider.Get();
+
+            var area = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","residental"),
+                }
+            };
+
+            var applicableRules = stylesheet.Rules.Where(r => r.IsApplicable(area)).ToList();
+
+            Assert.AreEqual(1, applicableRules.Count);
+            Assert.AreEqual(1, applicableRules[0].Selectors.Count);
         }
 
     }

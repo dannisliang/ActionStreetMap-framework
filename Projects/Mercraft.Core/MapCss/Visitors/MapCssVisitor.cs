@@ -46,7 +46,15 @@ namespace Mercraft.Core.MapCss.Visitors
                 var tree = ruleTree.Children[i] as CommonTree;
                 if (tree.Text == "SIMPLE_SELECTOR")
                 {
-                    rule.Selectors.Add(VisitSelector(tree));
+                    var selectorType = (tree.Children[0] as CommonTree).Text;
+
+                    int selectorIdx = 1;
+                    while (tree.ChildCount > selectorIdx)
+                    {
+                        var selectorTree = tree.Children[selectorIdx] as CommonTree;
+                        rule.Selectors.Add(VisitSelector(selectorTree, selectorType));
+                        selectorIdx++;
+                    }
                 }
                 else
                 {
@@ -68,9 +76,9 @@ namespace Mercraft.Core.MapCss.Visitors
         }
 
 
-        public Selector VisitSelector(CommonTree selectorTree)
+        public Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
-            return _visitors.Select(visitor => visitor.VisitSelector(selectorTree))
+            return _visitors.Select(visitor => visitor.VisitSelector(selectorTree, selectorType))
                             .FirstOrDefault(declaration => declaration != null);
         }
 

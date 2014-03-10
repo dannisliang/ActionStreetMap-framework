@@ -5,7 +5,7 @@ namespace Mercraft.Core.Scene
 {
     public interface ISceneModelVisitor
     {
-        void VisitBuilding(GeoCoordinate center, GameObject parent, Building building);
-        void VisitRoad(GeoCoordinate center, GameObject parent, Road road);
+        void VisitArea(GeoCoordinate center, GameObject parent, Area area);
+        void VisitWay(GeoCoordinate center, GameObject parent, Way way);
     }
 }
