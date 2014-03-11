@@ -8,13 +8,14 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
     /// <summary>
     /// Naive implementation of Eval expression builder
     /// </summary>
-    public class EvalWalker
+    public class EvalTreeWalker
     {
         private OperationStack _opStack;
         private ParameterExpression _param = Expression.Parameter(typeof(Model), "model");
         private CommonTree _tree;
+        private object _compiledLambda = null;
 
-        public EvalWalker(CommonTree tree)
+        public EvalTreeWalker(CommonTree tree)
         {
             _tree = tree;
             _opStack = new OperationStack(_param);
@@ -22,17 +23,24 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
 
         public T Walk<T>(Model model)
         {
+            if (_compiledLambda != null)
+                return (_compiledLambda as Func<Model, T>).Invoke(model);
+
             var operation = _tree.Children[0] as CommonTree;
 
             VisitOperation(operation);
 
             var expression = _opStack.Pop();
 
-            // TODO cache compiled lambda somehow
             Expression<Func<Model, T>> lambda = Expression.Lambda<Func<Model, T>>(
                     expression, new ParameterExpression[] { _param });
 
-            return lambda.Compile().Invoke(model);
+            var compiledLambda = lambda.Compile();
+            
+            // cache compiled lambda expression
+            _compiledLambda = compiledLambda;
+
+            return compiledLambda.Invoke(model);
         }
 
         private void VisitOperation(CommonTree tree)

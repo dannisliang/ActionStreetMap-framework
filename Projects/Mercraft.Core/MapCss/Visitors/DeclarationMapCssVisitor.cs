@@ -20,7 +20,7 @@ namespace Mercraft.Core.MapCss.Visitors
             if (declaration.Value == "EVAL_CALL")
             {
                 declaration.IsEval = true;
-                declaration.Evaluator = new EvalWalker(declarationTree.Children[1] as CommonTree);
+                declaration.Evaluator = new EvalTreeWalker(declarationTree.Children[1] as CommonTree);
             }
 
             return declaration;

@@ -33,11 +33,8 @@ namespace Mercraft.Core.MapCss.Domain
         {
             var declaration = Declarations.Single(d => d.Qualifier == qualifier);
 
-            // TODO implement eval
             if (declaration.IsEval)
-            {
-                return declaration.Evaluator.Walk<T>(model);
-            }
+                return declaration.Evaluator.Walk<T>(model);         
 
             return (T) Convert.ChangeType(declaration.Value, typeof (T));
         }
