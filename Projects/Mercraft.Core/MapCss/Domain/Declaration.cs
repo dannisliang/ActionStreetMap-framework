@@ -1,4 +1,7 @@
-﻿namespace Mercraft.Core.MapCss.Domain
+﻿using System.Linq.Expressions;
+using Mercraft.Core.MapCss.Visitors.Eval;
+
+namespace Mercraft.Core.MapCss.Domain
 {
     public class Declaration
     {
@@ -6,5 +9,6 @@
         public string Value { get; set; }
 
         public bool IsEval { get; set; }
+        public EvalWalker Evaluator { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Antlr.Runtime.Tree;
 using Mercraft.Core.MapCss.Domain;
+using Mercraft.Core.MapCss.Visitors.Eval;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
@@ -19,7 +20,7 @@ namespace Mercraft.Core.MapCss.Visitors
             if (declaration.Value == "EVAL_CALL")
             {
                 declaration.IsEval = true;
-                declaration.Value = (declarationTree.Children[1] as CommonTree).Children[0].Text;
+                declaration.Evaluator = new EvalWalker(declarationTree.Children[1] as CommonTree);
             }
 
             return declaration;

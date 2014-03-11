@@ -36,7 +36,7 @@ namespace Mercraft.Core.MapCss.Domain
             // TODO implement eval
             if (declaration.IsEval)
             {
-                throw new NotImplementedException("Eval isn't implemented");
+                return declaration.Evaluator.Walk<T>(model);
             }
 
             return (T) Convert.ChangeType(declaration.Value, typeof (T));

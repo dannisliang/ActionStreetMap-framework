@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
     public class RuleEvaluationTests
     {
         [Test]
-        public void CanEvaluateHeight()
+        public void CanGetAreaHeight()
         {
             var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
             var stylesheet = provider.Get();
@@ -36,7 +36,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         }
 
         [Test]
-        public void CanEvaluateHeightWithEval()
+        public void CanGetAreaHeightWithEval()
         {
             var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
             var stylesheet = provider.Get();
@@ -56,7 +56,30 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var height = applicableRules[0].Evaluate<int>(area, "height");
 
-            Assert.AreEqual(10, height);
+            Assert.AreEqual(8, height);
+        }
+
+        [Test]
+        public void CanUseSimpleEvaluate()
+        {
+            var model = new Area()
+            {
+                Id = "1",
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building:levels", "5")
+                }
+            };
+
+            var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
+            var stylesheet = provider.Get();
+
+            var evalDeclaration = stylesheet.Rules[0].Declarations[1];
+
+            var evalResult = evalDeclaration.Evaluator.Walk<int>(model);
+
+            Assert.AreEqual(10, evalResult);
+            
         }
     }
 }
