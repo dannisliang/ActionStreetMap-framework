@@ -1,2 +1,2 @@
-area[building=residental][building:levels]					{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
-area[building=residental]									{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }
+area[building=residential][building:levels]					{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
+area[building=residential]									{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }

@@ -59,6 +59,8 @@ namespace Mercraft.Core.MapCss.Visitors
                 }
                 else
                 {
+                    rule.MatchAll = i == 1;
+                    
                     // declarations
                     if (tree != null && tree.Text == "{")
                     {

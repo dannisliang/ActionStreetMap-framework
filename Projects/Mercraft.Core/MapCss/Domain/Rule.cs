@@ -8,6 +8,11 @@ namespace Mercraft.Core.MapCss.Domain
     public class Rule
     {
         /// <summary>
+        /// True if all selectors should be applicable to given model
+        /// </summary>
+        public bool MatchAll { get; set; }
+
+        /// <summary>
         /// List of selectors.
         /// </summary>
         public IList<Selector> Selectors { get; set; }
@@ -26,8 +31,9 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsApplicable(Model model)
         {
-            //UnityEngine.Debug.Log("Rule.IsApplicable");
-            return Selectors.All(s => s.IsApplicable(model));
+            return MatchAll?  
+                Selectors.All(s => s.IsApplicable(model)):
+                Selectors.Any(s => s.IsApplicable(model));
         }
 
         public T Evaluate<T>(Model model, string qualifier)

@@ -19,5 +19,6 @@ namespace Mercraft.Maps.UnitTests
 
         public const string TestMapcssFile = @"..\..\..\..\Tests\TestAssets\test.mapcss";
         public const string EvalMapcssFile = @"..\..\..\..\Tests\TestAssets\eval.mapcss";
+        public const string OrMapcssFile = @"..\..\..\..\Tests\TestAssets\or.mapcss";
     }
 }

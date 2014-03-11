@@ -1,5 +1,4 @@
-area[building=residential][building:levels]					{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
-
-/* TODO unsure that OR syntax works */
-area[building=residential]									{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }
-area[building=yes]											{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }
+/* Most strict rule should be first */
+area[building][height]												{ build: polygon; render: default; material: Concrete_Patterned; height: 100; }
+area[building:levels]												{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(5)); }
+area[building=residential], area[building=yes]						{ build: polygon; render: default; material: Concrete_Patterned; height: 15; }

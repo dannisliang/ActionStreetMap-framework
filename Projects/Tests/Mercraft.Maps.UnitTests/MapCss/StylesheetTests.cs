@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
+using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using NUnit.Framework;
 
@@ -55,7 +56,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
-                    new KeyValuePair<string, string>("building","residental"),
+                    new KeyValuePair<string, string>("building","residential"),
                 }
             };
 
@@ -63,6 +64,71 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.AreEqual(1, applicableRules.Count);
             Assert.AreEqual(1, applicableRules[0].Selectors.Count);
+        }
+
+        [Test]
+        public void CanParseOrSelectors()
+        {
+            var provider = new StylesheetProvider(TestHelper.OrMapcssFile);
+            var stylesheet = provider.Get();
+
+            var matchOne1 = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","residential"),
+                }
+            };
+
+            var matchOne2 = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","yes"),
+                    new KeyValuePair<string, string>("whatever","123"),
+                }
+            };
+
+            var matchOne3 = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","yes"),
+                    new KeyValuePair<string, string>("whatever",""),
+                }
+            };
+
+            var matchAll = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","residential"),
+                    new KeyValuePair<string, string>("building","yes"),
+                    new KeyValuePair<string, string>("whatever","1"),
+                }
+            };
+
+
+            Assert.IsNotNull(stylesheet.GetRule(matchOne1));
+            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne1).Evaluate<string>(matchOne1, "build"));
+
+            Assert.IsNotNull(stylesheet.GetRule(matchOne2));
+            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne2).Evaluate<string>(matchOne2, "build"));
+
+            Assert.IsNotNull(stylesheet.GetRule(matchOne3));
+            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne3).Evaluate<string>(matchOne3, "build"));
+
+            Assert.IsNotNull(stylesheet.GetRule(matchAll));
+            Assert.AreEqual("unknown", stylesheet.GetRule(matchAll).Evaluate<string>(matchAll, "build"));
+
         }
 
     }

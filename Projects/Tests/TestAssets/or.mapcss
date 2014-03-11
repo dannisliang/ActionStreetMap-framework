@@ -1,0 +1,3 @@
+area[building=residential][building=yes][whatever]							{ build: unknown; render: default; material: Concrete_Patterned; height: 10; }
+area[building=residential], area[building=yes], area[whatever]				{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }
+
