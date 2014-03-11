@@ -9,6 +9,7 @@ namespace Mercraft.Core.Scene
     /// </summary>
     public interface IScene
     {
+        // probably, we needn't to differentiate models
         void AddArea(Area area);
         void AddWay(Way way);
 

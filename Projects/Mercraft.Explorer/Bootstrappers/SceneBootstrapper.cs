@@ -1,22 +1,25 @@
-﻿using Mercraft.Explorer.Render;
+﻿using Mercraft.Core.MapCss;
+using Mercraft.Explorer.Meshes;
+using Mercraft.Explorer.Render;
 using Mercraft.Infrastructure.Bootstrap;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
     public class SceneBootstrapper: BootstrapperPlugin
     {
-
+        private const string StylesheetProviderKey = "stylesheet";
         private const string MeshBuildersKey = "meshes/builders/builder";
         private const string MeshRendersKey = "meshes/renders/render";
 
         public override bool Run()
         {
-            //NOTE: No interface yet
-            // TODO extract interface if possible
+            // register stylesheet provider
+            Configurator.RegisterComponent<IStylesheetProvider>(ConfigSection.GetSection(StylesheetProviderKey));
+
             // register mesh builders
             foreach (var builderConfig in ConfigSection.GetSections(MeshBuildersKey))
             {
-                Configurator.RegisterComponent(builderConfig);
+                Configurator.RegisterNamedComponent<IMeshBuilder>(builderConfig);
             }
 
             // register mesh renders

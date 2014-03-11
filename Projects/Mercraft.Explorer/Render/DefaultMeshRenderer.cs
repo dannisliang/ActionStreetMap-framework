@@ -1,4 +1,7 @@
-﻿using Mercraft.Infrastructure.Config;
+﻿using System;
+using Mercraft.Core.MapCss.Domain;
+using Mercraft.Core.Scene.Models;
+using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Render
@@ -6,22 +9,21 @@ namespace Mercraft.Explorer.Render
     public class DefaultMeshRenderer: IMeshRenderer, IConfigurable
     {
         private const string MeshRenderNameKey = "@name";
-        private const string MaterialPathKey = "material/@path";
-
-        private string _materialPath;
 
         public string Name { get; private set; }
 
-        public void Render(GameObject gameObject)
+        public void Render(GameObject gameObject, Model model, Rule rule)
         {
+            var material = rule.Evaluate<string>(model, "material");
+            var materialPath = String.Format("Materials/{0}", material);
+
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.renderer.material = Resources.Load<Material>(_materialPath);
+            renderer.renderer.material = Resources.Load<Material>(materialPath);
         }
 
         public void Configure(IConfigSection configSection)
         {
             Name = configSection.GetString(MeshRenderNameKey);
-            _materialPath = configSection.GetString(MaterialPathKey);
         }
     }
 }

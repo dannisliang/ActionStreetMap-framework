@@ -7,6 +7,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
 {
     /// <summary>
     /// Naive implementation of Eval expression builder
+    /// Internally, builds expression from common tree which represents operations in prefix notation
     /// </summary>
     public class EvalTreeWalker
     {

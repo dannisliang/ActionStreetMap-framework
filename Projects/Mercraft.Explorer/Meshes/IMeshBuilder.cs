@@ -7,6 +7,7 @@ namespace Mercraft.Explorer.Meshes
 {
     public interface IMeshBuilder
     {
+        string Name { get; }
         Mesh Build(Vector2[] verticies, Model model, Rule rule);
     }
 }

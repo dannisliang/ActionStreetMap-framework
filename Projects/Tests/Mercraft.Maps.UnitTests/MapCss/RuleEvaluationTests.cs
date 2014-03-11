@@ -74,7 +74,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
             var stylesheet = provider.Get();
 
-            var evalDeclaration = stylesheet.Rules[0].Declarations[1];
+            var evalDeclaration = stylesheet.Rules[0].Declarations[3];
 
             var evalResult = evalDeclaration.Evaluator.Walk<int>(model);
 

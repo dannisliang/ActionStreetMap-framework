@@ -26,6 +26,7 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsApplicable(Model model)
         {
+            //UnityEngine.Debug.Log("Rule.IsApplicable");
             return Selectors.All(s => s.IsApplicable(model));
         }
 

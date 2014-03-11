@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -12,6 +13,7 @@ namespace Mercraft.Core.Zones
         private const string OffsetKey = "offset";
 
         protected readonly TileProvider TileProvider;
+        protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly ITerrainBuilder TerrainBuilder;
         protected readonly IEnumerable<ISceneModelVisitor> SceneModelVisitors;
 
@@ -23,10 +25,12 @@ namespace Mercraft.Core.Zones
 
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
+            IStylesheetProvider stylesheetProvider,
             ITerrainBuilder terrainBuilder,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors)
         {
             TileProvider = tileProvider;
+            StylesheetProvider = stylesheetProvider;
             TerrainBuilder = terrainBuilder;
             SceneModelVisitors = sceneModelVisitors;
 
@@ -42,7 +46,7 @@ namespace Mercraft.Core.Zones
                 return;
 
             // Build zone
-            var zone = new Zone(tile, TerrainBuilder, SceneModelVisitors);
+            var zone = new Zone(tile, StylesheetProvider.Get(), TerrainBuilder, SceneModelVisitors);
             zone.Build();
             Zones.Add(tile, zone);           
         }

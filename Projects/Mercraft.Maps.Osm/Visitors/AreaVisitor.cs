@@ -36,7 +36,6 @@ namespace Mercraft.Maps.Osm.Visitors
                 Id = way.Id.ToString(),
                 Points = way.GetPoints(),
 
-                // TODO remove tags on building
                 Tags = way.Tags
                     .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
                     .ToList()

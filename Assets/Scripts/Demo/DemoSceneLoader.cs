@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
@@ -35,9 +37,12 @@ namespace Assets.Scripts.Demo
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
-            var b1 = new Building()
+            var b1 = new Area()
             {
-                LevelCount = 5,
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                  new KeyValuePair<string, string>("building", "residential")  
+                },
                 Points = new List<GeoCoordinate>()
                 {
 			        new GeoCoordinate(52.5295083,13.3889532),
@@ -68,7 +73,10 @@ namespace Assets.Scripts.Demo
                     50));
 
             var visitor = container.Resolve<ISceneModelVisitor>("building");
-            visitor.VisitBuilding(center, floor, b1);
+
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+            var rule = stylesheet.GetRule(b1);
+            visitor.VisitArea(center, floor, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 

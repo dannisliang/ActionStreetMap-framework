@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
+using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Zones;
@@ -11,9 +12,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     public class TestZoneLoader : ZoneLoader
     {
         [Dependency]
-        public TestZoneLoader(TileProvider tileProvider, ITerrainBuilder terrainBuilder,
-            IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
-                base(tileProvider, terrainBuilder, sceneModelVisitors)
+        public TestZoneLoader(TileProvider tileProvider,IStylesheetProvider stylesheetProvider,  
+            ITerrainBuilder terrainBuilder, IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
+            base(tileProvider, stylesheetProvider, terrainBuilder, sceneModelVisitors)
         {
         }
 
