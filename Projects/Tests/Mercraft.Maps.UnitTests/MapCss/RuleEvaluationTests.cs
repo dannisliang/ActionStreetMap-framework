@@ -116,5 +116,26 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
         }
 
+        [Test]
+        public void CanGetMissing()
+        {
+            var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
+            var stylesheet = provider.Get();
+
+            var area = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","residential"),
+                }
+            };
+            var rule = stylesheet.GetRule(area);
+
+            Assert.AreEqual(0, rule.GetLevels(area));
+
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
+using Mercraft.Explorer.Builders.Areas;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEditor;
@@ -46,7 +47,49 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Terrain: Done");
         }
 
-        [MenuItem("OSM/Generate Single Building")]
+
+        [MenuItem("OSM/Generate Single Building New")]
+        static void BuildSingleNew()
+        {
+            var building = new Area()
+            {
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                  new KeyValuePair<string, string>("building", "residential"),
+                  new KeyValuePair<string, string>("building:levels", "5")  
+
+                },
+                Points = new List<GeoCoordinate>()
+                {
+			new GeoCoordinate(52.5302492,13.3868234),
+			new GeoCoordinate(52.5304374,13.3866118),
+			new GeoCoordinate(52.5304738,13.3866946),
+			new GeoCoordinate(52.530385,13.3868148),
+			new GeoCoordinate(52.5304272,13.3869328),
+			new GeoCoordinate(52.5303328,13.3870465),
+			new GeoCoordinate(52.5303093,13.3869838),
+			new GeoCoordinate(52.5302492,13.3868234),
+                }
+            };
+
+
+            var container = new Container();
+            var center = new GeoCoordinate(52.529814, 13.388015);
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+            var rule = stylesheet.GetRule(building);
+           
+
+            var gameObject = new GameObject("MyBuilding");
+            gameObject.AddComponent<MeshFilter>();
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.renderer.material = Resources.Load<Material>(@"Materials/SovietBuilding");
+
+            var builder = new ResidentialAreaBuilder();
+            builder.Build(center, gameObject, rule, building);
+        }
+
+       /* [MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
@@ -99,7 +142,7 @@ namespace Assets.Scripts.Demo
 
             Debug.Log("Generate Single Building: Done");          
 
-        }
+        }*/
 
         [MenuItem("OSM/Generate Berlin Small Part")]
         static void BuildSmallPart()

@@ -36,14 +36,30 @@ namespace Mercraft.Core.MapCss.Domain
                 Selectors.Any(s => s.IsApplicable(model));
         }
 
-        public T Evaluate<T>(Model model, string qualifier)
-        {          
-            var declaration = Declarations.Single(d => d.Qualifier == qualifier);
+        public T EvaluateDefault<T>(Model model, string qualifier, T @default)
+        {
+            var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
+
+            if (declaration == null)
+                return @default;
 
             if (declaration.IsEval)
-                return declaration.Evaluator.Walk<T>(model);         
+                return declaration.Evaluator.Walk<T>(model);
 
-            return (T) Convert.ChangeType(declaration.Value, typeof (T));
+            return (T)Convert.ChangeType(declaration.Value, typeof(T));
+        }
+
+        public T Evaluate<T>(Model model, string qualifier)
+        {          
+            var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
+
+            if (declaration == null)
+                throw new ArgumentException("Declaration not found!", qualifier);
+
+            if (declaration.IsEval)
+                return declaration.Evaluator.Walk<T>(model);
+
+            return (T)Convert.ChangeType(declaration.Value, typeof(T));
         }
     }
 }
