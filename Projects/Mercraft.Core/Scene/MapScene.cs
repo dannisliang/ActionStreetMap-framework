@@ -5,6 +5,12 @@ namespace Mercraft.Core.Scene
 {
     public class MapScene : IScene
     {
+        #region Canvas
+
+        public Canvas Canvas { get; set; }
+
+        #endregion
+
         #region Areas
 
         private List<Area> _areas;

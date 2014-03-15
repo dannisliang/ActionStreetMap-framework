@@ -13,8 +13,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     {
         [Dependency]
         public TestZoneLoader(TileProvider tileProvider,IStylesheetProvider stylesheetProvider,  
-            ITerrainBuilder terrainBuilder, IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
-            base(tileProvider, stylesheetProvider, terrainBuilder, sceneModelVisitors)
+             IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
+            base(tileProvider, stylesheetProvider, sceneModelVisitors)
         {
         }
 

@@ -28,42 +28,20 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
             var stylesheet = provider.Get();
             
-            Assert.AreEqual(18, stylesheet.Rules.Count);
+            Assert.AreEqual(19, stylesheet.Rules.Count);
 
-            Assert.AreEqual(1, stylesheet.Rules[0].Selectors.Count);
-            Assert.AreEqual(2, stylesheet.Rules[0].Declarations.Count);
+            Assert.AreEqual(1, stylesheet.Rules[1].Selectors.Count);
+            Assert.AreEqual(2, stylesheet.Rules[1].Declarations.Count);
             
-            Assert.AreEqual("place", stylesheet.Rules[0].Selectors[0].Tag);
-            Assert.AreEqual("town", stylesheet.Rules[0].Selectors[0].Value);
-            Assert.AreEqual("=", stylesheet.Rules[0].Selectors[0].Operation);
+            Assert.AreEqual("place", stylesheet.Rules[1].Selectors[0].Tag);
+            Assert.AreEqual("town", stylesheet.Rules[1].Selectors[0].Value);
+            Assert.AreEqual("=", stylesheet.Rules[1].Selectors[0].Operation);
 
-            Assert.AreEqual("building", stylesheet.Rules[7].Selectors[0].Tag);
-            Assert.AreEqual("OP_EXIST", stylesheet.Rules[7].Selectors[0].Operation);
+            Assert.AreEqual("building", stylesheet.Rules[8].Selectors[0].Tag);
+            Assert.AreEqual("OP_EXIST", stylesheet.Rules[8].Selectors[0].Operation);
             
-            Assert.AreEqual(6, stylesheet.Rules[15].Selectors.Count);
-            Assert.AreEqual(6, stylesheet.Rules[15].Declarations.Count);
-        }
-
-        [Test]
-        public void CanFilterSeveralTags()
-        {
-            var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
-            var stylesheet = provider.Get();
-
-            var area = new Area()
-            {
-                Id = "1",
-                Points = new Collection<GeoCoordinate>(),
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("building","residential"),
-                }
-            };
-
-            var applicableRules = stylesheet.Rules.Where(r => r.IsApplicable(area)).ToList();
-
-            Assert.AreEqual(1, applicableRules.Count);
-            Assert.AreEqual(1, applicableRules[0].Selectors.Count);
+            Assert.AreEqual(6, stylesheet.Rules[16].Selectors.Count);
+            Assert.AreEqual(6, stylesheet.Rules[16].Declarations.Count);
         }
 
         [Test]
@@ -130,6 +108,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual("unknown", stylesheet.GetRule(matchAll).Evaluate<string>(matchAll, "build"));
 
         }
+
 
     }
 }

@@ -60,5 +60,13 @@ namespace Mercraft.Core.MapCss.Domain
         }
     }
 
+    public class CanvasSelector : Selector
+    {
+        public override bool IsApplicable(Model model)
+        {
+            return model is Canvas;
+        }
+    }
+
     #endregion
 }

@@ -9,6 +9,8 @@ namespace Mercraft.Core.Scene
     /// </summary>
     public interface IScene
     {
+        Canvas Canvas { get; set; }
+
         // probably, we needn't to differentiate models
         void AddArea(Area area);
         void AddWay(Way way);

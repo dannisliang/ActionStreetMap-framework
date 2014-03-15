@@ -14,7 +14,6 @@ namespace Mercraft.Core.Zones
 
         protected readonly TileProvider TileProvider;
         protected readonly IStylesheetProvider StylesheetProvider;
-        protected readonly ITerrainBuilder TerrainBuilder;
         protected readonly IEnumerable<ISceneModelVisitor> SceneModelVisitors;
 
         protected Vector2 CurrentPosition { get; set; }
@@ -26,12 +25,10 @@ namespace Mercraft.Core.Zones
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
             IStylesheetProvider stylesheetProvider,
-            ITerrainBuilder terrainBuilder,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors)
         {
             TileProvider = tileProvider;
             StylesheetProvider = stylesheetProvider;
-            TerrainBuilder = terrainBuilder;
             SceneModelVisitors = sceneModelVisitors;
 
             Zones = new Dictionary<Tile, Zone>();
@@ -46,7 +43,7 @@ namespace Mercraft.Core.Zones
                 return;
 
             // Build zone
-            var zone = new Zone(tile, StylesheetProvider.Get(), TerrainBuilder, SceneModelVisitors);
+            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors);
             zone.Build();
             Zones.Add(tile, zone);           
         }

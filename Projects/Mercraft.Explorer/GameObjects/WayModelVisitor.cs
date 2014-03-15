@@ -6,16 +6,11 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.GameObjects
 {
-    public class WayModelVisitor: ISceneModelVisitor
+    public class WayModelVisitor: SceneModelVisitor
     {
-        public void VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
+        public override GameObject VisitWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
         {
-            
-        }
-
-        public void VisitWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
-        {
-            
+            return null;
         }
     }
 }

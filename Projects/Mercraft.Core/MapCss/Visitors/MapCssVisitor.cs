@@ -49,12 +49,21 @@ namespace Mercraft.Core.MapCss.Visitors
                 {
                     var selectorType = (tree.Children[0] as CommonTree).Text;
 
-                    int selectorIdx = 1;
-                    while (tree.ChildCount > selectorIdx)
+                    // NOTE canvas is special case: it doesn't have selectors
+                    // but we want to use it later to be consistent
+                    if (selectorType != "canvas")
                     {
-                        var selectorTree = tree.Children[selectorIdx] as CommonTree;
-                        rule.Selectors.Add(VisitSelector(selectorTree, selectorType));
-                        selectorIdx++;
+                        int selectorIdx = 1;
+                        while (tree.ChildCount > selectorIdx)
+                        {
+                            var selectorTree = tree.Children[selectorIdx] as CommonTree;
+                            rule.Selectors.Add(VisitSelector(selectorTree, selectorType));
+                            selectorIdx++;
+                        }
+                    }
+                    else
+                    {
+                         rule.Selectors.Add(new CanvasSelector());
                     }
                 }
                 else

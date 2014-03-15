@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -21,8 +22,7 @@ namespace Mercraft.Maps.Osm
         }
 
         /// <summary>
-        /// Builds scene using center coordinate and bounding box
-        /// TODO Probably, we needn't both parameters at the same time
+        /// Builds scene using bounding box
         /// </summary>
         /// <param name="bbox">Bounding box</param>
         public IScene Build(BoundingBox bbox)
@@ -36,6 +36,11 @@ namespace Mercraft.Maps.Osm
             var elementSource = _elementSourceProvider.Get(bbox);
 
             _elementManager.VisitBoundingBox(bbox, elementSource, visitor);
+
+            scene.Canvas = new Canvas()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
 
             return scene;
         }

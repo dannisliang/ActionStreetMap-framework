@@ -21,6 +21,9 @@ namespace Mercraft.Core.MapCss.Visitors
                 case "area":
                     selector = new AreaSelector();
                     break;
+                case "canvas":
+                    selector = new CanvasSelector();
+                    break;
                 default:
                     throw new MapCssFormatException(selectorTree, 
                         String.Format("Unknown selector type: {0}", selectorType));

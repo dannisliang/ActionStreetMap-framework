@@ -47,13 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
-    <Compile Include="Explorer\GameObjectsTests.cs" />
     <Compile Include="MapCss\RuleEvaluationTests.cs" />
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="PerformanceLogger.cs" />
-    <Compile Include="Explorer\BootstrapTests.cs" />
-    <Compile Include="Explorer\Stubs\TestBuildingModelBuilder.cs" />
-    <Compile Include="Explorer\Stubs\TestTerrainBuilder.cs" />
     <Compile Include="Infrastructure\ConfigTests.cs" />
     <Compile Include="Infrastructure\ContainerTests.cs" />
     <Compile Include="Infrastructure\Stubs\ClassA.cs" />

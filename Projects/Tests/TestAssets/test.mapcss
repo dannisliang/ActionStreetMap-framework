@@ -1,3 +1,6 @@
+canvas{
+ material: Terrain;
+}
 /* ===== Placenames ===== */
 node[place=town]										{ text: name; height: eval("tag('levels')"); }
 node[place=city]										{ text: name; text-color: #534d38; text-halo-radius: 2; text-halo-color: white; font-size: 22; }
@@ -34,3 +37,5 @@ way[highway=primary],way[highway=primary_link]					{ color: #E7C930; casing-colo
 way[highway=foot], way[highway=path], 
 way[highway=footway]											{ color: gray; width: 1; dashes: 6,2; z-index: 3; }
 way[highway=cycleway]											{ color: blue; width: 1; dashes: 2,2; z-index: 3; }
+
+

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.MapCss;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -14,7 +13,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.GameObjects
 {
-    public class AreaModelVisitor: ISceneModelVisitor
+    public class AreaModelVisitor: SceneModelVisitor
     {
         private readonly IEnumerable<IMeshBuilder> _meshBuilders; 
         private readonly IEnumerable<IMeshRenderer> _meshRenderers;
@@ -28,7 +27,7 @@ namespace Mercraft.Explorer.GameObjects
 
         #region ISceneModelVisitor implementation
 
-        public void VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
+        public override GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
             var vertices = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
             vertices = PolygonHelper.SortVertices(vertices);
@@ -49,10 +48,8 @@ namespace Mercraft.Explorer.GameObjects
             gameObject.AddComponent<MeshCollider>();
             gameObject.transform.parent = parent.transform;
 
-        }
+            return gameObject;
 
-        public void VisitWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
-        {
         }
 
         #endregion

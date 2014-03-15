@@ -4,6 +4,7 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss;
+using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
@@ -25,10 +26,22 @@ namespace Assets.Scripts.Demo
             Container container = new Container();
             var center = new GeoCoordinate(52.529814, 13.388015);
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var floorBuilder = container.Resolve<ITerrainBuilder>();
+            var canvasVisitor = container.Resolve<ISceneModelVisitor>("canvas");
+            var canvas = new Canvas()
+            {
+                Tile = new Tile(
+                    null,
+                    new GeoCoordinate(52.529814, 13.388015),
+                    new Vector2(0, 0),
+                    50)
+            };
 
-            floorBuilder.Build(new Tile(new MapScene(), center, new Vector2(0, 0), 10));
+            var canvasRule = stylesheet.GetRule(canvas);
+            var canvasGameObject = canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+
+
 
             Debug.Log("Generate Terrain: Done");
         }
@@ -63,20 +76,33 @@ namespace Assets.Scripts.Demo
             Container container = new Container();
             var center = new GeoCoordinate(52.529814, 13.388015);
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var floorBuilder = container.Resolve<ITerrainBuilder>();
-
-            var floor = floorBuilder.Build(new Tile(
-                    null, 
+            var canvasVisitor = container.Resolve<ISceneModelVisitor>("canvas");
+            var canvas = new Canvas()
+            {
+                Tile = new Tile(
+                    null,
                     new GeoCoordinate(52.529814, 13.388015),
                     new Vector2(0, 0),
-                    50));
+                    50)
+            };
+
+            var canvasRule = stylesheet.GetRule(canvas);
+            var canvasGameObject =  canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
 
             var visitor = container.Resolve<ISceneModelVisitor>("building");
-
-            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+            
             var rule = stylesheet.GetRule(b1);
-            visitor.VisitArea(center, floor, rule, b1);
+
+            Debug.Log(rule);
+
+
+            var selectors = rule.Selectors.ToList();
+            var descirptors = rule.Declarations.ToList();
+
+
+            visitor.VisitArea(center, canvasGameObject, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 

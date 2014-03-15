@@ -17,7 +17,6 @@ namespace Mercraft.Explorer.Bootstrappers
         {
             Configurator.RegisterComponent<ISceneBuilder>(ConfigSection.GetSection(SceneBuilderKey));
             Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
-            Configurator.RegisterComponent<ITerrainBuilder>(ConfigSection.GetSection(TerrainBuilderKey));
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
 
             // register builders

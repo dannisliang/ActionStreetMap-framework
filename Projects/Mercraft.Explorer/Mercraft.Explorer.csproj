@@ -43,7 +43,8 @@
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="GameObjects\TerrainBuilder.cs" />
+    <Compile Include="GameObjects\CanvasModelVisitor.cs" />
+    <Compile Include="Helpers\RuleExtensions.cs" />
     <Compile Include="IGameRunner.cs" />
     <Compile Include="GameObjects\AreaModelVisitor.cs" />
     <Compile Include="Meshes\IMeshBuilder.cs" />

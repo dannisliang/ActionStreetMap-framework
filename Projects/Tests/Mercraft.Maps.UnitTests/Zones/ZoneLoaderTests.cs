@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Security;
 using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
@@ -12,7 +14,9 @@ namespace Mercraft.Maps.UnitTests.Zones
     [TestFixture]
     public class ZoneLoaderTests
     {
+        // NOTE unfortuanelly, normal flow of test is broken once GameObject instance is touched
         [Test]
+        [ExpectedException(typeof(SecurityException))]
         public void CanLoadZoneDynamically()
         {
             var container = new Container();

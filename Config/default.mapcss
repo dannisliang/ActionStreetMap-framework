@@ -1,3 +1,4 @@
+canvas	 															{ material: Terrain;}
 /* Most strict rule should be first */
 area[building][height]												{ build: polygon; render: default; material: Concrete_Patterned; height: 100; }
 area[building:levels]												{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(5)); }
