@@ -95,13 +95,6 @@ namespace Assets.Scripts.Demo
             
             var rule = stylesheet.GetRule(b1);
 
-            Debug.Log(rule);
-
-
-            var selectors = rule.Selectors.ToList();
-            var descirptors = rule.Declarations.ToList();
-
-
             visitor.VisitArea(center, canvasGameObject, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          

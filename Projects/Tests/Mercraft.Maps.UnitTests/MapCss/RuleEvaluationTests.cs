@@ -5,6 +5,7 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Explorer.Helpers;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.MapCss
@@ -28,10 +29,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
 
-            //var applicableRules = stylesheet.Rules.Where(r => r.IsApplicable(area)).ToList();
-
             var rule = stylesheet.GetRule(area);
-            var height = rule.Evaluate<int>(area, "height");
+            var height = rule.GetHeight(area);
 
             Assert.AreEqual(10, height);
         }
@@ -54,7 +53,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
 
             var rule = stylesheet.GetRule(area);
-            var height = rule.Evaluate<int>(area, "height");
+            var height = rule.GetHeight(area);
 
             Assert.AreEqual(8, height);
         }

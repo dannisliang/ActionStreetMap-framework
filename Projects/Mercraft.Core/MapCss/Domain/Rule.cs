@@ -37,21 +37,8 @@ namespace Mercraft.Core.MapCss.Domain
         }
 
         public T Evaluate<T>(Model model, string qualifier)
-        {
-            //UnityEngine.Debug.Log("Query: " + qualifier);
-
-            Declaration declaration = null;
-            foreach (var d in Declarations   )
-            {
-               // UnityEngine.Debug.Log("Qualifier:" + d.Qualifier + " Value:" + d.Value);
-                if (d.Qualifier == qualifier)
-                {
-                   // UnityEngine.Debug.Log("Found!");
-                    declaration = d;
-                }
-            }
-            
-            //var declaration = Declarations.Single(d => d.Qualifier == qualifier);
+        {          
+            var declaration = Declarations.Single(d => d.Qualifier == qualifier);
 
             if (declaration.IsEval)
                 return declaration.Evaluator.Walk<T>(model);         
