@@ -11,107 +11,18 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
     /// </summary>
     public class SovietBuildingGenerator
     {
-        #region Mesh Models
-
-        private List<Mesh> balcony25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Balcony25"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Balcony25Glazed")
-        };
-
-        private List<Mesh> balcony30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Balcony30"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Balcony30Glazed")
-        };
-
-        private List<Mesh> wall25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Wall25")
-        };
-        private List<Mesh> wall30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Wall30")
-        };
-        private List<Mesh> window25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Window25")
-        };
-        private List<Mesh> window30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Window30")
-        };
-
-        private List<Mesh> socle25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Socle25")
-        };
-        private List<Mesh> socle30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Socle30")
-        };
-
-        private List<Mesh> entrance25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Entrance25"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Entrance25Roofed"),
-        };
-        private List<Mesh> entrance30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Entrance30"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Entrance30Roofed"),
-        };
-        private List<Mesh> entranceWall25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWall25"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Window25")
-        };
-        private List<Mesh> entranceWall30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWall30"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Window30")
-        };
-        private List<Mesh> entranceWallLast25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWallLast25")
-        };
-        private List<Mesh> entranceWallLast30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWallLast30")
-        };
-        private List<Mesh> attic25 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWallLast25"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Attic25")
-        };
-        private List<Mesh> attic30 = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/EntranceWallLast30"),
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Attic30")
-        };
-        private List<Mesh> roofFlat = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/Roof")
-        };
-        private List<Mesh> roofGabled = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/RoofGabled")
-        };
-        private List<Mesh> roofHipped = new List<Mesh>()
-        {
-            Resources.Load<Mesh>(@"Models/Buildings/Soviet/RoofHipped")
-        };
-
-        #endregion
-
         // TODO develop randomize strategy
         private readonly System.Random random = new System.Random();
-        
+        private readonly  SovietBuildingResources _resources;
         private float[] panels = { 3, 2.5f };
 
-        public void Generate(GameObject gameObject, Vector2[] verticies, BuildingSettings settings)
+        public SovietBuildingGenerator(SovietBuildingResources resources)
         {
-            
+            _resources = resources;
+        }
+
+        public void Generate(GameObject gameObject, Vector2[] verticies, SovietBuildingSettings settings)
+        {
             var meshFilter = gameObject.GetComponent<MeshFilter>();
 
             var combine = new List<Mesh>();
@@ -125,6 +36,8 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
                 var end = verticies[i + 1];
 
                 var length = Vector2.Distance(start, end);
+
+                settings.Entrances = (int) (length/10 - 1);
 
                 float resultWidth;
                 var wallSizes1 = ExteriorWallSizes(length, out resultWidth);
@@ -247,7 +160,7 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
             return mesh;
         }
 
-        Mesh Facade(Vector3 origin, Vector3 direction, List<float> wallSizes, List<List<PanelType>> panelPattern, BuildingSettings settings)
+        Mesh Facade(Vector3 origin, Vector3 direction, List<float> wallSizes, List<List<PanelType>> panelPattern, SovietBuildingSettings settings)
         {
             var floorMeshes = new List<Mesh>();
             var facadeMeshes = new List<Mesh>();
@@ -263,35 +176,35 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
                         switch (panelPattern[i][j])
                         {
                             case PanelType.Window:
-                                floorMeshes.Add(RandomItem(window25));
+                                floorMeshes.Add(RandomItem(_resources.Window25));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Balcony:
-                                floorMeshes.Add(RandomItem(balcony25));
+                                floorMeshes.Add(RandomItem(_resources.Balcony25));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Wall:
-                                floorMeshes.Add(RandomItem(wall25));
+                                floorMeshes.Add(RandomItem(_resources.Wall25));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Socle:
-                                floorMeshes.Add(RandomItem(socle25));
+                                floorMeshes.Add(RandomItem(_resources.Socle25));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Entrance:
-                                floorMeshes.Add(entrance25[settings.EntranceMeshIndex]);
+                                floorMeshes.Add(_resources.Entrance25[settings.EntranceMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.EntranceWall:
-                                floorMeshes.Add(entranceWall25[settings.EntranceWallMeshIndex]);
+                                floorMeshes.Add(_resources.EntranceWall25[settings.EntranceWallMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin + Vector3.up * (settings.CeilingHeight - settings.SocleHeight), Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.EntranceWallLast:
-                                floorMeshes.Add(entranceWallLast25[settings.EntranceWallLastMeshIndex]);
+                                floorMeshes.Add(_resources.EntranceWallLast25[settings.EntranceWallLastMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin + Vector3.up * (settings.CeilingHeight - settings.SocleHeight), Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Attic:
-                                floorMeshes.Add(RandomItem(attic25));
+                                floorMeshes.Add(RandomItem(_resources.Attic25));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                         }
@@ -301,35 +214,35 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
                         switch (panelPattern[i][j])
                         {
                             case PanelType.Window:
-                                floorMeshes.Add(RandomItem(window30));
+                                floorMeshes.Add(RandomItem(_resources.Window30));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Balcony:
-                                floorMeshes.Add(RandomItem(balcony30));
+                                floorMeshes.Add(RandomItem(_resources.Balcony30));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Wall:
-                                floorMeshes.Add(RandomItem(wall30));
+                                floorMeshes.Add(RandomItem(_resources.Wall30));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Socle:
-                                floorMeshes.Add(RandomItem(socle30));
+                                floorMeshes.Add(RandomItem(_resources.Socle30));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Entrance:
-                                floorMeshes.Add(entrance30[settings.EntranceMeshIndex]);
+                                floorMeshes.Add(_resources.Entrance30[settings.EntranceMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.EntranceWall:
-                                floorMeshes.Add(entranceWall30[settings.EntranceWallMeshIndex]);
+                                floorMeshes.Add(_resources.EntranceWall30[settings.EntranceWallMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin + Vector3.up * (settings.CeilingHeight - settings.SocleHeight), Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.EntranceWallLast:
-                                floorMeshes.Add(entranceWallLast30[settings.EntranceWallLastMeshIndex]);
+                                floorMeshes.Add(_resources.EntranceWallLast30[settings.EntranceWallLastMeshIndex]);
                                 matrices.Add(Matrix4x4.TRS(panelOrigin + Vector3.up * (settings.CeilingHeight - settings.SocleHeight), Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                             case PanelType.Attic:
-                                floorMeshes.Add(RandomItem(attic30));
+                                floorMeshes.Add(RandomItem(_resources.Attic30));
                                 matrices.Add(Matrix4x4.TRS(panelOrigin, Quaternion.LookRotation(Vector3.Cross(direction, Vector3.up)), Vector3.one));
                                 break;
                         }
@@ -345,7 +258,7 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
             return PGMesh.CombineMeshes(facadeMeshes);
         }
 
-        List<List<PanelType>> FacadePattern(int panelCount, int floorCount, BuildingSettings settings, bool haveAttic = false, bool longFacade = false, int entrancesCount = 0)
+        List<List<PanelType>> FacadePattern(int panelCount, int floorCount, SovietBuildingSettings settings, bool haveAttic = false, bool longFacade = false, int entrancesCount = 0)
         {
             var panelPattern = new List<List<PanelType>>();
             var entranceIndex = panelCount / (settings.Entrances + 1);
@@ -432,8 +345,8 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
 
         T RandomItem<T>(IList<T> itemList)
         {
-            //return itemList[random.Next(itemList.Count)];
-            return itemList[0];
+            return itemList[random.Next(itemList.Count)];
+            //return itemList[0];
         }
     
     }

@@ -150,7 +150,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Berlin Small Part..");
 
             var componentRoot = new GameRunner(@"Config/app.config");
-            componentRoot.RunGame(new GeoCoordinate(51.26371, 4.7854));
+            componentRoot.RunGame(new GeoCoordinate(52.529814, 13.388015));
 
             Debug.Log("Generate Berlin Small Part: Done");
 

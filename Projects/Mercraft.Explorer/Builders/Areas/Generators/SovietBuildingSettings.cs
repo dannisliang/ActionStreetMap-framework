@@ -1,7 +1,7 @@
 ﻿
 namespace Mercraft.Explorer.Builders.Areas.Generators
 {
-    public class BuildingSettings
+    public class SovietBuildingSettings
     {
         public int Levels { get; set; }
         public int Entrances { get; set; }
