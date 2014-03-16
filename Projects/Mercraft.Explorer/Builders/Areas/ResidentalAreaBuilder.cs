@@ -31,7 +31,7 @@ namespace Mercraft.Explorer.Builders.Areas
 
             var vertices = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
 
-            _generator.Generate(gameObject, PolygonHelper.SortVertices(vertices), settings);
+            _generator.Generate(gameObject, vertices, settings);
         }
      
     }

@@ -66,17 +66,17 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 new GeoCoordinate(52.5295083, 13.3889532),
             };
 
+            var originalOrder = geoCoordinates.Select(g => GeoProjection.ToMapCoordinate(center, g)).ToArray();
+
             // direct order
             var points = PolygonHelper.GetVerticies2D(center, geoCoordinates);
-            var sorted = PolygonHelper.SortVertices(points);
-            Assert.IsTrue(points.SequenceEqual(sorted));
+            Assert.IsTrue(points.SequenceEqual(originalOrder));
 
             // reversed
             geoCoordinates.Reverse();
             points = PolygonHelper.GetVerticies2D(center, geoCoordinates);
-            sorted = PolygonHelper.SortVertices(points);
 
-            Assert.IsFalse(points.SequenceEqual(sorted));
+            Assert.IsTrue(points.SequenceEqual(originalOrder));
 
 
         }
