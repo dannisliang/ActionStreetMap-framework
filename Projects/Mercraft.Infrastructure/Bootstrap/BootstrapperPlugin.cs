@@ -27,8 +27,16 @@ namespace Mercraft.Infrastructure.Bootstrap
         #region IBootstrapperPlugin members
 
         public abstract bool Run();
-        public abstract bool Update();
-        public abstract bool Stop();
+
+        public virtual bool Update()
+        {
+            return false;
+        }
+
+        public virtual bool Stop()
+        {
+            return false;
+        }
 
         #endregion
 

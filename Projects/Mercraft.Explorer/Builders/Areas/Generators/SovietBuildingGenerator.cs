@@ -150,7 +150,7 @@ namespace Mercraft.Explorer.Builders.Areas.Generators
             meshFilter.mesh = PGMesh.CombineMeshes(combine, matrices);
             meshFilter.mesh.RecalculateBounds();
             meshFilter.mesh.Optimize();
-
+            gameObject.renderer.material.color = new Color(Random.value, Random.value, Random.value);
         }
 
         private List<float> ExteriorWallSizes(float wallLength, out float resultWidth)

@@ -6,20 +6,15 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer.Builders.Areas.Generators;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders.Areas
 {
-    public class ResidentialAreaBuilder: IModelBuilder<Area>, IConfigurable
+    public class ResidentialAreaBuilder : ModelBuilder
     {
-        private const string NameKey = "@name";
-
-        public string Name { get; private set; }
-
         private readonly SovietBuildingGenerator _generator = new SovietBuildingGenerator();
 
-        public void Build(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
+        public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
         {
             var levels = rule.GetLevels(area);
             var settings = new BuildingSettings()
@@ -36,12 +31,8 @@ namespace Mercraft.Explorer.Builders.Areas
 
             var vertices = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
 
-            _generator.Generate(gameObject, vertices, settings);
+            _generator.Generate(gameObject, PolygonHelper.SortVertices(vertices), settings);
         }
-
-        public void Configure(IConfigSection configSection)
-        {
-            Name = configSection.GetString(NameKey);
-        }
+     
     }
 }

@@ -18,14 +18,12 @@ namespace Mercraft.Core.Algorithms
         /// <returns></returns>
         public static Vector2[] GetVerticies2D(GeoCoordinate center, IList<GeoCoordinate> geoCoordinates)
         {
-            var length = geoCoordinates.Count;
-
-            if (geoCoordinates[0] == geoCoordinates[length - 1])
-                length--;
+           // if (geoCoordinates[0] == geoCoordinates[length - 1])
+           //     length--;
 
             return geoCoordinates
                 .Select(g => GeoProjection.ToMapCoordinate(center, g))
-                .Take(length).ToArray();
+                .ToArray();
         }
 
         /// <summary>

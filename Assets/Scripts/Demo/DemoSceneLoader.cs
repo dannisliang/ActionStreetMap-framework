@@ -86,10 +86,10 @@ namespace Assets.Scripts.Demo
             gameObject.renderer.material = Resources.Load<Material>(@"Materials/SovietBuilding");
 
             var builder = new ResidentialAreaBuilder();
-            builder.Build(center, gameObject, rule, building);
+            builder.BuildArea(center, gameObject, rule, building);
         }
 
-       /* [MenuItem("OSM/Generate Single Building")]
+        [MenuItem("OSM/Generate Single Building")]
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
@@ -142,7 +142,7 @@ namespace Assets.Scripts.Demo
 
             Debug.Log("Generate Single Building: Done");          
 
-        }*/
+        }
 
         [MenuItem("OSM/Generate Berlin Small Part")]
         static void BuildSmallPart()

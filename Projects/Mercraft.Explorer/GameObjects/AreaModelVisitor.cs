@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Explorer.Meshes;
-using Mercraft.Explorer.Render;
+using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
@@ -15,37 +12,28 @@ namespace Mercraft.Explorer.GameObjects
 {
     public class AreaModelVisitor: SceneModelVisitor
     {
-        private readonly IEnumerable<IMeshBuilder> _meshBuilders; 
-        private readonly IEnumerable<IMeshRenderer> _meshRenderers;
+        private readonly IEnumerable<IModelBuilder> _builders; 
 
         [Dependency]
-        public AreaModelVisitor(IEnumerable<IMeshBuilder> meshBuilders, IEnumerable<IMeshRenderer> meshRenderers)
+        public AreaModelVisitor(IEnumerable<IModelBuilder> builders)
         {
-            _meshBuilders = meshBuilders;
-            _meshRenderers = meshRenderers;
+            _builders = builders;
         }
 
         #region ISceneModelVisitor implementation
 
         public override GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
-            var vertices = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
-            vertices = PolygonHelper.SortVertices(vertices);
-
             var gameObjectName = area.Id;
-
             var gameObject = new GameObject(gameObjectName);
-
-            // mesh builder
-            var meshBuilderName = rule.Evaluate<string>(area, "build");
-            var mf = gameObject.AddComponent<MeshFilter>();
-            mf.mesh = _meshBuilders.First(mb => mb.Name == meshBuilderName).Build(vertices, area, rule);
-
-            // mesh render
-            var meshRenderName = rule.Evaluate<string>(area, "render");
-            _meshRenderers.First(mr => mr.Name == meshRenderName).Render(gameObject, area, rule);
-
+            gameObject.AddComponent<MeshFilter>();
+            gameObject.AddComponent<MeshRenderer>();
             gameObject.AddComponent<MeshCollider>();
+
+            var builder = rule.GetModelBuilder(area, _builders);
+            builder.BuildArea(center, gameObject, rule, area);
+
+            gameObject.renderer.material = rule.GetMaterial(area);
             gameObject.transform.parent = parent.transform;
 
             return gameObject;

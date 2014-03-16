@@ -18,15 +18,5 @@ namespace Mercraft.Explorer.Bootstrappers
 
             return true;
         }
-
-        public override bool Update()
-        {
-            return true;
-        }
-
-        public override bool Stop()
-        {
-            return true;
-        }
     }
 }

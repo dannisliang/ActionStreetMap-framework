@@ -14,15 +14,5 @@ namespace Mercraft.Explorer.Bootstrappers
             Container.Register(Component.For<ITrace>().Use(logType, new object[0]).Singleton());
             return true;
         }
-
-        public override bool Update()
-        {
-            return true;
-        }
-
-        public override bool Stop()
-        {
-            return true;
-        }
     }
 }

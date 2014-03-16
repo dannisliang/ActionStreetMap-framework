@@ -54,12 +54,8 @@
     <Compile Include="Helpers\RuleExtensions.cs" />
     <Compile Include="IGameRunner.cs" />
     <Compile Include="GameObjects\AreaModelVisitor.cs" />
-    <Compile Include="Meshes\IMeshBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\UnityConsoleTrace.cs" />
-    <Compile Include="Render\DefaultMeshRenderer.cs" />
-    <Compile Include="Render\IMeshRenderer.cs" />
-    <Compile Include="Meshes\PolygonMeshBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">

@@ -9,9 +9,8 @@ namespace Mercraft.Explorer.Bootstrappers
     {
         private const string SceneBuilderKey = "scene";
         private const string TileProviderKey = "provider";
-        private const string TerrainBuilderKey = "terrain";
         private const string PositionListenerKey = "loader";
-        private const string SceneModelVisitorsKey = "builders/builder";
+        private const string SceneModelVisitorsKey = "visitors/visitor";
 
         public override bool Run()
         {
@@ -19,22 +18,12 @@ namespace Mercraft.Explorer.Bootstrappers
             Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
 
-            // register builders
+            // register visitors
             foreach (var builderConfig in ConfigSection.GetSections(SceneModelVisitorsKey))
             {
                 Configurator.RegisterNamedComponent<ISceneModelVisitor>(builderConfig);
             }
 
-            return true;
-        }
-
-        public override bool Update()
-        {
-            return true;
-        }
-
-        public override bool Stop()
-        {
             return true;
         }
     }

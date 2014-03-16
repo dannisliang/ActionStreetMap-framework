@@ -1,11 +1,14 @@
-﻿using Mercraft.Core.MapCss.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Explorer.Builders;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers
 {
     /// <summary>
-    /// Provides methods for basic properties
+    /// Provides methods for basic mapcss properties receiving
     /// </summary>
     public static class RuleExtensions
     {
@@ -23,6 +26,12 @@ namespace Mercraft.Explorer.Helpers
         public static int GetHeight(this Rule rule, Model model)
         {
             return rule.Evaluate<int>(model, "height");
+        }
+
+        public static IModelBuilder GetModelBuilder(this Rule rule, Model model, IEnumerable<IModelBuilder> builders)
+        {
+            var builderName = rule.Evaluate<string>(model, "build");
+            return builders.Single(mb => mb.Name == builderName);
         }
     }
 }
