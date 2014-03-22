@@ -24,20 +24,18 @@ namespace Mercraft.Explorer.GameObjects
 
         public override GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
-            var gameObjectName = "Area:" + area.Id;
-            var gameObject = new GameObject(gameObjectName);
+            var gameObject = new GameObject();
             gameObject.AddComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
             gameObject.AddComponent<MeshCollider>();
             gameObject.renderer.material = rule.GetMaterial(area); 
 
-            var builder = rule.GetModelBuilder(area, _builders);
-            builder.BuildArea(center, gameObject, rule, area);
+            rule.GetModelBuilder(area, _builders)
+                .BuildArea(center, gameObject, rule, area);
 
             gameObject.transform.parent = parent.transform;
 
             return gameObject;
-
         }
 
         #endregion

@@ -78,7 +78,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Demo\CharacterBehavior.cs" />
+    <Compile Include="Assets\Scripts\CharacterBehavior.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <Compile Include="Assets\Scripts\Movements\CharacterMovement.cs" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />

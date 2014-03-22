@@ -3,11 +3,11 @@ using Mercraft.Core;
 using Mercraft.Explorer;
 using UnityEngine;
 
-namespace Assets.Scripts.Demo
+namespace Assets.Scripts
 {
     public class CharacterBehavior : MonoBehaviour
     {
-        private float Delta = 1;
+        public float delta = 1;
         private GameRunner component;
         private Vector2 position2D;
 
@@ -24,8 +24,8 @@ namespace Assets.Scripts.Demo
 	
         // Update is called once per frame
         void Update () {
-            if (Math.Abs(transform.position.x - position2D.x) > Delta
-                || Math.Abs(transform.position.z - position2D.y) > Delta)
+            if (Math.Abs(transform.position.x - position2D.x) > delta
+                || Math.Abs(transform.position.z - position2D.y) > delta)
             {
                 Debug.Log("position change detect:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);

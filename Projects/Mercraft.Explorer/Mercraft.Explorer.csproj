@@ -38,11 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
-    <Compile Include="Builders\Areas\Generators\SovietBuildingResources.cs" />
-    <Compile Include="Builders\Areas\Generators\SovietBuildingSettings.cs" />
-    <Compile Include="Builders\Areas\Generators\PanelType.cs" />
-    <Compile Include="Builders\Areas\Generators\RoofType.cs" />
-    <Compile Include="Builders\Areas\Generators\SovietBuildingGenerator.cs" />
     <Compile Include="Builders\Areas\ResidentalAreaBuilder.cs" />
     <Compile Include="Builders\IModelBuilder.cs" />
     <Compile Include="GameObjects\WayModelVisitor.cs" />
