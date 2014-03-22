@@ -27,7 +27,7 @@ namespace Mercraft.Explorer.Builders.Areas
             var random = new System.Random();
             var settings = new SovietBuildingSettings()
             {
-                Levels = 5,
+                Levels = levels,
                 Entrances = 0, // will calculate later based on side length
                 CeilingHeight = 3,
                 Attic = Random.value > 0.5f,

@@ -1,6 +1,5 @@
 canvas	 															{ build: quad; material: Terrain;}
 /* Most strict rule should be first */
-/* num(tag('building:levels'));*/
 area[building][height]												{ build: residential; material: SovietBuilding; levels: 5; }
-area[building:levels]												{ build: residential; material: SovietBuilding; levels: 5; }
+area[building:levels]												{ build: residential; material: SovietBuilding; levels: eval(num(tag('building:levels'))); }
 area[building=residential], area[building=yes]						{ build: residential; material: SovietBuilding; levels: 5; }
