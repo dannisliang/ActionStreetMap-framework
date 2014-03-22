@@ -31,14 +31,21 @@ namespace Mercraft.Explorer.Helpers
 
         public static IModelBuilder GetModelBuilder(this Rule rule, Model model, IEnumerable<IModelBuilder> builders)
         {
-            var builderName = rule.Evaluate<string>(model, "build");
+            var builderName = rule.Evaluate<string>(model, "builder");
             return builders.Single(mb => mb.Name == builderName);
         }
 
-        public static Color GetFillColor(this Rule rule, Model model)
+        public static Color GetFillColor(this Rule rule, Model model, Color defaulColor)
         {
-            return rule.Evaluate<Color>(model, "fill-color");        
+            return rule.EvaluateDefault(model, "fill-color", defaulColor);        
         }
 
+        /// <summary>
+        /// Z-index is just the lowest y coordinate
+        /// </summary>
+        public static float GetZIndex(this Rule rule, Model model)
+        {
+            return rule.Evaluate<float>(model, "z-index");      
+        }
     }
 }

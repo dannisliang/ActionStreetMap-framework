@@ -113,7 +113,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
             var rule = stylesheet.GetRule(area);
 
-            Assert.AreEqual("polygon", rule.Evaluate<string>(area, "build"));
+            Assert.AreEqual("polygon", rule.Evaluate<string>(area, "builder"));
 
         }
 
@@ -155,8 +155,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
             var rule = stylesheet.GetRule(park);
 
-            Assert.AreEqual(new Color(34, 255, 17), rule.GetFillColor(park));
+            Assert.AreEqual(new Color(34, 255, 17), rule.GetFillColor(park, Color.green));
         }
-
     }
 }

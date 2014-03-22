@@ -17,7 +17,7 @@ namespace Mercraft.Explorer.Builders.Areas
             gameObject.name = String.Format("Solid area {0}", area.Id);
 
             var height = rule.GetHeight(area);
-            var floor = 0;
+            var floor = rule.GetZIndex(area); ;
             var top = floor + height;
 
             var verticies = PolygonHelper.GetVerticies2D(center, area.Points.ToList());

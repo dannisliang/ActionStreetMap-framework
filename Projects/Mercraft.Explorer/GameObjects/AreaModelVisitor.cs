@@ -28,7 +28,8 @@ namespace Mercraft.Explorer.GameObjects
             gameObject.AddComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
             gameObject.AddComponent<MeshCollider>();
-            gameObject.renderer.material = rule.GetMaterial(area); 
+            gameObject.renderer.material = rule.GetMaterial(area);
+            gameObject.renderer.material.color = rule.GetFillColor(area, Color.gray);
 
             rule.GetModelBuilder(area, _builders)
                 .BuildArea(center, gameObject, rule, area);
