@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
@@ -33,5 +34,11 @@ namespace Mercraft.Explorer.Helpers
             var builderName = rule.Evaluate<string>(model, "build");
             return builders.Single(mb => mb.Name == builderName);
         }
+
+        public static Color GetFillColor(this Rule rule, Model model)
+        {
+            return rule.Evaluate<Color>(model, "fill-color");        
+        }
+
     }
 }

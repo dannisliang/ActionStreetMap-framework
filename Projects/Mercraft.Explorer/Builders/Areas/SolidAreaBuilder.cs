@@ -14,7 +14,7 @@ namespace Mercraft.Explorer.Builders.Areas
     {
         public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
         {
-            gameObject.name = String.Format("Simple area {0}", area.Id);
+            gameObject.name = String.Format("Solid area {0}", area.Id);
 
             var height = rule.GetHeight(area);
             var floor = 0;

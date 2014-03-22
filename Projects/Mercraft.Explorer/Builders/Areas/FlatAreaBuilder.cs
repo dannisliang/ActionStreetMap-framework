@@ -12,12 +12,12 @@ namespace Mercraft.Explorer.Builders.Areas
     {
         public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
         {
-            gameObject.name = String.Format("Simple area {0}", area.Id);
+            gameObject.name = String.Format("Flat area {0}", area.Id);
 
             var verticies = PolygonHelper.GetVerticies2D(center, area.Points.ToList());
 
             var mesh = new Mesh();
-            mesh.vertices = PolygonHelper.GetVerticies3D(verticies, 1);
+            mesh.vertices = PolygonHelper.GetVerticies3D(verticies, 0, 0.1f);
             mesh.uv = PolygonHelper.GetUV(verticies);
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 

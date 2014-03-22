@@ -9,7 +9,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
     /// Naive implementation of Eval expression builder
     /// Internally, builds expression from common tree which represents operations in prefix notation
     /// </summary>
-    public class EvalTreeWalker
+    public class EvalTreeWalker: ITreeWalker
     {
         private OperationStack _opStack;
         private ParameterExpression _param = Expression.Parameter(typeof(Model), "model");

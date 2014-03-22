@@ -7,6 +7,7 @@ using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer.Helpers;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.MapCss
 {
@@ -137,10 +138,25 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
         }
 
-        /*[Test]
-        public void CanProcessFailed()
+        [Test]
+        public void CanGetColor()
         {
-        }*/
+            var provider = new StylesheetProvider(TestHelper.EvalMapcssFile);
+            var stylesheet = provider.Get();
+
+            var park = new Area()
+            {
+                Id = "1",
+                Points = new Collection<GeoCoordinate>(),
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("leisure","park"),
+                }
+            };
+            var rule = stylesheet.GetRule(park);
+
+            Assert.AreEqual(new Color(34, 255, 17), rule.GetFillColor(park));
+        }
 
     }
 }

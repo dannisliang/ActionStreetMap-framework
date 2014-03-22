@@ -59,7 +59,9 @@
     <Compile Include="MapCss\Parser\MapCssLexer.cs" />
     <Compile Include="MapCss\Parser\MapCssParser.cs" />
     <Compile Include="MapCss\Visitors\DeclarationMapCssVisitor.cs" />
+    <Compile Include="MapCss\Visitors\Eval\ColorTreeWalker.cs" />
     <Compile Include="MapCss\Visitors\Eval\EvalTreeWalker.cs" />
+    <Compile Include="MapCss\Visitors\Eval\ITreeWalker.cs" />
     <Compile Include="MapCss\Visitors\Eval\OperationStack.cs" />
     <Compile Include="MapCss\Visitors\IMapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitor.cs" />

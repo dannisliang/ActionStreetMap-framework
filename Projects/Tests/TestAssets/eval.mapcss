@@ -1,3 +1,5 @@
 canvas														{ material: Concrete_Patterned}
 area[building=residential][building:levels]					{ build: polygon; render: default; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
 area[building=residential]									{ build: polygon; render: default; material: Concrete_Patterned; height: 10; }
+
+area[leisure=park]											{ build: flat; material: Grass; fill-color: #22FF11;}

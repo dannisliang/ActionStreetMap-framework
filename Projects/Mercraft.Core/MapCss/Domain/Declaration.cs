@@ -9,6 +9,6 @@ namespace Mercraft.Core.MapCss.Domain
         public string Value { get; set; }
 
         public bool IsEval { get; set; }
-        public EvalTreeWalker Evaluator { get; set; }
+        public ITreeWalker Evaluator { get; set; }
     }
 }
