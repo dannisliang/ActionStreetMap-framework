@@ -18,14 +18,14 @@ namespace Mercraft.Explorer.Helpers
             return Resources.Load<Material>(@"Materials/" + path);
         }
 
-        public static int GetLevels(this Rule rule, Model model, int @default = 0)
+        public static float GetLevels(this Rule rule, Model model, int @default = 0)
         {
             return rule.EvaluateDefault(model, "levels", @default);
         }
 
-        public static int GetHeight(this Rule rule, Model model)
+        public static float GetHeight(this Rule rule, Model model)
         {
-            return rule.Evaluate<int>(model, "height");
+            return rule.Evaluate<float>(model, "height");
         }
 
         public static IModelBuilder GetModelBuilder(this Rule rule, Model model, IEnumerable<IModelBuilder> builders)

@@ -142,7 +142,16 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
 
-            _elements.Add(elementWay.Id, elementWay);
+            // TODO interesting situation
+            if (_elements.ContainsKey(elementWay.Id))
+            {
+                _elements[elementWay.Id] = elementWay;
+            }
+            else
+            {
+                _elements.Add(elementWay.Id, elementWay);
+            }
+
             _wayIds.Add(elementWay.Id);
         }
 

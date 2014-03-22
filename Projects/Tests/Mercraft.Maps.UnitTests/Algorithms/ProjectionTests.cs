@@ -63,7 +63,6 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 new GeoCoordinate(52.529354, 13.3889638),
                 new GeoCoordinate(52.5293253, 13.3888356),
                 new GeoCoordinate(52.5294599, 13.3887466),
-                new GeoCoordinate(52.5295083, 13.3889532),
             };
 
             var originalOrder = geoCoordinates.Select(g => GeoProjection.ToMapCoordinate(center, g)).ToArray();

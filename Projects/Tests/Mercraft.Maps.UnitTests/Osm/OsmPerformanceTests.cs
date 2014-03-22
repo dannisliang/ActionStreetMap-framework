@@ -12,7 +12,6 @@ namespace Mercraft.Maps.UnitTests.Osm
     [TestFixture]
     public class OsmPerformanceTests
     {
-        [Ignore]
         [Test]
         public void CanLoadBigCity()
         {
@@ -31,8 +30,8 @@ namespace Mercraft.Maps.UnitTests.Osm
                 perfLogger.Stop();
             }  
 
-            Assert.Less(perfLogger.Memory, 200, "Memory consumption to high!");
-            Assert.Less(perfLogger.Seconds, 20, "Time consumption to high!");
+            Assert.Less(perfLogger.Memory, 30, "Memory consumption to high!");
+            Assert.Less(perfLogger.Seconds, 10, "Time consumption to high!");
         }
     }
 }

@@ -38,7 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
-    <Compile Include="Builders\Areas\ResidentalAreaBuilder.cs" />
+    <Compile Include="Builders\Areas\FlatAreaBuilder.cs" />
+    <Compile Include="Builders\Areas\SolidAreaBuilder.cs" />
     <Compile Include="Builders\IModelBuilder.cs" />
     <Compile Include="GameObjects\WayModelVisitor.cs" />
     <Compile Include="GameRunner.cs" />

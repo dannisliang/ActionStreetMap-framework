@@ -99,6 +99,18 @@ namespace Mercraft.Core.Algorithms
             return verticies3D;
         }
 
+        public static Vector3[] GetVerticies3D(Vector2[] verticies2D, float y)
+        {
+            var length = verticies2D.Length;
+            var verticies3D = new Vector3[length];
+            for (int i = 0; i < length; i++)
+            {
+                verticies3D[i] = new Vector3(verticies2D[i].x, y, verticies2D[i].y);
+            }
+
+            return verticies3D;
+        }
+
 
         // TODO optimization: we needn't triangles for floor in case of building!
         public static int[] GetTriangles(Vector2[] verticies2D)

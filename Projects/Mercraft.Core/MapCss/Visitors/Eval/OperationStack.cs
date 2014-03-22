@@ -29,7 +29,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                     PushTagSelector();
                     break;
                 case "num":
-                    PushToInt();
+                    PushToNum();
                     break;
                 default:
                     throw new NotSupportedException(String.Format("Unary operation {0} is not supported", opName));
@@ -88,10 +88,10 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
             _expressions.Push(Expression.Invoke(tagSelector, _param));
         }
 
-        private void PushToInt()
+        private void PushToNum()
         {
-            Expression<Func<string, int>> toInt = s => int.Parse(s);
-            _expressions.Push(toInt);
+            Expression<Func<string, float>> toFloat = s => float.Parse(s);
+            _expressions.Push(toFloat);
         }
 
         #endregion

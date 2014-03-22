@@ -75,7 +75,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var evalDeclaration = stylesheet.Rules[1].Declarations[3];
 
-            var evalResult = evalDeclaration.Evaluator.Walk<int>(model);
+            var evalResult = evalDeclaration.Evaluator.Walk<float>(model);
 
             Assert.AreEqual(10, evalResult);
             
@@ -136,6 +136,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual(0, rule.GetLevels(area));
 
         }
+
+        /*[Test]
+        public void CanProcessFailed()
+        {
+        }*/
 
     }
 }

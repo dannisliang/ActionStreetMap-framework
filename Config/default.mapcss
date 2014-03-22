@@ -1,5 +1,7 @@
 canvas	 															{ build: quad; material: Terrain;}
 /* Most strict rule should be first */
-area[building][height]												{ build: residential; material: Concrete_Patterned; height: 10; }
-area[building:levels]												{ build: residential; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
-area[building=residential], area[building=yes]						{ build: residential; material: Concrete_Patterned; height: 10; }
+area[building][height]												{ build: solid; material: Concrete_Patterned; height: 10; }
+area[building:levels]												{ build: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
+area[building=residential], area[building=yes]						{ build: solid; material: Concrete_Patterned; height: 10; }
+
+area[leisure=park]													{ build: flat; material: Grass;}
