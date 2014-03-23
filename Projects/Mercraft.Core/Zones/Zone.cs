@@ -13,6 +13,7 @@ namespace Mercraft.Core.Zones
         private readonly Stylesheet _stylesheet;
         private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
 
+
         public Zone(Tile tile, 
             Stylesheet stylesheet,
             IEnumerable<ISceneModelVisitor> sceneModelVisitors)
@@ -22,7 +23,11 @@ namespace Mercraft.Core.Zones
             _sceneModelVisitors = sceneModelVisitors;
         }
 
-        public void Build()
+        /// <summary>
+        /// Builds game objects
+        /// </summary>
+        /// <param name="loadedElementIds">Contains ids of previously loaded elements. Used to prevent duplicates</param>
+        public void Build(HashSet<long> loadedElementIds)
         {
             // TODO refactor this logic
 
@@ -44,6 +49,9 @@ namespace Mercraft.Core.Zones
             // visit areas
             foreach (var area in _tile.Scene.Areas)
             {
+                if(loadedElementIds.Contains(area.Id))
+                    continue;
+                
                 var rule = _stylesheet.GetRule(area);
                 if (rule != null)
                 {
@@ -51,12 +59,16 @@ namespace Mercraft.Core.Zones
                     {
                         sceneModelVisitor.VisitArea(_tile.RelativeNullPoint, canvasObject, rule, area);
                     }
+                    loadedElementIds.Add(area.Id);
                 }
             }
 
             // visit ways
             foreach (var way in _tile.Scene.Ways)
             {
+                if (loadedElementIds.Contains(way.Id))
+                    continue;
+
                 var rule = _stylesheet.GetRule(way);
                 if (rule != null)
                 {
@@ -64,6 +76,7 @@ namespace Mercraft.Core.Zones
                     {
                         sceneModelVisitor.VisitWay(_tile.RelativeNullPoint, canvasObject, rule, way);
                     }
+                    loadedElementIds.Add(way.Id);
                 }
             }
         }

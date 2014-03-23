@@ -20,6 +20,8 @@ namespace Mercraft.Core.Zones
         protected float Offset { get; set; }
         protected GeoCoordinate RelativeNullPoint { get; set; }
 
+        protected readonly HashSet<long> LoadedModelIds;
+
         protected Dictionary<Tile, Zone> Zones { get; set; }
 
         [Dependency]
@@ -31,6 +33,7 @@ namespace Mercraft.Core.Zones
             StylesheetProvider = stylesheetProvider;
             SceneModelVisitors = sceneModelVisitors;
 
+            LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
             CurrentPosition = new Vector2();
         }
@@ -44,7 +47,7 @@ namespace Mercraft.Core.Zones
 
             // Build zone
             var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors);
-            zone.Build();
+            zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);           
         }
 

@@ -22,7 +22,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var area = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -44,7 +44,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var area = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -64,7 +64,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         {
             var model = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building:levels", "5")
@@ -104,7 +104,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var area = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -125,7 +125,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var area = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -146,7 +146,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var park = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {

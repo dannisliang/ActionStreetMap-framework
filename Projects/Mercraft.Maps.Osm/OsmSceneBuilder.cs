@@ -41,7 +41,7 @@ namespace Mercraft.Maps.Osm
 
             scene.Canvas = new Canvas()
             {
-                Id = Guid.NewGuid().ToString()
+                Id = 1
             };
 
             return scene;

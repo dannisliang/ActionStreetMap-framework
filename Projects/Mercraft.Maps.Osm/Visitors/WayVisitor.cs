@@ -26,7 +26,7 @@ namespace Mercraft.Maps.Osm.Visitors
             {
                 Scene.AddWay(new Core.Scene.Models.Way()
                 {
-                    Id = way.Id.ToString(),
+                    Id = way.Id,
                     Points = way.GetPoints(),
                     Tags = way.Tags
                     .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
@@ -38,7 +38,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
             var area = new Area()
             {
-                Id = way.Id.ToString(),
+                Id = way.Id,
                 Points = way.GetPoints(),
 
                 Tags = way.Tags

@@ -52,7 +52,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var matchOne1 = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -62,7 +62,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var matchOne2 = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -73,7 +73,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var matchOne3 = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -84,7 +84,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var matchAll = new Area()
             {
-                Id = "1",
+                Id = 1,
                 Points = new Collection<GeoCoordinate>(),
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
