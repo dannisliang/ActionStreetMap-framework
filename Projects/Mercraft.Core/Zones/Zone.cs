@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Mercraft.Core.MapCss.Domain;
@@ -68,7 +69,7 @@ namespace Mercraft.Core.Zones
                 }
                 else
                 {
-                    _trace.Warn("No rule for area: " + area);
+                    _trace.Warn(String.Format("No rule for area: {0}, points: {1}", area, area.Points.Count));
                 }
             }
 
@@ -89,7 +90,7 @@ namespace Mercraft.Core.Zones
                 }
                 else
                 {
-                    _trace.Warn("No rule for way: " + way);
+                    _trace.Warn(String.Format("No rule for way: {0}, points: {1}", way, way.Points.Count));
                 }
             }
         }

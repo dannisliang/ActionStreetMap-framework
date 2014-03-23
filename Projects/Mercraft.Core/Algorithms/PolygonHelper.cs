@@ -94,6 +94,18 @@ namespace Mercraft.Core.Algorithms
                 return PolygonDirection.Unknown;
         }
 
+        public static Vector3[] GetVerticies(Vector2[] verticies2D, float floor)
+        {
+            var length = verticies2D.Length;
+            var verticies3D = new Vector3[length];
+            for (int i = 0; i < length; i++)
+            {
+                verticies3D[i] = new Vector3(verticies2D[i].x, floor, verticies2D[i].y);
+            }
+
+            return verticies3D;
+        }
+
 
         public static Vector3[] GetVerticies3D(Vector2[] verticies2D, float top, float floor)
         {
@@ -108,15 +120,21 @@ namespace Mercraft.Core.Algorithms
             return verticies3D;
         }
 
-        // TODO optimization: we needn't triangles for floor in case of building!
         public static int[] GetTriangles(Vector2[] verticies2D)
+        {
+            var triangulator = new Triangulator(verticies2D);
+            return triangulator.Triangulate();
+        }
+
+        // TODO optimization: we needn't triangles for floor in case of building!
+        public static int[] GetTriangles3D(Vector2[] verticies2D)
         {
             var verticiesLength = verticies2D.Length;
             
-            Triangulator triangulator = new Triangulator(verticies2D);
+            var triangulator = new Triangulator(verticies2D);
             var indecies = triangulator.Triangulate();
             
-            //var indecies = PolygonTriangulation.GetTriangles(verticies2D);
+            //var indecies = PolygonTriangulation.GetTriangles3D(verticies2D);
             
             var length = indecies.Length;
 

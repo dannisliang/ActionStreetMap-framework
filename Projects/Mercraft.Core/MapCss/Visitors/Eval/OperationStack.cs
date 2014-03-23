@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Text.RegularExpressions;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Utilities;
 
 namespace Mercraft.Core.MapCss.Visitors.Eval
 {
@@ -90,9 +93,10 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
 
         private void PushToNum()
         {
-            Expression<Func<string, float>> toFloat = s => float.Parse(s);
+            Expression<Func<string, float>> toFloat = s => float.Parse(SanitizeHelper.SanitizeFloat(s));
             _expressions.Push(toFloat);
         }
+
 
         #endregion
 

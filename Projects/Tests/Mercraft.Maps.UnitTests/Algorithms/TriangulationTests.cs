@@ -53,13 +53,13 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 foreach (var area in scene.Areas)
                 {
                     var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points.ToList());
-                    var triangles = PolygonHelper.GetTriangles(verticies);
+                    var triangles = PolygonHelper.GetTriangles3D(verticies);
                 }
 
                 foreach (var way in scene.Ways)
                 {
                     var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points.ToList());
-                    var triangles = PolygonHelper.GetTriangles(verticies);
+                    var triangles = PolygonHelper.GetTriangles3D(verticies);
                 }
 
                 SceneHelper.DumpScene(scene);

@@ -81,6 +81,7 @@
     <Compile Include="Scene\ISceneBuilder.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileProvider.cs" />
+    <Compile Include="Utilities\TypeHelper.cs" />
     <Compile Include="Zones\Zone.cs" />
     <Compile Include="Zones\ZoneLoader.cs" />
   </ItemGroup>
