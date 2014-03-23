@@ -32,7 +32,7 @@ namespace Mercraft.Core.MapCss.Visitors
                 if (child.Text == "RULE")
                 {
                    var rule = VisitRule(child);
-                    stylesheet.Rules.Add(rule);
+                   stylesheet.Rules.Add(rule);
                 }
             }
 

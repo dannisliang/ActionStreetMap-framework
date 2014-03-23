@@ -69,7 +69,7 @@ namespace Mercraft.Core.Zones
                 }
                 else
                 {
-                    _trace.Warn(String.Format("No rule for area: {0}, points: {1}", area, area.Points.Count));
+                    _trace.Warn(String.Format("No rule for area: {0}, points: {1}", area, area.Points.Length));
                 }
             }
 
@@ -90,7 +90,7 @@ namespace Mercraft.Core.Zones
                 }
                 else
                 {
-                    _trace.Warn(String.Format("No rule for way: {0}, points: {1}", way, way.Points.Count));
+                    _trace.Warn(String.Format("No rule for way: {0}, points: {1}", way, way.Points.Length));
                 }
             }
         }

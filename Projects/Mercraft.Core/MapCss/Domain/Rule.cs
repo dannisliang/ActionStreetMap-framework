@@ -31,9 +31,19 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsApplicable(Model model)
         {
-            return MatchAll?  
+            // NOTE closed selector should be checked in both cases
+            var closedSelector = Selectors.FirstOrDefault(s => s.IsClosed);
+            var isClosedPassed = true;
+            if (closedSelector != null)
+            {
+                isClosedPassed =  closedSelector.IsApplicable(model);
+            }
+
+            var result = MatchAll?  
                 Selectors.All(s => s.IsApplicable(model)):
-                Selectors.Any(s => s.IsApplicable(model));
+                Selectors.Any(s => s.IsApplicable(model)) && isClosedPassed;
+
+            return result;
         }
 
         public T EvaluateDefault<T>(Model model, string qualifier, T @default)

@@ -7,6 +7,11 @@ namespace Mercraft.Core.Scene.Models
     /// </summary>
     public class Area: Model
     {
-        public ICollection<GeoCoordinate> Points { get; set; }
+        public GeoCoordinate[] Points { get; set; }
+
+        public override bool IsClosed
+        {
+            get { return Points[0] == Points[Points.Length - 1]; }
+        }
     }
 }

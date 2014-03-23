@@ -37,8 +37,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual("town", stylesheet.Rules[1].Selectors[0].Value);
             Assert.AreEqual("=", stylesheet.Rules[1].Selectors[0].Operation);
 
-            Assert.AreEqual("building", stylesheet.Rules[8].Selectors[0].Tag);
-            Assert.AreEqual("OP_EXIST", stylesheet.Rules[8].Selectors[0].Operation);
+            Assert.AreEqual("building", stylesheet.Rules[3].Selectors[0].Tag);
+            Assert.AreEqual("OP_EXIST", stylesheet.Rules[3].Selectors[0].Operation);
             
             Assert.AreEqual(6, stylesheet.Rules[16].Selectors.Count);
             Assert.AreEqual(6, stylesheet.Rules[16].Declarations.Count);
@@ -53,7 +53,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var matchOne1 = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -63,7 +63,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var matchOne2 = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","yes"),
@@ -74,7 +74,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var matchOne3 = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","yes"),
@@ -85,7 +85,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var matchAll = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -109,6 +109,18 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
         }
 
+        [Test]
+        public void CanParseClosed()
+        {
+            var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
+            var stylesheet = provider.Get();
+
+            var closedRule = stylesheet.Rules[3];
+            Assert.AreEqual(2, closedRule.Selectors.Count);
+            Assert.AreEqual("building", closedRule.Selectors[0].Tag);
+            Assert.AreEqual("OP_EXIST", closedRule.Selectors[0].Operation);
+            Assert.AreEqual(true, closedRule.Selectors[1].IsClosed);
+        }
 
     }
 }

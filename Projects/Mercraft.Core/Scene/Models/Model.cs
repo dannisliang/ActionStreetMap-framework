@@ -6,8 +6,9 @@ namespace Mercraft.Core.Scene.Models
     public abstract class Model
     {
         public long Id { get; set; }
-        public ICollection<KeyValuePair<string, string>> Tags { get; set; }
+        public abstract bool IsClosed { get; }
 
+        public ICollection<KeyValuePair<string, string>> Tags { get; set; }
 
         /// <summary>
         /// Returns a description of this object.
@@ -24,7 +25,7 @@ namespace Mercraft.Core.Scene.Models
                 }
                 tags += "}";
             }
-            return string.Format("{0}[{1}]{2}", GetType().Name, Id, tags);
+            return string.Format("{0}[{1}]:{2} {3}", GetType().Name, Id, tags, IsClosed ? "closed" : "open");
         }
     }
 }

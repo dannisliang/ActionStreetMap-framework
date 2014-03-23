@@ -23,7 +23,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var area = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -45,7 +45,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var area = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -105,7 +105,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var area = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -126,7 +126,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var area = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building","residential"),
@@ -147,7 +147,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var park = new Area()
             {
                 Id = 1,
-                Points = new Collection<GeoCoordinate>(),
+                Points = new GeoCoordinate[0],
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("leisure","park"),
@@ -156,6 +156,49 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var rule = stylesheet.GetRule(park);
 
             Assert.AreEqual(new Color32(34, 255, 17, 1), rule.GetFillColor(park, Color.green));
+        }
+
+        [Test]
+        public void CanUseClosed()
+        {
+            var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
+            var stylesheet = provider.Get();
+
+            var closedArea = new Area()
+            {
+                Points = new []
+                {
+                    new GeoCoordinate(0, 0),
+                    new GeoCoordinate(1, 0),
+                    new GeoCoordinate(1, 0),
+                    new GeoCoordinate(0, 0),
+                },
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building", "yes")
+                }
+            };
+
+            Assert.IsNotNull(stylesheet.GetRule(closedArea));
+
+
+            var openArea = new Area()
+            {
+                Points = new[]
+                {
+                    new GeoCoordinate(0, 0),
+                    new GeoCoordinate(1, 0),
+                    new GeoCoordinate(1, 0),
+                    new GeoCoordinate(0, 1),
+                },
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building", "yes")
+                }
+            };
+
+            Assert.IsNull(stylesheet.GetRule(openArea));
+            
         }
     }
 }

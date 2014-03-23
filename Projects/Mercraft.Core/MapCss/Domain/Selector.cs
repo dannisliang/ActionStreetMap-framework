@@ -7,6 +7,7 @@ namespace Mercraft.Core.MapCss.Domain
 {
     public abstract class Selector
     {
+        public bool IsClosed { get; set; }
         public string Tag { get; set; }
         public string Value { get; set; }
         public string Operation { get; set; }
@@ -17,7 +18,8 @@ namespace Mercraft.Core.MapCss.Domain
         {
             if (!(model is T))
                 return false;
-            return MatchTags(model);
+
+            return IsClosed ? model.IsClosed : MatchTags(model);
         }
 
         protected bool MatchTags(Model model)

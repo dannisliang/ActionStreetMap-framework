@@ -5,6 +5,8 @@ canvas{
 node[place=town]										{ text: name; height: eval("tag('levels')"); }
 node[place=city]										{ text: name; text-color: #534d38; text-halo-radius: 2; text-halo-color: white; font-size: 22; }
 
+area[building]:closed									{ text:addr:housenumber;text-color:red; z-index: -5; fill-color: lightgray; }
+
 /* ===== Landuse ===== */
 area[landuse=meadow], area[landuse=farmland], 
 area[landuse=scrub], area[landuse=grass]						{ z-index: -5; fill-color: #E9EFDA; }
@@ -12,7 +14,6 @@ area[landuse=forest], area[natural=wood]						{ z-index: -4; fill-color: #8CD6B5
 area[leisure=park]												{ z-index: -4; fill-color: #8CD6B5; }
 area[landuse=residential]										{ z-index: -6; fill-color: #F9F8F5; }
 area[natural=beach]												{ z-index: -4; fill-color: #FFF1BA; }
-area[building]													{ text:addr:housenumber;text-color:red; z-index: -5; fill-color: lightgray; }
 area[natural=water]												{ z-index: -3; fill-color: #a3c3ec;  }
 
 /* ===== Water ==== */

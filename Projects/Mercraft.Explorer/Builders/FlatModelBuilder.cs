@@ -16,7 +16,7 @@ namespace Mercraft.Explorer.Builders
         public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
         {
             // TODO remove this assertion after handling this case above
-            if (area.Points.Count < 3)
+            if (area.Points.Length < 3)
             {
                 Debug.LogError("Area contains less than 3 points: " + area);
                 return;
@@ -29,7 +29,7 @@ namespace Mercraft.Explorer.Builders
         public override void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
         {
             // TODO remove this assertion after handling this case above
-            if (way.Points.Count < 3)
+            if (way.Points.Length < 3)
             {
                 Debug.LogError("Way contains less than 3 points: " + way);
                 return;
