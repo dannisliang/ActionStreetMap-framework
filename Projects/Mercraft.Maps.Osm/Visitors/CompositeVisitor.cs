@@ -17,18 +17,6 @@ namespace Mercraft.Maps.Osm.Visitors
             _visitors = visitors.ToList();
         }
 
-        public CompositeVisitor AddVisitor(IElementVisitor visitor)
-        {
-            _visitors.Add(visitor);
-            return this;
-        }
-
-        public CompositeVisitor RemoveVisitor(IElementVisitor visitor)
-        {
-            _visitors.Remove(visitor);
-            return this;
-        }
-
         #region IElementVisitor implementation
 
         public void VisitNode(Node node)

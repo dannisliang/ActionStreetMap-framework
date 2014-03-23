@@ -38,18 +38,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
-    <Compile Include="Builders\Areas\SolidAreaBuilder.cs" />
+    <Compile Include="Builders\SolidModelBuilder.cs" />
     <Compile Include="Builders\IModelBuilder.cs" />
-    <Compile Include="GameObjects\WayModelVisitor.cs" />
     <Compile Include="GameRunner.cs" />
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="GameObjects\CanvasModelVisitor.cs" />
     <Compile Include="Helpers\PGMesh.cs" />
     <Compile Include="Helpers\RuleExtensions.cs" />
     <Compile Include="IGameRunner.cs" />
-    <Compile Include="GameObjects\AreaModelVisitor.cs" />
+    <Compile Include="SceneModelVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\UnityConsoleTrace.cs" />
   </ItemGroup>

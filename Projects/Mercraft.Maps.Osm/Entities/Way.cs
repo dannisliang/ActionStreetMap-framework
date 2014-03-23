@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core.MapCss.Domain;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
 
@@ -41,6 +42,14 @@ namespace Mercraft.Maps.Osm.Entities
             }
 
             return coordinates;
+        }
+
+        public bool IsPolygon
+        {
+            get
+            {
+                return Nodes.Count > 2;
+            }
         }
 
         public bool IsComplete

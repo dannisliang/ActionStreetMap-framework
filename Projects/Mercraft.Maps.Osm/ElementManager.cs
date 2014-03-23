@@ -31,7 +31,7 @@ namespace Mercraft.Maps.Osm
         /// </summary>
         private void Populate(Element element, IElementSource elementSource)
         {
-            element.Accept(new ElementVisitor(
+            element.Accept(new ActionElementVisitor(
                 node => PopulateNode(node),
                 way => PopulateWay(way, elementSource),
                 relation => PopulateRelation(relation, elementSource)));
@@ -102,7 +102,7 @@ namespace Mercraft.Maps.Osm
                 long memberId = member.MemberId;
 
                 Element element = null;
-                member.Member.Accept(new ElementVisitor(
+                member.Member.Accept(new ActionElementVisitor(
                     _ => { element = elementSource.GetNode(memberId); },
                     _ => { element = elementSource.GetWay(memberId); },
                     _ => { element = elementSource.GetRelation(memberId); }));

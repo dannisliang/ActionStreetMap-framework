@@ -10,6 +10,7 @@ namespace Mercraft.Explorer.Builders
     {
         string Name { get; }
         void BuildArea(GeoCoordinate center, GameObject gameObject,  Rule rule, Area area);
+        void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way);
     }
 
     public class ModelBuilder: IModelBuilder, IConfigurable
@@ -20,6 +21,11 @@ namespace Mercraft.Explorer.Builders
         public virtual void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
         {
             
+        }
+
+        public virtual void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
+        {
+
         }
 
         public virtual void Configure(IConfigSection configSection)

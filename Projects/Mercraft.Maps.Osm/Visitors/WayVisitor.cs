@@ -7,29 +7,34 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions;
 using Way = Mercraft.Maps.Osm.Entities.Way;
-using Node = Mercraft.Maps.Osm.Entities.Node;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
-    public class AreaVisitor: IElementVisitor
+    public class WayVisitor: ElementVisitor
     {
-        private readonly IScene _scene;
-
-        [Dependency]
-        public AreaVisitor(IScene scene)
+        public WayVisitor(IScene scene) : base(scene)
         {
-            _scene = scene;
         }
 
-        public void VisitNode(Node node)
+        public override void VisitWay(Way way)
         {
-            
-        }
-
-        public void VisitWay(Way way)
-        {
-            if ( !way.IsComplete ||  !IsArea(way.Tags))
+            // TODO IsPolygon should be processed also!
+            if ( !way.IsComplete)
                 return;
+
+            if (!IsArea(way.Tags))
+            {
+                Scene.AddWay(new Core.Scene.Models.Way()
+                {
+                    Id = way.Id.ToString(),
+                    Points = way.GetPoints(),
+                    Tags = way.Tags
+                    .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
+                    .ToList()
+                });
+
+                return;
+            }
 
             var area = new Area()
             {
@@ -41,12 +46,7 @@ namespace Mercraft.Maps.Osm.Visitors
                     .ToList()
             };
 
-            _scene.AddArea(area);
-        }
-
-        public void VisitRelation(Relation relation)
-        {
-            
+            Scene.AddArea(area);
         }
 
         private bool IsArea(ICollection<Tag> tags)

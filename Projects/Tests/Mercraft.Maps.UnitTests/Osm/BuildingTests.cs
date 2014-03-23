@@ -26,7 +26,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(bbox, dataSource, new AreaVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
                 Assert.AreEqual(36, scene.Areas.Count());
                 Assert.AreEqual(30, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
@@ -46,32 +46,11 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(bbox, dataSource, new AreaVisitor(scene));
+                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
                 Assert.AreEqual(1620, scene.Areas.Count());
                 Assert.AreEqual(1438, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
         }
-
-       /* [Test]
-        public void CanProcessLevelsTag()
-        {
-            const int defaultLevelCount = 5;
-            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
-            {
-                var dataSource = new PbfElementSource(stream);
-
-                var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
-
-                var scene = new MapScene();
-
-                var elementManager = new ElementManager();
-
-                elementManager.VisitBoundingBox(bbox, dataSource, new BuildingVisitor(scene));
-
-                var leveledBuildings = scene.Areas.Where(b => b.LevelCount != defaultLevelCount).ToList();
-                Assert.AreEqual(68, leveledBuildings.Count);
-            }
-        }*/
     }
 }

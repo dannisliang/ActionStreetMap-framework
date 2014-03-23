@@ -79,7 +79,7 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         public void Add(Element element)
         {
-            element.Accept(new ElementVisitor(
+            element.Accept(new ActionElementVisitor(
                 AddNode,
                 AddWay,
                 AddRelation));
@@ -203,7 +203,7 @@ namespace Mercraft.Maps.Osm.Data
                             }
                         };
 
-                    relationMember.Member.Accept(new ElementVisitor(
+                    relationMember.Member.Accept(new ActionElementVisitor(
                        _ => relationPerElementAction(_relationsPerNode),
                        _ => relationPerElementAction(_relationsPerWay),
                        _ => relationPerElementAction(_relationsPerRelation)));
@@ -230,7 +230,7 @@ namespace Mercraft.Maps.Osm.Data
             long id = element.Id;
             HashSet<long> relationIds = null;
 
-            element.Accept(new ElementVisitor(
+            element.Accept(new ActionElementVisitor(
                 _ => { _relationsPerNode.TryGetValue(id, out relationIds); },
                 _ => { _relationsPerWay.TryGetValue(id, out relationIds); },
                 _ => { _relationsPerRelation.TryGetValue(id, out relationIds); }));
@@ -424,7 +424,7 @@ namespace Mercraft.Maps.Osm.Data
 
         public void Initialize(IEnumerable<Element> sourceStream)
         {
-            var elementVisitor = new ElementVisitor(
+            var elementVisitor = new ActionElementVisitor(
                 AddNode,
                 AddWay,
                 AddRelation);

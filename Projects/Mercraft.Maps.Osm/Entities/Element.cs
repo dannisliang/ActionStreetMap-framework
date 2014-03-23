@@ -9,6 +9,12 @@ namespace Mercraft.Maps.Osm.Entities
     /// </summary>
     public abstract class Element
     {
+
+        protected Element()
+        {
+            Tags = new List<Tag>();
+        }
+
         /// <summary>
         /// The id.
         /// </summary>
@@ -24,7 +30,6 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// Returns a description of this object.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             string tags = "{no tags}";
