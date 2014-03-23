@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Tiles;
+using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Mercraft.Core.Zones
@@ -23,6 +25,9 @@ namespace Mercraft.Core.Zones
         protected readonly HashSet<long> LoadedModelIds;
 
         protected Dictionary<Tile, Zone> Zones { get; set; }
+
+        [Dependency]
+        protected ITrace Trace { get; set; }
 
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
@@ -46,7 +51,7 @@ namespace Mercraft.Core.Zones
                 return;
 
             // Build zone
-            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors);
+            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);           
         }

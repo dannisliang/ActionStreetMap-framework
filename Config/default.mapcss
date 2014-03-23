@@ -2,15 +2,24 @@ canvas	 															{ z-index: 0; builder: quad; material: Terrain;}
 /* Most strict rule should be first */
 area[building][height]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; }
 area[building:levels]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(2)); }
-area[building=residential], 	
-area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; }
 
+area[building=residential], 	
+area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #9AB396; }
+
+area[landuse=residential]											{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 0.1; fill-color: #D6D6D6; }
+
+/* green zones */
 area[leisure],
 way[natural=forest],
 way[natural=wood],
 way[landuse=forest],
-way[landuse=wood]													{ z-index: 0; builder: solid; material: Grass; height: 0.1;}
+way[landuse=cemetery]
+way[landuse=wood]													{ z-index: 0; builder: solid; material: Grass; height: 0.1; fill-color: #22FF11;}
 
-way[highway=residential]											{ z-index: 0; builder: solid; material: Grass; height: 0.1;}
+/* water */
+way[waterway]														{ z-index: 0; builder: solid; material: Grass; height: 0.3; fill-color: #5429FF;}
+
+/* roads */
+way[highway]														{ z-index: 0; builder: solid; material: Grass; height: 0.1; fill-color: #787878; }
 
 /* internal building backyard: area[landuse=residential],*/

@@ -155,7 +155,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
             var rule = stylesheet.GetRule(park);
 
-            Assert.AreEqual(new Color(34, 255, 17), rule.GetFillColor(park, Color.green));
+            Assert.AreEqual(new Color32(34, 255, 17, 1), rule.GetFillColor(park, Color.green));
         }
     }
 }

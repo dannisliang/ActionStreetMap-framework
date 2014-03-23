@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Mercraft.Core.Zones
@@ -13,14 +16,16 @@ namespace Mercraft.Core.Zones
         private readonly Stylesheet _stylesheet;
         private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
 
+        private readonly ITrace _trace;
 
         public Zone(Tile tile, 
             Stylesheet stylesheet,
-            IEnumerable<ISceneModelVisitor> sceneModelVisitors)
+            IEnumerable<ISceneModelVisitor> sceneModelVisitors, ITrace trace)
         {
             _tile = tile;
             _stylesheet = stylesheet;
             _sceneModelVisitors = sceneModelVisitors;
+            _trace = trace;
         }
 
         /// <summary>
@@ -61,6 +66,10 @@ namespace Mercraft.Core.Zones
                     }
                     loadedElementIds.Add(area.Id);
                 }
+                else
+                {
+                    _trace.Warn("No rule for area: " + area);
+                }
             }
 
             // visit ways
@@ -77,6 +86,10 @@ namespace Mercraft.Core.Zones
                         sceneModelVisitor.VisitWay(_tile.RelativeNullPoint, canvasObject, rule, way);
                     }
                     loadedElementIds.Add(way.Id);
+                }
+                else
+                {
+                    _trace.Warn("No rule for way: " + way);
                 }
             }
         }
