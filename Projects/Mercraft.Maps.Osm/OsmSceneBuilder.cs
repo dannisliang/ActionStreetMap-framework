@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Dependencies;

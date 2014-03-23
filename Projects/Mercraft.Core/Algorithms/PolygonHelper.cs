@@ -20,13 +20,22 @@ namespace Mercraft.Core.Algorithms
         {
             var length = geoCoordinates.Count;
 
-            if (geoCoordinates[0] == geoCoordinates[length - 1])
-                length--;
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                if (geoCoordinates[i] == geoCoordinates[length - 1])
+                {
+                    length--;
+                    break;
+                }
+            }
+
+            //if (geoCoordinates[0] == geoCoordinates[length - 1])
+            //    length--;
 
             var  verticies = geoCoordinates
                 .Select(g => GeoProjection.ToMapCoordinate(center, g))
                 .Take(length).ToArray();
-
 
             return SortVertices(verticies);
         }
@@ -40,9 +49,9 @@ namespace Mercraft.Core.Algorithms
 
             switch (direction)
             {
-                case PolygonTriangulation.PolygonDirection.Clockwise:
+                case PolygonDirection.Clockwise:
                     return verticies.Reverse().ToArray();
-                case PolygonTriangulation.PolygonDirection.CountClockwise:
+                case PolygonDirection.CountClockwise:
                     return verticies;
                 default:
                     // TODO need to understand what to do
@@ -51,13 +60,13 @@ namespace Mercraft.Core.Algorithms
             }
         }
 
-        private static PolygonTriangulation.PolygonDirection PointsDirection(Vector2[] points)
+        private static PolygonDirection PointsDirection(Vector2[] points)
         {
             int nCount = 0, j = 0, k = 0;
             int nPoints = points.Length;
 
             if (nPoints < 3)
-                return PolygonTriangulation.PolygonDirection.Unknown;
+                return PolygonDirection.Unknown;
 
             for (int i = 0; i < nPoints; i++)
             {
@@ -78,11 +87,11 @@ namespace Mercraft.Core.Algorithms
             }
 
             if (nCount < 0)
-                return PolygonTriangulation.PolygonDirection.CountClockwise;
+                return PolygonDirection.CountClockwise;
             else if (nCount > 0)
-                return PolygonTriangulation.PolygonDirection.Clockwise;
+                return PolygonDirection.Clockwise;
             else
-                return PolygonTriangulation.PolygonDirection.Unknown;
+                return PolygonDirection.Unknown;
         }
 
 
@@ -99,24 +108,16 @@ namespace Mercraft.Core.Algorithms
             return verticies3D;
         }
 
-        /*public static Vector3[] GetVerticies3D(Vector2[] verticies2D, float y)
-        {
-            var length = verticies2D.Length;
-            var verticies3D = new Vector3[length];
-            for (int i = 0; i < length; i++)
-            {
-                verticies3D[i] = new Vector3(verticies2D[i].x, y, verticies2D[i].y);
-            }
-
-            return verticies3D;
-        }*/
-
-
         // TODO optimization: we needn't triangles for floor in case of building!
         public static int[] GetTriangles(Vector2[] verticies2D)
         {
             var verticiesLength = verticies2D.Length;
-            var indecies = PolygonTriangulation.GetTriangles(verticies2D);
+            
+            Triangulator triangulator = new Triangulator(verticies2D);
+            var indecies = triangulator.Triangulate();
+            
+            //var indecies = PolygonTriangulation.GetTriangles(verticies2D);
+            
             var length = indecies.Length;
 
             // add top
@@ -159,6 +160,13 @@ namespace Mercraft.Core.Algorithms
             }
 
             return uvs;
+        }
+
+        internal enum PolygonDirection
+        {
+            Unknown,
+            Clockwise,
+            CountClockwise
         }
 
     }

@@ -18,8 +18,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public override void VisitWay(Way way)
         {
-            // TODO IsPolygon should be processed also!
-            if ( !way.IsComplete)
+            if ( !way.IsPolygon)
                 return;
 
             if (!IsArea(way.Tags))

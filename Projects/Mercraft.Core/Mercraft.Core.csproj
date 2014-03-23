@@ -43,9 +43,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Triangulator.cs" />
     <Compile Include="Algorithms\GeoProjection.cs" />
     <Compile Include="Algorithms\PolygonHelper.cs" />
-    <Compile Include="Algorithms\PolygonTriangulation.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="IPositionListener.cs" />
