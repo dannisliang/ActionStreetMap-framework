@@ -25,6 +25,8 @@ namespace Mercraft.Maps.Osm.Data
         private HashSet<long> _wayIds;
         private HashSet<long> _relationIds;
 
+        private HashSet<long> _unresolvedNodes;
+
         private Dictionary<long, Element> _elements;
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace Mercraft.Maps.Osm.Data
             _nodeIds = new HashSet<long>();
             _wayIds = new HashSet<long>();
             _relationIds = new HashSet<long>();
+            _unresolvedNodes = new HashSet<long>();
             _elements = new Dictionary<long, Element>();
         }
 
@@ -61,8 +64,10 @@ namespace Mercraft.Maps.Osm.Data
         private void FillElements(BoundingBox bbox)
         {
             PrimitiveBlock block = _reader.MoveNext();
+            var blocks = new List<PrimitiveBlock>();
             while (block != null)
             {
+                blocks.Add(block);
                 var obbox = new OffsetBoundingBox(bbox, block);
                 ProcessPrimitiveBlock(block, obbox);
 
@@ -77,8 +82,7 @@ namespace Mercraft.Maps.Osm.Data
 
                     foreach (var way in primitiveGroup.ways)
                     {
-                        //if (way.keys.Any(stringIndicies.Contains))
-                            SearchWay(block, way);
+                        SearchWay(block, way);
                     }
 
                     foreach (var relation in primitiveGroup.relations)
@@ -89,6 +93,19 @@ namespace Mercraft.Maps.Osm.Data
                 }
 
                 block = _reader.MoveNext();
+            }
+
+            // Resolve unresolved nodes
+            foreach (var primitiveBlock in blocks)
+            {
+                ProcessPrimitiveBlock(primitiveBlock, null);
+                foreach (var primitiveGroup in primitiveBlock.primitivegroup)
+                {
+                    foreach (var node in primitiveGroup.nodes)
+                    {
+                        SearchNode(primitiveBlock, node);
+                    }
+                }
             }
         }
 
@@ -113,9 +130,10 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
             _elements.Add(elementNode.Id, elementNode);
+            if (_unresolvedNodes.Contains(elementNode.Id))
+                _unresolvedNodes.Remove(elementNode.Id);
             _nodeIds.Add(elementNode.Id);
         }
-
 
         private void SearchWay(PrimitiveBlock block, Formats.Pbf.Way way)
         {
@@ -128,8 +146,20 @@ namespace Mercraft.Maps.Osm.Data
                 nodeId = nodeId + way.refs[nodeIdx];
                 elementWay.NodeIds.Add(nodeId);
             }
+
+            // Way is out of bbox
             if (!elementWay.NodeIds.Any(nid => _nodeIds.Contains(nid)))
                 return;
+
+
+            // Push all unresolved node ids to scan later
+            // Unresolved node situation happends when we have cross-zone ways
+            // We want to display them fully
+            foreach (var nId in elementWay.NodeIds)
+            {
+                if (!_nodeIds.Contains(nId) && !_unresolvedNodes.Contains(nId))
+                    _unresolvedNodes.Add(nId);
+            }
 
             if (way.keys.Any())
             {
@@ -142,15 +172,7 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
 
-            // TODO interesting situation
-            if (_elements.ContainsKey(elementWay.Id))
-            {
-                _elements[elementWay.Id] = elementWay;
-            }
-            else
-            {
-                _elements.Add(elementWay.Id, elementWay);
-            }
+            _elements.Add(elementWay.Id, elementWay);
 
             _wayIds.Add(elementWay.Id);
         }
@@ -214,7 +236,7 @@ namespace Mercraft.Maps.Osm.Data
             return (latLon / .000000001 - latLonBlockOffset) / block.granularity;
         }
 
-        private static void ProcessPrimitiveBlock(PrimitiveBlock block, OffsetBoundingBox obbox)
+        private void ProcessPrimitiveBlock(PrimitiveBlock block, OffsetBoundingBox obbox)
         {
             if (block.primitivegroup != null)
             {
@@ -236,7 +258,10 @@ namespace Mercraft.Maps.Osm.Data
                             currentLon = currentLon + primitivegroup.dense.lon[idx];
                             currentId = currentId + primitivegroup.dense.id[idx];
 
-                            if (!obbox.Contains(currentLat, currentLon)) 
+                            if(obbox == null && !_unresolvedNodes.Contains(currentId))
+                                continue;
+
+                            if (obbox != null && !obbox.Contains(currentLat, currentLon)) 
                                 continue;
 
                             var node = new Formats.Pbf.Node();

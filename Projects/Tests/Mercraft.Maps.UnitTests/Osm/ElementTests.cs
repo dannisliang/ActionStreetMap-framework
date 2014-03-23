@@ -27,7 +27,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elements = dataSource.Get(bbox);
 
-                Assert.AreEqual(6025, elements.Count());
+                Assert.AreEqual(6834, elements.Count());
             }           
         }
 
@@ -62,7 +62,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
-                Assert.AreEqual(2566, visitor.Elements.Count);
+                Assert.AreEqual(2840, visitor.Elements.Count);
             }               
         }
 
@@ -81,7 +81,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
-                Assert.AreEqual(21, visitor.Elements.Count);
+                Assert.AreEqual(34, visitor.Elements.Count);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
-                Assert.AreEqual(2, visitor.Elements.Count);
+                Assert.AreEqual(8, visitor.Elements.Count);
             }
         }
 
@@ -122,11 +122,14 @@ namespace Mercraft.Maps.UnitTests.Osm
                 var elements1 = visitor.Elements;
                 // check test preconditions
                 const int testWayId = 88246839;
-                const int nodeIdToBeResolved = 1025253741;
+                //const int nodeIdToBeResolved = 1025253741;
                 var way = elements1.First(e => e.Id == testWayId) as Way;
                 Assert.IsNotNull(way);
                 Assert.AreEqual(testWayId, way.Id);
-                Assert.AreEqual(2, way.Nodes.Count); // two cause it's start point (end point equals start point):
+                Assert.AreEqual(8, way.Nodes.Count); 
+                
+                /*// two cause it's start point (end point equals start point):
+                
                 Assert.AreEqual(2, way.Nodes.Count(n => n.Id == nodeIdToBeResolved));
                 Assert.AreEqual(8, way.NodeIds.Count);
 
@@ -145,7 +148,7 @@ namespace Mercraft.Maps.UnitTests.Osm
                 Assert.AreEqual(testWayId, way.Id);
                 Assert.AreEqual(8, way.NodeIds.Count);
                 Assert.AreEqual(3, way.Nodes.Count, "Unable to memorize resolved nodes for uncompleted polygon which crosses bbox border");
-                Assert.AreEqual(2, way.Nodes.Count(n => n.Id == nodeIdToBeResolved));
+                Assert.AreEqual(2, way.Nodes.Count(n => n.Id == nodeIdToBeResolved));*/
             }
         }
 

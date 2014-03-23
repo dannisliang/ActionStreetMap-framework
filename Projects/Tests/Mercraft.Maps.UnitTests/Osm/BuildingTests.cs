@@ -48,8 +48,8 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
-                Assert.AreEqual(1620, scene.Areas.Count());
-                Assert.AreEqual(1438, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
+                Assert.AreEqual(1696, scene.Areas.Count());
+                Assert.AreEqual(1453, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
         }
     }
