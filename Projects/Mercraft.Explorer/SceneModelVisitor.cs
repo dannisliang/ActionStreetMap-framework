@@ -40,7 +40,18 @@ namespace Mercraft.Explorer
         public GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
             var gameObject = new GameObject();
-            var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, area, Color.yellow);
+            //var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, area, Color.yellow);
+           // builder.BuildArea(center, gameObject, rule, area);
+
+            gameObject.AddComponent<MeshFilter>();
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.AddComponent<MeshCollider>();
+            gameObject.renderer.material = rule.GetMaterial(area);
+            gameObject.renderer.material.color = rule.GetFillColor(area, Color.yellow);
+            
+            gameObject.transform.parent = parent.transform;
+
+            var builder = rule.GetModelBuilder(area, _builders);
             builder.BuildArea(center, gameObject, rule, area);
 
             return gameObject;
@@ -49,15 +60,20 @@ namespace Mercraft.Explorer
         public GameObject VisitWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
         {
             var gameObject = new GameObject();
-            var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, way, Color.red);
+            var builder = rule.GetModelBuilder(way, _builders);
             builder.BuildWay(center, gameObject, rule, way);
+            
+            gameObject.transform.parent = parent.transform;
+
+            //var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, way, Color.red);
+            //builder.BuildWay(center, gameObject, rule, way);
 
             return gameObject;
         }
 
         #endregion
 
-        private IModelBuilder ProcessAndGetBuilder(GameObject gameObject, GeoCoordinate center, GameObject parent, Rule rule, Model model, Color defaultColor)
+        /*private IModelBuilder ProcessAndGetBuilder(GameObject gameObject, GeoCoordinate center, GameObject parent, Rule rule, Model model, Color defaultColor)
         {
             gameObject.AddComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
@@ -67,7 +83,7 @@ namespace Mercraft.Explorer
             gameObject.transform.parent = parent.transform;
 
             return rule.GetModelBuilder(model, _builders);
-        }
+        }*/
 
     }
 }

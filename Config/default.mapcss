@@ -51,14 +51,29 @@ area[landuse=meadow]													{ z-index: 0.1; builder: flat; material: Grass;
 area[landuse=industrial],		
 area[landuse=railway]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #dfd1d6;}
 
-
 /* water */
 area[waterway],
 area[natural=water],
 area[landuse=basin]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #5429FF;}
 
-/* roads */
-way[highway]														{ z-index: 0.1; builder: flat; material: Grass; fill-color: #787878; }
-
-
 way[barrier] :closed													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+
+/* roads */
+way[highway=tertiary],
+way[highway=residential],
+way[highway=unclassified],
+way[highway=road]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #bbbbbb; width:16; }
+way[highway=living_street]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #000000; width:14.5; }
+way[highway=motorway]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #506077; width:13; }
+way[highway=trunk]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #477147; width:16; }
+way[highway=primary]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #8d4346; width:16; }
+way[highway=secondary]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #a37b48; width:16; }
+
+way[highway=footway],
+way[highway=path][foot=designated]									{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FA8072; width:3.5; }
+
+way[highway=service]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FFFFFF; width:3; }
+
+
+/* NOTE: set red color to find non-processed selectors */
+way[highway]														{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }

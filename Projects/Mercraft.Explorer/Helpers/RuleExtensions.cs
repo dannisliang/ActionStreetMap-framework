@@ -47,5 +47,13 @@ namespace Mercraft.Explorer.Helpers
         {
             return rule.Evaluate<float>(model, "z-index");      
         }
+
+        /// <summary>
+        /// Gets width
+        /// </summary>
+        public static float GetWidth(this Rule rule, Model model)
+        {
+            return rule.Evaluate<float>(model, "width");
+        }
     }
 }

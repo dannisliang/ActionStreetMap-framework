@@ -23,27 +23,10 @@ namespace Mercraft.Explorer.Builders
             }
 
             gameObject.name = String.Format("Flat {0}", area);
-            BuildModel(center, gameObject, rule, area, area.Points.ToList());
-        }
 
-        public override void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
-        {
-            // TODO remove this assertion after handling this case above
-            if (way.Points.Length < 3)
-            {
-                Debug.LogError("Way contains less than 3 points: " + way);
-                return;
-            }
+            var floor = rule.GetZIndex(area);
 
-            gameObject.name = String.Format("Flat {0}", way);
-            BuildModel(center, gameObject, rule, way, way.Points.ToList());
-        }
-
-        private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, Model model, IList<GeoCoordinate> coordinates)
-        {
-            var floor = rule.GetZIndex(model);
-
-            var verticies = PolygonHelper.GetVerticies2D(center, coordinates);
+            var verticies = PolygonHelper.GetVerticies2D(center, area.Points);
 
             var mesh = new Mesh();
             mesh.vertices = PolygonHelper.GetVerticies(verticies, floor);
@@ -54,6 +37,29 @@ namespace Mercraft.Explorer.Builders
             meshFilter.mesh.Clear();
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();
+        }
+
+        public override void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
+        {
+            var zIndex = rule.GetZIndex(way);
+
+            gameObject.name = String.Format("Flat {0}", way);
+
+            var points = PolygonHelper.GetVerticies2D(center, way.Points);
+
+            var lineRenderer = gameObject.AddComponent<LineRenderer>();
+            lineRenderer.material = rule.GetMaterial(way);
+            lineRenderer.material.color = rule.GetFillColor(way, Color.red);
+            lineRenderer.SetVertexCount(points.Length);
+
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                lineRenderer.SetPosition(i, new Vector3(points[i].x, zIndex, points[i].y));
+            }
+
+            var width = rule.GetWidth(way);
+            lineRenderer.SetWidth(width, width);
         }
     }
 }
