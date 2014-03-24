@@ -7,7 +7,10 @@ namespace Mercraft.Core.MapCss.Domain
 {
     public abstract class Selector
     {
+        // TODO process pseudo selectors in different way
+        // IsClosed used only by way
         public bool IsClosed { get; set; }
+
         public string Tag { get; set; }
         public string Value { get; set; }
         public string Operation { get; set; }
@@ -19,7 +22,7 @@ namespace Mercraft.Core.MapCss.Domain
             if (!(model is T))
                 return false;
 
-            return IsClosed ? model.IsClosed : MatchTags(model);
+            return MatchTags(model);
         }
 
         protected bool MatchTags(Model model)
@@ -58,7 +61,7 @@ namespace Mercraft.Core.MapCss.Domain
     {
         public override bool IsApplicable(Model model)
         {
-            return CheckModel<Way>(model);
+            return IsClosed ? model.IsClosed: CheckModel<Way>(model);
         }
     }
 

@@ -28,7 +28,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
             var stylesheet = provider.Get();
             
-            Assert.AreEqual(19, stylesheet.Rules.Count);
+            Assert.AreEqual(20, stylesheet.Rules.Count);
 
             Assert.AreEqual(1, stylesheet.Rules[1].Selectors.Count);
             Assert.AreEqual(2, stylesheet.Rules[1].Declarations.Count);
@@ -115,9 +115,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
             var stylesheet = provider.Get();
 
-            var closedRule = stylesheet.Rules[3];
+            var closedRule = stylesheet.Rules[19];
             Assert.AreEqual(2, closedRule.Selectors.Count);
-            Assert.AreEqual("building", closedRule.Selectors[0].Tag);
+            Assert.AreEqual("someclosed", closedRule.Selectors[0].Tag);
             Assert.AreEqual("OP_EXIST", closedRule.Selectors[0].Operation);
             Assert.AreEqual(true, closedRule.Selectors[1].IsClosed);
         }

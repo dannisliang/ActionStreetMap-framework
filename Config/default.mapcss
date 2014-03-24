@@ -1,61 +1,61 @@
 /* Most strict rule should be first */
 canvas	 															{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
-area[building][height]:closed										{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('height'))); }
-area[building:levels]:closed											{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(3)); }
+area[building][height]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('height'))); }
+area[building:levels]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(3)); }
 
-area[building=residential]:closed, 	
-area[building=yes]:closed											{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #bca9a9; }
+area[building=residential], 	
+area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #bca9a9; }
 
 /* general building */
-area[building]:closed,
-area[man_made=tower]:closed											{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #9AB396; }
+area[building],
+area[man_made=tower]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #9AB396; }
 
 
 /* flat areas */
-area[landuse=residential]:closed										{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #dddddd; }
+area[landuse=residential]											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #dddddd; }
 
 
-area[landuse=cemetery]:closed,
-area[landuse=grave_yard]:closed,
-area[amenity=grave_yard]:closed 										{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #aacbaf; }
+area[landuse=cemetery],
+area[landuse=grave_yard],
+area[amenity=grave_yard] 											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #aacbaf; }
 
-area[landuse=farm]:closed,
-area[landuse=farmland]:closed 										{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #ead8bd; }
+area[landuse=farm],
+area[landuse=farmland] 												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #ead8bd; }
 
 
-area[landuse=commercial]	:closed										{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #7A96A3; }
+area[landuse=commercial]												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #7A96A3; }
 
-area[landuse=brownfield]:closed,
-area[landuse=landfill]:closed,
-area[landuse=greenfield]:closed,
-area[landuse=construction]:closed 									{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #9d9d6c; fill-opacity: 0.7; }
+area[landuse=brownfield],
+area[landuse=landfill],
+area[landuse=greenfield],
+area[landuse=construction] 											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #9d9d6c; fill-opacity: 0.7; }
 
-area[landuse=forest]:closed 											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #8dc56c; }
+area[landuse=forest] 												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #8dc56c; }
 
-area[amenity=parking][parking=surface]:closed						{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f7efb7; }
+area[amenity=parking][parking=surface]								{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f7efb7; }
 
-area[amenity]:closed,
-area[natural=beach]:closed											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #22FF11;}
+area[amenity],
+area[natural=beach]													{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #22FF11;}
 
-area[tourism=attraction]:closed										{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f2caea;}
+area[tourism=attraction]												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f2caea;}
 
 /* green zones */
-area[leisure]:closed,
-area[landuse=village_green]:closed,
-area[amenity=kindergarten]:closed									{ z-index: 0.1; builder: flat; material: Grass; fill-color: #22FF11;}
+area[leisure],
+area[landuse=village_green],
+area[amenity=kindergarten]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #22FF11;}
 
-area[landuse=grass]:closed,
-area[landuse=meadow]:closed											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #cfeca8;}
+area[landuse=grass],
+area[landuse=meadow]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #cfeca8;}
 
-area[landuse=industrial]:closed,		
-area[landuse=railway]:closed											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #dfd1d6;}
+area[landuse=industrial],		
+area[landuse=railway]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #dfd1d6;}
 
 
 /* water */
-area[waterway]:closed,
-area[natural=water]:closed,
-area[landuse=basin]:closed											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #5429FF;}
+area[waterway],
+area[natural=water],
+area[landuse=basin]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #5429FF;}
 
 /* roads */
 way[highway]														{ z-index: 0.1; builder: flat; material: Grass; fill-color: #787878; }

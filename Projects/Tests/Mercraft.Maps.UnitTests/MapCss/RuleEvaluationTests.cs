@@ -164,7 +164,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
             var stylesheet = provider.Get();
 
-            var closedArea = new Area()
+            var closedWay = new Way()
             {
                 Points = new []
                 {
@@ -175,14 +175,14 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 },
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
-                    new KeyValuePair<string, string>("building", "yes")
+                    new KeyValuePair<string, string>("someclosed", "yes")
                 }
             };
 
-            Assert.IsNotNull(stylesheet.GetRule(closedArea));
+            Assert.IsNotNull(stylesheet.GetRule(closedWay));
 
 
-            var openArea = new Area()
+            var openWay = new Way()
             {
                 Points = new[]
                 {
@@ -193,11 +193,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 },
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
-                    new KeyValuePair<string, string>("building", "yes")
+                    new KeyValuePair<string, string>("someclosed", "yes")
                 }
             };
 
-            Assert.IsNull(stylesheet.GetRule(openArea));
+            Assert.IsNull(stylesheet.GetRule(openWay));
             
         }
     }

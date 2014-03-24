@@ -55,7 +55,7 @@ namespace Assets.Scripts.Demo
                   new KeyValuePair<string, string>("building", "residential"),
                   new KeyValuePair<string, string>("building:levels", "10")  
                 },
-                Points = new List<GeoCoordinate>()
+                Points = new GeoCoordinate[]
                 {
 			        new GeoCoordinate(52.5295083,13.3889532),
 			        new GeoCoordinate(52.5294599,13.3887466),
