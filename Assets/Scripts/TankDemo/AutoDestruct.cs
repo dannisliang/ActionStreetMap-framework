@@ -1,12 +1,14 @@
 using UnityEngine;
-using System.Collections;
 
-public class AutoDestruct : MonoBehaviour
+namespace Assets.Scripts.TankDemo
 {
-    public float DestructTime = 2.0f;
-
-    void Start()
+    public class AutoDestruct : MonoBehaviour
     {
-        Destroy(gameObject, DestructTime);
+        public float DestructTime = 2.0f;
+
+        void Start()
+        {
+            Destroy(gameObject, DestructTime);
+        }
     }
 }

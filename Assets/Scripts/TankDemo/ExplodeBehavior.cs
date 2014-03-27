@@ -1,8 +1,7 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Interactions
+namespace Assets.Scripts.TankDemo
 {
     public class ExplodeBehavior: MonoBehaviour
     {

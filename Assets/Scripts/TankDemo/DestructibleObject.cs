@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace Assets
+namespace Assets.Scripts.TankDemo
 {
     /*
  // DestructibleObject.cs
@@ -28,10 +26,7 @@ namespace Assets
     //DestructibleObject - provides functionality to destroy whatever GameObject the script is attached to
     //the attached object must have a MeshFilter in its children, and its shrapnel objects must have a renderer in the root.
     //by Eli
-
-    using UnityEngine;
-    using System.Collections;
-
+    
     public class DestructibleObject : MonoBehaviour
     {
         public GameObject shrapnelPrefab;
@@ -142,7 +137,7 @@ namespace Assets
 
         private void OnMouseDown()
         {
-            Explode();
+            //Explode();
         }
     }
 }

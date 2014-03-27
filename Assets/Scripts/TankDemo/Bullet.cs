@@ -1,30 +1,32 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Bullet : MonoBehaviour
+namespace Assets.Scripts.TankDemo
 {
-    //Explosion Effect
-    public GameObject Explosion;
-
-    public float Speed = 60.0f;
-    public float LifeTime = 3.0f;
-    public int damage = 50;
-
-    void Start()
+    public class Bullet : MonoBehaviour
     {
-        Destroy(gameObject, LifeTime);
-    }
+        //Explosion Effect
+        public GameObject Explosion;
 
-    void Update()
-    {
-        transform.position += 
-			transform.forward * Speed * Time.deltaTime;       
-    }
+        public float Speed = 60.0f;
+        public float LifeTime = 3.0f;
+        public int damage = 50;
 
-    void OnCollisionEnter(Collision collision)
-    {
-        ContactPoint contact = collision.contacts[0];
-        Instantiate(Explosion, contact.point, Quaternion.identity);
-        Destroy(gameObject);
+        void Start()
+        {
+            Destroy(gameObject, LifeTime);
+        }
+
+        void Update()
+        {
+            transform.position += 
+                transform.forward * Speed * Time.deltaTime;       
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Instantiate(Explosion, contact.point, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }
