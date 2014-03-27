@@ -68,7 +68,7 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
-    <None Include="Assets\Shaders\Soviet.shader" />
+    <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

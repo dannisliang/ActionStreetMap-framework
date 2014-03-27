@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0E7FD182-1940-99E2-AF56-8BDD2C445843}</ProjectGuid>
+    <ProjectGuid>{1B426721-D7B4-C5B7-4F49-6558259B1D05}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace></RootNamespace>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-UnityScript</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{84365F2C-1DDE-431A-8C14-179ADC971E4D};{1FAC5C55-277D-4884-94A4-83DBDAF57E56}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
@@ -76,17 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\CharacterBehavior.cs" />
-    <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
-    <Compile Include="Assets\Scripts\ExplodeBehavior.cs" />
-    <Compile Include="Assets\Scripts\Movements\CharacterMovement.cs" />
-    <Compile Include="Assets\Scripts\Movements\SmoothFollow2D.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\AutoDestruct.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\Bullet.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\DestructibleObject.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\PlayerTankController.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\FSM.cs" />
-    <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\SimpleFSM.cs" />
+    <Compile Include="Assets\Scripts\TankDemo\Scale.js" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
     <None Include="Assets\Dependencies\Antlr3.Runtime.dll" />
@@ -96,5 +86,13 @@
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Assets" />
+    <Folder Include="Assets\Dependencies" />
+    <Folder Include="Assets\ParticleEffects" />
+    <Folder Include="Assets\ParticleEffects\Shaders" />
+    <Folder Include="Assets\Scripts" />
+    <Folder Include="Assets\Scripts\TankDemo" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.UnityScript.targets" />
 </Project>

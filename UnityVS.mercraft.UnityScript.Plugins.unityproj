@@ -72,12 +72,13 @@
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
-    <None Include="Assets\Shaders\Soviet.shader" />
+    <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />
     <Folder Include="Assets\Dependencies" />
-    <Folder Include="Assets\Shaders" />
+    <Folder Include="Assets\ParticleEffects" />
+    <Folder Include="Assets\ParticleEffects\Shaders" />
     <Folder Include="Assets\Standard Assets" />
     <Folder Include="Assets\Standard Assets\Character Controllers" />
     <Folder Include="Assets\Standard Assets\Character Controllers\Sources" />
