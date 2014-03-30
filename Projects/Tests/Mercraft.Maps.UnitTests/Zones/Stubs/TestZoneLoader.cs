@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Interactions;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
@@ -13,8 +14,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     {
         [Dependency]
         public TestZoneLoader(TileProvider tileProvider,IStylesheetProvider stylesheetProvider,  
-             IEnumerable<ISceneModelVisitor> sceneModelVisitors) :
-            base(tileProvider, stylesheetProvider, sceneModelVisitors)
+             IEnumerable<ISceneModelVisitor> sceneModelVisitors,
+            IEnumerable<IBehaviour> behaviours) :
+            base(tileProvider, stylesheetProvider, sceneModelVisitors, behaviours)
         {
         }
 

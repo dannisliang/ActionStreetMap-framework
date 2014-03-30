@@ -18,7 +18,7 @@ namespace Assets.Scripts
 	        component = new GameRunner(@"Config\app.config");
 
             Debug.Log("Run Game");
-            //component.RunGame(new GeoCoordinate(52.531036, 13.384866)); // Invlidenstr. 117
+            component.RunGame(new GeoCoordinate(52.531036, 13.384866)); // Invlidenstr. 117
             //52.529814, 13.388015));
         }
 	
@@ -29,7 +29,7 @@ namespace Assets.Scripts
             {
                 Debug.Log("position change detect:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
-               //component.OnMapPositionChanged(position2D);
+               component.OnMapPositionChanged(position2D);
             }
         }
     }

@@ -1,6 +1,8 @@
-﻿using Mercraft.Core.MapCss;
+﻿using Mercraft.Core.Interactions;
+using Mercraft.Core.MapCss;
 using Mercraft.Explorer.Builders;
 using Mercraft.Infrastructure.Bootstrap;
+
 
 namespace Mercraft.Explorer.Bootstrappers
 {
@@ -8,6 +10,7 @@ namespace Mercraft.Explorer.Bootstrappers
     {
         private const string StylesheetProviderKey = "stylesheet";
         private const string BuildersKey = "builders/builder";
+        private const string BehavioursKey = "behaviours/behaviour";
 
         public override bool Run()
         {
@@ -18,6 +21,12 @@ namespace Mercraft.Explorer.Bootstrappers
             foreach (var builderConfig in ConfigSection.GetSections(BuildersKey))
             {
                 Configurator.RegisterNamedComponent<IModelBuilder>(builderConfig);
+            }
+
+            // register behaviours
+            foreach (var behaviourConfig in ConfigSection.GetSections(BehavioursKey))
+            {
+                Configurator.RegisterNamedComponent<IBehaviour>(behaviourConfig);
             }
 
             return true;

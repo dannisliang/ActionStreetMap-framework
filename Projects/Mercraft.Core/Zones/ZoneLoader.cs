@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Mercraft.Core.Interactions;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Config;
@@ -17,6 +18,7 @@ namespace Mercraft.Core.Zones
         protected readonly TileProvider TileProvider;
         protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly IEnumerable<ISceneModelVisitor> SceneModelVisitors;
+        protected readonly IEnumerable<IBehaviour> Behaviours;
 
         protected Vector2 CurrentPosition { get; set; }
         protected float Offset { get; set; }
@@ -32,11 +34,13 @@ namespace Mercraft.Core.Zones
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
             IStylesheetProvider stylesheetProvider,
-            IEnumerable<ISceneModelVisitor> sceneModelVisitors)
+            IEnumerable<ISceneModelVisitor> sceneModelVisitors,
+            IEnumerable<IBehaviour> behaviours)
         {
             TileProvider = tileProvider;
             StylesheetProvider = stylesheetProvider;
             SceneModelVisitors = sceneModelVisitors;
+            Behaviours = behaviours;
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
@@ -51,7 +55,7 @@ namespace Mercraft.Core.Zones
                 return;
 
             // Build zone
-            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors, Trace);
+            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitors, Behaviours, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);           
         }

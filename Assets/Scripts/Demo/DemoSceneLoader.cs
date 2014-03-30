@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Assets.Scripts.TankDemo;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss;
@@ -94,7 +95,7 @@ namespace Assets.Scripts.Demo
             lineRenderer.material.color = rule.GetFillColor(way, Color.red);
             lineRenderer.SetVertexCount(points.Length);
 
-           // var color32 = rule.GetFillColor(way, Color.red);
+            // var color32 = rule.GetFillColor(way, Color.red);
             //var color = new Color(color32.r, color32.g, color32.b, 1);
             //Debug.Log(color);
             //lineRenderer.SetColors(color, color);

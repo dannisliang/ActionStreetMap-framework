@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using Mercraft.Core.Interactions;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
-using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
@@ -16,16 +16,20 @@ namespace Mercraft.Core.Zones
         private readonly Tile _tile;
         private readonly Stylesheet _stylesheet;
         private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
+        private readonly IEnumerable<IBehaviour> _behaviours;
 
         private readonly ITrace _trace;
 
-        public Zone(Tile tile, 
+        public Zone(Tile tile,
             Stylesheet stylesheet,
-            IEnumerable<ISceneModelVisitor> sceneModelVisitors, ITrace trace)
+            IEnumerable<ISceneModelVisitor> sceneModelVisitors,
+            IEnumerable<IBehaviour> behaviours,
+            ITrace trace)
         {
             _tile = tile;
             _stylesheet = stylesheet;
             _sceneModelVisitors = sceneModelVisitors;
+            _behaviours = behaviours;
             _trace = trace;
         }
 
@@ -44,27 +48,34 @@ namespace Mercraft.Core.Zones
             // visit canvas
             foreach (var sceneModelVisitor in _sceneModelVisitors)
             {
-               canvasObject = sceneModelVisitor.VisitCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
-                if (canvasObject != null) 
+                canvasObject = sceneModelVisitor.VisitCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
+                if (canvasObject != null)
                     break;
             }
 
             // TODO probably, we need to return built game object 
             // to be able to perform cleanup on our side
+            BuildAreas(canvasObject, loadedElementIds);
+            BuildWays(canvasObject, loadedElementIds);
+        }
 
-            // visit areas
+        private void BuildAreas(GameObject parent, HashSet<long> loadedElementIds)
+        {
             foreach (var area in _tile.Scene.Areas)
             {
-                if(loadedElementIds.Contains(area.Id))
+                if (loadedElementIds.Contains(area.Id))
                     continue;
-                
+
                 var rule = _stylesheet.GetRule(area);
                 if (rule != null)
                 {
+                    GameObject areaGameObject = null;
                     foreach (var sceneModelVisitor in _sceneModelVisitors)
                     {
-                        sceneModelVisitor.VisitArea(_tile.RelativeNullPoint, canvasObject, rule, area);
+                        areaGameObject = sceneModelVisitor.VisitArea(_tile.RelativeNullPoint, parent, rule, area)
+                                         ?? areaGameObject;
                     }
+                    ApplyBehaviour(areaGameObject, area, rule);
                     loadedElementIds.Add(area.Id);
                 }
                 else
@@ -72,8 +83,10 @@ namespace Mercraft.Core.Zones
                     _trace.Warn(String.Format("No rule for area: {0}, points: {1}", area, area.Points.Length));
                 }
             }
+        }
 
-            // visit ways
+        private void BuildWays(GameObject parent, HashSet<long> loadedElementIds)
+        {
             foreach (var way in _tile.Scene.Ways)
             {
                 if (loadedElementIds.Contains(way.Id))
@@ -82,10 +95,13 @@ namespace Mercraft.Core.Zones
                 var rule = _stylesheet.GetRule(way);
                 if (rule != null)
                 {
+                    GameObject wayGameObject = null;
                     foreach (var sceneModelVisitor in _sceneModelVisitors)
                     {
-                        sceneModelVisitor.VisitWay(_tile.RelativeNullPoint, canvasObject, rule, way);
+                        wayGameObject = sceneModelVisitor.VisitWay(_tile.RelativeNullPoint, parent, rule, way) ??
+                                        wayGameObject;
                     }
+                    ApplyBehaviour(wayGameObject, way, rule);
                     loadedElementIds.Add(way.Id);
                 }
                 else
@@ -93,6 +109,18 @@ namespace Mercraft.Core.Zones
                     _trace.Warn(String.Format("No rule for way: {0}, points: {1}", way, way.Points.Length));
                 }
             }
+        }
+
+        private void ApplyBehaviour(GameObject target, Model model, Rule rule)
+        {
+            // TODO hardcoded string in Core project isn't proper solution
+            var behaviourName = rule.EvaluateDefault(model, "behaviour", "");
+            if (behaviourName == "")
+                return;
+
+            var behaviour = _behaviours.Single(b => b.Name == behaviourName);
+
+            behaviour.Apply(target);
         }
     }
 }

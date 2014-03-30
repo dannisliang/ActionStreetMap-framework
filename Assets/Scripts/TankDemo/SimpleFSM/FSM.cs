@@ -28,18 +28,18 @@ namespace Assets.Scripts.TankDemo.SimpleFSM
         // Use this for initialization
         void Start () 
         {
-            Initialize();
+            //Initialize();
         }
 	
         // Update is called once per frame
         void Update () 
         {
-            FSMUpdate();
+            //FSMUpdate();
         }
 
         void FixedUpdate()
         {
-            FSMFixedUpdate();
+            //FSMFixedUpdate();
         }    
     }
 }

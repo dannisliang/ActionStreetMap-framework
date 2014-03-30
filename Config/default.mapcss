@@ -1,15 +1,15 @@
 /* Most strict rule should be first */
 canvas	 															{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
-area[building][height]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('height'))); }
+area[building][height]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('height'))); behaviour: solid;}
 area[building:levels]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(3)); }
 
 area[building=residential], 	
-area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #bca9a9; }
+area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #bca9a9; behaviour: solid;}
 
 /* general building */
 area[building],
-area[man_made=tower]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #9AB396; }
+area[man_made=tower]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 10; fill-color: #9AB396; behaviour: solid }
 
 
 /* flat areas */

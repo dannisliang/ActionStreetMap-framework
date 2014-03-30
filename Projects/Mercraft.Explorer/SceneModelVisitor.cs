@@ -43,16 +43,20 @@ namespace Mercraft.Explorer
             //var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, area, Color.yellow);
            // builder.BuildArea(center, gameObject, rule, area);
 
-            gameObject.AddComponent<MeshFilter>();
+            var meshFilter =  gameObject.AddComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
-            gameObject.AddComponent<MeshCollider>();
+
             gameObject.renderer.material = rule.GetMaterial(area);
             gameObject.renderer.material.color = rule.GetFillColor(area, Color.yellow);
             
             gameObject.transform.parent = parent.transform;
 
+            var collider = gameObject.AddComponent<MeshCollider>();
+
             var builder = rule.GetModelBuilder(area, _builders);
             builder.BuildArea(center, gameObject, rule, area);
+
+            collider.sharedMesh = meshFilter.mesh;
 
             return gameObject;
         }
