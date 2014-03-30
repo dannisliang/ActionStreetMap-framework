@@ -12,22 +12,22 @@ using UnityEngine;
 
 namespace Mercraft.Explorer
 {
-    public class SceneModelVisitor: ISceneModelVisitor
+    public class GameObjectBuilder: IGameObjectBuilder
     {
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours; 
 
         [Dependency]
-        public SceneModelVisitor(IEnumerable<IModelBuilder> builders, 
+        public GameObjectBuilder(IEnumerable<IModelBuilder> builders, 
             IEnumerable<IModelBehaviour> behaviours)
         {
             _builders = builders;
             _behaviours = behaviours;
         }
 
-        #region ISceneModelVisitor implementation
+        #region IGameObjectBuilder implementation
 
-        public GameObject VisitCanvas(GeoCoordinate center, GameObject parent, Rule rule, Canvas canvas)
+        public GameObject FromCanvas(GeoCoordinate center, GameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
             var material = rule.GetMaterial(canvas);
@@ -42,7 +42,7 @@ namespace Mercraft.Explorer
             return quad;
         }
 
-        public GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
+        public GameObject FromArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
             var gameObject = new GameObject();
 
@@ -66,7 +66,7 @@ namespace Mercraft.Explorer
             return gameObject;
         }
 
-        public GameObject VisitWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
+        public GameObject FromWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
         {
             var gameObject = new GameObject();
             var builder = rule.GetModelBuilder(way, _builders);

@@ -12,18 +12,18 @@ namespace Mercraft.Core.Zones
     {
         private readonly Tile _tile;
         private readonly Stylesheet _stylesheet;
-        private readonly IEnumerable<ISceneModelVisitor> _sceneModelVisitors;
+        private readonly IGameObjectBuilder _gameObjectBuilder;
 
         private readonly ITrace _trace;
 
         public Zone(Tile tile,
             Stylesheet stylesheet,
-            IEnumerable<ISceneModelVisitor> sceneModelVisitors,
+            IGameObjectBuilder gameObjectBuilder,
             ITrace trace)
         {
             _tile = tile;
             _stylesheet = stylesheet;
-            _sceneModelVisitors = sceneModelVisitors;
+            _gameObjectBuilder = gameObjectBuilder;
             _trace = trace;
         }
 
@@ -37,15 +37,9 @@ namespace Mercraft.Core.Zones
 
             var canvas = _tile.Scene.Canvas;
             var canvasRule = _stylesheet.GetRule(canvas);
-            GameObject canvasObject = null;
+            GameObject canvasObject =  
+                _gameObjectBuilder.FromCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
 
-            // visit canvas
-            foreach (var sceneModelVisitor in _sceneModelVisitors)
-            {
-                canvasObject = sceneModelVisitor.VisitCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
-                if (canvasObject != null)
-                    break;
-            }
 
             // TODO probably, we need to return built game object 
             // to be able to perform cleanup on our side
@@ -63,10 +57,7 @@ namespace Mercraft.Core.Zones
                 var rule = _stylesheet.GetRule(area);
                 if (rule != null)
                 {
-                    foreach (var sceneModelVisitor in _sceneModelVisitors)
-                    {
-                        sceneModelVisitor.VisitArea(_tile.RelativeNullPoint, parent, rule, area);
-                    }
+                   _gameObjectBuilder.FromArea(_tile.RelativeNullPoint, parent, rule, area);
                     loadedElementIds.Add(area.Id);
                 }
                 else
@@ -86,10 +77,7 @@ namespace Mercraft.Core.Zones
                 var rule = _stylesheet.GetRule(way);
                 if (rule != null)
                 {
-                    foreach (var sceneModelVisitor in _sceneModelVisitors)
-                    {
-                        sceneModelVisitor.VisitWay(_tile.RelativeNullPoint, parent, rule, way);
-                    }
+                     _gameObjectBuilder.FromWay(_tile.RelativeNullPoint, parent, rule, way);
                     loadedElementIds.Add(way.Id);
                 }
                 else
@@ -98,7 +86,5 @@ namespace Mercraft.Core.Zones
                 }
             }
         }
-
-
     }
 }

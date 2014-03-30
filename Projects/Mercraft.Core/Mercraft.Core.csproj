@@ -67,7 +67,7 @@
     <Compile Include="MapCss\Visitors\MapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitorBase.cs" />
     <Compile Include="MapCss\Visitors\SelectorMapCssVisitor.cs" />
-    <Compile Include="Scene\ISceneModelVisitor.cs" />
+    <Compile Include="Scene\IGameObjectBuilder.cs" />
     <Compile Include="Scene\Models\Area.cs" />
     <Compile Include="Scene\Models\Canvas.cs" />
     <Compile Include="Scene\Models\Model.cs" />

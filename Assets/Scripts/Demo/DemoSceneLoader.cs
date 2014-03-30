@@ -30,7 +30,7 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<ISceneModelVisitor>("canvas");
+            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
             var canvas = new Canvas()
             {
                 Tile = new Tile(
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Demo
             };
 
             var canvasRule = stylesheet.GetRule(canvas);
-            var canvasGameObject = canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+            var canvasGameObject = canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
 
 
 
@@ -162,7 +162,7 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<ISceneModelVisitor>("canvas");
+            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
             var canvas = new Canvas()
             {
                 Tile = new Tile(
@@ -173,13 +173,13 @@ namespace Assets.Scripts.Demo
             };
 
             var canvasRule = stylesheet.GetRule(canvas);
-            var canvasGameObject =  canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+            var canvasGameObject =  canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
 
-            var visitor = container.Resolve<ISceneModelVisitor>("solid");
+            var visitor = container.Resolve<IGameObjectBuilder>("solid");
             
             var rule = stylesheet.GetRule(b1);
 
-            visitor.VisitArea(center, canvasGameObject, rule, b1);
+            visitor.FromArea(center, canvasGameObject, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 

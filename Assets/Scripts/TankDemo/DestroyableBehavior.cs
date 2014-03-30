@@ -69,11 +69,5 @@ namespace Assets.Scripts.TankDemo
             Time.timeScale = 1.0f;
             Destroy(gameObject);
         }
-        
-        /*void OnMouseDown()
-        {
-            Debug.LogWarning("Destroy!");
-            StartCoroutine(SplitMesh());
-        }*/
     }
 }
