@@ -39,7 +39,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static IModelBehaviour GetModelBehaviour(this Rule rule, Model model, IEnumerable<IModelBehaviour> behaviours)
         {
-            var builderName = rule.Evaluate<string>(model, "behaviour");
+            var builderName = rule.EvaluateDefault<string>(model, "behaviour", null);
             if (builderName == null)
                 return null;
             return behaviours.Single(mb => mb.Name == builderName);
