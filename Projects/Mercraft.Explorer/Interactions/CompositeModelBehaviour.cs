@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
-namespace Mercraft.Core.Interactions
+namespace Mercraft.Explorer.Interactions
 {
-    public class CompositeBehaviour: IBehaviour, IConfigurable
+    public class CompositeModelBehaviour: IModelBehaviour, IConfigurable
     {
         private const string NameKey = "@name";
         private const string BehaviourKey = "scripts/include";
@@ -20,7 +19,6 @@ namespace Mercraft.Core.Interactions
         {
             foreach (var behaviour in _behaviours)
             {
-                Debug.Log("Try apply behaviour..");
                 gameObject.AddComponent(behaviour);
             }
         }

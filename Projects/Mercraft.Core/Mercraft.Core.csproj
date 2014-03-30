@@ -48,8 +48,6 @@
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
-    <Compile Include="Interactions\CompositeBehavior.cs" />
-    <Compile Include="Interactions\IBehaviour.cs" />
     <Compile Include="IPositionListener.cs" />
     <Compile Include="MapCss\Domain\Declaration.cs" />
     <Compile Include="MapCss\Domain\Rule.cs" />

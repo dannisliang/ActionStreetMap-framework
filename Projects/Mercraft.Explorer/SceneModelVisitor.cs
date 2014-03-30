@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
@@ -12,12 +14,15 @@ namespace Mercraft.Explorer
 {
     public class SceneModelVisitor: ISceneModelVisitor
     {
-        private readonly IEnumerable<IModelBuilder> _builders; 
+        private readonly IEnumerable<IModelBuilder> _builders;
+        private readonly IEnumerable<IModelBehaviour> _behaviours; 
 
         [Dependency]
-        public SceneModelVisitor(IEnumerable<IModelBuilder> builders)
+        public SceneModelVisitor(IEnumerable<IModelBuilder> builders, 
+            IEnumerable<IModelBehaviour> behaviours)
         {
             _builders = builders;
+            _behaviours = behaviours;
         }
 
         #region ISceneModelVisitor implementation
@@ -40,8 +45,6 @@ namespace Mercraft.Explorer
         public GameObject VisitArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
             var gameObject = new GameObject();
-            //var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, area, Color.yellow);
-           // builder.BuildArea(center, gameObject, rule, area);
 
             var meshFilter =  gameObject.AddComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
@@ -58,6 +61,8 @@ namespace Mercraft.Explorer
 
             collider.sharedMesh = meshFilter.mesh;
 
+            ApplyBehaviour(gameObject, rule, area);
+
             return gameObject;
         }
 
@@ -69,25 +74,19 @@ namespace Mercraft.Explorer
             
             gameObject.transform.parent = parent.transform;
 
-            //var builder = ProcessAndGetBuilder(gameObject, center, parent, rule, way, Color.red);
-            //builder.BuildWay(center, gameObject, rule, way);
+            ApplyBehaviour(gameObject, rule, way);
 
             return gameObject;
         }
 
         #endregion
 
-        /*private IModelBuilder ProcessAndGetBuilder(GameObject gameObject, GeoCoordinate center, GameObject parent, Rule rule, Model model, Color defaultColor)
+        private void ApplyBehaviour(GameObject target, Rule rule, Model model)
         {
-            gameObject.AddComponent<MeshFilter>();
-            gameObject.AddComponent<MeshRenderer>();
-            gameObject.AddComponent<MeshCollider>();
-            gameObject.renderer.material = rule.GetMaterial(model);
-            gameObject.renderer.material.color = rule.GetFillColor(model, defaultColor);
-            gameObject.transform.parent = parent.transform;
-
-            return rule.GetModelBuilder(model, _builders);
-        }*/
+            var behaviour = rule.GetModelBehaviour(model, _behaviours);
+            if(behaviour != null)
+                behaviour.Apply(target);
+        }
 
     }
 }

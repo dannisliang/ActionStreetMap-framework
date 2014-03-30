@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Interactions;
-using Mercraft.Core.MapCss;
+﻿using Mercraft.Core.MapCss;
 using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Bootstrap;
 
 
@@ -26,7 +26,7 @@ namespace Mercraft.Explorer.Bootstrappers
             // register behaviours
             foreach (var behaviourConfig in ConfigSection.GetSections(BehavioursKey))
             {
-                Configurator.RegisterNamedComponent<IBehaviour>(behaviourConfig);
+                Configurator.RegisterNamedComponent<IModelBehaviour>(behaviourConfig);
             }
 
             return true;
