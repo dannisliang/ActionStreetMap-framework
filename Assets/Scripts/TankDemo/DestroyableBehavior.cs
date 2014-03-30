@@ -3,8 +3,24 @@ using UnityEngine;
 
 namespace Assets.Scripts.TankDemo
 {
-    public class ExplodeBehavior: MonoBehaviour
+    public class DestroyableBehavior: MonoBehaviour
     {
+        // TODO health should depend on object properties
+        public float health = 200;
+
+        void OnCollisionEnter(Collision collision)
+        {
+            //Reduce health
+            if (collision.gameObject.tag == "Bullet")
+            {
+                health -= collision.gameObject.GetComponent<Bullet>().damage;
+                if (health <= 0)
+                {
+                    StartCoroutine(SplitMesh());
+                }
+            }
+        } 
+
         IEnumerator SplitMesh()
         {
             var mf = GetComponent<MeshFilter>();
@@ -54,10 +70,10 @@ namespace Assets.Scripts.TankDemo
             Destroy(gameObject);
         }
         
-        void OnMouseDown()
+        /*void OnMouseDown()
         {
             Debug.LogWarning("Destroy!");
             StartCoroutine(SplitMesh());
-        }
+        }*/
     }
 }

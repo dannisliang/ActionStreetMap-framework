@@ -5,7 +5,6 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Interactions;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers
