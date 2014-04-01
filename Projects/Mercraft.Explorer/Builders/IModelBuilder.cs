@@ -11,8 +11,8 @@ namespace Mercraft.Explorer.Builders
     public interface IModelBuilder
     {
         string Name { get; }
-        void BuildArea(GeoCoordinate center, GameObject gameObject,  Rule rule, Area area);
-        void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way);
+        GameObject BuildArea(GeoCoordinate center, Rule rule, Area area);
+        GameObject BuildWay(GeoCoordinate center,  Rule rule, Way way);
     }
 
     public class ModelBuilder: IModelBuilder, IConfigurable
@@ -23,14 +23,14 @@ namespace Mercraft.Explorer.Builders
         [Dependency]
         protected ITrace Trace { get; set; }
 
-        public virtual void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
+        public virtual GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
-            
+            return null;
         }
 
-        public virtual void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
+        public virtual GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
-
+            return null;
         }
 
         public virtual void Configure(IConfigSection configSection)

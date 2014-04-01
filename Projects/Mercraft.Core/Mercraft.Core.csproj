@@ -43,6 +43,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\CyrcleHelper.cs" />
     <Compile Include="Algorithms\Triangulator.cs" />
     <Compile Include="Algorithms\GeoProjection.cs" />
     <Compile Include="Algorithms\PolygonHelper.cs" />

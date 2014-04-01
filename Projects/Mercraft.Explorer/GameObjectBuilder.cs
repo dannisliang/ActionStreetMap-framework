@@ -44,9 +44,10 @@ namespace Mercraft.Explorer
 
         public GameObject FromArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
-            var gameObject = new GameObject();
+            var builder = rule.GetModelBuilder(area, _builders);
+            var gameObject = builder.BuildArea(center, rule, area);
 
-            var meshFilter =  gameObject.AddComponent<MeshFilter>();
+            var meshFilter =  gameObject.GetComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
 
             gameObject.renderer.material = rule.GetMaterial(area);
@@ -55,9 +56,6 @@ namespace Mercraft.Explorer
             gameObject.transform.parent = parent.transform;
 
             var collider = gameObject.AddComponent<MeshCollider>();
-
-            var builder = rule.GetModelBuilder(area, _builders);
-            builder.BuildArea(center, gameObject, rule, area);
 
             collider.sharedMesh = meshFilter.mesh;
 
@@ -68,9 +66,8 @@ namespace Mercraft.Explorer
 
         public GameObject FromWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
         {
-            var gameObject = new GameObject();
             var builder = rule.GetModelBuilder(way, _builders);
-            builder.BuildWay(center, gameObject, rule, way);
+            var gameObject = builder.BuildWay(center, rule, way);
             
             gameObject.transform.parent = parent.transform;
 

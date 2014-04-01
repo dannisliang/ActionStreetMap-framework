@@ -13,13 +13,14 @@ namespace Mercraft.Explorer.Builders
 {
     public class FlatModelBuilder : ModelBuilder
     {
-        public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
+        public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
+            GameObject gameObject = new GameObject();
             // TODO remove this assertion after handling this case above
             if (area.Points.Length < 3)
             {
                 Debug.LogError("Area contains less than 3 points: " + area);
-                return;
+                return null;
             }
 
             gameObject.name = String.Format("Flat {0}", area);
@@ -33,14 +34,17 @@ namespace Mercraft.Explorer.Builders
             mesh.uv = PolygonHelper.GetUV(verticies);
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 
-            var meshFilter = gameObject.GetComponent<MeshFilter>();
+            var meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh.Clear();
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();
+
+            return gameObject;
         }
 
-        public override void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
+        public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
+            GameObject gameObject = new GameObject();
             var zIndex = rule.GetZIndex(way);
 
             gameObject.name = String.Format("Flat {0}", way);
@@ -60,6 +64,8 @@ namespace Mercraft.Explorer.Builders
 
             var width = rule.GetWidth(way);
             lineRenderer.SetWidth(width, width);
+
+            return gameObject;
         }
     }
 }

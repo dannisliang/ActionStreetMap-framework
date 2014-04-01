@@ -52,5 +52,23 @@ namespace Mercraft.Maps.UnitTests.Osm
                 Assert.AreEqual(1453, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
         }
+
+        [Test]
+        public void CanGetTeleTower()
+        {
+            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
+            {
+                var dataSource = new PbfElementSource(stream);
+                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.520833, 13.409403), 50);
+
+                var scene = new MapScene();
+
+                var elementManager = new ElementManager();
+
+                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
+
+                SceneHelper.DumpScene(scene);
+            }
+        }
     }
 }

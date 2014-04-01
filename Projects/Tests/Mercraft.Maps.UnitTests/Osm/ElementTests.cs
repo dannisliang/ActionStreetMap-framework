@@ -151,6 +151,5 @@ namespace Mercraft.Maps.UnitTests.Osm
                 Assert.AreEqual(2, way.Nodes.Count(n => n.Id == nodeIdToBeResolved));*/
             }
         }
-
     }
 }

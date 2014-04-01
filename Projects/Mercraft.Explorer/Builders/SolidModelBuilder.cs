@@ -14,30 +14,35 @@ namespace Mercraft.Explorer.Builders
 {
     public class SolidModelBuilder : ModelBuilder
     {
-        public override void BuildArea(GeoCoordinate center, GameObject gameObject, Rule rule, Area area)
+        public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
+            GameObject gameObject = new GameObject();
             // TODO remove this assertion after handling this case above
             if (area.Points.Length < 3)
             {
                 Debug.LogError("Area contains less than 3 points: " + area);
-                return;
+                return null;
             }
 
             gameObject.name = String.Format("Solid {0}", area);
             BuildModel(center, gameObject, rule, area, area.Points.ToList());
+            return gameObject;
         }
 
-        public override void BuildWay(GeoCoordinate center, GameObject gameObject, Rule rule, Way way)
+        public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
+            GameObject gameObject = new GameObject();
             // TODO remove this assertion after handling this case above
             if (way.Points.Length < 3)
             {
                 Debug.LogError("Way contains less than 3 points: " + way);
-                return;
+                return null;
             }
 
             gameObject.name = String.Format("Solid {0}", way);
             BuildModel(center, gameObject, rule, way, way.Points.ToList());
+
+            return gameObject;
         }
 
         private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, Model model, IList<GeoCoordinate> coordinates)
@@ -64,7 +69,7 @@ namespace Mercraft.Explorer.Builders
             mesh.uv = PolygonHelper.GetUV(verticies);
             mesh.triangles = PolygonHelper.GetTriangles3D(verticies);
 
-            var meshFilter = gameObject.GetComponent<MeshFilter>();
+            var meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh.Clear();
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();

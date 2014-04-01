@@ -30,6 +30,11 @@ namespace Mercraft.Explorer.Helpers
             return rule.Evaluate<float>(model, "height");
         }
 
+        public static float GetMinHeight(this Rule rule, Model model, float defaultValue = 0)
+        {
+            return rule.EvaluateDefault<float>(model, "min_height", defaultValue);
+        }
+
         public static IModelBuilder GetModelBuilder(this Rule rule, Model model, IEnumerable<IModelBuilder> builders)
         {
             var builderName = rule.Evaluate<string>(model, "builder");
