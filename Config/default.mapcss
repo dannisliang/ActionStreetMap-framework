@@ -19,6 +19,7 @@ area[building=yes]										{ fill-color: #bca9a9;}
 area[building=tourism]									{ fill-color: #0066ff;}
 area[building=commercial] 								{ fill-color: #efc8c8;}
 area[building=garage] 									{ fill-color: #bca9a9;}
+area[building=apartments]								{ fill-color: #bca9a9;}
 
 area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
 area[building:color]										{ fill-color:eval(color(tag('building:color')));}
