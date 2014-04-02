@@ -12,6 +12,7 @@ namespace Mercraft.Core.Utilities
         #region Known color mapping
         private static Dictionary<string, Color32> knownColors = new Dictionary<string, Color32>()
         {
+            // from system.drawing known colors set
             {"activeborder", new Color32(180, 180, 180, 255)},
             {"activecaption", new Color32(153, 180, 209, 255)},
             {"activecaptiontext", new Color32(0, 0, 0, 255)},
@@ -186,6 +187,9 @@ namespace Mercraft.Core.Utilities
             {"gradientinactivecaption", new Color32(215, 228, 242, 255)},
             {"menubar", new Color32(240, 240, 240, 255)},
             {"menuhighlight", new Color32(51, 153, 255, 255)},
+
+            // custom
+            {"grey", new Color32(190, 190, 190, 255)}
         };
         #endregion
 
