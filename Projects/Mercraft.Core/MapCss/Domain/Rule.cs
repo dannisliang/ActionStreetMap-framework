@@ -48,7 +48,8 @@ namespace Mercraft.Core.MapCss.Domain
             var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
 
             if (declaration == null)
-                throw new ArgumentException("Declaration not found!", qualifier);
+                throw new ArgumentException(String.Format("Declaration '{0}' not found for '{1}'",
+                    qualifier, model), qualifier);
 
             if (declaration.IsEval)
             {

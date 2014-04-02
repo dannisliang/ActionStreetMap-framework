@@ -3,6 +3,8 @@ canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
 /* buildings */
 area[man_made=tower],
+area[building:levels],
+area[building:shape],
 area[building]											{ z-index: 0; builder: solid; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
 
 area[height]												{ height: eval(num(tag('height')));}
@@ -15,31 +17,31 @@ area[building=residential],
 area[building=yes]										{ fill-color: #bca9a9;}
 
 /* flat areas */
-area[amenity=kindergarten]
-area[amenity=grave_yard],
+area[amenity],
 area[tourism=attraction],
-area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000;}
+area[natural],
+area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000; material: Concrete_Patterned;}
 
-area[landuse=residential]								{ fill-color: #dddddd; material: Concrete_Patterned;}
+area[landuse=residential]								{ fill-color: #dddddd;}
 
 area[landuse=cemetery],
 area[landuse=grave_yard],
-area[amenity=grave_yard] 								{ fill-color: #aacbaf; material: Concrete_Patterned;}
+area[amenity=grave_yard] 								{ fill-color: #aacbaf;}
 
 area[landuse=farm],
-area[landuse=farmland] 									{ fill-color: #ead8bd; material: Concrete_Patterned;}
+area[landuse=farmland] 									{ fill-color: #ead8bd;}
 
-area[landuse=commercial]									{ fill-color: #7A96A3; material: Concrete_Patterned;}
+area[landuse=commercial]									{ fill-color: #7A96A3;}
 
 area[landuse=brownfield],
 area[landuse=landfill],
 area[landuse=greenfield],
-area[landuse=construction] 								{ fill-color: #9d9d6c; fill-opacity: 0.7; material: Concrete_Patterned;}
+area[landuse=construction] 								{ fill-color: #9d9d6c; fill-opacity: 0.7;}
 
-area[amenity=parking][parking=surface]					{ fill-color: #f7efb7; material: Concrete_Patterned;}
+area[amenity=parking][parking=surface]					{ fill-color: #f7efb7;}
 
 area[amenity],
-area[natural=beach]										{ fill-color: #22FF11; material: Concrete_Patterned;}
+area[natural=beach]										{ fill-color: #22FF11; }
 
 area[tourism=attraction]									{ fill-color: #f2caea; material: Concrete_Patterned;}
 
