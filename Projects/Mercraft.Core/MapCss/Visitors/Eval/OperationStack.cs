@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
+using UnityEngine;
 
 namespace Mercraft.Core.MapCss.Visitors.Eval
 {
@@ -33,6 +34,9 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                     break;
                 case "num":
                     PushToNum();
+                    break;
+                case "color":
+                    PushToColor();
                     break;
                 default:
                     throw new NotSupportedException(String.Format("Unary operation {0} is not supported", opName));
@@ -97,6 +101,11 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
             _expressions.Push(toFloat);
         }
 
+        private void PushToColor()
+        {
+            Expression<Func<string, Color32>> toColor = s => ColorUtility.FromUnknown(s);
+            _expressions.Push(toColor);
+        }
 
         #endregion
 

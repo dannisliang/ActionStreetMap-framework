@@ -16,6 +16,13 @@ area[building:shape=cylinder]							{ builder: cylinder;}
 area[building=residential], 	
 area[building=yes]										{ fill-color: #bca9a9;}
 
+area[building=tourism]									{ fill-color: #0066ff;}
+area[building=commercial] 								{ fill-color: #efc8c8;}
+area[building=garage] 									{ fill-color: #bca9a9;}
+
+area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
+area[building:color]										{ fill-color:eval(color(tag('building:color')));}
+
 /* flat areas */
 area[amenity],
 area[tourism=attraction],
@@ -32,6 +39,8 @@ area[landuse=farm],
 area[landuse=farmland] 									{ fill-color: #ead8bd;}
 
 area[landuse=commercial]									{ fill-color: #7A96A3;}
+
+area[landuse=retail] 									{ fill-color: #f1dada;	}
 
 area[landuse=brownfield],
 area[landuse=landfill],
@@ -64,6 +73,8 @@ area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
 area[landuse=meadow]										{ fill-color: #cfeca8;}
+
+area[leisure=recreation_ground]							{ fill-color: #b6fdb6; }
 
 area[landuse=industrial],		
 area[landuse=railway]									{ fill-color: #dfd1d6;}

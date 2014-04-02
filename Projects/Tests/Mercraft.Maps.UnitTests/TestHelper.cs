@@ -18,5 +18,6 @@ namespace Mercraft.Maps.UnitTests
         public const string TestBigPbfFilePath = @"..\..\..\..\Tests\TestAssets\berlin-latest.osm.pbf";
 
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\base.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\..\Config\default.mapcss";
     }
 }

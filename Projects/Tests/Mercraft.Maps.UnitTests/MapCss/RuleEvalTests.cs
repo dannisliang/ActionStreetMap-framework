@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Utilities;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Config;
@@ -60,7 +61,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.AreEqual("sphere", rule.Evaluate<string>(area, "builder"), "Unable to merge declarations!");
             Assert.AreEqual(100, rule.Evaluate<float>(area, "min_height"), "Unable to eval min_height from tag!");
-            Assert.AreEqual(new Color32(250, 128, 114, 1), rule.GetFillColor(area), "Unable to merge declarations!");
+            Assert.AreEqual(new Color32(250, 128, 114, 255), rule.GetFillColor(area), "Unable to merge declarations!");
             Assert.AreEqual("solid", rule.Evaluate<string>(area, "behaviour"), "First rule isn't applied!");
             Assert.AreEqual("Concrete_Patterned", rule.Evaluate<string>(area, "material"), "First rule isn't applied!");
             Assert.AreEqual(15, rule.Evaluate<float>(area, "height"), "Unable to eval height from building:levels!");
@@ -189,6 +190,26 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
             var rule = stylesheet.GetRule(buildingWithColorName);
             Assert.AreEqual(ColorUtility.FromName("salmon"), rule.GetFillColor(buildingWithColorName));         
+        }
+
+        [Test]
+        public void CanApplyColorByRGB()
+        {
+            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile);
+            var stylesheet = provider.Get();
+
+            var buildingWithColorCode = new Area()
+            {
+                Id = 1,
+                Points = new GeoCoordinate[0],
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","commercial"),
+                    new KeyValuePair<string, string>("building:color","#cfc6b5"),
+                }
+            };
+            var rule = stylesheet.GetRule(buildingWithColorCode);
+            Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"), rule.GetFillColor(buildingWithColorCode));
         }
 
 

@@ -47,7 +47,6 @@
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
-    <Compile Include="Helpers\ColorUtility.cs" />
     <Compile Include="Helpers\RuleExtensions.cs" />
     <Compile Include="IGameRunner.cs" />
     <Compile Include="Interactions\CompositeModelBehaviour.cs" />

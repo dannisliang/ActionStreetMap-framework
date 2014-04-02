@@ -24,7 +24,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         public T Walk<T>(Model model)
         {         
             // TODO this looks ugly
-            return (T) (object) new Color32(_r, _g, _b, 1);
+            return (T) (object) new Color32(_r, _g, _b, 255);
         }
     }
 }
