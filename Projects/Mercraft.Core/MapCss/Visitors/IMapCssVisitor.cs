@@ -8,7 +8,7 @@ namespace Mercraft.Core.MapCss.Visitors
     {
         Stylesheet Visit(CommonTree tree);
 
-        Rule VisitRule(CommonTree ruleTree);
+        Style VisitStyle(CommonTree ruleTree);
 
         Selector VisitSelector(CommonTree selectorTree, string selectorType);
 

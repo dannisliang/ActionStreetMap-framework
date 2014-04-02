@@ -62,7 +62,7 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                     var triangles = PolygonHelper.GetTriangles3D(verticies);
                 }
 
-                SceneHelper.DumpScene(scene);
+                //SceneHelper.DumpScene(scene);
             }
         }
     }

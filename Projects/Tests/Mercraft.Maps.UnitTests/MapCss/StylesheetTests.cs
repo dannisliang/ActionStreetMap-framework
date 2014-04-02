@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using Mercraft.Core;
+﻿using System.Linq;
 using Mercraft.Core.MapCss;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
 using NUnit.Framework;
+
 
 namespace Mercraft.Maps.UnitTests.MapCss
 {
@@ -17,7 +11,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanCreate()
         {
-            var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
             Assert.IsNotNull(stylesheet);
         }
@@ -25,102 +19,31 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanParse()
         {
-            var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
-            var stylesheet = provider.Get();
-            
-            Assert.AreEqual(20, stylesheet.Rules.Count);
-
-            Assert.AreEqual(1, stylesheet.Rules[1].Selectors.Count);
-            Assert.AreEqual(2, stylesheet.Rules[1].Declarations.Count);
-            
-            Assert.AreEqual("place", stylesheet.Rules[1].Selectors[0].Tag);
-            Assert.AreEqual("town", stylesheet.Rules[1].Selectors[0].Value);
-            Assert.AreEqual("=", stylesheet.Rules[1].Selectors[0].Operation);
-
-            Assert.AreEqual("building", stylesheet.Rules[3].Selectors[0].Tag);
-            Assert.AreEqual("OP_EXIST", stylesheet.Rules[3].Selectors[0].Operation);
-            
-            Assert.AreEqual(6, stylesheet.Rules[16].Selectors.Count);
-            Assert.AreEqual(6, stylesheet.Rules[16].Declarations.Count);
-        }
-
-        [Test]
-        public void CanParseOrSelectors()
-        {
-            var provider = new StylesheetProvider(TestHelper.OrMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var matchOne1 = new Area()
-            {
-                Id = 1,
-                Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("building","residential"),
-                }
-            };
+            Assert.AreEqual(9, stylesheet.Styles.Count);
 
-            var matchOne2 = new Area()
-            {
-                Id = 1,
-                Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("building","yes"),
-                    new KeyValuePair<string, string>("whatever","123"),
-                }
-            };
+            var testStyle1 = stylesheet.Styles[1];
 
-            var matchOne3 = new Area()
-            {
-                Id = 1,
-                Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("building","yes"),
-                    new KeyValuePair<string, string>("whatever",""),
-                }
-            };
+            Assert.AreEqual(2, testStyle1.Selectors.Count);
+            Assert.AreEqual(7, testStyle1.Declarations.Count);
 
-            var matchAll = new Area()
-            {
-                Id = 1,
-                Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("building","residential"),
-                    new KeyValuePair<string, string>("building","yes"),
-                    new KeyValuePair<string, string>("whatever","1"),
-                }
-            };
+            var testSelector1 = testStyle1.Selectors.First();
+            Assert.AreEqual("man_made", testSelector1.Tag);
+            Assert.AreEqual("tower", testSelector1.Value);
+            Assert.AreEqual("=", testSelector1.Operation);
 
+            var testSelector2 = testStyle1.Selectors.Last();
 
-            Assert.IsNotNull(stylesheet.GetRule(matchOne1));
-            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne1).Evaluate<string>(matchOne1, "build"));
+            Assert.AreEqual("building", testSelector2.Tag);
+            Assert.AreEqual("OP_EXIST", testSelector2.Operation);
 
-            Assert.IsNotNull(stylesheet.GetRule(matchOne2));
-            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne2).Evaluate<string>(matchOne2, "build"));
-
-            Assert.IsNotNull(stylesheet.GetRule(matchOne3));
-            Assert.AreEqual("polygon", stylesheet.GetRule(matchOne3).Evaluate<string>(matchOne3, "build"));
-
-            Assert.IsNotNull(stylesheet.GetRule(matchAll));
-            Assert.AreEqual("unknown", stylesheet.GetRule(matchAll).Evaluate<string>(matchAll, "build"));
-
+            var lastStyle = stylesheet.Styles[7];
+            Assert.AreEqual(2, lastStyle.Selectors.Count);
+            Assert.AreEqual(1, lastStyle.Declarations.Count);
         }
 
-        [Test]
-        public void CanParseClosed()
-        {
-            var provider = new StylesheetProvider(TestHelper.TestMapcssFile);
-            var stylesheet = provider.Get();
-
-            var closedRule = stylesheet.Rules[19];
-            Assert.AreEqual(2, closedRule.Selectors.Count);
-            Assert.AreEqual("someclosed", closedRule.Selectors[0].Tag);
-            Assert.AreEqual("OP_EXIST", closedRule.Selectors[0].Operation);
-            Assert.AreEqual(true, closedRule.Selectors[1].IsClosed);
-        }
-
+      
     }
 }

@@ -55,10 +55,12 @@ namespace Mercraft.Core.Zones
                     continue;
 
                 var rule = _stylesheet.GetRule(area);
-                if (rule != null)
+                if (rule.IsApplicable)
                 {
+                    _trace.Info(String.Format("Try to build.. {0}", area));
                    _gameObjectBuilder.FromArea(_tile.RelativeNullPoint, parent, rule, area);
                     loadedElementIds.Add(area.Id);
+                    _trace.Info(String.Format("Done.. {0}", area));
                 }
                 else
                 {
@@ -75,10 +77,12 @@ namespace Mercraft.Core.Zones
                     continue;
 
                 var rule = _stylesheet.GetRule(way);
-                if (rule != null)
+                if (rule.IsApplicable)
                 {
+                    _trace.Info(String.Format("Try to build way.. {0}", way));
                      _gameObjectBuilder.FromWay(_tile.RelativeNullPoint, parent, rule, way);
                     loadedElementIds.Add(way.Id);
+                    _trace.Info(String.Format("Done.. {0}", way));
                 }
                 else
                 {

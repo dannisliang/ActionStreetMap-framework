@@ -11,7 +11,7 @@ namespace Mercraft.Core.MapCss.Visitors
             return null;
         }
 
-        public virtual Rule VisitRule(CommonTree ruleTree)
+        public virtual Style VisitStyle(CommonTree ruleTree)
         {
             return null;
         }

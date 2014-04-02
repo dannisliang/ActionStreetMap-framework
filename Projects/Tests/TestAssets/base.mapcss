@@ -1,0 +1,17 @@
+/* Most strict rule should be first */
+canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
+
+/* buildings */
+area[man_made=tower],
+area[building]											{ z-index: 0; builder: solid; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
+
+area[height]												{ height: eval(num(tag('height')));}
+area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
+area[min_height]											{ min_height: eval(num(tag('min_height')));}
+area[building:shape=sphere]								{ builder: sphere;}
+/*area[building:shape=cylinder]							{ builder: cylinder;}*/
+
+area[building=residential], 	
+area[building=yes]										{ fill-color: #bca9a9;}
+
+way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}

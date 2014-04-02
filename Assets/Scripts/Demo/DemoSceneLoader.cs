@@ -154,8 +154,17 @@ namespace Assets.Scripts.Demo
                     new GeoCoordinate(52.5208635, 13.409208),
                     new GeoCoordinate(52.5208862, 13.4092245),
                     new GeoCoordinate(52.5209077, 13.4092488),
+                },
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("/building:shape","sphere"),
+                    new KeyValuePair<string, string>("height","237"),
+                    new KeyValuePair<string, string>("min_height","205"),
+                    new KeyValuePair<string, string>("building","tower"),
                 }
             };
+
+            //building:shape:sphere,ele:40,height:237,man_made:tower,min_height:205
 
             //GenerateSphere(sphereArea);
 
@@ -205,7 +214,34 @@ namespace Assets.Scripts.Demo
 
         private static void GenerateSphere(Area area)
         {
-            var minHeight = 205;
+            Container container = new Container();
+            var center = new GeoCoordinate(52.529814, 13.388015);
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+
+            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
+            var canvas = new Canvas()
+            {
+                Tile = new Tile(
+                    null,
+                    new GeoCoordinate(52.529814, 13.388015),
+                    new Vector2(0, 0),
+                    50)
+            };
+
+            var canvasRule = stylesheet.GetRule(canvas);
+            var canvasGameObject = canvasVisitor.FromCanvas(new GeoCoordinate(52.520833, 13.409403), null, canvasRule, canvas);
+
+            var visitor = container.Resolve<IGameObjectBuilder>("sphere");
+
+            var rule = stylesheet.GetRule(area);
+
+            visitor.FromArea(center, canvasGameObject, rule, area);
+
+            Debug.Log("Generate Single Building: Done");          
+
+
+           /* var minHeight = 205;
             var height = 237;
 
             var center = new GeoCoordinate(52.520833, 13.409403);
@@ -226,22 +262,24 @@ namespace Assets.Scripts.Demo
 
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
-            sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter / 2, sphereCenter.y);
+            sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter / 2, sphereCenter.y);*/
         }
 
         private static void GenerateCylinder(Area area)
         {
-            var minHeight = 256;
-            var height = 374;
+            var minHeight = 0;
+            var height = 205;
             var center = new GeoCoordinate(52.520833, 13.409403);
 
             var circle = CircleHelper.GetCircle(center, area.Points);
             var diameter = circle.Item1;
             var cylinderCenter = circle.Item2;
 
+            var actualHeight = (height - minHeight)/2;
+
             var cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            cylinder.transform.localScale = new Vector3(diameter, height - minHeight, diameter);
-            cylinder.transform.position = new Vector3(cylinderCenter.x, minHeight, cylinderCenter.y);
+            cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);
+            cylinder.transform.position = new Vector3(cylinderCenter.x, actualHeight, cylinderCenter.y);
 
             /*var actualHeight = height - minHeight;
 
@@ -253,6 +291,54 @@ namespace Assets.Scripts.Demo
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             sphere.transform.localScale = new Vector3(diameter, actualHeight, diameter);
             sphere.transform.position = new Vector3(0, minHeight, 0);*/
+        }
+
+        [MenuItem("OSM/GGG")]
+        static void BuildGGG()
+        {
+            var area = new Area()
+            {
+                Id = 1,
+                Points = new GeoCoordinate[]
+                {
+                    new GeoCoordinate(52.5212186,13.4096926),
+			        new GeoCoordinate(52.5210184,13.4097473),
+			        new GeoCoordinate(52.5209891,13.4097538),
+			        new GeoCoordinate(52.5209766,13.4098037),
+                    new GeoCoordinate(52.5212186,13.4096926),
+                },
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","roof"),
+                    new KeyValuePair<string, string>("building:part","yes"),
+                    new KeyValuePair<string, string>("level","1"),
+                }
+            };
+
+            Container container = new Container();
+            var center = new GeoCoordinate(52.529814, 13.388015);
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+
+            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
+            var canvas = new Canvas()
+            {
+                Tile = new Tile(
+                    null,
+                    new GeoCoordinate(52.529814, 13.388015),
+                    new Vector2(0, 0),
+                    50)
+            };
+
+            var canvasRule = stylesheet.GetRule(canvas);
+            var canvasGameObject = canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+
+            var visitor = container.Resolve<IGameObjectBuilder>();
+
+            var rule = stylesheet.GetRule(area);
+
+            visitor.FromArea(center, canvasGameObject, rule, area);
+
         }
 
         [MenuItem("OSM/Generate Single Building")]

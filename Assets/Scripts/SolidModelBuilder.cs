@@ -1,16 +1,15 @@
-﻿
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Builders
+namespace Assets.Scripts
 {
     public class SolidModelBuilder : ModelBuilder
     {
@@ -47,7 +46,17 @@ namespace Mercraft.Explorer.Builders
 
         private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, Model model, IList<GeoCoordinate> coordinates)
         {
-            var height = rule.GetHeight(model);
+            var height = 10f;//rule.GetHeight(model);
+            try
+            {
+                height = rule.GetHeight(model);
+            }
+            catch(Exception ex)
+            {
+                Trace.Error("Unable to get height:" + model, ex);
+                throw;
+            }
+
 
             var floor = rule.GetZIndex(model);
             var top = floor + height;

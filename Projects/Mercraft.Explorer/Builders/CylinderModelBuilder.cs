@@ -33,9 +33,11 @@ namespace Mercraft.Explorer.Builders
             var diameter = circle.Item1;
             var cylinderCenter = circle.Item2;
 
+            var actualHeight = (height - minHeight) / 2;
+
             var cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            cylinder.transform.localScale = new Vector3(diameter, height - minHeight, diameter);
-            cylinder.transform.position = new Vector3(cylinderCenter.x, minHeight, cylinderCenter.y);
+            cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);
+            cylinder.transform.position = new Vector3(cylinderCenter.x, minHeight + actualHeight, cylinderCenter.y);
 
             return cylinder;
         }

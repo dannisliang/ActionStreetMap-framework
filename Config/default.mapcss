@@ -1,83 +1,92 @@
 /* Most strict rule should be first */
-canvas	 															{ z-index: 0; material: Terrain; background-color: #f1eee8;}
+canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
-/*area[height]															{ z-index: 0; builder: sphere; material: Concrete_Patterned; behaviour: solid;}*/
-area[building:shape=sphere]											{ z-index: 0; builder: sphere; material: Concrete_Patterned; behaviour: solid;}
-area[building:shape=cylinder]										{ z-index: 0; builder: cylinder; material: Concrete_Patterned; behaviour: solid;}
+/* buildings */
+area[man_made=tower],
+area[building]											{ z-index: 0; builder: solid; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
 
-area[building][height]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('height'))); behaviour: solid;}
-area[building:levels]												{ z-index: 0; builder: solid; material: Concrete_Patterned; height: eval(num(tag('building:levels')) * num(3)); }
+area[height]												{ height: eval(num(tag('height')));}
+area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
+area[min_height]											{ min_height: eval(num(tag('min_height')));}
+area[building:shape=sphere]								{ builder: sphere;}
+area[building:shape=cylinder]							{ builder: cylinder;}
 
 area[building=residential], 	
-area[building=yes]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 12; fill-color: #bca9a9; behaviour: solid;}
-
-/* general building. default height value is found in opensciencemap source code */
-area[building],
-area[man_made=tower]													{ z-index: 0; builder: solid; material: Concrete_Patterned; height: 12; fill-color: #9AB396; behaviour: solid }
-
+area[building=yes]										{ fill-color: #bca9a9;}
 
 /* flat areas */
-area[landuse=residential]											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #dddddd; }
+area[amenity=kindergarten]
+area[amenity=grave_yard],
+area[tourism=attraction],
+area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000;}
 
+area[landuse=residential]								{ fill-color: #dddddd; material: Concrete_Patterned;}
 
 area[landuse=cemetery],
 area[landuse=grave_yard],
-area[amenity=grave_yard] 											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #aacbaf; }
+area[amenity=grave_yard] 								{ fill-color: #aacbaf; material: Concrete_Patterned;}
 
 area[landuse=farm],
-area[landuse=farmland] 												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #ead8bd; }
+area[landuse=farmland] 									{ fill-color: #ead8bd; material: Concrete_Patterned;}
 
-
-area[landuse=commercial]												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #7A96A3; }
+area[landuse=commercial]									{ fill-color: #7A96A3; material: Concrete_Patterned;}
 
 area[landuse=brownfield],
 area[landuse=landfill],
 area[landuse=greenfield],
-area[landuse=construction] 											{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #9d9d6c; fill-opacity: 0.7; }
+area[landuse=construction] 								{ fill-color: #9d9d6c; fill-opacity: 0.7; material: Concrete_Patterned;}
 
-area[landuse=forest] 												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #8dc56c; }
-
-area[amenity=parking][parking=surface]								{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f7efb7; }
+area[amenity=parking][parking=surface]					{ fill-color: #f7efb7; material: Concrete_Patterned;}
 
 area[amenity],
-area[natural=beach]													{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #22FF11;}
+area[natural=beach]										{ fill-color: #22FF11; material: Concrete_Patterned;}
 
-area[tourism=attraction]												{ z-index: 0.1; builder: flat; material: Concrete_Patterned; fill-color: #f2caea;}
+area[tourism=attraction]									{ fill-color: #f2caea; material: Concrete_Patterned;}
+
 
 /* green zones */
+area[landuse=forest], 												
 area[leisure],
 area[landuse=village_green],
-area[amenity=kindergarten]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #22FF11;}
+area[amenity=kindergarten],											
+area[landuse=grass],
+area[landuse=meadow],													
+area[landuse=industrial],		
+area[landuse=railway]									{ z-index: 0.1; builder: flat; material: Grass;}
+
+area[landuse=forest] 									{ fill-color: #8dc56c; }
+
+area[leisure],
+area[landuse=village_green],
+area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #cfeca8;}
+area[landuse=meadow]										{ fill-color: #cfeca8;}
 
 area[landuse=industrial],		
-area[landuse=railway]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #dfd1d6;}
+area[landuse=railway]									{ fill-color: #dfd1d6;}
 
 /* water */
 area[waterway],
 area[natural=water],
-area[landuse=basin]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #5429FF;}
+area[landuse=basin]										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #5429FF;}
 
-way[barrier] :closed													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
 
 /* roads */
+way[highway]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
+
 way[highway=tertiary],
 way[highway=residential],
 way[highway=unclassified],
-way[highway=road]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #bbbbbb; width:16; }
-way[highway=living_street]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #000000; width:14.5; }
-way[highway=motorway]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #506077; width:13; }
-way[highway=trunk]													{ z-index: 0.1; builder: flat; material: Grass; fill-color: #477147; width:16; }
-way[highway=primary]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #8d4346; width:16; }
-way[highway=secondary]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #a37b48; width:16; }
+way[highway=road]										{ fill-color: #bbbbbb; width:16; }
+way[highway=living_street]								{ fill-color: #000000; width:14.5; }
+way[highway=motorway]									{ fill-color: #506077; width:13; }
+way[highway=trunk]										{ fill-color: #477147; width:16; }
+way[highway=primary]									{ fill-color: #8d4346; width:16; }
+way[highway=secondary]									{ fill-color: #a37b48; width:16; }
 
 way[highway=footway],
-way[highway=path][foot=designated]									{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FA8072; width:3.5; }
+way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 
-way[highway=service]												{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FFFFFF; width:3; }
-
-
-/* NOTE: set red color to find non-processed selectors */
-way[highway]														{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
+way[highway=service]									{ fill-color: #FFFFFF; width:3; }

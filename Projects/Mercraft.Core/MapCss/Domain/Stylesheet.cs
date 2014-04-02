@@ -10,16 +10,45 @@ namespace Mercraft.Core.MapCss.Domain
         /// <summary>
         /// Holds a list of all MapCSS rules.
         /// </summary>
-        public IList<Rule> Rules { get; set; }
+        public IList<Style> Styles { get; set; }
 
         public Stylesheet()
         {
-            Rules = new List<Rule>();
+            Styles = new List<Style>();
         }
 
         public Rule GetRule(Model model)
         {
-            return Rules.FirstOrDefault(r => r.IsApplicable(model));
+            return Styles.Aggregate(new Rule(), (r, s) => MergeDeclarations(s, r, model));
+        }
+
+        private Rule MergeDeclarations(Style style, Rule rule, Model model)
+        {
+            if (!style.IsApplicable(model)) 
+                return rule;
+
+            foreach (var ruleDeclarations in style.Declarations)
+            {
+                var declaration = rule.Declarations.SingleOrDefault(d => d.Qualifier == ruleDeclarations.Qualifier);
+                if (declaration!= null)
+                {
+                    declaration.Value = ruleDeclarations.Value;
+                    declaration.Evaluator = ruleDeclarations.Evaluator;
+                    declaration.IsEval = ruleDeclarations.IsEval;
+                }
+                else
+                {
+                    // Should copy Declaration
+                    rule.Declarations.Add(new Declaration()
+                    {
+                        Qualifier = ruleDeclarations.Qualifier,
+                        Value = ruleDeclarations.Value,
+                        Evaluator = ruleDeclarations.Evaluator,
+                        IsEval = ruleDeclarations.IsEval
+                    });
+                }
+            }
+            return rule;
         }
     }
 }

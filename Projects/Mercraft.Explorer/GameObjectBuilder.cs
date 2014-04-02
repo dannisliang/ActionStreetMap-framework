@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
@@ -46,6 +47,7 @@ namespace Mercraft.Explorer
         {
             var builder = rule.GetModelBuilder(area, _builders);
             var gameObject = builder.BuildArea(center, rule, area);
+            gameObject.name = String.Format("{0} {1}", builder.Name, area);
 
             var meshFilter =  gameObject.GetComponent<MeshFilter>();
             gameObject.AddComponent<MeshRenderer>();
@@ -68,7 +70,7 @@ namespace Mercraft.Explorer
         {
             var builder = rule.GetModelBuilder(way, _builders);
             var gameObject = builder.BuildWay(center, rule, way);
-            
+            gameObject.name = String.Format("{0} {1}", builder.Name, way);
             gameObject.transform.parent = parent.transform;
 
             ApplyBehaviour(gameObject, rule, way);

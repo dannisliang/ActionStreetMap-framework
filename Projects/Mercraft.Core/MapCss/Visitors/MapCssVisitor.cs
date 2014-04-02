@@ -31,17 +31,17 @@ namespace Mercraft.Core.MapCss.Visitors
             {
                 if (child.Text == "RULE")
                 {
-                   var rule = VisitRule(child);
-                   stylesheet.Rules.Add(rule);
+                    var rule = VisitStyle(child);
+                   stylesheet.Styles.Add(rule);
                 }
             }
 
             return stylesheet;
         }
 
-        public Rule VisitRule(CommonTree ruleTree)
+        public Style VisitStyle(CommonTree ruleTree)
         {
-            var rule = new Rule();
+            var style = new Style();
             for (int i = 0; i < ruleTree.Children.Count; i++)
             {
                 var tree = ruleTree.Children[i] as CommonTree;
@@ -57,18 +57,18 @@ namespace Mercraft.Core.MapCss.Visitors
                         while (tree.ChildCount > selectorIdx)
                         {
                             var selectorTree = tree.Children[selectorIdx] as CommonTree;
-                            rule.Selectors.Add(VisitSelector(selectorTree, selectorType));
+                            style.Selectors.Add(VisitSelector(selectorTree, selectorType));
                             selectorIdx++;
                         }
                     }
                     else
                     {
-                         rule.Selectors.Add(new CanvasSelector());
+                         style.Selectors.Add(new CanvasSelector());
                     }
                 }
                 else
                 {
-                    rule.MatchAll = i == 1;
+                    style.MatchAll = i == 1;
                     
                     // declarations
                     if (tree != null && tree.Text == "{")
@@ -78,13 +78,13 @@ namespace Mercraft.Core.MapCss.Visitors
                         {
                             var declarationTree = tree.Children[declarationSelectorIdx] as CommonTree;
 
-                            rule.Declarations.Add(VisitDeclaration(declarationTree));
+                            style.Declarations.Add(VisitDeclaration(declarationTree));
                             declarationSelectorIdx++;
                         }
                     }
                 }
             }
-            return rule;
+            return style;
         }
 
 

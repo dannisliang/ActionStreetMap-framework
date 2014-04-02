@@ -14,7 +14,6 @@ namespace Mercraft.Explorer.Builders
     {
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
-            //var height = rule.GetHeight(area);
             var minHeight = rule.GetMinHeight(area);
             return BuildSphere(center, area.Points, minHeight);
         }
@@ -33,6 +32,7 @@ namespace Mercraft.Explorer.Builders
             var sphereCenter = circle.Item2;
 
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
             sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter / 2, sphereCenter.y);
 
