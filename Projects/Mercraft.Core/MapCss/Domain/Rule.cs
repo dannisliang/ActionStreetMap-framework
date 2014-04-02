@@ -44,6 +44,11 @@ namespace Mercraft.Core.MapCss.Domain
 
         public T Evaluate<T>(Model model, string qualifier)
         {
+            return Evaluate(model, qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
+        }
+
+        public T Evaluate<T>(Model model, string qualifier, Func<string, T> converter)
+        {
             Assert();
             var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
 
@@ -56,7 +61,7 @@ namespace Mercraft.Core.MapCss.Domain
                 return declaration.Evaluator.Walk<T>(model);
             }
 
-            return (T)Convert.ChangeType(declaration.Value, typeof(T));
+            return converter(declaration.Value);
         }
 
         private void Assert()

@@ -49,9 +49,9 @@ namespace Mercraft.Explorer.Helpers
             return behaviours.Single(mb => mb.Name == builderName);
         }
 
-        public static Color32 GetFillColor(this Rule rule, Model model, Color32 defaulColor)
+        public static Color32 GetFillColor(this Rule rule, Model model)
         {
-            return rule.EvaluateDefault(model, "fill-color", defaulColor);        
+            return rule.Evaluate<Color32>(model, "fill-color", ColorUtility.FromName);        
         }
 
         /// <summary>

@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Visitors;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -36,7 +27,6 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var material = rule.Evaluate<string>(canvas, "material");
 
             Assert.AreEqual("Terrain", material);
-
         }
 
         [Test]
@@ -70,7 +60,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.AreEqual("sphere", rule.Evaluate<string>(area, "builder"), "Unable to merge declarations!");
             Assert.AreEqual(100, rule.Evaluate<float>(area, "min_height"), "Unable to eval min_height from tag!");
-            Assert.AreEqual(new Color32(188, 169, 169, 1), rule.Evaluate<Color32>(area, "fill-color"), "Unable to merge declarations!");
+            Assert.AreEqual(new Color32(250, 128, 114, 1), rule.GetFillColor(area), "Unable to merge declarations!");
             Assert.AreEqual("solid", rule.Evaluate<string>(area, "behaviour"), "First rule isn't applied!");
             Assert.AreEqual("Concrete_Patterned", rule.Evaluate<string>(area, "material"), "First rule isn't applied!");
             Assert.AreEqual(15, rule.Evaluate<float>(area, "height"), "Unable to eval height from building:levels!");
@@ -78,54 +68,45 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
 
         [Test]
-        public void CanGGGG()
+        public void CanProcessSequence()
         {
-
-            Area area1 = null;
-            Area area2 = null;
-            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
+            var testPoints = new GeoCoordinate[]
             {
-                var dataSource = new PbfElementSource(stream);
-
-                var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(52.520833, 13.409403), 100);
-
-                var scene = new MapScene();
-
-                var elementManager = new ElementManager();
-
-                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
-
-                foreach (var a in scene.Areas)
+                new GeoCoordinate(0, 0),
+                new GeoCoordinate(0, 0),
+                new GeoCoordinate(0, 0),
+            };
+            var area1 = new Area()
+            {
+                Tags = new Collection<KeyValuePair<string, string>>()
                 {
-                    if (a.Id == 19046101)
-                    {
-                        area1 = a;
-                    }
+                    new KeyValuePair<string, string>("building", "tower"),
+                    new KeyValuePair<string, string>("building:material", "metal"),
+                    new KeyValuePair<string, string>("building:part", "yes"),
+                    new KeyValuePair<string, string>("height", "237"),
+                    new KeyValuePair<string, string>("min_height", "205"),
+                },
+                Points = testPoints
+            };
+            var area2 = new Area()
+            {
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building", "roof"),
+                    new KeyValuePair<string, string>("building:part", "yes"),
+                    new KeyValuePair<string, string>("level", "1"),
+                },
+                Points = testPoints
+            };
 
-                    if (a.Id == 26037206)
-                    {
-                        area2 = a;
-                    }
-
-                    if(area1 != null && area2 != null)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            Container container = new Container();
-            var center = new GeoCoordinate(52.529814, 13.388015);
+            var container = new Container();
             var componentRoot = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var rule1 = stylesheet.GetRule(area1);
             var rule2 = stylesheet.GetRule(area2);
-
-
-           Assert.AreEqual(12f, rule2.GetHeight(area2));
-
-
+            Assert.AreEqual(237, rule1.GetHeight(area1));
+            Assert.AreEqual(12f, rule2.GetHeight(area2));
         }
 
         [Test]
@@ -173,12 +154,31 @@ namespace Mercraft.Maps.UnitTests.MapCss
         }
 
         [Test]
-        public void CanGetColor()
+        public void CanGetColorByRGB()
         {
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var park = new Area()
+            var buildingWithColorCode = new Area()
+            {
+                Id = 1,
+                Points = new GeoCoordinate[0],
+                Tags = new Collection<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("building","commercial"),
+                }
+            };
+            var rule = stylesheet.GetRule(buildingWithColorCode);
+            Assert.AreEqual(ColorUtility.FromName("red"), rule.GetFillColor(buildingWithColorCode));
+        }
+
+        [Test]
+        public void CanGetColorByName()
+        {
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var stylesheet = provider.Get();
+
+            var buildingWithColorName = new Area()
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
@@ -187,9 +187,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
                     new KeyValuePair<string, string>("building","yes"),
                 }
             };
-            var rule = stylesheet.GetRule(park);
-
-            Assert.AreEqual(new Color32(188, 169, 169, 1), rule.GetFillColor(park, Color.green));
+            var rule = stylesheet.GetRule(buildingWithColorName);
+            Assert.AreEqual(ColorUtility.FromName("salmon"), rule.GetFillColor(buildingWithColorName));         
         }
 
 

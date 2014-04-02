@@ -37,7 +37,7 @@ namespace Mercraft.Core.Zones
 
             var canvas = _tile.Scene.Canvas;
             var canvasRule = _stylesheet.GetRule(canvas);
-            GameObject canvasObject =  
+            GameObject canvasObject =
                 _gameObjectBuilder.FromCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
 
 
@@ -57,10 +57,8 @@ namespace Mercraft.Core.Zones
                 var rule = _stylesheet.GetRule(area);
                 if (rule.IsApplicable)
                 {
-                    _trace.Info(String.Format("Try to build.. {0}", area));
-                   _gameObjectBuilder.FromArea(_tile.RelativeNullPoint, parent, rule, area);
+                    _gameObjectBuilder.FromArea(_tile.RelativeNullPoint, parent, rule, area);
                     loadedElementIds.Add(area.Id);
-                    _trace.Info(String.Format("Done.. {0}", area));
                 }
                 else
                 {
@@ -79,10 +77,8 @@ namespace Mercraft.Core.Zones
                 var rule = _stylesheet.GetRule(way);
                 if (rule.IsApplicable)
                 {
-                    _trace.Info(String.Format("Try to build way.. {0}", way));
-                     _gameObjectBuilder.FromWay(_tile.RelativeNullPoint, parent, rule, way);
+                    _gameObjectBuilder.FromWay(_tile.RelativeNullPoint, parent, rule, way);
                     loadedElementIds.Add(way.Id);
-                    _trace.Info(String.Format("Done.. {0}", way));
                 }
                 else
                 {

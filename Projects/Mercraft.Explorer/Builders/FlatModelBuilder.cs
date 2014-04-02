@@ -53,7 +53,7 @@ namespace Mercraft.Explorer.Builders
 
             var lineRenderer = gameObject.AddComponent<LineRenderer>();
             lineRenderer.material = rule.GetMaterial(way);
-            lineRenderer.material.color = rule.GetFillColor(way, Color.red);
+            lineRenderer.material.color = rule.GetFillColor(way);
             lineRenderer.SetVertexCount(points.Length);
 
 

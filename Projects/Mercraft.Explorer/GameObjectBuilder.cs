@@ -53,7 +53,7 @@ namespace Mercraft.Explorer
             gameObject.AddComponent<MeshRenderer>();
 
             gameObject.renderer.material = rule.GetMaterial(area);
-            gameObject.renderer.material.color = rule.GetFillColor(area, Color.yellow);
+            gameObject.renderer.material.color = rule.GetFillColor(area);
             
             gameObject.transform.parent = parent.transform;
 

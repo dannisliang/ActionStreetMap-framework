@@ -12,6 +12,6 @@ area[building:shape=sphere]								{ builder: sphere;}
 /*area[building:shape=cylinder]							{ builder: cylinder;}*/
 
 area[building=residential], 	
-area[building=yes]										{ fill-color: #bca9a9;}
+area[building=yes]										{ fill-color: Salmon;}
 
 way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
