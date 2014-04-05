@@ -30,7 +30,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
-                Assert.AreEqual(1174, scene.Ways.Count());
+                Assert.AreEqual(1172, scene.Ways.Count());
             }
         }
     }

@@ -54,6 +54,8 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             foreach (var node in way.Nodes)
             {
+                if (node.Tags == null)
+                    continue;
                 foreach (var tag in node.Tags)
                 {
                     if (IsMergeTag(tag) && way.Tags.All(t => t.Key != tag.Key))
