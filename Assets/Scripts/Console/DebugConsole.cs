@@ -24,7 +24,6 @@ using System.Text.RegularExpressions;
 using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Console.Watchers;
-using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Assets.Scripts.Console
@@ -147,17 +146,17 @@ namespace Assets.Scripts.Console
 
         private void RegisterTerminalCommands()
         {
-            CommandManager.RegisterCommandCallback("close", new Command("closes console", _ =>
+            CommandManager.Register("close", new Command("closes console", _ =>
             {
                 IsOpen = false;
                 return "opened";
             }));
-            CommandManager.RegisterCommandCallback("clear", new Command("clears console", _ =>
+            CommandManager.Register("clear", new Command("clears console", _ =>
             {
                 ClearLog();
                 return "clear";
             }));
-            CommandManager.RegisterCommandCallback("filter", new Command("filter console items", args =>
+            CommandManager.Register("filter", new Command("filter console items", args =>
             {
                 const string enabledStr = "-e:";
                 const string disabledStr = "-d";
@@ -181,7 +180,7 @@ namespace Assets.Scripts.Console
                 return "";
             }));
 
-            CommandManager.RegisterCommandCallback("grep", new GrepCommand(_messages));
+            CommandManager.Register("grep", new GrepCommand(_messages));
         }
 
         [Conditional("DEBUG_CONSOLE"),

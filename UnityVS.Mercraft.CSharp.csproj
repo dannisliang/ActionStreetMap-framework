@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CharacterBehavior.cs" />
+    <Compile Include="Assets\Scripts\Console\Commands\SceneCommand.cs" />
     <Compile Include="Assets\Scripts\Console\Grep\Arguments.cs" />
     <Compile Include="Assets\Scripts\Console\Commands\CommandManager.cs" />
     <Compile Include="Assets\Scripts\Console\Commands\GrepCommand.cs" />

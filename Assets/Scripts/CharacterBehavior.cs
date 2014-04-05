@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Assets.Scripts.Console;
+using Assets.Scripts.Console.Commands;
 using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Dependencies;
@@ -11,26 +12,25 @@ namespace Assets.Scripts
 {
     public class CharacterBehavior : MonoBehaviour
     {
-        public float delta = 1;
+        public float delta = 10;
+        private const string configPath = @"Config\app.config";
         private GameRunner component;
         private Vector2 position2D;
         private ITrace _trace;
 
         // Use this for initialization
-        void Start ()
+        private void Start()
         {
             // create and register DebugConsole inside Container
-            var consoleGameObject = new GameObject("_DebugConsole_");
-            var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
             var container = new Container();
-            container.RegisterInstance(debugConsole);
+            InitializeConsole(container);
 
-	        component = new GameRunner(container, @"Config\app.config");
+            component = new GameRunner(container, configPath);
             _trace = container.Resolve<ITrace>();
-            //component.RunGame(new GeoCoordinate(52.531036, 13.384866)); // Invlidenstr. 117
-            //52.529814, 13.388015));
+            component.RunGame(new GeoCoordinate(52.531036, 13.384866));
+            
         }
-	
+
         // Update is called once per frame
         void Update () {
             if (Math.Abs(transform.position.x - position2D.x) > delta
@@ -38,8 +38,16 @@ namespace Assets.Scripts
             {
                 _trace.Normal("position change:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
-               //component.OnMapPositionChanged(position2D);
+               component.OnMapPositionChanged(position2D);
             }
+        }
+
+        private void InitializeConsole(IContainer container)
+        {
+            var consoleGameObject = new GameObject("_DebugConsole_");
+            var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
+            container.RegisterInstance(debugConsole);
+            debugConsole.CommandManager.Register("scene", new SceneCommand(container));
         }
     }
 }

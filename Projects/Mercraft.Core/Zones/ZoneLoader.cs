@@ -16,12 +16,14 @@ namespace Mercraft.Core.Zones
         protected readonly TileProvider TileProvider;
         protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly IGameObjectBuilder SceneModelVisitor;
-
-        protected Vector2 CurrentPosition { get; set; }
+       
         protected float Offset { get; set; }
-        protected GeoCoordinate RelativeNullPoint { get; set; }
 
         protected readonly HashSet<long> LoadedModelIds;
+
+        public GeoCoordinate RelativeNullPoint { get; private set; }
+        public Vector2 CurrentPosition { get; private set; }
+        public Zone CurrentZone { get; private set; }
 
         protected Dictionary<Tile, Zone> Zones { get; set; }
 
@@ -46,13 +48,17 @@ namespace Mercraft.Core.Zones
         {
             var tile = TileProvider.GetTile(position, RelativeNullPoint);
 
-            if(Zones.ContainsKey(tile))
+            if (Zones.ContainsKey(tile))
+            {
+                CurrentZone = Zones[tile];
                 return;
+            }
 
             // Build zone
             var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitor, Trace);
             zone.Build(LoadedModelIds);
-            Zones.Add(tile, zone);           
+            Zones.Add(tile, zone);
+            CurrentZone = zone;
         }
 
         public virtual void OnGeoPositionChanged(GeoCoordinate position)

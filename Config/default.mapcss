@@ -5,6 +5,7 @@ canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 area[man_made=tower],
 area[building:levels],
 area[building:shape],
+way[addr:housename],
 area[building]											{ z-index: 0; builder: solid; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
 
 area[height]												{ height: eval(num(tag('height')));}

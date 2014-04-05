@@ -7,14 +7,12 @@ namespace Assets.Scripts.Console.Commands
     {
         private Dictionary<string, ICommand> _cmdTable = new Dictionary<string, ICommand>();
 
-        public void RegisterCommandCallback(string commandString, ICommand command)
+        public void Register(string commandString, ICommand command)
         {
-#if !UNITY_FLASH
             _cmdTable[commandString.ToLower()] = command;
-#endif
         }
 
-        public void UnRegisterCommandCallback(string commandString)
+        public void Unregister(string commandString)
         {
             _cmdTable.Remove(commandString.ToLower());
         }
@@ -42,27 +40,23 @@ namespace Assets.Scripts.Console.Commands
 
         public void RegisterDefaults()
         {
-            RegisterCommandCallback("sys", new SysCommand());
-            RegisterCommandCallback("/?", new Command("prints help", CmdHelp));
+            Register("/?", new Command("prints help", CmdHelp));
+            Register("sys", new SysCommand());
         }
 
         private string CmdHelp(params string[] args)
         {
             var output = new StringBuilder();
-
             output.AppendLine(":: Command List ::");
 
-            foreach (string key in CommandNames)
+            foreach (string name in CommandNames)
             {
-                output.AppendLine(key);
+                var command = _cmdTable[name];
+                output.AppendFormat("{0}: {1}", name, command.Description);
             }
 
             output.AppendLine(" ");
-
             return output.ToString();
-        }
-
-    
-
+        } 
     }
 }

@@ -5,14 +5,11 @@ namespace Assets.Scripts.Console.Grep
 {
     public class Arguments
     {
-        // Variables
-        //Using HybridDictionary instead of the originally StringDictionary
         private readonly HybridDictionary _parameters;
 
         // Constructor
         public Arguments(string[] args)
         {
-            //Parameters=new StringDictionary();
             _parameters = new HybridDictionary();
             Regex spliter = new Regex(@"^-{1,2}|^/|=|:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             Regex remover = new Regex(@"^['""]?(.*?)['""]?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);

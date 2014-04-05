@@ -10,19 +10,19 @@ namespace Mercraft.Core.Zones
 {
     public class Zone
     {
-        private readonly Tile _tile;
-        private readonly Stylesheet _stylesheet;
         private readonly IGameObjectBuilder _gameObjectBuilder;
-
         private readonly ITrace _trace;
+
+        public Tile Tile { get; private set; }
+        public Stylesheet Stylesheet { get; private set; }
 
         public Zone(Tile tile,
             Stylesheet stylesheet,
             IGameObjectBuilder gameObjectBuilder,
             ITrace trace)
         {
-            _tile = tile;
-            _stylesheet = stylesheet;
+            Tile = tile;
+            Stylesheet = stylesheet;
             _gameObjectBuilder = gameObjectBuilder;
             _trace = trace;
         }
@@ -35,10 +35,10 @@ namespace Mercraft.Core.Zones
         {
             // TODO refactor this logic
 
-            var canvas = _tile.Scene.Canvas;
-            var canvasRule = _stylesheet.GetRule(canvas);
+            var canvas = Tile.Scene.Canvas;
+            var canvasRule = Stylesheet.GetRule(canvas);
             GameObject canvasObject =
-                _gameObjectBuilder.FromCanvas(_tile.RelativeNullPoint, null, canvasRule, canvas);
+                _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, null, canvasRule, canvas);
 
 
             // TODO probably, we need to return built game object 
@@ -49,15 +49,15 @@ namespace Mercraft.Core.Zones
 
         private void BuildAreas(GameObject parent, HashSet<long> loadedElementIds)
         {
-            foreach (var area in _tile.Scene.Areas)
+            foreach (var area in Tile.Scene.Areas)
             {
                 if (loadedElementIds.Contains(area.Id))
                     continue;
 
-                var rule = _stylesheet.GetRule(area);
+                var rule = Stylesheet.GetRule(area);
                 if (rule.IsApplicable)
                 {
-                    _gameObjectBuilder.FromArea(_tile.RelativeNullPoint, parent, rule, area);
+                    _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, parent, rule, area);
                     loadedElementIds.Add(area.Id);
                 }
                 else
@@ -69,15 +69,15 @@ namespace Mercraft.Core.Zones
 
         private void BuildWays(GameObject parent, HashSet<long> loadedElementIds)
         {
-            foreach (var way in _tile.Scene.Ways)
+            foreach (var way in Tile.Scene.Ways)
             {
                 if (loadedElementIds.Contains(way.Id))
                     continue;
 
-                var rule = _stylesheet.GetRule(way);
+                var rule = Stylesheet.GetRule(way);
                 if (rule.IsApplicable)
                 {
-                    _gameObjectBuilder.FromWay(_tile.RelativeNullPoint, parent, rule, way);
+                    _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, parent, rule, way);
                     loadedElementIds.Add(way.Id);
                 }
                 else
