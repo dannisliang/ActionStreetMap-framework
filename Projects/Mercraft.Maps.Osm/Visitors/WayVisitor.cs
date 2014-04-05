@@ -23,6 +23,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
             if (!IsArea(way.Tags))
             {
+                MergeTags(way);
                 Scene.AddWay(new Core.Scene.Models.Way()
                 {
                     Id = way.Id,
@@ -35,6 +36,7 @@ namespace Mercraft.Maps.Osm.Visitors
                 return;
             }
 
+            MergeTags(way);
             var area = new Area()
             {
                 Id = way.Id,
@@ -46,6 +48,25 @@ namespace Mercraft.Maps.Osm.Visitors
             };
 
             Scene.AddArea(area);
+        }
+
+        private void MergeTags(Way way)
+        {
+            foreach (var node in way.Nodes)
+            {
+                foreach (var tag in node.Tags)
+                {
+                    if (IsMergeTag(tag) && way.Tags.All(t => t.Key != tag.Key))
+                    {
+                        way.Tags.Add(new Tag(tag.Key, tag.Value));
+                    }
+                }
+            }
+        }
+
+        private bool IsMergeTag(Tag tag)
+        {
+            return tag.Key.StartsWith("addr:");
         }
 
         private bool IsArea(ICollection<Tag> tags)

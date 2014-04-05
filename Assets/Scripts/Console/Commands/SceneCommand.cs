@@ -34,10 +34,10 @@ namespace Assets.Scripts.Console.Commands
 
                 if (arguments["f"] != null)
                     FindModel(tile.Scene, long.Parse((string)arguments["f"]), response);
-                else if (arguments["a"] != null)
+                else if (arguments["d"] != null)
                 {
                     var tileSize = int.Parse((string)arguments["a"]);
-                    FindAround(_container.Resolve<ISceneBuilder>(), currentGeoPosition, tileSize, response);
+                    DumpScene(_container.Resolve<ISceneBuilder>(), currentGeoPosition, tileSize, response);
                 }
                 else if(arguments["i"] != null)
                     GeneralInfo(zoneLoader, currentGeoPosition, response);
@@ -62,6 +62,10 @@ namespace Assets.Scripts.Console.Commands
                 if (area.Id == id)
                 {
                     response.AppendFormat("Found area: {0}\n", area);
+                    foreach (var point in area.Points)
+                    {
+                        response.AppendLine(point.ToString());
+                    }
                     return;
                 }
             }
@@ -71,6 +75,10 @@ namespace Assets.Scripts.Console.Commands
                 if (way.Id == id)
                 {
                     response.AppendFormat("Found way: {0}\n", way);
+                    foreach (var point in way.Points)
+                    {
+                        response.AppendLine(point.ToString());
+                    }
                     return;
                 }
             }
@@ -78,7 +86,7 @@ namespace Assets.Scripts.Console.Commands
             response.AppendFormat("Item not found: {0}", id);
         }
 
-        private void FindAround(ISceneBuilder sceneBuilder, GeoCoordinate coordinate, int size, StringBuilder response)
+        private void DumpScene(ISceneBuilder sceneBuilder, GeoCoordinate coordinate, int size, StringBuilder response)
         {
             var bbox = BoundingBox.CreateBoundingBox(coordinate, size / 2);
             var scene = sceneBuilder.Build(bbox);
@@ -109,7 +117,7 @@ namespace Assets.Scripts.Console.Commands
             response.AppendLine("Usage: scene [/f|/a|/i]");
             response.AppendLine("       scene [/i]");
             response.AppendLine("       scene [/f:<id>]");
-            response.AppendLine("       scene [/a:<size>]");
+            response.AppendLine("       scene [/d:<size>]");
         }
     }
 }

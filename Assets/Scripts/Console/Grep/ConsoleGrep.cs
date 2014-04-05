@@ -34,31 +34,35 @@ namespace Assets.Scripts.Console.Grep
             while (enumerator.MoveNext())
             {
                 var strLine = enumerator.Current.Text;
+                var lines = strLine.Split('\n');
+                foreach (var text in lines)
+                {
                     iLine++;
                     //Using Regular Expressions as a real Grep
                     Match mtch;
                     if (IgnoreCase == true)
-                        mtch = Regex.Match(strLine, RegEx, RegexOptions.IgnoreCase);
+                        mtch = Regex.Match(text, RegEx, RegexOptions.IgnoreCase);
                     else
-                        mtch = Regex.Match(strLine, RegEx);
+                        mtch = Regex.Match(text, RegEx);
                     if (mtch.Success == true)
                     {
                         bEmpty = false;
                         iCount++;
                         //Add the Line to Results string
                         if (LineNumbers)
-                            strResults += "  " + iLine + ": " + strLine + "\r\n";
+                            strResults += "  " + iLine + ": " + text + "\r\n";
                         else
-                            strResults += "  " + strLine + "\r\n";
+                            strResults += "  " + text + "\r\n";
                     }
-                }
+                }               
+            }
 
-                if (CountLines == true)
-                    strResults += "  " + iCount + " Lines Matched\r\n";
-                strResults += "\r\n";
-            
+            if (CountLines == true)
+                strResults += "  " + iCount + " Lines Matched\r\n";
+            strResults += "\r\n";
+
             _response.AppendLine(bEmpty == true ? "No matches found!" : strResults);
-       }
+        }
 
         //Print Help
         public void PrintHelp()

@@ -49,7 +49,6 @@ namespace Mercraft.Explorer.Builders
 
         private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, Model model, IList<GeoCoordinate> coordinates)
         {
-            Debug.Log(String.Format("Solid: building '{0}'..", model.Id));
             var height = rule.GetHeight(model);
 
             var floor = rule.GetZIndex(model);

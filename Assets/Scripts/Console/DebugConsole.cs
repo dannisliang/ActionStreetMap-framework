@@ -396,15 +396,19 @@ namespace Assets.Scripts.Console
 
                 foreach (ConsoleMessage m in _messages)
                 {
-                    GUI.contentColor = m.Color;
-                    guiContent.text = m.Text;
-                    messageLine.height = labelStyle.CalcHeight(guiContent, messageLine.width);
+                    foreach (var line in m.Text.Split('\n'))
+                    {
+                        GUI.contentColor = m.Color;
+                        guiContent.text = line;
+                        messageLine.height = labelStyle.CalcHeight(guiContent, messageLine.width);
 
-                    GUI.Label(messageLine, guiContent);
+                        GUI.Label(messageLine, guiContent);
 
-                    messageLine.y += (messageLine.height + lineOffset);
+                        messageLine.y += (messageLine.height + lineOffset);
 
-                    innerHeight = messageLine.y > scrollRect.height ? (int) messageLine.y : (int) scrollRect.height;
+                        innerHeight = messageLine.y > scrollRect.height ? (int)messageLine.y : (int)scrollRect.height;
+                    }
+                
                 }
                 GUI.contentColor = oldColor;
             }
