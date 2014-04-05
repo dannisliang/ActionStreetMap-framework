@@ -172,26 +172,35 @@ namespace Assets.Scripts.Demo
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
-            var b1 = new Area()
+            var b1 = new Way()
             {
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
-                  new KeyValuePair<string, string>("building", "residential"),
-                  new KeyValuePair<string, string>("building:levels", "10")  
+                  new KeyValuePair<string, string>("addr:housename", "Nokia"),
                 },
                 Points = new GeoCoordinate[]
                 {
-			        new GeoCoordinate(52.5295083,13.3889532),
-			        new GeoCoordinate(52.5294599,13.3887466),
-			        new GeoCoordinate(52.5293253,13.3888356),
-			        new GeoCoordinate(52.529354,13.3889638),
-			        new GeoCoordinate(52.5292772,13.3890143),
-			        new GeoCoordinate(52.529244,13.3888741),
-			        new GeoCoordinate(52.5291502,13.3889361),
-			        new GeoCoordinate(52.5291819,13.389071),
-			        new GeoCoordinate(52.5291244,13.3891088),
-			        new GeoCoordinate(52.5291505,13.3891865),
-			        new GeoCoordinate(52.5295083,13.3889532),
+			        new GeoCoordinate(52.5304687,13.3848508),
+                    new GeoCoordinate(52.5305881,13.3847611),
+                    new GeoCoordinate(52.5306392,13.3849447),
+                    new GeoCoordinate(52.5307996,13.3848242),
+                    new GeoCoordinate(52.5307398,13.3846088),
+                    new GeoCoordinate(52.5308306,13.3845405),
+                    new GeoCoordinate(52.530897,13.3847792),
+                    new GeoCoordinate(52.5309027,13.3847749),
+                    new GeoCoordinate(52.5310071,13.3851909),
+                    new GeoCoordinate(52.5310004,13.3851959),
+                    new GeoCoordinate(52.5310746,13.3854629),
+                    new GeoCoordinate(52.5309697,13.3855417),
+                    new GeoCoordinate(52.5309201,13.3853632),
+                    new GeoCoordinate(52.5307745,13.3854726),
+                    new GeoCoordinate(52.5308213,13.3856409),
+                    new GeoCoordinate(52.5307138,13.3857216),
+                    new GeoCoordinate(52.5306414,13.3854611),
+                    new GeoCoordinate(52.5306531,13.3854523),
+                    new GeoCoordinate(52.5305942,13.3852405),
+                    new GeoCoordinate(52.53058,13.3852511),
+                    new GeoCoordinate(52.5304687,13.3848508),
                 }
             };
 
@@ -218,7 +227,7 @@ namespace Assets.Scripts.Demo
             
             var rule = stylesheet.GetRule(b1);
 
-            visitor.FromArea(center, canvasGameObject, rule, b1);
+            visitor.FromWay(center, canvasGameObject, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 

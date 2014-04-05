@@ -13,7 +13,7 @@ namespace Assets.Scripts.Console.Commands
     public class SceneCommand: ICommand
     {
         private readonly IContainer _container;
-        public string Description { get { return "Scene details"; } }
+        public string Description { get { return "scene details"; } }
 
         public SceneCommand(IContainer container)
         {
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Console.Commands
                     FindModel(tile.Scene, long.Parse((string)arguments["f"]), response);
                 else if (arguments["d"] != null)
                 {
-                    var tileSize = int.Parse((string)arguments["a"]);
+                    var tileSize = int.Parse((string)arguments["d"]);
                     DumpScene(_container.Resolve<ISceneBuilder>(), currentGeoPosition, tileSize, response);
                 }
                 else if(arguments["i"] != null)
@@ -59,28 +59,24 @@ namespace Assets.Scripts.Console.Commands
         {
             foreach (var area in scene.Areas)
             {
-                if (area.Id == id)
+                if (area.Id != id) continue;
+                response.AppendFormat("Found area: {0}\n", area);
+                foreach (var point in area.Points)
                 {
-                    response.AppendFormat("Found area: {0}\n", area);
-                    foreach (var point in area.Points)
-                    {
-                        response.AppendLine(point.ToString());
-                    }
-                    return;
+                    response.AppendLine(point.ToString());
                 }
+                return;
             }
 
             foreach (var way in scene.Ways)
             {
-                if (way.Id == id)
+                if (way.Id != id) continue;
+                response.AppendFormat("Found way: {0}\n", way);
+                foreach (var point in way.Points)
                 {
-                    response.AppendFormat("Found way: {0}\n", way);
-                    foreach (var point in way.Points)
-                    {
-                        response.AppendLine(point.ToString());
-                    }
-                    return;
+                    response.AppendLine(point.ToString());
                 }
+                return;
             }
 
             response.AppendFormat("Item not found: {0}", id);

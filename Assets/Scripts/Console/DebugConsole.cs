@@ -136,7 +136,7 @@ namespace Assets.Scripts.Console
             _windowRect = new Rect(30.0f, 30.0f, 300.0f, 450.0f);
 #endif
 
-            LogMessage(ConsoleMessage.System(string.Format(" Mercraft engine, version {0}", Version)));
+            LogMessage(ConsoleMessage.System(string.Format(" Mercraft Engine, version {0}", Version)));
             LogMessage(ConsoleMessage.System(" type '/?' for available commands."));
             LogMessage(ConsoleMessage.System(""));
 

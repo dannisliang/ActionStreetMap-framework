@@ -90,7 +90,11 @@ namespace Mercraft.Maps.Osm.Visitors
                     (tags.ContainsKey("waterway") && !tags.IsFalse("waterway")) ||
                     (tags.ContainsKey("wetland") && !tags.IsFalse("wetland")) ||
                     (tags.ContainsKey("water") && !tags.IsFalse("water")) ||
-                    (tags.ContainsKey("aeroway") && !tags.IsFalse("aeroway")));
+                    (tags.ContainsKey("aeroway") && !tags.IsFalse("aeroway")) ||
+
+                    (tags.ContainsKey("addr:housenumber") && !tags.IsFalse("addr:housenumber")) ||
+                     (tags.ContainsKey("addr:housename") && !tags.IsFalse("addr:housename"))
+                    );
         }
     }
 }

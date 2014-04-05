@@ -52,7 +52,7 @@ namespace Assets.Scripts.Console.Commands
             foreach (string name in CommandNames)
             {
                 var command = _cmdTable[name];
-                output.AppendFormat("{0}: {1}", name, command.Description);
+                output.AppendFormat("{0}: {1}\n", name, command.Description);
             }
 
             output.AppendLine(" ");
