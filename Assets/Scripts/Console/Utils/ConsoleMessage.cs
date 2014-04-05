@@ -17,12 +17,12 @@ namespace Assets.Scripts.Console.Utils
             Color = color;
         }
 
-        public static Color DefaultColor = Color.white;
-        public static Color WarningColor = Color.yellow;
-        public static Color ErrorColor = Color.red;
-        public static Color SystemColor = Color.green;
-        public static Color InputColor = Color.green;
-        public static Color OutputColor = Color.cyan;
+        private static Color DefaultColor = Color.white;
+        private static Color WarningColor = Color.yellow;
+        private static Color ErrorColor = Color.red;
+        private static Color SystemColor = Color.green;
+        private static Color InputColor = Color.green;
+        private static Color OutputColor = Color.cyan;
 
         public static ConsoleMessage Normal(string message)
         {

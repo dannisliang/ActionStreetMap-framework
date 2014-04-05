@@ -20,6 +20,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Console.Watchers;
@@ -101,6 +102,7 @@ namespace Assets.Scripts.Console
 
         private List<ConsoleMessage> _messages = new List<ConsoleMessage>();
         private History _history = new History();
+        private Regex _regex = null;
 
         public DebugConsole()
         {
@@ -140,6 +142,11 @@ namespace Assets.Scripts.Console
             LogMessage(ConsoleMessage.System(""));
 
             CommandManager.RegisterDefaults();
+            RegisterTerminalCommands();
+        }
+
+        private void RegisterTerminalCommands()
+        {
             CommandManager.RegisterCommandCallback("close", new Command("closes console", _ =>
             {
                 IsOpen = false;
@@ -150,10 +157,28 @@ namespace Assets.Scripts.Console
                 ClearLog();
                 return "clear";
             }));
-            CommandManager.RegisterCommandCallback("filter", new Command("clears console", args =>
+            CommandManager.RegisterCommandCallback("filter", new Command("filter console items", args =>
             {
-                ClearLog();
-                return "clear";
+                const string enabledStr = "-e:";
+                const string disabledStr = "-d";
+
+                if (args.Length == 2)
+                {
+                    var value = args[1].Trim();
+                    if (value.StartsWith(enabledStr))
+                    {
+                        var regexStr = value.Substring(enabledStr.Length);
+                        _regex = new Regex(regexStr, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        return "filter enabled";
+                    }
+                    if (value.StartsWith(disabledStr))
+                    {
+                        _regex = null;
+                        return "filter disabled";
+                    }
+                }
+                LogMessage(ConsoleMessage.Output("Wrong syntax: \n\tfilter -e:<regex> \n\tfilter -d"));
+                return "";
             }));
 
             CommandManager.RegisterCommandCallback("grep", new GrepCommand(_messages));
@@ -504,6 +529,11 @@ namespace Assets.Scripts.Console
 
         public void LogMessage(ConsoleMessage msg)
         {
+            if (_regex != null && !_regex.IsMatch(msg.Text))
+            {
+                return;
+            }
+
             _messages.Add(msg);
             dirty = true;
         }
