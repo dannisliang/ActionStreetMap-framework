@@ -36,7 +36,7 @@ namespace Assets.Scripts
             if (Math.Abs(transform.position.x - position2D.x) > delta
                 || Math.Abs(transform.position.z - position2D.y) > delta)
             {
-                _trace.Normal("position change detect:" + transform.position);
+                _trace.Normal("position change:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
                //component.OnMapPositionChanged(position2D);
             }

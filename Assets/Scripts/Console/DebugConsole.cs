@@ -35,24 +35,8 @@ namespace Assets.Scripts.Console
         private const string Version = "0.1";
         private const string EntryField = "DebugConsoleEntryField";
 
-        private VarWatcher _varWatcher = new VarWatcher();
-        private CommandManager _commandManager = new CommandManager();
-
-        public VarWatcher Watcher
-        {
-            get
-            {
-                return _varWatcher;
-            }
-        }
-
-        public CommandManager CommandManager
-        {
-            get
-            {
-                return _commandManager;
-            }
-        }
+        public VarWatcher Watcher { get; private set; }
+        public CommandManager CommandManager { get; private set; }
 
         /// <summary>
         /// How many lines of text this console will display.
@@ -62,18 +46,12 @@ namespace Assets.Scripts.Console
         /// <summary>
         /// Used to check (or toggle) the open state of the console.
         /// </summary>
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-            set { _isOpen = value; }
-        }
+        public bool IsOpen { get; set; }
 
         /// <summary>
         /// Key to press to toggle the visibility of the console.
         /// </summary>
         public static KeyCode toggleKey = KeyCode.BackQuote;
-
-
 
         private string _inputString = string.Empty;
         private Rect _windowRect;
@@ -94,7 +72,6 @@ namespace Assets.Scripts.Console
         private Vector3 _guiScale = Vector3.one;
         private Matrix4x4 restoreMatrix = Matrix4x4.identity;
         private bool _scaled = false;
-        private bool _isOpen;
         private StringBuilder _displayString = new StringBuilder();
         private FPSCounter fps;
         private bool dirty;
@@ -124,6 +101,12 @@ namespace Assets.Scripts.Console
 
         private List<ConsoleMessage> _messages = new List<ConsoleMessage>();
         private History _history = new History();
+
+        public DebugConsole()
+        {
+            Watcher = new VarWatcher();
+            CommandManager = new CommandManager();
+        }
 
         private void OnEnable()
         {
@@ -156,24 +139,24 @@ namespace Assets.Scripts.Console
             LogMessage(ConsoleMessage.System(" type '/?' for available commands."));
             LogMessage(ConsoleMessage.System(""));
 
-            _commandManager.RegisterDefaults();
-            _commandManager.RegisterCommandCallback("close", new Command("closes console", _ =>
+            CommandManager.RegisterDefaults();
+            CommandManager.RegisterCommandCallback("close", new Command("closes console", _ =>
             {
-                _isOpen = false;
+                IsOpen = false;
                 return "opened";
             }));
-            _commandManager.RegisterCommandCallback("clear", new Command("clears console", _ =>
+            CommandManager.RegisterCommandCallback("clear", new Command("clears console", _ =>
             {
                 ClearLog();
                 return "clear";
             }));
-            _commandManager.RegisterCommandCallback("filter", new Command("clears console", args =>
+            CommandManager.RegisterCommandCallback("filter", new Command("clears console", args =>
             {
                 ClearLog();
                 return "clear";
             }));
 
-            _commandManager.RegisterCommandCallback("grep", new GrepCommand(_messages));
+            CommandManager.RegisterCommandCallback("grep", new GrepCommand(_messages));
         }
 
         [Conditional("DEBUG_CONSOLE"),
@@ -197,7 +180,7 @@ namespace Assets.Scripts.Console
 #if (!MOBILE && DEBUG) || UNITY_EDITOR
             // Toggle key shows the console in non-iOS dev builds
             if (evt.keyCode == toggleKey && evt.type == EventType.KeyUp)
-                _isOpen = !_isOpen;
+                IsOpen = !IsOpen;
 #endif
 #if MOBILE
     if (Input.touchCount == 1) {
@@ -271,7 +254,7 @@ namespace Assets.Scripts.Console
       dragging = false;
     }
 #endif
-            if (!_isOpen)
+            if (!IsOpen)
             {
                 return;
             }
@@ -468,7 +451,7 @@ namespace Assets.Scripts.Console
 
             var textAreaStyle = GUI.skin.textArea;
 
-            foreach (var kvp in _varWatcher.GetVariables)
+            foreach (var kvp in Watcher.GetVariables)
             {
                 var nameContent = new GUIContent(string.Format("{0}:", kvp.Name));
                 var valContent = new GUIContent(kvp.ToString());
@@ -550,9 +533,9 @@ namespace Assets.Scripts.Console
             input = input.ConvertAll<string>(low => low.ToLower());
             var cmd = input[0];
 
-            if (_commandManager.Contains(cmd))
+            if (CommandManager.Contains(cmd))
             {
-                LogMessage(ConsoleMessage.Output(_commandManager[cmd].Execute(input.ToArray())));
+                LogMessage(ConsoleMessage.Output(CommandManager[cmd].Execute(input.ToArray())));
             }
             else
             {
