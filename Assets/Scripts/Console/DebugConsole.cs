@@ -23,6 +23,7 @@ using System.Text;
 using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Console.Watchers;
+using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Assets.Scripts.Console
@@ -156,16 +157,23 @@ namespace Assets.Scripts.Console
             LogMessage(ConsoleMessage.System(""));
 
             _commandManager.RegisterDefaults();
-            _commandManager.RegisterCommandCallback("close", new Command(_ =>
+            _commandManager.RegisterCommandCallback("close", new Command("closes console", _ =>
             {
                 _isOpen = false;
                 return "opened";
             }));
-            _commandManager.RegisterCommandCallback("clear", new Command(_ =>
+            _commandManager.RegisterCommandCallback("clear", new Command("clears console", _ =>
             {
                 ClearLog();
                 return "clear";
             }));
+            _commandManager.RegisterCommandCallback("filter", new Command("clears console", args =>
+            {
+                ClearLog();
+                return "clear";
+            }));
+
+            _commandManager.RegisterCommandCallback("grep", new GrepCommand(_messages));
         }
 
         [Conditional("DEBUG_CONSOLE"),

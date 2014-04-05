@@ -5,6 +5,14 @@ namespace Assets.Scripts.Console.Commands
 {
     public class SysCommand : ICommand
     {
+        public string Description
+        {
+            get
+            {
+                return "gets system environment info";
+            }
+        }
+
         public string Execute(params string[] args)
         {
             var info = new StringBuilder();

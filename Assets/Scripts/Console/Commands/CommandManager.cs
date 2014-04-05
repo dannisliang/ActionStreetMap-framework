@@ -43,7 +43,7 @@ namespace Assets.Scripts.Console.Commands
         public void RegisterDefaults()
         {
             RegisterCommandCallback("sys", new SysCommand());
-            RegisterCommandCallback("/?", new Command(CmdHelp));
+            RegisterCommandCallback("/?", new Command("prints help", CmdHelp));
         }
 
         private string CmdHelp(params string[] args)
