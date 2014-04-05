@@ -38,7 +38,12 @@ namespace Mercraft.Explorer
         {
         }
 
-        public GameRunner(Container container, ConfigSettings configSettings)
+        public GameRunner(IContainer container, string configPath)
+            : this(container, new ConfigSettings(configPath))
+        {
+        }
+
+        public GameRunner(IContainer container, ConfigSettings configSettings)
         {
             _container = container;
             _config = configSettings;

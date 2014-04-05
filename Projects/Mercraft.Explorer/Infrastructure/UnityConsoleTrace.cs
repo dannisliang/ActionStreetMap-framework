@@ -6,29 +6,21 @@ namespace Mercraft.Explorer.Infrastructure
 {
     public class UnityConsoleTrace: DefaultTrace
     {
-        protected override void WriteRecord(RecordType type, TraceRecord record)
+        protected override void WriteRecord(RecordType type, string category, string message, Exception exception)
         {
             switch (type)
             {
-                case RecordType.Fatal:
-                    Debug.LogException(record.Exception);
-                    break;
                 case RecordType.Error:
-                    Debug.LogError(ConvertRecord(record));
+                    Debug.LogException(exception);
                     break;
-                case RecordType.Info:
-                    Debug.Log(ConvertRecord(record));
+                case RecordType.Warning:
+                    Debug.LogWarning(String.Format("{0}:{1}", category, message));
                     break;
-                case RecordType.Warn:
-                    Debug.LogWarning(ConvertRecord(record));
+                default:
+                    Debug.Log(String.Format("{0}:{1}", category, message));
                     break;
             }
         }
 
-        private string ConvertRecord(TraceRecord record)
-        {
-            var category = record.Category ?? "";
-            return String.Format("{0}:{1}", category, record.Message);
-        }
     }
 }

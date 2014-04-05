@@ -7,103 +7,79 @@ namespace Mercraft.Infrastructure.Diagnostic
     /// </summary>
     public class DefaultTrace : ITrace
     {
-       
-        #region ITrace members
-        public void Info(string message)
+        #region ITrace implementation
+
+        public void Dispose()
         {
-            this.WriteRecord(RecordType.Info, new TraceRecord() { Message = message });
+            throw new NotImplementedException();
         }
 
-        public void Info(string category, string message)
+        public int Level { get; set; }
+        public void Normal(string message)
         {
-            this.WriteRecord(RecordType.Info, new TraceRecord() { Category = category, Message = message });
+            WriteRecord(RecordType.Normal, "", message, null);
         }
 
-        public void Info(TraceRecord record)
+        public void Normal(string category, string message)
         {
-            this.WriteRecord(RecordType.Info, record);
+            WriteRecord(RecordType.Normal, category, message, null);
+        }
+
+        public void Output(string message)
+        {
+            WriteRecord(RecordType.Output, "", message, null);
+        }
+
+        public void Output(string category, string message)
+        {
+            WriteRecord(RecordType.Normal, category, message, null);
+        }
+
+        public void Input(string message)
+        {
+            WriteRecord(RecordType.Input, "", message, null);
+        }
+
+        public void Input(string category, string message)
+        {
+            WriteRecord(RecordType.Normal, category, message, null);
+        }
+
+        public void System(string message)
+        {
+            WriteRecord(RecordType.System, "", message, null);
+        }
+
+        public void System(string category, string message)
+        {
+            WriteRecord(RecordType.Normal, category, message, null);
         }
 
         public void Warn(string message)
         {
-            this.WriteRecord(RecordType.Warn, new TraceRecord() { Message = message });
+            WriteRecord(RecordType.Warning, "", message, null);
         }
 
         public void Warn(string category, string message)
         {
-            this.WriteRecord(RecordType.Warn, new TraceRecord() { Category = category, Message = message });
-        }
-
-        public void Warn(TraceRecord record)
-        {
-            this.WriteRecord(RecordType.Warn, record);
+            WriteRecord(RecordType.Normal, category, message, null);
         }
 
         public void Error(string message, Exception exception)
         {
-            this.WriteRecord(RecordType.Error, new TraceRecord() { Message = message, Exception = exception });
+            WriteRecord(RecordType.Error, "", message, exception);
         }
 
         public void Error(string category, string message, Exception exception)
         {
-            this.WriteRecord(RecordType.Error, new TraceRecord() { Category = category, Message = message, Exception = exception });
-        }
-
-        public void Error(TraceRecord record)
-        {
-            this.WriteRecord(RecordType.Error, record);
-        }
-
-        public void Fatal(string message, Exception exception)
-        {
-            this.WriteRecord(RecordType.Fatal, new TraceRecord() { Message = message, Exception = exception });
-        }
-
-        public void Fatal(string category, string message, Exception exception)
-        {
-            this.WriteRecord(RecordType.Fatal, new TraceRecord() { Category = category, Message = message, Exception = exception });
-        }
-
-        public void Fatal(TraceRecord record)
-        {
-            this.WriteRecord(RecordType.Fatal, record);
-        }
-
-        public object GetUnderlyingStorage()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Level of tracing
-        /// </summary>
-        public int Level { get; set; }
-
-        public bool IsInitialized { get; set; }
-
-        public virtual void Dispose()
-        {
-            
+            WriteRecord(RecordType.Normal, category, message, exception);
         }
 
         #endregion
 
-        protected virtual void WriteRecord(RecordType type, TraceRecord record)
+        protected virtual void WriteRecord(RecordType type, string category, string message, Exception exception)
         {
-          
+
         }
-
-        #region nested classes
-
-        protected enum RecordType
-        {
-            Info,
-            Warn,
-            Error,
-            Fatal
-        }
-
-        #endregion
-
     }
 }

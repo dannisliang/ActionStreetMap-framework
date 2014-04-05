@@ -60,7 +60,7 @@ namespace Mercraft.Core.Tiles
             scene.Canvas.Tile = tile;
             _tiles.Add(tile);
 
-            Trace.Info(LogTag, String.Format("Created tile with center: {0}, size:{1}, geo: {2}",
+            Trace.Normal(LogTag, String.Format("Created tile with center: {0}, size:{1}, geo: {2}",
                 nextTileCenter, _tileSize, geoCoordinate));
             return tile;
         }
@@ -121,7 +121,7 @@ namespace Mercraft.Core.Tiles
 
         private void LogTileFound(Tile tile, Vector2 position)
         {
-            Trace.Info(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
+            Trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
         }
 
         public void Configure(IConfigSection configSection)

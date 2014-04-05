@@ -15,17 +15,42 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// <summary>
         /// Writes message to trace using default tracer category
         /// </summary>
-        void Info(string message);
+        void Normal(string message);
 
         /// <summary>
         /// Writes message to trace using category provided
         /// </summary>
-        void Info(string category, string message);
+        void Normal(string category, string message);
 
         /// <summary>
-        /// Writes record to trace
+        /// Writes message to trace using default tracer category
         /// </summary>
-        void Info(TraceRecord record);
+        void Output(string message);
+
+        /// <summary>
+        /// Writes message to trace using category provided
+        /// </summary>
+        void Output(string category, string message);
+
+        /// <summary>
+        /// Writes message to trace using default tracer category
+        /// </summary>
+        void Input(string message);
+
+        /// <summary>
+        /// Writes message to trace using category provided
+        /// </summary>
+        void Input(string category, string message);
+
+        /// <summary>
+        /// Writes message to trace using default tracer category
+        /// </summary>
+        void System(string message);
+
+        /// <summary>
+        /// Writes message to trace using category provided
+        /// </summary>
+        void System(string category, string message);
 
         /// <summary>
         /// Writes message to trace using default tracer category
@@ -38,11 +63,6 @@ namespace Mercraft.Infrastructure.Diagnostic
         void Warn(string category, string message);
 
         /// <summary>
-        /// Writes record to trace
-        /// </summary>
-        void Warn(TraceRecord record);
-
-        /// <summary>
         /// Writes message to trace using default tracer category
         /// </summary>
         void Error(string message, Exception exception);
@@ -51,36 +71,5 @@ namespace Mercraft.Infrastructure.Diagnostic
         /// Writes message to trace
         /// </summary>
         void Error(string category, string message, Exception exception);
-
-        /// <summary>
-        /// Writes record to trace
-        /// </summary>
-        void Error(TraceRecord record);
-
-        /// <summary>
-        /// Writes message to trace using default tracer category
-        /// </summary>
-        void Fatal(string message, Exception exception);
-
-        /// <summary>
-        /// Writes message to trace
-        /// </summary>
-        void Fatal(string category, string message, Exception exception);
-
-        /// <summary>
-        /// Writes record to trace
-        /// </summary>
-        void Fatal(TraceRecord record);
-
-        /// <summary>
-        /// Returns the storage of messages
-        /// </summary>
-        object GetUnderlyingStorage();
-
-        /// <summary>
-        /// Shows whether trace is initialized
-        /// </summary>
-        bool IsInitialized { get; }
-
     }
 }
