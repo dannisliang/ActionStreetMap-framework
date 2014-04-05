@@ -14,6 +14,7 @@ namespace Mercraft.Explorer.Builders
     {
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
+            base.BuildArea(center, rule, area);
             var height = rule.GetHeight(area);
             var minHeight = rule.GetMinHeight(area);
             return BuildCylinder(center, area.Points, height, minHeight);
@@ -21,6 +22,7 @@ namespace Mercraft.Explorer.Builders
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
+            base.BuildWay(center, rule, way);
             // TODO is it applied to way?
             var height = rule.GetHeight(way);
             var minHeight = rule.GetMinHeight(way);

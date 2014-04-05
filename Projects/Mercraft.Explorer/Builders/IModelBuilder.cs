@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System;
+using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Config;
@@ -25,11 +26,13 @@ namespace Mercraft.Explorer.Builders
 
         public virtual GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
+            Trace.Normal(String.Format("{0}: building area {1}", Name, area.Id));
             return null;
         }
 
         public virtual GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
+            Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
             return null;
         }
 

@@ -59,7 +59,7 @@ namespace Assets.Scripts.Console.Commands
             {
                 if (area.Id == id)
                 {
-                    response.AppendFormat("Found area: {0}", area);
+                    response.AppendFormat("Found area: {0}\n", area);
                     return;
                 }
             }
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Console.Commands
             {
                 if (way.Id == id)
                 {
-                    response.AppendFormat("Found way: {0}", way);
+                    response.AppendFormat("Found way: {0}\n", way);
                     return;
                 }
             }
@@ -82,12 +82,12 @@ namespace Assets.Scripts.Console.Commands
             var scene = sceneBuilder.Build(bbox);
             foreach (var area in scene.Areas)
             {
-               response.AppendFormat("{0}", area);
+               response.AppendFormat("{0}\n", area);
             }
 
             foreach (var way in scene.Ways)
             {
-               response.AppendFormat("{0}", way);
+               response.AppendFormat("{0}\n", way);
             }
         }
 

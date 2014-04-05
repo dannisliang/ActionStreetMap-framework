@@ -233,8 +233,9 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, @"Config/app.config");
 
             //componentRoot.RunGame(new GeoCoordinate(52.529814, 13.388015)); // home
-            componentRoot.RunGame(new GeoCoordinate(52.520833, 13.409403)); // teletower
-
+            //componentRoot.RunGame(new GeoCoordinate(52.520833, 13.409403)); // teletower
+            componentRoot.RunGame(new GeoCoordinate(52.531036, 13.384866)); // invaliden
+            
             Debug.Log("Generate Berlin Small Part: Done");
 
             componentRoot.OnMapPositionChanged(new Vector2(0,0));

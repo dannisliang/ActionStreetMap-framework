@@ -15,6 +15,7 @@ namespace Mercraft.Explorer.Builders
     {
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
+            base.BuildArea(center, rule, area);
             GameObject gameObject = new GameObject();
             // TODO remove this assertion after handling this case above
             if (area.Points.Length < 3)
@@ -44,6 +45,7 @@ namespace Mercraft.Explorer.Builders
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
+            base.BuildWay(center, rule, way);
             GameObject gameObject = new GameObject();
             var zIndex = rule.GetZIndex(way);
 

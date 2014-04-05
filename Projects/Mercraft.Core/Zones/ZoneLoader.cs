@@ -46,6 +46,7 @@ namespace Mercraft.Core.Zones
 
         public virtual void OnMapPositionChanged(Vector2 position)
         {
+            CurrentPosition = position;
             var tile = TileProvider.GetTile(position, RelativeNullPoint);
 
             if (Zones.ContainsKey(tile))
