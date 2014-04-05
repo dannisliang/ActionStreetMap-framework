@@ -39,8 +39,10 @@ namespace Assets.Scripts.Console.Commands
                     var tileSize = int.Parse((string)arguments["a"]);
                     FindAround(_container.Resolve<ISceneBuilder>(), currentGeoPosition, tileSize, response);
                 }
-                else
+                else if(arguments["i"] != null)
                     GeneralInfo(zoneLoader, currentGeoPosition, response);
+                else
+                    PrintHelp(response);
             }
             catch (Exception ex)
             {
@@ -100,6 +102,14 @@ namespace Assets.Scripts.Console.Commands
             response.AppendFormat("Tile size: {0}\n", tile.Size);
             response.AppendFormat("Areas:{0}\n", scene.Areas.Count());
             response.AppendFormat("Ways:{0}", scene.Ways.Count());
+        }
+
+        private void PrintHelp(StringBuilder response)
+        {
+            response.AppendLine("Usage: scene [/f|/a|/i]");
+            response.AppendLine("       scene [/i]");
+            response.AppendLine("       scene [/f:<id>]");
+            response.AppendLine("       scene [/a:<size>]");
         }
     }
 }
