@@ -23,11 +23,11 @@ namespace Assets.Scripts
         {
             // create and register DebugConsole inside Container
             var container = new Container();
-            InitializeConsole(container);
+            //InitializeConsole(container);
 
             component = new GameRunner(container, configPath);
-            _trace = container.Resolve<ITrace>();
-            component.RunGame(new GeoCoordinate(52.531036, 13.384866));
+            //_trace = container.Resolve<ITrace>();
+            //component.RunGame(new GeoCoordinate(52.531036, 13.384866));
             
         }
 
@@ -36,9 +36,9 @@ namespace Assets.Scripts
             if (Math.Abs(transform.position.x - position2D.x) > delta
                 || Math.Abs(transform.position.z - position2D.y) > delta)
             {
-                _trace.Normal("position change:" + transform.position);
+                //_trace.Normal("position change:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
-               component.OnMapPositionChanged(position2D);
+               //component.OnMapPositionChanged(position2D);
             }
         }
 
