@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
@@ -40,49 +42,42 @@ namespace Mercraft.Core.Zones
             GameObject canvasObject =
                 _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, null, canvasRule, canvas);
 
+            BuildModel(Tile.Scene.Areas, loadedElementIds, (area, rule) =>
+                _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, canvasObject, rule, area));
 
-            // TODO probably, we need to return built game object 
-            // to be able to perform cleanup on our side
-            BuildAreas(canvasObject, loadedElementIds);
-            BuildWays(canvasObject, loadedElementIds);
+            BuildModel(Tile.Scene.Ways, loadedElementIds, (way, rule) =>
+                _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, canvasObject, rule, way));
         }
 
-        private void BuildAreas(GameObject parent, HashSet<long> loadedElementIds)
+        private void BuildModel<T>(IEnumerable<T> models, HashSet<long> loadedElementIds, 
+            Func<T, Rule, GameObject> builder) where T: Model
         {
-            foreach (var area in Tile.Scene.Areas)
+            foreach (T model in models)
             {
-                if (loadedElementIds.Contains(area.Id))
-                    continue;
+                try
+                {
+                    if (loadedElementIds.Contains(model.Id))
+                        continue;
 
-                var rule = Stylesheet.GetRule(area);
-                if (rule.IsApplicable)
-                {
-                    _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, parent, rule, area);
-                    loadedElementIds.Add(area.Id);
+                    var rule = Stylesheet.GetRule(model);
+                    if (rule.IsApplicable)
+                    {
+                        // TODO probably, we need to return built game object 
+                        // to be able to perform cleanup on our side
+                        builder(model, rule);
+                        loadedElementIds.Add(model.Id);
+                    }
+                    else
+                    {
+                        // TODO move Points properties to Model?
+                        var points = (model is Area) ? (model as Area).Points : (model as Way).Points;
+                        _trace.Warn(String.Format("No rule for model: {0}, points: {1}", model, points.Length));
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    _trace.Warn(String.Format("No rule for area: {0}, points: {1}", area, area.Points.Length));
-                }
-            }
-        }
-
-        private void BuildWays(GameObject parent, HashSet<long> loadedElementIds)
-        {
-            foreach (var way in Tile.Scene.Ways)
-            {
-                if (loadedElementIds.Contains(way.Id))
-                    continue;
-
-                var rule = Stylesheet.GetRule(way);
-                if (rule.IsApplicable)
-                {
-                    _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, parent, rule, way);
-                    loadedElementIds.Add(way.Id);
-                }
-                else
-                {
-                    _trace.Warn(String.Format("No rule for way: {0}, points: {1}", way, way.Points.Length));
+                    _trace.Error(String.Format("Unable to build model: {0}", model), ex);
+                    throw;
                 }
             }
         }

@@ -15,6 +15,7 @@ namespace Assets.Scripts.Console
         {
             var logMessage = ToLogMessage(type, category, message, exception);
             Console.LogMessage(logMessage);
+            UnityEngine.Debug.Log(logMessage.Text);
         }
 
         private ConsoleMessage ToLogMessage(RecordType type, string category, string text, Exception exception)

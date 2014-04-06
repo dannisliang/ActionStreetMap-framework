@@ -11,7 +11,7 @@ namespace Mercraft.Core.Utilities
         {
             var v = RegexFloat.Match(s);
 
-            if(!v.Success)
+            if (!v.Success || v.Groups["number"].Value == "")
                 throw new ArgumentException("Unable to recognize float value", s);
 
             return v.Groups["number"].Value;
