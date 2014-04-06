@@ -16,7 +16,7 @@ namespace Assets.Scripts
         private const string configPath = @"Config\app.config";
         private GameRunner component;
         private Vector2 position2D;
-        private ITrace _trace;
+        //private ITrace _trace;
 
         // Use this for initialization
         private void Start()
@@ -26,8 +26,8 @@ namespace Assets.Scripts
             InitializeConsole(container);
 
             component = new GameRunner(container, configPath);
-            _trace = container.Resolve<ITrace>();
-            component.RunGame(new GeoCoordinate(52.520833, 13.409403));
+            //_trace = container.Resolve<ITrace>();
+            component.RunGame();
             
         }
 
@@ -36,8 +36,9 @@ namespace Assets.Scripts
             if (Math.Abs(transform.position.x - position2D.x) > delta
                 || Math.Abs(transform.position.z - position2D.y) > delta)
             {
-               position2D = new Vector2(transform.position.x, transform.position.z);
-               component.OnMapPositionChanged(position2D);
+                //_trace.Normal("position change:" + transform.position);
+                position2D = new Vector2(transform.position.x, transform.position.z);
+                component.OnMapPositionChanged(position2D);
             }
         }
 

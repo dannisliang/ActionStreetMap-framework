@@ -26,7 +26,17 @@ namespace Mercraft.Explorer
         /// NOTE Do not remove!
         /// </summary>
         private readonly ConfigSettings _config;
-       
+
+        /// <summary>
+        /// Returns relative null geo coordinate point which is used as center for calculation
+        /// </summary>
+        public GeoCoordinate RelativeNullPoint
+        {
+            get
+            {
+                return _positionListener.RelativeNullPoint;
+            }
+        }
 
         /// <summary>
         /// Actual zone loader
@@ -73,6 +83,12 @@ namespace Mercraft.Explorer
             
             // run bootstrappers
             _container.Resolve<IBootstrapperService>().Run();
+        }
+
+        public void RunGame()
+        {
+            _positionListener = _container.Resolve<IPositionListener>();
+            OnMapPositionChanged(new Vector2(0, 0));
         }
 
         public void RunGame(GeoCoordinate coordinate)

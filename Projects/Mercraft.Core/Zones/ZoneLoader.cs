@@ -12,6 +12,7 @@ namespace Mercraft.Core.Zones
     public class ZoneLoader: IPositionListener, IConfigurable
     {
         private const string OffsetKey = "offset";
+        private const string PositionKey = "position";
 
         protected readonly TileProvider TileProvider;
         protected readonly IStylesheetProvider StylesheetProvider;
@@ -74,6 +75,10 @@ namespace Mercraft.Core.Zones
         public void Configure(IConfigSection configSection)
         {
             Offset = configSection.GetFloat(OffsetKey);
+            var relativeNullPointConfig = configSection.GetSection(PositionKey);
+            RelativeNullPoint = new GeoCoordinate(
+                relativeNullPointConfig.GetFloat("@latitude"),
+                relativeNullPointConfig.GetFloat("@longitude"));
         }
     }
 }
