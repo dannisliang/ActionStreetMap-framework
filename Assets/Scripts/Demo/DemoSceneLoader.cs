@@ -15,6 +15,8 @@ using Mercraft.Explorer;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -251,3 +253,4 @@ namespace Assets.Scripts.Demo
         }
     }
 }
+#endif
