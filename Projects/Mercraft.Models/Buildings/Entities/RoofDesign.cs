@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Entities
 {
     /// <summary>
     /// This class contains the design values for a specific roof design

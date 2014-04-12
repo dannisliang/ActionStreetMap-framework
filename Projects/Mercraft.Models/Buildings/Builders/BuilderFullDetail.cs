@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
+using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
 namespace Mercraft.Models.Buildings.Builders
 {

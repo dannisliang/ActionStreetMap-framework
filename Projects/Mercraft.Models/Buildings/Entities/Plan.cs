@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Mercraft.Models.Buildings.Enums;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
 
-
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Entities
 {
     [System.Serializable]
     public class Plan : ScriptableObject

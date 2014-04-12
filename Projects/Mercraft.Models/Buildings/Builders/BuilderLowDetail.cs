@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 
 namespace Mercraft.Models.Buildings.Builders
@@ -16,7 +17,7 @@ namespace Mercraft.Models.Buildings.Builders
 
         private static int MAXIMUM_TEXTURESIZE = 1024;
         private static Data data;
-        private static Buildings.Texture[] textures;
+        private static Entities.Texture[] textures;
         private static DynamicMeshGenericMultiMaterialMesh mesh;
         private static List<int> roofTextureIndex = new List<int>();
         //    private static float timestart;
@@ -26,7 +27,7 @@ namespace Mercraft.Models.Buildings.Builders
         private static int textureSize;
         private static List<Rect> packedTexturePositions = new List<Rect>();
         private static float packedScale;
-        private static List<Buildings.Texture> roofTextures = new List<Buildings.Texture>();
+        private static List<Entities.Texture> roofTextures = new List<Entities.Texture>();
 
         public static void Build(DynamicMeshGenericMultiMaterialMesh _mesh, Data _data)
         {
@@ -93,7 +94,7 @@ namespace Mercraft.Models.Buildings.Builders
                 {
                     if (!roofTextureIndex.Contains(textureIndex))
                     {
-                        Buildings.Texture bTexture = data.Textures[textureIndex];
+                        Entities.Texture bTexture = data.Textures[textureIndex];
                         Vector2 largestSubmeshPlaneSize = new Vector2(1, 1);
                         Vector2 minWorldUvSize = dynMeshRoof.MinWorldUvSize(textureIndex);
                         Vector2 maxWorldUvSize = dynMeshRoof.MaxWorldUvSize(textureIndex);
@@ -259,7 +260,7 @@ namespace Mercraft.Models.Buildings.Builders
         private static void BuildTextures()
         {
             List<TexturePaintObject> buildSourceTextures = new List<TexturePaintObject>();
-            foreach (Buildings.Texture btexture in data.Textures)//Gather the source textures, resized into Color32 arrays
+            foreach (Entities.Texture btexture in data.Textures)//Gather the source textures, resized into Color32 arrays
             {
                 TexturePaintObject texturePaintObject = new TexturePaintObject();
                 texturePaintObject.pixels = (btexture.texture.GetPixels32());
@@ -545,7 +546,7 @@ namespace Mercraft.Models.Buildings.Builders
             for (int i = 0; i < numberOfroofTextures; i++)
             {
                 Rect roofTexturePosition = packedTexturePositions[i + facadeNumber];
-                Buildings.Texture bTexture = roofTextures[i];
+                Entities.Texture bTexture = roofTextures[i];
                 int roofTextureWidth = bTexture.texture.width;
                 int roofTextureHeight = bTexture.texture.height;
                 int targetTextureWidth = Mathf.RoundToInt(roofTexturePosition.width);

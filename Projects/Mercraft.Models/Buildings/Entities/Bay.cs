@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
-namespace Mercraft.Models.Buildings
+﻿namespace Mercraft.Models.Buildings.Entities
 {
     /// <summary>
     /// This class contains the design constriants for a specific bay that will feature in a facade

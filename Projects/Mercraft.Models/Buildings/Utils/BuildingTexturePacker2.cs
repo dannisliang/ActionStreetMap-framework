@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mercraft.Models.Buildings.Entities;
 using UnityEngine;
+using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
 namespace Mercraft.Models.Buildings.Utils
 {

@@ -2,7 +2,7 @@
 using Mercraft.Models.Buildings.Enums;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Entities
 {
     public class Data
     {

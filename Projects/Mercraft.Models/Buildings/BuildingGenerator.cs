@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
+using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
-namespace Mercraft.Models.Buildings.Generators
+namespace Mercraft.Models.Buildings
 {
     public class BuildingGenerator
     {

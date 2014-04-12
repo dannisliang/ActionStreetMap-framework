@@ -1,3 +1,4 @@
+using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
 

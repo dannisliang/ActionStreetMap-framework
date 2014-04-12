@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Mercraft.Models.Buildings.Utils;
+using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Entities
 {
-    using UnityEngine;
-    using System.Collections.Generic;
-
     public class Roof
     {
         private static Data data;

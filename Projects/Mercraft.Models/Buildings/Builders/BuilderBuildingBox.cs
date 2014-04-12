@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 
 namespace Mercraft.Models.Buildings.Builders
