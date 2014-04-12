@@ -71,11 +71,25 @@
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\PlatformInputController.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
+    <None Include="Assets\Buildings\Config\styles\georgianStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\hongKongStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\none.xml" />
+    <None Include="Assets\Buildings\Config\styles\parisStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\testStyles.xml" />
+    <None Include="Assets\Buildings\Config\textures\alltextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\default.xml" />
+    <None Include="Assets\Buildings\Config\textures\georgianTextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\hongKongTextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\parisTextures.xml" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />
+    <Folder Include="Assets\Buildings" />
+    <Folder Include="Assets\Buildings\Config" />
+    <Folder Include="Assets\Buildings\Config\styles" />
+    <Folder Include="Assets\Buildings\Config\textures" />
     <Folder Include="Assets\Dependencies" />
     <Folder Include="Assets\ParticleEffects" />
     <Folder Include="Assets\ParticleEffects\Shaders" />

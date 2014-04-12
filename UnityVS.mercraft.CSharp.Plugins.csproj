@@ -67,6 +67,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+    <None Include="Assets\Buildings\Config\styles\georgianStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\hongKongStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\none.xml" />
+    <None Include="Assets\Buildings\Config\styles\parisStyle.xml" />
+    <None Include="Assets\Buildings\Config\styles\testStyles.xml" />
+    <None Include="Assets\Buildings\Config\textures\alltextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\default.xml" />
+    <None Include="Assets\Buildings\Config\textures\georgianTextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\hongKongTextures.xml" />
+    <None Include="Assets\Buildings\Config\textures\parisTextures.xml" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
   </ItemGroup>
