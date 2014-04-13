@@ -8,15 +8,9 @@ namespace Mercraft.Models.Buildings.Builders
 {
     public class FullDetailBuilder
     {
-        private static Data data;
-        private static Texture[] textures;
-        private static DynamicMeshGenericMultiMaterialMesh mesh;
-
-        public static void Build(DynamicMeshGenericMultiMaterialMesh _mesh, Data _data)
+        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Data data)
         {
-            data = _data;
-            mesh = _mesh;
-            textures = data.Textures.ToArray();
+            var textures = data.Textures;
             FacadeDesign facadeDesign = data.Facades[0];
             Plan plan = data.Plan;
             int numberOfVolumes = plan.numberOfVolumes;
@@ -92,7 +86,7 @@ namespace Mercraft.Models.Buildings.Builders
                         Vector3 w2 = p0;
                         Vector3 w3 = p1;
                         Vector2 foundationUVEnd = new Vector2(facadeWidth, foundationHeight);
-                        AddPlane(w0, w1, w2, w3, subMesh, flipped, Vector2.zero, foundationUVEnd);
+                        AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, Vector2.zero, foundationUVEnd);
                     }
 
                     Vector2 facadeUV = Vector2.zero;
@@ -238,34 +232,34 @@ namespace Mercraft.Models.Buildings.Builders
                                     w2 = windowBase + bayHeight;
                                     w3 = windowBase + bayWidth + bayHeight;
                                     Vector2 bayOpeningUVEnd = facadeUV + new Vector2(openingWidth + actualWindowSpacing, floorHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, facadeUV, bayOpeningUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, facadeUV, bayOpeningUVEnd);
 
                                     Vector2 UVEnd = new Vector2(1, floorHeight);
                                     if (!previousBayIdentical && !firstColumn)//left
                                     {
                                         Vector3 wA = w0 + bayDepth;
                                         Vector3 wB = w2 + bayDepth;
-                                        AddPlane(w2, wB, w0, wA, subMesh, flipped, Vector2.zero, UVEnd);
+                                        AddPlane(mesh, textures, w2, wB, w0, wA, subMesh, flipped, Vector2.zero, UVEnd);
                                     }
 
                                     if (!nextBayIdentical && !lastColumn)//right
                                     {
                                         Vector3 wA = w1 + bayDepth;
                                         Vector3 wB = w3 + bayDepth;
-                                        AddPlane(w1, wA, w3, wB, subMesh, flipped, Vector2.zero, UVEnd);
+                                        AddPlane(mesh, textures, w1, wA, w3, wB, subMesh, flipped, Vector2.zero, UVEnd);
                                     }
 
                                     if (lastFacadeDesign != facadeDesign && !firstRow)//bottom
                                     {
                                         Vector3 wA = w0 + ((!firstColumn) ? facadeCross : -lastFacadeDirection);
                                         Vector3 wB = w1 + ((!lastColumn) ? facadeCross : nextFacadeDirection);
-                                        AddPlane(w0, wA, w1, wB, subMesh, flipped, Vector2.zero, UVEnd);
+                                        AddPlane(mesh, textures, w0, wA, w1, wB, subMesh, flipped, Vector2.zero, UVEnd);
                                     }
                                     if (nextFacadeDesign != facadeDesign && !lastRow)//top
                                     {
                                         Vector3 wA = w2 + ((!firstColumn) ? facadeCross : -lastFacadeDirection);
                                         Vector3 wB = w3 + ((!lastColumn) ? facadeCross : nextFacadeDirection);
-                                        AddPlane(w3, wB, w2, wA, subMesh, flipped, Vector2.zero, UVEnd);
+                                        AddPlane(mesh, textures, w3, wB, w2, wA, subMesh, flipped, Vector2.zero, UVEnd);
                                     }
 
                                     windowBase = w1;//move base vertor to next bay
@@ -314,7 +308,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 w3 = verts[10] + openingDepthVector;
                                 Vector2 windowUVStart = facadeUV + new Vector2(leftWidth, rowBottomHeight);
                                 Vector2 windowUVEnd = windowUVStart + new Vector2(openingWidth, openingHeight);
-                                AddPlane(w0, w1, w2, w3, subMesh, flipped, windowUVStart, windowUVEnd);
+                                AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, windowUVStart, windowUVEnd);
 
                                 leftDepth = bayStyle.columnDepth - bayStyle.openingDepth;//Window Left
                                 if (firstColumn) leftDepth = bayStyle.openingDepth;
@@ -328,7 +322,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningSideTexture);
                                     Vector2 uvStart = facadeUV + new Vector2(0, rowBottomHeight);
                                     Vector2 uvEnd = uvStart + new Vector2(leftWindowDepth, openingHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                 }
 
                                 bottomDepth = bayStyle.rowDepth - bayStyle.openingDepth;//Window Bottom
@@ -344,7 +338,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.OpeningSillTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningSillTexture);
                                     Vector2 uvEnd = new Vector2(openingWidth, bottomDepth);
-                                    AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 if (rowTopHeight == 0 && lastRow)//Window Top
@@ -355,7 +349,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.RowTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                     Vector2 uvEnd = new Vector2(openingWidth, bottomDepth);
-                                    AddPlane(wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 //Column
@@ -370,7 +364,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     w3 = verts[9] + leftColumeDepthVector;
                                     Vector2 leftColumnUVStart = facadeUV + new Vector2(0, rowBottomHeight);
                                     Vector2 leftColumnUVEnd = leftColumnUVStart + new Vector2(leftWidth, openingHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, leftColumnUVStart, leftColumnUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, leftColumnUVStart, leftColumnUVEnd);
 
                                     float leftPlaneDepth = (previousBayIdentical) ? bayStyle.openingDepth : 1;//Column Left Left
                                     leftDepth = leftPlaneDepth - bayStyle.columnDepth;
@@ -383,7 +377,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningSideTexture);
                                         Vector2 uvStart = facadeUV + new Vector2(0, rowBottomHeight);
                                         Vector2 uvEnd = uvStart + new Vector2(leftDepth, openingHeight);
-                                        AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                        AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                     }
 
                                     bottomDepth = bayStyle.crossDepth - bayStyle.columnDepth;//Column Left Bottom
@@ -395,7 +389,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.OpeningCeilingTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningCeilingTexture);
                                         Vector2 uvEnd = new Vector2(leftWidth, bottomDepth);
-                                        AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
 
                                 }
@@ -409,7 +403,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 {
                                     Vector2 rightColumnUVStart = facadeUV + new Vector2(leftWidth + openingWidth, rowBottomHeight);
                                     Vector2 rightColumnUVEnd = rightColumnUVStart + new Vector2(rightWidth, openingHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, rightColumnUVStart, rightColumnUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, rightColumnUVStart, rightColumnUVEnd);
                                 }
 
                                 leftDepth = bayStyle.openingDepth - bayStyle.columnDepth;//Column Right Left
@@ -423,7 +417,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningSideTexture);
                                     Vector2 uvStart = facadeUV + new Vector2(0, rowBottomHeight);
                                     Vector2 uvEnd = uvStart + new Vector2(leftDepth, openingHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                 }
 
                                 if (!nextBayIdentical && !lastColumn && rightWidth > 0)
@@ -437,7 +431,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.OpeningCeilingTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.OpeningCeilingTexture);
                                         Vector2 uvEnd = new Vector2(rightWidth, bottomDepth);
-                                        AddPlane(wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
 
                                     rightDepth = 1 - bayStyle.columnDepth;//Column Right Right
@@ -450,7 +444,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.ColumnTexture);
                                         Vector2 uvStart = facadeUV + new Vector2(0, rowBottomHeight);
                                         Vector2 uvEnd = uvStart + new Vector2(rightDepth, openingHeight);
-                                        AddPlane(wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                        AddPlane(mesh, textures, wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                     }
                                 }
 
@@ -465,7 +459,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 {
                                     Vector2 bottomRowUVStart = facadeUV + new Vector2(leftWidth, 0);
                                     Vector2 bottomRowUVEnd = bottomRowUVStart + new Vector2(openingWidth, rowBottomHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, bottomRowUVStart, bottomRowUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, bottomRowUVStart, bottomRowUVEnd);
                                 }
 
                                 leftDepth = ((!firstColumn) ? bayStyle.crossDepth : 1) - bayStyle.rowDepth;//Row Bottom Left
@@ -478,7 +472,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                     Vector2 uvStart = facadeUV + new Vector2(0, 0);
                                     Vector2 uvEnd = uvStart + new Vector2(leftDepth, rowBottomHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                 }
 
                                 bottomDepth = 1 - bayStyle.rowDepth;//Row Bottom Bottom
@@ -492,7 +486,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.RowTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                     Vector2 uvEnd = new Vector2(bottomDepth, openingWidth);
-                                    AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 //Row Top
@@ -505,7 +499,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 {
                                     Vector2 topRowUVStart = facadeUV + new Vector2(leftWidth, rowBottomHeight + openingHeight);
                                     Vector2 topRowUVEnd = topRowUVStart + new Vector2(openingWidth, rowTopHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, topRowUVStart, topRowUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, topRowUVStart, topRowUVEnd);
                                 }
 
                                 //left depth doesn;t change from the bottom row - no need to recalculate
@@ -519,7 +513,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                     Vector2 uvStart = facadeUV + new Vector2(0, rowTopHeight);
                                     Vector2 uvEnd = new Vector2(leftRowDepth, rowTopHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, uvStart, uvEnd);
                                 }
 
                                 bottomDepth = bayStyle.openingDepth - bayStyle.rowDepth;//Row Top Bottom
@@ -532,7 +526,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.RowTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                     Vector2 uvEnd = new Vector2(openingWidth, bottomDepth);
-                                    AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 if ((lastRow || facadeDesign != nextFacadeDesign) && rowTopHeight > 0)
@@ -547,7 +541,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.RowTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.RowTexture);
                                         Vector2 uvEnd = new Vector2(openingWidth, topPlaneRowDepth);
-                                        AddPlane(wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
                                 }
 
@@ -562,7 +556,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 w3 = verts[5] + leftCrossDepthVector;
                                 Vector2 crossLBUVStart = facadeUV + new Vector2(0, 0);
                                 Vector2 crossLBUVEnd = crossLBUVStart + new Vector2(leftWidth, rowBottomHeight);
-                                AddPlane(w0, w1, w2, w3, subMesh, flipped, crossLBUVStart, crossLBUVEnd);
+                                AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, crossLBUVStart, crossLBUVEnd);
 
                                 float leftPlaneCrossDepth = (previousBayIdentical) ? bayStyle.rowDepth : 1;//Cross Left Bottom Left
                                 leftDepth = leftPlaneCrossDepth - bayStyle.crossDepth;
@@ -574,7 +568,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                     Vector2 uvEnd = new Vector2(leftDepth, rowBottomHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 bottomDepth = 1 - bayStyle.crossDepth;//Cross Left Bottom Bottom
@@ -586,7 +580,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                     Vector2 uvEnd = new Vector2(leftWidth, bottomDepth);
-                                    AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 //Cross Left Top
@@ -596,7 +590,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 w3 = verts[13] + leftCrossDepthVector;
                                 Vector2 crossLTUVStart = facadeUV + new Vector2(0, rowBottomHeight + openingHeight);
                                 Vector2 crossLTUVEnd = crossLTUVStart + new Vector2(leftWidth, rowTopHeight);
-                                AddPlane(w0, w1, w2, w3, subMesh, flipped, crossLTUVStart, crossLTUVEnd);
+                                AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, crossLTUVStart, crossLTUVEnd);
 
                                 if (leftDepth != 0 && !firstColumn)//Cross Left Top Left
                                 {
@@ -606,7 +600,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                     Vector2 uvEnd = new Vector2(leftDepth, rowTopHeight);
-                                    AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 bottomDepth = bayStyle.columnDepth - bayStyle.crossDepth;//Cross Left Top Bottom
@@ -618,7 +612,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                     bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                     Vector2 uvEnd = new Vector2(leftWidth, bottomDepth);
-                                    AddPlane(wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                    AddPlane(mesh, textures, wl0, wl1, w0, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                 }
 
                                 if ((lastRow || facadeDesign != nextFacadeDesign) && rowTopHeight > 0 && !firstColumn)
@@ -634,7 +628,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                         Vector2 uvEnd = new Vector2(leftWidth, topPlaneCrossDepth);
-                                        AddPlane(wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
                                 }
 
@@ -649,7 +643,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     w3 = verts[7] + crossDepthVector;
                                     Vector2 crossRBUVStart = facadeUV + new Vector2(leftWidth + openingWidth, 0);
                                     Vector2 crossRBUVEnd = crossRBUVStart + new Vector2(rightWidth, rowBottomHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, crossRBUVStart, crossRBUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, crossRBUVStart, crossRBUVEnd);
 
                                     leftDepth = (!lastColumn) ? bayStyle.rowDepth - bayStyle.crossDepth : bayStyle.rowDepth;//Cross Right Bottom Left
                                     if (leftDepth != 0)
@@ -660,7 +654,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                         Vector2 uvEnd = new Vector2(leftDepth, rowBottomHeight);
-                                        AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
 
                                     //if(!lastColumn)
@@ -674,7 +668,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                         Vector2 uvEnd = new Vector2(rightWidth, bottomDepth);
-                                        AddPlane(wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
                                     //}
 
@@ -689,7 +683,7 @@ namespace Mercraft.Models.Buildings.Builders
                                             int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                             bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                             Vector2 uvEnd = new Vector2(rightDepth, rowBottomHeight);
-                                            AddPlane(wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                            AddPlane(mesh, textures, wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                         }
                                     }
 
@@ -700,7 +694,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     w3 = verts[15] + crossDepthVector;
                                     Vector2 crossRTUVStart = facadeUV + new Vector2(leftWidth + openingWidth, rowBottomHeight + openingHeight);
                                     Vector2 crossRTUVEnd = crossRTUVStart + new Vector2(rightWidth, rowTopHeight);
-                                    AddPlane(w0, w1, w2, w3, subMesh, flipped, crossRTUVStart, crossRTUVEnd);
+                                    AddPlane(mesh, textures, w0, w1, w2, w3, subMesh, flipped, crossRTUVStart, crossRTUVEnd);
 
                                     leftDepth = (!lastColumn) ? bayStyle.rowDepth - bayStyle.crossDepth : bayStyle.rowDepth;//Cross Right Top left
                                     if (leftDepth != 0)
@@ -711,7 +705,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                         Vector2 uvEnd = new Vector2(leftDepth, rowTopHeight);
-                                        AddPlane(wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl0, w0, wl1, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
 
                                     bottomDepth = (!lastColumn) ? bayStyle.columnDepth - bayStyle.crossDepth : 0;//Cross Right Top bottom
@@ -724,7 +718,7 @@ namespace Mercraft.Models.Buildings.Builders
                                         int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                         bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                         Vector2 uvEnd = new Vector2(rightWidth, bottomDepth);
-                                        AddPlane(wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                        AddPlane(mesh, textures, wl1, w1, wl0, w0, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                     }
 
                                     if ((lastRow || facadeDesign != nextFacadeDesign) && !lastColumn)//Cross Right Top top
@@ -739,7 +733,7 @@ namespace Mercraft.Models.Buildings.Builders
                                             int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                             bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                             Vector2 uvEnd = new Vector2(rightWidth, topPlaneCrossDepth);
-                                            AddPlane(wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                            AddPlane(mesh, textures, wl3, wl2, w3, w2, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                         }
                                     }
 
@@ -754,7 +748,7 @@ namespace Mercraft.Models.Buildings.Builders
                                             int windowBoxSubmesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
                                             bool windowBoxFlipped = bayStyle.IsFlipped(Bay.TextureNames.CrossTexture);
                                             Vector2 uvEnd = new Vector2(rightDepth, rowTopHeight);
-                                            AddPlane(wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
+                                            AddPlane(mesh, textures, wl3, w3, wl1, w1, windowBoxSubmesh, windowBoxFlipped, Vector2.zero, uvEnd);
                                         }
                                     }
                                 }
@@ -778,14 +772,14 @@ namespace Mercraft.Models.Buildings.Builders
                             bool flipped = facadeDesign.simpleBay.IsFlipped(Bay.TextureNames.WallTexture);
                             Vector2 wallUVStart = facadeUV;
                             Vector2 wallUVEnd = facadeUV + new Vector2(facadeWidth, floorHeight);
-                            AddPlane(w0, w1, w2, w3, wallSubmesh, flipped, wallUVStart, wallUVEnd);
+                            AddPlane(mesh, textures, w0, w1, w2, w3, wallSubmesh, flipped, wallUVStart, wallUVEnd);
 
                             if (nextFacadeDesign.hasWindows && !lastRow)
                             {
                                 Vector3 wl2 = w2 - lastFacadeDirection;
                                 Vector3 wl3 = w3 + nextFacadeDirection;
                                 Vector2 uvEnd = new Vector2(facadeWidth, 1);
-                                AddPlane(w3, wl3, w2, wl2, wallSubmesh, flipped, Vector2.zero, uvEnd);
+                                AddPlane(mesh, textures, w3, wl3, w2, wl2, wallSubmesh, flipped, Vector2.zero, uvEnd);
                             }
                         }
                     }
@@ -812,7 +806,7 @@ namespace Mercraft.Models.Buildings.Builders
             textures = null;
         }
 
-        private static void AddPlane(Vector3 w0, Vector3 w1, Vector3 w2, Vector3 w3, int subMesh, bool flipped, Vector2 facadeUVStart, Vector2 facadeUVEnd)
+        private static void AddPlane(DynamicMeshGenericMultiMaterialMesh mesh, IList<Texture> textures, Vector3 w0, Vector3 w1, Vector3 w2, Vector3 w3, int subMesh, bool flipped, Vector2 facadeUVStart, Vector2 facadeUVEnd)
         {
             int textureSubmesh = subMesh;
             Texture texture = textures[textureSubmesh];

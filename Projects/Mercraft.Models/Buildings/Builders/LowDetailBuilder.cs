@@ -12,38 +12,34 @@ namespace Mercraft.Models.Buildings.Builders
 
     public class LowDetailBuilder
     {
-        private const int PIXELS_PER_METER = 100;
-        private const int ATLAS_PADDING = 16;
+        private const int PixelsPerMeter = 100;
+        private const int AtlasPadding = 16;
+        private const int MAXIMUM_TEXTURESIZE = 1024;
 
-        private static int MAXIMUM_TEXTURESIZE = 1024;
-        private static Data data;
-        private static Entities.Texture[] textures;
-        private static DynamicMeshGenericMultiMaterialMesh mesh;
-        private static List<int> roofTextureIndex = new List<int>();
-        //    private static float timestart;
-        private static int numberOfFacades;
-        private static Color32[] colourArray;
-        private static int textureWidth;
-        private static int textureSize;
-        private static List<Rect> packedTexturePositions = new List<Rect>();
-        private static float packedScale;
-        private static List<Entities.Texture> roofTextures = new List<Entities.Texture>();
-
-        public static void Build(DynamicMeshGenericMultiMaterialMesh _mesh, Data _data)
+        private class TextureDataContext
         {
+            public Color32[] colourArray;
+            public int textureWidth;
+            public int textureSize;
+            public  List<Entities.Texture> textures;
+            public List<int> roofTextureIndex = new List<int>();
+            public List<Rect> packedTexturePositions = new List<Rect>();
+            public float packedScale;
+            public List<Entities.Texture> roofTextures = new List<Entities.Texture>();
+        }
+        
 
-            //        timestart = Time.realtimeSinceStartup;
-            data = _data;
-            mesh = _mesh;
-            textures = data.Textures.ToArray();
+
+        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Data data)
+        {
+            var dataContext = new TextureDataContext();
+            dataContext.textures = data.Textures;
             Plan plan = data.Plan;
 
             int facadeIndex = 0;
-            numberOfFacades = 0;
+            var numberOfFacades = 0;
             int numberOfVolumes = data.Plan.numberOfVolumes;
 
-            //define rectangles that represent the facades
-            packedTexturePositions.Clear();
             for (int v = 0; v < numberOfVolumes; v++)
             {
                 Volume volume = plan.volumes[v];
@@ -58,7 +54,7 @@ namespace Mercraft.Models.Buildings.Builders
                     Vector2 p0 = plan.points[volume.points[indexA]];
                     Vector2 p1 = plan.points[volume.points[indexB]];
 
-                    float facadeWidth = Vector2.Distance(p0, p1) * PIXELS_PER_METER;
+                    float facadeWidth = Vector2.Distance(p0, p1) * PixelsPerMeter;
                     int floorBase = plan.GetFacadeFloorHeight(v, volume.points[indexA], volume.points[indexB]);
 
                     int numberOfFloors = volume.numberOfFloors - floorBase;
@@ -66,7 +62,7 @@ namespace Mercraft.Models.Buildings.Builders
                         continue;
 
                     float floorHeight = data.FloorHeight;
-                    float facadeHeight = (volume.numberOfFloors - floorBase) * floorHeight * PIXELS_PER_METER;
+                    float facadeHeight = (volume.numberOfFloors - floorBase) * floorHeight * PixelsPerMeter;
                     if (facadeHeight < 0)
                     {
                         facadeWidth = 0;
@@ -74,7 +70,7 @@ namespace Mercraft.Models.Buildings.Builders
                     }
 
                     Rect newFacadeRect = new Rect(0, 0, facadeWidth, facadeHeight);
-                    packedTexturePositions.Add(newFacadeRect);
+                    dataContext.packedTexturePositions.Add(newFacadeRect);
 
                     numberOfFacades++;
                 }
@@ -82,17 +78,17 @@ namespace Mercraft.Models.Buildings.Builders
 
             //Build ROOF
             DynamicMeshGenericMultiMaterialMesh dynMeshRoof = new DynamicMeshGenericMultiMaterialMesh();
-            dynMeshRoof.subMeshCount = textures.Length;
+            dynMeshRoof.subMeshCount = dataContext.textures.Count;
             Roof.Build(dynMeshRoof, data, true);
             dynMeshRoof.CheckMaxTextureUVs(data);
 
-            roofTextures.Clear();
-            roofTextureIndex.Clear();
+            dataContext.roofTextures.Clear();
+            dataContext.roofTextureIndex.Clear();
             foreach (RoofDesign roofDesign in data.Roofs)
             {
                 foreach (int textureIndex in roofDesign.textureValues)
                 {
-                    if (!roofTextureIndex.Contains(textureIndex))
+                    if (!dataContext.roofTextureIndex.Contains(textureIndex))
                     {
                         Entities.Texture bTexture = data.Textures[textureIndex];
                         Vector2 largestSubmeshPlaneSize = new Vector2(1, 1);
@@ -100,53 +96,54 @@ namespace Mercraft.Models.Buildings.Builders
                         Vector2 maxWorldUvSize = dynMeshRoof.MaxWorldUvSize(textureIndex);
                         largestSubmeshPlaneSize.x = maxWorldUvSize.x - minWorldUvSize.x;
                         largestSubmeshPlaneSize.y = maxWorldUvSize.y - minWorldUvSize.y;
-                        int roofTextureWidth = Mathf.RoundToInt(largestSubmeshPlaneSize.x * PIXELS_PER_METER);
-                        int roofTextureHeight = Mathf.RoundToInt(largestSubmeshPlaneSize.y * PIXELS_PER_METER);
+                        int roofTextureWidth = Mathf.RoundToInt(largestSubmeshPlaneSize.x * PixelsPerMeter);
+                        int roofTextureHeight = Mathf.RoundToInt(largestSubmeshPlaneSize.y * PixelsPerMeter);
                         Rect newRoofTexutureRect = new Rect(0, 0, roofTextureWidth, roofTextureHeight);
-                        packedTexturePositions.Add(newRoofTexutureRect);
-                        roofTextures.Add(bTexture);
-                        roofTextureIndex.Add(textureIndex);
+                        dataContext.packedTexturePositions.Add(newRoofTexutureRect);
+                        dataContext.roofTextures.Add(bTexture);
+                        dataContext.roofTextureIndex.Add(textureIndex);
                         //                    Debug.Log("roofTextureIndex " + newRoofTexutureRect+" "+bTexture.name);
                     }
                 }
             }
 
             //run a custom packer to define their postions
-            textureWidth = RectanglePack.Pack(packedTexturePositions, ATLAS_PADDING);
+            dataContext.textureWidth = RectanglePack.Pack(dataContext.packedTexturePositions, AtlasPadding);
 
             //determine the resize scale and apply that to the rects
-            packedScale = 1;
-            int numberOfRects = packedTexturePositions.Count;
-            if (textureWidth > MAXIMUM_TEXTURESIZE)
+            dataContext.packedScale = 1;
+            int numberOfRects = dataContext.packedTexturePositions.Count;
+            if (dataContext.textureWidth > MAXIMUM_TEXTURESIZE)
             {
-                packedScale = MAXIMUM_TEXTURESIZE / (float)textureWidth;
+                dataContext.packedScale = MAXIMUM_TEXTURESIZE / (float)dataContext.textureWidth;
                 for (int i = 0; i < numberOfRects; i++)
                 {
-                    Rect thisRect = packedTexturePositions[i];
-                    thisRect.x *= packedScale;
-                    thisRect.y *= packedScale;
-                    thisRect.width *= packedScale;
-                    thisRect.height *= packedScale;
-                    packedTexturePositions[i] = thisRect;
+                    Rect thisRect = dataContext.packedTexturePositions[i];
+                    thisRect.x *= dataContext.packedScale;
+                    thisRect.y *= dataContext.packedScale;
+                    thisRect.width *= dataContext.packedScale;
+                    thisRect.height *= dataContext.packedScale;
+                    dataContext.packedTexturePositions[i] = thisRect;
                     //Debug.Log("Rects "+roofTextures[i-+packedTexturePositions[i]);
                 }
-                textureWidth = Mathf.RoundToInt(packedScale * textureWidth);
+                dataContext.textureWidth = Mathf.RoundToInt(dataContext.packedScale * dataContext.textureWidth);
             }
             else
             {
-                textureWidth = (int)Mathf.Pow(2, (Mathf.FloorToInt(Mathf.Log(textureWidth - 1, 2)) + 1));//find the next power of two
+                dataContext.textureWidth = (int)Mathf.Pow(2, (Mathf.FloorToInt(Mathf.Log(dataContext.textureWidth - 1, 2)) + 1));//find the next power of two
             }
             //Debug.Log("Texture Width "+textureWidth);
             //TODO: maybe restrict the resize to a power of two?
 
-            textureSize = textureWidth * textureWidth;
-            colourArray = new Color32[textureSize];
+            dataContext.textureSize = dataContext.textureWidth * dataContext.textureWidth;
+            Debug.Log("Texture size " + dataContext.textureSize);
+            dataContext.colourArray = new Color32[dataContext.textureSize];
             //TestRectColours();//this test paints all the facades with rainbow colours - real pretty
-            BuildTextures();
+            BuildTextures(data, dataContext);
 
-            Texture2D packedTexture = new Texture2D(textureWidth, textureWidth, TextureFormat.ARGB32, true);
+            Texture2D packedTexture = new Texture2D(dataContext.textureWidth, dataContext.textureWidth, TextureFormat.ARGB32, true);
             packedTexture.filterMode = FilterMode.Bilinear;
-            packedTexture.SetPixels32(colourArray);
+            packedTexture.SetPixels32(dataContext.colourArray);
             packedTexture.Apply(true, false);
 
             if (data.LodTextureAtlas != null)
@@ -211,9 +208,9 @@ namespace Mercraft.Models.Buildings.Builders
                     Vector3 w2 = w0 + wallHeight;
                     Vector3 w3 = w1 + wallHeight;
 
-                    Rect facadeRect = packedTexturePositions[facadeIndex];
+                    Rect facadeRect = dataContext.packedTexturePositions[facadeIndex];
 
-                    float imageSize = textureWidth;
+                    float imageSize = dataContext.textureWidth;
                     Vector2 uvMin = new Vector2(facadeRect.xMin / imageSize, facadeRect.yMin / imageSize);
                     Vector2 uvMax = new Vector2(facadeRect.xMax / imageSize, facadeRect.yMax / imageSize);
 
@@ -225,27 +222,25 @@ namespace Mercraft.Models.Buildings.Builders
             //ROOF Textures
             int roofRectBase = numberOfFacades;
             List<Rect> newAtlasRects = new List<Rect>();
-            for (int i = roofRectBase; i < packedTexturePositions.Count; i++)
+            for (int i = roofRectBase; i < dataContext.packedTexturePositions.Count; i++)
             {
                 Rect uvRect = new Rect();//generate a UV based rectangle off the packed one
-                uvRect.x = packedTexturePositions[i].x / textureWidth;
-                uvRect.y = packedTexturePositions[i].y / textureWidth;
-                uvRect.width = packedTexturePositions[i].width / textureWidth;
-                uvRect.height = packedTexturePositions[i].height / textureWidth;
+                uvRect.x = dataContext.packedTexturePositions[i].x / dataContext.textureWidth;
+                uvRect.y = dataContext.packedTexturePositions[i].y / dataContext.textureWidth;
+                uvRect.width = dataContext.packedTexturePositions[i].width / dataContext.textureWidth;
+                uvRect.height = dataContext.packedTexturePositions[i].height / dataContext.textureWidth;
                 newAtlasRects.Add(uvRect);
             }
-            dynMeshRoof.Atlas(roofTextureIndex.ToArray(), newAtlasRects.ToArray(), data.Textures.ToArray());
+            dynMeshRoof.Atlas(dataContext.roofTextureIndex.ToArray(), newAtlasRects.ToArray(), data.Textures.ToArray());
             //Add the atlased mesh data to the main model data at submesh 0
             mesh.AddData(dynMeshRoof.vertices, dynMeshRoof.uv, dynMeshRoof.triangles, 0);
 
  
             data = null;
             mesh = null;
-            textures = null;
-            //atlasRects = null;
+            dataContext.textures = null;
 
-
-            System.GC.Collect();
+            //System.GC.Collect();
         }
 
         private class TexturePaintObject
@@ -257,7 +252,7 @@ namespace Mercraft.Models.Buildings.Builders
             public Vector2 tiles = Vector2.one;//the user set amount ot tiling this untiled texture exhibits
         }
 
-        private static void BuildTextures()
+        private static void BuildTextures(Data data, TextureDataContext dataContext)
         {
             List<TexturePaintObject> buildSourceTextures = new List<TexturePaintObject>();
             foreach (Entities.Texture btexture in data.Textures)//Gather the source textures, resized into Color32 arrays
@@ -269,8 +264,8 @@ namespace Mercraft.Models.Buildings.Builders
                 texturePaintObject.tiles = new Vector2(btexture.tiledX, btexture.tiledY);
                 if (btexture.tiled)
                 {
-                    int resizedTextureWidth = Mathf.RoundToInt(btexture.textureUnitSize.x * PIXELS_PER_METER * packedScale);
-                    int resizedTextureHeight = Mathf.RoundToInt(btexture.textureUnitSize.y * PIXELS_PER_METER * packedScale);
+                    int resizedTextureWidth = Mathf.RoundToInt(btexture.textureUnitSize.x * PixelsPerMeter * dataContext.packedScale);
+                    int resizedTextureHeight = Mathf.RoundToInt(btexture.textureUnitSize.y * PixelsPerMeter * dataContext.packedScale);
                     texturePaintObject.pixels = TextureScale.NearestNeighbourSample(texturePaintObject.pixels, texturePaintObject.width, texturePaintObject.height, resizedTextureWidth, resizedTextureHeight);
                     texturePaintObject.width = resizedTextureWidth;
                     texturePaintObject.height = resizedTextureHeight;
@@ -282,7 +277,7 @@ namespace Mercraft.Models.Buildings.Builders
                 buildSourceTextures.Add(texturePaintObject);
             }
             TexturePaintObject[] sourceTextures = buildSourceTextures.ToArray();
-            textures = data.Textures.ToArray();
+            dataContext.textures = data.Textures;
             FacadeDesign facadeDesign = data.Facades[0];
             Plan plan = data.Plan;
 
@@ -303,7 +298,7 @@ namespace Mercraft.Models.Buildings.Builders
                     indexB = (f < numberOfVolumePoints - 1) ? f + 1 : 0;
                     p0 = plan.points[volume.points[indexA]].Vector3();
                     p1 = plan.points[volume.points[indexB]].Vector3();
-                    Rect packedPosition = packedTexturePositions[facadeNumber];
+                    Rect packedPosition = dataContext.packedTexturePositions[facadeNumber];
 
                     float facadeWidth = Vector3.Distance(p0, p1);
                     int floorBase = plan.GetFacadeFloorHeight(s, volume.points[indexA], volume.points[indexB]);
@@ -421,7 +416,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     float bayWidth = (openingSpace + actualWindowSpacing);
                                     float bayHeight = floorHeight;
                                     bayDimensions = new Vector2(bayWidth, bayHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
 
                                     windowXBase += bayWidth;//move base vertor to next bay
                                     continue;//bay filled - move onto next bay
@@ -436,7 +431,7 @@ namespace Mercraft.Models.Buildings.Builders
                                 bayBase.x = windowXBase + leftSpace;
                                 bayBase.y = currentFloorBase + rowBottomHeight;
                                 bayDimensions = new Vector2(bayStyle.openingWidth, bayStyle.openingHeight);
-                                DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
 
                                 //Column Left
                                 if (leftSpace > 0)
@@ -446,7 +441,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase;
                                     bayBase.y = currentFloorBase + rowBottomHeight;
                                     bayDimensions = new Vector2(leftSpace, bayStyle.openingHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 //Column Right
@@ -457,7 +452,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase + leftSpace + openingSpace;
                                     bayBase.y = currentFloorBase + rowBottomHeight;
                                     bayDimensions = new Vector2(rightSpace, bayStyle.openingHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 //Row Bottom
@@ -468,7 +463,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase + leftSpace;
                                     bayBase.y = currentFloorBase;
                                     bayDimensions = new Vector2(openingSpace, rowBottomHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 //Row Top
@@ -479,7 +474,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase + leftSpace;
                                     bayBase.y = currentFloorBase + rowBottomHeight + bayStyle.openingHeight;
                                     bayDimensions = new Vector2(openingSpace, rowTopHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 //Cross Left
@@ -491,7 +486,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase;
                                     bayBase.y = currentFloorBase;
                                     bayDimensions = new Vector2(leftSpace, rowBottomHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
 
                                     //Cross Left Top
                                     subMesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
@@ -499,7 +494,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase;
                                     bayBase.y = currentFloorBase + rowBottomHeight + bayStyle.openingHeight;
                                     bayDimensions = new Vector2(leftSpace, rowTopHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 //Cross Right
@@ -511,7 +506,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase + leftSpace + openingSpace;
                                     bayBase.y = currentFloorBase;
                                     bayDimensions = new Vector2(rightSpace, rowBottomHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
 
                                     //Cross Left Top
                                     subMesh = bayStyle.GetTexture(Bay.TextureNames.CrossTexture);
@@ -519,7 +514,7 @@ namespace Mercraft.Models.Buildings.Builders
                                     bayBase.x = windowXBase + leftSpace + openingSpace;
                                     bayBase.y = currentFloorBase + rowBottomHeight + bayStyle.openingHeight;
                                     bayDimensions = new Vector2(rightSpace, rowTopHeight);
-                                    DrawFacadeTexture(sourceTextures, bayBase, bayDimensions, subMesh, flipped, packedPosition);
+                                    DrawFacadeTexture(sourceTextures, dataContext, bayBase, bayDimensions, subMesh, flipped, packedPosition);
                                 }
 
                                 windowXBase += leftSpace + openingSpace + rightSpace;//move base vertor to next bay
@@ -533,7 +528,7 @@ namespace Mercraft.Models.Buildings.Builders
                             bayBase.x = 0;
                             bayBase.y = currentFloorBase;
                             Vector2 dimensions = new Vector2(facadeWidth, floorHeight);
-                            DrawFacadeTexture(sourceTextures, bayBase, dimensions, subMesh, flipped, packedPosition);
+                            DrawFacadeTexture(sourceTextures, dataContext, bayBase, dimensions, subMesh, flipped, packedPosition);
                         }
                     }
                     facadeNumber++;
@@ -541,12 +536,12 @@ namespace Mercraft.Models.Buildings.Builders
             }
 
             //add roof textures
-            int numberOfroofTextures = roofTextures.Count;
-            int scaledPadding = Mathf.FloorToInt(ATLAS_PADDING * packedScale);
+            int numberOfroofTextures = dataContext.roofTextures.Count;
+            int scaledPadding = Mathf.FloorToInt(AtlasPadding * dataContext.packedScale);
             for (int i = 0; i < numberOfroofTextures; i++)
             {
-                Rect roofTexturePosition = packedTexturePositions[i + facadeNumber];
-                Entities.Texture bTexture = roofTextures[i];
+                Rect roofTexturePosition = dataContext.packedTexturePositions[i + facadeNumber];
+                Entities.Texture bTexture = dataContext.roofTextures[i];
                 int roofTextureWidth = bTexture.texture.width;
                 int roofTextureHeight = bTexture.texture.height;
                 int targetTextureWidth = Mathf.RoundToInt(roofTexturePosition.width);
@@ -572,7 +567,7 @@ namespace Mercraft.Models.Buildings.Builders
                     {
                         int drawX = Mathf.FloorToInt(x + roofTexturePosition.x);
                         int drawY = Mathf.FloorToInt(y + roofTexturePosition.y);
-                        int colourIndex = drawX + drawY * textureWidth;
+                        int colourIndex = drawX + drawY * dataContext.textureWidth;
 
                         int sx = x % sourceTextureWidth;
                         int sy = y % sourceTextureHeight;
@@ -580,28 +575,28 @@ namespace Mercraft.Models.Buildings.Builders
                         if (sourceIndex >= sourceTextureSize)
                             Debug.Log("Source Index too big " + sx + " " + sy + " " + sourceTextureWidth + " " + sourceTextureSize + " " + bTexture.maxUVTile + " " + bTexture.name);
                         Color32 sourceColour = roofColourArray[sourceIndex];
-                        if (colourIndex >= textureSize)
+                        if (colourIndex >= dataContext.textureSize)
                         {
-                            Debug.LogWarning("Output Index Too big " + drawX + " " + drawY + " " + colourIndex + " " +
-                                      textureSize + " " + roofTexturePosition);
+                            Debug.Log("Output Index Too big " + drawX + " " + drawY + " " + colourIndex + " " +
+                                      dataContext.textureSize + " " + roofTexturePosition);
                             return;
-                        }
 
-                        colourArray[colourIndex] = sourceColour;
+                        }
+                        dataContext.colourArray[colourIndex] = sourceColour;
 
                         //Padding
                         if (x == 0)
                         {
                             for (int p = 0; p < scaledPadding; p++)
                             {
-                                colourArray[colourIndex - p] = sourceColour;
+                                dataContext.colourArray[colourIndex - p] = sourceColour;
                             }
                         }
                         if (x == targetTextureWidth - 1)
                         {
                             for (int p = 0; p < scaledPadding; p++)
                             {
-                                colourArray[colourIndex + p] = sourceColour;
+                                dataContext.colourArray[colourIndex + p] = sourceColour;
                             }
                         }
 
@@ -609,7 +604,7 @@ namespace Mercraft.Models.Buildings.Builders
                         {
                             for (int p = 0; p < scaledPadding; p++)
                             {
-                                colourArray[colourIndex - (p * textureWidth)] = sourceColour;
+                                dataContext.colourArray[colourIndex - (p * dataContext.textureWidth)] = sourceColour;
                             }
                         }
 
@@ -617,7 +612,7 @@ namespace Mercraft.Models.Buildings.Builders
                         {
                             for (int p = 0; p < scaledPadding; p++)
                             {
-                                colourArray[colourIndex + (p * textureWidth)] = sourceColour;
+                                dataContext.colourArray[colourIndex + (p * dataContext.textureWidth)] = sourceColour;
                             }
                         }
                     }
@@ -625,26 +620,26 @@ namespace Mercraft.Models.Buildings.Builders
             }
         }
 
-        private static void DrawFacadeTexture(TexturePaintObject[] sourceTextures, Vector2 bayBase, Vector2 bayDimensions, int subMesh, bool flipped, Rect packedPosition)
+        private static void DrawFacadeTexture(TexturePaintObject[] sourceTextures, TextureDataContext dataContext, Vector2 bayBase, Vector2 bayDimensions, int subMesh, bool flipped, Rect packedPosition)
         {
-            int scaledPadding = Mathf.FloorToInt(ATLAS_PADDING * packedScale);
-            int paintWidth = Mathf.RoundToInt(bayDimensions.x * PIXELS_PER_METER * packedScale);
-            int paintHeight = Mathf.RoundToInt(bayDimensions.y * PIXELS_PER_METER * packedScale);
+            int scaledPadding = Mathf.FloorToInt(AtlasPadding * dataContext.packedScale);
+            int paintWidth = Mathf.RoundToInt(bayDimensions.x * PixelsPerMeter * dataContext.packedScale);
+            int paintHeight = Mathf.RoundToInt(bayDimensions.y * PixelsPerMeter * dataContext.packedScale);
 
             TexturePaintObject paintObject = sourceTextures[subMesh];
             Color32[] sourceColours = paintObject.pixels;
             int sourceWidth = paintObject.width;
             int sourceHeight = paintObject.height;
             int sourceSize = sourceColours.Length;
-            Vector2 textureStretch = Vector2.one * packedScale;
+            Vector2 textureStretch = Vector2.one * dataContext.packedScale;
             if (!paintObject.tiled)
             {
                 textureStretch.x = (float)sourceWidth / (float)paintWidth;
                 textureStretch.y = (float)sourceHeight / (float)paintHeight;
             }
-            int baseX = Mathf.RoundToInt((bayBase.x * PIXELS_PER_METER) * packedScale + packedPosition.x);
-            int baseY = Mathf.RoundToInt((bayBase.y * PIXELS_PER_METER) * packedScale + packedPosition.y);
-            int baseCood = baseX + baseY * textureWidth;
+            int baseX = Mathf.RoundToInt((bayBase.x * PixelsPerMeter) * dataContext.packedScale + packedPosition.x);
+            int baseY = Mathf.RoundToInt((bayBase.y * PixelsPerMeter) * dataContext.packedScale + packedPosition.y);
+            int baseCood = baseX + baseY * dataContext.textureWidth;
 
             //fill in a little bit more to cover rounding errors
             paintWidth++;
@@ -656,7 +651,7 @@ namespace Mercraft.Models.Buildings.Builders
             {
                 for (int py = 0; py < useHeight; py++)
                 {
-                    int paintPixelIndex = (!flipped) ? px + py * textureWidth : py + px * textureWidth;
+                    int paintPixelIndex = (!flipped) ? px + py * dataContext.textureWidth : py + px * dataContext.textureWidth;
                     int six, siy;
                     if (paintObject.tiled)
                     {
@@ -669,9 +664,9 @@ namespace Mercraft.Models.Buildings.Builders
                         siy = Mathf.RoundToInt(py * textureStretch.y * paintObject.tiles.y) % sourceHeight;
                     }
                     int sourceIndex = Mathf.Clamp(six + siy * sourceWidth, 0, sourceSize - 1);
-                    int pixelCoord = Mathf.Clamp(baseCood + paintPixelIndex, 0, textureSize - 1);
+                    int pixelCoord = Mathf.Clamp(baseCood + paintPixelIndex, 0, dataContext.textureSize - 1);
                     Color32 sourceColour = sourceColours[sourceIndex];
-                    colourArray[pixelCoord] = sourceColour;
+                    dataContext.colourArray[pixelCoord] = sourceColour;
 
 
                     //Padding
@@ -682,7 +677,7 @@ namespace Mercraft.Models.Buildings.Builders
                             int paintCoord = pixelCoord - p;
                             if (paintCoord < 0)
                                 break;
-                            colourArray[paintCoord] = sourceColour;
+                            dataContext.colourArray[paintCoord] = sourceColour;
                         }
                     }
                     if ((baseX + paintWidth) > packedPosition.xMax && px == useWidth - 1)
@@ -690,9 +685,9 @@ namespace Mercraft.Models.Buildings.Builders
                         for (int p = 1; p < scaledPadding; p++)
                         {
                             int paintCoord = pixelCoord + p;
-                            if (paintCoord >= textureSize)
+                            if (paintCoord >= dataContext.textureSize)
                                 break;
-                            colourArray[paintCoord] = sourceColour;
+                            dataContext.colourArray[paintCoord] = sourceColour;
                         }
                     }
 
@@ -700,10 +695,10 @@ namespace Mercraft.Models.Buildings.Builders
                     {
                         for (int p = 1; p < scaledPadding; p++)
                         {
-                            int paintCoord = pixelCoord - (p * textureWidth);
+                            int paintCoord = pixelCoord - (p * dataContext.textureWidth);
                             if (paintCoord < 0)
                                 break;
-                            colourArray[paintCoord] = sourceColour;
+                            dataContext.colourArray[paintCoord] = sourceColour;
                         }
                     }
 
@@ -711,10 +706,10 @@ namespace Mercraft.Models.Buildings.Builders
                     {
                         for (int p = 1; p < scaledPadding; p++)
                         {
-                            int paintCoord = pixelCoord + (p * textureWidth);
-                            if (paintCoord >= textureSize)
+                            int paintCoord = pixelCoord + (p * dataContext.textureWidth);
+                            if (paintCoord >= dataContext.textureSize)
                                 break;
-                            colourArray[paintCoord] = sourceColour;
+                            dataContext.colourArray[paintCoord] = sourceColour;
                         }
                     }
                 }

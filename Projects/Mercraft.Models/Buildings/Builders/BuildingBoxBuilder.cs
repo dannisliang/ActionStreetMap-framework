@@ -12,15 +12,9 @@ namespace Mercraft.Models.Buildings.Builders
 
     public class BuildingBoxBuilder
     {
-        private static Data data;
-        private static DynamicMeshGenericMultiMaterialMesh mesh;
-
-        public static void Build(DynamicMeshGenericMultiMaterialMesh _mesh, Data _data)
+        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Data data)
         {
-            data = _data;
-            mesh = _mesh;
             Plan plan = data.Plan;
-
             int numberOfVolumes = data.Plan.numberOfVolumes;
             for (int s = 0; s < numberOfVolumes; s++)
             {

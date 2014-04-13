@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,15 +14,28 @@ namespace Mercraft.Models.Buildings
     public class BuildingGenerator
     {
         private static char[] filenameDelimiters = new[] {'\\', '/'};
-        
-        private static Texture wallTexture;
-        private static Texture windowTexture;
-        private static Texture doorTexture;
-        private static Texture roofTexture;
+        private static Dictionary<string, TextureCache>  _textureCaches = new Dictionary<string, TextureCache>();
+
+        private class TextureCache
+        {
+            public List<Texture> walltextures = new List<Texture>();
+            public List<Texture> windowtextures = new List<Texture>();
+            public List<Texture> doortextures = new List<Texture>();
+            public List<Texture> rooftextures = new List<Texture>();
+        }
+
+        private class TextureContext 
+        {
+            public Texture wallTexture;
+            public Texture windowTexture;
+            public Texture doorTexture;
+            public Texture roofTexture;
+        }
 
         public static void Generate(Data data)
         {
-
+            var textureContext = new TextureContext();
+            
             //GenerateConstraints constraints = data.GeneratorConstraints;
 
             //uint seed = (uint) (constraints.useSeed ? constraints.seed : Random.Range(0, int.MaxValue));
@@ -51,10 +65,10 @@ namespace Mercraft.Models.Buildings
             }*/
 
             //texture generation
-            GetTextures(data);
+            GetTextures(data, textureContext);
 
             //facade generation
-            GenerateFacades(data);
+            GenerateFacades(data, textureContext);
 
             //roof generation
             GenerateRoof(data);
@@ -116,7 +130,7 @@ namespace Mercraft.Models.Buildings
             data.Roofs.Add(roofDesign);
         }
 
-        private static void GenerateFacades(Data data)
+        private static void GenerateFacades(Data data, TextureContext textureContext)
         {
             GenerateConstraints constraints = data.GeneratorConstraints;
             RandomGen rgen = constraints.rgen;
@@ -130,10 +144,10 @@ namespace Mercraft.Models.Buildings
             Bay doorBay = new Bay("Door");
             doorBay.openingHeight = data.FloorHeight*0.9f;
             doorBay.openingHeightRatio = 0.0f;
-            float doorWidth = (doorTexture.texture.width/(float) doorTexture.texture.height)*doorBay.openingHeight;
+            float doorWidth = (textureContext.doorTexture.texture.width / (float)textureContext.doorTexture.texture.height) * doorBay.openingHeight;
             doorBay.openingWidth = doorWidth;
             doorBay.openingDepth = rgen.OutputRange(0.0f, 0.3f);
-            doorBay.SetTexture(Bay.TextureNames.OpeningBackTexture, data.Textures.IndexOf(doorTexture));
+            doorBay.SetTexture(Bay.TextureNames.OpeningBackTexture, data.Textures.IndexOf(textureContext.doorTexture));
             data.Bays.Add(doorBay);
             //ground window
             Bay groundWindow = new Bay("Ground Window");
@@ -146,7 +160,7 @@ namespace Mercraft.Models.Buildings
             groundWindow.openingHeightRatio = 0.8f;
             data.Bays.Add(groundWindow);
 
-            Texture groundFloorWindowTexture = windowTexture.Duplicate("groundWindowTexture");
+            Texture groundFloorWindowTexture = textureContext.windowTexture.Duplicate("groundWindowTexture");
             groundFloorWindowTexture.tiled = false;
             groundFloorWindowTexture.tiledX = Mathf.RoundToInt(groundWindow.openingWidth/groundWindow.openingHeight);
             int groundtextureIndex = data.Textures.Count;
@@ -208,76 +222,83 @@ namespace Mercraft.Models.Buildings
             data.Plan = plan;
         }
 
-        private static void GetTextures(Data data)
+        private static void GetTextures(Data data, TextureContext textureContext)
         {
-            List<Texture> walltextures = new List<Texture>();
-            List<Texture> windowtextures = new List<Texture>();
-            List<Texture> doortextures = new List<Texture>();
-            List<Texture> rooftextures = new List<Texture>();
-            XmlNodeList xmlTextures = null;
-            string textureFilePath = data.GeneratorConstraints.texturePackXML;
-
-            if (File.Exists(textureFilePath))
-            {
-                XmlDocument xml = new XmlDocument();
-                StreamReader sr = new StreamReader(textureFilePath);
-                xml.LoadXml(sr.ReadToEnd());
-                sr.Close();
-                xmlTextures = xml.SelectNodes("data/textures/texture");
-
-                if (xmlTextures == null)
-                    return;
-
-                foreach (XmlNode node in xmlTextures)
-                {
-                    string filepath = node["filepath"].FirstChild.Value;
-                    string[] splits = filepath.Split(filenameDelimiters);
-                    Texture bTexture = new Texture(splits[splits.Length - 1]);
-
-
-                    var texture = Resources.Load<Texture2D>(filepath);
-                    Debug.Log(filepath + (texture == null? " <null>":" loaded!"));
-
-                    bTexture.texture = texture;
-                    bTexture.tiled = node["tiled"].FirstChild.Value == "True";
-                    bTexture.patterned = node["patterned"].FirstChild.Value == "True";
-                    Vector2 tileUnitUV;
-                    tileUnitUV.x = float.Parse(node["tileUnitUVX"].FirstChild.Value);
-                    tileUnitUV.y = float.Parse(node["tileUnitUVY"].FirstChild.Value);
-                    bTexture.tileUnitUV = tileUnitUV;
-
-                    Vector2 textureUnitSize;
-                    textureUnitSize.x = float.Parse(node["textureUnitSizeX"].FirstChild.Value);
-                    textureUnitSize.y = float.Parse(node["textureUnitSizeY"].FirstChild.Value);
-                    bTexture.textureUnitSize = textureUnitSize;
-
-                    bTexture.tiledX = int.Parse(node["tiledX"].FirstChild.Value);
-                    bTexture.tiledY = int.Parse(node["tiledY"].FirstChild.Value);
-
-                    bTexture.door = node["door"].FirstChild.Value == "True";
-                    bTexture.window = node["window"].FirstChild.Value == "True";
-                    bTexture.wall = node["wall"].FirstChild.Value == "True";
-                    bTexture.roof = node["roof"].FirstChild.Value == "True";
-
-                    if (bTexture.wall) walltextures.Add(bTexture);
-                    if (bTexture.window) windowtextures.Add(bTexture);
-                    if (bTexture.door) doortextures.Add(bTexture);
-                    if (bTexture.roof) rooftextures.Add(bTexture);
-                }
-            }
+            var textureCache = GetTextures(data.GeneratorConstraints.texturePackXML);
 
             RandomGen rgen = data.GeneratorConstraints.rgen;
-            wallTexture = walltextures[rgen.OutputRange(0, walltextures.Count - 1)]; //wall
-            data.Textures.Add(wallTexture);
+            textureContext.wallTexture = textureCache.walltextures[rgen.OutputRange(0, textureCache.walltextures.Count - 1)]; //wall
+            data.Textures.Add(textureContext.wallTexture);
 
-            windowTexture = windowtextures[rgen.OutputRange(0, windowtextures.Count - 1)]; //window
-            data.Textures.Add(windowTexture);
+            textureContext.windowTexture = textureCache.windowtextures[rgen.OutputRange(0, textureCache.windowtextures.Count - 1)]; //window
+            data.Textures.Add(textureContext.windowTexture);
 
-            roofTexture = rooftextures[rgen.OutputRange(0, rooftextures.Count - 1)]; //roof
-            data.Textures.Add(roofTexture);
+            textureContext.roofTexture = textureCache.rooftextures[rgen.OutputRange(0, textureCache.rooftextures.Count - 1)]; //roof
+            data.Textures.Add(textureContext.roofTexture);
 
-            doorTexture = doortextures[rgen.OutputRange(0, doortextures.Count - 1)]; //door
-            data.Textures.Add(doorTexture);
+            textureContext.doorTexture = textureCache.doortextures[rgen.OutputRange(0, textureCache.doortextures.Count - 1)]; //door
+            data.Textures.Add(textureContext.doorTexture);
+        }
+
+        private static TextureCache GetTextures(string textureFilePath)
+        {
+            if (_textureCaches.ContainsKey(textureFilePath))  
+                return _textureCaches[textureFilePath];
+
+            var cache = new TextureCache();
+            if (!File.Exists(textureFilePath))
+            {
+                throw new ArgumentException("Unable to find texture file", textureFilePath);
+            }
+            XmlDocument xml = new XmlDocument();
+            StreamReader sr = new StreamReader(textureFilePath);
+            xml.LoadXml(sr.ReadToEnd());
+            sr.Close();
+            var xmlTextures = xml.SelectNodes("data/textures/texture");
+
+            if (xmlTextures == null)
+                throw new ArgumentException("No textures in given file", textureFilePath);
+
+            foreach (XmlNode node in xmlTextures)
+            {
+                string filepath = node["filepath"].FirstChild.Value;
+                string[] splits = filepath.Split(filenameDelimiters);
+                Texture bTexture = new Texture(splits[splits.Length - 1]);
+
+
+                var texture = Resources.Load<Texture2D>(filepath);
+                Debug.Log(filepath + (texture == null ? " <null>" : " loaded!"));
+
+                bTexture.texture = texture;
+                bTexture.tiled = node["tiled"].FirstChild.Value == "True";
+                bTexture.patterned = node["patterned"].FirstChild.Value == "True";
+                Vector2 tileUnitUV;
+                tileUnitUV.x = float.Parse(node["tileUnitUVX"].FirstChild.Value);
+                tileUnitUV.y = float.Parse(node["tileUnitUVY"].FirstChild.Value);
+                bTexture.tileUnitUV = tileUnitUV;
+
+                Vector2 textureUnitSize;
+                textureUnitSize.x = float.Parse(node["textureUnitSizeX"].FirstChild.Value);
+                textureUnitSize.y = float.Parse(node["textureUnitSizeY"].FirstChild.Value);
+                bTexture.textureUnitSize = textureUnitSize;
+
+                bTexture.tiledX = int.Parse(node["tiledX"].FirstChild.Value);
+                bTexture.tiledY = int.Parse(node["tiledY"].FirstChild.Value);
+
+                bTexture.door = node["door"].FirstChild.Value == "True";
+                bTexture.window = node["window"].FirstChild.Value == "True";
+                bTexture.wall = node["wall"].FirstChild.Value == "True";
+                bTexture.roof = node["roof"].FirstChild.Value == "True";
+
+                if (bTexture.wall) cache.walltextures.Add(bTexture);
+                if (bTexture.window) cache.windowtextures.Add(bTexture);
+                if (bTexture.door) cache.doortextures.Add(bTexture);
+                if (bTexture.roof) cache.rooftextures.Add(bTexture);
+            }
+
+            _textureCaches.Add(textureFilePath, cache);
+
+            return cache;
         }
     }
 }
