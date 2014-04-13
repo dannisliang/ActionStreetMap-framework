@@ -7,7 +7,7 @@ area[building:levels],
 area[building:shape],
 area[addr:housename],
 area[addr:housenumber],
-area[building]											{ z-index: 0; builder: building; behaviour: solid; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
+area[building]											{ z-index: 0; builder: solid; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; }
 
 area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
@@ -16,7 +16,7 @@ area[building:shape=sphere]								{ builder: sphere;}
 area[building:shape=cylinder]							{ builder: cylinder;}
 
 area[building=residential], 	
-area[building=yes]										{ fill-color: #bca9a9;}
+area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:Assets/Resources/Buildings/Config/styles/testStyles.xml;}
 
 area[building=tourism]									{ fill-color: #0066ff;}
 area[building=commercial] 								{ fill-color: #efc8c8;}

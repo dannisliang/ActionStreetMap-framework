@@ -32,8 +32,9 @@ namespace Mercraft.Explorer.Builders
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
             var height = rule.GetHeight(NoValue);
             var levels = rule.GetLevels(NoValue);
-
-            gameObject.AddComponent<BuildingBehavior>().Attach(height, levels, verticies);
+            var style = rule.GetBuildingStyle();
+            gameObject.AddComponent<BuildingBehavior>()
+                .Attach(style, height, levels, verticies);
 
             return gameObject;
         }

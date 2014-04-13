@@ -20,12 +20,12 @@ namespace Mercraft.Models.Buildings
         private List<Material> materials;
         private GameObject[] details;
 
-        public void Attach(float height, int levels, IEnumerable<Vector2> footPrint)
+        public void Attach(string style, float height, int levels, IEnumerable<Vector2> footPrint)
         {
             data = new Data();
             data.Footprint = footPrint;
-            
-            ConstraitProvider.LoadConstraints("Assets/Resources/Buildings/Config/styles/testStyles.xml", data);
+
+            data.GeneratorConstraints = ConstraitProvider.Get(style);
 
             Generate(data, height, levels);
         }

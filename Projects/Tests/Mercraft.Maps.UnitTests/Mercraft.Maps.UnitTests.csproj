@@ -51,6 +51,7 @@
     <Compile Include="Core\TypeHelperTests.cs" />
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
+    <Compile Include="Models\BuildingTests.cs" />
     <Compile Include="Osm\WayTests.cs" />
     <Compile Include="PerformanceLogger.cs" />
     <Compile Include="Infrastructure\ConfigTests.cs" />
