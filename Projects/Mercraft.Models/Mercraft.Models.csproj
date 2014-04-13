@@ -41,13 +41,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\Builders\BuilderFullDetail.cs" />
-    <Compile Include="Buildings\Builders\BuilderLowDetail.cs" />
-    <Compile Include="Buildings\Builders\BuilderBuildingBox.cs" />
+    <Compile Include="Buildings\Builders\FullDetailBuilder.cs" />
+    <Compile Include="Buildings\Builders\LowDetailBuilder.cs" />
+    <Compile Include="Buildings\Builders\BuildingBoxBuilder.cs" />
+    <Compile Include="Buildings\BuildingBehavior.cs" />
     <Compile Include="Buildings\Entities\Bay.cs" />
+    <Compile Include="Buildings\Entities\BuildingDetails.cs" />
     <Compile Include="Buildings\Entities\Data.cs" />
     <Compile Include="Buildings\Entities\Detail.cs" />
     <Compile Include="Buildings\Entities\FacadeDesign.cs" />
+    <Compile Include="Buildings\RenderMode.cs" />
     <Compile Include="Buildings\GenerateConstraints.cs" />
     <Compile Include="Buildings\Entities\Plan.cs" />
     <Compile Include="Buildings\Entities\Roof.cs" />

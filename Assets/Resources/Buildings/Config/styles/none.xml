@@ -20,7 +20,7 @@
 <areaheight>20</areaheight>
 <constrainPlanByPlan>False</constrainPlanByPlan>
 <constrainDesign>False</constrainDesign>
-<texturePackXML>Assets/Buildings/Config/Textures/default.xml</texturePackXML>
+<texturePackXML>Assets/Resources/Buildings/Config/Textures/default.xml</texturePackXML>
 <openingMinimumWidth>0.75</openingMinimumWidth>
 <openingMaximumWidth>1.25</openingMaximumWidth>
 <openingMinimumHeight>0.45</openingMinimumHeight>

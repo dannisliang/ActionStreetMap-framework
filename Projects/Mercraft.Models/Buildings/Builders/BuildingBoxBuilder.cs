@@ -10,7 +10,7 @@ namespace Mercraft.Models.Buildings.Builders
     using UnityEngine;
     using System.Collections.Generic;
 
-    public class BuilderBuildingBox
+    public class BuildingBoxBuilder
     {
         private static Data data;
         private static DynamicMeshGenericMultiMaterialMesh mesh;

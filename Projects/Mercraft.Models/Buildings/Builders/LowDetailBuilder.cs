@@ -10,7 +10,7 @@ namespace Mercraft.Models.Buildings.Builders
     using UnityEngine;
     using System.Collections.Generic;
 
-    public class BuilderLowDetail
+    public class LowDetailBuilder
     {
         private const int PIXELS_PER_METER = 100;
         private const int ATLAS_PADDING = 16;

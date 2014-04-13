@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
@@ -231,11 +233,11 @@ namespace Mercraft.Models.Buildings
                     string filepath = node["filepath"].FirstChild.Value;
                     string[] splits = filepath.Split(filenameDelimiters);
                     Texture bTexture = new Texture(splits[splits.Length - 1]);
-#if UNITY_EDITOR
-                    Texture2D texture = (Texture2D) AssetDatabase.LoadAssetAtPath(filepath, typeof (Texture2D));
-#else
-                Texture2D texture = new WWW (filepath).texture;
-#endif
+
+
+                    var texture = Resources.Load<Texture2D>(filepath);
+                    Debug.Log(filepath + (texture == null? " <null>":" loaded!"));
+
                     bTexture.texture = texture;
                     bTexture.tiled = node["tiled"].FirstChild.Value == "True";
                     bTexture.patterned = node["patterned"].FirstChild.Value == "True";

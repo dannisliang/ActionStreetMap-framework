@@ -6,7 +6,7 @@ using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
 namespace Mercraft.Models.Buildings.Builders
 {
-    public class BuilderFullDetail
+    public class FullDetailBuilder
     {
         private static Data data;
         private static Texture[] textures;

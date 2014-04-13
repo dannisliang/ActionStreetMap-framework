@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings.Entities
     {
         public GenerateConstraints GeneratorConstraints { get; set; }
 
-        public List<Vector2> Footprint { get; set; }
+        public IEnumerable<Vector2> Footprint { get; set; }
         public Plan Plan { get; set; }
 
         public List<FacadeDesign> Facades { get; set; }

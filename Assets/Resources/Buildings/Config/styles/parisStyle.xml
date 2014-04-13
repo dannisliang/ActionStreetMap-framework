@@ -20,7 +20,7 @@
 <areaheight>20</areaheight>
 <constrainPlanByPlan>False</constrainPlanByPlan>
 <constrainDesign>False</constrainDesign>
-<texturePackXML>Assets/Buildings/Config/Textures/parisTextures.xml</texturePackXML>
+<texturePackXML>Assets/Resources/Buildings/Config/Textures/parisTextures.xml</texturePackXML>
 <openingMinimumWidth>0.6574075</openingMinimumWidth>
 <openingMaximumWidth>0.925926</openingMaximumWidth>
 <openingMinimumHeight>1.43172</openingMinimumHeight>

@@ -61,6 +61,9 @@
     <Reference Include="Mercraft.Maps.Osm">
       <HintPath>Assets\Dependencies\Mercraft.Maps.Osm.dll</HintPath>
     </Reference>
+    <Reference Include="Mercraft.Models">
+      <HintPath>Assets\Dependencies\Mercraft.Models.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
       <HintPath>Assets\Dependencies\protobuf-net.dll</HintPath>
     </Reference>
@@ -71,28 +74,29 @@
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\PlatformInputController.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
-    <None Include="Assets\Buildings\Config\styles\georgianStyle.xml" />
-    <None Include="Assets\Buildings\Config\styles\hongKongStyle.xml" />
-    <None Include="Assets\Buildings\Config\styles\none.xml" />
-    <None Include="Assets\Buildings\Config\styles\parisStyle.xml" />
-    <None Include="Assets\Buildings\Config\styles\testStyles.xml" />
-    <None Include="Assets\Buildings\Config\textures\alltextures.xml" />
-    <None Include="Assets\Buildings\Config\textures\default.xml" />
-    <None Include="Assets\Buildings\Config\textures\georgianTextures.xml" />
-    <None Include="Assets\Buildings\Config\textures\hongKongTextures.xml" />
-    <None Include="Assets\Buildings\Config\textures\parisTextures.xml" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
+    <None Include="Assets\Resources\Buildings\Config\styles\georgianStyle.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\hongKongStyle.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\none.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\parisStyle.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\testStyles.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\alltextures.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\default.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\georgianTextures.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\hongKongTextures.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\parisTextures.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />
-    <Folder Include="Assets\Buildings" />
-    <Folder Include="Assets\Buildings\Config" />
-    <Folder Include="Assets\Buildings\Config\styles" />
-    <Folder Include="Assets\Buildings\Config\textures" />
     <Folder Include="Assets\Dependencies" />
     <Folder Include="Assets\ParticleEffects" />
     <Folder Include="Assets\ParticleEffects\Shaders" />
+    <Folder Include="Assets\Resources" />
+    <Folder Include="Assets\Resources\Buildings" />
+    <Folder Include="Assets\Resources\Buildings\Config" />
+    <Folder Include="Assets\Resources\Buildings\Config\styles" />
+    <Folder Include="Assets\Resources\Buildings\Config\textures" />
     <Folder Include="Assets\Standard Assets" />
     <Folder Include="Assets\Standard Assets\Character Controllers" />
     <Folder Include="Assets\Standard Assets\Character Controllers\Sources" />

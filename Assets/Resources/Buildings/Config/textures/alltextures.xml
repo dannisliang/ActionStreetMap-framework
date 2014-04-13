@@ -3,7 +3,7 @@
 <datatype>TexturePack</datatype>
 <textures>
 <texture>
-<filepath>Assets/Buildings/Textures/bauhauswindow.jpg</filepath>
+<filepath>Buildings/Textures/bauhauswindow</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -18,7 +18,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/bauhauswindowbalcony.jpg</filepath>
+<filepath>Buildings/Textures/bauhauswindowbalcony</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -33,7 +33,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/bauhauswindowtile.jpg</filepath>
+<filepath>Buildings/Textures/bauhauswindowtile</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -48,7 +48,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/bauhauswindowtile.jpg.png</filepath>
+<filepath>Buildings/Textures/bauhauswindowtile.png</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -63,7 +63,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/black metal wall.jpg</filepath>
+<filepath>Buildings/Textures/black metal wall</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -78,7 +78,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickFacade0004_1_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickFacade0004_1_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.179</tileUnitUVX>
@@ -93,7 +93,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickFacade0025_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickFacade0025_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.255</tileUnitUVX>
@@ -108,7 +108,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickSmallBrown0078_2_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickSmallBrown0078_2_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.103</tileUnitUVX>
@@ -123,7 +123,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickSmallBrown0080_2_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickSmallBrown0080_2_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.069</tileUnitUVX>
@@ -138,7 +138,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickSmallBrown0204_2_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickSmallBrown0204_2_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.041</tileUnitUVX>
@@ -153,7 +153,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickSmallBrown0255_49_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickSmallBrown0255_49_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.083</tileUnitUVX>
@@ -168,7 +168,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/BrickSmallPainted0083_2_S.jpg</filepath>
+<filepath>Buildings/Textures/BrickSmallPainted0083_2_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.069</tileUnitUVX>
@@ -183,7 +183,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/brownwoodwindow.jpg</filepath>
+<filepath>Buildings/Textures/brownwoodwindow</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -198,7 +198,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/ConcreteBare0280_39_S.jpg</filepath>
+<filepath>Buildings/Textures/ConcreteBare0280_39_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -213,7 +213,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/ConcreteBare0321_5_S.jpg</filepath>
+<filepath>Buildings/Textures/ConcreteBare0321_5_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -228,7 +228,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/ConcretePlates0116_2_S.jpg</filepath>
+<filepath>Buildings/Textures/ConcretePlates0116_2_S</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.262</tileUnitUVX>
@@ -243,7 +243,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/concrete_grey.jpg</filepath>
+<filepath>Buildings/Textures/concrete_grey</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -258,7 +258,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsRollup0068_2_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsRollup0068_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -273,7 +273,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0049_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0049_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -288,7 +288,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0096_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0096_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -303,7 +303,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0113_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0113_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -318,7 +318,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0124_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0124_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -333,7 +333,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0125_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0125_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -348,7 +348,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0165_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0165_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -363,7 +363,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/DoorsWoodPanelled0189_S.jpg</filepath>
+<filepath>Buildings/Textures/DoorsWoodPanelled0189_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -378,7 +378,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/MarbleWall.jpg</filepath>
+<filepath>Buildings/Textures/MarbleWall</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.173</tileUnitUVX>
@@ -393,7 +393,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/MetalBase0121_9_S.jpg</filepath>
+<filepath>Buildings/Textures/MetalBase0121_9_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -408,7 +408,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/neoclassicaldormer.png</filepath>
+<filepath>Buildings/Textures/neoclassicaldormer.png</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -423,7 +423,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/neoclassicalparapet.png</filepath>
+<filepath>Buildings/Textures/neoclassicalparapet.png</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -438,7 +438,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/neoclassicalwindow.png</filepath>
+<filepath>Buildings/Textures/neoclassicalwindow.png</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -453,7 +453,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/PlasterColoured0146_2_S.jpg</filepath>
+<filepath>Buildings/Textures/PlasterColoured0146_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -468,7 +468,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/PlasterColoured0176_7_S.jpg</filepath>
+<filepath>Buildings/Textures/PlasterColoured0176_7_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -483,7 +483,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/PlasterColoured0263_7_S.jpg</filepath>
+<filepath>Buildings/Textures/PlasterColoured0263_7_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -498,7 +498,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/PlasterWhite0066_2_S.jpg</filepath>
+<filepath>Buildings/Textures/PlasterWhite0066_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -513,7 +513,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesBitumen0009_1_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesBitumen0009_1_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -528,7 +528,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesCeramic0037_2_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesCeramic0037_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>0.062</tileUnitUVX>
@@ -543,7 +543,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesCeramic0051_2_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesCeramic0051_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -558,7 +558,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesCeramic0066_11_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesCeramic0066_11_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -573,7 +573,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesMetal0012_2_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesMetal0012_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -588,7 +588,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesSlate0045_3_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesSlate0045_3_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -603,7 +603,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesSlate0101_2_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesSlate0101_2_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -618,7 +618,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesSlate0155_1_M.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesSlate0155_1_M</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -633,7 +633,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/RooftilesTiles0019_5_S.jpg</filepath>
+<filepath>Buildings/Textures/RooftilesTiles0019_5_S</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -648,7 +648,7 @@
 <roof>True</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/shopwindow.jpg</filepath>
+<filepath>Buildings/Textures/shopwindow</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -663,7 +663,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/shuttered windows.jpg</filepath>
+<filepath>Buildings/Textures/shuttered windows</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -678,7 +678,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/StoneWall.jpg</filepath>
+<filepath>Buildings/Textures/StoneWall</filepath>
 <tiled>True</tiled>
 <patterned>True</patterned>
 <tileUnitUVX>0.172</tileUnitUVX>
@@ -693,7 +693,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/window.png</filepath>
+<filepath>Buildings/Textures/window.png</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -708,7 +708,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsBlocks0024_2_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsBlocks0024_2_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -723,7 +723,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0055_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0055_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -738,7 +738,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0058_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0058_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -753,7 +753,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0080_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0080_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -768,7 +768,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0083_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0083_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -783,7 +783,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0094_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0094_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -798,7 +798,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0260_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0260_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -813,7 +813,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0303_1_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0303_1_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -828,7 +828,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0307_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0307_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -843,7 +843,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0310_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0310_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -858,7 +858,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/WindowsHouseOld0387_S.jpg</filepath>
+<filepath>Buildings/Textures/WindowsHouseOld0387_S</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -873,7 +873,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/wood planks.jpg</filepath>
+<filepath>Buildings/Textures/wood planks</filepath>
 <tiled>True</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -888,7 +888,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/wooden door.jpg</filepath>
+<filepath>Buildings/Textures/wooden door</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -903,7 +903,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Assets/Buildings/Textures/wooden double door.jpg</filepath>
+<filepath>Buildings/Textures/wooden double door</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>

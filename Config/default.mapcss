@@ -7,7 +7,7 @@ area[building:levels],
 area[building:shape],
 area[addr:housename],
 area[addr:housenumber],
-area[building]											{ z-index: 0; builder: solid; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
+area[building]											{ z-index: 0; builder: building; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
 
 area[height]												{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}

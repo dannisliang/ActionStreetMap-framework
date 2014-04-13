@@ -174,7 +174,7 @@ namespace Assets.Scripts.Demo
         static void BuildSingle()
         {
             Debug.Log("Generate Single Building..");
-            var b1 = new Way()
+            var b1 = new Area()
             {
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
@@ -229,7 +229,7 @@ namespace Assets.Scripts.Demo
             
             var rule = stylesheet.GetRule(b1);
 
-            visitor.FromWay(center, canvasGameObject, rule, b1);
+            visitor.FromArea(center, canvasGameObject, rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 
