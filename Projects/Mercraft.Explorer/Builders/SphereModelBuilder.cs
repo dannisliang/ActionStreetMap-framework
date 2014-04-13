@@ -15,8 +15,8 @@ namespace Mercraft.Explorer.Builders
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            var minHeight = rule.GetMinHeight(area);
-            return BuildSphere(center, area.Points, area.Id, minHeight);
+
+            return BuildSphere(center, area.Points, area, rule);
         }
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
@@ -24,10 +24,10 @@ namespace Mercraft.Explorer.Builders
             base.BuildWay(center, rule, way);
             // TODO is it applied to way?
             var minHeight = rule.GetMinHeight(way);
-            return BuildSphere(center, way.Points, way.Id, minHeight);
+            return BuildSphere(center, way.Points, way, rule);
         }
 
-        private GameObject BuildSphere(GeoCoordinate center, GeoCoordinate[] points, long id,  float minHeight)
+        private GameObject BuildSphere(GeoCoordinate center, GeoCoordinate[] points, Model model, Rule rule)
         {
             var circle = CircleHelper.GetCircle(center, points);
             var diameter = circle.Item1;
@@ -35,6 +35,11 @@ namespace Mercraft.Explorer.Builders
 
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
+            sphere.AddComponent<MeshRenderer>();
+            sphere.renderer.material = rule.GetMaterial(model);
+            sphere.renderer.material.color = rule.GetFillColor(model);
+
+            var minHeight = rule.GetMinHeight(model);
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
             sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter / 2, sphereCenter.y);
 

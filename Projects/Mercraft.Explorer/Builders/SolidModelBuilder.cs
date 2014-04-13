@@ -18,12 +18,6 @@ namespace Mercraft.Explorer.Builders
         {
             base.BuildArea(center, rule, area);
             GameObject gameObject = new GameObject();
-            /*// TODO remove this assertion after handling this case above
-            if (area.Points.Length < 3)
-            {
-                Debug.LogError("Area contains less than 3 points: " + area);
-                return null;
-            }*/
 
             gameObject.name = String.Format("Solid {0}", area);
             BuildModel(center, gameObject, rule, area, area.Points.ToList());
@@ -34,12 +28,6 @@ namespace Mercraft.Explorer.Builders
         {
             base.BuildWay(center, rule, way);
             GameObject gameObject = new GameObject();
-            /*// TODO remove this assertion after handling this case above
-            if (way.Points.Length < 3)
-            {
-                Debug.LogError("Way contains less than 3 points: " + way);
-                return null;
-            }*/
 
             gameObject.name = String.Format("Solid {0}", way);
             BuildModel(center, gameObject, rule, way, way.Points.ToList());
@@ -65,6 +53,10 @@ namespace Mercraft.Explorer.Builders
             meshFilter.mesh.Clear();
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();
+
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.renderer.material = rule.GetMaterial(model);
+            gameObject.renderer.material.color = rule.GetFillColor(model);
         }
     }
 }

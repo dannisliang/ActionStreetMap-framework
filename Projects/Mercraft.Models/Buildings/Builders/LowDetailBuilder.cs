@@ -581,7 +581,12 @@ namespace Mercraft.Models.Buildings.Builders
                             Debug.Log("Source Index too big " + sx + " " + sy + " " + sourceTextureWidth + " " + sourceTextureSize + " " + bTexture.maxUVTile + " " + bTexture.name);
                         Color32 sourceColour = roofColourArray[sourceIndex];
                         if (colourIndex >= textureSize)
-                            Debug.Log("Output Index Too big " + drawX + " " + drawY + " " + colourIndex + " " + textureSize + " " + roofTexturePosition);
+                        {
+                            Debug.LogWarning("Output Index Too big " + drawX + " " + drawY + " " + colourIndex + " " +
+                                      textureSize + " " + roofTexturePosition);
+                            return;
+                        }
+
                         colourArray[colourIndex] = sourceColour;
 
                         //Padding

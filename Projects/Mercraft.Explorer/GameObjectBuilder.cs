@@ -49,18 +49,14 @@ namespace Mercraft.Explorer
             var gameObject = builder.BuildArea(center, rule, area);
             gameObject.name = String.Format("{0} {1}", builder.Name, area);
 
-            var meshFilter =  gameObject.GetComponent<MeshFilter>();
-            gameObject.AddComponent<MeshRenderer>();
 
-            gameObject.renderer.material = rule.GetMaterial(area);
-            gameObject.renderer.material.color = rule.GetFillColor(area);
-            
-            gameObject.transform.parent = parent.transform;
+
+            /*var meshFilter = gameObject.GetComponent<MeshFilter>();
 
             var collider = gameObject.AddComponent<MeshCollider>();
+            collider.sharedMesh = meshFilter.mesh;*/
 
-            collider.sharedMesh = meshFilter.mesh;
-
+            gameObject.transform.parent = parent.transform;
             ApplyBehaviour(gameObject, rule, area);
 
             return gameObject;

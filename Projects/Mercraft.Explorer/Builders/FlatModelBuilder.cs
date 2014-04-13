@@ -17,12 +17,6 @@ namespace Mercraft.Explorer.Builders
         {
             base.BuildArea(center, rule, area);
             GameObject gameObject = new GameObject();
-           /* // TODO remove this assertion after handling this case above
-            if (area.Points.Length < 3)
-            {
-                Debug.LogError("Area contains less than 3 points: " + area);
-                return null;
-            }*/
 
             gameObject.name = String.Format("Flat {0}", area);
 

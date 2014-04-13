@@ -30,7 +30,7 @@ namespace Mercraft.Explorer.Builders
              var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
              gameObject.AddComponent<BuildingBehavior>().Attach(verticies);
 
-            return null;
+             return gameObject;
         }
     }
 }

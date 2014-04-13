@@ -251,6 +251,13 @@ namespace Assets.Scripts.Demo
 
             componentRoot.OnMapPositionChanged(new Vector2(0,0));
         }
+
+        [MenuItem("OSM/Dump scene")]
+        static void DumpScene()
+        {
+            SceneHelper.DumpScene(new GeoCoordinate(52.531036, 13.384866),
+                @"Projects\Tests\TestAssets\berlin-latest.osm.pbf", 300);
+        }
     }
 }
 #endif
