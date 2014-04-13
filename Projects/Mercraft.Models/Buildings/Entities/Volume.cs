@@ -24,8 +24,7 @@ namespace Mercraft.Models.Buildings.Entities
             get { return _numberOfFloors; }
             set
             {
-                _numberOfFloors = Mathf.Max(1, value);//make sure the minimun value is one - can't have a volume that's 0
-                //or cant we? maybe in a patch we add park/garden/plaza stuff
+                _numberOfFloors = Mathf.Max(1, value);
             }
         }
 

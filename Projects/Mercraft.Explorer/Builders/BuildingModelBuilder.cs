@@ -3,6 +3,7 @@ using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Explorer.Helpers;
 using Mercraft.Models.Buildings;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
+        private const int NoValue = 0;
+
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
@@ -26,10 +29,14 @@ namespace Mercraft.Explorer.Builders
         {
             var gameObject = new GameObject();
 
-             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
-             gameObject.AddComponent<BuildingBehavior>().Attach(rule, verticies);
+            var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
+            var height = rule.GetHeight(NoValue);
+            var levels = rule.GetLevels(NoValue);
 
-             return gameObject;
+            gameObject.AddComponent<BuildingBehavior>().Attach(height, levels, verticies);
+
+            return gameObject;
         }
+
     }
 }

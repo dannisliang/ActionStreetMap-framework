@@ -21,7 +21,7 @@ namespace Mercraft.Explorer.Helpers
             return Resources.Load<Material>(@"Materials/" + path);
         }
 
-        public static float GetLevels(this Rule rule, int @default = 0)
+        public static int GetLevels(this Rule rule, int @default = 0)
         {
             return rule.EvaluateDefault("levels", @default);
         }
@@ -29,6 +29,11 @@ namespace Mercraft.Explorer.Helpers
         public static float GetHeight(this Rule rule)
         {
             return rule.Evaluate<float>("height");
+        }
+
+        public static float GetHeight(this Rule rule, float defaultValue = 0)
+        {
+            return rule.EvaluateDefault<float>("height", defaultValue);
         }
 
         public static float GetMinHeight(this Rule rule, float defaultValue = 0)

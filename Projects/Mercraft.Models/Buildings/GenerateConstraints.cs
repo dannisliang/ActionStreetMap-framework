@@ -6,6 +6,8 @@ namespace Mercraft.Models.Buildings
 {
     public class GenerateConstraints : ScriptableObject
     {
+        public const float MinimumBuildingHeight = 2.5f;
+        public const float MaximumBuildingHeight = 100.0f;
         public void Init()
         {
             rgen = new RandomGen((useSeed) ? (uint)_seed : (uint)Random.Range(0, int.MaxValue));

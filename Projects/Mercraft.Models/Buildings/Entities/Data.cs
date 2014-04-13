@@ -25,7 +25,7 @@ namespace Mercraft.Models.Buildings.Entities
         public Texture2D TextureAtlas { get; set; }
         public Texture2D LodTextureAtlas { get; set; }
 
-        private float _floorHeight = BuildingMeasurements.FLOOR_HEIGHT_MIN;
+        private float _floorHeight = BuildingMeasurements.FloorHeightMin;
 
         public Data()
         {

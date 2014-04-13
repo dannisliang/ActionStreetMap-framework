@@ -103,8 +103,8 @@ namespace Assets.Scripts.Demo
 
             GameObject gameObject = new GameObject("line");
             var lineRenderer = gameObject.AddComponent<LineRenderer>();
-            lineRenderer.material = rule.GetMaterial(way);
-            lineRenderer.material.color = rule.GetFillColor(way);
+            lineRenderer.material = rule.GetMaterial();
+            lineRenderer.material.color = rule.GetFillColor();
             lineRenderer.SetVertexCount(points.Length);
 
             // var color32 = rule.GetFillColor(way, Color.red);

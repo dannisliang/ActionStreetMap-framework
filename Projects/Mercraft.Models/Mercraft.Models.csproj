@@ -30,11 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
@@ -74,12 +70,6 @@
     <Compile Include="Buildings\Utils\StraightSkeleton.cs" />
     <Compile Include="Buildings\Utils\TextureScale.cs" />
     <Compile Include="Buildings\Utils\VectorExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
-      <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
-      <Name>Mercraft.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

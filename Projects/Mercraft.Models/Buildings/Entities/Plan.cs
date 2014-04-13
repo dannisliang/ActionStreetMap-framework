@@ -84,7 +84,7 @@ namespace Mercraft.Models.Buildings.Entities
         public int AddVolume()
         {
             Volume newVolume = ScriptableObject.CreateInstance<Volume>();
-            newVolume.numberOfFloors = Mathf.FloorToInt(newVolume.height / BuildingMeasurements.FLOOR_HEIGHT_MIN);
+            newVolume.numberOfFloors = Mathf.FloorToInt(newVolume.height / BuildingMeasurements.FloorHeightMin);
             volumes.Add(newVolume);
             newVolume.styles = ScriptableObject.CreateInstance<VolumeStyles>();
             return numberOfVolumes - 1;

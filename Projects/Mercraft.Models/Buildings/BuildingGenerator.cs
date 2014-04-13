@@ -32,37 +32,54 @@ namespace Mercraft.Models.Buildings
             public Texture roofTexture;
         }
 
-        public static void Generate(Data data)
+        public static void Generate(Data data, float height, int levels)
         {
             var textureContext = new TextureContext();
 
-            //GenerateConstraints constraints = data.GeneratorConstraints;
 
-            //uint seed = (uint) (constraints.useSeed ? constraints.seed : Random.Range(0, int.MaxValue));
-            //constraints.seed = (int) seed; //reassign value incase it's changed
-            //constraints.rgen = new RandomGen(seed);
-            //RandomGen rgen = constraints.rgen;
 
             GenerateFloorPlan(data);
 
-            data.FloorHeight = 5;
-            foreach (Volume volume in data.Plan.volumes)
-            {
-                volume.height = 5 * 5;
-                volume.numberOfFloors = 5;
-            }
-            /*data.FloorHeight = rgen.OutputRange(constraints.minimumFloorHeight, constraints.maximumFloorHeight);
+
+            GenerateConstraints constraints = data.GeneratorConstraints;
+            RandomGen rgen = constraints.rgen;
+
             float minBuildingSize = (constraints.constrainHeight)
                 ? constraints.minimumHeight
-                : GenerateConstraints.MINIMUM_BUILDING_HEIGHT;
+                : GenerateConstraints.MinimumBuildingHeight;
             float maxBuildingSize = (constraints.constrainHeight)
                 ? constraints.maximumHeight
-                : GenerateConstraints.MAXIMUM_BUILDING_HEIGHT;
+                : GenerateConstraints.MaximumBuildingHeight;
+
+            data.FloorHeight = rgen.OutputRange(constraints.minimumFloorHeight, constraints.maximumFloorHeight);
             foreach (Volume volume in data.Plan.volumes)
             {
-                volume.height = rgen.OutputRange(minBuildingSize, maxBuildingSize);
-                volume.numberOfFloors = Mathf.FloorToInt(volume.height/data.FloorHeight);
-            }*/
+                if (levels != 0)
+                {
+                    // level is defined but no height
+                    if (Math.Abs(height) < float.Epsilon)
+                    {
+                        height = levels*data.FloorHeight;
+                    }
+                    else
+                    {
+                        // levels and height are defined - calculate floor height
+                        data.FloorHeight = height/levels;
+                    }
+                    volume.height = height;
+                    volume.numberOfFloors = levels;
+                }
+                else
+                {
+                    // no level, no height
+                    if (Math.Abs(height) < float.Epsilon)
+                    {
+                        height = rgen.OutputRange(minBuildingSize, maxBuildingSize);
+                    }
+                    volume.height = height;
+                    volume.numberOfFloors = Mathf.FloorToInt(volume.height / data.FloorHeight);
+                }              
+            }
 
             //texture generation
             GetTextures(data, textureContext);

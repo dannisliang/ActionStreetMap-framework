@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.MapCss.Domain;
 using Mercraft.Models.Buildings.Builders;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
@@ -21,19 +20,19 @@ namespace Mercraft.Models.Buildings
         private List<Material> materials;
         private GameObject[] details;
 
-        public void Attach(Rule rule, IEnumerable<Vector2> footPrint)
+        public void Attach(float height, int levels, IEnumerable<Vector2> footPrint)
         {
             data = new Data();
             data.Footprint = footPrint;
             
             ConstraitProvider.LoadConstraints("Assets/Resources/Buildings/Config/styles/testStyles.xml", data);
 
-            Generate(data);
+            Generate(data, height, levels);
         }
 
-        private void Generate(Data data)
+        private void Generate(Data data, float height, int levels)
         {
-            BuildingGenerator.Generate(data);
+            BuildingGenerator.Generate(data, height, levels);
 
             UpdateRender(renderMode);
             //Ensure that we don't generate a building that has more than 65000 verts.

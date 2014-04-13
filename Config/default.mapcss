@@ -7,11 +7,11 @@ area[building:levels],
 area[building:shape],
 area[addr:housename],
 area[addr:housenumber],
-area[building]											{ z-index: 0; builder: building; behaviour: solid; height: 12; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
+area[building]											{ z-index: 0; builder: building; behaviour: solid; min_height: 0; material: Concrete_Patterned; fill-color: #FF0000; }
 
-area[height]												{ height: eval(num(tag('height')));}
+area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
-area[min_height]											{ min_height: eval(num(tag('min_height')));}
+area[min_height]										{ min_height: eval(num(tag('min_height')));}
 area[building:shape=sphere]								{ builder: sphere;}
 area[building:shape=cylinder]							{ builder: cylinder;}
 
@@ -24,7 +24,7 @@ area[building=garage] 									{ fill-color: #bca9a9;}
 area[building=apartments]								{ fill-color: #bca9a9;}
 
 area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
-area[building:color]										{ fill-color:eval(color(tag('building:color')));}
+area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 
 /* flat areas */
 area[amenity],
@@ -55,7 +55,7 @@ area[amenity=parking][parking=surface]					{ fill-color: #f7efb7;}
 area[amenity],
 area[natural=beach]										{ fill-color: #22FF11; }
 
-area[tourism=attraction]									{ fill-color: #f2caea; material: Concrete_Patterned;}
+area[tourism=attraction]								{ fill-color: #f2caea; material: Concrete_Patterned;}
 
 
 /* green zones */
@@ -75,7 +75,7 @@ area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]										{ fill-color: #cfeca8;}
+area[landuse=meadow]									{ fill-color: #cfeca8;}
 
 area[leisure=recreation_ground]							{ fill-color: #b6fdb6; }
 
@@ -87,7 +87,7 @@ area[waterway],
 area[natural=water],
 area[landuse=basin]										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #5429FF;}
 
-way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+way[barrier] :closed									{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
 
 /* roads */
 way[highway]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
