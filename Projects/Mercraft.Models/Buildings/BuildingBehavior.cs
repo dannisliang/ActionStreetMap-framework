@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core.MapCss.Domain;
 using Mercraft.Models.Buildings.Builders;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
@@ -20,7 +21,7 @@ namespace Mercraft.Models.Buildings
         private List<Material> materials;
         private GameObject[] details;
 
-        public void Attach(IEnumerable<Vector2> footPrint)
+        public void Attach(Rule rule, IEnumerable<Vector2> footPrint)
         {
             data = new Data();
             data.Footprint = footPrint;

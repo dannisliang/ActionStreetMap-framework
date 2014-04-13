@@ -25,7 +25,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var canvas = new Canvas();
 
             var rule = stylesheet.GetRule(canvas);
-            var material = rule.Evaluate<string>(canvas, "material");
+            var material = rule.Evaluate<string>("material");
 
             Assert.AreEqual("Terrain", material);
         }
@@ -59,12 +59,12 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.IsTrue(rule.IsApplicable, "Unable to get declarations!");
 
-            Assert.AreEqual("sphere", rule.Evaluate<string>(area, "builder"), "Unable to merge declarations!");
-            Assert.AreEqual(100, rule.Evaluate<float>(area, "min_height"), "Unable to eval min_height from tag!");
-            Assert.AreEqual(new Color32(250, 128, 114, 255), rule.GetFillColor(area), "Unable to merge declarations!");
-            Assert.AreEqual("solid", rule.Evaluate<string>(area, "behaviour"), "First rule isn't applied!");
-            Assert.AreEqual("Concrete_Patterned", rule.Evaluate<string>(area, "material"), "First rule isn't applied!");
-            Assert.AreEqual(15, rule.Evaluate<float>(area, "height"), "Unable to eval height from building:levels!");
+            Assert.AreEqual("sphere", rule.Evaluate<string>("builder"), "Unable to merge declarations!");
+            Assert.AreEqual(100, rule.Evaluate<float>("min_height"), "Unable to eval min_height from tag!");
+            Assert.AreEqual(new Color32(250, 128, 114, 255), rule.GetFillColor(), "Unable to merge declarations!");
+            Assert.AreEqual("solid", rule.Evaluate<string>("behaviour"), "First rule isn't applied!");
+            Assert.AreEqual("Concrete_Patterned", rule.Evaluate<string>("material"), "First rule isn't applied!");
+            Assert.AreEqual(15, rule.Evaluate<float>("height"), "Unable to eval height from building:levels!");
         }
 
 
@@ -106,8 +106,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var rule1 = stylesheet.GetRule(area1);
             var rule2 = stylesheet.GetRule(area2);
-            Assert.AreEqual(237, rule1.GetHeight(area1));
-            Assert.AreEqual(12f, rule2.GetHeight(area2));
+            Assert.AreEqual(237, rule1.GetHeight());
+            Assert.AreEqual(12f, rule2.GetHeight());
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
             var rule = stylesheet.GetRule(area);
 
-            Assert.AreEqual(0, rule.GetLevels(area));
+            Assert.AreEqual(0, rule.GetLevels());
 
         }
 
@@ -170,7 +170,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
-            Assert.AreEqual(ColorUtility.FromName("red"), rule.GetFillColor(buildingWithColorCode));
+            Assert.AreEqual(ColorUtility.FromName("red"), rule.GetFillColor());
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorName);
-            Assert.AreEqual(ColorUtility.FromName("salmon"), rule.GetFillColor(buildingWithColorName));         
+            Assert.AreEqual(ColorUtility.FromName("salmon"), rule.GetFillColor());         
         }
 
         [Test]
@@ -209,7 +209,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
-            Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"), rule.GetFillColor(buildingWithColorCode));
+            Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"), rule.GetFillColor());
         }
 
 

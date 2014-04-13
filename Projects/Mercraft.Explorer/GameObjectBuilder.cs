@@ -31,7 +31,7 @@ namespace Mercraft.Explorer
         public GameObject FromCanvas(GeoCoordinate center, GameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
-            var material = rule.GetMaterial(canvas);
+            var material = rule.GetMaterial();
 
             var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
             quad.name = "tile";
@@ -45,7 +45,7 @@ namespace Mercraft.Explorer
 
         public GameObject FromArea(GeoCoordinate center, GameObject parent, Rule rule, Area area)
         {
-            var builder = rule.GetModelBuilder(area, _builders);
+            var builder = rule.GetModelBuilder(_builders);
             var gameObject = builder.BuildArea(center, rule, area);
             gameObject.name = String.Format("{0} {1}", builder.Name, area);
 
@@ -57,28 +57,28 @@ namespace Mercraft.Explorer
             collider.sharedMesh = meshFilter.mesh;*/
 
             gameObject.transform.parent = parent.transform;
-            ApplyBehaviour(gameObject, rule, area);
+            ApplyBehaviour(gameObject, rule);
 
             return gameObject;
         }
 
         public GameObject FromWay(GeoCoordinate center, GameObject parent, Rule rule, Way way)
         {
-            var builder = rule.GetModelBuilder(way, _builders);
+            var builder = rule.GetModelBuilder(_builders);
             var gameObject = builder.BuildWay(center, rule, way);
             gameObject.name = String.Format("{0} {1}", builder.Name, way);
             gameObject.transform.parent = parent.transform;
 
-            ApplyBehaviour(gameObject, rule, way);
+            ApplyBehaviour(gameObject, rule);
 
             return gameObject;
         }
 
         #endregion
 
-        private void ApplyBehaviour(GameObject target, Rule rule, Model model)
+        private void ApplyBehaviour(GameObject target, Rule rule)
         {
-            var behaviour = rule.GetModelBehaviour(model, _behaviours);
+            var behaviour = rule.GetModelBehaviour(_behaviours);
             if(behaviour != null)
                 behaviour.Apply(target);
         }

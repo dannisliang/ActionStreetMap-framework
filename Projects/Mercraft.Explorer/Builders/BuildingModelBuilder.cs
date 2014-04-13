@@ -13,22 +13,21 @@ namespace Mercraft.Explorer.Builders
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            return BuildBuilding(center, area.Points, area, rule);
+            return BuildBuilding(center, area.Points, rule);
         }
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            return BuildBuilding(center, way.Points, way, rule);
+            return BuildBuilding(center, way.Points, rule);
         }
 
-        private GameObject BuildBuilding(GeoCoordinate center, GeoCoordinate[] footPrint, Model model, Rule rule)
+        private GameObject BuildBuilding(GeoCoordinate center, GeoCoordinate[] footPrint, Rule rule)
         {
             var gameObject = new GameObject();
-            gameObject.name = String.Format("Building {0}", model);
 
              var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
-             gameObject.AddComponent<BuildingBehavior>().Attach(verticies);
+             gameObject.AddComponent<BuildingBehavior>().Attach(rule, verticies);
 
              return gameObject;
         }

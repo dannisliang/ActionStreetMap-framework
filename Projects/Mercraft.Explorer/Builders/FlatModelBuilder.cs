@@ -20,7 +20,7 @@ namespace Mercraft.Explorer.Builders
 
             gameObject.name = String.Format("Flat {0}", area);
 
-            var floor = rule.GetZIndex(area);
+            var floor = rule.GetZIndex();
 
             var verticies = PolygonHelper.GetVerticies2D(center, area.Points);
 
@@ -41,15 +41,15 @@ namespace Mercraft.Explorer.Builders
         {
             base.BuildWay(center, rule, way);
             GameObject gameObject = new GameObject();
-            var zIndex = rule.GetZIndex(way);
+            var zIndex = rule.GetZIndex();
 
             gameObject.name = String.Format("Flat {0}", way);
 
             var points = PolygonHelper.GetVerticies2D(center, way.Points);
 
             var lineRenderer = gameObject.AddComponent<LineRenderer>();
-            lineRenderer.material = rule.GetMaterial(way);
-            lineRenderer.material.color = rule.GetFillColor(way);
+            lineRenderer.material = rule.GetMaterial();
+            lineRenderer.material.color = rule.GetFillColor();
             lineRenderer.SetVertexCount(points.Length);
 
 
@@ -58,7 +58,7 @@ namespace Mercraft.Explorer.Builders
                 lineRenderer.SetPosition(i, new Vector3(points[i].x, zIndex, points[i].y));
             }
 
-            var width = rule.GetWidth(way);
+            var width = rule.GetWidth();
             lineRenderer.SetWidth(width, width);
 
             return gameObject;

@@ -15,24 +15,24 @@ namespace Mercraft.Explorer.Builders
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            return BuildCylinder(center, area.Points, area, rule);
+            return BuildCylinder(center, area.Points, rule);
         }
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
             // TODO is it applied to way?
-            return BuildCylinder(center, way.Points, way, rule);
+            return BuildCylinder(center, way.Points, rule);
         }
 
-        private GameObject BuildCylinder(GeoCoordinate center, GeoCoordinate[] points, Model model, Rule rule)
+        private GameObject BuildCylinder(GeoCoordinate center, GeoCoordinate[] points, Rule rule)
         {
             var circle = CircleHelper.GetCircle(center, points);
             var diameter = circle.Item1;
             var cylinderCenter = circle.Item2;
 
-            var height = rule.GetHeight(model);
-            var minHeight = rule.GetMinHeight(model);
+            var height = rule.GetHeight();
+            var minHeight = rule.GetMinHeight();
 
             var actualHeight = (height - minHeight) / 2;
 
@@ -42,8 +42,8 @@ namespace Mercraft.Explorer.Builders
 
 
             cylinder.AddComponent<MeshRenderer>();
-            cylinder.renderer.material = rule.GetMaterial(model);
-            cylinder.renderer.material.color = rule.GetFillColor(model);
+            cylinder.renderer.material = rule.GetMaterial();
+            cylinder.renderer.material.color = rule.GetFillColor();
 
             return cylinder;
         }

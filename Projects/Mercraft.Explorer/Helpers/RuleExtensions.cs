@@ -15,60 +15,60 @@ namespace Mercraft.Explorer.Helpers
     /// </summary>
     public static class RuleExtensions
     {
-        public static Material GetMaterial(this Rule rule, Model model)
+        public static Material GetMaterial(this Rule rule)
         {
-            var path =  rule.Evaluate<string>(model, "material");
+            var path =  rule.Evaluate<string>("material");
             return Resources.Load<Material>(@"Materials/" + path);
         }
 
-        public static float GetLevels(this Rule rule, Model model, int @default = 0)
+        public static float GetLevels(this Rule rule, int @default = 0)
         {
-            return rule.EvaluateDefault(model, "levels", @default);
+            return rule.EvaluateDefault("levels", @default);
         }
 
-        public static float GetHeight(this Rule rule, Model model)
+        public static float GetHeight(this Rule rule)
         {
-            return rule.Evaluate<float>(model, "height");
+            return rule.Evaluate<float>("height");
         }
 
-        public static float GetMinHeight(this Rule rule, Model model, float defaultValue = 0)
+        public static float GetMinHeight(this Rule rule, float defaultValue = 0)
         {
-            return rule.EvaluateDefault<float>(model, "min_height", defaultValue);
+            return rule.EvaluateDefault<float>("min_height", defaultValue);
         }
 
-        public static IModelBuilder GetModelBuilder(this Rule rule, Model model, IEnumerable<IModelBuilder> builders)
+        public static IModelBuilder GetModelBuilder(this Rule rule, IEnumerable<IModelBuilder> builders)
         {
-            var builderName = rule.Evaluate<string>(model, "builder");
+            var builderName = rule.Evaluate<string>("builder");
             return builders.Single(mb => mb.Name == builderName);
         }
 
-        public static IModelBehaviour GetModelBehaviour(this Rule rule, Model model, IEnumerable<IModelBehaviour> behaviours)
+        public static IModelBehaviour GetModelBehaviour(this Rule rule, IEnumerable<IModelBehaviour> behaviours)
         {
-            var builderName = rule.EvaluateDefault<string>(model, "behaviour", null);
+            var builderName = rule.EvaluateDefault<string>("behaviour", null);
             if (builderName == null)
                 return null;
             return behaviours.Single(mb => mb.Name == builderName);
         }
 
-        public static Color32 GetFillColor(this Rule rule, Model model)
+        public static Color32 GetFillColor(this Rule rule)
         {
-            return rule.Evaluate<Color32>(model, "fill-color", ColorUtility.FromName);        
+            return rule.Evaluate<Color32>("fill-color", ColorUtility.FromName);        
         }
 
         /// <summary>
         /// Z-index is just the lowest y coordinate
         /// </summary>
-        public static float GetZIndex(this Rule rule, Model model)
+        public static float GetZIndex(this Rule rule)
         {
-            return rule.Evaluate<float>(model, "z-index");      
+            return rule.Evaluate<float>("z-index");      
         }
 
         /// <summary>
         /// Gets width
         /// </summary>
-        public static float GetWidth(this Rule rule, Model model)
+        public static float GetWidth(this Rule rule)
         {
-            return rule.Evaluate<float>(model, "width");
+            return rule.Evaluate<float>("width");
         }
     }
 }

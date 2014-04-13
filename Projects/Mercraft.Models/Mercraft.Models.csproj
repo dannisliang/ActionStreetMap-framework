@@ -75,6 +75,12 @@
     <Compile Include="Buildings\Utils\TextureScale.cs" />
     <Compile Include="Buildings\Utils\VectorExtensions.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
+      <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
+      <Name>Mercraft.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

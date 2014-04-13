@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Mercraft.Core.MapCss.Visitors.Eval;
 using Mercraft.Core.Scene.Models;
-using UnityEngine;
 
 namespace Mercraft.Core.MapCss.Domain
 {
     public class Rule
     {
+        private readonly Model _model;
         /// <summary>
         /// List of declarations.
         /// </summary>
         public IList<Declaration> Declarations { get; set; }
 
-        public Rule()
+        public Rule(Model model)
         {
+            _model = model;
             Declarations = new List<Declaration>();
         }
 
@@ -28,7 +27,7 @@ namespace Mercraft.Core.MapCss.Domain
             }
         }
 
-        public T EvaluateDefault<T>(Model model, string qualifier, T @default)
+        public T EvaluateDefault<T>(string qualifier, T @default)
         {
             Assert();
             var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
@@ -37,28 +36,28 @@ namespace Mercraft.Core.MapCss.Domain
                 return @default;
 
             if (declaration.IsEval)
-                return declaration.Evaluator.Walk<T>(model);
+                return declaration.Evaluator.Walk<T>(_model);
 
             return (T)Convert.ChangeType(declaration.Value, typeof(T));
         }
 
-        public T Evaluate<T>(Model model, string qualifier)
+        public T Evaluate<T>(string qualifier)
         {
-            return Evaluate(model, qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
+            return Evaluate(qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
         }
 
-        public T Evaluate<T>(Model model, string qualifier, Func<string, T> converter)
+        public T Evaluate<T>(string qualifier, Func<string, T> converter)
         {
             Assert();
             var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
 
             if (declaration == null)
                 throw new ArgumentException(String.Format("Declaration '{0}' not found for '{1}'",
-                    qualifier, model), qualifier);
+                    qualifier, _model), qualifier);
 
             if (declaration.IsEval)
             {
-                return declaration.Evaluator.Walk<T>(model);
+                return declaration.Evaluator.Walk<T>(_model);
             }
 
             return converter(declaration.Value);

@@ -20,7 +20,7 @@ namespace Mercraft.Explorer.Builders
             GameObject gameObject = new GameObject();
 
             gameObject.name = String.Format("Solid {0}", area);
-            BuildModel(center, gameObject, rule, area, area.Points.ToList());
+            BuildModel(center, gameObject, rule, area.Points.ToList());
             return gameObject;
         }
 
@@ -30,16 +30,16 @@ namespace Mercraft.Explorer.Builders
             GameObject gameObject = new GameObject();
 
             gameObject.name = String.Format("Solid {0}", way);
-            BuildModel(center, gameObject, rule, way, way.Points.ToList());
+            BuildModel(center, gameObject, rule, way.Points.ToList());
 
             return gameObject;
         }
 
-        private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, Model model, IList<GeoCoordinate> coordinates)
+        private void BuildModel(GeoCoordinate center, GameObject gameObject, Rule rule, IList<GeoCoordinate> coordinates)
         {
-            var height = rule.GetHeight(model);
+            var height = rule.GetHeight();
 
-            var floor = rule.GetZIndex(model);
+            var floor = rule.GetZIndex();
             var top = floor + height;
 
             var verticies = PolygonHelper.GetVerticies2D(center, coordinates);
@@ -55,8 +55,8 @@ namespace Mercraft.Explorer.Builders
             meshFilter.mesh.RecalculateNormals();
 
             gameObject.AddComponent<MeshRenderer>();
-            gameObject.renderer.material = rule.GetMaterial(model);
-            gameObject.renderer.material.color = rule.GetFillColor(model);
+            gameObject.renderer.material = rule.GetMaterial();
+            gameObject.renderer.material.color = rule.GetFillColor();
         }
     }
 }

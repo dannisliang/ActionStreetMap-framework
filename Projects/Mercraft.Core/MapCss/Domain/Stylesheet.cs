@@ -19,7 +19,7 @@ namespace Mercraft.Core.MapCss.Domain
 
         public Rule GetRule(Model model)
         {
-            return Styles.Aggregate(new Rule(), (r, s) => MergeDeclarations(s, r, model));
+            return Styles.Aggregate(new Rule(model), (r, s) => MergeDeclarations(s, r, model));
         }
 
         private Rule MergeDeclarations(Style style, Rule rule, Model model)
