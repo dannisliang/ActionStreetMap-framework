@@ -27,6 +27,7 @@ namespace Mercraft.Models.Buildings.Entities
         public bool window = false;
         public bool wall = false;
         public bool roof = false;
+        public string path;
 
         public Texture(string newName)
         {

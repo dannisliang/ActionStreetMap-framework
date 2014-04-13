@@ -13,8 +13,8 @@ namespace Mercraft.Models.Buildings
 {
     public class BuildingGenerator
     {
-        private static char[] filenameDelimiters = new[] {'\\', '/'};
-        private static Dictionary<string, TextureCache>  _textureCaches = new Dictionary<string, TextureCache>();
+        private static char[] filenameDelimiters = new[] { '\\', '/' };
+        private static Dictionary<string, TextureCache> _textureCaches = new Dictionary<string, TextureCache>();
 
         private class TextureCache
         {
@@ -24,7 +24,7 @@ namespace Mercraft.Models.Buildings
             public List<Texture> rooftextures = new List<Texture>();
         }
 
-        private class TextureContext 
+        private class TextureContext
         {
             public Texture wallTexture;
             public Texture windowTexture;
@@ -35,7 +35,7 @@ namespace Mercraft.Models.Buildings
         public static void Generate(Data data)
         {
             var textureContext = new TextureContext();
-            
+
             //GenerateConstraints constraints = data.GeneratorConstraints;
 
             //uint seed = (uint) (constraints.useSeed ? constraints.seed : Random.Range(0, int.MaxValue));
@@ -48,7 +48,7 @@ namespace Mercraft.Models.Buildings
             data.FloorHeight = 5;
             foreach (Volume volume in data.Plan.volumes)
             {
-                volume.height = 5*5;
+                volume.height = 5 * 5;
                 volume.numberOfFloors = 5;
             }
             /*data.FloorHeight = rgen.OutputRange(constraints.minimumFloorHeight, constraints.maximumFloorHeight);
@@ -92,7 +92,7 @@ namespace Mercraft.Models.Buildings
             if (constraints.roofStyleSteepled) availableRoofStyles.Add(6);
             if (constraints.roofStyleSawtooth) availableRoofStyles.Add(7);
 
-            System.Array A = System.Enum.GetValues(typeof (RoofDesign.styles));
+            System.Array A = System.Enum.GetValues(typeof(RoofDesign.styles));
             roofDesign.style =
                 (RoofDesign.styles)
                     A.GetValue(availableRoofStyles[rgen.OutputRange(0, availableRoofStyles.Count - 1)]);
@@ -142,7 +142,7 @@ namespace Mercraft.Models.Buildings
             data.Bays.Add(blankBay);
             //door
             Bay doorBay = new Bay("Door");
-            doorBay.openingHeight = data.FloorHeight*0.9f;
+            doorBay.openingHeight = data.FloorHeight * 0.9f;
             doorBay.openingHeightRatio = 0.0f;
             float doorWidth = (textureContext.doorTexture.texture.width / (float)textureContext.doorTexture.texture.height) * doorBay.openingHeight;
             doorBay.openingWidth = doorWidth;
@@ -162,7 +162,7 @@ namespace Mercraft.Models.Buildings
 
             Texture groundFloorWindowTexture = textureContext.windowTexture.Duplicate("groundWindowTexture");
             groundFloorWindowTexture.tiled = false;
-            groundFloorWindowTexture.tiledX = Mathf.RoundToInt(groundWindow.openingWidth/groundWindow.openingHeight);
+            groundFloorWindowTexture.tiledX = Mathf.RoundToInt(groundWindow.openingWidth / groundWindow.openingHeight);
             int groundtextureIndex = data.Textures.Count;
             data.Textures.Add(groundFloorWindowTexture);
             groundWindow.SetTexture(Bay.TextureNames.OpeningBackTexture, groundtextureIndex);
@@ -181,7 +181,7 @@ namespace Mercraft.Models.Buildings
                 Mathf.Min(data.FloorHeight, constraints.openingMinimumHeight));
             basicFacadeDesign.simpleBay.openingDepth = rgen.OutputRange(constraints.openingMinimumDepth,
                 constraints.openingMaximumDepth);
-            
+
             basicFacadeDesign.simpleBay.minimumBayWidth = rgen.OutputRange(constraints.minimumBayMaximumWidth,
                 constraints.minimumBayMaximumWidth);
             data.Facades.Add(basicFacadeDesign);
@@ -227,22 +227,29 @@ namespace Mercraft.Models.Buildings
             var textureCache = GetTextures(data.GeneratorConstraints.texturePackXML);
 
             RandomGen rgen = data.GeneratorConstraints.rgen;
-            textureContext.wallTexture = textureCache.walltextures[rgen.OutputRange(0, textureCache.walltextures.Count - 1)]; //wall
-            data.Textures.Add(textureContext.wallTexture);
 
-            textureContext.windowTexture = textureCache.windowtextures[rgen.OutputRange(0, textureCache.windowtextures.Count - 1)]; //window
-            data.Textures.Add(textureContext.windowTexture);
+            var wallTexture = textureCache.walltextures[rgen.OutputRange(0, textureCache.walltextures.Count - 1)];
+            wallTexture.texture = Resources.Load<Texture2D>(wallTexture.path);
+            textureContext.wallTexture = wallTexture;
+            data.Textures.Add(textureContext.wallTexture = wallTexture);
 
-            textureContext.roofTexture = textureCache.rooftextures[rgen.OutputRange(0, textureCache.rooftextures.Count - 1)]; //roof
-            data.Textures.Add(textureContext.roofTexture);
 
-            textureContext.doorTexture = textureCache.doortextures[rgen.OutputRange(0, textureCache.doortextures.Count - 1)]; //door
-            data.Textures.Add(textureContext.doorTexture);
+            var windowTexture = textureCache.windowtextures[rgen.OutputRange(0, textureCache.windowtextures.Count - 1)];
+            windowTexture.texture = Resources.Load<Texture2D>(windowTexture.path);
+            data.Textures.Add(textureContext.windowTexture = windowTexture);
+
+            var roofTexture = textureCache.rooftextures[rgen.OutputRange(0, textureCache.rooftextures.Count - 1)];
+            roofTexture.texture = Resources.Load<Texture2D>(roofTexture.path);
+            data.Textures.Add(textureContext.roofTexture = roofTexture);
+
+            var doorTexture = textureCache.doortextures[rgen.OutputRange(0, textureCache.doortextures.Count - 1)];
+            doorTexture.texture = Resources.Load<Texture2D>(doorTexture.path);
+            data.Textures.Add(textureContext.doorTexture = doorTexture);
         }
 
         private static TextureCache GetTextures(string textureFilePath)
         {
-            if (_textureCaches.ContainsKey(textureFilePath))  
+            if (_textureCaches.ContainsKey(textureFilePath))
                 return _textureCaches[textureFilePath];
 
             var cache = new TextureCache();
@@ -266,10 +273,11 @@ namespace Mercraft.Models.Buildings
                 Texture bTexture = new Texture(splits[splits.Length - 1]);
 
 
-                var texture = Resources.Load<Texture2D>(filepath);
-                Debug.Log(filepath + (texture == null ? " <null>" : " loaded!"));
+                //var texture = Resources.Load<Texture2D>(filepath);
+                //Debug.Log(filepath + (texture == null ? " <null>" : " loaded!"));
 
-                bTexture.texture = texture;
+                bTexture.path = filepath;
+                //bTexture.texture = texture;
                 bTexture.tiled = node["tiled"].FirstChild.Value == "True";
                 bTexture.patterned = node["patterned"].FirstChild.Value == "True";
                 Vector2 tileUnitUV;
