@@ -48,7 +48,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Buildings/Textures/bauhauswindowtile.png</filepath>
+<filepath>Buildings/Textures/bauhauswindowtile</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -408,7 +408,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Buildings/Textures/neoclassicaldormer.png</filepath>
+<filepath>Buildings/Textures/neoclassicaldormer</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -423,7 +423,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Buildings/Textures/neoclassicalparapet.png</filepath>
+<filepath>Buildings/Textures/neoclassicalparapet</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -438,7 +438,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Buildings/Textures/neoclassicalwindow.png</filepath>
+<filepath>Buildings/Textures/neoclassicalwindow</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
@@ -693,7 +693,7 @@
 <roof>False</roof>
 </texture>
 <texture>
-<filepath>Buildings/Textures/window.png</filepath>
+<filepath>Buildings/Textures/window</filepath>
 <tiled>False</tiled>
 <patterned>False</patterned>
 <tileUnitUVX>1</tileUnitUVX>
