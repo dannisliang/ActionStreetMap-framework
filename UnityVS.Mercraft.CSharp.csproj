@@ -110,6 +110,7 @@
     <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\SimpleFSM.cs" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
+    <None Include="Assets\Resources\Buildings\Config\styles\berlin\styles.config" />
     <None Include="Assets\Resources\Buildings\Config\styles\georgianStyle.xml" />
     <None Include="Assets\Resources\Buildings\Config\styles\hongKongStyle.xml" />
     <None Include="Assets\Resources\Buildings\Config\styles\none.xml" />

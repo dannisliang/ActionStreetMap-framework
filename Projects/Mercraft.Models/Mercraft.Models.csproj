@@ -43,7 +43,7 @@
     <Compile Include="Buildings\Builders\BuildingBoxBuilder.cs" />
     <Compile Include="Buildings\BuildingBehavior.cs" />
     <Compile Include="Buildings\BuildingStyle.cs" />
-    <Compile Include="Buildings\Config\BuildingStyleLoader.cs" />
+    <Compile Include="Buildings\Config\BuildingStyleProvider.cs" />
     <Compile Include="Buildings\Config\TexturePackLoader.cs" />
     <Compile Include="Buildings\Entities\Bay.cs" />
     <Compile Include="Buildings\Entities\BuildingDetails.cs" />
@@ -76,6 +76,10 @@
     <Compile Include="Buildings\Utils\VectorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
+      <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
+      <Name>Mercraft.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
       <Name>Mercraft.Infrastructure</Name>

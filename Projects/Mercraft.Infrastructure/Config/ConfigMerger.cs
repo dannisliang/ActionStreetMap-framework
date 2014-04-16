@@ -9,6 +9,7 @@
     /// </summary>
     public class ConfigMerger
     {
+        private const string NoMergeKey = "merge";
         static readonly XAttributeEqualityComparer AttrComparer = new XAttributeEqualityComparer();
         static readonly XNameComparer NameComparer = new XNameComparer();
 
@@ -45,9 +46,19 @@
                 }
                 else
                 {
-                    e = Merge(elements1[i1], elements2[i2]);
-                    i1++;
-                    i2++;
+                    // TODO refactor this approach
+                    // NOTE this is crunch to support collection of the same elements in different files
+                    // Otherwise, they will be merged to one element
+                    var noMerge = elements1[i1].Attribute(NoMergeKey) ?? elements2[i2].Attribute(NoMergeKey);
+                    if (noMerge != null && noMerge.Value == "no")
+                    {
+                       // e = new XElement(elements1[i1].Name, elements1[i1], elements2[i2]);
+                        elements.Add(elements1[i1++]);
+                        elements.Add(elements2[i2++]);
+                        continue;
+                    }
+                   
+                    e = Merge(elements1[i1++], elements2[i2++]);
                 }
                 elements.Add(e);
             }

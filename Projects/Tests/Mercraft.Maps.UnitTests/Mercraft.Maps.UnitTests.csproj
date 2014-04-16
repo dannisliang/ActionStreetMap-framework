@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Algorithms\TriangulationTests.cs" />
+    <Compile Include="Config\BuildingStyleTests.cs" />
     <Compile Include="Core\TypeHelperTests.cs" />
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\..\Mercraft.Core\Mercraft.Core.csproj">
       <Project>{78C3B696-0486-41F9-BA24-5E85F417D98F}</Project>
       <Name>Mercraft.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Mercraft.Models\Mercraft.Models.csproj">
+      <Project>{960505d9-47c8-4123-ad1f-7eb663c33990}</Project>
+      <Name>Mercraft.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
