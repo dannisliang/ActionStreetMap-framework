@@ -20,18 +20,18 @@ namespace Mercraft.Models.Buildings
         private List<Material> _materials;
         private GameObject[] _details;
 
-        public void Attach(RenderMode mode, TexturePack texturePack, BuildingStyle style, float height, int levels, IEnumerable<Vector2> footPrint)
+        public void Attach(RenderMode mode, BuildingSettings settings)
         {
             _renderMode = mode;
             _data = new Data
             {
-                Footprint = footPrint,
-                Style = style,
-                TexturePack = texturePack,
-                RanGen = new RandomGenerator(1000)
+                Footprint = settings.FootPrint,
+                Style = settings.Style,
+                TexturePack = settings.TexturePack,
+                RanGen = new RandomGenerator((uint)settings.Seed)
             };
 
-            Generate(_data, height, levels);
+            Generate(_data, settings.Height, settings.Levels);
         }
 
         private void Generate(Data data, float height, int levels)

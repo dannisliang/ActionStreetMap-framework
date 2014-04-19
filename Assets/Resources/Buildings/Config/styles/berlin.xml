@@ -9,16 +9,16 @@
 		  <height min="2.5" max="3.1" />
 		</floor>
 		<bay>
-		  <height min="1.43172" max="2.8273" />
-		  <width min="0.6574075" max="0.925926" />
-		  <depth min="0.008641977" max="0.3172841" />
-		  <spacing min="0.3032406" max="0.7662039" />
+		  <height min="1.5" max="3.2" />
+		  <width min="0.8" max="3.2" />
+		  <depth min="0.01" max="0.4" />
+		  <spacing min="0.3" max="0.8" />
 		</bay>
 		<facade>
-		  <depth min="-0.002469137" max="-0.002469137" />
+		  <depth min="-0.1" max="0.1" />
 		</facade>
 		<roof>
-		  <height min="2.457037" max="3.1075" />
+		  <height min="2.1" max="3.1" />
 		  <faceDepth min="0.1" max="1" />
 		  <floorDepth min="0" max="1" />
 		  <styles>
@@ -46,7 +46,6 @@
 		</roof>
 	  </style>
 	<style name="commercial" texture="europe">
-		<texture>Assets/Resources/Buildings/Config/Textures/georgianTextures.xml</texture>
 		<box>
 		  <height min="7.5" max="12" />
 		</box>
@@ -54,16 +53,16 @@
 		  <height min="2.5" max="3.1" />
 		</floor>
 		<bay>
-		  <height min="1.43172" max="2.8273" />
-		  <width min="0.6574075" max="0.925926" />
-		  <depth min="0.008641977" max="0.3172841" />
-		  <spacing min="0.3032406" max="0.7662039" />
+		  <height min="2" max="4" />
+		  <width min="2" max="4" />
+		  <depth min="0.17" max="0.5" />
+		  <spacing min="0.3" max="0.8" />
 		</bay>
 		<facade>
-		  <depth min="-0.002469137" max="-0.002469137" />
+      <depth min="-0.1" max="0.1" />
 		</facade>
 		<roof>
-		  <height min="2.457037" max="3.1075" />
+		  <height min="2.5" max="3.1" />
 		  <faceDepth min="0.1" max="1" />
 		  <floorDepth min="0" max="1" />
 		  <styles>

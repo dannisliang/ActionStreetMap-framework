@@ -28,16 +28,16 @@ namespace Mercraft.Explorer.Builders
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            return BuildBuilding(center, area.Points, rule);
+            return BuildBuilding(center, area, area.Points, rule);
         }
 
         public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            return BuildBuilding(center, way.Points, rule);
+            return BuildBuilding(center, way,  way.Points, rule);
         }
 
-        private GameObject BuildBuilding(GeoCoordinate center, GeoCoordinate[] footPrint, Rule rule)
+        private GameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
             var gameObject = new GameObject();
 
@@ -52,8 +52,16 @@ namespace Mercraft.Explorer.Builders
             var style = _styleProvider.Get(theme, styleName);
             var texture = _textureProvider.Get(style.Texture);
 
-            gameObject.AddComponent<BuildingBehavior>()
-                .Attach(RenderMode.Full, texture, style, height, levels, verticies);
+            gameObject.AddComponent<BuildingBehavior>().Attach(RenderMode.Full, 
+                new BuildingSettings()
+                {
+                    Seed = model.Id,
+                    Height = height,
+                    Levels = levels,
+                    Style = style,
+                    TexturePack = texture,
+                    FootPrint = verticies
+                });
 
             return gameObject;
         }

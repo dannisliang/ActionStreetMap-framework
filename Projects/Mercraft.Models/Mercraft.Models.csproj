@@ -46,6 +46,7 @@
     <Compile Include="Buildings\BuildingBehavior.cs" />
     <Compile Include="Buildings\BuildingGenerator.cs" />
     <Compile Include="Buildings\BuildingMeasurements.cs" />
+    <Compile Include="Buildings\BuildingSettings.cs" />
     <Compile Include="Buildings\BuildingStyle.cs" />
     <Compile Include="Buildings\Config\BuildingStyleProvider.cs" />
     <Compile Include="Buildings\Config\TexturePackProvider.cs" />
