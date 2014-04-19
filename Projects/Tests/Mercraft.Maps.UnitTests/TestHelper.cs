@@ -10,14 +10,14 @@ namespace Mercraft.Maps.UnitTests
 
         public const string ConfigRootFile = "test.config";
 
-        public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\kempen.osm.pbf";
+        public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 
         //52.53057 13.38687 52.52940 13.39022
-        public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\berlin_house.osm.xml";
+        public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin_house.osm.xml";
 
-        public const string TestBigPbfFilePath = @"..\..\..\..\Tests\TestAssets\berlin-latest.osm.pbf";
+        public const string TestBigPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin-latest.osm.pbf";
 
-        public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\base.mapcss";
+        public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Config\default.mapcss";
 
         public const string BuildingStylesConfig = @"..\..\..\..\Tests\TestAssets\Buildings\Config\Styles\styles.config";
