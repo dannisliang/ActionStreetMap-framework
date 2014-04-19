@@ -5,143 +5,58 @@
     /// </summary>
     public class Bay
     {
-        public string name = "Bay design";
-        public bool isOpening = true;
-        public float openingWidth = 1.25f;
-        public float openingHeight = 0.85f;
-        public float minimumBayWidth = 0.5f;
-        public float openingWidthRatio = 0.5f;//the ratio of space between the left and right walls from the opening
-        public float openingHeightRatio = 0.95f;//the ratio of space between above and below the opening
-        public float openingDepth = 0.1f;
-        public float columnDepth = 0.0f;
-        public float rowDepth = 0.0f;
-        public float crossDepth = 0.0f;
+        public string Name = "Bay";
+        public bool IsOpening = true;
+        public float OpeningWidth = 1.25f;
+        public float OpeningHeight = 0.85f;
+        public float Spacing = 0.5f;
 
-        public Bay(string newName)
+        /// <summary>
+        /// Ratio of space between the left and right walls from the opening
+        /// </summary>
+        public float OpeningWidthRatio = 0.5f;
+
+        /// <summary>
+        /// Ratio of space between above and below the opening
+        /// </summary>
+        public float OpeningHeightRatio = 0.95f;
+        public float OpeningDepth = 0.1f;
+        public float ColumnDepth = 0.0f;
+        public float RowDepth = 0.0f;
+        public float CrossDepth = 0.0f;
+        public int[] TextureValues = new[] { 1, 0, 0, 0, 0, 0, 0, 0 };   
+
+        public Bay(string name)
         {
-            name = newName;
+            Name = name;
         }
 
-        //textures
-        public int numberOfTextures
+   
+        public enum BayTextureName
         {
-            get { return System.Enum.GetValues(typeof(TextureNames)).Length; }
+            OpeningBack,
+            OpeningSide,
+            OpeningSill,
+            OpeningCeiling,
+            Column,
+            Row,
+            Cross,
+            Wall
         }
 
-        public enum TextureNames
+        public int GetTexture(BayTextureName bayTextureName)
         {
-            OpeningBackTexture,
-            OpeningSideTexture,
-            OpeningSillTexture,
-            OpeningCeilingTexture,
-            ColumnTexture,
-            RowTexture,
-            CrossTexture,
-            WallTexture
+            return TextureValues[(int)bayTextureName];
         }
 
-        private int[] _textureValues;
-        private bool[] _flipValues;
-        public int wallTexture = 0;//this is use then there are no windows
-
-        public Bay Duplicate()
+        public void SetTexture(BayTextureName bayTextureName, int textureIndex)
         {
-            Bay newBay = new Bay(name + " copy");
-            newBay.isOpening = isOpening;
-            newBay.openingWidth = openingWidth;
-            newBay.openingHeight = openingHeight;
-            newBay.minimumBayWidth = minimumBayWidth;
-            newBay.openingWidthRatio = openingWidthRatio;//the ratio of space between the left and right walls from the opening
-            newBay.openingHeightRatio = openingHeightRatio;//the ratio of space between above and below the opening
-            newBay.openingDepth = openingDepth;
-            newBay.columnDepth = columnDepth;
-            newBay.rowDepth = rowDepth;
-            newBay.crossDepth = crossDepth;
-            newBay.textureValues = (int[])textureValues.Clone();
-            newBay.flipValues = (bool[])flipValues.Clone();
-
-            return newBay;
+            TextureValues[(int)bayTextureName] = textureIndex;
         }
 
-        public int[] textureValues
+        public bool IsFlipped(BayTextureName bayTextureName)
         {
-            get
-            {
-                if (_textureValues == null)
-                    _textureValues = new int[0];
-
-                if (_textureValues.Length != numberOfTextures)
-                {
-                    int[] tempArr = (int[])_textureValues.Clone();
-                    int oldSize = tempArr.Length;
-                    _textureValues = new int[numberOfTextures];
-                    if (oldSize > 0)
-                    {
-                        for (int i = 0; i < oldSize; i++)
-                        {
-                            _textureValues[i] = tempArr[i];
-                        }
-                    }
-                    else
-                    {
-                        _textureValues = new[] { 1, 0, 0, 0, 0, 0, 0, 0 };
-                    }
-                }
-
-                return _textureValues;
-            }
-            set
-            {
-                _textureValues = value;
-            }
-        }
-
-        public bool[] flipValues
-        {
-            get
-            {
-                if (_flipValues == null)
-                    _flipValues = new bool[0];
-
-                if (_flipValues.Length != numberOfTextures)
-                {
-                    bool[] tempArr = (bool[])_flipValues.Clone();
-                    int oldSize = tempArr.Length;
-                    _flipValues = new bool[numberOfTextures];
-                    if (oldSize > 0)
-                    {
-                        for (int i = 0; i < oldSize; i++)
-                        {
-                            _flipValues[i] = tempArr[i];
-                        }
-                    }
-                    else
-                    {
-                        _flipValues = new bool[8];
-                    }
-                }
-
-                return _flipValues;
-            }
-            set
-            {
-                _flipValues = value;
-            }
-        }
-
-        public int GetTexture(TextureNames textureName)
-        {
-            return textureValues[(int)textureName];
-        }
-
-        public void SetTexture(TextureNames textureName, int textureIndex)
-        {
-            textureValues[(int)textureName] = textureIndex;
-        }
-
-        public bool IsFlipped(TextureNames textureName)
-        {
-            return flipValues[(int)textureName];
+            return false;
         }
     }
 }

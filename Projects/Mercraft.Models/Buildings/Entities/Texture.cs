@@ -2,117 +2,115 @@
 
 namespace Mercraft.Models.Buildings.Entities
 {
+    /// <summary>
+    /// Holds texture parameters
+    /// </summary>
     public class Texture
     {
-        public string name = "new texture";
-        public bool tiled = true;
-        public bool patterned = false;
-        //[SerializeField]
-        //private Texture2D _texture;
-        [SerializeField] private Vector2 _tileUnitUV = Vector2.one;
-            //the UV coords of the end of a pattern in the texture - used to match up textures to geometry
+        public string Name;
+        public bool Tiled = true;
+        public bool Patterned = false;
+        public Material Material;
+        
+        public bool Door = false;
+        public bool Window = false;
+        public bool Wall = false;
+        public bool Roof = false;
+        public bool Shop = false;
 
-        [SerializeField] private Vector2 _textureUnitSize = Vector2.one;
-            //the world size of the texture - default 1m x 1m
+        public string Path;
 
-        public int tiledX = 1; //the amount of times the texture should be repeated along the x axis
-        public int tiledY = 1; //the amount of times the texture should be repeated along the y axis
-        public Vector2 maxUVTile = Vector2.zero; //used for texture atlasing
-        public Vector2 minWorldUnits = Vector2.zero; //also used for atlasing
-        public Vector2 maxWorldUnits = Vector2.zero; //also used for atlasing
-        public Material material;
-        public Texture2D tiledTexture = null; //this is used for texture packing
+        /// <summary>
+        /// Amount of times the texture should be repeated along the x axis
+        /// </summary>
+        public int TiledX = 1; 
 
-        public bool door = false;
-        public bool window = false;
-        public bool wall = false;
-        public bool roof = false;
-        public string path;
+        /// <summary>
+        /// Amount of times the texture should be repeated along the y axis
+        /// </summary>
+        public int TiledY = 1; 
 
-        public Texture(string newName)
+        /// <summary>
+        /// Used for texture atlasing
+        /// </summary>
+        public Vector2 MaxUVTile = Vector2.zero;
+
+        /// <summary>
+        /// Used for atlasing
+        /// </summary>
+        public Vector2 MinWorldUnits = Vector2.zero;
+
+        /// <summary>
+        /// Used for atlasing
+        /// </summary>
+        public Vector2 MaxWorldUnits = Vector2.zero;
+
+        /// <summary>
+        /// UV coords of the end of a pattern in the texture - used to match up textures to geometry
+        /// </summary>
+        public Vector2 TileUnitUV = Vector2.one;
+
+        /// <summary>
+        /// World size of the texture - default 1m x 1m
+        /// </summary>
+        public Vector2 TextureUnitSize = Vector2.one;
+
+        public Texture(string name)
         {
-            name = newName;
-            material = new Material(Shader.Find("Diffuse"));
+            this.Name = name;
+            Material = new Material(Shader.Find("Diffuse"));
         }
-
 
         public Texture Duplicate()
         {
-            return Duplicate(name + " copy");
+            return Duplicate(Name + " copy");
         }
 
         public Texture Duplicate(string newName)
         {
             return new Texture(newName)
             {
-                tiledTexture = tiledTexture,
-                tiled = true,
-                patterned = false,
-                tileUnitUV = _tileUnitUV,
-                textureUnitSize = _textureUnitSize,
-                tiledX = tiledX,
-                tiledY = tiledY,
-                maxUVTile = maxUVTile,
-                material = new Material(material),
-                door = door,
-                window = window,
-                wall = wall,
-                roof = roof
+                Tiled = true,
+                Patterned = false,
+                TileUnitUV = TileUnitUV,
+                TextureUnitSize = TextureUnitSize,
+                TiledX = TiledX,
+                TiledY = TiledY,
+                MaxUVTile = MaxUVTile,
+                Material = new Material(Material),
+                Door = Door,
+                Window = Window,
+                Wall = Wall,
+                Roof = Roof
             };
         }
 
-        public Texture2D texture
+        public Texture2D MainTexture
         {
             get
             {
-                if (material.mainTexture == null)
+                if (Material.mainTexture == null)
                     return null;
-                return (Texture2D) material.mainTexture;
+                return (Texture2D) Material.mainTexture;
             }
 
             set
             {
                 if (value == null)
                     return;
-                material.mainTexture = value;
+                Material.mainTexture = value;
             }
-        }
-
-        public Vector2 tileUnitUV
-        {
-            get { return _tileUnitUV; }
-            set { _tileUnitUV = value; }
-        }
-
-        public Vector2 textureUnitSize
-        {
-            get { return _textureUnitSize; }
-            set { _textureUnitSize = value; }
         }
 
         public void CheckMaxUV(Vector2 checkUV)
         {
-            if (checkUV.x > maxUVTile.x)
+            if (checkUV.x > MaxUVTile.x)
             {
-                maxUVTile.x = checkUV.x;
+                MaxUVTile.x = checkUV.x;
             }
-            if (checkUV.y > maxUVTile.y)
+            if (checkUV.y > MaxUVTile.y)
             {
-                maxUVTile.y = checkUV.y;
-            }
-        }
-
-        public void MaxWorldUnitsFromUVs(Vector2 uv)
-        {
-            float xsize = uv.x*_textureUnitSize.x;
-            float ysize = uv.y*_textureUnitSize.y;
-            if (xsize > maxWorldUnits.x)
-            {
-                maxWorldUnits.x = xsize;
-            }
-            if (ysize > maxWorldUnits.y)
-            {
-                maxWorldUnits.y = ysize;
+                MaxUVTile.y = checkUV.y;
             }
         }
     }

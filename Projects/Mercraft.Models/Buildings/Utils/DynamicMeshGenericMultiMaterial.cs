@@ -11,72 +11,69 @@ namespace Mercraft.Models.Buildings.Utils
     /// Uses generic lists to contain the mesh data allowing for the mesh to be of dynamic size
     /// Creates a mesh that can support multiple materials
     /// </summary>
-
     public class DynamicMeshGenericMultiMaterial
     {
 
-        public string name = "";
-        public Mesh mesh;
-        public List<Vector3> vertices;
-        public List<Vector2> uv;
-        public List<int> triangles;
-        private List<Vector2> _minWorldUVSize = new List<Vector2>();
-        private List<Vector2> _maxWorldUVSize = new List<Vector2>();
+        public string Name = "";
+        public Mesh Mesh;
+        public List<Vector3> Vertices;
+        public List<Vector2> UV;
+        public List<int> Triangles;
+
+        public readonly List<Vector2> MinWorldUVSize = new List<Vector2>();
+        public readonly List<Vector2> MaxWorldUVSize = new List<Vector2>();
+
         private int _subMeshes = 1;
-        private Dictionary<int, List<int>> subTriangles;
-        private Vector3[] tan1;
-        private Vector3[] tan2;
-        private Vector4[] tangents;
+        private readonly Dictionary<int, List<int>> _subTriangles;
+        private Vector3[] _tan1;
+        private Vector3[] _tan2;
+        private Vector4[] _tangents;
         private bool _built;
         private bool _hasTangents;
-        private bool _optimised;
 
         public DynamicMeshGenericMultiMaterial()
         {
-            mesh = new Mesh();
-            vertices = new List<Vector3>();
-            uv = new List<Vector2>();
-            triangles = new List<int>();
-            subTriangles = new Dictionary<int, List<int>>();
-        }
-
-        public void Build()
-        {
-            Build(false);
+            Mesh = new Mesh();
+            Vertices = new List<Vector3>();
+            UV = new List<Vector2>();
+            Triangles = new List<int>();
+            _subTriangles = new Dictionary<int, List<int>>();
         }
 
         public void Build(bool calcTangents)
         {
-            if (vertexCount > 65000)//Unity has an inbuilt limit of 65000 verticies. Use DynamicMeshGenericMultiMaterialMesh to handle more than 65000
+            //Unity has an inbuilt limit of 65000 verticies. Use DynamicMeshGenericMultiMaterialMesh to handle more than 65000
+            if (vertexCount > 65000)
             {
-                Debug.LogWarning(name + " is exceeding 65000 vertices - stop build");
+                Debug.LogWarning(Name + " is exceeding 65000 vertices - stop build");
                 _built = false;
                 return;
             }
 
-            if (subMeshCount == 0)//USer needs to specify the amount of submeshes this mesh contains
+            //User needs to specify the amount of submeshes this mesh contains
+            if (subMeshCount == 0)
             {
-                Debug.LogWarning(name + " has no submeshes - you need to define them pre build");
+                Debug.LogWarning(Name + " has no submeshes - you need to define them pre build");
                 _built = false;
                 return;
             }
 
-            mesh.Clear();
-            mesh.name = name;
-            mesh.vertices = vertices.ToArray();
-            mesh.uv = uv.ToArray();
-            mesh.uv2 = new Vector2[0];
+            Mesh.Clear();
+            Mesh.name = Name;
+            Mesh.vertices = Vertices.ToArray();
+            Mesh.uv = UV.ToArray();
+            Mesh.uv2 = new Vector2[0];
 
-            mesh.subMeshCount = _subMeshes;
+            Mesh.subMeshCount = _subMeshes;
             List<int> setTris = new List<int>();
-            foreach (KeyValuePair<int, List<int>> triData in subTriangles)
+            foreach (KeyValuePair<int, List<int>> triData in _subTriangles)
             {
-                mesh.SetTriangles(triData.Value.ToArray(), triData.Key);
+                Mesh.SetTriangles(triData.Value.ToArray(), triData.Key);
                 setTris.AddRange(triData.Value);
             }
 
-            mesh.RecalculateBounds();
-            mesh.RecalculateNormals();
+            Mesh.RecalculateBounds();
+            Mesh.RecalculateNormals();
 
             if (calcTangents)
             {
@@ -86,7 +83,7 @@ namespace Mercraft.Models.Buildings.Utils
             {
                 _hasTangents = false;
                 Vector4[] emptyTangents = new Vector4[size];
-                mesh.tangents = emptyTangents;
+                Mesh.tangents = emptyTangents;
             }
 
             optimised = false;
@@ -99,11 +96,11 @@ namespace Mercraft.Models.Buildings.Utils
         /// </summary>
         public void Clear()
         {
-            mesh.Clear();
-            vertices.Clear();
-            uv.Clear();
-            triangles.Clear();
-            subTriangles.Clear();
+            Mesh.Clear();
+            Vertices.Clear();
+            UV.Clear();
+            Triangles.Clear();
+            _subTriangles.Clear();
             _built = false;
             _subMeshes = 0;
         }
@@ -112,7 +109,7 @@ namespace Mercraft.Models.Buildings.Utils
         {
             get
             {
-                return vertices.Count;
+                return Vertices.Count;
             }
         }
 
@@ -123,12 +120,12 @@ namespace Mercraft.Models.Buildings.Utils
 
         public int size
         {
-            get { return vertices.Count; }
+            get { return Vertices.Count; }
         }
 
         public int triangleCount
         {
-            get { return triangles.Count; }
+            get { return Triangles.Count; }
         }
 
         public int subMeshCount
@@ -141,15 +138,15 @@ namespace Mercraft.Models.Buildings.Utils
             {
                 _subMeshes = value;
                 //reset the largest/smallest UZ size monitors
-                if (minWorldUvSize.Count > value)
-                    minWorldUvSize.Clear();
-                if (maxWorldUvSize.Count > value)
-                    maxWorldUvSize.Clear();
+                if (MinWorldUVSize.Count > value)
+                    MinWorldUVSize.Clear();
+                if (MaxWorldUVSize.Count > value)
+                    MaxWorldUVSize.Clear();
 
-                while (minWorldUvSize.Count <= value)
+                while (MinWorldUVSize.Count <= value)
                 {
-                    minWorldUvSize.Add(Vector2.zero);
-                    maxWorldUvSize.Add(Vector2.one);
+                    MinWorldUVSize.Add(Vector2.zero);
+                    MaxWorldUVSize.Add(Vector2.one);
                 }
             }
         }
@@ -158,11 +155,8 @@ namespace Mercraft.Models.Buildings.Utils
 
         public bool lightmapUvsCalculated { get; set; }
 
-        public bool optimised { get { return _optimised; } set { _optimised = value; } }
+        public bool optimised { get; set; }
 
-        public List<Vector2> minWorldUvSize { get { return _minWorldUVSize; } }
-
-        public List<Vector2> maxWorldUvSize { get { return _maxWorldUVSize; } }
 
 
         /// <summary>
@@ -171,24 +165,24 @@ namespace Mercraft.Models.Buildings.Utils
         /// </summary>
         public void SolveTangents()
         {
-            tan1 = new Vector3[size];
-            tan2 = new Vector3[size];
-            tangents = new Vector4[size];
-            int triangleCount = triangles.Count / 3;
+            _tan1 = new Vector3[size];
+            _tan2 = new Vector3[size];
+            _tangents = new Vector4[size];
+            int triangleCount = Triangles.Count / 3;
 
             for (int a = 0; a < triangleCount; a += 3)
             {
-                int i1 = triangles[a + 0];
-                int i2 = triangles[a + 1];
-                int i3 = triangles[a + 2];
+                int i1 = Triangles[a + 0];
+                int i2 = Triangles[a + 1];
+                int i3 = Triangles[a + 2];
 
-                Vector3 v1 = vertices[i1];
-                Vector3 v2 = vertices[i2];
-                Vector3 v3 = vertices[i3];
+                Vector3 v1 = Vertices[i1];
+                Vector3 v2 = Vertices[i2];
+                Vector3 v3 = Vertices[i3];
 
-                Vector2 w1 = uv[i1];
-                Vector2 w2 = uv[i2];
-                Vector2 w3 = uv[i3];
+                Vector2 w1 = UV[i1];
+                Vector2 w2 = UV[i2];
+                Vector2 w3 = UV[i3];
 
                 float x1 = v2.x - v1.x;
                 float x2 = v3.x - v1.x;
@@ -207,27 +201,27 @@ namespace Mercraft.Models.Buildings.Utils
                 Vector3 sdir = new Vector3((t2 * x1 - t1 * x2) * r, (t2 * y1 - t1 * y2) * r, (t2 * z1 - t1 * z2) * r);
                 Vector3 tdir = new Vector3((s1 * x2 - s2 * x1) * r, (s1 * y2 - s2 * y1) * r, (s1 * z2 - s2 * z1) * r);
 
-                tan1[i1] += sdir;
-                tan1[i2] += sdir;
-                tan1[i3] += sdir;
+                _tan1[i1] += sdir;
+                _tan1[i2] += sdir;
+                _tan1[i3] += sdir;
 
-                tan2[i1] += tdir;
-                tan2[i2] += tdir;
-                tan2[i3] += tdir;
+                _tan2[i1] += tdir;
+                _tan2[i2] += tdir;
+                _tan2[i3] += tdir;
             }
 
 
             for (int a = 0; a < size; ++a)
             {
-                Vector3 n = mesh.normals[a];
-                Vector3 t = tan1[a];
+                Vector3 n = Mesh.normals[a];
+                Vector3 t = _tan1[a];
 
                 Vector3 tmp = (t - n * Vector3.Dot(n, t)).normalized;
-                tangents[a] = new Vector4(tmp.x, tmp.y, tmp.z);
+                _tangents[a] = new Vector4(tmp.x, tmp.y, tmp.z);
 
-                tangents[a].w = (Vector3.Dot(Vector3.Cross(n, t), tan2[a]) < 0.0f) ? -1.0f : 1.0f;
+                _tangents[a].w = (Vector3.Dot(Vector3.Cross(n, t), _tan2[a]) < 0.0f) ? -1.0f : 1.0f;
             }
-            mesh.tangents = tangents;
+            Mesh.tangents = _tangents;
             _hasTangents = true;
         }
 
@@ -240,40 +234,40 @@ namespace Mercraft.Models.Buildings.Utils
         /// <param name="subMesh">The submesh to add the data into</param>
         public void AddData(Vector3[] verts, Vector2[] uvs, int[] tris, int subMesh)
         {
-            int indiceBase = vertices.Count;
-            vertices.AddRange(verts);
-            uv.AddRange(uvs);
-            if (!subTriangles.ContainsKey(subMesh))
-                subTriangles.Add(subMesh, new List<int>());
+            int indiceBase = Vertices.Count;
+            Vertices.AddRange(verts);
+            UV.AddRange(uvs);
+            if (!_subTriangles.ContainsKey(subMesh))
+                _subTriangles.Add(subMesh, new List<int>());
 
             int newTriCount = tris.Length;
             for (int t = 0; t < newTriCount; t++)
             {
                 int newTri = (indiceBase + tris[t]);
-                triangles.Add(newTri);
-                subTriangles[subMesh].Add(newTri);
+                Triangles.Add(newTri);
+                _subTriangles[subMesh].Add(newTri);
             }
 
             //calculate the bounds of the UV on the mesh
-            Vector2 minWorldUVSize = minWorldUvSize[subMesh];
-            Vector2 maxWorldUVSize = maxWorldUvSize[subMesh];
+            Vector2 minimunWorldUVSize = MinWorldUVSize[subMesh];
+            Vector2 maximumWorldUVSize = MaxWorldUVSize[subMesh];
 
             int vertCount = verts.Length;
             for (int i = 0; i < vertCount - 1; i++)
             {
                 Vector2 thisuv = uvs[i];
-                if (thisuv.x < minWorldUVSize.x)
-                    minWorldUVSize.x = thisuv.x;
-                if (thisuv.y < minWorldUVSize.y)
-                    minWorldUVSize.y = thisuv.y;
+                if (thisuv.x < minimunWorldUVSize.x)
+                    minimunWorldUVSize.x = thisuv.x;
+                if (thisuv.y < minimunWorldUVSize.y)
+                    minimunWorldUVSize.y = thisuv.y;
 
-                if (thisuv.x > maxWorldUVSize.x)
-                    maxWorldUVSize.x = thisuv.x;
-                if (thisuv.y > maxWorldUVSize.y)
-                    maxWorldUVSize.y = thisuv.y;
+                if (thisuv.x > maximumWorldUVSize.x)
+                    maximumWorldUVSize.x = thisuv.x;
+                if (thisuv.y > maximumWorldUVSize.y)
+                    maximumWorldUVSize.y = thisuv.y;
             }
-            minWorldUvSize[subMesh] = minWorldUVSize;
-            maxWorldUvSize[subMesh] = maxWorldUVSize;
+            MinWorldUVSize[subMesh] = minimunWorldUVSize;
+            MaxWorldUVSize[subMesh] = maximumWorldUVSize;
 
         }
 
@@ -286,32 +280,31 @@ namespace Mercraft.Models.Buildings.Utils
         /// <param name="subMesh"></param>
         public void AddTri(Vector3 p0, Vector3 p1, Vector3 p2, int subMesh)
         {
-            int indiceBase = vertices.Count;
-            vertices.Add(p0);
-            vertices.Add(p1);
-            vertices.Add(p2);
+            int indiceBase = Vertices.Count;
+            Vertices.Add(p0);
+            Vertices.Add(p1);
+            Vertices.Add(p2);
 
-            uv.Add(new Vector2(0, 0));
-            uv.Add(new Vector2(1, 0));
-            uv.Add(new Vector2(0, 1));
+            UV.Add(new Vector2(0, 0));
+            UV.Add(new Vector2(1, 0));
+            UV.Add(new Vector2(0, 1));
 
-            if (!subTriangles.ContainsKey(subMesh))
-                subTriangles.Add(subMesh, new List<int>());
+            if (!_subTriangles.ContainsKey(subMesh))
+                _subTriangles.Add(subMesh, new List<int>());
 
-            triangles.Add(indiceBase);
-            triangles.Add(indiceBase + 2);
-            triangles.Add(indiceBase + 1);
+            Triangles.Add(indiceBase);
+            Triangles.Add(indiceBase + 2);
+            Triangles.Add(indiceBase + 1);
 
-            subTriangles[subMesh].Add(indiceBase);
-            subTriangles[subMesh].Add(indiceBase + 2);
-            subTriangles[subMesh].Add(indiceBase + 1);
+            _subTriangles[subMesh].Add(indiceBase);
+            _subTriangles[subMesh].Add(indiceBase + 2);
+            _subTriangles[subMesh].Add(indiceBase + 1);
         }
 
         /// <summary>
         /// Adds the plane to the generic dynamic mesh without specifying UV coords.
         /// </summary>
-        /// <param name='p0,p1,p2,p3'>
-        /// 4 Verticies that define the plane
+        /// <param name='p0,p1,p2,p3'>4 Verticies that define the plane</param>
         /// <param name='subMesh'>
         /// The sub mesh to attch this plan to - in order of Texture library indicies
         /// </param>
@@ -323,16 +316,9 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Adds the plane to the generic dynamic mesh by specifying min and max UV coords.
         /// </summary>
-        /// <param name='p0,p1,p2,p3'>
-        /// 4 Verticies that define the plane
-        /// </param>
-        /// <param name='minUV'>
-        /// the minimum vertex UV coord.
-        /// </param>
-        /// </param>
-        /// <param name='maxUV'>
-        /// the maximum vertex UV coord.
-        /// </param>
+        /// <param name='p0,p1,p2,p3'> 4 Verticies that define the plane</param>
+        /// <param name='minUV'> the minimum vertex UV coord. </param>
+        /// <param name='maxUV'> the maximum vertex UV coord. </param>
         /// <param name='subMesh'>
         /// The sub mesh to attch this plan to - in order of Texture library indicies
         /// </param>
@@ -360,40 +346,40 @@ namespace Mercraft.Models.Buildings.Utils
         /// </param>
         public void AddPlane(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3, int subMesh)
         {
-            int indiceBase = vertices.Count;
-            vertices.Add(p0);
-            vertices.Add(p1);
-            vertices.Add(p2);
-            vertices.Add(p3);
+            int indiceBase = Vertices.Count;
+            Vertices.Add(p0);
+            Vertices.Add(p1);
+            Vertices.Add(p2);
+            Vertices.Add(p3);
 
-            uv.Add(uv0);
-            uv.Add(uv1);
-            uv.Add(uv2);
-            uv.Add(uv3);
+            UV.Add(uv0);
+            UV.Add(uv1);
+            UV.Add(uv2);
+            UV.Add(uv3);
 
-            if (!subTriangles.ContainsKey(subMesh))
-                subTriangles.Add(subMesh, new List<int>());
+            if (!_subTriangles.ContainsKey(subMesh))
+                _subTriangles.Add(subMesh, new List<int>());
 
-            subTriangles[subMesh].Add(indiceBase);
-            subTriangles[subMesh].Add(indiceBase + 2);
-            subTriangles[subMesh].Add(indiceBase + 1);
+            _subTriangles[subMesh].Add(indiceBase);
+            _subTriangles[subMesh].Add(indiceBase + 2);
+            _subTriangles[subMesh].Add(indiceBase + 1);
 
-            subTriangles[subMesh].Add(indiceBase + 1);
-            subTriangles[subMesh].Add(indiceBase + 2);
-            subTriangles[subMesh].Add(indiceBase + 3);
+            _subTriangles[subMesh].Add(indiceBase + 1);
+            _subTriangles[subMesh].Add(indiceBase + 2);
+            _subTriangles[subMesh].Add(indiceBase + 3);
 
-            triangles.Add(indiceBase);
-            triangles.Add(indiceBase + 2);
-            triangles.Add(indiceBase + 1);
+            Triangles.Add(indiceBase);
+            Triangles.Add(indiceBase + 2);
+            Triangles.Add(indiceBase + 1);
 
-            triangles.Add(indiceBase + 1);
-            triangles.Add(indiceBase + 2);
-            triangles.Add(indiceBase + 3);
+            Triangles.Add(indiceBase + 1);
+            Triangles.Add(indiceBase + 2);
+            Triangles.Add(indiceBase + 3);
 
-            Vector2 minWorldUVSize = minWorldUvSize[subMesh];
-            Vector2 maxWorldUVSize = maxWorldUvSize[subMesh];
+            Vector2 minWorldUVSize = MinWorldUVSize[subMesh];
+            Vector2 maxWorldUVSize = MaxWorldUVSize[subMesh];
             int vertCount = 4;
-            Vector2[] uvs = new[] { uv0, uv1, uv2, uv3 };
+            Vector2[] uvs = { uv0, uv1, uv2, uv3 };
             for (int i = 0; i < vertCount - 1; i++)
             {
                 Vector2 thisuv = uvs[i];
@@ -407,8 +393,8 @@ namespace Mercraft.Models.Buildings.Utils
                 if (thisuv.y > maxWorldUVSize.y)
                     maxWorldUVSize.y = thisuv.y;
             }
-            minWorldUvSize[subMesh] = minWorldUVSize;
-            maxWorldUvSize[subMesh] = maxWorldUVSize;
+            MinWorldUVSize[subMesh] = minWorldUVSize;
+            MaxWorldUVSize[subMesh] = maxWorldUVSize;
         }
 
         /// <summary>
@@ -420,37 +406,37 @@ namespace Mercraft.Models.Buildings.Utils
         public void CheckMaxTextureUVs(Data data)
         {
             Vector2[] subMeshUVOffsets = new Vector2[subMeshCount];
-            int[] subMeshIDs = new List<int>(subTriangles.Keys).ToArray();
+            int[] subMeshIDs = new List<int>(_subTriangles.Keys).ToArray();
             int numberOfSubmeshIDs = subMeshIDs.Length;
             for (int sm = 0; sm < numberOfSubmeshIDs; sm++)
             {
                 int subMeshID = subMeshIDs[sm];
-                if (subTriangles.ContainsKey(subMeshID))
+                if (_subTriangles.ContainsKey(subMeshID))
                 {
-                    int[] submeshIndices = subTriangles[subMeshID].ToArray();
+                    int[] submeshIndices = _subTriangles[subMeshID].ToArray();
                     subMeshUVOffsets[sm] = Vector2.zero;
                     foreach (int index in submeshIndices)
                     {
-                        if (uv[index].x < subMeshUVOffsets[sm].x)
-                            subMeshUVOffsets[sm].x = uv[index].x;
-                        if (uv[index].y < subMeshUVOffsets[sm].y)
-                            subMeshUVOffsets[sm].y = uv[index].y;
+                        if (UV[index].x < subMeshUVOffsets[sm].x)
+                            subMeshUVOffsets[sm].x = UV[index].x;
+                        if (UV[index].y < subMeshUVOffsets[sm].y)
+                            subMeshUVOffsets[sm].y = UV[index].y;
                     }
 
                     List<int> UVsOffset = new List<int>();
-                    foreach (int uvindex in subTriangles[subMeshID])
+                    foreach (int uvindex in _subTriangles[subMeshID])
                     {
                         if (!UVsOffset.Contains(uvindex))
                         {
-                            uv[uvindex] += -subMeshUVOffsets[sm];//offset the UV to ensure it isn't negative
+                            UV[uvindex] += -subMeshUVOffsets[sm];//offset the UV to ensure it isn't negative
                             UVsOffset.Add(uvindex);
                         }
-                        data.Textures[subMeshID].CheckMaxUV(uv[uvindex]);
+                        data.Textures[subMeshID].CheckMaxUV(UV[uvindex]);
                     }
                 }
                 else
                 {
-                    Debug.Log("Mesh does not contain key for texture " + data.Textures[subMeshID].name);
+                    Debug.Log("Mesh does not contain key for texture " + data.Textures[subMeshID].Name);
                 }
             }
         }
@@ -462,7 +448,7 @@ namespace Mercraft.Models.Buildings.Utils
         /// <param name="textures"></param>
         public void Atlas(Rect[] newTextureCoords, Texture[] textures)
         {
-            List<int> keys = new List<int>(subTriangles.Keys);
+            List<int> keys = new List<int>(_subTriangles.Keys);
             Atlas(keys.ToArray(), newTextureCoords, textures);
         }
 
@@ -491,10 +477,10 @@ namespace Mercraft.Models.Buildings.Utils
             {
                 int submeshIndex = modifySubmeshes[s];
                 Rect textureRect = newTextureCoords[s];
-                if (!subTriangles.ContainsKey(submeshIndex))
+                if (!_subTriangles.ContainsKey(submeshIndex))
                     continue;
-                int[] submeshIndices = subTriangles[submeshIndex].ToArray();
-                subTriangles.Remove(submeshIndex);
+                int[] submeshIndices = _subTriangles[submeshIndex].ToArray();
+                _subTriangles.Remove(submeshIndex);
                 atlasedSubmesh.AddRange(submeshIndices);
 
                 Texture bTexture = textures[submeshIndex];
@@ -503,17 +489,17 @@ namespace Mercraft.Models.Buildings.Utils
                 {
                     if (ModifiedUVs.Contains(index))
                         continue;//don't move the UV more than once
-                    Vector2 uvCoords = uv[index];
-                    float xUV = uvCoords.x / bTexture.maxUVTile.x;
-                    float yUV = uvCoords.y / bTexture.maxUVTile.y;
+                    Vector2 uvCoords = UV[index];
+                    float xUV = uvCoords.x / bTexture.MaxUVTile.x;
+                    float yUV = uvCoords.y / bTexture.MaxUVTile.y;
                     if (xUV > 1)
                     {
-                        bTexture.maxUVTile.x = uvCoords.x;
+                        bTexture.MaxUVTile.x = uvCoords.x;
                         xUV = 1.0f;
                     }
                     if (yUV > 1)
                     {
-                        bTexture.maxUVTile.y = uvCoords.y;
+                        bTexture.MaxUVTile.y = uvCoords.y;
                         yUV = 1;
                     }
 
@@ -528,12 +514,12 @@ namespace Mercraft.Models.Buildings.Utils
                     {
                         uvCoords.y = 1;
                     }
-                    uv[index] = uvCoords;
+                    UV[index] = uvCoords;
                     ModifiedUVs.Add(index);//keep a record of moved UVs
                 }
             }
             subMeshCount = subMeshCount - modifySubmeshes.Length + 1;
-            subTriangles.Add(modifySubmeshes[0], atlasedSubmesh);
+            _subTriangles.Add(modifySubmeshes[0], atlasedSubmesh);
         }
 
         /// <summary>
@@ -552,11 +538,11 @@ namespace Mercraft.Models.Buildings.Utils
             List<int> modifySubmeshList = new List<int>(modifySubmeshes);
             for (int s = 0; s < subMeshCount; s++)
             {
-                if (!subTriangles.ContainsKey(s))
+                if (!_subTriangles.ContainsKey(s))
                     continue;
 
-                int[] submeshIndices = subTriangles[s].ToArray();
-                subTriangles.Remove(s);
+                int[] submeshIndices = _subTriangles[s].ToArray();
+                _subTriangles.Remove(s);
                 atlasedSubmesh.AddRange(submeshIndices);
 
                 if (modifySubmeshList.Contains(s))
@@ -567,10 +553,10 @@ namespace Mercraft.Models.Buildings.Utils
                     {
                         if (ModifiedUVs.Contains(index))
                             continue;//don't move the UV more than once
-                        Vector2 uvCoords = uv[index];
+                        Vector2 uvCoords = UV[index];
                         uvCoords.x = Mathf.Lerp(textureRect.xMin, textureRect.xMax, uvCoords.x);
                         uvCoords.y = Mathf.Lerp(textureRect.yMin, textureRect.yMax, uvCoords.y);
-                        uv[index] = uvCoords;
+                        UV[index] = uvCoords;
                         ModifiedUVs.Add(index);//keep a record of moved UVs
                     }
                 }
@@ -581,14 +567,14 @@ namespace Mercraft.Models.Buildings.Utils
                     {
                         if (ModifiedUVs.Contains(index))
                             continue;//don't move the UV more than once
-                        uv[index] = Vector2.zero;
+                        UV[index] = Vector2.zero;
                         ModifiedUVs.Add(index);//keep a record of moved UVs
                     }
                 }
             }
             //subMeshCount = subMeshCount - modifySubmeshes.Length + 1;
             subMeshCount = 1;
-            subTriangles.Add(modifySubmeshes[0], atlasedSubmesh);
+            _subTriangles.Add(modifySubmeshes[0], atlasedSubmesh);
         }
 
         /// <summary>
@@ -600,15 +586,15 @@ namespace Mercraft.Models.Buildings.Utils
             int numberOfSubmeshesToModify = subMeshCount;
             for (int s = 0; s < numberOfSubmeshesToModify; s++)
             {
-                if (subTriangles.ContainsKey(s))
+                if (_subTriangles.ContainsKey(s))
                 {
-                    int[] submeshIndices = subTriangles[s].ToArray();
+                    int[] submeshIndices = _subTriangles[s].ToArray();
                     atlasedSubmesh.AddRange(submeshIndices);
                 }
             }
             subMeshCount = 1;
-            subTriangles.Clear();
-            subTriangles.Add(0, atlasedSubmesh);
+            _subTriangles.Clear();
+            _subTriangles.Add(0, atlasedSubmesh);
         }
 
         public void RemoveRedundantVerticies()
@@ -619,7 +605,7 @@ namespace Mercraft.Models.Buildings.Utils
 
             for (int i = 0; i < numberOfVerts; i++)
             {
-                Vector3 vert = vertices[i];
+                Vector3 vert = Vertices[i];
                 if (!vertList.Contains(vert))
                 {
                     //no redundancy - add
@@ -628,20 +614,20 @@ namespace Mercraft.Models.Buildings.Utils
                 else
                 {
                     //possible redundancy
-                    int firstIndex = vertices.IndexOf(vert);
+                    int firstIndex = Vertices.IndexOf(vert);
                     int secondIndex = vertIndex;
 
                     //check to see if these verticies are connected
-                    if (uv[firstIndex] == uv[secondIndex])
+                    if (UV[firstIndex] == UV[secondIndex])
                     {
                         //verticies are connected - merge them
 
                         int triIndex = 0;
-                        while ((triIndex = triangles.IndexOf(secondIndex)) != -1)
-                            triangles[triIndex] = firstIndex;
+                        while ((triIndex = Triangles.IndexOf(secondIndex)) != -1)
+                            Triangles[triIndex] = firstIndex;
 
-                        vertices.RemoveAt(secondIndex);
-                        uv.RemoveAt(secondIndex);
+                        Vertices.RemoveAt(secondIndex);
+                        UV.RemoveAt(secondIndex);
 
                         numberOfVerts--;
                         i--;

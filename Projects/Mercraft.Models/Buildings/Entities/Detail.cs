@@ -4,13 +4,13 @@ namespace Mercraft.Models.Buildings.Entities
 {
     public class Detail
     {
-        public enum Types
+        public enum DetailPlace
         {
             Facade,
             Roof
         }
 
-        public enum Orientations
+        public enum Orientation
         {
             Up,
             Down,
@@ -20,7 +20,7 @@ namespace Mercraft.Models.Buildings.Entities
             Backward
         }
 
-        private Quaternion[] rotations = new[]
+        private readonly Quaternion[] rotations =
         {
             Quaternion.identity,
             Quaternion.Euler(new Vector3(-180, 0, 0)),
@@ -30,54 +30,28 @@ namespace Mercraft.Models.Buildings.Entities
             Quaternion.Euler(new Vector3(0, 0, -90))
         };
 
-        public string name = "";
-        public Mesh mesh;
-        [SerializeField] private Vector2 _faceUv = new Vector2(0, 0);
-        public float faceHeight = 0;
-        public Vector3 scale = Vector3.one;
-        public Orientations orientation = Orientations.Up;
-        public Vector3 userRotation = Vector3.zero;
-        public int face = 0;
-        public Types type = Types.Facade;
-        public Material material;
-        public Transform transform; //reference stored for display purposes
-        public Vector3 worldPosition = Vector3.zero;
-        public Quaternion worldRotation = Quaternion.identity;
-
-
-        public Detail(string newName)
+        public Detail(string name)
         {
-            name = newName;
-            material = new Material(Shader.Find("Diffuse"));
+            Name = name;
+            Material = new Material(Shader.Find("Diffuse"));
         }
 
-        public Detail Duplicate()
-        {
-            return Duplicate(name + " copy");
-        }
+        public string Name;
+        public Mesh Mesh;
 
-        public Detail Duplicate(string newName)
-        {
-            Detail newDetail = new Detail(newName);
-            newDetail.mesh = mesh;
-            newDetail.faceUv = _faceUv;
-            newDetail.faceHeight = faceHeight;
-            newDetail.scale = scale;
-            newDetail.face = face;
-            newDetail.type = type;
-            newDetail.userRotation = userRotation;
-            newDetail.orientation = orientation;
-            newDetail.material = new Material(material);
+        public float FaceHeight = 0;
+        public Vector3 Scale = Vector3.one;
+        public Orientation DetailOrientation = Orientation.Up;
+        public Vector3 UserRotation = Vector3.zero;
+        public int Face = 0;
+        public DetailPlace Place = DetailPlace.Facade;
+        public Material Material;
+        
+        public Vector3 WorldPosition = Vector3.zero;
+        public Quaternion WorldRotation = Quaternion.identity;
 
-            return newDetail;
-        }
-
-        public Quaternion rotation
-        {
-            get { return rotations[(int) orientation]; }
-        }
-
-        public Vector2 faceUv
+        private Vector2 _faceUv = new Vector2(0, 0);   
+        public Vector2 FaceUv
         {
             get { return _faceUv; }
             set

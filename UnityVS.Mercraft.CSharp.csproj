@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E7FD182-1940-99E2-AF56-8BDD2C445843}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -110,17 +108,11 @@
     <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\SimpleFSM.cs" />
     <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
-    <None Include="Assets\Resources\Buildings\Config\styles\berlin\styles.config" />
-    <None Include="Assets\Resources\Buildings\Config\styles\georgianStyle.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\hongKongStyle.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\none.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\parisStyle.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\testStyles.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\alltextures.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\default.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\georgianTextures.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\hongKongTextures.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\parisTextures.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\berlin.xml" />
+    <None Include="Assets\Resources\Buildings\Config\styles\minsk.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\asian.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\europe.xml" />
+    <None Include="Assets\Resources\Buildings\Config\textures\georgian.xml" />
     <None Include="Assets\Dependencies\Antlr3.Runtime.dll" />
     <None Include="Assets\Dependencies\Mercraft.Core.dll" />
     <None Include="Assets\Dependencies\Mercraft.Explorer.dll" />
@@ -128,9 +120,6 @@
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
     <None Include="Assets\Dependencies\Mercraft.Models.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Resources\Buildings\Config\styles\berlin\residential.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

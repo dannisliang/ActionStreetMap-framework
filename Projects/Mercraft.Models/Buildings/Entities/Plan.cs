@@ -1,44 +1,30 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Models.Buildings.Enums;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Entities
 {
-    [System.Serializable]
-    public class Plan : ScriptableObject
+    public class Plan
     {
-
-        public List<Vector2> points = new List<Vector2>();
-        public List<Volume> volumes = new List<Volume>();
+        public List<Vector2> Points = new List<Vector2>();
+        public List<Volume> Volumes = new List<Volume>();
       
-
-        public int numberOfPoints
-        {
-            get { return points.Count; }
-        }
-
-        public int numberOfVolumes
-        {
-            get { return volumes.Count; }
-        }
-    
         /// <summary>
         /// Gets the ordered points from a volume.
         /// </summary>
         public List<Vector2> GetOrderedPoints(int volumeIndex)
         {
-            List<Vector2> orderedPoints = new List<Vector2>();
-            int volumeCount = volumes[volumeIndex].Count;
+            var orderedPoints = new List<Vector2>();
+            int volumeCount = Volumes[volumeIndex].Count;
             for (int i = 0; i < volumeCount; i++)
-                orderedPoints.Add(points[volumes[volumeIndex].points[i]]);
+                orderedPoints.Add(Points[Volumes[volumeIndex].Points[i]]);
 
             return orderedPoints;
         }
 
         public int GetFacadeFloorHeight(int volumeIndex, int pointA, int pointB)
         {
-            int returnFloorHeight = 0;
+            const int returnFloorHeight = 0;
             List<int> volumeIDs = GetVolumeIDs(pointA, pointB);
 
             if (!volumeIDs.Contains(volumeIndex))
@@ -55,7 +41,7 @@ namespace Mercraft.Models.Buildings.Entities
 
                 case 2:
                     int otherVolume = (volumeIDs.IndexOf(volumeIndex) == 0) ? volumeIDs[1] : volumeIDs[0];
-                    return volumes[otherVolume].numberOfFloors;
+                    return Volumes[otherVolume].NumberOfFloors;
 
                 default:
                     Debug.LogError("Error, a wall can't have more than one volume");
@@ -71,40 +57,23 @@ namespace Mercraft.Models.Buildings.Entities
                 System.Array.Reverse(newPoints);
 
             int numberOfnewPoints = newPoints.Length;
-            int pointIndexBase = points.Count;
-            points.AddRange(newPoints);
+            int pointIndexBase = Points.Count;
+            Points.AddRange(newPoints);
 
             int newVolumeIndex = AddVolume();
             for (int p = 0; p < numberOfnewPoints; p++)
-                volumes[newVolumeIndex].Add(p + pointIndexBase);
+                Volumes[newVolumeIndex].Add(p + pointIndexBase);
 
-            return volumes[newVolumeIndex];
+            return Volumes[newVolumeIndex];
         }
 
         public int AddVolume()
         {
-            Volume newVolume = ScriptableObject.CreateInstance<Volume>();
-            newVolume.numberOfFloors = Mathf.FloorToInt(newVolume.height / BuildingMeasurements.FloorHeightMin);
-            volumes.Add(newVolume);
-            newVolume.styles = ScriptableObject.CreateInstance<VolumeStyles>();
-            return numberOfVolumes - 1;
-        }
-
-        public void AddVolume(int a, int b, Vector2[] newPoints)
-        {
-            int volumeID = AddVolume();
-
-            int pointBase = points.Count;
-            int numberOfNewPoints = newPoints.Length;
-            points.AddRange(newPoints);
-
-            volumes[volumeID].Add(a);
-            for (int np = 0; np < numberOfNewPoints; np++)
-            {
-                volumes[volumeID].Add(pointBase);
-                pointBase++;
-            }
-            volumes[volumeID].Add(b);
+            Volume volume = new Volume();
+            volume.NumberOfFloors = Mathf.FloorToInt(volume.Height / BuildingMeasurements.FloorHeightMin);
+            Volumes.Add(volume);
+            volume.Style = new VolumeStyle();
+            return Volumes.Count - 1;
         }
 
         /// <summary>
@@ -115,14 +84,14 @@ namespace Mercraft.Models.Buildings.Entities
             List<int> aVolumes = new List<int>();
             int s;
             List<int> returnVolumeIDs = new List<int>();
-            for (s = 0; s < numberOfVolumes; s++)
+            for (s = 0; s < Volumes.Count; s++)
             {
-                if (volumes[s].points.Contains(a))
+                if (Volumes[s].Points.Contains(a))
                     aVolumes.Add(s);
             }
-            for (s = 0; s < numberOfVolumes; s++)
+            for (s = 0; s < Volumes.Count; s++)
             {
-                if (volumes[s].points.Contains(b) && aVolumes.Contains(s))
+                if (Volumes[s].Points.Contains(b) && aVolumes.Contains(s))
                     returnVolumeIDs.Add(s);
             }
             return returnVolumeIDs;

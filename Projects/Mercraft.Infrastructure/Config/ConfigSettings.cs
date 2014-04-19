@@ -10,7 +10,7 @@
     /// </summary>
     public class ConfigSettings
     {
-        private ConfigElement _root;
+        private readonly ConfigElement _root;
 
         public ConfigSettings(string appConfigFileName)
         {

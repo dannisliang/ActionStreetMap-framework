@@ -2,6 +2,8 @@
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Buildings.Config;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
@@ -18,6 +20,13 @@ namespace Mercraft.Explorer.Bootstrappers
             Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
             Configurator.RegisterComponent<IGameObjectBuilder>(ConfigSection.GetSection(GameObjectBuilderKey));
+
+            Container.Register(Component.For<TexturePackProvider>()
+                .Use<TexturePackProvider>(new object[] {@"Assets\Resources\Buildings\Config\textures\textures.config"}));
+           
+            Container.Register(Component.For<BuildingStyleProvider>()
+                .Use<BuildingStyleProvider>(new object[] { @"Assets\Resources\Buildings\Config\styles\styles.config" }));
+
             return true;
         }
     }

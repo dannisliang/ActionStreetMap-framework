@@ -10,7 +10,7 @@
     /// </summary>
     public class ConfigElement
     {
-        private string _xpath;
+        private readonly string _xpath;
         private XElement _node;
         private XAttribute _attribute;
 

@@ -8,156 +8,127 @@ namespace Mercraft.Models.Buildings
 {
     public class BuildingBehavior : MonoBehaviour
     {
-        public RenderMode renderMode = RenderMode.Full;
+        private RenderMode _renderMode;
 
-        private DynamicMeshGenericMultiMaterialMesh fullMesh = null;
-        private DynamicMeshGenericMultiMaterialMesh detailMesh = null;
-        private Data data;
-        private List<GameObject> meshHolders = new List<GameObject>();
-        private MeshFilter meshFilt = null;
-        private MeshRenderer meshRend = null;
-        private Material lowDetailMat = new Material(Shader.Find("Diffuse"));
-        private List<Material> materials;
-        private GameObject[] details;
+        private DynamicMeshGenericMultiMaterialMesh _fullMesh = new DynamicMeshGenericMultiMaterialMesh();
+        private DynamicMeshGenericMultiMaterialMesh _detailMesh = new DynamicMeshGenericMultiMaterialMesh();
+        private Data _data;
+        private readonly List<GameObject> _meshHolders = new List<GameObject>();
+        private MeshFilter _meshFilt;
+        private MeshRenderer _meshRend;
+        private readonly Material _lowDetailMat = new Material(Shader.Find("Diffuse"));
+        private List<Material> _materials;
+        private GameObject[] _details;
 
-        public void Attach(string style, float height, int levels, IEnumerable<Vector2> footPrint)
+        public void Attach(RenderMode mode, TexturePack texturePack, BuildingStyle style, float height, int levels, IEnumerable<Vector2> footPrint)
         {
-            data = new Data();
-            data.Footprint = footPrint;
+            _renderMode = mode;
+            _data = new Data
+            {
+                Footprint = footPrint,
+                Style = style,
+                TexturePack = texturePack,
+                RanGen = new RandomGenerator(1000)
+            };
 
-            data.GeneratorConstraints = ConstraitProvider.Get(style);
-
-            Generate(data, height, levels);
+            Generate(_data, height, levels);
         }
 
         private void Generate(Data data, float height, int levels)
         {
             BuildingGenerator.Generate(data, height, levels);
 
-            UpdateRender(renderMode);
-            //Ensure that we don't generate a building that has more than 65000 verts.
-            int vertexCount = fullMesh.vertexCount;
+            UpdateRender(_renderMode);
+
+            int vertexCount = _fullMesh.VertexCount;
             int it = 20;
+            //ensure that we don't generate a building that has more than 65000 verts.
             while (vertexCount > 65000)
             {
                 float divisor = 65000.0f / vertexCount;
                 divisor = Mathf.Floor(divisor * 10.0f) / 10.0f;
                 divisor = Mathf.Min(divisor, 0.8f);
-                int volumeNUmber = data.Plan.volumes.Count;
+                int volumeNUmber = data.Plan.Volumes.Count;
                 for (int i = 0; i < volumeNUmber; i++)
                 {
-                    data.Plan.volumes[i].height *= divisor; //reduce the height of each volume
-                    data.Plan.volumes[i].numberOfFloors = Mathf.RoundToInt(data.Plan.volumes[i].height / data.FloorHeight);
+                    data.Plan.Volumes[i].Height *= divisor; //reduce the height of each volume
+                    data.Plan.Volumes[i].NumberOfFloors = Mathf.RoundToInt(data.Plan.Volumes[i].Height / data.FloorHeight);
                 }
-                UpdateRender(renderMode);
-                vertexCount = fullMesh.vertexCount;
+                UpdateRender(_renderMode);
+                vertexCount = _fullMesh.VertexCount;
 
                 it--;
                 if (it < 0)
                     break;
             }
-
-
-            /*// Build Tangents
-            fullMesh.SolveTangents();
-            detailMesh.SolveTangents();
-
-            // Build Lightmap UVs
-            for (int i = 0; i < fullMesh.meshCount; i++)
-                Unwrapping.GenerateSecondaryUVSet(fullMesh[i].mesh);
-            for (int i = 0; i < detailMesh.meshCount; i++)
-                Unwrapping.GenerateSecondaryUVSet(detailMesh[i].mesh);
-            fullMesh.lightmapUvsCalculated = true;
-            detailMesh.lightmapUvsCalculated = true;
-
-            // Optimise Mesh For Runtime
-            for (int i = 0; i < fullMesh.meshCount; i++)
-                MeshUtility.Optimize(fullMesh[i].mesh);
-            for (int i = 0; i < detailMesh.meshCount; i++)
-                MeshUtility.Optimize(detailMesh[i].mesh);
-            fullMesh.optimised = true;
-            detailMesh.optimised = true;*/
-
-            // Optimise Mesh For Runtime
-           // for (int i = 0; i < fullMesh.meshCount; i++)
-            //    MeshUtility.Optimize(fullMesh[i].mesh);
-           // for (int i = 0; i < detailMesh.meshCount; i++)
-           //     MeshUtility.Optimize(detailMesh[i].mesh);
         }
 
 
         private void UpdateRender(RenderMode mode)
         {
-            //  _mode = renderModes.lowDetail;
-            if (data.Plan == null)
-                return;
-            if (data.FloorHeight == 0)
-                return;
-            if (fullMesh == null)
-                fullMesh = new DynamicMeshGenericMultiMaterialMesh();
+            _fullMesh.SubMeshCount = _data.Textures.Count;
 
-            fullMesh.Clear();
-            fullMesh.subMeshCount = data.Textures.Count;
+            var roofBuilder = new RoofBuilder(_data, _fullMesh);
 
             switch (mode)
             {
                 case RenderMode.Full:
-                    FullDetailBuilder.Build(fullMesh, data);
-                    Roof.Build(fullMesh, data);
+                    FullDetailBuilder.Build(_fullMesh, _data);
+                    roofBuilder.Build();
                     break;
 
-                case RenderMode.LowDetail:
-                    LowDetailBuilder.Build(fullMesh, data);
-                    fullMesh.CollapseSubmeshes();
+                case RenderMode.Low:
+                    LowDetailBuilder.Build(_fullMesh, _data);
+                    _fullMesh.CollapseSubmeshes();
                     break;
 
                 case RenderMode.Box:
-                    BuildingBoxBuilder.Build(fullMesh, data);
+                    BuildingBoxBuilder.Build(_fullMesh, _data);
                     break;
             }
 
-            fullMesh.Build(false);
+            _fullMesh.Build(false);
 
-            while (meshHolders.Count > 0)
+            while (_meshHolders.Count > 0)
             {
-                GameObject destroyOld = meshHolders[0];
-                meshHolders.RemoveAt(0);
+                GameObject destroyOld = _meshHolders[0];
+                _meshHolders.RemoveAt(0);
                 DestroyImmediate(destroyOld);
             }
 
-            int numberOfMeshes = fullMesh.meshCount;
+            int numberOfMeshes = _fullMesh.MeshCount;
             for (int i = 0; i < numberOfMeshes; i++)
             {
                 GameObject newMeshHolder = new GameObject("model " + (i + 1));
                 newMeshHolder.transform.parent = transform;
                 newMeshHolder.transform.localPosition = Vector3.zero;
-                meshFilt = newMeshHolder.AddComponent<MeshFilter>();
-                meshRend = newMeshHolder.AddComponent<MeshRenderer>();
-                meshFilt.mesh = fullMesh[i].mesh;
-                meshHolders.Add(newMeshHolder);
+                _meshFilt = newMeshHolder.AddComponent<MeshFilter>();
+                _meshRend = newMeshHolder.AddComponent<MeshRenderer>();
+                _meshFilt.mesh = _fullMesh[i].Mesh;
+                _meshHolders.Add(newMeshHolder);
             }
 
             switch (mode)
             {
                 case RenderMode.Full:
-                    renderMode = RenderMode.Full;
+                    _renderMode = RenderMode.Full;
                     UpdateTextures();
                     UpdateDetails();
                     break;
 
-                case RenderMode.LowDetail:
-                    renderMode = RenderMode.LowDetail;
-                    meshRend.sharedMaterials = new Material[0];
-                    lowDetailMat.mainTexture = data.LodTextureAtlas;
-                    meshRend.sharedMaterial = lowDetailMat;
+                case RenderMode.Low:
+                    _renderMode = RenderMode.Low;
+                    _meshRend.sharedMaterials = new Material[0];
+                    _lowDetailMat.mainTexture = _data.LodTextureAtlas;
+                    _meshRend.sharedMaterial = _lowDetailMat;
                     UpdateDetails();
                     break;
 
                 case RenderMode.Box:
-                    renderMode = RenderMode.Box;
-                    meshRend.sharedMaterials = new Material[0];
-                    lowDetailMat.mainTexture = data.Textures[0].texture;
-                    meshRend.sharedMaterial = lowDetailMat;
+                    _renderMode = RenderMode.Box;
+                    _meshRend.sharedMaterials = new Material[0];
+                    _lowDetailMat.mainTexture = _data.Textures[0].MainTexture;
+                    _meshRend.sharedMaterial = _lowDetailMat;
                     UpdateDetails();
                     break;
             }
@@ -166,49 +137,41 @@ namespace Mercraft.Models.Buildings
 
         private void UpdateTextures()
         {
-            int numberOfMaterials = data.Textures.Count;
-            if (materials == null)
-                materials = new List<Material>(numberOfMaterials);
-            materials.Clear();
+            int numberOfMaterials = _data.Textures.Count;
+            if (_materials == null)
+                _materials = new List<Material>(numberOfMaterials);
+            _materials.Clear();
             for (int m = 0; m < numberOfMaterials; m++)
             {
-                materials.Add(data.Textures[m].material);
-                materials[m].name = data.Textures[m].name;
-                materials[m].mainTexture = data.Textures[m].texture;
+                _materials.Add(_data.Textures[m].Material);
+                _materials[m].name = _data.Textures[m].Name;
+                _materials[m].mainTexture = _data.Textures[m].MainTexture;
             }
-            //meshRend.sharedMaterials = materials.ToArray();
 
-            int numberOfMeshes = fullMesh.meshCount;
+            int numberOfMeshes = _fullMesh.MeshCount;
             for (int i = 0; i < numberOfMeshes; i++)
-                meshHolders[i].GetComponent<MeshRenderer>().sharedMaterials = materials.ToArray();
+                _meshHolders[i].GetComponent<MeshRenderer>().sharedMaterials = _materials.ToArray();
         }
 
         private void UpdateDetails()
         {
-            if (data.Plan == null)
+            if (_data.Details.Count == 0)
                 return;
-            if (data.FloorHeight == 0)
-                return;
-            if (data.Details.Count == 0)
-                return;
-            if (detailMesh == null)
-                detailMesh = new DynamicMeshGenericMultiMaterialMesh();
 
-            int numberOfDetails = details.Length;
+            int numberOfDetails = _details.Length;
             for (int i = 0; i < numberOfDetails; i++)
-                DestroyImmediate(details[i]);
+                DestroyImmediate(_details[i]);
 
-            if (renderMode != RenderMode.Full)
-                return;//once data is cleared - asses if we want to rerender the details
+            if (_renderMode != RenderMode.Full)
+                return;
 
-            details = BuildingDetails.Render(detailMesh, data);
-            numberOfDetails = details.Length;
+            _details = DetailsBuilder.Render(_detailMesh, _data);
+            numberOfDetails = _details.Length;
 
             for (int i = 0; i < numberOfDetails; i++)
             {
-                details[i].transform.parent = transform;
+                _details[i].transform.parent = transform;
             }
         }
-
     }
 }

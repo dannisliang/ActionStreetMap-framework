@@ -14,15 +14,9 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Project the specified Base UVs to find the appropriate 2D shape from 3D space - mainly used for angled roofs
         /// </summary>
-        /// <param name='verts'>
-        /// 3 verticies that define the polygon
-        /// </param>
-        /// <param name='baseUV'>
-        /// The 3 source UV coordinates.
-        /// </param>
-        /// <param name='forward'>
-        /// The direction of the facade forward normal
-        /// </param>
+        /// <param name='verts'> 3 verticies that define the polygon </param>
+        /// <param name='baseUV'> The 3 source UV coordinates. </param>
+        /// <param name='forward'> The direction of the facade forward normal </param>
         public static Vector2[] Project(Vector3[] verts, Vector2 baseUV, Vector3 forward)
         {
             int vertCount = verts.Length;
@@ -43,7 +37,6 @@ namespace Mercraft.Models.Buildings.Utils
             Quaternion normalToFacFront = Quaternion.FromToRotation(planeNormal, forward);
             planeNormal = normalToFacFront * planeNormal;
             Quaternion normalToFront = Quaternion.FromToRotation(planeNormal, Vector3.forward);
-            planeNormal = normalToFront * planeNormal;
             Quaternion moveFace = normalToFront * normalToFacFront;
 
             uvs[0] = baseUV;

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings environment="test">
+	<theme name="minsk" merge="no">
+	  <style name="residential" texture="europe">
+		<box>
+		  <height min="7.5" max="12" />
+		</box>
+		<floor>
+		  <height min="2.5" max="3.1" />
+		</floor>
+		<bay>
+		  <height min="1.43172" max="2.8273" />
+		  <width min="0.6574075" max="0.925926" />
+		  <depth min="0.008641977" max="0.3172841" />
+		  <spacing min="0.3032406" max="0.7662039" />
+		</bay>
+		<facade>
+		  <depth min="-0.002469137" max="-0.002469137" />
+		</facade>
+		<roof>
+		  <height min="2.457037" max="3.1075" />
+		  <faceDepth min="0.1" max="1" />
+		  <floorDepth min="0" max="1" />
+		  <styles>
+			<include type="flat" />
+			<include type="mansard" />
+			<include type="barrel" />
+			<include type="gabled" />
+			<include type="hipped" />
+			<include type="leanto" />
+			<include type="steepled" />
+			<include type="sawtooth" />
+		  </styles>
+		  <parapet chance="0.5" >
+			<width min="0" max="1" />
+			<height min="0.5" max="1" />
+			<frontDepth min="0.025" max="0.075" />
+			<backDepth min="0.12" max="0.49" />
+		  </parapet>
+		  <dormer chance="0.8">
+			<width min="0.5" max="1" />
+			<height min="0.7" max="1.2" />
+			<spacing min="1" max="2" />
+			<roofHeight  min="0.5" max="0.75" />
+		  </dormer>
+		</roof>
+	  </style>
+	<style name="commercial" texture="europe">
+		<box>
+		  <height min="7.5" max="12" />
+		</box>
+		<floor>
+		  <height min="2.5" max="3.1" />
+		</floor>
+		<bay>
+		  <height min="1.43172" max="2.8273" />
+		  <width min="0.6574075" max="0.925926" />
+		  <depth min="0.008641977" max="0.3172841" />
+		  <spacing min="0.3032406" max="0.7662039" />
+		</bay>
+		<facade>
+		  <depth min="-0.002469137" max="-0.002469137" />
+		</facade>
+		<roof>
+		  <height min="2.457037" max="3.1075" />
+		  <faceDepth min="0.1" max="1" />
+		  <floorDepth min="0" max="1" />
+		  <styles>
+			<include type="flat" />
+			<include type="mansard" />
+			<include type="barrel" />
+			<include type="gabled" />
+			<include type="hipped" />
+			<include type="leanto" />
+			<include type="steepled" />
+			<include type="sawtooth" />
+		  </styles>
+		  <parapet chance="0.5" >
+			<width min="0" max="1" />
+			<height min="0.5" max="1" />
+			<frontDepth min="0.025" max="0.075" />
+			<backDepth min="0.12" max="0.49" />
+		  </parapet>
+		  <dormer chance="0.8">
+			<width min="0.5" max="1" />
+			<height min="0.7" max="1.2" />
+			<spacing min="1" max="2" />
+			<roofHeight  min="0.5" max="0.75" />
+		  </dormer>
+		</roof>
+	  </style>
+	</theme>
+</settings>

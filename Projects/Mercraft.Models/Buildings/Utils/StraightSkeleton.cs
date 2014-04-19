@@ -5,101 +5,56 @@
 
     public class StraightSkeleton
     {
-        private static int numberOfPoints;
-        private static List<Vector2> returnPoints;//return as a set of Vector2 in triangle sets of three
-        private static Vector2[] originalPoints;
-        private static List<Vector2> usePoints;
-        private static List<Vector2> interiorPoints;//points that make up the ridge
-        private static List<float> pointAngles;
-        private static List<float> hypsForward = new List<float>();//list of hypontenuse for ordering the points
-        private static List<float> hypsBackward = new List<float>();//list of hypontenuse for ordering the points
-
-        //    private static readonly Color RED = new Color(1,0,0,0.5f);
-        //    private static readonly Color BLUE = new Color(0,0,1,0.5f);
-        //    private static readonly Color GREEN = new Color(0,1,0,0.5f);
-        //    private static readonly Color YELLOW = new Color(1,1,0,0.5f);
-        //    private static readonly Color MAGENTA = new Color(1,0,1,0.5f);
-        //    private static readonly Color CYAN = new Color(0,1,1,0.5f);
-
         public static Vector2[][] Calculate(Vector2[] source)
         {
-            originalPoints = source;
-            returnPoints = new List<Vector2>();//return as a set of Vector2 in triangle sets of three
+            var context = new SkeletonContext();
+            context.originalPoints = source;
+            context.numberOfPoints = source.Length;
+            context.usePoints = new List<Vector2>(source);
 
-            numberOfPoints = source.Length;
-            usePoints = new List<Vector2>(source);
-            pointAngles = new List<float>();
-            hypsForward = new List<float>();//list of hypontenuse for ordering the points
-            hypsBackward = new List<float>();//list of hypontenuse for ordering the points
-            interiorPoints = new List<Vector2>();
-
-            for (int i = 0; i < numberOfPoints; i++)
+            for (int i = 0; i < context.numberOfPoints; i++)
             {
                 //prepopulate the sodding lists
-                pointAngles.Add(0);
-                hypsForward.Add(float.PositiveInfinity);
-                hypsBackward.Add(float.PositiveInfinity);
+                context.pointAngles.Add(0);
+                context.hypsForward.Add(float.PositiveInfinity);
+                context.hypsBackward.Add(float.PositiveInfinity);
             }
 
-            for (int i = 1; i < numberOfPoints + 1; i++)
-                CalculateAngles(i);
+            for (int i = 1; i < context.numberOfPoints + 1; i++)
+                CalculateAngles(context, i);
 
 
-            for (int i = 0; i < numberOfPoints; i++)
-                CalculateHypotenuse(i);
+            for (int i = 0; i < context.numberOfPoints; i++)
+                CalculateHypotenuse(context, i);
 
-            //DEBUG DRAW HYP LINES - FWD+BKWD
-            /*        for (int i = 0; i < numberOfPoints; i++)
-                    {
-            //            int ib = (i + 1) % numberOfPoints;
-                        Vector2 pa = usePoints[i];
-            //            Vector2 pb = usePoints[ib];
-                        float aa = pointAngles[i];
-            //            float ab = pointAngles[ib];
-                        float hypA = hypsForward[i];
-                        float hypB = hypsBackward[i];
-                        if (!float.IsPositiveInfinity(hypA))
-                        {
-                            Vector2 arFDir = new Vector2(Mathf.Sin(aa), Mathf.Cos(aa)) * hypA;
-                            Debug.DrawLine(new Vector3(pa.x, 0, pa.y), new Vector3(pa.x + arFDir.x, 0, pa.y + arFDir.y), MAGENTA);
-                        }
-                        if (!float.IsPositiveInfinity(hypB))
-                        {
-                            Vector2 arBDir = new Vector2(Mathf.Sin(aa), Mathf.Cos(aa)) * hypB;
-                            Debug.DrawLine(new Vector3(pa.x, 0, pa.y), new Vector3(pa.x + arBDir.x, 0, pa.y + arBDir.y), CYAN);
-                        }
-                        //Vector2 brDir = new Vector2(Mathf.Sin(ab), Mathf.Cos(ab)) * hypB;
-                        //Debug.DrawLine(new Vector3(pb.x, 0, pb.y), new Vector3(pb.x + brDir.x, 0, pb.y + brDir.y), CYAN);
-                    }*/
+            CalculateTriangles(context);
 
-            CalculateTriangles();
-
-            return new[] { returnPoints.ToArray(), interiorPoints.ToArray() };
+            return new[] { context.returnPoints.ToArray(), context.interiorPoints.ToArray() };
         }
 
-        private static void CalculateTriangles()
+        private static void CalculateTriangles(SkeletonContext context)
         {
 
             int it = 0;
             int numberOfSkeletalPoints = 0;
-            int totalOfSkeletalPoints = numberOfPoints;
+            int totalOfSkeletalPoints = context.numberOfPoints;
             while (numberOfSkeletalPoints < totalOfSkeletalPoints - 3)
             {
                 //select shortest point
-                int pointIndex = SmallestHypIndex();
+                int pointIndex = SmallestHypIndex(context);
                 if (pointIndex == -1)
                     break;
-                int lastPointIndex = pointIndex > 0 ? pointIndex - 1 : numberOfPoints - 1;
-                int lastPointIndexB = pointIndex > 1 ? pointIndex - 2 : pointIndex + (numberOfPoints - 2);
-                int nextPointIndex = (pointIndex + 1) % numberOfPoints;
-                int nextPointIndexB = (pointIndex + 2) % numberOfPoints;
+                int lastPointIndex = pointIndex > 0 ? pointIndex - 1 : context.numberOfPoints - 1;
+                int lastPointIndexB = pointIndex > 1 ? pointIndex - 2 : pointIndex + (context.numberOfPoints - 2);
+                int nextPointIndex = (pointIndex + 1) % context.numberOfPoints;
+                int nextPointIndexB = (pointIndex + 2) % context.numberOfPoints;
 
-                Vector2 point = usePoints[pointIndex];
-                float pointAngle = pointAngles[pointIndex];
-                float hypLengthF = hypsForward[pointIndex];
-                float hypLengthB = hypsBackward[pointIndex];
+                Vector2 point = context.usePoints[pointIndex];
+                float pointAngle = context.pointAngles[pointIndex];
+                float hypLengthF = context.hypsForward[pointIndex];
+                float hypLengthB = context.hypsBackward[pointIndex];
                 bool forward = hypLengthF < hypLengthB;//if the next point has a smaller size - delete forward
-                float useHypLength = forward ? hypsForward[pointIndex] : hypsBackward[pointIndex];
+                float useHypLength = forward ? context.hypsForward[pointIndex] : context.hypsBackward[pointIndex];
 
                 Vector2 pointDir = new Vector2(Mathf.Sin(pointAngle), Mathf.Cos(pointAngle)) * useHypLength;
                 Vector2 newPoint = point + pointDir;
@@ -109,47 +64,43 @@
                 int indexC = forward ? nextPointIndex : pointIndex;
                 int indexD = forward ? nextPointIndexB : nextPointIndex;
 
-                Vector2 pointA = usePoints[indexA];
-                Vector2 pointB = usePoints[indexB];
-                Vector2 pointC = usePoints[indexC];
-                Vector2 pointD = usePoints[indexD];
+                Vector2 pointA = context.usePoints[indexA];
+                Vector2 pointB = context.usePoints[indexB];
+                Vector2 pointC = context.usePoints[indexC];
+                Vector2 pointD = context.usePoints[indexD];
 
-                //            Debug.DrawLine(new Vector3(pointB.x, 0, pointB.y), new Vector3(newPoint.x, 0, newPoint.y), GREEN);
-                //            Debug.DrawLine(new Vector3(pointC.x, 0, pointC.y), new Vector3(newPoint.x, 0, newPoint.y), GREEN);
-                //remove points
-
-                pointAngles[indexB] = Mathf.LerpAngle(pointAngles[indexB], pointAngles[indexC], 0.5f);
+                context.pointAngles[indexB] = Mathf.LerpAngle(context.pointAngles[indexB], context.pointAngles[indexC], 0.5f);
 
                 if (indexB < indexC)
                 {
-                    usePoints.RemoveAt(indexB);
-                    usePoints.RemoveAt(indexB);
-                    hypsForward.RemoveAt(indexB);
-                    hypsForward.RemoveAt(indexB);
-                    hypsBackward.RemoveAt(indexB);
-                    hypsBackward.RemoveAt(indexB);
-                    pointAngles.RemoveAt(indexB);
-                    pointAngles.RemoveAt(indexB);
+                    context.usePoints.RemoveAt(indexB);
+                    context.usePoints.RemoveAt(indexB);
+                    context.hypsForward.RemoveAt(indexB);
+                    context.hypsForward.RemoveAt(indexB);
+                    context.hypsBackward.RemoveAt(indexB);
+                    context.hypsBackward.RemoveAt(indexB);
+                    context.pointAngles.RemoveAt(indexB);
+                    context.pointAngles.RemoveAt(indexB);
                 }
                 else
                 {
-                    usePoints.RemoveAt(indexC);
-                    hypsForward.RemoveAt(indexC);
-                    hypsBackward.RemoveAt(indexC);
-                    pointAngles.RemoveAt(indexC);
+                    context.usePoints.RemoveAt(indexC);
+                    context.hypsForward.RemoveAt(indexC);
+                    context.hypsBackward.RemoveAt(indexC);
+                    context.pointAngles.RemoveAt(indexC);
                     indexB--;
-                    usePoints.RemoveAt(indexB);
-                    hypsForward.RemoveAt(indexB);
-                    hypsBackward.RemoveAt(indexB);
-                    pointAngles.RemoveAt(indexB);
+                    context.usePoints.RemoveAt(indexB);
+                    context.hypsForward.RemoveAt(indexB);
+                    context.hypsBackward.RemoveAt(indexB);
+                    context.pointAngles.RemoveAt(indexB);
                 }
 
-                usePoints.Insert(indexB, newPoint);
-                interiorPoints.Add(newPoint);
-                hypsForward.Insert(indexB, float.PositiveInfinity);
-                hypsBackward.Insert(indexB, float.PositiveInfinity);
-                pointAngles.Insert(indexB, 0);
-                numberOfPoints--;
+                context.usePoints.Insert(indexB, newPoint);
+                context.interiorPoints.Add(newPoint);
+                context.hypsForward.Insert(indexB, float.PositiveInfinity);
+                context.hypsBackward.Insert(indexB, float.PositiveInfinity);
+                context.pointAngles.Insert(indexB, 0);
+                context.numberOfPoints--;
 
                 totalOfSkeletalPoints++;
                 numberOfSkeletalPoints += 2;
@@ -160,72 +111,51 @@
 
 
                 //add new point created
-                if (numberOfPoints > 3)
+                if (context.numberOfPoints > 3)
                 {
-                    CalculateAngles(indexB);
-                    CalculateHypotenuse(indexA);
-                    CalculateHypotenuse(indexB);
-                    CalculateHypotenuse(indexC);
-                    CalculateHypotenuse(indexD);
+                    CalculateAngles(context,indexB);
+                    CalculateHypotenuse(context, indexA);
+                    CalculateHypotenuse(context, indexB);
+                    CalculateHypotenuse(context, indexC);
+                    CalculateHypotenuse(context, indexD);
                 }
                 //re calculate points affected
 
-                returnPoints.Add(pointA);
-                returnPoints.Add(pointB);
-                returnPoints.Add(newPoint);
+                context.returnPoints.Add(pointA);
+                context.returnPoints.Add(pointB);
+                context.returnPoints.Add(newPoint);
 
-                returnPoints.Add(pointB);
-                returnPoints.Add(pointC);
-                returnPoints.Add(newPoint);
+                context.returnPoints.Add(pointB);
+                context.returnPoints.Add(pointC);
+                context.returnPoints.Add(newPoint);
 
-                returnPoints.Add(pointC);
-                returnPoints.Add(pointD);
-                returnPoints.Add(newPoint);
+                context.returnPoints.Add(pointC);
+                context.returnPoints.Add(pointD);
+                context.returnPoints.Add(newPoint);
 
                 it++;
                 if (it > 32000)
                 {
-                    //Debug.Log("CalculateTriangles IT error");
                     break;
                 }
             }
 
-            returnPoints.Add(usePoints[0]);
-            returnPoints.Add(usePoints[1]);
-            returnPoints.Add(usePoints[2]);
+            context.returnPoints.Add(context.usePoints[0]);
+            context.returnPoints.Add(context.usePoints[1]);
+            context.returnPoints.Add(context.usePoints[2]);
 
-            //        for(int i = 0; i < numberOfPoints; i++)
-            //        {
-            //            Vector3 p0 = new Vector3(usePoints[i].x, 0, usePoints[i].y);
-            //            int indexPlus = (i + 1) % usePoints.Count;
-            //            Vector3 p1 = new Vector3(usePoints[indexPlus].x, 0, usePoints[indexPlus].y);
-            //            Debug.DrawLine(p0, p1, YELLOW);
-
-            //            float pointAngleA = pointAngles[i];
-            //            float pointAngleB = pointAngles[indexPlus];
-            //            float hypLengthA = hypsForward[i];
-            //            float hypLengthB = hypsBackward[indexPlus];
-            //            if(float.IsPositiveInfinity(hypLengthA) || float.IsPositiveInfinity(hypLengthB))
-            //                continue;
-            //            Vector3 pointDirA = new Vector3(Mathf.Sin(pointAngleA), 0, Mathf.Cos(pointAngleA)) * hypLengthA;
-            //            Vector3 pointDirB = new Vector3(Mathf.Sin(pointAngleB), 0, Mathf.Cos(pointAngleB)) * hypLengthB;
-            //
-            //            Debug.DrawLine(p0, p0 + pointDirA, CYAN);
-            //            Debug.DrawLine(p1, p1 + pointDirB, MAGENTA);
-
-            //        }
         }
 
-        private static int SmallestHypIndex()
+        private static int SmallestHypIndex(SkeletonContext context)
         {
             float smallestHyp = float.PositiveInfinity;
             int smallestHypIndex = -1;
-            for (int i = 0; i < numberOfPoints; i++)
+            for (int i = 0; i < context.numberOfPoints; i++)
             {
-                float hypA = hypsForward[i];
-                float hypB = hypsBackward[i];
-                float hypOtherA = hypsBackward[(i + 1) % numberOfPoints];
-                float hypOtherB = hypsForward[(i > 0) ? i - 1 : numberOfPoints - 1];
+                float hypA = context.hypsForward[i];
+                float hypB = context.hypsBackward[i];
+                float hypOtherA = context.hypsBackward[(i + 1) % context.numberOfPoints];
+                float hypOtherB = context.hypsForward[(i > 0) ? i - 1 : context.numberOfPoints - 1];
 
                 if (hypA < smallestHyp && !float.IsPositiveInfinity(hypOtherA))
                 {
@@ -241,16 +171,16 @@
             return smallestHypIndex;
         }
 
-        private static void CalculateAngles(int pointIndex)
+        private static void CalculateAngles(SkeletonContext context, int pointIndex)
         {
 
-            int ia = (pointIndex > 0) ? pointIndex - 1 : numberOfPoints - 1;
-            int ib = pointIndex % numberOfPoints;
-            int ic = (pointIndex + 1) % numberOfPoints;
+            int ia = (pointIndex > 0) ? pointIndex - 1 : context.numberOfPoints - 1;
+            int ib = pointIndex % context.numberOfPoints;
+            int ic = (pointIndex + 1) % context.numberOfPoints;
 
-            Vector2 a = usePoints[ia];
-            Vector2 b = usePoints[ib];
-            Vector2 c = usePoints[ic];
+            Vector2 a = context.usePoints[ia];
+            Vector2 b = context.usePoints[ib];
+            Vector2 c = context.usePoints[ic];
 
             Vector2 dirA = a - b;
             Vector2 dirB = c - b;
@@ -258,7 +188,7 @@
             float tarad = Vector2.Angle(Vector2.up, dirA);
             if (tarad < 0) tarad += 360;
             tarad = tarad * Mathf.Deg2Rad * Mathf.Sign(Vector2.Dot(Vector2.right, dirA));
-            //Vector2 aDir = new Vector2(Mathf.Sin(tarad), Mathf.Cos(tarad));
+           
             Vector2 aDir90 = new Vector2(Mathf.Sin(tarad + Mathf.PI / 2), Mathf.Cos(tarad + Mathf.PI / 2));//for use to determine reflex angle using Dot
 
             float tbrad = Vector2.Angle(Vector2.up, dirB);
@@ -269,24 +199,19 @@
             float reflex = Vector2.Dot(aDir90, bDir) > 0 ? 0 : -1;
             float drad = (Mathf.LerpAngle(tarad * Mathf.Rad2Deg, tbrad * Mathf.Rad2Deg, 0.5f) + (reflex * 180)) * (Mathf.Deg2Rad);
 
-            //        Vector3 midPoint = new Vector3(b.x,0,b.y);
-            //        Vector3 angPoint = midPoint + new Vector3(Mathf.Sin(drad), 0, Mathf.Cos(drad))*4;
-            //        Debug.DrawLine(midPoint, angPoint, YELLOW);
-            //        Debug.DrawLine(midPoint, midPoint+Vector3.left, YELLOW);
-
-            pointAngles[ib] = drad;
+            context.pointAngles[ib] = drad;
         }
 
-        private static void CalculateHypotenuse(int pointIndex)
+        private static void CalculateHypotenuse(SkeletonContext context, int pointIndex)
         {
             //        bool drawLine = numberOfPoints == 4;
-            int pointIndexB = (pointIndex + 1) % numberOfPoints;
-            Vector2 pa = usePoints[pointIndex];
-            Vector2 pb = usePoints[pointIndexB];
+            int pointIndexB = (pointIndex + 1) % context.numberOfPoints;
+            Vector2 pa = context.usePoints[pointIndex];
+            Vector2 pb = context.usePoints[pointIndexB];
             Vector2 baseDir = pa - pb;
             float baseLength = Vector2.Distance(pa, pb);
-            float aa = pointAngles[pointIndex];
-            float ab = pointAngles[pointIndexB];
+            float aa = context.pointAngles[pointIndex];
+            float ab = context.pointAngles[pointIndexB];
 
             float baseAngle = Vector2.Angle(Vector2.up, baseDir);
             if (baseAngle < 0) baseAngle += 360;
@@ -303,16 +228,12 @@
 
             //triangulate the adjacent length
             float adjactentLength = (baseLength * Mathf.Sin(relAngA) * Mathf.Sin(relAngB)) / Mathf.Sin(relAngA - relAngB);
-            //Vector3 midPoint = new Vector3((pa.x+pb.x)*0.5f,0,(pa.y+pb.y)*0.5f);
-            //float relMid = Mathf.LerpAngle(aa, ab, 0.5f);
-            //Vector3 adjPoint = midPoint + new Vector3(Mathf.Sin(relMid), 0, Mathf.Cos(relMid)) * adjactentLength;
-            //Debug.DrawLine(midPoint, adjPoint, BLUE);
 
             float hypA = adjactentLength / Mathf.Sin(relAngA);//trig get the hypot
             float hypB = adjactentLength / Mathf.Sin(relAngB);
 
             //Fast line intersection HERE
-            int numberOfOriginalPoints = originalPoints.Length;
+            int numberOfOriginalPoints = context.originalPoints.Length;
             Vector2 pB0A = pa;
             Vector2 pB1ha = pa + new Vector2(Mathf.Sin(aa), Mathf.Cos(aa)) * hypA;
             Vector2 pB0B = pb;
@@ -324,12 +245,12 @@
                 if (i == pointIndex)
                     continue;
                 bool skipForard = false, skipBackward = false;
-                if (i == ((pointIndex > 0) ? pointIndex - 1 : numberOfPoints - 1))
+                if (i == ((pointIndex > 0) ? pointIndex - 1 : context.numberOfPoints - 1))
                     skipForard = true;
-                if (i == (pointIndex + 1) % numberOfPoints)
+                if (i == (pointIndex + 1) % context.numberOfPoints)
                     skipBackward = true;
-                Vector2 pA0 = originalPoints[i];
-                Vector2 pA1 = originalPoints[(i + 1) % numberOfOriginalPoints];
+                Vector2 pA0 = context.originalPoints[i];
+                Vector2 pA1 = context.originalPoints[(i + 1) % numberOfOriginalPoints];
 
                 if (pA0 == pB0A || pA1 == pB0A)
                     skipForard = true;
@@ -338,38 +259,67 @@
 
                 if (calculateForward && !skipForard)
                 {
-                    if (BuildingUtils.FastLineIntersection(pA0, pA1, pB0A, pB1ha))
+                    if (FastLineIntersection(pA0, pA1, pB0A, pB1ha))
                     {
                         //hypontenuse intersects building plan
-                        hypsForward[pointIndex] = float.PositiveInfinity;
+                        context.hypsForward[pointIndex] = float.PositiveInfinity;
                         calculateForward = false;
-                        //                    if (drawLine) Debug.DrawLine(new Vector3(pB0A.x, 0, pB0A.y), new Vector3(pB1ha.x, 0, pB1ha.y), YELLOW);
-                        //                    if (drawLine) Debug.DrawLine(new Vector3(pA0.x, 0, pA0.y), new Vector3(pA1.x, 0, pA1.y), RED);
                     }
                 }
                 if (calculateBackward && !skipBackward)
                 {
-                    if (BuildingUtils.FastLineIntersection(pA0, pA1, pB0B, pB1hb))
+                    if (FastLineIntersection(pA0, pA1, pB0B, pB1hb))
                     {
                         //hypontenuse intersects building plan
-                        hypsBackward[pointIndexB] = float.PositiveInfinity;
+                        context.hypsBackward[pointIndexB] = float.PositiveInfinity;
                         calculateBackward = false;
-                        //                    if (drawLine) Debug.DrawLine(new Vector3(pB0B.x, 0, pB0B.y), new Vector3(pB1hb.x, 0, pB1hb.y), YELLOW);
-                        //                    if (drawLine) Debug.DrawLine(new Vector3(pA0.x, 0, pA0.y), new Vector3(pA1.x, 0, pA1.y), RED);
                     }
                 }
             }
             if (calculateForward)
             {
-                hypsForward[pointIndex] = hypA;
-                //            if (drawLine) Debug.DrawLine(new Vector3(pB0A.x, 0, pB0A.y), new Vector3(pB1ha.x, 0, pB1ha.y), BLUE);
+                context.hypsForward[pointIndex] = hypA;
 
             }
             if (calculateBackward)
             {
-                hypsBackward[pointIndexB] = hypB;
-                //            if (drawLine) Debug.DrawLine(new Vector3(pB0B.x, 0, pB0B.y), new Vector3(pB1hb.x, 0, pB1hb.y), CYAN);
+                context.hypsBackward[pointIndexB] = hypB;
             }
+        }
+
+        public static bool FastLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
+        {
+            return (CCW(a1, b1, b2) != CCW(a2, b1, b2)) && (CCW(a1, a2, b1) != CCW(a1, a2, b2));
+        }
+
+        private static bool CCW(Vector2 p1, Vector2 p2, Vector2 p3)
+        {
+            return ((p2.x - p1.x) * (p3.y - p1.y) > (p2.y - p1.y) * (p3.x - p1.x));
+        }
+
+        public class SkeletonContext
+        {
+            public int numberOfPoints;
+            /// <summary>
+            /// return as a set of Vector2 in triangle sets of three
+            /// </summary>
+            public List<Vector2> returnPoints = new List<Vector2>();
+            public Vector2[] originalPoints;
+            public List<Vector2> usePoints = new List<Vector2>();
+
+            /// <summary>
+            /// points that make up the ridge
+            /// </summary>
+            public List<Vector2> interiorPoints = new List<Vector2>();
+            public List<float> pointAngles = new List<float>();
+            /// <summary>
+            /// list of hypontenuse for ordering the points
+            /// </summary>
+            public List<float> hypsForward = new List<float>();
+            /// <summary>
+            /// list of hypontenuse for ordering the points
+            /// </summary>
+            public List<float> hypsBackward = new List<float>();
         }
     }
 }

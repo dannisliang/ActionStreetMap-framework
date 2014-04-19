@@ -1,4 +1,3 @@
-/* Most strict rule should be first */
 canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
 /* buildings */
@@ -16,7 +15,7 @@ area[building:shape=sphere]								{ builder: sphere;}
 area[building:shape=cylinder]							{ builder: cylinder;}
 
 area[building=residential], 	
-area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:Assets/Resources/Buildings/Config/styles/testStyles.xml;}
+area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:residential;}
 
 area[building=tourism]									{ fill-color: #0066ff;}
 area[building=commercial] 								{ fill-color: #efc8c8;}

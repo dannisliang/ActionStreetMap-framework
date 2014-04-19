@@ -35,8 +35,8 @@
 
 
             int currentSize = 0;
-            List<int> sliceWidths = new List<int>() { };
-            List<int> sliceHeights = new List<int>() { };
+            List<int> sliceWidths = new List<int>();
+            List<int> sliceHeights = new List<int>();
 
             for (int i = 0; i < numberOfRects; i++)
             {

@@ -4,13 +4,25 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Buildings.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
+        private TexturePackProvider _textureProvider;
+        private BuildingStyleProvider _styleProvider;
+
+        [Dependency]
+        public BuildingModelBuilder(TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
+        {
+            _textureProvider = textureProvider;
+            _styleProvider = styleProvider;
+        }
+
         private const int NoValue = 0;
 
         public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
@@ -32,9 +44,16 @@ namespace Mercraft.Explorer.Builders
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
             var height = rule.GetHeight(NoValue);
             var levels = rule.GetLevels(NoValue);
-            var style = rule.GetBuildingStyle();
+            
+            // TODO define theme somewhere
+            var theme = "berlin";
+            var styleName = rule.GetBuildingStyle();
+
+            var style = _styleProvider.Get(theme, styleName);
+            var texture = _textureProvider.Get(style.Texture);
+
             gameObject.AddComponent<BuildingBehavior>()
-                .Attach(style, height, levels, verticies);
+                .Attach(RenderMode.Full, texture, style, height, levels, verticies);
 
             return gameObject;
         }

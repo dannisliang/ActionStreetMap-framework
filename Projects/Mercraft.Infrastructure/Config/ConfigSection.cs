@@ -9,7 +9,7 @@
     /// </summary>
     public class ConfigSection : IConfigSection
     {
-        private ConfigElement _element;
+        private readonly ConfigElement _element;
         public ConfigSection(ConfigElement element)
         {
             this._element = element;

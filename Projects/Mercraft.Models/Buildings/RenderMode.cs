@@ -3,7 +3,7 @@
     public enum RenderMode
     {
         Full,
-        LowDetail,
+        Low,
         Box
     }
 }

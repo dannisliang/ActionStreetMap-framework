@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Mercraft.Models.Buildings.Entities;
+﻿using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 
 namespace Mercraft.Models.Buildings.Builders
@@ -15,43 +11,42 @@ namespace Mercraft.Models.Buildings.Builders
         public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Data data)
         {
             Plan plan = data.Plan;
-            int numberOfVolumes = data.Plan.numberOfVolumes;
+            int numberOfVolumes = data.Plan.Volumes.Count;
             for (int s = 0; s < numberOfVolumes; s++)
             {
-                Volume volume = plan.volumes[s];
-                int numberOfVolumePoints = volume.points.Count;
-                Vector3[] newEndVerts = new Vector3[numberOfVolumePoints];
-                Vector2[] newEndUVs = new Vector2[numberOfVolumePoints];
-                Vector3 volumeHeight = Vector3.up * (volume.numberOfFloors * data.FloorHeight);
+                Volume volume = plan.Volumes[s];
+                int numberOfVolumePoints = volume.Points.Count;
+                var newEndVerts = new Vector3[numberOfVolumePoints];
+                var newEndUVs = new Vector2[numberOfVolumePoints];
+                var volumeHeight = Vector3.up * (volume.NumberOfFloors * data.FloorHeight);
                 for (int i = 0; i < numberOfVolumePoints; i++)
                 {
-                    newEndVerts[i] = plan.points[volume.points[i]].Vector3() + volumeHeight;
+                    newEndVerts[i] = plan.Points[volume.Points[i]].Vector3() + volumeHeight;
                     newEndUVs[i] = Vector2.zero;
                 }
 
                 List<int> tris = new List<int>(data.Plan.GetTrianglesBySectorBase(s));
                 mesh.AddData(newEndVerts, newEndUVs, tris.ToArray(), 0);
             }
-            //Build ROOF
 
             //Build facades
             for (int v = 0; v < numberOfVolumes; v++)
             {
-                Volume volume = plan.volumes[v];
-                int numberOfVolumePoints = volume.points.Count;
+                Volume volume = plan.Volumes[v];
+                int numberOfVolumePoints = volume.Points.Count;
 
                 for (int f = 0; f < numberOfVolumePoints; f++)
                 {
-                    if (!volume.renderFacade[f])
+                    if (!volume.RenderFacade[f])
                         continue;
 
                     int indexA = f;
                     int indexB = (f < numberOfVolumePoints - 1) ? f + 1 : 0;
-                    Vector3 p0 = plan.points[volume.points[indexA]].Vector3();
-                    Vector3 p1 = plan.points[volume.points[indexB]].Vector3();
+                    Vector3 p0 = plan.Points[volume.Points[indexA]].Vector3();
+                    Vector3 p1 = plan.Points[volume.Points[indexB]].Vector3();
 
-                    int floorBase = plan.GetFacadeFloorHeight(v, volume.points[indexA], volume.points[indexB]);
-                    int numberOfFloors = volume.numberOfFloors - floorBase;
+                    int floorBase = plan.GetFacadeFloorHeight(v, volume.Points[indexA], volume.Points[indexB]);
+                    int numberOfFloors = volume.NumberOfFloors - floorBase;
                     if (numberOfFloors < 1)
                     {
                         //no facade - adjacent facade is taller and covers this one
@@ -60,7 +55,7 @@ namespace Mercraft.Models.Buildings.Builders
                     float floorHeight = data.FloorHeight;
 
                     Vector3 floorHeightStart = Vector3.up * (floorBase * floorHeight);
-                    Vector3 wallHeight = Vector3.up * (volume.numberOfFloors * floorHeight) - floorHeightStart;
+                    Vector3 wallHeight = Vector3.up * (volume.NumberOfFloors * floorHeight) - floorHeightStart;
                     float facadeWidth = Vector3.Distance(p0, p1);
 
 
@@ -78,9 +73,6 @@ namespace Mercraft.Models.Buildings.Builders
                     mesh.AddPlane(w0, w1, w2, w3, uvMin, uvMax, 0);
                 }
             }
-
-            data = null;
-            mesh = null;
         }
     }
 }

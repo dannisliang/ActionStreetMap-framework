@@ -178,6 +178,7 @@ namespace Assets.Scripts.Demo
             {
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
+                    new KeyValuePair<string, string>("building", "residential"),
                   new KeyValuePair<string, string>("addr:housename", "Nokia"),
                 },
                 Points = new GeoCoordinate[]

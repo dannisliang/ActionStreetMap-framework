@@ -7,12 +7,13 @@ namespace Mercraft.Models.Buildings.Utils
 {
     public class DynamicMeshGenericMultiMaterialMesh
     {
+        public int VertexCount;
 
-        public string name = "mesh";
-        [SerializeField]
-        private List<DynamicMeshGenericMultiMaterial> _meshes = new List<DynamicMeshGenericMultiMaterial>();
+        public string Name = "mesh";
+
+        private readonly List<DynamicMeshGenericMultiMaterial> _meshes = new List<DynamicMeshGenericMultiMaterial>();
         private int _subMeshCount;
-        private int _vertexCount;
+
 
         public DynamicMeshGenericMultiMaterialMesh()
         {
@@ -24,52 +25,52 @@ namespace Mercraft.Models.Buildings.Utils
             get { return _meshes[index]; }
         }
 
-        public int meshCount
+        public int MeshCount
         {
             get { return _meshes.Count; }
         }
 
-        public Vector3[] vertices
+        public Vector3[] Vertices
         {
             get
             {
-                List<Vector3> returnVerts = new List<Vector3>();
+                var returnVerts = new List<Vector3>();
                 foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    returnVerts.AddRange(mesh.vertices);
+                    returnVerts.AddRange(mesh.Vertices);
                 return returnVerts.ToArray();
             }
         }
 
-        public Vector2[] uv
+        public Vector2[] UV
         {
             get
             {
-                List<Vector2> returnUVs = new List<Vector2>();
+                var returnUVs = new List<Vector2>();
                 foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    returnUVs.AddRange(mesh.uv);
+                    returnUVs.AddRange(mesh.UV);
                 return returnUVs.ToArray();
             }
         }
 
-        public int[] triangles
+        public int[] Triangles
         {
             get
             {
-                List<int> returnTris = new List<int>();
+                var returnTris = new List<int>();
                 foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    returnTris.AddRange(mesh.triangles);
+                    returnTris.AddRange(mesh.Triangles);
                 return returnTris.ToArray();
             }
         }
 
         public Vector2 MinWorldUvSize(int submesh)
         {
-            Vector2 mainMinUV = _meshes[0].minWorldUvSize[0];
+            Vector2 mainMinUV = _meshes[0].MinWorldUVSize[0];
             foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
             {
                 for (int i = 0; i < _subMeshCount; i++)
                 {
-                    Vector2 meshMinUV = mesh.minWorldUvSize[i];
+                    Vector2 meshMinUV = mesh.MinWorldUVSize[i];
                     if (meshMinUV.x < mainMinUV.x) mainMinUV.x = meshMinUV.x;
                     if (meshMinUV.y < mainMinUV.y) mainMinUV.y = meshMinUV.y;
                 }
@@ -79,12 +80,12 @@ namespace Mercraft.Models.Buildings.Utils
 
         public Vector2 MaxWorldUvSize(int submesh)
         {
-            Vector2 mainMinUV = _meshes[0].minWorldUvSize[0];
+            Vector2 mainMinUV = _meshes[0].MinWorldUVSize[0];
             foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
             {
                 for (int i = 0; i < _subMeshCount; i++)
                 {
-                    Vector2 meshMinUV = mesh.minWorldUvSize[i];
+                    Vector2 meshMinUV = mesh.MinWorldUVSize[i];
                     if (meshMinUV.x > mainMinUV.x) mainMinUV.x = meshMinUV.x;
                     if (meshMinUV.y > mainMinUV.y) mainMinUV.y = meshMinUV.y;
                 }
@@ -109,40 +110,17 @@ namespace Mercraft.Models.Buildings.Utils
         {
             foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
                 mesh.Clear();
-            _vertexCount = 0;
+            VertexCount = 0;
             _meshes.Clear();
         }
 
-        public int vertexCount
-        {
-            get
-            {
-                return _vertexCount;
-            }
-        }
 
-        public bool built
-        {
-            get
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    if (!mesh.built) return false;
-                return true;
-            }
-        }
 
-        public int triangleCount
-        {
-            get
-            {
-                int triCount = 0;
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    triCount += mesh.triangleCount;
-                return triCount;
-            }
-        }
+      
 
-        public int subMeshCount
+       
+
+        public int SubMeshCount
         {
             get
             {
@@ -154,82 +132,31 @@ namespace Mercraft.Models.Buildings.Utils
                 foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
                     mesh.subMeshCount = value;
             }
-        }
+        }     
 
-        public bool hasTangents
-        {
-            get
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    if (!mesh.hasTangents) return false;
-                return true;
-            }
-        }
-
-        public bool lightmapUvsCalculated
-        {
-            get
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    if (!mesh.lightmapUvsCalculated) return false;
-                return true;
-            }
-            set
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    mesh.lightmapUvsCalculated = true;
-            }
-        }
-
-        public bool optimised
-        {
-            get
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    if (!mesh.optimised) return false;
-                return true;
-            }
-            set
-            {
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                    mesh.optimised = true;
-            }
-        }
-
-        //    public List<Vector2> minWorldUvSize {get {return _minWorldUVSize;}}
-
-        //    public List<Vector2> maxWorldUvSize {get {return _maxWorldUVSize;}}
-
-        public void SolveTangents()
-        {
-            foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
-                mesh.SolveTangents();
-        }
-
+       
         private int CheckMeshSize(int numberOfNewVerts)
         {
             int meshIndex = _meshes.Count - 1;
-            if (meshIndex < 0)//check there is a mesh to begin with
+            if (meshIndex < 0) //check there is a mesh to begin with
             {
-                DynamicMeshGenericMultiMaterial newMesh = new DynamicMeshGenericMultiMaterial();
-                newMesh.name = name + " " + (meshIndex + 2);
+                var newMesh = new DynamicMeshGenericMultiMaterial();
+                newMesh.Name = Name + " " + (meshIndex + 2);
                 newMesh.subMeshCount = _subMeshCount;
                 _meshes.Add(newMesh);
-                _vertexCount += numberOfNewVerts;
+                VertexCount += numberOfNewVerts;
                 return 0;
             }
-            int newVertCount = numberOfNewVerts + _vertexCount - (meshIndex * 65000);
+            int newVertCount = numberOfNewVerts + VertexCount - (meshIndex*65000);
             if (newVertCount >= 64990)
             {
-                //            Debug.Log("CheckMeshSize " + meshIndex);
-                DynamicMeshGenericMultiMaterial newMesh = new DynamicMeshGenericMultiMaterial();
-                newMesh.name = name + " " + (meshIndex + 2);
+                var newMesh = new DynamicMeshGenericMultiMaterial();
+                newMesh.Name = Name + " " + (meshIndex + 2);
                 newMesh.subMeshCount = _subMeshCount;
                 _meshes.Add(newMesh);
                 meshIndex++;
             }
-            //        if (newVertCount > 64990) Debug.Log(newVertCount + " " + numberOfNewVerts + " " + _vertexCount + " " + meshIndex+" "+(meshIndex*65000));
-            _vertexCount += numberOfNewVerts;
+            VertexCount += numberOfNewVerts;
             return meshIndex;
         }
 
@@ -248,11 +175,8 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Adds the plane to the generic dynamic mesh without specifying UV coords.
         /// </summary>
-        /// <param name='p0,p1,p2,p3'>
-        /// 4 Verticies that define the plane
-        /// <param name='subMesh'>
-        /// The sub mesh to attch this plan to - in order of Texture library indicies
-        /// </param>
+        /// <param name='p0,p1,p2,p3'> 4 Verticies that define the plane </param>
+        /// <param name='subMesh'> The sub mesh to attch this plan to - in order of Texture library indicies </param>
         public void AddPlane(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int subMesh)
         {
             int useMeshIndex = CheckMeshSize(4);
@@ -262,44 +186,29 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Adds the plane to the generic dynamic mesh by specifying min and max UV coords.
         /// </summary>
-        /// <param name='p0,p1,p2,p3'>
-        /// 4 Verticies that define the plane
-        /// </param>
-        /// <param name='minUV'>
-        /// the minimum vertex UV coord.
-        /// </param>
-        /// </param>
-        /// <param name='maxUV'>
-        /// the maximum vertex UV coord.
-        /// </param>
-        /// <param name='subMesh'>
-        /// The sub mesh to attch this plan to - in order of Texture library indicies
-        /// </param>
+        /// <param name='p0,p1,p2,p3'> 4 Verticies that define the plane </param>
+        /// <param name='minUV'> the minimum vertex UV coord. </param>
+        /// <param name='maxUV'> the maximum vertex UV coord. </param>
+        /// <param name='subMesh'> The sub mesh to attch this plan to - in order of Texture library indicies </param>
         public void AddPlane(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 minUV, Vector2 maxUV, int subMesh)
         {
-            Vector2 uv0 = new Vector2(minUV.x, minUV.y);
-            Vector2 uv1 = new Vector2(maxUV.x, minUV.y);
-            Vector2 uv2 = new Vector2(minUV.x, maxUV.y);
-            Vector2 uv3 = new Vector2(maxUV.x, maxUV.y);
+            var uv0 = new Vector2(minUV.x, minUV.y);
+            var uv1 = new Vector2(maxUV.x, minUV.y);
+            var uv2 = new Vector2(minUV.x, maxUV.y);
+            var uv3 = new Vector2(maxUV.x, maxUV.y);
 
             int useMeshIndex = CheckMeshSize(4);
-            //if (_meshes[useMeshIndex].vertexCount > 64996) Debug.Log("usem " + useMeshIndex + " " + _meshes[useMeshIndex].vertexCount);
             _meshes[useMeshIndex].AddPlane(p0, p1, p2, p3, uv0, uv1, uv2, uv3, subMesh);
         }
 
         /// <summary>
         /// Adds the plane to the generic dynamic mesh.
         /// </summary>
-        /// <param name='p0,p1,p2,p3'>
-        /// 4 Verticies that define the plane
-        /// </param>
-        /// <param name='uv0,uv1,uv2,uv3'>
-        /// the vertex UV coords.
-        /// </param>
-        /// <param name='subMesh'>
-        /// The sub mesh to attch this plan to - in order of Texture library indicies
-        /// </param>
-        public void AddPlane(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3, int subMesh)
+        /// <param name='p0,p1,p2,p3'> 4 Verticies that define the plane </param>
+        /// <param name='uv0,uv1,uv2,uv3'> the vertex UV coords. </param>
+        /// <param name='subMesh'> The sub mesh to attch this plan to - in order of Texture library indicies</param>
+        public void AddPlane(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 uv0, Vector2 uv1, Vector2 uv2,
+            Vector2 uv3, int subMesh)
         {
             int useMeshIndex = CheckMeshSize(4);
             _meshes[useMeshIndex].AddPlane(p0, p1, p2, p3, uv0, uv1, uv2, uv3, subMesh);
@@ -308,9 +217,6 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Checks the Max UV values used in this model for each texture.
         /// </summary>
-        /// <param name='data'>
-        /// BuildR Data.
-        /// </param>
         public void CheckMaxTextureUVs(Data data)
         {
             foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
@@ -332,15 +238,9 @@ namespace Mercraft.Models.Buildings.Utils
         /// <summary>
         /// Atlas the specified modifySubmeshes using newTextureCoords and textures.
         /// </summary>
-        /// <param name='modifySubmeshes'>
-        /// Submeshes indicies to atlas.
-        /// </param>
-        /// <param name='newTextureCoords'>
-        /// New texture coords generated from Pack Textures.
-        /// </param>
-        /// <param name='textures'>
-        /// BuildR Textures library reference.
-        /// </param>
+        /// <param name='modifySubmeshes'> Submeshes indicies to atlas. </param>
+        /// <param name='newTextureCoords'> New texture coords generated from Pack Textures. </param>
+        /// <param name='textures'> Textures library reference. </param>
         public void Atlas(int[] modifySubmeshes, Rect[] newTextureCoords, Texture[] textures)
         {
             foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)

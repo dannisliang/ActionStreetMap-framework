@@ -6,8 +6,10 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
-    //checks if the provided points follow a clockwise winding
-    //used to ensure that generated faces render correctly
+    /// <summary>
+    /// Checks if the provided points follow a clockwise winding
+    /// used to ensure that generated faces render correctly
+    /// </summary>
     public class BuildrPolyClockwise
     {
 
@@ -41,10 +43,9 @@ namespace Mercraft.Models.Buildings.Utils
 
             if (count > 0)
                 return (true);
-            else if (count < 0)
+            if (count < 0)
                 return (false);
-            else
-                return (false);
+            return (false);
         }
     }
 }

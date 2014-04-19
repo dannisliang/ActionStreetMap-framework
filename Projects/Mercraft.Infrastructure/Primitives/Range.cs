@@ -3,14 +3,14 @@ namespace Mercraft.Infrastructure.Primitives
 {
     public struct Range<T>
     {
-        public T Minimum { get; set; }
-        public T Maximum { get; set; }
+        public T Min { get; set; }
+        public T Max { get; set; }
 
-        public Range(T minimum, T maximum)
+        public Range(T min, T max)
             : this()
         {
-            Minimum = minimum;
-            Maximum = maximum;
+            Min = min;
+            Max = max;
         }
     }
 }

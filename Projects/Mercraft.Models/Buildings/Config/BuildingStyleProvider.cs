@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Config
 {
     public class BuildingStyleProvider
     {
-        private Dictionary<string, IList<BuildingStyle>> _themas;
+        private readonly Dictionary<string, IList<BuildingStyle>> _themas;
 
         public BuildingStyleProvider(string configPath)
         {
@@ -35,7 +35,7 @@ namespace Mercraft.Models.Buildings.Config
                     var style = new BuildingStyle();
 
                     style.Name = styleConfig.GetString("@name");
-                    style.Texture = styleConfig.GetString("texture");
+                    style.Texture = styleConfig.GetString("@texture");
                     style.BoxSize = GetRange(styleConfig.GetSection("box/height"));
                     style.FloorHeight = GetRange(styleConfig.GetSection("floor/height"));
 
@@ -53,7 +53,7 @@ namespace Mercraft.Models.Buildings.Config
                     style.RoofStyles = new List<string>(8);
                     foreach (var configSection in styleConfig.GetSections("roof/styles/include"))
                     {
-                        style.RoofStyles.Add(configSection.GetString("@include"));
+                        style.RoofStyles.Add(configSection.GetString("@type"));
                     }
 
                     style.ParapetChance = styleConfig.GetFloat("roof/parapet/@chance");

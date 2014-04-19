@@ -20,6 +20,7 @@ namespace Mercraft.Maps.UnitTests
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Config\default.mapcss";
 
-        public const string BuildingStylesConfig = @"..\..\..\..\Tests\TestAssets\Buildings\Styles\styles.config";
+        public const string BuildingStylesConfig = @"..\..\..\..\Tests\TestAssets\Buildings\Config\Styles\styles.config";
+        public const string BuildingTexturesConfig = @"..\..\..\..\Tests\TestAssets\Buildings\Config\Textures\textures.config";
     }
 }
