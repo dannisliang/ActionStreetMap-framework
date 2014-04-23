@@ -1,13 +1,12 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using Mercraft.Core.Utilities;
 
 namespace Mercraft.Core
 {
     /// <summary>
     /// Represents bounding box
-    /// http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
+    /// See details: http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
     /// </summary>
     public class BoundingBox
     {
@@ -62,7 +61,6 @@ namespace Mercraft.Core
         /// </summary>
         /// <param name="point">Center</param>
         /// <param name="halfSideInM">Half length of the bounding box</param>
-        /// <returns></returns>
         public static BoundingBox CreateBoundingBox(GeoCoordinate point, double halfSideInM)
         {
             // Bounding box surrounding the point at given coordinates,
@@ -87,15 +85,17 @@ namespace Mercraft.Core
         }
 
 
-        // Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]
+        /// <summary>
+        /// Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]
+        /// </summary>
         private static double WGS84EarthRadius(double lat)
         {
             // http://en.wikipedia.org/wiki/Earth_radius
-            var An = WGS84_a*WGS84_a*Math.Cos(lat);
-            var Bn = WGS84_b*WGS84_b*Math.Sin(lat);
-            var Ad = WGS84_a*Math.Cos(lat);
-            var Bd = WGS84_b*Math.Sin(lat);
-            return Math.Sqrt((An*An + Bn*Bn)/(Ad*Ad + Bd*Bd));
+            var an = WGS84_a*WGS84_a*Math.Cos(lat);
+            var bn = WGS84_b*WGS84_b*Math.Sin(lat);
+            var ad = WGS84_a*Math.Cos(lat);
+            var bd = WGS84_b*Math.Sin(lat);
+            return Math.Sqrt((an*an + bn*bn)/(ad*ad + bd*bd));
         }
 
         #endregion

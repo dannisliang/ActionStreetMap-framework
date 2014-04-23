@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Configuration;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -10,6 +9,9 @@ using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
+    /// <summary>
+    /// Represents square with created game objects
+    /// </summary>
     public class Zone
     {
         private readonly IGameObjectBuilder _gameObjectBuilder;
@@ -35,8 +37,6 @@ namespace Mercraft.Core.Zones
         /// <param name="loadedElementIds">Contains ids of previously loaded elements. Used to prevent duplicates</param>
         public void Build(HashSet<long> loadedElementIds)
         {
-            // TODO refactor this logic
-
             var canvas = Tile.Scene.Canvas;
             var canvasRule = Stylesheet.GetRule(canvas);
             GameObject canvasObject =

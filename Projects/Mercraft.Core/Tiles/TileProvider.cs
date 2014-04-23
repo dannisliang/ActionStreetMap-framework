@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace Mercraft.Core.Tiles
 {
+    /// <summary>
+    /// This class loads and holds tiles which contain scene with models for given position
+    /// </summary>
     public class TileProvider: IConfigurable
     {
         private readonly string LogTag = typeof (TileProvider).Name;
@@ -30,6 +33,9 @@ namespace Mercraft.Core.Tiles
             _tiles = new List<Tile>();
         }
 
+        /// <summary>
+        /// Gets tile for given map position and relative null point
+        /// </summary>
         public Tile GetTile(Vector2 position, GeoCoordinate relativeNullPoint)
         {
             // check whether we're in tile with offset - no need to preload tile
@@ -124,6 +130,9 @@ namespace Mercraft.Core.Tiles
             Trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
         }
 
+        /// <summary>
+        /// Configures class
+        /// </summary>
         public void Configure(IConfigSection configSection)
         {
             _tileSize = configSection.GetFloat("tile/@size");

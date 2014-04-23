@@ -23,7 +23,6 @@ namespace Mercraft.Explorer
 
         /// <summary>
         /// Holds config reference
-        /// NOTE Do not remove!
         /// </summary>
         private readonly ConfigSettings _config;
 

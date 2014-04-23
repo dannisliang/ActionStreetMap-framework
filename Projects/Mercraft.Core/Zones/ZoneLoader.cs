@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
+    /// <summary>
+    /// This class is responsible for loading different zones as response to position changes
+    /// </summary>
     public class ZoneLoader: IPositionListener, IConfigurable
     {
         private const string OffsetKey = "offset";

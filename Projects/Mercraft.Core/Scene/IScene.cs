@@ -5,10 +5,13 @@ using Mercraft.Core.Scene.Models;
 namespace Mercraft.Core.Scene
 {
     /// <summary>
-    /// Represents map scene
+    /// Represents map scene with models
     /// </summary>
     public interface IScene
     {
+        /// <summary>
+        /// Represents canvas - terrain in different terms
+        /// </summary>
         Canvas Canvas { get; set; }
 
         // probably, we needn't to differentiate models

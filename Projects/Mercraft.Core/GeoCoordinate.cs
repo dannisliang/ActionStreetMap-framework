@@ -2,6 +2,9 @@
 
 namespace Mercraft.Core
 {
+    /// <summary>
+    /// Represents regular geo coordinate with latitude and longitude
+    /// </summary>
     public struct GeoCoordinate
     {
         /// <summary>
