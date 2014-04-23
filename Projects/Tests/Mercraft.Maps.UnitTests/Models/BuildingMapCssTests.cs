@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Mercraft.Maps.UnitTests.Models
 {
     [TestFixture]
-    public class BuildingTests
+    public class BuildingMapCssTests
     {
         [Test]
         public void CanGetBuildingStyle()
@@ -28,8 +28,8 @@ namespace Mercraft.Maps.UnitTests.Models
             };
 
             var rule = stylesheet.GetRule(building);
-            var constraints = rule.GetBuildingStyle();
-            Assert.IsNotEmpty(constraints);
+            var style = rule.GetBuildingStyle();
+            Assert.AreEqual("residential", style);
         }
     }
 }

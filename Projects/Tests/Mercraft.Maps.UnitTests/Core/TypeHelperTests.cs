@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Mercraft.Core.Utilities;
+﻿using Mercraft.Core.Utilities;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core

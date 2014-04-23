@@ -9,7 +9,7 @@ area[height]												{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
 area[min_height]											{ min_height: eval(num(tag('min_height')));}
 area[building:shape=sphere]								{ builder: sphere;}
-/*area[building:shape=cylinder]							{ builder: cylinder;}*/
+area[building:shape=cylinder]							{ builder: cylinder;}
 
 area[building=residential], 	
 area[building=yes]										{ fill-color: Salmon;}

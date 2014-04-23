@@ -14,6 +14,9 @@ using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Algorithms
 {
+    /// <summary>
+    /// These tests test functionality which seems to be depricated in near future (?)
+    /// </summary>
     [TestFixture]
     public class TriangulationTests
     {
@@ -61,8 +64,6 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                     var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points.ToList());
                     var triangles = PolygonHelper.GetTriangles3D(verticies);
                 }
-
-                //SceneHelper.DumpScene(scene);
             }
         }
     }

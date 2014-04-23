@@ -1,19 +1,16 @@
-﻿using System.Security;
-using Mercraft.Core;
-using Mercraft.Explorer;
+﻿using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.UnitTests.Zones.Stubs;
 using Mercraft.Models.Buildings.Config;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Config
+namespace Mercraft.Maps.UnitTests.Models
 {
     [TestFixture]
-    public class BuildingStyleTests
+    public class BuildingConfigTests
     {
         [Test]
-        public void CanReadStyle()
+        public void CanReadStyleConfig()
         {
             var settings = new ConfigSettings(TestHelper.ConfigRootFile);
             var styleProvider = new BuildingStyleProvider(settings.GetSection("buildings/styles"));
@@ -21,7 +18,7 @@ namespace Mercraft.Maps.UnitTests.Config
         }
 
         [Test]
-        public void CanReadTexture()
+        public void CanReadTextureConfig()
         {
             var settings = new ConfigSettings(TestHelper.ConfigRootFile);
             var textureProvider = new TexturePackProvider(settings.GetSection("buildings/textures"));
@@ -43,6 +40,7 @@ namespace Mercraft.Maps.UnitTests.Config
 
 
         #region Helper methods
+
         private void AssertStyles(BuildingStyleProvider styleProvider)
         {
             Assert.IsNotNull(styleProvider.Get("berlin", "residential"));
@@ -57,6 +55,7 @@ namespace Mercraft.Maps.UnitTests.Config
             Assert.IsNotNull(textureProvider.Get("europe"));
             Assert.IsNotNull(textureProvider.Get("georgian"));
         }
+
         #endregion
     }
 }
