@@ -74,24 +74,12 @@
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\PlatformInputController.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
-    <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
-    <None Include="Assets\Resources\Buildings\Config\styles\berlin.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\minsk.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\asian.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\europe.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\georgian.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />
-    <Folder Include="Assets\Dependencies" />
     <Folder Include="Assets\ParticleEffects" />
     <Folder Include="Assets\ParticleEffects\Shaders" />
-    <Folder Include="Assets\Resources" />
-    <Folder Include="Assets\Resources\Buildings" />
-    <Folder Include="Assets\Resources\Buildings\Config" />
-    <Folder Include="Assets\Resources\Buildings\Config\styles" />
-    <Folder Include="Assets\Resources\Buildings\Config\textures" />
     <Folder Include="Assets\Standard Assets" />
     <Folder Include="Assets\Standard Assets\Character Controllers" />
     <Folder Include="Assets\Standard Assets\Character Controllers\Sources" />

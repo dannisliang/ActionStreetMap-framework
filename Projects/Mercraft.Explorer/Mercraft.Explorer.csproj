@@ -37,6 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrappers\BuildingBootstrapper.cs" />
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
     <Compile Include="Builders\BuildingModelBuilder.cs" />
     <Compile Include="Builders\FlatModelBuilder.cs" />

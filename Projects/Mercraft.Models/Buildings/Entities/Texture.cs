@@ -10,7 +10,7 @@ namespace Mercraft.Models.Buildings.Entities
         public string Name;
         public bool Tiled = true;
         public bool Patterned = false;
-        public Material Material;
+        private Material _material;
         
         public bool Door = false;
         public bool Window = false;
@@ -58,7 +58,7 @@ namespace Mercraft.Models.Buildings.Entities
         public Texture(string name)
         {
             this.Name = name;
-            Material = new Material(Shader.Find("Diffuse"));
+            //Material = new Material(Shader.Find("Diffuse"));
         }
 
         public Texture Duplicate()
@@ -77,7 +77,7 @@ namespace Mercraft.Models.Buildings.Entities
                 TiledX = TiledX,
                 TiledY = TiledY,
                 MaxUVTile = MaxUVTile,
-                Material = new Material(Material),
+                _material = new Material(_material),
                 Door = Door,
                 Window = Window,
                 Wall = Wall,
@@ -91,7 +91,7 @@ namespace Mercraft.Models.Buildings.Entities
             {
                 if (Material.mainTexture == null)
                     return null;
-                return (Texture2D) Material.mainTexture;
+                return (Texture2D)Material.mainTexture;
             }
 
             set
@@ -100,6 +100,12 @@ namespace Mercraft.Models.Buildings.Entities
                     return;
                 Material.mainTexture = value;
             }
+        }
+
+        public Material Material
+        {
+            get { return _material ?? (_material = new Material(Shader.Find("Diffuse"))); }
+            set { _material = value; }
         }
 
         public void CheckMaxUV(Vector2 checkUV)

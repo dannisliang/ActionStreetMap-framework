@@ -6,15 +6,17 @@ using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
 namespace Mercraft.Models.Buildings.Config
 {
+    /// <summary>
+    /// Provides textures used by building logic
+    /// </summary>
     public class TexturePackProvider
     {
         private static readonly char[] FileNameDelimiters = { '\\', '/' };
         
         private readonly Dictionary<string, TexturePack> _themas;
 
-        public TexturePackProvider(string configPath)
+        public TexturePackProvider(IConfigSection config)
         {
-            var config = new ConfigSettings(configPath);
             _themas = LoadThemas(config);
         }
 
@@ -26,7 +28,7 @@ namespace Mercraft.Models.Buildings.Config
         /// <summary>
         /// Loads themas from config
         /// </summary>
-        private Dictionary<string, TexturePack> LoadThemas(ConfigSettings config)
+        private Dictionary<string, TexturePack> LoadThemas(IConfigSection config)
         {
             var themas = new Dictionary<string, TexturePack>();
 

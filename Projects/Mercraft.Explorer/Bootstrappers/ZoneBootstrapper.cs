@@ -21,12 +21,6 @@ namespace Mercraft.Explorer.Bootstrappers
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
             Configurator.RegisterComponent<IGameObjectBuilder>(ConfigSection.GetSection(GameObjectBuilderKey));
 
-            Container.Register(Component.For<TexturePackProvider>()
-                .Use<TexturePackProvider>(new object[] {@"Assets\Resources\Buildings\Config\textures\textures.config"}));
-           
-            Container.Register(Component.For<BuildingStyleProvider>()
-                .Use<BuildingStyleProvider>(new object[] { @"Assets\Resources\Buildings\Config\styles\styles.config" }));
-
             return true;
         }
     }

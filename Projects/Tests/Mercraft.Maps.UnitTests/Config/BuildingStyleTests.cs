@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System.Security;
+using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -14,21 +15,48 @@ namespace Mercraft.Maps.UnitTests.Config
         [Test]
         public void CanReadStyle()
         {
-            var provider = new BuildingStyleProvider(TestHelper.BuildingStylesConfig);
-
-            Assert.IsNotNull(provider.Get("berlin", "residential"));
-            Assert.IsNotNull(provider.Get("berlin", "commercial"));
-            Assert.IsNotNull(provider.Get("minsk", "residential"));
-            Assert.IsNotNull(provider.Get("minsk", "commercial"));
+            var settings = new ConfigSettings(TestHelper.ConfigRootFile);
+            var styleProvider = new BuildingStyleProvider(settings.GetSection("buildings/styles"));
+            AssertStyles(styleProvider);
         }
 
         [Test]
         public void CanReadTexture()
         {
-            var provider = new TexturePackProvider(TestHelper.BuildingStylesConfig);
-
-            Assert.IsNotNull(provider.Get("berlin"));
-            Assert.IsNotNull(provider.Get("minsk"));
+            var settings = new ConfigSettings(TestHelper.ConfigRootFile);
+            var textureProvider = new TexturePackProvider(settings.GetSection("buildings/textures"));
+            AssertTextures(textureProvider);
         }
+
+        [Test]
+        public void CanReadConfigsFromContainer()
+        {
+            var container = new Container();
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
+
+            var styleProvider = container.Resolve<BuildingStyleProvider>();
+            AssertStyles(styleProvider);
+
+            var textureProvider = container.Resolve<TexturePackProvider>();
+            AssertTextures(textureProvider);
+        }
+
+
+        #region Helper methods
+        private void AssertStyles(BuildingStyleProvider styleProvider)
+        {
+            Assert.IsNotNull(styleProvider.Get("berlin", "residential"));
+            Assert.IsNotNull(styleProvider.Get("berlin", "commercial"));
+            Assert.IsNotNull(styleProvider.Get("minsk", "residential"));
+            Assert.IsNotNull(styleProvider.Get("minsk", "commercial"));
+        }
+
+        private void AssertTextures(TexturePackProvider textureProvider)
+        {
+            Assert.IsNotNull(textureProvider.Get("asian"));
+            Assert.IsNotNull(textureProvider.Get("europe"));
+            Assert.IsNotNull(textureProvider.Get("georgian"));
+        }
+        #endregion
     }
 }

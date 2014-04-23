@@ -1,1 +1,2 @@
-﻿Used BuildR 0.9
+﻿Building generation engine for Unity
+Used refactored version of BuildR 0.9 plugin

@@ -1,7 +1,7 @@
 ﻿namespace Mercraft.Models.Buildings
 {
     /// <summary>
-    /// Heights in units(meters)
+    /// Heights in units (meters)
     /// </summary>
     public class BuildingMeasurements
     {

@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Models.Buildings.Config
 {
+    /// <summary>
+    /// Provides styles used by building logic
+    /// </summary>
     public class BuildingStyleProvider
     {
         private readonly Dictionary<string, IList<BuildingStyle>> _themas;
 
-        public BuildingStyleProvider(string configPath)
-        {
-            var config = new ConfigSettings(configPath);
+        public BuildingStyleProvider(IConfigSection config)
+        {   
             _themas = LoadThemas(config);
         }
 
@@ -23,7 +26,7 @@ namespace Mercraft.Models.Buildings.Config
         /// <summary>
         /// Loads themas from config
         /// </summary>
-        private Dictionary<string, IList<BuildingStyle>> LoadThemas(ConfigSettings config)
+        private Dictionary<string, IList<BuildingStyle>> LoadThemas(IConfigSection config)
         {
             var themas = new Dictionary<string, IList<BuildingStyle>>();
             foreach (var themeConfig in config.GetSections("theme"))

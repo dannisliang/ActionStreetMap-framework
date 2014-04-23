@@ -106,13 +106,7 @@
     <Compile Include="Assets\Scripts\TankDemo\PlayerTankController.cs" />
     <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\FSM.cs" />
     <Compile Include="Assets\Scripts\TankDemo\SimpleFSM\SimpleFSM.cs" />
-    <None Include="Assets\Dependencies\UnityEngine.xml" />
     <None Include="Assets\ParticleEffects\Shaders\Add_Layer.shader" />
-    <None Include="Assets\Resources\Buildings\Config\styles\berlin.xml" />
-    <None Include="Assets\Resources\Buildings\Config\styles\minsk.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\asian.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\europe.xml" />
-    <None Include="Assets\Resources\Buildings\Config\textures\georgian.xml" />
     <None Include="Assets\Dependencies\Antlr3.Runtime.dll" />
     <None Include="Assets\Dependencies\Mercraft.Core.dll" />
     <None Include="Assets\Dependencies\Mercraft.Explorer.dll" />
