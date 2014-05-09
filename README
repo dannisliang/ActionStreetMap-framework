@@ -1,0 +1,22 @@
+Mercraft is engine for building real city/environment from OSM data.
+
+The main goal is simulate real city which includes:
+	* rendering of different models like buildings, roads, parks, rivers, etc. using OSM data for given location
+	* fill environment by people, cars, animals with realistic behavior
+	* add character to the scene which is capable to interact with this environment
+	* game world should be limited only by OSM maps which means that game world is almost entire Earth
+	* using some external services to extend environment (for example, weather, famous places, events, etc.)
+
+It should be possible to build different 3D-games (either car simulations or GTA like games) on top this engine for mobile devices.
+		
+Development
+
+	Technologies: Unity3D, C# (JavaScript is possible for Unity scripting)
+	
+Tips:
+	Do not use Singleton pattern
+	Do not use DI as Service Locator
+	Follow GRASP and SOLID principles
+	Use TDD approach
+	
+Architecture

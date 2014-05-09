@@ -36,6 +36,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\BootstrapperPlugin.cs" />
@@ -86,6 +89,25 @@
     <Compile Include="Diagnostic\ITrace.cs" />
     <Compile Include="Diagnostic\RecordType.cs" />
     <Compile Include="Primitives\Range.cs" />
+    <Compile Include="Threading\ActionExtension.cs" />
+    <Compile Include="Threading\Channel.cs" />
+    <Compile Include="Threading\Dispatcher.cs" />
+    <Compile Include="Threading\EnumerableExtension.cs" />
+    <Compile Include="Threading\EnumeratorExtension.cs" />
+    <Compile Include="Threading\ObjectExtension.cs" />
+    <Compile Include="Threading\Parallel.cs" />
+    <Compile Include="Threading\Partioners\EnumerablePartitioner.cs" />
+    <Compile Include="Threading\Partioners\ListPartitioner.cs" />
+    <Compile Include="Threading\Partioners\OrderablePartitioner.cs" />
+    <Compile Include="Threading\Partioners\Partitioner.cs" />
+    <Compile Include="Threading\SwitchTo.cs" />
+    <Compile Include="Threading\Task.cs" />
+    <Compile Include="Threading\TaskDistributer.cs" />
+    <Compile Include="Threading\TaskExtension.cs" />
+    <Compile Include="Threading\TaskFactory.cs" />
+    <Compile Include="Threading\Thread.cs" />
+    <Compile Include="Threading\UnityThreadHelper.cs" />
+    <Compile Include="Threading\WaitOneExtension.cs" />
     <Compile Include="Utilities\ConfigKeys.cs" />
     <Compile Include="Utilities\Guard.cs" />
     <Compile Include="Primitives\Lazy.cs" />
