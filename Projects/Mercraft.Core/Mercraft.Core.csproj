@@ -50,6 +50,8 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="IPositionListener.cs" />
+    <Compile Include="Tiles\ITileListener.cs" />
+    <Compile Include="Zones\IZoneListener.cs" />
     <Compile Include="MapCss\Domain\Declaration.cs" />
     <Compile Include="MapCss\Domain\Rule.cs" />
     <Compile Include="MapCss\Domain\Style.cs" />
