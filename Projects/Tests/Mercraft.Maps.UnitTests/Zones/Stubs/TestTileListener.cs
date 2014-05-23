@@ -1,5 +1,4 @@
-﻿using System;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Core.Tiles;
 using UnityEngine;
 
@@ -15,6 +14,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         public void OnTileLoadFinished(Tile tile)
         {
             
+        }
+
+        public void OnTileFound(Tile tile, Vector2 position)
+        {
+
         }
     }
 }

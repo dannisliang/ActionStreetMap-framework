@@ -16,7 +16,6 @@ namespace Mercraft.Core.Tiles
     /// </summary>
     public class TileProvider : IConfigurable
     {
-        private readonly string LogTag = typeof (TileProvider).Name;
         private float _tileSize;
         private float _offset;
 
@@ -46,7 +45,7 @@ namespace Mercraft.Core.Tiles
             Tile tile = GetTile(position, _offset);
             if (tile != null)
             {
-                LogTileFound(tile, position);
+                _tileListener.OnTileFound(tile, position);
                 return tile;
             }
 
@@ -56,7 +55,7 @@ namespace Mercraft.Core.Tiles
             tile = GetTile(nextTileCenter);
             if (tile != null)
             {
-                LogTileFound(tile, position);
+                _tileListener.OnTileFound(tile, position);
                 return tile;
             }
 
@@ -127,12 +126,6 @@ namespace Mercraft.Core.Tiles
             float gamma = 1.0f - alpha - beta;
 
             return alpha > 0 && beta > 0 && gamma > 0;
-        }
-
-        private void LogTileFound(Tile tile, Vector2 position)
-        {
-            Trace.Normal(LogTag,
-                String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
         }
 
         /// <summary>

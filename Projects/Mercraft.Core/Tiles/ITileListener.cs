@@ -19,5 +19,12 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         /// <param name="tile">Loaded tile</param>
         void OnTileLoadFinished(Tile tile);
+
+        /// <summary>
+        ///     Called when tile is found in previously loaded collection
+        /// </summary>
+        /// <param name="tile">Actual tile</param>
+        /// <param name="position">Actual position</param>
+        void OnTileFound(Tile tile, Vector2 position);
     }
 }
