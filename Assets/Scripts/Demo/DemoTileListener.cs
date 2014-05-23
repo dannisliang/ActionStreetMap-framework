@@ -18,13 +18,15 @@ namespace Assets.Scripts.Demo
         public void OnTileLoadStarted(Vector2 center, GeoCoordinate relativeNullPoint)
         {
             _stopwatch.Start();
-            Trace.Normal("Tile", String.Format("Tile loading begin: {0} {1}", center, relativeNullPoint));
+            Trace.Normal("Tile", String.Format("Tile loading begin: center:{0}, geo:{1}",
+                center, relativeNullPoint));
         }
 
         public void OnTileLoadFinished(Tile tile)
         {
             _stopwatch.Stop();
-            Trace.Normal("Tile", String.Format("Tile is loaded in {0} ms", _stopwatch.ElapsedMilliseconds));
+            Trace.Normal("Tile", String.Format("Tile of size {0} is loaded in {1} ms", 
+                tile.Size, _stopwatch.ElapsedMilliseconds));
         }
     }
 }

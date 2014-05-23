@@ -66,14 +66,11 @@ namespace Mercraft.Core.Tiles
             _tileListener.OnTileLoadStarted(nextTileCenter, relativeNullPoint);
 
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
-
             var scene = _sceneBuilder.Build(bbox);
+           
             tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
             scene.Canvas.Tile = tile;
             _tiles.Add(tile);
-
-            Trace.Normal(LogTag, String.Format("Created tile with center: {0}, size:{1}, geo: {2}",
-                nextTileCenter, _tileSize, geoCoordinate));
             _tileListener.OnTileLoadFinished(tile);
             return tile;
         }
