@@ -4,27 +4,27 @@ using UnityEngine;
 namespace Mercraft.Core.Tiles
 {
     /// <summary>
-    /// Represents map tile (zone)
+    ///     Represents map tile (zone)
     /// </summary>
     public class Tile
     {
         /// <summary>
-        /// Stores map center coordinate in lat/lon
+        ///     Stores map center coordinate in lat/lon
         /// </summary>
         public GeoCoordinate RelativeNullPoint { get; private set; }
 
         /// <summary>
-        /// Stores tile center coordinate in Unity metrics
+        ///     Stores tile center coordinate in Unity metrics
         /// </summary>
         public Vector2 TileMapCenter { get; private set; }
 
         /// <summary>
-        /// Square side size in Unity metrics
+        ///     Square side size in Unity metrics
         /// </summary>
         public float Size { get; private set; }
 
         /// <summary>
-        /// Stores scene
+        ///     Stores scene
         /// </summary>
         public IScene Scene { get; private set; }
 
@@ -40,22 +40,22 @@ namespace Mercraft.Core.Tiles
             TileMapCenter = tileMapCenter;
             Size = size;
 
-            TopLeft = new Vector2(TileMapCenter.x - Size / 2, TileMapCenter.y + Size / 2);
-            BottomRight = new Vector2(TileMapCenter.x + Size / 2, TileMapCenter.y - Size / 2);
+            TopLeft = new Vector2(TileMapCenter.x - Size/2, TileMapCenter.y + Size/2);
+            BottomRight = new Vector2(TileMapCenter.x + Size/2, TileMapCenter.y - Size/2);
 
-            TopRight = new Vector2(TileMapCenter.x + Size / 2, TileMapCenter.y + Size / 2);
-            BottomLeft = new Vector2(TileMapCenter.x - Size / 2, TileMapCenter.y - Size / 2);
+            TopRight = new Vector2(TileMapCenter.x + Size/2, TileMapCenter.y + Size/2);
+            BottomLeft = new Vector2(TileMapCenter.x - Size/2, TileMapCenter.y - Size/2);
         }
 
         /// <summary>
-        /// Checks whether absolute position locates in tile with bound offset
+        ///     Checks whether absolute position locates in tile with bound offset
         /// </summary>
         /// <param name="position">Absolute position in game</param>
         /// <param name="offset">offset from bounds</param>
         public bool Contains(Vector2 position, float offset)
         {
             var result = (position.x > TopLeft.x + offset) && (position.y < TopLeft.y - offset) &&
-                   (position.x < BottomRight.x - offset) && (position.y > BottomRight.y + offset);
+                         (position.x < BottomRight.x - offset) && (position.y > BottomRight.y + offset);
 
             return result;
         }

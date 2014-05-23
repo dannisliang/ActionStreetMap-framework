@@ -1,18 +1,19 @@
 ﻿using Mercraft.Core;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings.Config;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
-    public class ZoneBootstrapper: BootstrapperPlugin
+    public class ZoneBootstrapper : BootstrapperPlugin
     {
         private const string SceneBuilderKey = "scene";
         private const string TileProviderKey = "provider";
         private const string PositionListenerKey = "loader";
         private const string GameObjectBuilderKey = "gameObjectBuilder";
+        private const string TileListenerKey = "listeners/tile";
+        private const string ZoneListenerKey = "listeners/zone";
 
         public override bool Run()
         {
@@ -20,6 +21,8 @@ namespace Mercraft.Explorer.Bootstrappers
             Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
             Configurator.RegisterComponent<IGameObjectBuilder>(ConfigSection.GetSection(GameObjectBuilderKey));
+            Configurator.RegisterComponent<ITileListener>(ConfigSection.GetSection(TileListenerKey));
+            Configurator.RegisterComponent<IZoneListener>(ConfigSection.GetSection(ZoneListenerKey));
 
             return true;
         }

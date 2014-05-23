@@ -2,39 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Mercraft.Core.Tiles
 {
     /// <summary>
-    /// This class loads and holds tiles which contain scene with models for given position
+    ///     This class loads and holds tiles which contain scene with models for given position
     /// </summary>
-    public class TileProvider: IConfigurable
+    public class TileProvider : IConfigurable
     {
         private readonly string LogTag = typeof (TileProvider).Name;
         private float _tileSize;
         private float _offset;
 
         private readonly ISceneBuilder _sceneBuilder;
+        private readonly ITileListener _tileListener;
+
         private readonly List<Tile> _tiles;
 
         [Dependency]
         public ITrace Trace { get; set; }
 
         [Dependency]
-        public TileProvider(ISceneBuilder sceneBuilder)
+        public TileProvider(ISceneBuilder sceneBuilder, ITileListener tileListener)
         {
             _sceneBuilder = sceneBuilder;
+            _tileListener = tileListener;
+
             _tiles = new List<Tile>();
         }
 
         /// <summary>
-        /// Gets tile for given map position and relative null point
+        ///     Gets tile for given map position and relative null point
         /// </summary>
         public Tile GetTile(Vector2 position, GeoCoordinate relativeNullPoint)
         {
@@ -58,8 +62,10 @@ namespace Mercraft.Core.Tiles
 
             // calculate geo center
             var geoCoordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, nextTileCenter);
-            
-            var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize / 2);
+
+            _tileListener.OnTileLoadStarted(nextTileCenter, relativeNullPoint);
+
+            var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
 
             var scene = _sceneBuilder.Build(bbox);
             tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
@@ -68,6 +74,7 @@ namespace Mercraft.Core.Tiles
 
             Trace.Normal(LogTag, String.Format("Created tile with center: {0}, size:{1}, geo: {2}",
                 nextTileCenter, _tileSize, geoCoordinate));
+            _tileListener.OnTileLoadFinished(tile);
             return tile;
         }
 
@@ -111,8 +118,8 @@ namespace Mercraft.Core.Tiles
         }
 
         /// <summary>
-        /// Checks whether point is located in triangle
-        /// http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
+        ///     Checks whether point is located in triangle
+        ///     http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
         /// </summary>
         private bool IsPointInTreangle(Vector2 p, Vector2 p1, Vector2 p2, Vector2 p3)
         {
@@ -127,11 +134,12 @@ namespace Mercraft.Core.Tiles
 
         private void LogTileFound(Tile tile, Vector2 position)
         {
-            Trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
+            Trace.Normal(LogTag,
+                String.Format("Position {0} is found in tile with center {1}", position, tile.TileMapCenter));
         }
 
         /// <summary>
-        /// Configures class
+        ///     Configures class
         /// </summary>
         public void Configure(IConfigSection configSection)
         {

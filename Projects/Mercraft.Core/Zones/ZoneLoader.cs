@@ -18,6 +18,7 @@ namespace Mercraft.Core.Zones
         private const string PositionKey = "position";
 
         protected readonly TileProvider TileProvider;
+        protected readonly IZoneListener ZoneListener;
         protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly IGameObjectBuilder SceneModelVisitor;
        
@@ -36,10 +37,12 @@ namespace Mercraft.Core.Zones
 
         [Dependency]
         public ZoneLoader(TileProvider tileProvider, 
+            IZoneListener zoneListener,
             IStylesheetProvider stylesheetProvider,
             IGameObjectBuilder sceneModelVisitor)
         {
             TileProvider = tileProvider;
+            ZoneListener = zoneListener;
             StylesheetProvider = stylesheetProvider;
             SceneModelVisitor = sceneModelVisitor;
 
@@ -60,10 +63,12 @@ namespace Mercraft.Core.Zones
             }
 
             // Build zone
+            ZoneListener.OnZoneLoadStarted(tile);
             var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitor, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);
             CurrentZone = zone;
+            ZoneListener.OnZoneLoadFinished(zone);
         }
 
         public virtual void OnGeoPositionChanged(GeoCoordinate position)
