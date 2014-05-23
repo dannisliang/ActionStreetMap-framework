@@ -18,5 +18,44 @@ Tips:
 	Do not use DI as Service Locator
 	Follow GRASP and SOLID principles
 	Use TDD approach
+
 	
-Architecture
+Vocabulary:
+	General:
+		* OSM - OpenStreetMap which provides open map data
+		* Pbf - binary file format for storing OSM data
+		* Way/Node/Relation - OSM primitives (http://wiki.openstreetmap.org/wiki/Elements)
+		* Bounding box (bbox) - something like http://en.wikipedia.org/wiki/Minimum_bounding_box
+	
+	Application specific:
+		* Mercraft - project name
+		* Scene - container of map data objects: Node/Way/Area/Relation
+		* Tile - object contains Scene of the certain area (bbox) with relation to game and geo coordinates 
+		* Zone - object contains Tile and the corresponding loaded game objects (buildings, roads, etc)
+		* MapCss - a CSS-like language for map stylesheets (http://wiki.openstreetmap.org/wiki/MapCSS. 
+			App implementation uses custom syntax in some places, but the general idea is the same
+		* DebugConsole - debugger console which is available in game. Provides the way to see log messages 
+			and perform custom commands like get information about current loaded zone/tile, etc.
+
+Useful links:	
+	http://wiki.openstreetmap.org : for all OSM specific questions
+		
+
+TODO
+	* Features
+		* Add Roads
+		* Improve Buildins
+		* Add Parks/GreenZones
+		* Add cars, people, etc. (requires AI and logic for putting these objects into world)
+
+	* Performance
+		* Decrease zone loading time
+
+		
+	* Infrastructure:
+		* Visualize zone loading process
+		* improve DebugConsole
+		* refactor DebugConsole
+
+
+Software architecture
