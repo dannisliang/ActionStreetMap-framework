@@ -16,7 +16,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanLoadZoneDynamically()
         {
             var container = new Container();
-            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
             root.RunGame(TestHelper.BerlinGeoCenter);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
@@ -30,7 +30,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void ShouldUnloadTile()
         {
             var container = new Container();
-            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
             root.RunGame(TestHelper.BerlinGeoCenter);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;

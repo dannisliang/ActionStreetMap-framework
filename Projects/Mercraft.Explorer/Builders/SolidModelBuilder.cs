@@ -7,7 +7,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Infrastructure;
+using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -16,6 +16,7 @@ namespace Mercraft.Explorer.Builders
     {
         private readonly IGameObjectFactory _goFactory;
 
+        [Dependency]
         public SolidModelBuilder(IGameObjectFactory goFactory)
         {
             _goFactory = goFactory;

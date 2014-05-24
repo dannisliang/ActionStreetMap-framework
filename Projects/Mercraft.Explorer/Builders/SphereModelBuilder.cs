@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Infrastructure;
+using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
 {
-    public class SphereModelBuilder: ModelBuilder
+    public class SphereModelBuilder : ModelBuilder
     {
         private readonly IGameObjectFactory _goFactory;
 
+        [Dependency]
         public SphereModelBuilder(IGameObjectFactory goFactory)
         {
             _goFactory = goFactory;
@@ -49,7 +47,7 @@ namespace Mercraft.Explorer.Builders
 
             var minHeight = rule.GetMinHeight();
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
-            sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter / 2, sphereCenter.y);
+            sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter/2, sphereCenter.y);
 
             return gameObjectWrapper;
         }

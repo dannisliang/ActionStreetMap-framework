@@ -4,13 +4,16 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
 {
-    public class CylinderModelBuilder: ModelBuilder
+    public class CylinderModelBuilder : ModelBuilder
     {
         private readonly IGameObjectFactory _goFactory;
+
+        [Dependency]
         public CylinderModelBuilder(IGameObjectFactory goFactory)
         {
             _goFactory = goFactory;
@@ -38,7 +41,7 @@ namespace Mercraft.Explorer.Builders
             var height = rule.GetHeight();
             var minHeight = rule.GetMinHeight();
 
-            var actualHeight = (height - minHeight) / 2;
+            var actualHeight = (height - minHeight)/2;
 
             var gameObjectWrapper = _goFactory.CreatePrimitive(PrimitiveType.Cylinder);
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();

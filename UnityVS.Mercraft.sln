@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
-MinimumVisualStudioVersion = 10.0.40219.1
 Project("{1FAC5C55-277D-4884-94A4-83DBDAF57E56}") = "UnityVS.mercraft.UnityScript.Plugins", "UnityVS.mercraft.UnityScript.Plugins.unityproj", "{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp", "UnityVS.mercraft.CSharp.csproj", "{0E7FD182-1940-99E2-AF56-8BDD2C445843}"

@@ -8,7 +8,8 @@ namespace Mercraft.Maps.UnitTests
         public static readonly GeoCoordinate SmallPbfFileCenter = new GeoCoordinate(52.529814, 13.388015);
         public static readonly GeoCoordinate BerlinGeoCenter = new GeoCoordinate(52.529814, 13.388015);
 
-        public const string ConfigRootFile = "test.config";
+        public const string ConfigAppRootFile = @"..\..\..\..\..\Config\app.config";
+        public const string ConfigTestRootFile = "test.config";
 
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 

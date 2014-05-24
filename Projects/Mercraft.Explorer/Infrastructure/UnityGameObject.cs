@@ -1,6 +1,4 @@
-﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.Unity;
+﻿using Mercraft.Core.Unity;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
@@ -26,7 +24,7 @@ namespace Mercraft.Explorer.Infrastructure
         public T GetComponent<T>()
         {
             // This is workaround to make code unit-tesable outside Unity context
-            return (T) (object)_gameObject;
+            return (T) (object) _gameObject;
         }
     }
 }
