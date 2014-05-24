@@ -1,22 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Explorer.Infrastructure;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
 {
     public class FlatModelBuilder : ModelBuilder
     {
-        public override GameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        private readonly IGameObjectFactory _goFactory;
+
+        public FlatModelBuilder(IGameObjectFactory goFactory)
+        {
+            _goFactory = goFactory;
+        }
+
+        public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            GameObject gameObject = new GameObject();
+            IGameObject gameObjectWrapper = _goFactory.CreateNew();
+            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
             gameObject.name = String.Format("Flat {0}", area);
 
@@ -34,13 +41,14 @@ namespace Mercraft.Explorer.Builders
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();
 
-            return gameObject;
+            return gameObjectWrapper;
         }
 
-        public override GameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            GameObject gameObject = new GameObject();
+            IGameObject gameObjectWrapper = _goFactory.CreateNew();
+            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
             var zIndex = rule.GetZIndex();
 
             gameObject.name = String.Format("Flat {0}", way);
@@ -61,7 +69,7 @@ namespace Mercraft.Explorer.Builders
             var width = rule.GetWidth();
             lineRenderer.SetWidth(width, width);
 
-            return gameObject;
+            return gameObjectWrapper;
         }
     }
 }

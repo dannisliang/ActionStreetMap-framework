@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Security;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -13,9 +10,7 @@ namespace Mercraft.Maps.UnitTests.Zones
     [TestFixture]
     public class ZoneLoaderTests
     {
-        // NOTE unfortuanelly, normal flow of test is broken once GameObject instance is touched
         [Test]
-        [ExpectedException(typeof(SecurityException))]
         public void CanLoadZoneDynamically()
         {
             var container = new Container();
@@ -26,6 +21,11 @@ namespace Mercraft.Maps.UnitTests.Zones
 
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
+        }
+
+        public void CanUnloadTile()
+        {
+            
         }
     }
 }

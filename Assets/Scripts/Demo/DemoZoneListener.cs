@@ -9,6 +9,7 @@ namespace Assets.Scripts.Demo
 {
     public class DemoZoneListener: IZoneListener
     {
+        private const string LogTag = "Zone";
         [Dependency]
         private ITrace Trace { get; set; }
 
@@ -17,13 +18,15 @@ namespace Assets.Scripts.Demo
         public void OnZoneLoadStarted(Tile tile)
         {
             _stopwatch.Start();
-            Trace.Normal("Zone", String.Format("Zone loading begin: {0} {1}", tile.TileMapCenter, tile.RelativeNullPoint));
+            Trace.Normal(LogTag, String.Format("Zone loading begin: {0} {1}", tile.TileMapCenter, tile.RelativeNullPoint));
         }
 
         public void OnZoneLoadFinished(Zone zone)
         {
             _stopwatch.Stop();
-            Trace.Normal("Zone", String.Format("Zone is loaded in {0} ms", _stopwatch.ElapsedMilliseconds));
+            Trace.Normal(LogTag, String.Format("Zone is loaded in {0} ms", _stopwatch.ElapsedMilliseconds));
+            Trace.Normal(LogTag, "Trigger GC");
+            System.GC.Collect();
         }
     }
 }

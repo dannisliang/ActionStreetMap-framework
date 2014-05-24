@@ -45,12 +45,14 @@
     <Compile Include="Builders\IModelBuilder.cs" />
     <Compile Include="Builders\CylinderModelBuilder.cs" />
     <Compile Include="Builders\SphereModelBuilder.cs" />
+    <Compile Include="Infrastructure\GameObjectFactory.cs" />
     <Compile Include="GameRunner.cs" />
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />
     <Compile Include="Bootstrappers\OsmBootstrapper.cs" />
     <Compile Include="Bootstrappers\SceneBootstrapper.cs" />
     <Compile Include="Helpers\RuleExtensions.cs" />
     <Compile Include="IGameRunner.cs" />
+    <Compile Include="Infrastructure\UnityGameObject.cs" />
     <Compile Include="Interactions\CompositeModelBehaviour.cs" />
     <Compile Include="Interactions\IModelBehaviour.cs" />
     <Compile Include="GameObjectBuilder.cs" />

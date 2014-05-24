@@ -4,8 +4,8 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Diagnostic;
-using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
@@ -37,20 +37,24 @@ namespace Mercraft.Core.Zones
         /// <param name="loadedElementIds">Contains ids of previously loaded elements. Used to prevent duplicates</param>
         public void Build(HashSet<long> loadedElementIds)
         {
-            var canvas = Tile.Scene.Canvas;
-            var canvasRule = Stylesheet.GetRule(canvas);
-            GameObject canvasObject =
-                _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, null, canvasRule, canvas);
+            // NOTE Dispose scene to release memory
+            using (Tile.Scene)
+            {
+                var canvas = Tile.Scene.Canvas;
+                var canvasRule = Stylesheet.GetRule(canvas);
+                IGameObject canvasObject =
+                    _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, null, canvasRule, canvas);
 
-            BuildModel(Tile.Scene.Areas, loadedElementIds, (area, rule) =>
-                _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, canvasObject, rule, area));
+                BuildModel(Tile.Scene.Areas, loadedElementIds, (area, rule) =>
+                    _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, canvasObject, rule, area));
 
-            BuildModel(Tile.Scene.Ways, loadedElementIds, (way, rule) =>
-                _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, canvasObject, rule, way));
+                BuildModel(Tile.Scene.Ways, loadedElementIds, (way, rule) =>
+                    _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, canvasObject, rule, way));
+            }
         }
 
-        private void BuildModel<T>(IEnumerable<T> models, HashSet<long> loadedElementIds, 
-            Func<T, Rule, GameObject> builder) where T: Model
+        private void BuildModel<T>(IEnumerable<T> models, HashSet<long> loadedElementIds,
+            Func<T, Rule, IGameObject> builder) where T : Model
         {
             foreach (T model in models)
             {

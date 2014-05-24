@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.Scene
 {
     public class MapScene : IScene
     {
+        private bool _disposed = false;
+
         #region Canvas
 
         public Canvas Canvas { get; set; }
@@ -18,11 +21,13 @@ namespace Mercraft.Core.Scene
         {
             get
             {
+                ThrowIfDisposed();
                 return _areas;
             }
         }
         public void AddArea(Area area)
         {
+            ThrowIfDisposed();
             _areas.Add(area);
         }
 
@@ -35,11 +40,13 @@ namespace Mercraft.Core.Scene
         {
             get
             {
+                ThrowIfDisposed();
                 return _ways;
             }
         }
         public void AddWay(Way way)
         {
+            ThrowIfDisposed();
             _ways.Add(way);
         }
 
@@ -47,8 +54,22 @@ namespace Mercraft.Core.Scene
 
         public MapScene()
         {
-            _areas = new List<Area>();
-            _ways = new List<Way>();
+            _areas = new List<Area>(64);
+            _ways = new List<Way>(64);
         }
-   }
+
+        private void ThrowIfDisposed()
+        {
+            if(_disposed)
+                throw new InvalidOperationException("MapScene is already disposed!");
+        }
+
+        public void Dispose()
+        {
+            Canvas = null;
+            _areas.Clear();
+            _ways.Clear();
+            _disposed = true;
+        }
+    }
 }

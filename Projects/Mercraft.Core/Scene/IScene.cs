@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using Mercraft.Core.Scene.Models;
 
@@ -7,7 +8,7 @@ namespace Mercraft.Core.Scene
     /// <summary>
     /// Represents map scene with models
     /// </summary>
-    public interface IScene
+    public interface IScene: IDisposable
     {
         /// <summary>
         /// Represents canvas - terrain in different terms

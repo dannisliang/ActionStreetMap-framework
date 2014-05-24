@@ -1,5 +1,6 @@
 ﻿using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Unity;
 using UnityEngine;
 
 namespace Mercraft.Core.Scene
@@ -9,8 +10,8 @@ namespace Mercraft.Core.Scene
     /// </summary>
     public interface IGameObjectBuilder
     {
-        GameObject FromCanvas(GeoCoordinate center, GameObject parent, Rule rule, Canvas canvas);
-        GameObject FromArea(GeoCoordinate center, GameObject parent, Rule rule, Area area);
-        GameObject FromWay(GeoCoordinate center, GameObject parent, Rule rule, Way way);
+        IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas);
+        IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area);
+        IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way);
     }
 }

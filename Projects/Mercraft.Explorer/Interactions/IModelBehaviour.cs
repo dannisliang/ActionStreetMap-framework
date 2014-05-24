@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Mercraft.Core;
+using Mercraft.Core.Unity;
 
 namespace Mercraft.Explorer.Interactions
 {
     public interface IModelBehaviour
     {
         string Name { get; }
-        void Apply(GameObject gameObject);
+        void Apply(IGameObject gameObject);
     }
 }

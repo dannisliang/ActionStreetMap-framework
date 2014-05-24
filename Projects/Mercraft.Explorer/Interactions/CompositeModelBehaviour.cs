@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core;
+using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
@@ -15,11 +17,11 @@ namespace Mercraft.Explorer.Interactions
 
         public string Name { get; private set; }
 
-        public void Apply(GameObject gameObject)
+        public void Apply(IGameObject gameObject)
         {
             foreach (var behaviour in _behaviours)
             {
-                gameObject.AddComponent(behaviour);
+                gameObject.GetComponent<GameObject>().AddComponent(behaviour);
             }
         }
 
