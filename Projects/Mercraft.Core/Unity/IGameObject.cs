@@ -1,7 +1,9 @@
 ﻿namespace Mercraft.Core.Unity
 {
     /// <summary>
-    /// Represents GameObject. Introduced for usage in non-Unity contexts
+    ///     Should hold Unity specific GameObject class.
+    ///     Actually, this is workaround which allows to use classes
+    ///     outside Unity environment
     /// </summary>
     public interface IGameObject
     {

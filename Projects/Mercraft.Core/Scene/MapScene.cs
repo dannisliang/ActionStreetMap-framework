@@ -61,7 +61,7 @@ namespace Mercraft.Core.Scene
         private void ThrowIfDisposed()
         {
             if(_disposed)
-                throw new InvalidOperationException("MapScene is already disposed!");
+                throw new ObjectDisposedException("MapScene is already disposed!");
         }
 
         public void Dispose()

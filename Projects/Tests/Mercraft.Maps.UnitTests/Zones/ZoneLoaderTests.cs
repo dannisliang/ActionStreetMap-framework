@@ -1,4 +1,6 @@
-﻿using Mercraft.Core;
+﻿using System;
+using System.Linq;
+using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -23,9 +25,17 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
         }
 
-        public void CanUnloadTile()
+        [Test]
+        [ExpectedException(typeof(ObjectDisposedException))]
+        public void ShouldUnloadTile()
         {
-            
+            var container = new Container();
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigRootFile));
+            root.RunGame(TestHelper.BerlinGeoCenter);
+
+            var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
+
+            Assert.IsNotNull(zoneLoader.ZoneCollection.Single().Tile.Scene.Areas);
         }
     }
 }

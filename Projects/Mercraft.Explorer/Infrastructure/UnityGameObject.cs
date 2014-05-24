@@ -25,7 +25,7 @@ namespace Mercraft.Explorer.Infrastructure
 
         public T GetComponent<T>()
         {
-            // This is workaround
+            // This is workaround to make code unit-tesable outside Unity context
             return (T) (object)_gameObject;
         }
     }
