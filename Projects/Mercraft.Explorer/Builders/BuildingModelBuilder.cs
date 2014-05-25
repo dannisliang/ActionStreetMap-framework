@@ -5,7 +5,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Infrastructure;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Config;
@@ -15,10 +15,15 @@ namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
+        private const string RenderModeKey = @"render/@mode";
+        private const string ThemeKey = @"render/@theme";
         private readonly IGameObjectFactory _goFactory;
         private readonly TexturePackProvider _textureProvider;
         private readonly BuildingStyleProvider _styleProvider;
 
+        private string _theme;
+        private RenderMode _mode = RenderMode.Full;
+    
         [Dependency]
         public BuildingModelBuilder(IGameObjectFactory goFactory,
             TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
@@ -39,7 +44,7 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            return BuildBuilding(center, way,  way.Points, rule);
+            return BuildBuilding(center, way, way.Points, rule);
         }
 
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
@@ -50,16 +55,15 @@ namespace Mercraft.Explorer.Builders
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
             var height = rule.GetHeight(NoValue);
             var levels = rule.GetLevels(NoValue);
-            
-            // TODO define theme somewhere
-            var theme = "berlin";
+
             var styleName = rule.GetBuildingStyle();
 
-            var style = _styleProvider.Get(theme, styleName);
+            var style = _styleProvider.Get(_theme, styleName);
             var texture = _textureProvider.Get(style.Texture);
 
-            gameObject.AddComponent<BuildingBehavior>().Attach(RenderMode.Full, 
-                new BuildingSettings()
+            gameObject.AddComponent<BuildingBehavior>().Attach(
+                _mode,
+                new BuildingSettings
                 {
                     Seed = model.Id,
                     Height = height,
@@ -72,5 +76,12 @@ namespace Mercraft.Explorer.Builders
             return gameObjectWrapper;
         }
 
+        public override void Configure(IConfigSection configSection)
+        {
+            base.Configure(configSection);
+            _mode = (RenderMode) Enum.Parse(typeof (RenderMode),
+                configSection.GetString(RenderModeKey), true);
+            _theme = configSection.GetString(ThemeKey);
+        }
     }
 }
