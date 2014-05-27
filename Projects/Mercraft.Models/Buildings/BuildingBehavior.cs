@@ -13,10 +13,10 @@ namespace Mercraft.Models.Buildings
         private DynamicMeshGenericMultiMaterialMesh _fullMesh = new DynamicMeshGenericMultiMaterialMesh();
         private DynamicMeshGenericMultiMaterialMesh _detailMesh = new DynamicMeshGenericMultiMaterialMesh();
         private Data _data;
-        private readonly List<GameObject> _meshHolders = new List<GameObject>();
+        private List<GameObject> _meshHolders = new List<GameObject>();
         private MeshFilter _meshFilt;
         private MeshRenderer _meshRend;
-        private readonly Material _lowDetailMat = new Material(Shader.Find("Diffuse"));
+        private Material _lowDetailMat = new Material(Shader.Find("Diffuse"));
         private List<Material> _materials;
         private GameObject[] _details;
 
@@ -61,6 +61,8 @@ namespace Mercraft.Models.Buildings
                 if (it < 0)
                     break;
             }
+
+            Cleanup();
         }
 
 
@@ -172,6 +174,20 @@ namespace Mercraft.Models.Buildings
             {
                 _details[i].transform.parent = transform;
             }
+        }
+
+        public void Cleanup()
+        {
+            _fullMesh = null;
+            _detailMesh = null;
+            _data = null;
+            _meshRend = null;
+            _meshFilt = null;
+            _meshHolders.Clear();
+            _lowDetailMat = null;
+            if (_materials != null)
+                _materials.Clear();
+            _details = null;
         }
     }
 }
