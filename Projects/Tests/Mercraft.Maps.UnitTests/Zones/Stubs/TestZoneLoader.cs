@@ -19,16 +19,6 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
         }
 
-        public override void OnGeoPositionChanged(GeoCoordinate position)
-        {
-            base.OnGeoPositionChanged(position);
-        }
-
-        public override void OnMapPositionChanged(UnityEngine.Vector2 position)
-        {
-            base.OnMapPositionChanged(position);
-        }
-
         public IList<Zone> ZoneCollection
         {
             get

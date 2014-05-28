@@ -20,7 +20,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             {
                 var dataSource = new XmlElementSource(stream);
 
-                var bbox = BoundingBox.CreateBoundingBox(TestHelper.SmallPbfFileCenter, 200);
+                var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 200);
 
                 var scene = new MapScene();
 

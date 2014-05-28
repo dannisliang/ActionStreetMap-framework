@@ -17,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         {
             var container = new Container();
             var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
-            root.RunGame(TestHelper.BerlinGeoCenter);
+            root.RunGame(TestHelper.BerlinInvalidenStr);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
