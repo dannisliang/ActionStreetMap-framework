@@ -49,7 +49,7 @@ namespace Mercraft.Explorer.Builders
 
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
-            var gameObjectWrapper = _goFactory.CreateNew();
+            var gameObjectWrapper = _goFactory.CreateNew(String.Format("Building {0}", model));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);

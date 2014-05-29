@@ -7,8 +7,8 @@ namespace Mercraft.Core.Unity
     /// </summary>
     public interface IGameObjectFactory
     {
-        IGameObject CreateNew();
-        IGameObject CreatePrimitive(PrimitiveType type);
+        IGameObject CreateNew(string name);
+        IGameObject CreatePrimitive(string name, PrimitiveType type);
 
         // TODO add object pool logic?
     }

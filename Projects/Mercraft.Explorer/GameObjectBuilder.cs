@@ -36,7 +36,7 @@ namespace Mercraft.Explorer
             var tile = canvas.Tile;
             var material = rule.GetMaterial();
 
-            var gameObjectWrapper = _goFactory.CreatePrimitive(PrimitiveType.Quad);
+            var gameObjectWrapper = _goFactory.CreatePrimitive("", PrimitiveType.Quad);
             var quad = gameObjectWrapper.GetComponent<GameObject>();
             quad.name = "tile";
             quad.transform.position = new Vector3(tile.TileMapCenter.x, 0, tile.TileMapCenter.y);

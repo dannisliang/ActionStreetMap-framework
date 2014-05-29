@@ -47,7 +47,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
-            var gameObjectWrapper = _goFactory.CreateNew();
+            var gameObjectWrapper = _goFactory.CreateNew("");
 
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
             var height = rule.GetHeight(NoValue);

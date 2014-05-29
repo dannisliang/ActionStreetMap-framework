@@ -37,7 +37,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
             var tile = canvas.Tile;
             //var material = rule.GetMaterial();
-            return _goFactory.CreatePrimitive(PrimitiveType.Quad);
+            return _goFactory.CreatePrimitive("", PrimitiveType.Quad);
         }
 
         public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)

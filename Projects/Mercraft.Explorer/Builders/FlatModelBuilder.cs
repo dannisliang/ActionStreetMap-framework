@@ -24,10 +24,8 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            IGameObject gameObjectWrapper = _goFactory.CreateNew();
+            IGameObject gameObjectWrapper = _goFactory.CreateNew(String.Format("Flat {0}", area));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
-
-            gameObject.name = String.Format("Flat {0}", area);
 
             var floor = rule.GetZIndex();
 
@@ -53,11 +51,9 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            IGameObject gameObjectWrapper = _goFactory.CreateNew();
+            IGameObject gameObjectWrapper = _goFactory.CreateNew(String.Format("Flat {0}", way));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
             var zIndex = rule.GetZIndex();
-
-            gameObject.name = String.Format("Flat {0}", way);
 
             var points = PolygonHelper.GetVerticies2D(center, way.Points);
 

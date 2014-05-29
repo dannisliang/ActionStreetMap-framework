@@ -10,14 +10,15 @@ namespace Mercraft.Explorer.Infrastructure
     {
         private readonly GameObject _gameObject;
 
-        public UnityGameObject()
+        public UnityGameObject(string name)
         {
-            _gameObject = new GameObject();
+            _gameObject = new GameObject(name);
         }
 
-        public UnityGameObject(GameObject gameObject)
+        public UnityGameObject(string name, GameObject gameObject)
         {
             _gameObject = gameObject;
+            _gameObject.name = name;
         }
 
 

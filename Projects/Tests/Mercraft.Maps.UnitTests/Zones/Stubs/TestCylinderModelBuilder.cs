@@ -42,7 +42,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             var minHeight = rule.GetMinHeight();
 
             var actualHeight = (height - minHeight)/2;
-            return _goFactory.CreatePrimitive(PrimitiveType.Cylinder);
+            return _goFactory.CreatePrimitive("", PrimitiveType.Cylinder);
         }
     }
 }

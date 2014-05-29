@@ -6,12 +6,12 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestGameObjectFactory: IGameObjectFactory
     {
-        public IGameObject CreateNew()
+        public IGameObject CreateNew(string name)
         {
             return new TestGameObject();
         }
 
-        public IGameObject CreatePrimitive(PrimitiveType type)
+        public IGameObject CreatePrimitive(string name, PrimitiveType type)
         {
             return new TestGameObject();
         }

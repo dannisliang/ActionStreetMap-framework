@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System;
+using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
@@ -22,23 +23,24 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            return BuildSphere(center, area.Points, rule);
+            return BuildSphere(center, area, area.Points, rule);
         }
 
         public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
             // TODO is it applied to way?
-            return BuildSphere(center, way.Points, rule);
+            return BuildSphere(center, way,  way.Points, rule);
         }
 
-        private IGameObject BuildSphere(GeoCoordinate center, GeoCoordinate[] points, Rule rule)
+        private IGameObject BuildSphere(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
         {
             var circle = CircleHelper.GetCircle(center, points);
             var diameter = circle.Item1;
             var sphereCenter = circle.Item2;
 
-            IGameObject gameObjectWrapper = _goFactory.CreatePrimitive(PrimitiveType.Sphere);
+            IGameObject gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Spfere {0}", model),
+                PrimitiveType.Sphere);
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
 
             sphere.AddComponent<MeshRenderer>();
