@@ -43,6 +43,10 @@ namespace Mercraft.Explorer.Builders
             meshFilter.mesh = mesh;
             meshFilter.mesh.RecalculateNormals();
 
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.renderer.material = rule.GetMaterial();
+            gameObject.renderer.material.color = rule.GetFillColor();
+
             return gameObjectWrapper;
         }
 

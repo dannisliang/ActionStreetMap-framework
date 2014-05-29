@@ -41,7 +41,7 @@ area[amenity=grave_yard] 								{ fill-color: #aacbaf;}
 area[landuse=farm],
 area[landuse=farmland] 									{ fill-color: #ead8bd;}
 
-area[landuse=commercial]									{ fill-color: #7A96A3;}
+area[landuse=commercial]								{ fill-color: #7A96A3;}
 
 area[landuse=retail] 									{ fill-color: #f1dada;	}
 
