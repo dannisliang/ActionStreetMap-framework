@@ -59,7 +59,7 @@ namespace Mercraft.Core.MapCss.Visitors
                 {
                     throw new MapCssFormatException(selectorTree, "Wrong 'exist' selector operation");
                 }
-                selector.Tag = selectorTree.Children[1].Text;
+                selector.Tag = String.Intern(selectorTree.Children[1].Text);
             }
             // Various selector operation like equals
             else
@@ -80,8 +80,8 @@ namespace Mercraft.Core.MapCss.Visitors
                             String.Format("Not supported selector operation: {0}", operation));
                 }
 
-                selector.Tag = selectorTree.Children[1].Text;
-                selector.Value = selectorTree.Children[2].Text;
+                selector.Tag = String.Intern(selectorTree.Children[1].Text);
+                selector.Value = String.Intern(selectorTree.Children[2].Text);
             }
         }
 

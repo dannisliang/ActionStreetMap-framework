@@ -11,13 +11,13 @@ namespace Mercraft.Core.Utilities
             return MathUtility.AreEqual(point1.x, point2.x) && MathUtility.AreEqual(point1.y, point2.y);
         }
 
-        public static bool ContainsKeyValue(this ICollection<KeyValuePair<string, string>> collection, string key,
+        public static bool ContainsKeyValue(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {
             return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
         }
 
-        public static bool ContainsKey(this ICollection<KeyValuePair<string, string>> collection, string key)
+        public static bool ContainsKey(this IList<KeyValuePair<string, string>> collection, string key)
         {
             return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key);
         }

@@ -68,7 +68,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
             if (tree.ChildCount > 0)
             {
                 VisitOperation(tree.Children[0] as CommonTree);
-                _opStack.PushUnary(tree.Text);       
+                _opStack.PushUnary(String.Intern(tree.Text));       
             }
             else
             {
@@ -80,13 +80,13 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         {
             VisitOperation(binaryTree.Children[0] as CommonTree);
             VisitOperation(binaryTree.Children[1] as CommonTree);
-            _opStack.PushBinary(binaryTree.Text);
+            _opStack.PushBinary(String.Intern(binaryTree.Text));
         }
 
 
         private void VisitLeaf(CommonTree tree)
         {
-            _opStack.PushConstant(tree.Text);
+            _opStack.PushConstant(String.Intern(tree.Text));
         }
 
         private void VisitMulti(CommonTree tree)

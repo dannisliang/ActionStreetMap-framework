@@ -21,7 +21,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The tags.
         /// </summary>
-        public ICollection<KeyValuePair<string, string>> Tags { get; set; }
+        public IList<KeyValuePair<string, string>> Tags { get; set; }
 
         public abstract void Accept(IElementVisitor elementVisitor);
 

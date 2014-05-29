@@ -7,7 +7,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     {
         public T GetComponent<T>()
         {
-            throw new NotImplementedException();
+            return default(T);
         }
     }
 }

@@ -137,21 +137,19 @@ namespace Mercraft.Maps.Osm.Data
 
         private void SearchWay(PrimitiveBlock block, Formats.Pbf.Way way)
         {
-            var elementWay = new Entities.Way();
-            elementWay.Id = way.id;
-            elementWay.NodeIds = new List<long>(way.refs.Count);
             long nodeId = 0;
+            var nodeIds = new List<long>(way.refs.Count);
             for (int nodeIdx = 0; nodeIdx < way.refs.Count; nodeIdx++)
             {
                 nodeId = nodeId + way.refs[nodeIdx];
-                elementWay.NodeIds.Add(nodeId);
+                nodeIds.Add(nodeId);
             }
 
             // Way is out of bbox
-            if (!elementWay.NodeIds.Any(nid => _nodeIds.Contains(nid)))
+            if (!nodeIds.Any(nid => _nodeIds.Contains(nid)))
                 return;
 
-
+            var elementWay = new Entities.Way {Id = way.id, NodeIds = nodeIds};
             // Push all unresolved node ids to scan later
             // Unresolved node situation happends when we have cross-zone ways
             // We want to display them fully

@@ -68,8 +68,13 @@
     <Compile Include="Osm\ElementTests.cs" />
     <Compile Include="SceneHelper.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="Zones\Stubs\TestBuildingModelBuilder.cs" />
+    <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />
+    <Compile Include="Zones\Stubs\TestDefaultModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestGameObject.cs" />
     <Compile Include="Zones\Stubs\TestGameObjectBuilder.cs" />
+    <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
+    <Compile Include="Zones\Stubs\TestModelBehavior.cs" />
     <Compile Include="Zones\Stubs\TestTileListener.cs" />
     <Compile Include="Zones\Stubs\TestZoneListener.cs" />
     <Compile Include="Zones\Stubs\TestZoneLoader.cs" />
@@ -82,6 +87,7 @@
     </None>
     <None Include="test.merge.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="test.stubs.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

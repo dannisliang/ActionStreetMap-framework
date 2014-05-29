@@ -1,4 +1,5 @@
-﻿using Antlr.Runtime.Tree;
+﻿using System;
+using Antlr.Runtime.Tree;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.MapCss.Visitors.Eval;
 
@@ -14,8 +15,8 @@ namespace Mercraft.Core.MapCss.Visitors
                 throw new MapCssFormatException(declarationTree, "Declaration tree not valid!");
             }
 
-            declaration.Qualifier = declarationTree.Children[0].Text;
-            declaration.Value = declarationTree.Children[1].Text;
+            declaration.Qualifier = String.Intern(declarationTree.Children[0].Text);
+            declaration.Value = String.Intern(declarationTree.Children[1].Text);
 
             if (declaration.Value == "EVAL_CALL")
             {

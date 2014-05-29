@@ -8,7 +8,7 @@ namespace Mercraft.Core.Scene.Models
         public long Id { get; set; }
         public abstract bool IsClosed { get; }
 
-        public ICollection<KeyValuePair<string, string>> Tags { get; set; }
+        public IList<KeyValuePair<string, string>> Tags { get; set; }
 
         /// <summary>
         /// Returns a description of this object.

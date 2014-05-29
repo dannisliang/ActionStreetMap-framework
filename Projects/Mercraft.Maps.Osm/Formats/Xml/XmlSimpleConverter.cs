@@ -133,7 +133,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return relation;
         }
 
-        private static ICollection<KeyValuePair<string, string>> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
+        private static IList<KeyValuePair<string, string>> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
         {
             List<KeyValuePair<string, string>> tags = null;
             if (tag != null && tag.Length > 0)

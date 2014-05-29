@@ -51,7 +51,7 @@ namespace Mercraft.Maps.Osm.Visitors
                     continue;
                 if (way.Tags == null)
                 {
-                    way.Tags = new Collection<KeyValuePair<string, string>>();
+                    way.Tags = new List<KeyValuePair<string, string>>();
                 }
                 foreach (var tag in node.Tags)
                 {
@@ -68,7 +68,7 @@ namespace Mercraft.Maps.Osm.Visitors
             return tag.Key.StartsWith("addr:");
         }
 
-        private bool IsArea(ICollection<KeyValuePair<string, string>> tags)
+        private bool IsArea(IList<KeyValuePair<string, string>> tags)
         {
             return (tags != null) &&
                    ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||

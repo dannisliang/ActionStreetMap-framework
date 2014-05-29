@@ -1,20 +1,18 @@
 ﻿using Mercraft.Core.Unity;
-using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
     public class InfrastructureBootstrapper: BootstrapperPlugin
     {
-        private const string LogTypeKey = "log/@type";
+        private const string LogKey = "log";
+        private const string GameObjectFactoryKey = "goFactory";
 
         public override bool Run()
         {
-            var logType = ConfigSection.GetType(LogTypeKey);
-            Container.Register(Component.For<ITrace>().Use(logType, new object[0]).Singleton());
-            Container.Register(Component.For<IGameObjectFactory>().Use<GameObjectFactory>().Singleton());
+            Configurator.RegisterComponent<ITrace>(ConfigSection.GetSection(LogKey));
+            Configurator.RegisterComponent<IGameObjectFactory>(ConfigSection.GetSection(GameObjectFactoryKey));
             return true;
         }
     }

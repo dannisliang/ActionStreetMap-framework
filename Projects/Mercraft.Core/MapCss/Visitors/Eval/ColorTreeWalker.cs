@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Antlr.Runtime.Tree;
 using Mercraft.Core.Scene.Models;
 using UnityEngine;
@@ -16,9 +17,9 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
        
         public ColorTreeWalker(CommonTree tree)
         {
-            _r = byte.Parse(tree.Children[0].Text);
-            _g = byte.Parse(tree.Children[1].Text);
-            _b = byte.Parse(tree.Children[2].Text);
+            _r = byte.Parse(String.Intern(tree.Children[0].Text));
+            _g = byte.Parse(String.Intern(tree.Children[1].Text));
+            _b = byte.Parse(String.Intern(tree.Children[2].Text));
         }
 
         public T Walk<T>(Model model)
