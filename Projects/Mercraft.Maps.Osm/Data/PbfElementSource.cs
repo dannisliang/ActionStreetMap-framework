@@ -121,12 +121,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (node.keys.Any())
             {
-                elementNode.Tags = new List<Tag>();
+                elementNode.Tags = new List<KeyValuePair<string, string>>();
                 for (int tagIdx = 0; tagIdx < node.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.vals[tagIdx]]));
-                    elementNode.Tags.Add(new Tag(key, value));
+                    elementNode.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
             _elements.Add(elementNode.Id, elementNode);
@@ -163,12 +163,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (way.keys.Any())
             {
-                elementWay.Tags = new List<Tag>();
+                elementWay.Tags = new List<KeyValuePair<string, string>>();
                 for (int tagIdx = 0; tagIdx < way.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.vals[tagIdx]]));
-                    elementWay.Tags.Add(new Tag(key, value));
+                    elementWay.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
 
@@ -216,12 +216,12 @@ namespace Mercraft.Maps.Osm.Data
             }
             if (relation.keys.Count > 0)
             {
-                elementRelation.Tags = new List<Tag>();
+                elementRelation.Tags = new List<KeyValuePair<string, string>>();
                 for (int tagIdx = 0; tagIdx < relation.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.vals[tagIdx]]));
-                    elementRelation.Tags.Add(new Tag(key, value));
+                    elementRelation.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
             _elements.Add(elementRelation.Id, elementRelation);

@@ -15,7 +15,7 @@ namespace Mercraft.Infrastructure.Dependencies
     public sealed class Container : IContainer
     {
         //TODO use specific type here
-        private readonly Dictionary<Tuple<string, Type>, ILifetimeManager> _typeMapping = new Dictionary<Tuple<string, Type>, ILifetimeManager>();
+        private readonly TypeMapping _typeMapping = new TypeMapping();
 
         private readonly object[] _emptyArguments = new object[0];
         private readonly object _syncLock = new object();
@@ -42,16 +42,16 @@ namespace Mercraft.Infrastructure.Dependencies
             try
             {
                 //try to find value using full key
-                var key = new Tuple<string, Type>(name, type);
-                if(_typeMapping.ContainsKey(key))
-                    return ResolveDependencies(ResolveLifetime(_typeMapping[key]).GetInstance());
+                var index = _typeMapping.Contains(name, type);
+                if (index != int.MinValue)
+                    return ResolveDependencies(ResolveLifetime(_typeMapping.Get(index)).GetInstance());
 
                 //try to find using only type and delegate resolving of instance by name to LifetimeManager that
                 //can be useful in custom lifetime managers
                 var altKey = _typeMapping.Keys.SingleOrDefault(k => k.Item2 == type);
 
                 // auto resolving of IEnumerable<T> feature
-                if (altKey.Item1 == null && altKey.Item2 == null && IsEnumerable(type))
+                if (altKey == null || (altKey.Item1 == null && altKey.Item2 == null) && IsEnumerable(type))
                 {
                     var generticType = type.GetGenericArguments()[0];
                     var result = ResolveAll(generticType);
@@ -201,7 +201,7 @@ namespace Mercraft.Infrastructure.Dependencies
             lifetimeManager.TargetType = c;
             lifetimeManager.InterfaceType = t;
             lock (_syncLock)
-                _typeMapping.Add(new Tuple<string, Type>(name, t), lifetimeManager);
+                _typeMapping.Add(name, t, lifetimeManager);
             return this;
         }
 
@@ -234,7 +234,7 @@ namespace Mercraft.Infrastructure.Dependencies
         {
             //TODO: check whether the type is already registred
             lock (_syncLock)
-                _typeMapping.Add(new Tuple<string, Type>(name, t), new ExternalLifetimeManager(instance));
+                _typeMapping.Add(name, t, new ExternalLifetimeManager(instance));
             return this;
         }
 
@@ -247,6 +247,67 @@ namespace Mercraft.Infrastructure.Dependencies
         public void Dispose()
         {
             _typeMapping.Keys.ToList().ForEach(key => _typeMapping[key].Dispose());
+        }
+
+        #endregion
+
+        #region Custom collection
+
+        private class TypeMapping
+        {
+            private List<Tuple<string, Type>> _keys = new List<Tuple<string, Type>>();
+            private List<ILifetimeManager> _values = new List<ILifetimeManager>();
+
+            public IList<Tuple<string, Type>> Keys
+            {
+                get
+                {
+                    return _keys;
+                }
+            }
+
+            public ILifetimeManager this[Tuple<string, Type> index] 
+            {
+                get
+                {
+                    return Get(index.Item1, index.Item2);
+                }
+            }
+
+            public ILifetimeManager Get(string name, Type type)
+            {
+                for (int i = 0; i < _keys.Count; i++)
+                {
+                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
+                    {
+                        return _values[i];
+                    }
+                }
+                throw new KeyNotFoundException(String.Format("Unable to find {0}:{1}", name, type));
+            }
+
+            public ILifetimeManager Get(int index)
+            {
+                return _values[index];
+            }
+
+            public void Add(string name, Type type, ILifetimeManager ltm)
+            {
+                _keys.Add(new Tuple<string, Type>(name, type));
+                _values.Add(ltm);
+            }
+
+            public int Contains(string name, Type type)
+            {
+                for (int i = 0; i < _keys.Count; i++)
+                {
+                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
+                    {
+                        return i;
+                    }
+                }
+                return int.MinValue;
+            }
         }
 
         #endregion

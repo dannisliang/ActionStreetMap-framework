@@ -98,7 +98,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             {
                 foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
-                    new_obj.Tags.Add(new Tag(tag.k, tag.v));
+                    new_obj.Tags.Add(new KeyValuePair<string, string>(tag.k, tag.v));
                 }
             }
 
@@ -157,7 +157,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             {
                 foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
-                    new_obj.Tags.Add(new Tag(tag.k, tag.v));
+                    new_obj.Tags.Add(new KeyValuePair<string, string>(tag.k, tag.v));
                 }
             }
             return new_obj;
@@ -187,7 +187,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
             {
                 foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag tag in xml_obj.tag)
                 {
-                    new_obj.Tags.Add(new Tag(tag.k, tag.v));
+                    new_obj.Tags.Add(new KeyValuePair<string, string>(tag.k, tag.v));
                 }
             }
             return new_obj;

@@ -29,7 +29,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags"></param>
         /// <param name="tagKey"></param>
         /// <returns></returns>
-        public static bool IsTrue(this ICollection<Tag> tags, string tagKey)
+        public static bool IsTrue(this ICollection<KeyValuePair<string, string>> tags, string tagKey)
         {
             if (tags == null || IsNullOrWhiteSpace(tagKey))
                 return false;
@@ -47,7 +47,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags"></param>
         /// <param name="tagKey"></param>
         /// <returns></returns>
-        public static bool IsFalse(this ICollection<Tag> tags, string tagKey)
+        public static bool IsFalse(this ICollection<KeyValuePair<string, string>> tags, string tagKey)
         {
             if (tags == null || IsNullOrWhiteSpace(tagKey))
                 return false;
@@ -64,7 +64,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="accessTagHierachy">The hierarchy of <c>Access</c>-Tags for different vehicle types.</param>
         /// <returns>The best fitting value is returned.</returns>
-        public static string GetAccessTag(this ICollection<Tag> tags, IEnumerable<string> accessTagHierachy)
+        public static string GetAccessTag(this ICollection<KeyValuePair<string, string>> tags, IEnumerable<string> accessTagHierachy)
         {
             if (tags == null)
                 return null;
@@ -87,7 +87,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxSpeed(this ICollection<Tag> tags, out double result)
+        public static bool TryGetMaxSpeed(this ICollection<KeyValuePair<string, string>> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -105,7 +105,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxWeight(this ICollection<Tag> tags, out double result)
+        public static bool TryGetMaxWeight(this ICollection<KeyValuePair<string, string>> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -122,7 +122,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxAxleLoad(this ICollection<Tag> tags, out double result)
+        public static bool TryGetMaxAxleLoad(this ICollection<KeyValuePair<string, string>> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -139,7 +139,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxHeight(this ICollection<Tag> tags, out double result)
+        public static bool TryGetMaxHeight(this ICollection<KeyValuePair<string, string>> tags, out double result)
         {
             result = double.MaxValue;
 
@@ -158,7 +158,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <param name="tags">The tags to search.</param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryGetMaxWidth(this ICollection<Tag> tags, out double result)
+        public static bool TryGetMaxWidth(this ICollection<KeyValuePair<string, string>> tags, out double result)
         {
             result = double.MaxValue;
             string tagValue;
@@ -312,7 +312,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <summary>
         /// Returns true if the given tag exists.
         /// </summary>
-        public static bool TryGetValue(this ICollection<Tag> tags, string key, out string value)
+        public static bool TryGetValue(this ICollection<KeyValuePair<string, string>> tags, string key, out string value)
         {
             foreach (var tag in tags)
             {
@@ -329,7 +329,7 @@ namespace Mercraft.Maps.Osm.Extensions
         /// <summary>
         /// Returns true if the given key is found in this tags collection.
         /// </summary>
-        public static bool ContainsKey(this ICollection<Tag> tags, string key)
+        public static bool ContainsKey(this ICollection<KeyValuePair<string, string>> tags, string key)
         {
             return tags != null && tags.Any(tag => tag.Key == key);
         }

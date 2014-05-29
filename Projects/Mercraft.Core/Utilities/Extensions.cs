@@ -14,12 +14,12 @@ namespace Mercraft.Core.Utilities
         public static bool ContainsKeyValue(this ICollection<KeyValuePair<string, string>> collection, string key,
             string value)
         {
-            return collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
+            return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
         }
 
         public static bool ContainsKey(this ICollection<KeyValuePair<string, string>> collection, string key)
         {
-            return collection.Any(keyValuePair => keyValuePair.Key == key);
+            return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key);
         }
     }
 }

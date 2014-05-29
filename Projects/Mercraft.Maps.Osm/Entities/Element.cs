@@ -9,10 +9,8 @@ namespace Mercraft.Maps.Osm.Entities
     /// </summary>
     public abstract class Element
     {
-
         protected Element()
         {
-            Tags = new List<Tag>();
         }
 
         /// <summary>
@@ -23,7 +21,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The tags.
         /// </summary>
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<KeyValuePair<string, string>> Tags { get; set; }
 
         public abstract void Accept(IElementVisitor elementVisitor);
 

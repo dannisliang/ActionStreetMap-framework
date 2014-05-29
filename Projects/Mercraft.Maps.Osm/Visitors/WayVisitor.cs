@@ -1,16 +1,14 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Extensions;
 using Way = Mercraft.Maps.Osm.Entities.Way;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
-    public class WayVisitor: ElementVisitor
+    public class WayVisitor : ElementVisitor
     {
         public WayVisitor(IScene scene) : base(scene)
         {
@@ -18,33 +16,28 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public override void VisitWay(Way way)
         {
-            if ( !way.IsPolygon)
+            if (!way.IsPolygon)
                 return;
 
             if (!IsArea(way.Tags))
             {
                 MergeTags(way);
-                Scene.AddWay(new Core.Scene.Models.Way()
+                Scene.AddWay(new Core.Scene.Models.Way
                 {
                     Id = way.Id,
                     Points = way.GetPoints(),
                     Tags = way.Tags
-                    .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
-                    .ToList()
                 });
 
                 return;
             }
 
             MergeTags(way);
-            var area = new Area()
+            var area = new Area
             {
                 Id = way.Id,
                 Points = way.GetPoints(),
-
                 Tags = way.Tags
-                    .Select(tag => new KeyValuePair<string, string>(tag.Key, tag.Value))
-                    .ToList()
             };
 
             Scene.AddArea(area);
@@ -56,24 +49,29 @@ namespace Mercraft.Maps.Osm.Visitors
             {
                 if (node.Tags == null)
                     continue;
+                if (way.Tags == null)
+                {
+                    way.Tags = new Collection<KeyValuePair<string, string>>();
+                }
                 foreach (var tag in node.Tags)
                 {
                     if (IsMergeTag(tag) && way.Tags.All(t => t.Key != tag.Key))
                     {
-                        way.Tags.Add(new Tag(tag.Key, tag.Value));
+                        way.Tags.Add(new KeyValuePair<string, string>(tag.Key, tag.Value));
                     }
                 }
             }
         }
 
-        private bool IsMergeTag(Tag tag)
+        private bool IsMergeTag(KeyValuePair<string, string> tag)
         {
             return tag.Key.StartsWith("addr:");
         }
 
-        private bool IsArea(ICollection<Tag> tags)
+        private bool IsArea(ICollection<KeyValuePair<string, string>> tags)
         {
-            return ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||
+            return (tags != null) &&
+                   ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||
                     (tags.ContainsKey("landuse") && !tags.IsFalse("landuse")) ||
                     (tags.ContainsKey("amenity") && !tags.IsFalse("amenity")) ||
                     (tags.ContainsKey("harbour") && !tags.IsFalse("harbour")) ||
@@ -93,10 +91,9 @@ namespace Mercraft.Maps.Osm.Visitors
                     (tags.ContainsKey("wetland") && !tags.IsFalse("wetland")) ||
                     (tags.ContainsKey("water") && !tags.IsFalse("water")) ||
                     (tags.ContainsKey("aeroway") && !tags.IsFalse("aeroway")) ||
-
                     (tags.ContainsKey("addr:housenumber") && !tags.IsFalse("addr:housenumber")) ||
-                     (tags.ContainsKey("addr:housename") && !tags.IsFalse("addr:housename"))
-                    );
+                    (tags.ContainsKey("addr:housename") && !tags.IsFalse("addr:housename"))
+                       );
         }
     }
 }

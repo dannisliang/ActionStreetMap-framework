@@ -133,15 +133,15 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return relation;
         }
 
-        private static ICollection<Tag> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
+        private static ICollection<KeyValuePair<string, string>> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
         {
-            List<Tag> tags = null;
+            List<KeyValuePair<string, string>> tags = null;
             if (tag != null && tag.Length > 0)
             {
-                tags = new List<Tag>();
+                tags = new List<KeyValuePair<string, string>>(tag.Length);
                 foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag t in tag)
                 {
-                    tags.Add( new Tag(t.k, t.v));
+                    tags.Add(new KeyValuePair<string, string>(t.k, t.v));
                 }
             }
             return tags;
