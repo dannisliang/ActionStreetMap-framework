@@ -15,14 +15,22 @@ namespace Mercraft.Maps.UnitTests.Zones
         [Test]
         public void CanLoadZoneDynamically()
         {
+            var logger = new PerformanceLogger();
+            logger.Start();
             var container = new Container();
             var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
             root.RunGame(TestHelper.BerlinInvalidenStr);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
+            logger.Stop();
+
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
+
+            Assert.Less(logger.Seconds, 10, "Loading took to long");
+            // NOTE However, we only check memory which is used after GC
+            Assert.Less(logger.Memory, 50, "Memory consumption to hight!");
         }
 
         [Test]
