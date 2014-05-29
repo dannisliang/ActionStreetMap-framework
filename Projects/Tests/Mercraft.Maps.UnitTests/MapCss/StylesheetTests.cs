@@ -2,7 +2,6 @@
 using Mercraft.Core.MapCss;
 using NUnit.Framework;
 
-
 namespace Mercraft.Maps.UnitTests.MapCss
 {
     [TestFixture]
@@ -43,7 +42,5 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual(2, lastStyle.Selectors.Count);
             Assert.AreEqual(1, lastStyle.Declarations.Count);
         }
-
-      
     }
 }

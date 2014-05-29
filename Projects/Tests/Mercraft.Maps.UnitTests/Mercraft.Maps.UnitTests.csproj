@@ -49,6 +49,7 @@
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Algorithms\TriangulationTests.cs" />
     <Compile Include="Explorer\BootstrapperTests.cs" />
+    <Compile Include="MapCss\SelectorsTests.cs" />
     <Compile Include="Models\BuildingConfigTests.cs" />
     <Compile Include="Core\TypeHelperTests.cs" />
     <Compile Include="MapCss\StylesheetTests.cs" />

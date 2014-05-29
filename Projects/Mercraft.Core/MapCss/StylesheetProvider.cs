@@ -7,14 +7,13 @@ using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Core.MapCss
 {
-
     public interface IStylesheetProvider
     {
         Stylesheet Get();
     }
 
     /// <summary>
-    /// Default implementation of IStylesheetProvider
+    ///     Default implementation of IStylesheetProvider
     /// </summary>
     public class StylesheetProvider : IStylesheetProvider, IConfigurable
     {
@@ -23,16 +22,24 @@ namespace Mercraft.Core.MapCss
         private string _path;
         private Stylesheet _stylesheet;
 
+        #region Constructors
+
         [Dependency]
         public StylesheetProvider()
         {
-            
         }
 
         public StylesheetProvider(string path)
         {
             _path = path;
         }
+
+        public StylesheetProvider(Stream stream)
+        {
+            _stylesheet = Create(stream);
+        }
+
+        #endregion
 
         public Stylesheet Get()
         {
@@ -51,17 +58,22 @@ namespace Mercraft.Core.MapCss
         {
             using (Stream inputStream = File.Open(_path, FileMode.Open))
             {
-                var input = new ANTLRInputStream(inputStream);
-                var lexer = new MapCssLexer(input);
-                var tokens = new CommonTokenStream(lexer);
-                var parser = new MapCssParser(tokens);
-
-                var styleSheet = parser.stylesheet();
-                var tree = styleSheet.Tree as Antlr.Runtime.Tree.CommonTree;
-
-                var visitor = new MapCssVisitor();
-                return visitor.Visit(tree);
+                return Create(inputStream);
             }
+        }
+
+        private static Stylesheet Create(Stream stream)
+        {
+            var input = new ANTLRInputStream(stream);
+            var lexer = new MapCssLexer(input);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new MapCssParser(tokens);
+
+            var styleSheet = parser.stylesheet();
+            var tree = styleSheet.Tree as Antlr.Runtime.Tree.CommonTree;
+
+            var visitor = new MapCssVisitor();
+            return visitor.Visit(tree);
         }
     }
 }

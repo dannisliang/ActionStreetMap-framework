@@ -21,5 +21,11 @@ namespace Mercraft.Core.Utilities
         {
             return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key);
         }
+
+        public static bool IsNotEqual(this IList<KeyValuePair<string, string>> collection, string key,
+            string value)
+        {
+            return collection.All(keyValuePair => keyValuePair.Key != key || keyValuePair.Value == value);
+        }
     }
 }

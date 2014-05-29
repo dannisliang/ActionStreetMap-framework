@@ -211,49 +211,6 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var rule = stylesheet.GetRule(buildingWithColorCode);
             Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"), rule.GetFillColor());
         }
-
-
-        [Test]
-        public void CanUseClosed()
-        {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
-            var stylesheet = provider.Get();
-
-            var closedWay = new Way()
-            {
-                Points = new[]
-                {
-                    new GeoCoordinate(0, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(0, 0),
-                },
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("barrier", "yes")
-                }
-            };
-
-            Assert.IsTrue(stylesheet.GetRule(closedWay).IsApplicable);
-
-
-            var openWay = new Way()
-            {
-                Points = new[]
-                {
-                    new GeoCoordinate(0, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(0, 1),
-                },
-                Tags = new Collection<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("barrier", "yes")
-                }
-            };
-
-            Assert.IsFalse(stylesheet.GetRule(openWay).IsApplicable);
-
-        }
+       
     }
 }
