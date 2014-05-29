@@ -86,6 +86,7 @@ namespace Mercraft.Models.Buildings
 
                 case RenderMode.Box:
                     BuildingBoxBuilder.Build(_fullMesh, _data);
+                    roofBuilder.Build();
                     break;
             }
 
