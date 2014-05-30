@@ -67,26 +67,9 @@ namespace Mercraft.Core.MapCss.Visitors
                         String.Format("Wrong '{0}' selector operation", operation));
                 }
 
-                // NOTE it's better to throw error here than after usage attempt
-                AssertOperation(selectorTree, operation);
-
                 selector.Operation = String.Intern(operation);
                 selector.Tag = String.Intern(selectorTree.Children[1].Text);
                 selector.Value = String.Intern(selectorTree.Children[2].Text);
-            }
-        }
-
-        private void AssertOperation(CommonTree selectorTree, string operation)
-        {
-            switch (operation)
-            {
-                case MapCssStrings.OperationEquals:
-                case MapCssStrings.OperationExist:
-                case MapCssStrings.OperationNotEquals:
-                    break;
-                default:
-                    throw new MapCssFormatException(selectorTree,
-                        String.Format("Not supported selector operation: {0}", operation));
             }
         }
     }
