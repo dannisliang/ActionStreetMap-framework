@@ -84,7 +84,8 @@ area[landuse=industrial],
 area[landuse=railway]									{ fill-color: #dfd1d6;}
 
 /* water */
-area[waterway],
+/* TODO: process open waterfall*/
+area[waterway]:closed,
 area[natural=water],
 area[landuse=basin]										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #5429FF;}
 
@@ -109,5 +110,7 @@ way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
 /* Shouldn't be shown */
+area[waterway=riverbank],
+area[have_riverbank=yes],
 area[level<0],
 area[layer<0]											{ builder:empty }
