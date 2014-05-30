@@ -17,18 +17,17 @@ namespace Mercraft.Explorer.Builders
     {
         private const string RenderModeKey = @"render/@mode";
         private const string ThemeKey = @"render/@theme";
-        private readonly IGameObjectFactory _goFactory;
         private readonly TexturePackProvider _textureProvider;
         private readonly BuildingStyleProvider _styleProvider;
 
         private string _theme;
         private RenderMode _mode = RenderMode.Full;
-    
+
         [Dependency]
         public BuildingModelBuilder(IGameObjectFactory goFactory,
-            TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
+            TexturePackProvider textureProvider, BuildingStyleProvider styleProvider):
+            base(goFactory)
         {
-            _goFactory = goFactory;
             _textureProvider = textureProvider;
             _styleProvider = styleProvider;
         }

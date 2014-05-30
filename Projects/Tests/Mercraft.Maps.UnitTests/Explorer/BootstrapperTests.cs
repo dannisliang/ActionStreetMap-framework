@@ -19,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
             var modelBuilders = container.ResolveAll<IModelBuilder>().ToList();
 
             // NOTE change this value if you add/remove model builders
-            Assert.AreEqual(5, modelBuilders.Count);
+            Assert.AreEqual(6, modelBuilders.Count);
         }
     }
 }

@@ -12,12 +12,10 @@ namespace Mercraft.Explorer.Builders
 {
     public class SphereModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
-
         [Dependency]
         public SphereModelBuilder(IGameObjectFactory goFactory)
+            : base(goFactory)
         {
-            _goFactory = goFactory;
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
@@ -30,7 +28,7 @@ namespace Mercraft.Explorer.Builders
         {
             base.BuildWay(center, rule, way);
             // TODO is it applied to way?
-            return BuildSphere(center, way,  way.Points, rule);
+            return BuildSphere(center, way, way.Points, rule);
         }
 
         private IGameObject BuildSphere(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
@@ -40,7 +38,7 @@ namespace Mercraft.Explorer.Builders
             var sphereCenter = circle.Item2;
 
             IGameObject gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Spfere {0}", model),
-               UnityPrimitiveType.Sphere);
+                UnityPrimitiveType.Sphere);
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
 
             sphere.AddComponent<MeshRenderer>();

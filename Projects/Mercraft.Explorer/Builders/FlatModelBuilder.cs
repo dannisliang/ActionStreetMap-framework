@@ -5,7 +5,6 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
@@ -13,12 +12,10 @@ namespace Mercraft.Explorer.Builders
 {
     public class FlatModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
-
         [Dependency]
         public FlatModelBuilder(IGameObjectFactory goFactory)
+            : base(goFactory)
         {
-            _goFactory = goFactory;
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)

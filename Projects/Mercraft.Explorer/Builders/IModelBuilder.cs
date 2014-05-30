@@ -17,13 +17,21 @@ namespace Mercraft.Explorer.Builders
         IGameObject BuildWay(GeoCoordinate center,  Rule rule, Way way);
     }
 
-    public class ModelBuilder: IModelBuilder, IConfigurable
+    public class ModelBuilder : IModelBuilder, IConfigurable
     {
         private const string NameKey = "@name";
         public string Name { get; private set; }
 
         [Dependency]
         protected ITrace Trace { get; set; }
+
+        protected readonly IGameObjectFactory _goFactory;
+
+        [Dependency]
+        public ModelBuilder(IGameObjectFactory goFactory)
+        {
+            _goFactory = goFactory;
+        }
 
         public virtual IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {

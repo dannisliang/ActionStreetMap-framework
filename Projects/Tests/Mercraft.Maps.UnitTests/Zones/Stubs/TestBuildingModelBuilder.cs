@@ -15,7 +15,6 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestBuildingModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
         private readonly TexturePackProvider _textureProvider;
         private readonly BuildingStyleProvider _styleProvider;
 
@@ -25,8 +24,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         [Dependency]
         public TestBuildingModelBuilder(IGameObjectFactory goFactory,
             TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
+            : base(goFactory)
         {
-            _goFactory = goFactory;
             _textureProvider = textureProvider;
             _styleProvider = styleProvider;
         }

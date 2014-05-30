@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Builders;
-using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestDefaultModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
-
         [Dependency]
         public TestDefaultModelBuilder(IGameObjectFactory goFactory)
+            : base(goFactory)
         {
-            _goFactory = goFactory;
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)

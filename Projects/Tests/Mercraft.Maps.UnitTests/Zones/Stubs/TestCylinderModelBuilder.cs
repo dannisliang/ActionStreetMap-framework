@@ -6,18 +6,14 @@ using Mercraft.Core.Unity;
 using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestCylinderModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
-
         [Dependency]
-        public TestCylinderModelBuilder(IGameObjectFactory goFactory)
+        public TestCylinderModelBuilder(IGameObjectFactory goFactory) : base(goFactory)
         {
-            _goFactory = goFactory;
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)

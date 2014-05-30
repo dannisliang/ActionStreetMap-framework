@@ -14,12 +14,9 @@ namespace Mercraft.Explorer.Builders
 {
     public class SolidModelBuilder : ModelBuilder
     {
-        private readonly IGameObjectFactory _goFactory;
-
         [Dependency]
-        public SolidModelBuilder(IGameObjectFactory goFactory)
+        public SolidModelBuilder(IGameObjectFactory goFactory) : base(goFactory)
         {
-            _goFactory = goFactory;
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)

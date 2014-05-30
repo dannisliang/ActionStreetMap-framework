@@ -1,13 +1,14 @@
 canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
 /* buildings */
+/* Take note that building-style is set to residential. We have to distinguish different types */
 area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
 area[addr:housename],
 area[addr:housenumber],
-area[building]											{ z-index: 0; builder: solid; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; }
+area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
@@ -106,3 +107,7 @@ way[highway=footway],
 way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
+
+/* Shouldn't be shown */
+area[level<0],
+area[layer<0]											{ builder:empty }
