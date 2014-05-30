@@ -36,9 +36,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\BootstrapperPlugin.cs" />

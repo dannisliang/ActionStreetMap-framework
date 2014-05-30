@@ -48,7 +48,7 @@ namespace Assets.Scripts.Demo
                 Tile = new Tile(
                     null,
                     new GeoCoordinate(52.529814, 13.388015),
-                    new Vector2(0, 0),
+                    new MapPoint(0, 0), 
                     50)
             };
 
@@ -114,7 +114,7 @@ namespace Assets.Scripts.Demo
 
             for (int i = 0; i < points.Length; i++)
             {
-                lineRenderer.SetPosition(i, new Vector3(points[i].x, 0, points[i].y));
+                lineRenderer.SetPosition(i, new Vector3(points[i].X, 0, points[i].Y));
             }
 
             lineRenderer.SetWidth(2, 2);
@@ -155,7 +155,7 @@ namespace Assets.Scripts.Demo
                 Tile = new Tile(
                     null,
                     new GeoCoordinate(52.529814, 13.388015),
-                    new Vector2(0, 0),
+                    new MapPoint(0, 0), 
                     50)
             };
 
@@ -219,7 +219,7 @@ namespace Assets.Scripts.Demo
                 Tile = new Tile(
                     null,
                     new GeoCoordinate(52.529814, 13.388015),
-                    new Vector2(0, 0),
+                    new MapPoint(0, 0), 
                     50)
             };
 
@@ -250,7 +250,7 @@ namespace Assets.Scripts.Demo
             
             Debug.Log("Generate Berlin Small Part: Done");
 
-            componentRoot.OnMapPositionChanged(new Vector2(0,0));
+            componentRoot.OnMapPositionChanged(new MapPoint(0,0));
         }
 
         [MenuItem("OSM/Dump scene")]

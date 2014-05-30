@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Mercraft.Infrastructure.Primitives;
-using UnityEngine;
 
 namespace Mercraft.Core.Algorithms
 {
@@ -9,7 +8,7 @@ namespace Mercraft.Core.Algorithms
     {
         private const double ConvertionCoefficient = (6378137 * Math.PI) / 180;
 
-        public static Tuple<float, Vector2> GetCircle(GeoCoordinate relativeNullPoint, GeoCoordinate[] points)
+        public static Tuple<float, MapPoint> GetCircle(GeoCoordinate relativeNullPoint, GeoCoordinate[] points)
         {
             var minLat = points.Min(a => a.Latitude);
             var maxLat = points.Max(a => a.Latitude);
@@ -24,7 +23,7 @@ namespace Mercraft.Core.Algorithms
 
             var diameter = (float)((maxLat - minLat) * ConvertionCoefficient);
 
-            return new Tuple<float, Vector2>(diameter, sphereCenter);
+            return new Tuple<float, MapPoint>(diameter, sphereCenter);
         }
     }
 }

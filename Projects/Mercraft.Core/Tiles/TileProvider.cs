@@ -7,7 +7,6 @@ using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
-using UnityEngine;
 
 namespace Mercraft.Core.Tiles
 {
@@ -39,7 +38,7 @@ namespace Mercraft.Core.Tiles
         /// <summary>
         ///     Gets tile for given map position and relative null point
         /// </summary>
-        public Tile GetTile(Vector2 position, GeoCoordinate relativeNullPoint)
+        public Tile GetTile(MapPoint position, GeoCoordinate relativeNullPoint)
         {
             // check whether we're in tile with offset - no need to preload tile
             Tile tile = GetTile(position, _offset);
@@ -74,18 +73,18 @@ namespace Mercraft.Core.Tiles
             return tile;
         }
 
-        private Tile GetTile(Vector2 position, float offset)
+        private Tile GetTile(MapPoint position, float offset)
         {
             // TODO change to FirstOrDefault after ensure that only one tile is found
             return _tiles.SingleOrDefault(t => t.Contains(position, offset));
         }
 
-        private Tile GetTile(Vector2 tileCenter)
+        private Tile GetTile(MapPoint tileCenter)
         {
             return _tiles.SingleOrDefault(t => tileCenter.AreSame(t.TileMapCenter));
         }
 
-        private Vector2 GetNextTileCenter(Vector2 position)
+        private MapPoint GetNextTileCenter(MapPoint position)
         {
             // No tiles so far, create default using current position as center
             if (!_tiles.Any())
@@ -99,30 +98,30 @@ namespace Mercraft.Core.Tiles
 
             // top
             if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.TopRight))
-                return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y + _tileSize);
+                return new MapPoint(tile.TileMapCenter.X, tile.TileMapCenter.Y + _tileSize);
 
             // left
             if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.BottomLeft))
-                return new Vector2(tile.TileMapCenter.x - _tileSize, tile.TileMapCenter.y);
+                return new MapPoint(tile.TileMapCenter.X - _tileSize, tile.TileMapCenter.Y);
 
             // right
             if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopRight, tile.BottomRight))
-                return new Vector2(tile.TileMapCenter.x + _tileSize, tile.TileMapCenter.y);
+                return new MapPoint(tile.TileMapCenter.X + _tileSize, tile.TileMapCenter.Y);
 
             // bottom
-            return new Vector2(tile.TileMapCenter.x, tile.TileMapCenter.y - _tileSize);
+            return new MapPoint(tile.TileMapCenter.X, tile.TileMapCenter.Y - _tileSize);
         }
 
         /// <summary>
         ///     Checks whether point is located in triangle
         ///     http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
         /// </summary>
-        private bool IsPointInTreangle(Vector2 p, Vector2 p1, Vector2 p2, Vector2 p3)
+        private bool IsPointInTreangle(MapPoint p, MapPoint p1, MapPoint p2, MapPoint p3)
         {
-            float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y))/
-                          ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
-            float beta = ((p3.y - p1.y)*(p.x - p3.x) + (p1.x - p3.x)*(p.y - p3.y))/
-                         ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+            float alpha = ((p2.Y - p3.Y)*(p.X - p3.X) + (p3.X - p2.X)*(p.Y - p3.Y))/
+                          ((p2.Y - p3.Y)*(p1.X - p3.X) + (p3.X - p2.X)*(p1.Y - p3.Y));
+            float beta = ((p3.Y - p1.Y)*(p.X - p3.X) + (p1.X - p3.X)*(p.Y - p3.Y))/
+                         ((p2.Y - p3.Y)*(p1.X - p3.X) + (p3.X - p2.X)*(p1.Y - p3.Y));
             float gamma = 1.0f - alpha - beta;
 
             return alpha > 0 && beta > 0 && gamma > 0;

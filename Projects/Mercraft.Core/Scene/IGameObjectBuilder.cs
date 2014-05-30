@@ -1,7 +1,6 @@
 ﻿using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using UnityEngine;
 
 namespace Mercraft.Core.Scene
 {

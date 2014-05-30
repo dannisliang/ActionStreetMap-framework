@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Unity;
 using Mercraft.Core.Utilities;
-using UnityEngine;
 
 namespace Mercraft.Core.MapCss.Visitors.Eval
 {
@@ -63,7 +61,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                 default:
                     throw new NotSupportedException(String.Format("Binary operation {0} is not supported", opName));
             }
-        }  
+        }
 
         public void PushConstant(string value)
         {
@@ -108,6 +106,5 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         }
 
         #endregion
-
     }
 }

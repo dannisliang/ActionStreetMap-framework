@@ -1,5 +1,4 @@
 ﻿using Mercraft.Core.Scene;
-using UnityEngine;
 
 namespace Mercraft.Core.Tiles
 {
@@ -16,7 +15,7 @@ namespace Mercraft.Core.Tiles
         /// <summary>
         ///     Stores tile center coordinate in Unity metrics
         /// </summary>
-        public Vector2 TileMapCenter { get; private set; }
+        public MapPoint TileMapCenter { get; private set; }
 
         /// <summary>
         ///     Square side size in Unity metrics
@@ -28,23 +27,23 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         public IScene Scene { get; private set; }
 
-        public Vector2 TopLeft { get; set; }
-        public Vector2 TopRight { get; set; }
-        public Vector2 BottomLeft { get; set; }
-        public Vector2 BottomRight { get; set; }
+        public MapPoint TopLeft { get; set; }
+        public MapPoint TopRight { get; set; }
+        public MapPoint BottomLeft { get; set; }
+        public MapPoint BottomRight { get; set; }
 
-        public Tile(IScene scene, GeoCoordinate relativeNullPoint, Vector2 tileMapCenter, float size)
+        public Tile(IScene scene, GeoCoordinate relativeNullPoint, MapPoint tileMapCenter, float size)
         {
             Scene = scene;
             RelativeNullPoint = relativeNullPoint;
             TileMapCenter = tileMapCenter;
             Size = size;
 
-            TopLeft = new Vector2(TileMapCenter.x - Size/2, TileMapCenter.y + Size/2);
-            BottomRight = new Vector2(TileMapCenter.x + Size/2, TileMapCenter.y - Size/2);
+            TopLeft = new MapPoint(TileMapCenter.X - Size/2, TileMapCenter.Y + Size/2);
+            BottomRight = new MapPoint(TileMapCenter.X + Size / 2, TileMapCenter.Y - Size / 2);
 
-            TopRight = new Vector2(TileMapCenter.x + Size/2, TileMapCenter.y + Size/2);
-            BottomLeft = new Vector2(TileMapCenter.x - Size/2, TileMapCenter.y - Size/2);
+            TopRight = new MapPoint(TileMapCenter.X + Size / 2, TileMapCenter.Y + Size / 2);
+            BottomLeft = new MapPoint(TileMapCenter.X - Size / 2, TileMapCenter.Y - Size / 2);
         }
 
         /// <summary>
@@ -52,10 +51,10 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         /// <param name="position">Absolute position in game</param>
         /// <param name="offset">offset from bounds</param>
-        public bool Contains(Vector2 position, float offset)
+        public bool Contains(MapPoint position, float offset)
         {
-            var result = (position.x > TopLeft.x + offset) && (position.y < TopLeft.y - offset) &&
-                         (position.x < BottomRight.x - offset) && (position.y > BottomRight.y + offset);
+            var result = (position.X > TopLeft.X + offset) && (position.Y < TopLeft.Y - offset) &&
+                         (position.X < BottomRight.X - offset) && (position.Y > BottomRight.Y + offset);
 
             return result;
         }

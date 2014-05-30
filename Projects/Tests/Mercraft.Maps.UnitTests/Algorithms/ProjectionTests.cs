@@ -4,7 +4,6 @@ using System.Linq;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Algorithms
 {
@@ -28,10 +27,10 @@ namespace Mercraft.Maps.UnitTests.Algorithms
         {
             var mapCoordinate = GeoProjection.ToMapCoordinate(_center, _target);
 
-            Assert.AreEqual(-7114, Math.Truncate(mapCoordinate.x));
-            Assert.AreEqual(5902, Math.Truncate(mapCoordinate.y));
+            Assert.AreEqual(-7114, Math.Truncate(mapCoordinate.X));
+            Assert.AreEqual(5902, Math.Truncate(mapCoordinate.Y));
 
-            Assert.AreEqual(9244, Math.Truncate(Distance(new Vector2(0, 0), mapCoordinate)));
+            Assert.AreEqual(9244, Math.Truncate(Distance(new MapPoint(0, 0), mapCoordinate)));
         }
 
         [Test]
@@ -80,10 +79,10 @@ namespace Mercraft.Maps.UnitTests.Algorithms
 
         }
 
-        private static double Distance(Vector2 p1, Vector2 p2)
+        private static double Distance(MapPoint p1, MapPoint p2)
         {
-            var diffX = p1.x - p2.x;
-            var diffY = p1.y - p2.y;
+            var diffX = p1.X - p2.X;
+            var diffY = p1.Y - p2.Y;
 
             return Math.Sqrt(diffX * diffX + diffY * diffY);
         }

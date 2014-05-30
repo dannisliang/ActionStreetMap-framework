@@ -5,7 +5,6 @@ using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Diagnostic;
-using UnityEngine;
 
 namespace Mercraft.Core.Zones
 {
@@ -27,7 +26,7 @@ namespace Mercraft.Core.Zones
         protected readonly HashSet<long> LoadedModelIds;
 
         public GeoCoordinate RelativeNullPoint { get; private set; }
-        public Vector2 CurrentPosition { get; private set; }
+        public MapPoint CurrentPosition { get; private set; }
         public Zone CurrentZone { get; private set; }
 
         protected Dictionary<Tile, Zone> Zones { get; set; }
@@ -48,10 +47,10 @@ namespace Mercraft.Core.Zones
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
-            CurrentPosition = new Vector2();
+            CurrentPosition = new MapPoint();
         }
 
-        public virtual void OnMapPositionChanged(Vector2 position)
+        public virtual void OnMapPositionChanged(MapPoint position)
         {
             CurrentPosition = position;
             var tile = TileProvider.GetTile(position, RelativeNullPoint);

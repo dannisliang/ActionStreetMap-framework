@@ -170,7 +170,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
-            Assert.AreEqual(ColorUtility.FromName("red"), rule.GetFillColor());
+            Assert.AreEqual(ColorUtility.FromName("red"), 
+                GetOriginalColorTypeObject(rule.GetFillColor()));
         }
 
         [Test]
@@ -189,7 +190,8 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorName);
-            Assert.AreEqual(ColorUtility.FromName("salmon"), rule.GetFillColor());         
+            Assert.AreEqual(ColorUtility.FromName("salmon"), 
+                GetOriginalColorTypeObject(rule.GetFillColor()));         
         }
 
         [Test]
@@ -209,7 +211,13 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
-            Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"), rule.GetFillColor());
+            Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"),
+                GetOriginalColorTypeObject(rule.GetFillColor()));
+        }
+
+        private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(UnityEngine.Color32 color)
+        {
+            return new Mercraft.Core.Unity.Color32(color.r, color.g, color.b, color.a);
         }
        
     }

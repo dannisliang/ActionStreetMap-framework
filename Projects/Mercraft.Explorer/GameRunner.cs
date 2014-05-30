@@ -87,7 +87,7 @@ namespace Mercraft.Explorer
         public void RunGame()
         {
             _positionListener = _container.Resolve<IPositionListener>();
-            OnMapPositionChanged(new Vector2(0, 0));
+            OnMapPositionChanged(new MapPoint(0, 0));
         }
 
         public void RunGame(GeoCoordinate coordinate)
@@ -95,10 +95,10 @@ namespace Mercraft.Explorer
             _positionListener = _container.Resolve<IPositionListener>();
 
             OnGeoPositionChanged(coordinate);
-            OnMapPositionChanged(new Vector2(0, 0));
+            OnMapPositionChanged(new MapPoint(0, 0));
         }
 
-        public void OnMapPositionChanged(Vector2 position)
+        public void OnMapPositionChanged(MapPoint position)
         {
             _positionListener.OnMapPositionChanged(position);
         }

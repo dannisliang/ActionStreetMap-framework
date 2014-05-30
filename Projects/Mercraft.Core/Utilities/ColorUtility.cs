@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Mercraft.Core.Unity;
 
 namespace Mercraft.Core.Utilities
 {
@@ -203,14 +203,10 @@ namespace Mercraft.Core.Utilities
 
         public static Color32 FromHex(string color)
         {
-            float red = (float)(HexToInt(color[1]) + HexToInt(color[0]) * 16.000) / 255;
-            float green = (float) (HexToInt(color[3]) + HexToInt(color[2]) * 16.000) / 255;
-            float blue = (float) (HexToInt(color[5]) + HexToInt(color[4]) * 16.000) / 255;
-            var finalColor = new Color();
-            finalColor.r = red;
-            finalColor.g = green;
-            finalColor.b = blue;
-            finalColor.a = 1;
+            byte red = (byte) (HexToInt(color[1]) + HexToInt(color[0]) * 16.000);
+            byte green = (byte)(HexToInt(color[3]) + HexToInt(color[2]) * 16.000);
+            byte blue = (byte)(HexToInt(color[5]) + HexToInt(color[4]) * 16.000);
+            var finalColor = new Color32 {r = red, g = green, b = blue, a = 1};
             return finalColor;
         }
 

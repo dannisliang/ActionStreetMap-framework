@@ -45,6 +45,7 @@
     <Compile Include="Builders\IModelBuilder.cs" />
     <Compile Include="Builders\CylinderModelBuilder.cs" />
     <Compile Include="Builders\SphereModelBuilder.cs" />
+    <Compile Include="Helpers\MapPointExtensions.cs" />
     <Compile Include="Infrastructure\GameObjectFactory.cs" />
     <Compile Include="GameRunner.cs" />
     <Compile Include="Bootstrappers\InfrastructureBootstrapper.cs" />

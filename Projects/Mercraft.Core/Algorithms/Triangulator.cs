@@ -1,15 +1,14 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mercraft.Core.Algorithms
 {
     public class Triangulator
     {
-        private List<Vector2> m_points = new List<Vector2>();
+        private readonly List<MapPoint> m_points = new List<MapPoint>();
 
-        public Triangulator(Vector2[] points)
+        public Triangulator(MapPoint[] points)
         {
-            m_points = new List<Vector2>(points);
+            m_points = new List<MapPoint>(points);
         }
 
         public int[] Triangulate()
@@ -33,8 +32,8 @@ namespace Mercraft.Core.Algorithms
             }
 
             int nv = n;
-            int count = 2 * nv;
-            for (int m = 0, v = nv - 1; nv > 2; )
+            int count = 2*nv;
+            for (int m = 0, v = nv - 1; nv > 2;)
             {
                 if ((count--) <= 0)
                     return indices.ToArray();
@@ -62,7 +61,7 @@ namespace Mercraft.Core.Algorithms
                     for (s = v, t = v + 1; t < nv; s++, t++)
                         V[s] = V[t];
                     nv--;
-                    count = 2 * nv;
+                    count = 2*nv;
                 }
             }
 
@@ -76,47 +75,53 @@ namespace Mercraft.Core.Algorithms
             float A = 0.0f;
             for (int p = n - 1, q = 0; q < n; p = q++)
             {
-                Vector2 pval = m_points[p];
-                Vector2 qval = m_points[q];
-                A += pval.x * qval.y - qval.x * pval.y;
+                MapPoint pval = m_points[p];
+                MapPoint qval = m_points[q];
+                A += pval.X*qval.Y - qval.X*pval.Y;
             }
-            return (A * 0.5f);
+            return (A*0.5f);
         }
 
         private bool Snip(int u, int v, int w, int n, int[] V)
         {
             int p;
-            Vector2 A = m_points[V[u]];
-            Vector2 B = m_points[V[v]];
-            Vector2 C = m_points[V[w]];
-            if (Mathf.Epsilon > (((B.x - A.x) * (C.y - A.y)) - ((B.y - A.y) * (C.x - A.x))))
+            MapPoint A = m_points[V[u]];
+            MapPoint B = m_points[V[v]];
+            MapPoint C = m_points[V[w]];
+            if (float.Epsilon > (((B.X - A.X)*(C.Y - A.Y)) - ((B.Y - A.Y)*(C.X - A.X))))
                 return false;
             for (p = 0; p < n; p++)
             {
                 if ((p == u) || (p == v) || (p == w))
                     continue;
-                Vector2 P = m_points[V[p]];
+                MapPoint P = m_points[V[p]];
                 if (InsideTriangle(A, B, C, P))
                     return false;
             }
             return true;
         }
 
-        private bool InsideTriangle(Vector2 A, Vector2 B, Vector2 C, Vector2 P)
+        private bool InsideTriangle(MapPoint A, MapPoint B, MapPoint C, MapPoint P)
         {
             float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
             float cCROSSap, bCROSScp, aCROSSbp;
 
-            ax = C.x - B.x; ay = C.y - B.y;
-            bx = A.x - C.x; by = A.y - C.y;
-            cx = B.x - A.x; cy = B.y - A.y;
-            apx = P.x - A.x; apy = P.y - A.y;
-            bpx = P.x - B.x; bpy = P.y - B.y;
-            cpx = P.x - C.x; cpy = P.y - C.y;
+            ax = C.X - B.X;
+            ay = C.Y - B.Y;
+            bx = A.X - C.X;
+            by = A.Y - C.Y;
+            cx = B.X - A.X;
+            cy = B.Y - A.Y;
+            apx = P.X - A.X;
+            apy = P.Y - A.Y;
+            bpx = P.X - B.X;
+            bpy = P.Y - B.Y;
+            cpx = P.X - C.X;
+            cpy = P.Y - C.Y;
 
-            aCROSSbp = ax * bpy - ay * bpx;
-            cCROSSap = cx * apy - cy * apx;
-            bCROSScp = bx * cpy - by * cpx;
+            aCROSSbp = ax*bpy - ay*bpx;
+            cCROSSap = cx*apy - cy*apx;
+            bCROSScp = bx*cpy - by*cpx;
 
             return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
         }

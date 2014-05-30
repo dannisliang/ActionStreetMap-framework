@@ -36,10 +36,10 @@ namespace Mercraft.Explorer
             var tile = canvas.Tile;
             var material = rule.GetMaterial();
 
-            var gameObjectWrapper = _goFactory.CreatePrimitive("", PrimitiveType.Quad);
+            var gameObjectWrapper = _goFactory.CreatePrimitive("", UnityPrimitiveType.Quad);
             var quad = gameObjectWrapper.GetComponent<GameObject>();
             quad.name = "tile";
-            quad.transform.position = new Vector3(tile.TileMapCenter.x, 0, tile.TileMapCenter.y);
+            quad.transform.position = new Vector3(tile.TileMapCenter.X, 0, tile.TileMapCenter.Y);
             quad.transform.transform.localScale = new Vector3(tile.Size, tile.Size, 1);
             quad.transform.transform.Rotate(90, 0, 0);
             quad.renderer.material = material;

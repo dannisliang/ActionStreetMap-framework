@@ -1,7 +1,5 @@
 ﻿using System;
-using Mercraft.Core;
 using Mercraft.Core.Utilities;
-using UnityEngine;
 
 namespace Mercraft.Core.Algorithms
 {
@@ -24,7 +22,7 @@ namespace Mercraft.Core.Algorithms
         /// Calculates map coordinate from geo coordinate
         /// see http://stackoverflow.com/questions/3024404/transform-longitude-latitude-into-meters?rq=1
         /// </summary>
-        public static Vector2 ToMapCoordinate(GeoCoordinate relativeNullPoint, GeoCoordinate coordinate)
+        public static MapPoint ToMapCoordinate(GeoCoordinate relativeNullPoint, GeoCoordinate coordinate)
         {
             double deltaLatitude = coordinate.Latitude - relativeNullPoint.Latitude;
             double deltaLongitude = coordinate.Longitude - relativeNullPoint.Longitude;
@@ -32,18 +30,18 @@ namespace Mercraft.Core.Algorithms
             double resultX = deltaLongitude * latitudeCircumference / 360;
             double resultY = deltaLatitude * CircleDistance / 360;
             
-            return new Vector2((float)resultX, (float) resultY);
+            return new MapPoint((float)resultX, (float) resultY);
         }
 
         /// <summary>
         /// Calculates geo coordinate from map coordinate. Reverse operation to ToMapCoordinates()
         /// </summary>
-        public static GeoCoordinate ToGeoCoordinate(GeoCoordinate relativeNullPoint, Vector2 mapPoint)
+        public static GeoCoordinate ToGeoCoordinate(GeoCoordinate relativeNullPoint, MapPoint mapPoint)
         {
             double latitudeCircumference = LatitudeEquator * Math.Cos(MathUtility.Deg2Rad(relativeNullPoint.Latitude));
 
-            var deltaLongitude = (mapPoint.x * 360) / latitudeCircumference;
-            var deltaLatitude = (mapPoint.y * 360) / CircleDistance;
+            var deltaLongitude = (mapPoint.X * 360) / latitudeCircumference;
+            var deltaLatitude = (mapPoint.Y * 360) / CircleDistance;
 
             return new GeoCoordinate(
                 relativeNullPoint.Latitude + deltaLatitude, 

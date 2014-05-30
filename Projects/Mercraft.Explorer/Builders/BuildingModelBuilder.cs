@@ -70,7 +70,7 @@ namespace Mercraft.Explorer.Builders
                     Levels = levels,
                     Style = style,
                     TexturePack = texture,
-                    FootPrint = verticies
+                    FootPrint = verticies.ToVector2()
                 });
 
             return gameObjectWrapper;

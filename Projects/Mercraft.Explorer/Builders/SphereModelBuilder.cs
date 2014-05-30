@@ -40,7 +40,7 @@ namespace Mercraft.Explorer.Builders
             var sphereCenter = circle.Item2;
 
             IGameObject gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Spfere {0}", model),
-                PrimitiveType.Sphere);
+               UnityPrimitiveType.Sphere);
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
 
             sphere.AddComponent<MeshRenderer>();
@@ -49,7 +49,7 @@ namespace Mercraft.Explorer.Builders
 
             var minHeight = rule.GetMinHeight();
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
-            sphere.transform.position = new Vector3(sphereCenter.x, minHeight + diameter/2, sphereCenter.y);
+            sphere.transform.position = new Vector3(sphereCenter.X, minHeight + diameter/2, sphereCenter.Y);
 
             return gameObjectWrapper;
         }

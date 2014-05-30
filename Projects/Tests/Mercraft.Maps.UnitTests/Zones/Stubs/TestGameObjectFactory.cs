@@ -11,7 +11,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             return new TestGameObject();
         }
 
-        public IGameObject CreatePrimitive(string name, PrimitiveType type)
+        public IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new TestGameObject();
         }

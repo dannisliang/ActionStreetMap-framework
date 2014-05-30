@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 namespace Mercraft.Core.Unity
 {
     /// <summary>
@@ -8,7 +7,7 @@ namespace Mercraft.Core.Unity
     public interface IGameObjectFactory
     {
         IGameObject CreateNew(string name);
-        IGameObject CreatePrimitive(string name, PrimitiveType type);
+        IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
 
         // TODO add object pool logic?
     }

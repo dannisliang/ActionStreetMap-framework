@@ -32,8 +32,8 @@ namespace Mercraft.Explorer.Builders
             var verticies = PolygonHelper.GetVerticies2D(center, area.Points);
 
             var mesh = new Mesh();
-            mesh.vertices = PolygonHelper.GetVerticies(verticies, floor);
-            mesh.uv = PolygonHelper.GetUV(verticies);
+            mesh.vertices = verticies.GetVerticies(floor);
+            mesh.uv = verticies.GetUV();
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 
             var meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -65,7 +65,7 @@ namespace Mercraft.Explorer.Builders
 
             for (int i = 0; i < points.Length; i++)
             {
-                lineRenderer.SetPosition(i, new Vector3(points[i].x, zIndex, points[i].y));
+                lineRenderer.SetPosition(i, new Vector3(points[i].X, zIndex, points[i].Y));
             }
 
             var width = rule.GetWidth();

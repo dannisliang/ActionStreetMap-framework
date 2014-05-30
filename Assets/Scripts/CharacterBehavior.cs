@@ -38,7 +38,7 @@ namespace Assets.Scripts
             {
                 //_trace.Normal("position change:" + transform.position);
                 position2D = new Vector2(transform.position.x, transform.position.z);
-                component.OnMapPositionChanged(position2D);
+                component.OnMapPositionChanged(new MapPoint(transform.position.x, transform.position.z));
             }
         }
 

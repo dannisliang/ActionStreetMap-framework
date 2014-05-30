@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 namespace Mercraft.Core
 {
     /// <summary>
@@ -15,7 +14,7 @@ namespace Mercraft.Core
         /// <summary>
         /// Called when map position is changed. It should occur when character moves
         /// </summary>
-        void OnMapPositionChanged(Vector2 position);
+        void OnMapPositionChanged(MapPoint position);
 
         /// <summary>
         /// Called when new relative null point is set. It should trigger logic which destroys

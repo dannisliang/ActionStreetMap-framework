@@ -45,11 +45,11 @@ namespace Mercraft.Explorer.Builders
             var actualHeight = (height - minHeight)/2;
 
             var gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Cylinder {0}", model), 
-                PrimitiveType.Cylinder);
+                UnityPrimitiveType.Cylinder);
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();
 
             cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);
-            cylinder.transform.position = new Vector3(cylinderCenter.x, minHeight + actualHeight, cylinderCenter.y);
+            cylinder.transform.position = new Vector3(cylinderCenter.X, minHeight + actualHeight, cylinderCenter.Y);
 
 
             cylinder.AddComponent<MeshRenderer>();

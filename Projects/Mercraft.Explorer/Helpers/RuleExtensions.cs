@@ -62,7 +62,8 @@ namespace Mercraft.Explorer.Helpers
 
         public static Color32 GetFillColor(this Rule rule)
         {
-            return rule.Evaluate<Color32>("fill-color", ColorUtility.FromName);        
+            var coreColor = rule.Evaluate("fill-color", ColorUtility.FromUnknown);
+            return new Color32(coreColor.r, coreColor.g, coreColor.b, coreColor.a);
         }
 
         /// <summary>

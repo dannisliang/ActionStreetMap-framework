@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 namespace Mercraft.Core.Tiles
 {
     /// <summary>
@@ -12,7 +11,7 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         /// <param name="center">Tile map center</param>
         /// <param name="relativeNullPoint">Relative null point</param>
-        void OnTileLoadStarted(Vector2 center, GeoCoordinate relativeNullPoint);
+        void OnTileLoadStarted(MapPoint center, GeoCoordinate relativeNullPoint);
 
         /// <summary>
         ///     Called when tile is loaded
@@ -25,6 +24,6 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         /// <param name="tile">Actual tile</param>
         /// <param name="position">Actual position</param>
-        void OnTileFound(Tile tile, Vector2 position);
+        void OnTileFound(Tile tile, MapPoint position);
     }
 }
