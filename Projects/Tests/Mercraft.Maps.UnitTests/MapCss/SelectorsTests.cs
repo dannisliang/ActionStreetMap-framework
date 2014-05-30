@@ -34,7 +34,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
         }
 
-       /* [Test]
+        [Test]
         public void CanUseLess()
         {
             var stylesheet = GetStylesheet("area[level<0] { z-index: 0.1}\n");
@@ -54,7 +54,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
-        }*/
+        }
 
         [Test]
         public void CanUseClosed()

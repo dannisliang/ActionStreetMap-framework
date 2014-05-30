@@ -35,6 +35,10 @@ namespace Mercraft.Core.MapCss.Domain
                     return model.Tags.ContainsKey(Tag);
                 case MapCssStrings.OperationNotEquals:
                     return model.Tags.IsNotEqual(Tag, Value);
+                case MapCssStrings.OperationLess:
+                    return model.Tags.IsLess(Tag, Value);
+                case MapCssStrings.OperationGreater:
+                    return model.Tags.IsGreater(Tag, Value);
                 default:
                     throw new MapCssFormatException(model, String.Format("Unsupported selector operation: {0}", Operation));
             }
