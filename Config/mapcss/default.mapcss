@@ -54,14 +54,21 @@ area[amenity=parking][parking=surface]					{ fill-color: #f7efb7;}
 area[amenity],
 area[natural=beach]										{ fill-color: #22FF11; }
 
-area[tourism=attraction]								{ z-index: 0.1; fill-color: #f2caea; material: Concrete_Patterned; builder: flat;}
+area[amenity=university],
+area[amenity=college],
+area[amenity=school],
+area[amenity=hospital],
+area[amenity=kindergarten] {
+    fill-color: #f0f0d8;
+}
+
+area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea; material: Concrete_Patterned; builder: flat;}
 
 
 /* green zones */
 area[landuse=forest],
 area[leisure], 						
-area[landuse=village_green],
-area[amenity=kindergarten],											
+area[landuse=village_green],									
 area[landuse=grass],
 area[landuse=meadow],													
 area[landuse=industrial],		
