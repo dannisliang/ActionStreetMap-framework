@@ -76,7 +76,7 @@ area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]									{ fill-color: #cfeca8;}
+area[landuse=meadow]										{ fill-color: #cfeca8;}
 
 area[leisure=recreation_ground]							{ fill-color: #b6fdb6; }
 
@@ -89,20 +89,33 @@ area[waterway]:closed,
 area[natural=water],
 area[landuse=basin]										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #5429FF;}
 
-way[barrier] :closed									{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
 
 /* roads */
 way[highway]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
 
 way[highway=tertiary],
 way[highway=residential],
+way[highway=service],
 way[highway=unclassified],
 way[highway=road]										{ fill-color: #bbbbbb; width:16; }
 way[highway=living_street]								{ fill-color: #000000; width:14.5; }
-way[highway=motorway]									{ fill-color: #506077; width:13; }
-way[highway=trunk]										{ fill-color: #477147; width:16; }
-way[highway=primary]									{ fill-color: #8d4346; width:16; }
-way[highway=secondary]									{ fill-color: #a37b48; width:16; }
+
+way[highway=trunk],
+way[highway=trunk_link],
+way[highway=primary],
+way[highway=primary_link],
+way[highway=motorway],
+way[highway=motorway_link]								{ fill-color: #e7c930; width:13; }
+
+
+			
+way[highway=secondary],
+way[highway=secondary_link]								{ fill-color: #a37b48; width:16; }
+
+way[highway=tertiary],
+way[highway=tertiary_link]								{ fill-color: #e7c930; width:13; }
+
 
 way[highway=footway],
 way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
