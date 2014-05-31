@@ -1,14 +1,11 @@
-﻿using System;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Config;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
@@ -19,8 +16,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         private readonly BuildingStyleProvider _styleProvider;
 
         private string _theme = "berlin";
-        private RenderMode _mode = RenderMode.Full;
-    
+
         [Dependency]
         public TestBuildingModelBuilder(IGameObjectFactory goFactory,
             TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
@@ -56,8 +52,6 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
             var style = _styleProvider.Get(_theme, styleName);
             var texture = _textureProvider.Get(style.Texture);
-
-         
 
             return gameObjectWrapper;
         }
