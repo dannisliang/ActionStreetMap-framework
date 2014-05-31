@@ -74,10 +74,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="UnityVS.mercraft.UnityScript.Plugins.unityproj">
-      <Project>{3A9B473D-3C7B-7034-9015-3C18FDBFEF24}</Project>
-      <Name>UnityVS.mercraft.UnityScript.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityVS.mercraft.CSharp.Plugins.csproj">
       <Project>{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}</Project>
       <Name>UnityVS.mercraft.CSharp.Plugins</Name>
