@@ -27,7 +27,6 @@ area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 
 /* flat areas */
 area[amenity],
-area[tourism=attraction],
 area[natural],
 area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000; material: Concrete_Patterned;}
 
@@ -58,18 +57,24 @@ area[tourism=attraction]								{ fill-color: #f2caea; material: Concrete_Patter
 
 
 /* green zones */
-area[landuse=forest], 												
-area[leisure],
+area[landuse=forest],
+area[leisure], 						
 area[landuse=village_green],
 area[amenity=kindergarten],											
 area[landuse=grass],
 area[landuse=meadow],													
 area[landuse=industrial],		
-area[landuse=railway]									{ z-index: 0.1; builder: flat; material: Grass;}
+area[landuse=railway]									{ z-index: 0.1; builder: flat; material: Grass; fill-color:gray}
 
+area[natural=wood],		
+area[leisure=park],		
 area[landuse=forest] 									{ fill-color: #8dc56c; }
 
-area[leisure],
+area[landuse=meadow],
+area[landuse=farmland],
+area[landuse=scrub],
+area[landuse=grass]										{ fill-color:#e9efda; }
+
 area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
@@ -122,5 +127,7 @@ way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
 /* Shouldn't be shown */
+way[level<0],
+way[layer<0],
 area[level<0],
 area[layer<0]											{ builder:empty }

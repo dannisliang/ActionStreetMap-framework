@@ -13,7 +13,7 @@ namespace Mercraft.Core.Utilities
         public static bool ContainsKeyValue(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {
-            return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
+            return  collection != null && collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
         }
 
         public static bool ContainsKey(this IList<KeyValuePair<string, string>> collection, string key)
@@ -24,19 +24,19 @@ namespace Mercraft.Core.Utilities
         public static bool IsNotEqual(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {
-            return collection.All(keyValuePair => keyValuePair.Key != key || keyValuePair.Value == value);
+            return collection != null && collection.All(keyValuePair => keyValuePair.Key != key || keyValuePair.Value == value);
         }
 
         public static bool IsLess(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {
-            return CompareValues(collection, key, value, false);
+            return collection != null && CompareValues(collection, key, value, false);
         }
 
         public static bool IsGreater(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {
-            return CompareValues(collection, key, value, true);
+            return collection != null && CompareValues(collection, key, value, true);
         }
 
         /// <summary>
