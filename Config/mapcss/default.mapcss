@@ -28,6 +28,7 @@ area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 /* flat areas */
 area[amenity],
 area[natural],
+area[historic=memorial],
 area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000; material: Concrete_Patterned;}
 
 area[landuse=residential]								{ fill-color: #dddddd;}
@@ -53,7 +54,7 @@ area[amenity=parking][parking=surface]					{ fill-color: #f7efb7;}
 area[amenity],
 area[natural=beach]										{ fill-color: #22FF11; }
 
-area[tourism=attraction]								{ fill-color: #f2caea; material: Concrete_Patterned;}
+area[tourism=attraction]								{ z-index: 0.1; fill-color: #f2caea; material: Concrete_Patterned; builder: flat;}
 
 
 /* green zones */

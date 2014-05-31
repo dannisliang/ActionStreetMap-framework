@@ -15,9 +15,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseEqual()
         {
-            var stylesheet = GetStylesheet("area[landuse=forest] { z-index: 0.1}\n");
-            var area1 = GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = GetArea(new KeyValuePair<string, string>("landuse", "grass"));
+            var stylesheet = MapCssHelper.GetStylesheet("area[landuse=forest] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "grass"));
 
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
@@ -26,9 +26,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseNotEqual()
         {
-            var stylesheet = GetStylesheet("area[landuse!=forest] { z-index: 0.1}\n");
-            var area1 = GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = GetArea(new KeyValuePair<string, string>("landuse", "grass"));
+            var stylesheet = MapCssHelper.GetStylesheet("area[landuse!=forest] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "grass"));
 
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
@@ -37,9 +37,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseLess()
         {
-            var stylesheet = GetStylesheet("area[level<0] { z-index: 0.1}\n");
-            var area1 = GetArea(new KeyValuePair<string, string>("level", "-1"));
-            var area2 = GetArea(new KeyValuePair<string, string>("level", "1"));
+            var stylesheet = MapCssHelper.GetStylesheet("area[level<0] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "-1"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "1"));
 
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
@@ -48,9 +48,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseGreater()
         {
-            var stylesheet = GetStylesheet("area[level>0] { z-index: 0.1}\n");
-            var area1 = GetArea(new KeyValuePair<string, string>("level", "1"));
-            var area2 = GetArea(new KeyValuePair<string, string>("level", "0"));
+            var stylesheet = MapCssHelper.GetStylesheet("area[level>0] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "1"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "0"));
 
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
@@ -97,32 +97,6 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.IsFalse(stylesheet.GetRule(openWay).IsApplicable);
 
-        }
-
-        private Area GetArea(params KeyValuePair<string, string>[] tags)
-        {
-            return new Area()
-            {
-                Points = new[]
-                {
-                    new GeoCoordinate(0, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(1, 0),
-                    new GeoCoordinate(0, 0),
-                },
-                Tags = tags
-            };
-        }
-
-        private Stylesheet GetStylesheet(string content)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(content);
-            writer.Flush();
-            stream.Position = 0;
-            var provider = new StylesheetProvider(stream);
-            return provider.Get();
         }
     }
 }

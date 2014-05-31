@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 
@@ -76,6 +78,20 @@ namespace Mercraft.Core.MapCss.Domain
         public override bool IsApplicable(Model model)
         {
             return model is Canvas;
+        }
+    }
+
+    public class AndSelector: Selector
+    {
+        private readonly IList<Selector> _selectors;
+        public AndSelector(IList<Selector> selectors)
+        {
+            _selectors = selectors;
+        }
+
+        public override bool IsApplicable(Model model)
+        {
+            return _selectors.All(s => s.IsApplicable(model));
         }
     }
 

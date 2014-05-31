@@ -54,12 +54,16 @@ namespace Mercraft.Core.MapCss.Visitors
                     if (selectorType != "canvas")
                     {
                         int selectorIdx = 1;
+                        var selectors = new List<Selector>();
                         while (tree.ChildCount > selectorIdx)
                         {
                             var selectorTree = tree.Children[selectorIdx] as CommonTree;
-                            style.Selectors.Add(VisitSelector(selectorTree, selectorType));
+                            selectors.Add(VisitSelector(selectorTree, selectorType));
                             selectorIdx++;
                         }
+                        style.Selectors.Add(selectors.Count > 1
+                            ? new AndSelector(selectors)
+                            : selectors.Single());
                     }
                     else
                     {

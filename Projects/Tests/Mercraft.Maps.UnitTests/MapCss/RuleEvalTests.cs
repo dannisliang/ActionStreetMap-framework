@@ -155,6 +155,18 @@ namespace Mercraft.Maps.UnitTests.MapCss
         }
 
         [Test]
+        public void CanUseAndSelectors()
+        {
+            var stylesheet = MapCssHelper.GetStylesheet("way[waterway][name],way[waterway] { z-index: 0.1}\n");
+            var way1 = MapCssHelper.GetWay(new KeyValuePair<string, string>("waterway", "river"),
+                new KeyValuePair<string, string>("name", "spree"));
+            var way2 = MapCssHelper.GetWay(new KeyValuePair<string, string>("name", "some name"));
+
+            Assert.IsTrue(stylesheet.GetRule(way1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetRule(way2).IsApplicable);
+        }
+
+        [Test]
         public void CanGetColorByRGB()
         {
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
