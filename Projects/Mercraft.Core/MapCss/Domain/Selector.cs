@@ -31,10 +31,12 @@ namespace Mercraft.Core.MapCss.Domain
         {
             switch (Operation)
             {
-                case MapCssStrings.OperationEquals:
-                    return model.Tags.ContainsKeyValue(Tag, Value);
                 case MapCssStrings.OperationExist:
                     return model.Tags.ContainsKey(Tag);
+                case MapCssStrings.OperationNotExist:
+                    return model.Tags.NotContainsKey(Tag);
+                case MapCssStrings.OperationEquals:
+                    return model.Tags.ContainsKeyValue(Tag, Value);
                 case MapCssStrings.OperationNotEquals:
                     return model.Tags.IsNotEqual(Tag, Value);
                 case MapCssStrings.OperationLess:

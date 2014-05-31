@@ -21,6 +21,12 @@ namespace Mercraft.Core.Utilities
             return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key);
         }
 
+        public static bool NotContainsKey(this IList<KeyValuePair<string, string>> collection, string key)
+        {
+            // NOTE should we consider null collection as valid case for this?
+            return collection != null && collection.All(keyValuePair => keyValuePair.Key != key);
+        }
+
         public static bool IsNotEqual(this IList<KeyValuePair<string, string>> collection, string key,
             string value)
         {

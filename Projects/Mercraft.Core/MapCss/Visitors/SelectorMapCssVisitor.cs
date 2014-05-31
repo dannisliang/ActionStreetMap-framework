@@ -50,7 +50,8 @@ namespace Mercraft.Core.MapCss.Visitors
                 }
             }
                 // existing selector case
-            else if (operation == MapCssStrings.OperationExist)
+            else if (operation == MapCssStrings.OperationExist ||
+                operation == MapCssStrings.OperationNotExist)
             {
                 if (selectorTree.ChildCount != 2)
                 {

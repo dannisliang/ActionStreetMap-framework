@@ -13,6 +13,28 @@ namespace Mercraft.Maps.UnitTests.MapCss
     public class SelectorsTests
     {
         [Test]
+        public void CanUseExist()
+        {
+            var stylesheet = MapCssHelper.GetStylesheet("area[landuse] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("building", "residential"));
+
+            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+        }
+
+        [Test]
+        public void CanUseNotExist()
+        {
+            var stylesheet = MapCssHelper.GetStylesheet("area[!landuse] { z-index: 0.1}\n");
+            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
+            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("building", "residential"));
+
+            Assert.IsFalse(stylesheet.GetRule(area1).IsApplicable);
+            Assert.IsTrue(stylesheet.GetRule(area2).IsApplicable);
+        }
+
+        [Test]
         public void CanUseEqual()
         {
             var stylesheet = MapCssHelper.GetStylesheet("area[landuse=forest] { z-index: 0.1}\n");

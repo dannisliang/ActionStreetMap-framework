@@ -7,5 +7,6 @@
         public const string OperationLess = "<";
         public const string OperationGreater = ">";
         public const string OperationExist = "OP_EXIST";
+        public const string OperationNotExist = "OP_NOT_EXIST";
     }
 }
