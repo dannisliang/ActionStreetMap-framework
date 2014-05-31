@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
@@ -15,7 +14,7 @@ using UnityEngine;
 namespace Mercraft.Maps.UnitTests.MapCss
 {
     [TestFixture]
-    class RuleEvalTests
+    internal class RuleEvalTests
     {
         [Test]
         public void CanUseCanvas()
@@ -36,22 +35,22 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var area = new Area()
+            var area = new Area
             {
                 Id = 1,
-                Points = new GeoCoordinate[]
+                Points = new[]
                 {
-                    new GeoCoordinate(52.5212186,13.4096926),
-			        new GeoCoordinate(52.5210184,13.4097473),
-			        new GeoCoordinate(52.5209891,13.4097538),
-			        new GeoCoordinate(52.5209766,13.4098037),
+                    new GeoCoordinate(52.5212186, 13.4096926),
+                    new GeoCoordinate(52.5210184, 13.4097473),
+                    new GeoCoordinate(52.5209891, 13.4097538),
+                    new GeoCoordinate(52.5209766, 13.4098037)
                 },
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("building","residential"),
-                    new KeyValuePair<string, string>("building:shape","sphere"),
-                    new KeyValuePair<string, string>("min_height","100"),
-                    new KeyValuePair<string, string>("building:levels","5"),
+                    new KeyValuePair<string, string>("building", "residential"),
+                    new KeyValuePair<string, string>("building:shape", "sphere"),
+                    new KeyValuePair<string, string>("min_height", "100"),
+                    new KeyValuePair<string, string>("building:levels", "5"),
                 }
             };
 
@@ -71,15 +70,15 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanProcessSequence()
         {
-            var testPoints = new GeoCoordinate[]
+            var testPoints = new[]
             {
                 new GeoCoordinate(0, 0),
                 new GeoCoordinate(0, 0),
-                new GeoCoordinate(0, 0),
+                new GeoCoordinate(0, 0)
             };
-            var area1 = new Area()
+            var area1 = new Area
             {
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("building", "tower"),
                     new KeyValuePair<string, string>("building:material", "metal"),
@@ -89,9 +88,9 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 },
                 Points = testPoints
             };
-            var area2 = new Area()
+            var area2 = new Area
             {
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("building", "roof"),
                     new KeyValuePair<string, string>("building:part", "yes"),
@@ -113,10 +112,10 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseSimpleEvaluate()
         {
-            var model = new Area()
+            var model = new Area
             {
                 Id = 1,
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("building:levels", "5")
                 }
@@ -130,7 +129,6 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var evalResult = evalDeclaration.Evaluator.Walk<float>(model);
 
             Assert.AreEqual(15, evalResult);
-
         }
 
         [Test]
@@ -139,19 +137,18 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var area = new Area()
+            var area = new Area
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("building","residential"),
+                    new KeyValuePair<string, string>("building", "residential"),
                 }
             };
             var rule = stylesheet.GetRule(area);
 
             Assert.AreEqual(0, rule.GetLevels());
-
         }
 
         [Test]
@@ -172,17 +169,17 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var buildingWithColorCode = new Area()
+            var buildingWithColorCode = new Area
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("building","commercial"),
+                    new KeyValuePair<string, string>("building", "commercial"),
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
-            Assert.AreEqual(ColorUtility.FromName("red"), 
+            Assert.AreEqual(ColorUtility.FromName("red"),
                 GetOriginalColorTypeObject(rule.GetFillColor()));
         }
 
@@ -192,18 +189,18 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
             var stylesheet = provider.Get();
 
-            var buildingWithColorName = new Area()
+            var buildingWithColorName = new Area
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("building","yes"),
+                    new KeyValuePair<string, string>("building", "yes"),
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorName);
-            Assert.AreEqual(ColorUtility.FromName("salmon"), 
-                GetOriginalColorTypeObject(rule.GetFillColor()));         
+            Assert.AreEqual(ColorUtility.FromName("salmon"),
+                GetOriginalColorTypeObject(rule.GetFillColor()));
         }
 
         [Test]
@@ -212,14 +209,14 @@ namespace Mercraft.Maps.UnitTests.MapCss
             var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile);
             var stylesheet = provider.Get();
 
-            var buildingWithColorCode = new Area()
+            var buildingWithColorCode = new Area
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Collection<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("building","commercial"),
-                    new KeyValuePair<string, string>("building:color","#cfc6b5"),
+                    new KeyValuePair<string, string>("building", "commercial"),
+                    new KeyValuePair<string, string>("building:color", "#cfc6b5"),
                 }
             };
             var rule = stylesheet.GetRule(buildingWithColorCode);
@@ -231,6 +228,5 @@ namespace Mercraft.Maps.UnitTests.MapCss
         {
             return new Mercraft.Core.Unity.Color32(color.r, color.g, color.b, color.a);
         }
-       
     }
 }

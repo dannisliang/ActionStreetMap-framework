@@ -9,17 +9,17 @@ Project("{1FAC5C55-277D-4884-94A4-83DBDAF57E56}") = "UnityVS.mercraft.UnityScrip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.mercraft.CSharp.Plugins", "UnityVS.mercraft.CSharp.Plugins.csproj", "{90F53D4E-D6FB-01E2-7EF5-5FC8F9C90FC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Osm", "Projects\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.Osm", "..\Projects\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Core", "Projects\Mercraft.Core\Mercraft.Core.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Core", "..\Projects\Mercraft.Core\Mercraft.Core.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.UnitTests", "Projects\Tests\Mercraft.Maps.UnitTests\Mercraft.Maps.UnitTests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Maps.UnitTests", "..\Projects\Tests\Mercraft.Maps.UnitTests\Mercraft.Maps.UnitTests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Infrastructure", "Projects\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj", "{C77A889A-90D7-4787-A6BC-35772473639E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Infrastructure", "..\Projects\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj", "{C77A889A-90D7-4787-A6BC-35772473639E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Explorer", "Projects\Mercraft.Explorer\Mercraft.Explorer.csproj", "{F931971C-D22F-436B-B1CB-ED4B941810E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Explorer", "..\Projects\Mercraft.Explorer\Mercraft.Explorer.csproj", "{F931971C-D22F-436B-B1CB-ED4B941810E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Models", "Projects\Mercraft.Models\Mercraft.Models.csproj", "{960505D9-47C8-4123-AD1F-7EB663C33990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Models", "..\Projects\Mercraft.Models\Mercraft.Models.csproj", "{960505D9-47C8-4123-AD1F-7EB663C33990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

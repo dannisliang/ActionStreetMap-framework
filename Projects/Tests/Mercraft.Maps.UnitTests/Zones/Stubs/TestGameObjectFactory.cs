@@ -1,10 +1,8 @@
-﻿using System;
-using Mercraft.Core.Unity;
-using UnityEngine;
+﻿using Mercraft.Core.Unity;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
-    public class TestGameObjectFactory: IGameObjectFactory
+    public class TestGameObjectFactory : IGameObjectFactory
     {
         public IGameObject CreateNew(string name)
         {

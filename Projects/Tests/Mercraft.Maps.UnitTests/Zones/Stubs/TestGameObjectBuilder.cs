@@ -8,7 +8,6 @@ using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {

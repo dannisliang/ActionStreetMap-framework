@@ -1,6 +1,5 @@
 ﻿using Mercraft.Core;
 using Mercraft.Core.Tiles;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {

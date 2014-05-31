@@ -34,7 +34,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>..\packages\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
