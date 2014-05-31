@@ -129,7 +129,10 @@ namespace Mercraft.Maps.Osm.Data
                     elementNode.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
-            _elements.Add(elementNode.Id, elementNode);
+            // TODO this situation occurs rarely; need to investigate
+            // is it proper way to ignore (or should we merge nodes?)
+            if (!_elements.ContainsKey(elementNode.Id))
+                _elements.Add(elementNode.Id, elementNode);
             if (_unresolvedNodes.Contains(elementNode.Id))
                 _unresolvedNodes.Remove(elementNode.Id);
             _nodeIds.Add(elementNode.Id);

@@ -6,8 +6,6 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[addr:housename],
-area[addr:housenumber],
 area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 area[height]											{ height: eval(num(tag('height')));}
@@ -76,7 +74,7 @@ area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]										{ fill-color: #cfeca8;}
+area[landuse=meadow]									{ fill-color: #cfeca8;}
 
 area[leisure=recreation_ground]							{ fill-color: #b6fdb6; }
 
@@ -84,12 +82,13 @@ area[landuse=industrial],
 area[landuse=railway]									{ fill-color: #dfd1d6;}
 
 /* water */
-/* TODO: process open waterfall*/
-area[waterway]:closed,
-area[natural=water],
-area[landuse=basin]										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #5429FF;}
+area[natural=water],	
+way[waterway],
+way[waterway][name],
+area[waterway=riverbank], 
+area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Grass;}
 
-way[barrier] :closed										{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+way[barrier] :closed									{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
 
 /* roads */
 way[highway]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
@@ -123,7 +122,5 @@ way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
 /* Shouldn't be shown */
-area[waterway=riverbank],
-area[have_riverbank=yes],
 area[level<0],
 area[layer<0]											{ builder:empty }
