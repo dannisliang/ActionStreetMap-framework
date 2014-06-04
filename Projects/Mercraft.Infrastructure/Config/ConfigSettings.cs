@@ -12,28 +12,30 @@
     {
         private readonly ConfigElement _root;
 
-        public ConfigSettings(string appConfigFileName)
+        public ConfigSettings(string appConfigFileName, Func<string,string> pathResolver)
         {
-            this._root = GetMergedElement(appConfigFileName, ""); 
+            this._root = GetMergedElement(appConfigFileName, "", pathResolver); 
         }
 
         /// <summary>
         /// Returns merged element for environment
         /// </summary>
-        public static ConfigElement GetMergedElement(string appConfig, string environment)
+        public static ConfigElement GetMergedElement(string appConfig, string environment, 
+            Func<string, string> pathResolver)
         {
             //TODO cache results
-            var mergedConfig = MergeConfigs(appConfig, environment);
+            var mergedConfig = MergeConfigs(appConfig, environment, pathResolver);
             return new ConfigElement(mergedConfig);
         }
 
         /// <summary>
         /// Merges configs defined in root config
         /// </summary>
-        public static XElement MergeConfigs(string appConfigPath, string environment)
+        public static XElement MergeConfigs(string appConfigPath, string environment, 
+            Func<string, string> pathResolver)
         {
             //load application config
-            var appDocument = XDocument.Load(appConfigPath);
+            var appDocument = XDocument.Load(pathResolver(appConfigPath));
 
             List<XElement> configs = new List<XElement>();
             //interate each config node and store it's root XElement

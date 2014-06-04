@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
         public void CanResolveModelBuilders()
         {
             var container = new Container();
-            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
 
             var modelBuilders = container.ResolveAll<IModelBuilder>().ToList();
 

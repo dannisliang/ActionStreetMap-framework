@@ -12,7 +12,7 @@ namespace Mercraft.Maps.UnitTests.Models
         [Test]
         public void CanReadStyleConfig()
         {
-            var settings = new ConfigSettings(TestHelper.ConfigTestRootFile);
+            var settings = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
             var styleProvider = new BuildingStyleProvider(settings.GetSection("buildings/styles"));
             AssertStyles(styleProvider);
         }
@@ -20,7 +20,7 @@ namespace Mercraft.Maps.UnitTests.Models
         [Test]
         public void CanReadTextureConfig()
         {
-            var settings = new ConfigSettings(TestHelper.ConfigTestRootFile);
+            var settings = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
             var textureProvider = new TexturePackProvider(settings.GetSection("buildings/textures"));
             AssertTextures(textureProvider);
         }
@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests.Models
         public void CanReadConfigsFromContainer()
         {
             var container = new Container();
-            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
+            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
 
             var styleProvider = container.Resolve<BuildingStyleProvider>();
             AssertStyles(styleProvider);

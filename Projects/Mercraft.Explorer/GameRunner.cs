@@ -42,13 +42,13 @@ namespace Mercraft.Explorer
         /// </summary>
         private IPositionListener _positionListener;
 
-        public GameRunner(string configPath)
-            : this(new Container(), new ConfigSettings(configPath))
+        public GameRunner(string configPath, Func<string, string> pathResolver)
+            : this(new Container(), new ConfigSettings(configPath, pathResolver))
         {
         }
 
-        public GameRunner(IContainer container, string configPath)
-            : this(container, new ConfigSettings(configPath))
+        public GameRunner(IContainer container, string configPath, Func<string, string> pathResolver)
+            : this(container, new ConfigSettings(configPath, pathResolver))
         {
         }
 

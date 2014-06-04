@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Mercraft.Core;
 
 namespace Mercraft.Maps.UnitTests
@@ -19,6 +20,11 @@ namespace Mercraft.Maps.UnitTests
         public const string TestBigPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin-latest.osm.pbf";
 
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
-        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\mapcss\default.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Config\mapcss\default.mapcss";
+
+        public static Func<string, string> GetPathResolver()
+        {
+            return s => s;
+        }
     }
 }

@@ -100,7 +100,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
 
             var container = new Container();
-            var componentRoot = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile));
+            var componentRoot = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var rule1 = stylesheet.GetRule(area1);
