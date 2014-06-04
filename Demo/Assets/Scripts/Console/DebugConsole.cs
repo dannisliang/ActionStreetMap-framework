@@ -212,10 +212,10 @@ namespace Assets.Scripts.Console
 #if DEBUG
       // Triple Tap shows/hides the console in iOS/Android dev builds.
       if (evt.type == EventType.Repaint && (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && touch.tapCount == 3) {
-        _isOpen = !_isOpen;
+        IsOpen = !IsOpen;
       }
 #endif
-      if (_isOpen) {
+      if (IsOpen) {
         var pos = touch.position;
         pos.y = Screen.height - pos.y;
 

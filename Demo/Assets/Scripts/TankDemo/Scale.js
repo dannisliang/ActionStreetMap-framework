@@ -51,7 +51,7 @@ function UpdateScale () {
     }
       
    
-    for (i = 0; i < particleEmitters.length; i++) { 
+    for (var i = 0; i < particleEmitters.length; i++) { 
     	if(firstUpdate == true){
            	minsize[i] = particleEmitters[i].minSize;
         	maxsize[i] = particleEmitters[i].maxSize;
