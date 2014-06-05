@@ -19,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseCanvas()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
             var canvas = new Canvas();
 
@@ -32,7 +32,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanMergeDeclarations()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var area = new Area
@@ -100,7 +100,10 @@ namespace Mercraft.Maps.UnitTests.MapCss
             };
 
             var container = new Container();
-            var componentRoot = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
+            var pathResolver = TestHelper.GetPathResolver();
+            container.RegisterInstance(typeof (IPathResolver), pathResolver);
+            var componentRoot = new GameRunner(container,
+                new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var rule1 = stylesheet.GetRule(area1);
@@ -121,7 +124,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
 
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var evalDeclaration = stylesheet.Styles[3].Declarations[0];
@@ -134,7 +137,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanGetMissing()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var area = new Area
@@ -166,7 +169,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanGetColorByRGB()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var buildingWithColorCode = new Area
@@ -186,7 +189,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanGetColorByName()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var buildingWithColorName = new Area
@@ -206,7 +209,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanApplyColorByRGB()
         {
-            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var buildingWithColorCode = new Area

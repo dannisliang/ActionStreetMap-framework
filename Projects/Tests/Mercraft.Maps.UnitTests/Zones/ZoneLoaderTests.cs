@@ -18,9 +18,11 @@ namespace Mercraft.Maps.UnitTests.Zones
             var logger = new PerformanceLogger();
             logger.Start();
             var container = new Container();
-            var root = new GameRunner(container, 
-                new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
-            root.RunGame(TestHelper.BerlinInvalidenStr);
+            var pathResolver = TestHelper.GetPathResolver();
+            container.RegisterInstance(typeof(IPathResolver), pathResolver);
+            var componentRoot = new GameRunner(container,
+                new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
+            componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
@@ -39,9 +41,11 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void ShouldUnloadTile()
         {
             var container = new Container();
-            var root = new GameRunner(container, 
-                new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
-            root.RunGame(TestHelper.BerlinGeoCenter);
+            var pathResolver = TestHelper.GetPathResolver();
+            container.RegisterInstance(typeof(IPathResolver), pathResolver);
+            var componentRoot = new GameRunner(container,
+                new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
+            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
 
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 

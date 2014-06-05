@@ -81,7 +81,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseClosed()
         {
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var closedWay = new Way()

@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Models
         [Test]
         public void CanGetBuildingStyle()
         {
-            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile);
+            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
             var building = new Area()

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Maps.Osm.Data
 {
@@ -23,6 +24,13 @@ namespace Mercraft.Maps.Osm.Data
     public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable
     {
         private IElementSource _dataSource;
+        private readonly IPathResolver _pathResolver;
+
+        [Dependency]
+        public DefaultElementSourceProvider(IPathResolver pathResolver)
+        {
+            _pathResolver = pathResolver;
+        }
 
         public IElementSource Get(BoundingBox bbox)
         {
@@ -33,7 +41,7 @@ namespace Mercraft.Maps.Osm.Data
         {
             string filePath = configSection.GetString("file");
             bool isXml = configSection.GetBool("file/@xml");
-            Stream stream = new FileInfo(filePath).OpenRead();
+            Stream stream = new FileInfo(_pathResolver.Resolve(filePath)).OpenRead();
             _dataSource = isXml
                 ? (IElementSource)new XmlElementSource(stream)
                 : (IElementSource)new PbfElementSource(stream);

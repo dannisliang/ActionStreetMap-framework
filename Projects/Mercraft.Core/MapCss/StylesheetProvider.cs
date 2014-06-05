@@ -20,16 +20,19 @@ namespace Mercraft.Core.MapCss
         private const string PathKey = "path";
 
         private string _path;
+        private readonly IPathResolver _pathResolver;
         private Stylesheet _stylesheet;
 
         #region Constructors
 
         [Dependency]
-        public StylesheetProvider()
+        public StylesheetProvider(IPathResolver pathResolver)
         {
+            _pathResolver = pathResolver;
         }
 
-        public StylesheetProvider(string path)
+        public StylesheetProvider(string path, IPathResolver pathResolver)
+            : this(pathResolver)
         {
             _path = path;
         }
@@ -56,7 +59,7 @@ namespace Mercraft.Core.MapCss
 
         private Stylesheet Create()
         {
-            using (Stream inputStream = File.Open(_path, FileMode.Open))
+            using (Stream inputStream = File.Open(_pathResolver.Resolve(_path), FileMode.Open))
             {
                 return Create(inputStream);
             }
