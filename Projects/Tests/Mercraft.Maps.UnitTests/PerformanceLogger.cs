@@ -31,22 +31,16 @@ namespace Mercraft.Maps.UnitTests
             Console.WriteLine("Started at {0}.", new DateTime(_ticks.Value).ToLongTimeString());
         }
 
-        /// <summary>
-        /// Reports a message in the middle of progress.
-        /// </summary>
-        public void Report(string message)
+        public void Report()
         {
-            Console.WriteLine(message);
-        }
+            Seconds = new TimeSpan(DateTime.Now.Ticks - _ticks.Value).TotalMilliseconds / 1000.0;
 
-        /// <summary>
-        /// Reports a message in the middle of progress.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        public void Report(string message, params object[] args)
-        {
-            Console.WriteLine(message, args);
+            GC.Collect();
+            Process p = Process.GetCurrentProcess();
+            Memory = System.Math.Round((p.PrivateMemorySize64 - _memory.Value) / 1024.0 / 1024.0, 4);
+
+            Console.WriteLine("consume {0}s and {1}MB of memory diff.",
+                Seconds, Memory);
         }
 
         /// <summary>

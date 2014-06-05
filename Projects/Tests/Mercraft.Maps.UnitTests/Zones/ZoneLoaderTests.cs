@@ -31,7 +31,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
 
-            Assert.Less(logger.Seconds, 10, "Loading took to long");
+            Assert.Less(logger.Seconds, 15, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
             Assert.Less(logger.Memory, 50, "Memory consumption to hight!");
         }

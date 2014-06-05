@@ -14,7 +14,7 @@ namespace Mercraft.Maps.Osm.Data
          /// <summary>
         /// Holds the Pbf reader.
         /// </summary>
-        private readonly PbfReader _reader;
+        private PbfReader _reader;
 
         /// <summary>
         /// Holds the source of the data.
@@ -64,10 +64,8 @@ namespace Mercraft.Maps.Osm.Data
         private void FillElements(BoundingBox bbox)
         {
             PrimitiveBlock block = _reader.MoveNext();
-            var blocks = new List<PrimitiveBlock>();
             while (block != null)
             {
-                blocks.Add(block);
                 var obbox = new OffsetBoundingBox(bbox, block);
                 ProcessPrimitiveBlock(block, obbox);
 
@@ -91,21 +89,23 @@ namespace Mercraft.Maps.Osm.Data
                     }
 
                 }
-
                 block = _reader.MoveNext();
             }
 
-            // Resolve unresolved nodes
-            foreach (var primitiveBlock in blocks)
+            _stream.Seek(0, SeekOrigin.Begin);
+
+             block = _reader.MoveNext();
+            while (block != null)
             {
-                ProcessPrimitiveBlock(primitiveBlock, null);
-                foreach (var primitiveGroup in primitiveBlock.primitivegroup)
+                ProcessPrimitiveBlock(block, null);
+                foreach (var primitiveGroup in block.primitivegroup)
                 {
                     foreach (var node in primitiveGroup.nodes)
                     {
-                        SearchNode(primitiveBlock, node);
+                        SearchNode(block, node);
                     }
                 }
+                block = _reader.MoveNext();
             }
         }
 
