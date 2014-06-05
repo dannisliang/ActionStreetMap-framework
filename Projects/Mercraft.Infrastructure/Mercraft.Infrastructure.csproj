@@ -62,6 +62,7 @@
     <Compile Include="Config\ConfigSettings.cs" />
     <Compile Include="Config\IConfigSection.cs" />
     <Compile Include="Config\IConfigurable.cs" />
+    <Compile Include="Config\IPathResolver.cs" />
     <Compile Include="Dependencies\Component.cs" />
     <Compile Include="Dependencies\ComponentExtensions.cs" />
     <Compile Include="Dependencies\Container.cs" />

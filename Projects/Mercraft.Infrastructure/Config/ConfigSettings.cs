@@ -10,32 +10,32 @@
     /// </summary>
     public class ConfigSettings
     {
+        private readonly IPathResolver _pathResolver;
         private readonly ConfigElement _root;
 
-        public ConfigSettings(string appConfigFileName, Func<string,string> pathResolver)
+        public ConfigSettings(string appConfigFileName, IPathResolver pathResolver)
         {
-            this._root = GetMergedElement(appConfigFileName, "", pathResolver); 
+            _pathResolver = pathResolver;
+            _root = GetMergedElement(appConfigFileName, "");
         }
 
         /// <summary>
         /// Returns merged element for environment
         /// </summary>
-        public static ConfigElement GetMergedElement(string appConfig, string environment, 
-            Func<string, string> pathResolver)
+        public ConfigElement GetMergedElement(string appConfig, string environment)
         {
             //TODO cache results
-            var mergedConfig = MergeConfigs(appConfig, environment, pathResolver);
+            var mergedConfig = MergeConfigs(appConfig, environment);
             return new ConfigElement(mergedConfig);
         }
 
         /// <summary>
         /// Merges configs defined in root config
         /// </summary>
-        public static XElement MergeConfigs(string appConfigPath, string environment, 
-            Func<string, string> pathResolver)
+        public XElement MergeConfigs(string appConfigPath, string environment)
         {
             //load application config
-            var appDocument = XDocument.Load(pathResolver(appConfigPath));
+            var appDocument = XDocument.Load(_pathResolver.Resolve(appConfigPath));
 
             List<XElement> configs = new List<XElement>();
             //interate each config node and store it's root XElement
@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets XDcument from element
         /// </summary>
-        public static XDocument GetDocument(ConfigElement configElement, string environment)
+        public XDocument GetDocument(ConfigElement configElement, string environment)
         {
             ConfigSection section = new ConfigSection(configElement);
             var include = section.GetString("@include");
@@ -66,7 +66,7 @@
                 //TODO support different location
                 if (location == "file")
                 {
-                    var document = XDocument.Load(include);
+                    var document = XDocument.Load(_pathResolver.Resolve(include));
                     
                     //don't use environment feature
                     if (String.IsNullOrEmpty(environment))

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Maps.UnitTests
 {
@@ -22,9 +23,9 @@ namespace Mercraft.Maps.UnitTests
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Config\mapcss\default.mapcss";
 
-        public static Func<string, string> GetPathResolver()
+        public static IPathResolver GetPathResolver()
         {
-            return s => s;
+            return new TestPathResolver();
         }
     }
 }

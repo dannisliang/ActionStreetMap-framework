@@ -69,6 +69,7 @@
     <Compile Include="Osm\ElementTests.cs" />
     <Compile Include="SceneHelper.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="TestPathResolver.cs" />
     <Compile Include="Zones\Stubs\TestBuildingModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestFlatModelBuilder.cs" />
