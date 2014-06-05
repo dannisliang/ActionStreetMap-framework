@@ -7,6 +7,7 @@ namespace Assets.Scripts.Demo
     {
         public string Resolve(string path)
         {
+            //return String.Format("/sdcard/Mercraft/{0}", path.Replace(@"\", "/"));
             return path;
         }
     }
