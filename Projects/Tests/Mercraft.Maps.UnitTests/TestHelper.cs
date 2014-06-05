@@ -18,10 +18,10 @@ namespace Mercraft.Maps.UnitTests
         //52.53057 13.38687 52.52940 13.39022
         public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin_house.osm.xml";
 
-        public const string TestBigPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin-latest.osm.pbf";
+        public const string TestBigPbfFilePath = @"..\..\..\..\..\Demo\Maps\berlin-latest.osm.pbf";
 
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
-        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Config\mapcss\default.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\mapcss\default.mapcss";
 
         public static IPathResolver GetPathResolver()
         {

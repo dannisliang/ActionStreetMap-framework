@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.TankDemo;
@@ -24,11 +25,13 @@ namespace Assets.Scripts.Demo
 {
     class DemoSceneLoader
     {
+        private static DemoPathResolver pathResolver = new DemoPathResolver();
         static IContainer GetContainer()
         {
             var consoleGameObject = new GameObject("_DebugConsole_");
             var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
             var container = new Container();
+            container.RegisterInstance(typeof (IPathResolver), pathResolver);
             return container.RegisterInstance(debugConsole);
         }
 
@@ -39,7 +42,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
@@ -94,7 +97,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
             var rule = stylesheet.GetRule(way);
 
@@ -146,7 +149,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
@@ -210,7 +213,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config"));
+            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
@@ -242,7 +245,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Berlin Small Part..");
 
             var container = GetContainer();
-            var componentRoot = new GameRunner(container, @"Config/app.config");
+            var componentRoot = new GameRunner(container, @"Config/app.config", pathResolver);
 
             //componentRoot.RunGame(new GeoCoordinate(52.529814, 13.388015)); // home
             //componentRoot.RunGame(new GeoCoordinate(52.520833, 13.409403)); // teletower

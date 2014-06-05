@@ -1,9 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.Console.Commands;
+using Assets.Scripts.Console.Utils;
+using Assets.Scripts.Demo;
 using Mercraft.Core;
 using Mercraft.Explorer;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
@@ -13,22 +17,29 @@ namespace Assets.Scripts
     public class CharacterBehavior : MonoBehaviour
     {
         public float delta = 10;
-        private const string configPath = @"Config\app.config";
         private GameRunner component;
         private Vector2 position2D;
-        //private ITrace _trace;
+        private ITrace _trace;
+        private DebugConsole _console;
 
         // Use this for initialization
         private void Start()
         {
             // create and register DebugConsole inside Container
             var container = new Container();
+            var pathResolver = new DemoPathResolver();
+            container.RegisterInstance(typeof(IPathResolver), pathResolver);
             InitializeConsole(container);
-
-            component = new GameRunner(container, configPath);
-            //_trace = container.Resolve<ITrace>();
-            component.RunGame();
-            
+            try
+            {
+                component = new GameRunner(container, @"Config/app.config", pathResolver);
+                component.RunGame();
+            }
+            catch (Exception ex)
+            {
+                _console.LogMessage(new ConsoleMessage("Error running game:" + ex.ToString(), RecordType.Error, Color.red));
+                throw;
+            }
         }
 
         // Update is called once per frame
@@ -45,9 +56,9 @@ namespace Assets.Scripts
         private void InitializeConsole(IContainer container)
         {
             var consoleGameObject = new GameObject("_DebugConsole_");
-            var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
-            container.RegisterInstance(debugConsole);
-            debugConsole.CommandManager.Register("scene", new SceneCommand(container));
+            _console = consoleGameObject.AddComponent<DebugConsole>();
+            container.RegisterInstance(_console);
+            _console.CommandManager.Register("scene", new SceneCommand(container));
         }
     }
 }
