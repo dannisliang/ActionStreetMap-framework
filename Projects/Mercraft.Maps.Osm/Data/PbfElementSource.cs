@@ -9,15 +9,15 @@ using Mercraft.Maps.Osm.Formats.Pbf;
 
 namespace Mercraft.Maps.Osm.Data
 {
-    public class PbfElementSource: IElementSource
+    public class PbfElementSource : IElementSource
     {
-         /// <summary>
-        /// Holds the Pbf reader.
+        /// <summary>
+        ///     Holds the Pbf reader.
         /// </summary>
-        private PbfReader _reader;
+        private readonly PbfReader _reader;
 
         /// <summary>
-        /// Holds the source of the data.
+        ///     Holds the source of the data.
         /// </summary>
         private readonly Stream _stream;
 
@@ -30,18 +30,20 @@ namespace Mercraft.Maps.Osm.Data
         private Dictionary<long, Element> _elements;
 
         /// <summary>
-        /// Creates a new source of Pbf formated OSM data.
+        ///     Creates a new source of Pbf formated OSM data.
         /// </summary>
         public PbfElementSource(Stream stream)
         {
             _stream = stream;
             _reader = new PbfReader(_stream);
+            ResetState();
         }
 
         public IEnumerable<Element> Get(BoundingBox bbox)
         {
-            ResetState();
+            _elements = new Dictionary<long, Element>();
             FillElements(bbox);
+            ResetState();
             return _elements.Values;
         }
 
@@ -53,13 +55,12 @@ namespace Mercraft.Maps.Osm.Data
             _wayIds = new HashSet<long>();
             _relationIds = new HashSet<long>();
             _unresolvedNodes = new HashSet<long>();
-            _elements = new Dictionary<long, Element>();
         }
 
         #region Fill elements collection from pbf stream logic
 
         /// <summary>
-        /// Fills Elements collection with elements located in bounding box, but with undersolved references
+        ///     Fills Elements collection with elements located in bounding box, but with undersolved references
         /// </summary>
         private void FillElements(BoundingBox bbox)
         {
@@ -74,8 +75,8 @@ namespace Mercraft.Maps.Osm.Data
                     foreach (var node in primitiveGroup.nodes)
                     {
                         // check bbox
-                        if (obbox.Contains(node.lat, node.lon))
-                            SearchNode(block, node);
+                        //if (obbox.Contains(node.lat, node.lon))
+                        SearchNode(block, node);
                     }
 
                     foreach (var way in primitiveGroup.ways)
@@ -87,14 +88,18 @@ namespace Mercraft.Maps.Osm.Data
                     {
                         SearchRelation(block, relation);
                     }
-
                 }
                 block = _reader.MoveNext();
             }
 
+            // Resolve unresolved nodes
+            // NOTE this code increases time consumption almost in two times
+            // due to IO/parsing/unzipping staff. We can't cache PrimitiveBlock
+            // cause it leads to increasing memory consumption
+            // TODO need to thing about how to improve it keeping corresponding logic
             _stream.Seek(0, SeekOrigin.Begin);
 
-             block = _reader.MoveNext();
+            block = _reader.MoveNext();
             while (block != null)
             {
                 ProcessPrimitiveBlock(block, null);
@@ -192,7 +197,8 @@ namespace Mercraft.Maps.Osm.Data
 
                     if (_nodeIds.Contains(memberId) || _wayIds.Contains(memberId) || _relationIds.Contains(memberId))
                     {
-                        string role = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[relation.roles_sid[memberIdx]]));
+                        string role =
+                            String.Intern(Encoding.UTF8.GetString(block.stringtable.s[relation.roles_sid[memberIdx]]));
                         var member = new RelationMember();
                         member.MemberId = memberId;
                         member.MemberRole = role;
@@ -221,7 +227,8 @@ namespace Mercraft.Maps.Osm.Data
                 for (int tagIdx = 0; tagIdx < relation.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.keys[tagIdx]]));
-                    string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.vals[tagIdx]]));
+                    string value =
+                        String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.vals[tagIdx]]));
                     elementRelation.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
@@ -230,11 +237,11 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Calculates block header offset for l
+        ///     Calculates block header offset for l
         /// </summary>
         private static double CalculateBboxOffset(double latLon, double latLonBlockOffset, PrimitiveBlock block)
         {
-            return (latLon / .000000001 - latLonBlockOffset) / block.granularity;
+            return (latLon/.000000001 - latLonBlockOffset)/block.granularity;
         }
 
         private void ProcessPrimitiveBlock(PrimitiveBlock block, OffsetBoundingBox obbox)
@@ -255,14 +262,15 @@ namespace Mercraft.Maps.Osm.Data
                         for (int idx = 0; idx < count; idx++)
                         {
                             // do the delta decoding stuff.
-                            currentLat = currentLat + primitivegroup.dense.lat[idx];
-                            currentLon = currentLon + primitivegroup.dense.lon[idx];
                             currentId = currentId + primitivegroup.dense.id[idx];
 
-                            if(obbox == null && !_unresolvedNodes.Contains(currentId))
+                            if (obbox == null && !_unresolvedNodes.Contains(currentId))
                                 continue;
 
-                            if (obbox != null && !obbox.Contains(currentLat, currentLon)) 
+                            currentLat = currentLat + primitivegroup.dense.lat[idx];
+                            currentLon = currentLon + primitivegroup.dense.lon[idx];
+
+                            if (obbox != null && !obbox.Contains(currentLat, currentLon))
                                 continue;
 
                             var node = new Formats.Pbf.Node();
@@ -289,9 +297,9 @@ namespace Mercraft.Maps.Osm.Data
             }
         }
 
-        /// <summary>
-        /// Converts geocoordinates of bbox to block-specific offsets
         //  in order to avoid unnecessary calculations for every node
+        /// <summary>
+        ///     Converts geocoordinates of bbox to block-specific offsets
         /// </summary>
         private class OffsetBoundingBox
         {
@@ -311,7 +319,7 @@ namespace Mercraft.Maps.Osm.Data
             public bool Contains(double latitude, double longitude)
             {
                 return (_maxLat > latitude && latitude >= _minLat) &&
-                        (_maxLong > longitude && longitude >= _minLong);
+                       (_maxLong > longitude && longitude >= _minLong);
             }
         }
 

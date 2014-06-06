@@ -58,10 +58,11 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         {
             PrimitiveBlock block = null;
             int length;
-            bool not_found_but = true;
-            while (not_found_but)
-            { // continue if there is still data but not a primitiveblock.
-                not_found_but = false; // not found.
+            bool notFoundBut = true;
+            while (notFoundBut)
+            { 
+                // continue if there is still data but not a primitiveblock.
+                notFoundBut = false; // not found.
                 if (Serializer.TryReadLengthPrefix(_stream, PrefixStyle.Fixed32, out length))
                 {
                     // TODO: remove some of the v1 specific code.
@@ -88,31 +89,32 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     }
 
                     // construct the source stream, compressed or not.
-                    Stream source_stream = null;
+                    Stream sourceStream = null;
                     if (blob.zlib_data == null)
                     { // use a regular uncompressed stream.
-                        source_stream = new MemoryStream(blob.raw);
+                        sourceStream = new MemoryStream(blob.raw);
                     }
                     else
                     { // construct a compressed stream.
                         var ms = new MemoryStream(blob.zlib_data);
-                        source_stream = new ZLibStreamWrapper(ms);
+                        sourceStream = new ZLibStreamWrapper(ms);
                     }
 
                     // use the stream to read the block.
-                    using (source_stream)
+                    using (sourceStream)
                     {
                         if (header.type == "OSMHeader")
                         {
-                            Serializer.Deserialize<HeaderBlock>(source_stream);
-                            not_found_but = true;
+                            Serializer.Deserialize<HeaderBlock>(sourceStream);
+                            notFoundBut = true;
                         }
 
                         if (header.type == "OSMData")
                         {
-                            block = Serializer.Deserialize<PrimitiveBlock>(source_stream);
+                            block = Serializer.Deserialize<PrimitiveBlock>(sourceStream);
                         }
                     }
+                    sourceStream.Dispose();
                 }
             }
             return block;
