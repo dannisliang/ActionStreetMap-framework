@@ -263,12 +263,11 @@ namespace Mercraft.Maps.Osm.Data
                         {
                             // do the delta decoding stuff.
                             currentId = currentId + primitivegroup.dense.id[idx];
+                            currentLat = currentLat + primitivegroup.dense.lat[idx];
+                            currentLon = currentLon + primitivegroup.dense.lon[idx];
 
                             if (obbox == null && !_unresolvedNodes.Contains(currentId))
                                 continue;
-
-                            currentLat = currentLat + primitivegroup.dense.lat[idx];
-                            currentLon = currentLon + primitivegroup.dense.lon[idx];
 
                             if (obbox != null && !obbox.Contains(currentLat, currentLon))
                                 continue;
