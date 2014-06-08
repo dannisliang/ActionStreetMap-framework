@@ -18,20 +18,19 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFindWays()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
-            {
-                var dataSource = new PbfElementSource(stream);
+            var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath, 
+                new TestPathResolver());
 
-                var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
+            var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 
-                var scene = new MapScene();
+            var scene = new MapScene();
 
-                var elementManager = new ElementManager();
+            var elementManager = new ElementManager();
 
-                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
+            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
-                Assert.AreEqual(1172, scene.Ways.Count());
-            }
+            Assert.AreEqual(1172, scene.Ways.Count());
+            
         }
     }
 }

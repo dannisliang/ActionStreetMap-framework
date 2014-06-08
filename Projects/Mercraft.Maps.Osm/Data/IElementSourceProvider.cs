@@ -17,8 +17,7 @@ namespace Mercraft.Maps.Osm.Data
     }
 
     /// <summary>
-    /// Trivial implementation of IElementSourceProvider
-    /// TODO: for development purpose only - real implementation should be able 
+    /// Default implementation of IElementSourceProvider
     /// to return different dataSources by geo coordinates
     /// </summary>
     public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable
@@ -40,11 +39,20 @@ namespace Mercraft.Maps.Osm.Data
         public void Configure(IConfigSection configSection)
         {
             string filePath = configSection.GetString("file");
-            bool isXml = configSection.GetBool("file/@xml");
-            Stream stream = new FileInfo(_pathResolver.Resolve(filePath)).OpenRead();
-            _dataSource = isXml
-                ? (IElementSource)new XmlElementSource(stream)
-                : (IElementSource)new PbfElementSource(stream);
+            var fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
+
+            if (fileExtension == ".list")
+            {
+                _dataSource = new PbfIndexListElementSource(filePath, _pathResolver);
+            }
+            else
+            {
+                // TODO dispose opened stream
+                Stream stream = new FileInfo(_pathResolver.Resolve(filePath)).OpenRead();
+                _dataSource = fileExtension == ".xml"
+                    ? (IElementSource) new XmlElementSource(stream)
+                    : (IElementSource) new PbfElementSource(stream);
+            }
         }
     }
 

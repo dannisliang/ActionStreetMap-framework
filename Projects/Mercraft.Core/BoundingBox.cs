@@ -34,6 +34,35 @@ namespace Mercraft.Core
             return Contains(point.Latitude, point.Longitude);
         }
 
+        public bool Intersect(BoundingBox bbox)
+        {
+            //return this.MaxPoint
+            //(X2' >= X1 && X1' <= X2) && (Y2' >= Y1 && Y1' <= Y2)
+            return (bbox.MaxPoint.Latitude >= MinPoint.Latitude && bbox.MinPoint.Latitude <= MaxPoint.Latitude) &&
+                   (bbox.MaxPoint.Longitude >= MinPoint.Longitude && bbox.MinPoint.Longitude <= MaxPoint.Longitude);
+        }
+
+        /// <summary>
+        /// Gets size of bbox's side
+        /// </summary>
+        public double Size()
+        {
+            var dLat = MathUtility.Deg2Rad((MaxPoint.Latitude - MinPoint.Latitude));
+            var dLon = MathUtility.Deg2Rad((MaxPoint.Longitude - MinPoint.Longitude));
+
+            var lat1 = MathUtility.Deg2Rad(MaxPoint.Latitude);
+            var lat2 = MathUtility.Deg2Rad(MinPoint.Latitude);
+
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                 Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            var radius = WGS84EarthRadius(dLat);
+
+            return (radius * c) / Math.Sqrt(2);
+        }
+
         #region Operations
 
         /// <summary>

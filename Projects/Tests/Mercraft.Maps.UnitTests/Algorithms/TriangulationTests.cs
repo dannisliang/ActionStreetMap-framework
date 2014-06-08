@@ -41,30 +41,29 @@ namespace Mercraft.Maps.UnitTests.Algorithms
         [Test]
         public void CanTriangulateAreasAndWays()
         {
-            using (Stream stream = new FileInfo(TestHelper.TestBigPbfFilePath).OpenRead())
+            var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
+                new TestPathResolver());
+
+            var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
+
+            var scene = new MapScene();
+
+            var elementManager = new ElementManager();
+
+            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
+
+            foreach (var area in scene.Areas)
             {
-                var dataSource = new PbfElementSource(stream);
+                var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points.ToList());
+                var triangles = PolygonHelper.GetTriangles3D(verticies);
+            }
 
-                var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
-
-                var scene = new MapScene();
-
-                var elementManager = new ElementManager();
-
-                elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
-
-                foreach (var area in scene.Areas)
-                {
-                    var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points.ToList());
-                    var triangles = PolygonHelper.GetTriangles3D(verticies);
-                }
-
-                foreach (var way in scene.Ways)
-                {
-                    var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points.ToList());
-                    var triangles = PolygonHelper.GetTriangles3D(verticies);
-                }
+            foreach (var way in scene.Ways)
+            {
+                var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points.ToList());
+                var triangles = PolygonHelper.GetTriangles3D(verticies);
             }
         }
+
     }
 }

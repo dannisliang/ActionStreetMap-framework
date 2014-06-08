@@ -14,12 +14,12 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         ///     Holds the Pbf reader.
         /// </summary>
-        private readonly PbfReader _reader;
+        private PbfReader _reader;
 
         /// <summary>
         ///     Holds the source of the data.
         /// </summary>
-        private readonly Stream _stream;
+        private Stream _stream;
 
         private HashSet<long> _nodeIds;
         private HashSet<long> _wayIds;
@@ -27,27 +27,36 @@ namespace Mercraft.Maps.Osm.Data
 
         private HashSet<long> _unresolvedNodes;
 
-        private Dictionary<long, Element> _elements;
+        protected Dictionary<long, Element> Elements;
+
+        protected PbfElementSource()
+        {
+            Elements = new Dictionary<long, Element>();
+        }
 
         /// <summary>
         ///     Creates a new source of Pbf formated OSM data.
         /// </summary>
-        public PbfElementSource(Stream stream)
+        public PbfElementSource(Stream stream): this()
+        {
+            SetStream(stream);
+        }
+
+        protected void SetStream(Stream stream)
         {
             _stream = stream;
             _reader = new PbfReader(_stream);
-            ResetState();
+            ResetPrivateState();
         }
 
-        public IEnumerable<Element> Get(BoundingBox bbox)
+        public virtual IEnumerable<Element> Get(BoundingBox bbox)
         {
-            _elements = new Dictionary<long, Element>();
             FillElements(bbox);
-            ResetState();
-            return _elements.Values;
+            ResetPrivateState();
+            return Elements.Values;
         }
 
-        private void ResetState()
+        private void ResetPrivateState()
         {
             _stream.Seek(0, SeekOrigin.Begin);
 
@@ -136,8 +145,8 @@ namespace Mercraft.Maps.Osm.Data
             }
             // TODO this situation occurs rarely; need to investigate
             // is it proper way to ignore (or should we merge nodes?)
-            if (!_elements.ContainsKey(elementNode.Id))
-                _elements.Add(elementNode.Id, elementNode);
+            if (!Elements.ContainsKey(elementNode.Id))
+                Elements.Add(elementNode.Id, elementNode);
             if (_unresolvedNodes.Contains(elementNode.Id))
                 _unresolvedNodes.Remove(elementNode.Id);
             _nodeIds.Add(elementNode.Id);
@@ -178,7 +187,9 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
 
-            _elements.Add(elementWay.Id, elementWay);
+            // TODO this situation occurs rarely; need to investigate
+            if (!Elements.ContainsKey(elementWay.Id))
+                Elements.Add(elementWay.Id, elementWay);
 
             _wayIds.Add(elementWay.Id);
         }
@@ -232,7 +243,9 @@ namespace Mercraft.Maps.Osm.Data
                     elementRelation.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
-            _elements.Add(elementRelation.Id, elementRelation);
+            // TODO this situation occurs rarely; need to investigate
+            if (!Elements.ContainsKey(elementRelation.Id))
+                Elements.Add(elementRelation.Id, elementRelation);
             _relationIds.Add(elementRelation.Id);
         }
 
@@ -341,9 +354,9 @@ namespace Mercraft.Maps.Osm.Data
 
         private T GetElement<T>(long id) where T : Entities.Element
         {
-            if (!_elements.ContainsKey(id))
+            if (!Elements.ContainsKey(id))
                 return null;
-            return _elements[id] as T;
+            return Elements[id] as T;
         }
     }
 }

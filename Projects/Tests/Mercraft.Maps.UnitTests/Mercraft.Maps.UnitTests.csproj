@@ -56,6 +56,7 @@
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
     <Compile Include="Models\BuildingMapCssTests.cs" />
+    <Compile Include="Osm\PbfIndexListElementSourceTests.cs" />
     <Compile Include="Osm\WayTests.cs" />
     <Compile Include="PerformanceLogger.cs" />
     <Compile Include="Infrastructure\ConfigTests.cs" />

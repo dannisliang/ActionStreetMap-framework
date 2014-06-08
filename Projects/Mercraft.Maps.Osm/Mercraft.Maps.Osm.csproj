@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Data\IElementSourceProvider.cs" />
     <Compile Include="Data\PbfElementSource.cs" />
+    <Compile Include="Data\PbfIndexListElementSource.cs" />
     <Compile Include="Data\StatefulElementSource.cs" />
     <Compile Include="Data\IElementSource.cs" />
     <Compile Include="Extensions\ConverterHelper.cs" />
