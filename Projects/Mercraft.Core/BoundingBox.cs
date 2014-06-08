@@ -52,6 +52,17 @@ namespace Mercraft.Core
             return new BoundingBox(minPoint, maxPoint);
         }
 
+        public static BoundingBox operator +(BoundingBox a, BoundingBox b)
+        {
+            var minLat = a.MinPoint.Latitude < b.MinPoint.Latitude ? a.MinPoint.Latitude : b.MinPoint.Latitude;
+            var minLon = a.MinPoint.Longitude < b.MinPoint.Longitude ? a.MinPoint.Longitude : b.MinPoint.Longitude;
+
+            var maxLat = a.MaxPoint.Latitude > b.MaxPoint.Latitude ? a.MaxPoint.Latitude : b.MaxPoint.Latitude;
+            var maxLon = a.MaxPoint.Longitude > b.MaxPoint.Longitude ? a.MaxPoint.Longitude : b.MaxPoint.Longitude;
+
+            return new BoundingBox(new GeoCoordinate(minLat, minLon), new GeoCoordinate(maxLat, maxLon));
+        }
+
         #endregion
 
         # region Creation

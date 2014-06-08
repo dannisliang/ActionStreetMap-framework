@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Algorithms\TriangulationTests.cs" />
+    <Compile Include="Core\BoundingBoxTests.cs" />
     <Compile Include="Explorer\BootstrapperTests.cs" />
     <Compile Include="MapCss\MapCssHelper.cs" />
     <Compile Include="MapCss\SelectorsTests.cs" />
