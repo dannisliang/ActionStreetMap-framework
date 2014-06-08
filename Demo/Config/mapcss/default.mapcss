@@ -2,12 +2,14 @@ canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
 
 /* buildings */
 /* Take note that building-style is set to residential. We have to distinguish different types */
+area[barrier=fence],
 area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
 area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
+/* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
 area[min_height]										{ min_height: eval(num(tag('min_height')));}
