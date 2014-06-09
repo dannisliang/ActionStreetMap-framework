@@ -212,7 +212,7 @@ namespace Mercraft.Maps.Osm.Data
                             String.Intern(Encoding.UTF8.GetString(block.stringtable.s[relation.roles_sid[memberIdx]]));
                         var member = new RelationMember();
                         member.MemberId = memberId;
-                        member.MemberRole = role;
+                        member.Role = role;
                         switch (relation.types[memberIdx])
                         {
                             case Formats.Pbf.Relation.MemberType.NODE:

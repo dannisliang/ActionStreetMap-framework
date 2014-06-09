@@ -70,7 +70,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml.v0_6
                 member member = xml_obj.member[idx];
                 RelationMember simpleMember = new RelationMember();
                 simpleMember.MemberId = member.@ref;
-                simpleMember.MemberRole = member.role;
+                simpleMember.Role = member.role;
                 if (member.refSpecified && member.typeSpecified)
                 {
                     switch (member.type)

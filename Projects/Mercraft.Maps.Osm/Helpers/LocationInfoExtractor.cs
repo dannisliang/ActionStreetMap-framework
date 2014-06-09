@@ -14,6 +14,7 @@ namespace Mercraft.Maps.Osm.Helpers
         private static readonly List<string> NameKeyList = new List<string>
         {
             "addr:housenumber",
+            "addr:housename"
         };
 
         private static readonly List<string> StreetKeyList = new List<string>

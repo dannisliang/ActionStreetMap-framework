@@ -107,7 +107,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                     }
 
                     // set role.
-                    relation_member.MemberRole = mem.role;
+                    relation_member.Role = mem.role;
 
                     // set type.
                     if (mem.typeSpecified)

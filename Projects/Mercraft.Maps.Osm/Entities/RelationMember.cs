@@ -19,7 +19,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// <summary>
         /// The member role.
         /// </summary>
-        public string MemberRole { get; set; }
+        public string Role { get; set; }
 
     }
 }
