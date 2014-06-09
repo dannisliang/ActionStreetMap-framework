@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.Unity;
+﻿using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Unity;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Config;
 
@@ -9,7 +10,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         private const string NameKey = "@name";
         public string Name { get; private set; }
 
-        public void Apply(IGameObject gameObject)
+        public void Apply(IGameObject gameObject, Model model)
         {
         }
 

@@ -50,6 +50,7 @@
     <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
+    <Compile Include="Helpers\LocationInfoExtractor.cs" />
     <Compile Include="Formats\Xml\v0_6\Extensions.cs" />
     <Compile Include="Formats\Xml\v0_6\osm.cs">
       <DependentUpon>osm.xsd</DependentUpon>

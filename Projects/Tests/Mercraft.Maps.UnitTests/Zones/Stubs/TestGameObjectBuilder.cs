@@ -43,7 +43,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildArea(center, rule, area);
-            ApplyBehaviour(gameObjectWrapper, rule);
+            ApplyBehaviour(gameObjectWrapper, rule, area);
 
             return gameObjectWrapper;
         }
@@ -52,18 +52,18 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
-            ApplyBehaviour(gameObjectWrapper, rule);
+            ApplyBehaviour(gameObjectWrapper, rule, way);
 
             return gameObjectWrapper;
         }
 
         #endregion
 
-        private void ApplyBehaviour(IGameObject target, Rule rule)
+        private void ApplyBehaviour(IGameObject target, Rule rule, Model model)
         {
             var behaviour = rule.GetModelBehaviour(_behaviours);
             if (behaviour != null)
-                behaviour.Apply(target);
+                behaviour.Apply(target, model);
         }
     }
 }

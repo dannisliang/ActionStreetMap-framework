@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Interactions
 {
-    public class CompositeModelBehaviour: IModelBehaviour, IConfigurable
+    public class CompositeModelBehaviour : IModelBehaviour, IConfigurable
     {
         private const string NameKey = "@name";
         private const string BehaviourKey = "scripts/include";
@@ -17,11 +17,21 @@ namespace Mercraft.Explorer.Interactions
 
         public string Name { get; private set; }
 
-        public void Apply(IGameObject gameObject)
+        public void Apply(IGameObject gameObject, Model model)
         {
             foreach (var behaviour in _behaviours)
             {
-                gameObject.GetComponent<GameObject>().AddComponent(behaviour);
+                // NOTE: behavior should implement Unity's MonoBehavior
+                var component = gameObject.GetComponent<GameObject>()
+                    .AddComponent(behaviour);
+
+                // NOTE inject gameObject and model in case of our IModelBehavior
+                // which allows us to use Mercraft's Model inside Unity's MonoBehavior
+                var modelBehaviour = component as IModelBehaviour;
+                if (modelBehaviour != null)
+                {
+                    modelBehaviour.Apply(gameObject, model);
+                }
             }
         }
 
@@ -32,6 +42,6 @@ namespace Mercraft.Explorer.Interactions
             {
                 _behaviours.Add(behaviourConfig.GetType(BehaviourValue));
             }
-        }      
+        }
     }
 }
