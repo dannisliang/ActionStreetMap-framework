@@ -13,10 +13,11 @@ namespace Mercraft.Maps.Osm.Data
         private const string filePattern = "{0}.osm.pbf";
 
         private readonly IPathResolver _pathResolver;
-        private readonly Regex _geoCoordinateRegex = 
+
+        private readonly Regex _geoCoordinateRegex =
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)", RegexOptions.Compiled);
 
-        private List<KeyValuePair<string, BoundingBox>>  _index = new List<KeyValuePair<string, BoundingBox>>();
+        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>();
         private Dictionary<long, Element> _elements;
 
         public PbfIndexListElementSource(string indexListPath, IPathResolver pathResolver)
@@ -26,7 +27,7 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Reads index from list file
+        ///     Reads index from list file
         /// </summary>
         private void ReadIndex(string indexListPath)
         {
@@ -51,20 +52,19 @@ namespace Mercraft.Maps.Osm.Data
                 reader.ReadLine();
                 reader.ReadLine();
 
-
                 while (reader.Peek() >= 0)
                 {
-                    var fileName = Path.Combine(indexFileDirectory, 
-                        String.Format(filePattern, 
-                        reader.ReadLine().Split(':')[0]));
-                    
-                    var coordinateStrings = reader.ReadLine().Split(new [] { "to" }, StringSplitOptions.None);
+                    var fileName = Path.Combine(indexFileDirectory,
+                        String.Format(filePattern,
+                            reader.ReadLine().Split(':')[0]));
+
+                    var coordinateStrings = reader.ReadLine().Split(new[] {"to"}, StringSplitOptions.None);
                     var minPoint = GetCoordinateFromString(coordinateStrings[0]);
                     var maxPoint = GetCoordinateFromString(coordinateStrings[1]);
 
                     var boundingBox = new BoundingBox(minPoint, maxPoint);
 
-                    _index.Add(new KeyValuePair<string, BoundingBox>(fileName, boundingBox));
+                    _listIndex.Add(new KeyValuePair<string, BoundingBox>(fileName, boundingBox));
 
                     reader.ReadLine();
                 }
@@ -86,9 +86,9 @@ namespace Mercraft.Maps.Osm.Data
         public override IEnumerable<Element> Get(BoundingBox bbox)
         {
             var indecies = new List<int>();
-            for (int i = 0; i < _index.Count; i++)
+            for (int i = 0; i < _listIndex.Count; i++)
             {
-                if (bbox.Intersect(_index[i].Value))
+                if (bbox.Intersect(_listIndex[i].Value))
                 {
                     indecies.Add(i);
                 }
@@ -97,7 +97,7 @@ namespace Mercraft.Maps.Osm.Data
             var resultElements = new List<Element>();
             foreach (var index in indecies)
             {
-                using (Stream fileStream = new FileStream(_index[index].Key, FileMode.Open))
+                using (Stream fileStream = new FileStream(_listIndex[index].Key, FileMode.Open))
                 {
                     base.SetStream(fileStream);
                     var elements = base.Get(bbox);

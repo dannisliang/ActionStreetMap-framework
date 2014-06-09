@@ -14,9 +14,10 @@ namespace Mercraft.Maps.UnitTests.Osm
             var elementSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath, 
                 new TestPathResolver());
 
-            var elements = elementSource.Get(BoundingBox.CreateBoundingBox(TestHelper.BerlinInvalidenStr, 100));
+            var elements = elementSource.Get(
+                BoundingBox.CreateBoundingBox(TestHelper.BerlinInvalidenStr, 100));
 
-            Assert.AreNotEqual(elements.Count(), 0);
+            Assert.AreEqual(elements.Count(), 577);
         }
     }
 }
