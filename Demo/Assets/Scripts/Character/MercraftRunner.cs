@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
@@ -12,11 +10,11 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Character
 {
-    public class CharacterBehavior : MonoBehaviour
+    public class MercraftRunner : MonoBehaviour
     {
-        public float delta = 10;
+        public float delta = 50;
         private GameRunner component;
         private Vector2 position2D;
         private ITrace _trace;

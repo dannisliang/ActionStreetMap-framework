@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using Assets.Scripts.TankDemo;
 using UnityEngine;
 
-namespace Assets.Scripts.TankDemo
+namespace Assets.Scripts.Map
 {
-    public class DestroyableBehavior: MonoBehaviour
+    public class DestroyableObject: MonoBehaviour
     {
         // TODO health should depend on object properties
         public float health = 200;
