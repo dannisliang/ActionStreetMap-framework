@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
@@ -25,8 +26,8 @@ namespace Mercraft.Explorer
             IEnumerable<IModelBehaviour> behaviours)
         {
             _goFactory = goFactory;
-            _builders = builders;
-            _behaviours = behaviours;
+            _builders = builders.ToList();
+            _behaviours = behaviours.ToList();
         }
 
         #region IGameObjectBuilder implementation
