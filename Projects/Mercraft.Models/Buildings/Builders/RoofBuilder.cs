@@ -6,15 +6,15 @@ namespace Mercraft.Models.Buildings.Entities
 {
     public class RoofBuilder
     {
-        private readonly Data _data;
+        private readonly Model _model;
         private readonly DynamicMeshGenericMultiMaterialMesh _mesh;
         private readonly Texture[] _textures;
 
-        public RoofBuilder(Data data, DynamicMeshGenericMultiMaterialMesh mesh)
+        public RoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
         {
-            _data = data;
+            _model = model;
             _mesh = mesh;
-            _textures = _data.Textures.ToArray();
+            _textures = _model.Textures.ToArray();
         }
 
         public void Build()
@@ -25,14 +25,14 @@ namespace Mercraft.Models.Buildings.Entities
         public void Build(bool ignoreParapets)
         {
 
-            Plan plan = _data.Plan;
+            Plan plan = _model.Plan;
 
-            int numberOfVolumes = _data.Plan.Volumes.Count;
+            int numberOfVolumes = _model.Plan.Volumes.Count;
             for (int s = 0; s < numberOfVolumes; s++)
             {
 
                 Volume volume = plan.Volumes[s];
-                Roof design = _data.Roofs[volume.RoofDesignId];
+                Roof design = _model.Roofs[volume.RoofDesignId];
 
                 var roofStyle = design.Style;
                 if (volume.Points.Count != 4)
@@ -80,11 +80,11 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void FlatRoof(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int volumeIndex = area.Volumes.IndexOf(volume);
             int numberOfVolumePoints = volume.Points.Count;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
 
             //add top base of the flat roof
@@ -92,7 +92,7 @@ namespace Mercraft.Models.Buildings.Entities
             Vector2[] newEndUVs = new Vector2[numberOfVolumePoints];
             int[] tris = new List<int>(area.GetTrianglesBySectorBase(volumeIndex)).ToArray();
             int roofTextureID = design.GetTexture();
-            Texture texture = _data.Textures[roofTextureID];
+            Texture texture = _model.Textures[roofTextureID];
             for (int i = 0; i < numberOfVolumePoints; i++)
             {
                 Vector2 point = area.Points[volume.Points[i]];
@@ -105,10 +105,10 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Mansard(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfVolumePoints = volume.Points.Count;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
 
             //add top base of the flat roof
@@ -201,9 +201,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Barrel(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
 
             Vector3[] points = new Vector3[4];
@@ -264,9 +264,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void LeanTo(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
             Vector3 ridgeVector = Vector3.up * design.Height;
 
@@ -342,9 +342,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Sawtooth(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
             Vector3 ridgeVector = Vector3.up * design.Height;
 
@@ -438,9 +438,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Steeple(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
             Vector3 ridgeVector = Vector3.up * design.Height;
 
@@ -487,9 +487,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Hipped(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float baseHeight = _data.FloorHeight * numberOfFloors;
+            float baseHeight = _model.FloorHeight * numberOfFloors;
             float roofHeight = design.Height;
             int numberOfVolumePoints = volume.Points.Count;
             int subMesh = design.GetTexture();
@@ -543,9 +543,9 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Gabled(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
             Vector3 ridgeVector = Vector3.up * design.Height;
 
@@ -614,11 +614,11 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Parapet(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int volumeIndex = area.Volumes.IndexOf(volume);
             int numberOfVolumePoints = volume.Points.Count;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
 
             for (int l = 0; l < numberOfVolumePoints; l++)
@@ -712,10 +712,10 @@ namespace Mercraft.Models.Buildings.Entities
 
         private void Dormers(Volume volume, Roof design)
         {
-            Plan area = _data.Plan;
+            Plan area = _model.Plan;
             int numberOfVolumePoints = volume.Points.Count;
             int numberOfFloors = volume.NumberOfFloors;
-            float floorHeight = _data.FloorHeight;
+            float floorHeight = _model.FloorHeight;
             Vector3 volumeFloorHeight = Vector3.up * (numberOfFloors * floorHeight);
 
             for (int l = 0; l < numberOfVolumePoints; l++)

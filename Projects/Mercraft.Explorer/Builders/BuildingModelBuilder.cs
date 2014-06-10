@@ -21,7 +21,6 @@ namespace Mercraft.Explorer.Builders
         private readonly BuildingStyleProvider _styleProvider;
 
         private string _theme;
-        private RenderMode _mode = RenderMode.Full;
 
         [Dependency]
         public BuildingModelBuilder(IGameObjectFactory goFactory,
@@ -61,7 +60,6 @@ namespace Mercraft.Explorer.Builders
             var texture = _textureProvider.Get(style.Texture);
 
             gameObject.AddComponent<BuildingBehavior>().Attach(
-                _mode,
                 new BuildingSettings
                 {
                     Seed = model.Id,
@@ -78,8 +76,6 @@ namespace Mercraft.Explorer.Builders
         public override void Configure(IConfigSection configSection)
         {
             base.Configure(configSection);
-            _mode = (RenderMode) Enum.Parse(typeof (RenderMode),
-                configSection.GetString(RenderModeKey), true);
             _theme = configSection.GetString(ThemeKey);
         }
     }

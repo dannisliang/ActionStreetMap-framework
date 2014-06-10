@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
@@ -20,22 +16,21 @@ namespace Mercraft.Models.Buildings.Utils
         {
             get
             {
-                _z = 36969 * (_z & 65535) + (_z >> 16);
-                _w = 18000 * (_w & 65535) + (_w >> 16);
+                _z = 36969*(_z & 65535) + (_z >> 16);
+                _w = 18000*(_w & 65535) + (_w >> 16);
                 uint u = (_z << 16) + _w;
-                return (u + 1.0f) * 2.328306435454494e-10f;
+                return (u + 1.0f)*2.328306435454494e-10f;
             }
         }
 
         public float OutputRange(float min, float max)
         {
-            return min + Output * (max - min);
+            return min + Output*(max - min);
         }
 
         public int OutputRange(int min, int max)
         {
-            return min + Mathf.RoundToInt(Output * (max - min));
+            return min + Mathf.RoundToInt(Output*(max - min));
         }
-
     }
 }

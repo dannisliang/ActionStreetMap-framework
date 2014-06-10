@@ -61,30 +61,6 @@ namespace Mercraft.Models.Buildings.Entities
             //Material = new Material(Shader.Find("Diffuse"));
         }
 
-        public Texture Duplicate()
-        {
-            return Duplicate(Name + " copy");
-        }
-
-        public Texture Duplicate(string newName)
-        {
-            return new Texture(newName)
-            {
-                Tiled = true,
-                Patterned = false,
-                TileUnitUV = TileUnitUV,
-                TextureUnitSize = TextureUnitSize,
-                TiledX = TiledX,
-                TiledY = TiledY,
-                MaxUVTile = MaxUVTile,
-                _material = new Material(_material),
-                Door = Door,
-                Window = Window,
-                Wall = Wall,
-                Roof = Roof
-            };
-        }
-
         public Texture2D MainTexture
         {
             get

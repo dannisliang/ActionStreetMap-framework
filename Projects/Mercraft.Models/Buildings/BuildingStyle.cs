@@ -15,13 +15,6 @@ namespace Mercraft.Models.Buildings
         public Range<float> BoxSize { get; set; }
         public Range<float> FloorHeight { get; set; }
 
-        public Range<float> BayWidth { get; set; }
-        public Range<float> BayHeight { get; set; }
-        public Range<float> BayDepth { get; set; }
-        public Range<float> BaySpacing { get; set; }
-
-        public Range<float> FacadeDepth { get; set; }
-
         public Range<float> RoofHeight { get; set; }
         public Range<float> RoofFaceDepth { get; set; }
         public Range<float> RoofFloorDepth { get; set; }

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
     /// <summary>
-    /// Checks if the provided points follow a clockwise winding
-    /// used to ensure that generated faces render correctly
+    ///     Checks if the provided points follow a clockwise winding
+    ///     used to ensure that generated faces render correctly
     /// </summary>
-    public class BuildrPolyClockwise
+    public class PolyClockwise
     {
-
         public static bool Check(Vector2[] points)
         {
             int numberOfPoints = points.Length;
@@ -25,15 +20,15 @@ namespace Mercraft.Models.Buildings.Utils
 
             for (i = 0; i < numberOfPoints; i++)
             {
-                j = (i + 1) % numberOfPoints;
-                k = (i + 2) % numberOfPoints;
+                j = (i + 1)%numberOfPoints;
+                k = (i + 2)%numberOfPoints;
 
                 Vector2 pointA = points[i];
                 Vector2 pointB = points[j];
                 Vector2 pointC = points[k];
 
-                z = (pointB.x - pointA.x) * (pointC.y - pointA.y);
-                z -= (pointB.y - pointA.y) * (pointC.x - pointA.x);
+                z = (pointB.x - pointA.x)*(pointC.y - pointA.y);
+                z -= (pointB.y - pointA.y)*(pointC.x - pointA.x);
 
                 if (z < 0)
                     count--;

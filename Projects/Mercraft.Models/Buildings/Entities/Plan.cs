@@ -53,7 +53,7 @@ namespace Mercraft.Models.Buildings.Entities
 
         public Volume AddVolume(Vector2[] newPoints)
         {
-            if (!BuildrPolyClockwise.Check(newPoints))
+            if (!PolyClockwise.Check(newPoints))
                 System.Array.Reverse(newPoints);
 
             int numberOfnewPoints = newPoints.Length;

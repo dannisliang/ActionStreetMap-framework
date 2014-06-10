@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
     public class EarClipper
     {
-
         public static int[] Triangulate(Vector2[] points)
         {
             int numberOfPoints = points.Length;
@@ -30,8 +26,8 @@ namespace Mercraft.Models.Buildings.Utils
                     int a, b, c;
 
                     a = usePoints[i];
-                    b = usePoints[(i + 1) % numberOfUsablePoints];
-                    c = usePoints[(i + 2) % numberOfUsablePoints];
+                    b = usePoints[(i + 1)%numberOfUsablePoints];
+                    c = usePoints[(i + 2)%numberOfUsablePoints];
 
                     Vector2 pA = points[a];
                     Vector2 pB = points[b];
@@ -41,10 +37,11 @@ namespace Mercraft.Models.Buildings.Utils
                     float dB = Vector2.Distance(pB, pC);
                     float dC = Vector2.Distance(pC, pA);
 
-                    float angle = Mathf.Acos((Mathf.Pow(dB, 2) - Mathf.Pow(dA, 2) - Mathf.Pow(dC, 2)) / (2 * dA * dC)) * Mathf.Rad2Deg * Mathf.Sign(Sign(points[a], points[b], points[c]));
+                    float angle = Mathf.Acos((Mathf.Pow(dB, 2) - Mathf.Pow(dA, 2) - Mathf.Pow(dC, 2))/(2*dA*dC))*
+                                  Mathf.Rad2Deg*Mathf.Sign(Sign(points[a], points[b], points[c]));
                     if (angle < 0)
                     {
-                        continue;//angle is not reflex
+                        continue; //angle is not reflex
                     }
 
                     freeOfIntersections = true;
@@ -68,7 +65,7 @@ namespace Mercraft.Models.Buildings.Utils
                         int pa = usePoints[p];
                         if (pa == a || pa == b || pa == c)
                             continue;
-                        int pb = (p + 1) % numberOfPoints;
+                        int pb = (p + 1)%numberOfPoints;
                         Vector2 pab = Vector2.Lerp(points[pa], points[pb], 0.5f);
 
                         if (IntersectsTriangle2(points[a], points[b], points[c], pab))
@@ -89,7 +86,6 @@ namespace Mercraft.Models.Buildings.Utils
                         it = 100;
                         break;
                     }
-
                 }
                 it--;
                 if (it < 0)
@@ -105,33 +101,22 @@ namespace Mercraft.Models.Buildings.Utils
         }
 
 
-
         private static float Sign(Vector2 p1, Vector2 p2, Vector2 p3)
         {
-            return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+            return (p1.x - p3.x)*(p2.y - p3.y) - (p2.x - p3.x)*(p1.y - p3.y);
         }
 
         private static bool IntersectsTriangle2(Vector2 A, Vector2 B, Vector2 C, Vector2 P)
         {
-            float planeAB = (A.x - P.x) * (B.y - P.y) - (B.x - P.x) * (A.y - P.y);
-            float planeBC = (B.x - P.x) * (C.y - P.y) - (C.x - P.x) * (B.y - P.y);
-            float planeCA = (C.x - P.x) * (A.y - P.y) - (A.x - P.x) * (C.y - P.y);
+            float planeAB = (A.x - P.x)*(B.y - P.y) - (B.x - P.x)*(A.y - P.y);
+            float planeBC = (B.x - P.x)*(C.y - P.y) - (C.x - P.x)*(B.y - P.y);
+            float planeCA = (C.x - P.x)*(A.y - P.y) - (A.x - P.x)*(C.y - P.y);
             return Sign(planeAB) == Sign(planeBC) && Sign(planeBC) == Sign(planeCA);
         }
 
         private static int Sign(float n)
         {
-            return (int)(Mathf.Abs(n) / n);
-        }
-
-        public static bool FastLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
-        {
-            return (CCW(a1, b1, b2) != CCW(a2, b1, b2)) && (CCW(a1, a2, b1) != CCW(a1, a2, b2));
-        }
-
-        private static bool CCW(Vector2 p1, Vector2 p2, Vector2 p3)
-        {
-            return ((p2.x - p1.x) * (p3.y - p1.y) > (p2.y - p1.y) * (p3.x - p1.x));
+            return (int) (Mathf.Abs(n)/n);
         }
     }
 }

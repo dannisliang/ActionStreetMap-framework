@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings
@@ -14,7 +11,5 @@ namespace Mercraft.Models.Buildings
         public TexturePack TexturePack { get; set; }
         public BuildingStyle Style { get; set; }
         public IEnumerable<Vector2> FootPrint { get; set; }
-
-        public string Material { get; set; }
     }
 }

@@ -42,13 +42,6 @@ namespace Mercraft.Models.Buildings.Config
                     style.BoxSize = GetRange(styleConfig.GetSection("box/height"));
                     style.FloorHeight = GetRange(styleConfig.GetSection("floor/height"));
 
-                    style.BayHeight = GetRange(styleConfig.GetSection("bay/height"));
-                    style.BayWidth = GetRange(styleConfig.GetSection("bay/width"));
-                    style.BayDepth = GetRange(styleConfig.GetSection("bay/depth"));
-                    style.BaySpacing = GetRange(styleConfig.GetSection("bay/spacing"));
-
-                    style.FacadeDepth = GetRange(styleConfig.GetSection("facade/depth"));
-
                     style.RoofHeight = GetRange(styleConfig.GetSection("roof/height"));
                     style.RoofFaceDepth = GetRange(styleConfig.GetSection("roof/faceDepth"));
                     style.RoofFloorDepth = GetRange(styleConfig.GetSection("roof/floorDepth"));

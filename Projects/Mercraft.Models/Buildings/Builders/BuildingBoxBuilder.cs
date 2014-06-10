@@ -8,24 +8,24 @@ namespace Mercraft.Models.Buildings.Builders
 
     public class BuildingBoxBuilder
     {
-        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Data data)
+        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Model model)
         {
-            Plan plan = data.Plan;
-            int numberOfVolumes = data.Plan.Volumes.Count;
+            Plan plan = model.Plan;
+            int numberOfVolumes = model.Plan.Volumes.Count;
             for (int s = 0; s < numberOfVolumes; s++)
             {
                 Volume volume = plan.Volumes[s];
                 int numberOfVolumePoints = volume.Points.Count;
                 var newEndVerts = new Vector3[numberOfVolumePoints];
                 var newEndUVs = new Vector2[numberOfVolumePoints];
-                var volumeHeight = Vector3.up * (volume.NumberOfFloors * data.FloorHeight);
+                var volumeHeight = Vector3.up * (volume.NumberOfFloors * model.FloorHeight);
                 for (int i = 0; i < numberOfVolumePoints; i++)
                 {
                     newEndVerts[i] = plan.Points[volume.Points[i]].Vector3() + volumeHeight;
                     newEndUVs[i] = Vector2.zero;
                 }
 
-                List<int> tris = new List<int>(data.Plan.GetTrianglesBySectorBase(s));
+                List<int> tris = new List<int>(model.Plan.GetTrianglesBySectorBase(s));
                 mesh.AddData(newEndVerts, newEndUVs, tris.ToArray(), 0);
             }
 
@@ -52,7 +52,7 @@ namespace Mercraft.Models.Buildings.Builders
                         //no facade - adjacent facade is taller and covers this one
                         continue;
                     }
-                    float floorHeight = data.FloorHeight;
+                    float floorHeight = model.FloorHeight;
 
                     Vector3 floorHeightStart = Vector3.up * (floorBase * floorHeight);
                     Vector3 wallHeight = Vector3.up * (volume.NumberOfFloors * floorHeight) - floorHeightStart;
