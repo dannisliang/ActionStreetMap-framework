@@ -41,7 +41,7 @@ namespace Mercraft.Core.MapCss.Domain
 
             var result = MatchAll?  
                 Selectors.All(s => s.IsApplicable(model)):
-                Selectors.Any(s => s.IsApplicable(model)) && isClosedPassed;
+                isClosedPassed && Selectors.Any(s => s.IsApplicable(model));
 
             return result;
         }
