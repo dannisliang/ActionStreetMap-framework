@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
     /// <summary>
-    /// Buildr project U vs.
+    ///     Buildr project U vs.
     /// </summary>
     public class BuildingProjectUVs
     {
         /// <summary>
-        /// Project the specified Base UVs to find the appropriate 2D shape from 3D space - mainly used for angled roofs
+        ///     Project the specified Base UVs to find the appropriate 2D shape from 3D space - mainly used for angled roofs
         /// </summary>
         /// <param name='verts'> 3 verticies that define the polygon </param>
         /// <param name='baseUV'> The 3 source UV coordinates. </param>
@@ -35,14 +32,14 @@ namespace Mercraft.Models.Buildings.Utils
             planeNormal /= vertCount;
 
             Quaternion normalToFacFront = Quaternion.FromToRotation(planeNormal, forward);
-            planeNormal = normalToFacFront * planeNormal;
+            planeNormal = normalToFacFront*planeNormal;
             Quaternion normalToFront = Quaternion.FromToRotation(planeNormal, Vector3.forward);
-            Quaternion moveFace = normalToFront * normalToFacFront;
+            Quaternion moveFace = normalToFront*normalToFacFront;
 
             uvs[0] = baseUV;
             for (int p = 1; p < vertCount; p++)
             {
-                Vector3 newRelativePosition = moveFace * (verts[p] - verts[0]);
+                Vector3 newRelativePosition = moveFace*(verts[p] - verts[0]);
                 uvs[p] = new Vector2(newRelativePosition.x, newRelativePosition.y) + baseUV;
             }
 

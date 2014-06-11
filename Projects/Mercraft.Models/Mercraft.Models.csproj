@@ -38,8 +38,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\Builders\BuildingBoxBuilder.cs" />
-    <Compile Include="Buildings\Builders\RoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Facades\BuildingBoxBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\BarrelRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\FlatRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\GabledRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\HippedRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\LeantoRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\MansardRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\RoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\SawtoothRoofBuilder.cs" />
+    <Compile Include="Buildings\Builders\Roofs\SteepledRoofBuilder.cs" />
     <Compile Include="Buildings\BuildingBehavior.cs" />
     <Compile Include="Buildings\BuildingGenerator.cs" />
     <Compile Include="Buildings\BuildingMeasurements.cs" />
@@ -54,6 +62,7 @@
     <Compile Include="Buildings\Entities\Texture.cs" />
     <Compile Include="Buildings\Entities\Volume.cs" />
     <Compile Include="Buildings\Entities\VolumeStyle.cs" />
+    <Compile Include="Buildings\RoofGenerator.cs" />
     <Compile Include="Buildings\TexturePack.cs" />
     <Compile Include="Buildings\Utils\BuildingProjectUVs.cs" />
     <Compile Include="Buildings\Utils\PolyClockwise.cs" />

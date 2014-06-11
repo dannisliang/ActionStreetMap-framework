@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Models.Buildings.Builders;
+using Mercraft.Models.Buildings.Builders.Roofs;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
@@ -60,11 +61,9 @@ namespace Mercraft.Models.Buildings
 
             fullMesh.SubMeshCount = model.Textures.Count;
 
-            var roofBuilder = new RoofBuilder(model, fullMesh);
-
             BuildingBoxBuilder.Build(fullMesh, model);
-            roofBuilder.Build();
-
+            RoofGenerator.Generate(model, fullMesh);
+            
             fullMesh.Build(false);
 
             while (meshHolders.Count > 0)
