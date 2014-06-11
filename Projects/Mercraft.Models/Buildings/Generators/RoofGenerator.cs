@@ -1,8 +1,9 @@
 ﻿using Mercraft.Models.Buildings.Builders.Roofs;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
+using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Generators
 {
     public class RoofGenerator
     {
@@ -27,9 +28,11 @@ namespace Mercraft.Models.Buildings
 
                 var builder = GetRoofBuilder(roofStyle, model, mesh);
 
+                Debug.Log("Use builder:" + builder.ToString());
+
                 builder.Build(volume, design);
 
-                if (design.Parapet)
+                //if (design.Parapet)
                     builder.AddParapet(volume, design);
             }
         }
@@ -39,17 +42,17 @@ namespace Mercraft.Models.Buildings
         {
             switch (roofStyle)
             {
-                case RoofStyle.Mansard:
+                case RoofStyle.Mansard: // something wrong
                     return new MansardRoofBuilder(model, mesh);
                 case RoofStyle.Gabled:
                     return new GabledRoofBuilder(model, mesh);
                 case RoofStyle.Hipped:
                     return new HippedRoofBuilder(model, mesh);
-                case RoofStyle.Leanto:
+                case RoofStyle.Leanto: // something wrong
                     return new LeantoRoofBuilder(model, mesh);
-                case RoofStyle.Sawtooth:
+                case RoofStyle.Sawtooth: // something wrong
                     return new SawtoothRoofBuilder(model, mesh);
-                case RoofStyle.Barrel:
+                case RoofStyle.Barrel: // something wrong
                     return new BarrelRoofBuilder(model, mesh);
                 case RoofStyle.Steepled:
                     return new SteepledRoofBuilder(model, mesh);

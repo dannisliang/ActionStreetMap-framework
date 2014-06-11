@@ -2,6 +2,7 @@
 using Mercraft.Models.Buildings.Builders;
 using Mercraft.Models.Buildings.Builders.Roofs;
 using Mercraft.Models.Buildings.Entities;
+using Mercraft.Models.Buildings.Generators;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
 

@@ -49,7 +49,7 @@
     <Compile Include="Buildings\Builders\Roofs\SawtoothRoofBuilder.cs" />
     <Compile Include="Buildings\Builders\Roofs\SteepledRoofBuilder.cs" />
     <Compile Include="Buildings\BuildingBehavior.cs" />
-    <Compile Include="Buildings\BuildingGenerator.cs" />
+    <Compile Include="Buildings\Generators\BuildingGenerator.cs" />
     <Compile Include="Buildings\BuildingMeasurements.cs" />
     <Compile Include="Buildings\BuildingSettings.cs" />
     <Compile Include="Buildings\BuildingStyle.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="Buildings\Entities\Texture.cs" />
     <Compile Include="Buildings\Entities\Volume.cs" />
     <Compile Include="Buildings\Entities\VolumeStyle.cs" />
-    <Compile Include="Buildings\RoofGenerator.cs" />
+    <Compile Include="Buildings\Generators\RoofGenerator.cs" />
     <Compile Include="Buildings\TexturePack.cs" />
     <Compile Include="Buildings\Utils\BuildingProjectUVs.cs" />
     <Compile Include="Buildings\Utils\PolyClockwise.cs" />

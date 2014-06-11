@@ -3,13 +3,11 @@ using System.Linq;
 using Mercraft.Models.Buildings.Entities;
 using Mercraft.Models.Buildings.Utils;
 using UnityEngine;
-using Texture = Mercraft.Models.Buildings.Entities.Texture;
 
-namespace Mercraft.Models.Buildings
+namespace Mercraft.Models.Buildings.Generators
 {
     public class BuildingGenerator
     {
-       
         public static void Generate(Model model, float height, int levels)
         {
             GenerateFloorPlan(model);
