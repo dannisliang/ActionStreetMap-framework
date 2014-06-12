@@ -34,7 +34,7 @@ namespace Mercraft.Maps.UnitTests.Core
             var calculatedSize = bbox.Size();
 
             // ASSERT
-            Assert.LessOrEqual(Math.Abs(expectedHalfSize * 2 - calculatedSize), delta);
+            Assert.LessOrEqual(Math.Abs(expectedHalfSize*2 - calculatedSize), delta);
         }
     }
 }

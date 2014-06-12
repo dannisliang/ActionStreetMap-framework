@@ -15,6 +15,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         [Test]
         public void CanLoadZoneDynamically()
         {
+            // ARRANGE
             var logger = new PerformanceLogger();
             logger.Start();
             var container = new Container();
@@ -24,10 +25,12 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
             componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
 
+            // ACT
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
             logger.Stop();
 
+            // ASSERT
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
 
@@ -40,6 +43,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         [ExpectedException(typeof(ObjectDisposedException))]
         public void ShouldUnloadTile()
         {
+            // ARRANGE
             var container = new Container();
             var pathResolver = TestHelper.GetPathResolver();
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
@@ -47,8 +51,10 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
             componentRoot.RunGame(TestHelper.BerlinGeoCenter);
 
+            // ACT
             var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
 
+            // ASSERT
             Assert.IsNotNull(zoneLoader.ZoneCollection.Single().Tile.Scene.Areas);
         }
     }

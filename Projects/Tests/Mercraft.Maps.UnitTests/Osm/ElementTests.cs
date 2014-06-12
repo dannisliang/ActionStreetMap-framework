@@ -1,9 +1,7 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using Mercraft.Maps.Osm;
 using Mercraft.Core;
+using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.UnitTests.Osm.Stubs;
@@ -12,45 +10,51 @@ using NUnit.Framework;
 namespace Mercraft.Maps.UnitTests.Osm
 {
     [TestFixture]
-    class ElementTests
+    internal class ElementTests
     {
-        private GeoCoordinate defaultMapPoint = new GeoCoordinate(51.26371, 4.7854);
-        
+        private readonly GeoCoordinate defaultMapPoint = new GeoCoordinate(51.26371, 4.7854);
+
         [Test]
         public void CanGetElements()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
 
                 var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 500);
 
+                // ACT
                 var elements = dataSource.Get(bbox);
 
+                // ASSERT
                 Assert.AreEqual(6834, elements.Count());
-            }           
+            }
         }
 
         [Test]
         public void CanGetRelations()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
                 var bbox = BoundingBox.CreateBoundingBox(defaultMapPoint, 1000);
 
+                // ACT
                 var elements = dataSource.Get(bbox);
 
                 var relations = elements.OfType<Relation>().Select(element => element);
 
+                // ASSERT
                 Assert.AreEqual(39, relations.Count());
-
             }
         }
 
         [Test]
         public void CanFillBoundingBox()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
@@ -60,15 +64,18 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
+                // ASSERT
                 Assert.AreEqual(2840, visitor.Elements.Count);
-            }               
+            }
         }
 
         [Test]
         public void CanFillSmallBoundingBox()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
@@ -79,8 +86,10 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
+                // ASSERT
                 Assert.AreEqual(34, visitor.Elements.Count);
             }
         }
@@ -88,6 +97,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFillOneBuildingBoundingBox()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
@@ -98,8 +108,10 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
+                // ASSERT
                 Assert.AreEqual(8, visitor.Elements.Count);
             }
         }
@@ -109,7 +121,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
-                // Arrange
+                // ARRANGE
                 var dataSource = new PbfElementSource(stream);
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7853), 5);
@@ -117,8 +129,11 @@ namespace Mercraft.Maps.UnitTests.Osm
                 var visitor = new CountableElementVisitor();
 
                 var elementManager = new ElementManager();
+
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, visitor);
 
+                // ASSERT
                 var elements1 = visitor.Elements;
                 // check test preconditions
                 const int testWayId = 88246839;
@@ -126,8 +141,8 @@ namespace Mercraft.Maps.UnitTests.Osm
                 var way = elements1.First(e => e.Id == testWayId) as Way;
                 Assert.IsNotNull(way);
                 Assert.AreEqual(testWayId, way.Id);
-                Assert.AreEqual(8, way.Nodes.Count); 
-                
+                Assert.AreEqual(8, way.Nodes.Count);
+
                 /*// two cause it's start point (end point equals start point):
                 
                 Assert.AreEqual(2, way.Nodes.Count(n => n.Id == nodeIdToBeResolved));

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Maps.Osm.Data;
 using NUnit.Framework;
 
@@ -11,6 +10,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanLoadBigCity()
         {
+            // ARRANGE
             var perfLogger = new PerformanceLogger();
             perfLogger.Start();
 
@@ -19,12 +19,13 @@ namespace Mercraft.Maps.UnitTests.Osm
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 
+            // ACT
             var elements = dataSource.Get(bbox);
 
             // Assert.AreEqual(30999, elements.Count()); //  actual is 31043
             perfLogger.Stop();
 
-
+            // ASSERT
             Assert.Less(perfLogger.Memory, 30, "Memory consumption to high!");
             Assert.Less(perfLogger.Seconds, 10, "Time consumption to high!");
         }

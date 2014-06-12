@@ -13,11 +13,15 @@ namespace Mercraft.Maps.UnitTests.Explorer
         [Test]
         public void CanResolveModelBuilders()
         {
+            // ARRANGE
             var container = new Container();
-            var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
+            var root = new GameRunner(container,
+                new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
 
+            // ACT
             var modelBuilders = container.ResolveAll<IModelBuilder>().ToList();
 
+            // ASSERT
             // NOTE change this value if you add/remove model builders
             Assert.AreEqual(6, modelBuilders.Count);
         }

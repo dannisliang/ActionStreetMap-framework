@@ -12,32 +12,45 @@ namespace Mercraft.Maps.UnitTests.Models
         [Test]
         public void CanReadStyleConfig()
         {
+            // ARRANGE
             var settings = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
+
+            // ACT
             var styleProvider = new BuildingStyleProvider(settings.GetSection("buildings/styles"));
+
+            // ASSERT
             AssertStyles(styleProvider);
         }
 
         [Test]
         public void CanReadTextureConfig()
         {
+            // ARRANGE
             var settings = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
+
+            // ACT
             var textureProvider = new TexturePackProvider(settings.GetSection("buildings/textures"));
+
+            // ASSERT
             AssertTextures(textureProvider);
         }
 
         [Test]
         public void CanReadConfigsFromContainer()
         {
+            // ARRANGE
             var container = new Container();
             var root = new GameRunner(container, new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
 
             var styleProvider = container.Resolve<BuildingStyleProvider>();
             AssertStyles(styleProvider);
 
+            // ACT
             var textureProvider = container.Resolve<TexturePackProvider>();
+
+            // ASSERT
             AssertTextures(textureProvider);
         }
-
 
         #region Helper methods
 

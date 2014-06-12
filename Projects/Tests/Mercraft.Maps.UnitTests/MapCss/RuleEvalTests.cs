@@ -19,19 +19,23 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseCanvas()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
             var canvas = new Canvas();
 
+            // ACT
             var rule = stylesheet.GetRule(canvas);
             var material = rule.Evaluate<string>("material");
 
+            // ASSERT
             Assert.AreEqual("Terrain", material);
         }
 
         [Test]
         public void CanMergeDeclarations()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -54,8 +58,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 }
             };
 
+            // ACT
             var rule = stylesheet.GetRule(area);
 
+
+            // ASSERT
             Assert.IsTrue(rule.IsApplicable, "Unable to get declarations!");
 
             Assert.AreEqual("sphere", rule.Evaluate<string>("builder"), "Unable to merge declarations!");
@@ -70,6 +77,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanProcessSequence()
         {
+            // ARRANGE
             var testPoints = new[]
             {
                 new GeoCoordinate(0, 0),
@@ -106,8 +114,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
                 new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
+            // ACT
             var rule1 = stylesheet.GetRule(area1);
             var rule2 = stylesheet.GetRule(area2);
+
+            // ASSERT
             Assert.AreEqual(237, rule1.GetHeight());
             Assert.AreEqual(12f, rule2.GetHeight());
         }
@@ -115,6 +126,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanUseSimpleEvaluate()
         {
+            // ARRANGE
             var model = new Area
             {
                 Id = 1,
@@ -126,17 +138,19 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
-
             var evalDeclaration = stylesheet.Styles[3].Declarations[0];
 
+            // ACT
             var evalResult = evalDeclaration.Evaluator.Walk<float>(model);
 
+            // ASSERT
             Assert.AreEqual(15, evalResult);
         }
 
         [Test]
         public void CanGetMissing()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -149,19 +163,26 @@ namespace Mercraft.Maps.UnitTests.MapCss
                     new KeyValuePair<string, string>("building", "residential"),
                 }
             };
+
+            // ACT
             var rule = stylesheet.GetRule(area);
 
+            // ASSERT
             Assert.AreEqual(0, rule.GetLevels());
         }
 
         [Test]
         public void CanUseAndSelectors()
         {
+            // ARRANGE
             var stylesheet = MapCssHelper.GetStylesheet("way[waterway][name],way[waterway] { z-index: 0.1}\n");
+
+            // ACT
             var way1 = MapCssHelper.GetWay(new KeyValuePair<string, string>("waterway", "river"),
                 new KeyValuePair<string, string>("name", "spree"));
             var way2 = MapCssHelper.GetWay(new KeyValuePair<string, string>("name", "some name"));
 
+            // ASSERT
             Assert.IsTrue(stylesheet.GetRule(way1).IsApplicable);
             Assert.IsFalse(stylesheet.GetRule(way2).IsApplicable);
         }
@@ -169,6 +190,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanGetColorByRGB()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -181,7 +203,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
                     new KeyValuePair<string, string>("building", "commercial"),
                 }
             };
+
+            // ACT
             var rule = stylesheet.GetRule(buildingWithColorCode);
+
+            // ASSERT
             Assert.AreEqual(ColorUtility.FromName("red"),
                 GetOriginalColorTypeObject(rule.GetFillColor()));
         }
@@ -189,6 +215,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanGetColorByName()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -201,7 +228,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
                     new KeyValuePair<string, string>("building", "yes"),
                 }
             };
+
+            // ACT
             var rule = stylesheet.GetRule(buildingWithColorName);
+
+            // ASSERT
             Assert.AreEqual(ColorUtility.FromName("salmon"),
                 GetOriginalColorTypeObject(rule.GetFillColor()));
         }
@@ -209,6 +240,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanApplyColorByRGB()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -222,12 +254,16 @@ namespace Mercraft.Maps.UnitTests.MapCss
                     new KeyValuePair<string, string>("building:color", "#cfc6b5"),
                 }
             };
+
+            // ACT
             var rule = stylesheet.GetRule(buildingWithColorCode);
+
+            // ASSERT
             Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"),
                 GetOriginalColorTypeObject(rule.GetFillColor()));
         }
 
-        private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(UnityEngine.Color32 color)
+        private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)
         {
             return new Mercraft.Core.Unity.Color32(color.r, color.g, color.b, color.a);
         }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Mercraft.Infrastructure.Config;
 using NUnit.Framework;
 
@@ -11,7 +8,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
     public class ConfigTests
     {
         private IConfigSection _stubSection;
-        
+
         [TestFixtureSetUp]
         public void Initialize()
         {

@@ -22,14 +22,14 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
         public static Area GetArea(params KeyValuePair<string, string>[] tags)
         {
-            return new Area()
+            return new Area
             {
                 Points = new[]
                 {
                     new GeoCoordinate(0, 0),
                     new GeoCoordinate(1, 0),
                     new GeoCoordinate(1, 0),
-                    new GeoCoordinate(0, 0),
+                    new GeoCoordinate(0, 0)
                 },
                 Tags = tags
             };
@@ -37,14 +37,14 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
         public static Way GetWay(params KeyValuePair<string, string>[] tags)
         {
-            return new Way()
+            return new Way
             {
                 Points = new[]
                 {
                     new GeoCoordinate(0, 0),
                     new GeoCoordinate(1, 0),
                     new GeoCoordinate(1, 0),
-                    new GeoCoordinate(0, 0),
+                    new GeoCoordinate(0, 0)
                 },
                 Tags = tags
             };

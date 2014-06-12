@@ -1,11 +1,10 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using Mercraft.Core;
+using Mercraft.Core.Scene;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Osm
@@ -16,6 +15,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanProcessBuildingsXml()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestXmlFilePath).OpenRead())
             {
                 var dataSource = new XmlElementSource(stream);
@@ -26,8 +26,10 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
+                // ASSERT
                 Assert.AreEqual(36, scene.Areas.Count());
                 Assert.AreEqual(30, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }
@@ -36,6 +38,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanProcessLargerAreaPbf()
         {
+            // ARRANGE
             using (Stream stream = new FileInfo(TestHelper.TestPbfFilePath).OpenRead())
             {
                 var dataSource = new PbfElementSource(stream);
@@ -46,8 +49,10 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var elementManager = new ElementManager();
 
+                // ACT
                 elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
+                // ASSERT
                 Assert.AreEqual(1696, scene.Areas.Count());
                 Assert.AreEqual(1453, scene.Areas.Count(a => a.Tags.Any(t => t.Key.Contains("building"))));
             }

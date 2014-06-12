@@ -1,10 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Dependencies.Lifetime;
 using Mercraft.Maps.UnitTests.Infrastructure.Stubs;
 using NUnit.Framework;
 
@@ -30,15 +27,15 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
         [Test]
         public void CanUseRegisterInstance()
         {
-            //arrange
+            // ARRANGE
             using (IContainer container = new Container())
             {
                 IClassA a = new ClassA1();
-                //act
-                container.RegisterInstance<IClassA>(a);
+                // ACT
+                container.RegisterInstance(a);
                 IClassA aFromContainer = container.Resolve<IClassA>();
 
-                //assert
+                // ASSERT
                 Assert.AreSame(a, aFromContainer);
             }
         }
@@ -71,7 +68,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             {
                 container.Register(Component.For<IClassA>().Use<ClassA1>().Named(instance1).Transient());
                 ClassA1 instance = new ClassA1();
-                container.RegisterInstance<ClassA1>(instance, instance2);
+                container.RegisterInstance(instance, instance2);
 
                 Assert.IsNotNull(container.Resolve(instance1));
                 Assert.AreNotSame(container.Resolve(instance1), container.Resolve(instance2));
@@ -116,7 +113,6 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
                 var instance = container.Resolve<ConfigurableClass>();
 
                 Assert.AreSame(configSection, instance.ConfigSection);
-
             }
         }
     }

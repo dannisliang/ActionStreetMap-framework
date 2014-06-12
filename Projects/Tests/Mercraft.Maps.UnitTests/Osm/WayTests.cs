@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
 using Mercraft.Maps.Osm;
@@ -18,7 +14,8 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanFindWays()
         {
-            var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath, 
+            // ARRANGE
+            var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
                 new TestPathResolver());
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
@@ -27,10 +24,11 @@ namespace Mercraft.Maps.UnitTests.Osm
 
             var elementManager = new ElementManager();
 
+            // ACT
             elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
+            // ASSERT
             Assert.AreEqual(1172, scene.Ways.Count());
-            
         }
     }
 }

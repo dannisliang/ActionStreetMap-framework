@@ -10,15 +10,23 @@ namespace Mercraft.Maps.UnitTests.MapCss
         [Test]
         public void CanCreate()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
+
+            // ACT
             var stylesheet = provider.Get();
+
+            // ASSERT
             Assert.IsNotNull(stylesheet);
         }
 
         [Test]
         public void CanParse()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
+
+            // ACT & ASSERT
             var stylesheet = provider.Get();
 
             Assert.AreEqual(9, stylesheet.Styles.Count);

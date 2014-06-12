@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene;
@@ -10,21 +6,20 @@ using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Algorithms
 {
     /// <summary>
-    /// These tests test functionality which seems to be depricated in near future (?)
+    ///     These tests test functionality which seems to be depricated in near future (?)
     /// </summary>
     [TestFixture]
     public class TriangulationTests
     {
-
         [Test]
         public void CanTriangulateNonStandard()
         {
-            var verticies = new MapPoint[]
+            // ARRANGE
+            var verticies = new[]
             {
                 new MapPoint(669.0f, -181.5f),
                 new MapPoint(671.2f, -188.2f),
@@ -32,15 +27,18 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 new MapPoint(688.9f, -202.4f),
                 new MapPoint(670.0f, -208.6f),
                 new MapPoint(664.1f, -190.5f),
-                new MapPoint(671.2f, -188.2f),
+                new MapPoint(671.2f, -188.2f)
             };
             var triangulator = new Triangulator(verticies);
+
+            // ACT
             var triangles = triangulator.Triangulate();
         }
 
         [Test]
         public void CanTriangulateAreasAndWays()
         {
+            // ARRANGE
             var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
                 new TestPathResolver());
 
@@ -52,6 +50,7 @@ namespace Mercraft.Maps.UnitTests.Algorithms
 
             elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
 
+            // ACT & ARRANGE
             foreach (var area in scene.Areas)
             {
                 var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points.ToList());
@@ -64,6 +63,5 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 var triangles = PolygonHelper.GetTriangles3D(verticies);
             }
         }
-
     }
 }

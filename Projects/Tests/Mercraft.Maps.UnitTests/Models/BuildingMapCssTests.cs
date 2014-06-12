@@ -14,6 +14,7 @@ namespace Mercraft.Maps.UnitTests.Models
         [Test]
         public void CanGetBuildingStyle()
         {
+            // ARRANGE
             var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
 
@@ -27,8 +28,11 @@ namespace Mercraft.Maps.UnitTests.Models
                 }
             };
 
+            // ACT
             var rule = stylesheet.GetRule(building);
             var style = rule.GetBuildingStyle();
+
+            // ASSERT
             Assert.AreEqual("residential", style);
         }
     }

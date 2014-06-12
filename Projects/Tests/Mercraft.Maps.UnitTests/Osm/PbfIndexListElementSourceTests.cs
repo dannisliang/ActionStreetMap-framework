@@ -11,12 +11,15 @@ namespace Mercraft.Maps.UnitTests.Osm
         [Test]
         public void CanReadIndex()
         {
-            var elementSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath, 
+            // ARRANGE
+            var elementSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
                 new TestPathResolver());
 
+            // ACT
             var elements = elementSource.Get(
                 BoundingBox.CreateBoundingBox(TestHelper.BerlinInvalidenStr, 100));
 
+            // ASSERT
             Assert.AreEqual(elements.Count(), 577);
         }
     }
