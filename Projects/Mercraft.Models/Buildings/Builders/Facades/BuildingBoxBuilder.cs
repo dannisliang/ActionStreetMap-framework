@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings.Builders
 
     public class BuildingBoxBuilder
     {
-        public static void Build(DynamicMeshGenericMultiMaterialMesh mesh, Model model)
+        public static void Build(DynamicMultiMaterialMesh mesh, Model model)
         {
             Plan plan = model.Plan;
             int numberOfVolumes = model.Plan.Volumes.Count;

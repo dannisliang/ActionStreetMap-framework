@@ -9,10 +9,10 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
     public abstract class RoofBuilder
     {
         protected readonly Model Model;
-        protected readonly DynamicMeshGenericMultiMaterialMesh Mesh;
+        protected readonly DynamicMultiMaterialMesh Mesh;
         protected readonly Texture[] Textures;
 
-        protected RoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        protected RoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
         {
             Model = model;
             Mesh = mesh;

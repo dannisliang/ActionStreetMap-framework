@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class LeantoRoofBuilder: RoofBuilder
     {
-        public LeantoRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public LeantoRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

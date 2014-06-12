@@ -6,7 +6,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class BarrelRoofBuilder: RoofBuilder
     {
-        public BarrelRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh): base(model, mesh)
+        public BarrelRoofBuilder(Model model, DynamicMultiMaterialMesh mesh): base(model, mesh)
         {
         }
 

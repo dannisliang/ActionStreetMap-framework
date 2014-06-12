@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class SawtoothRoofBuilder: RoofBuilder
     {
-        public SawtoothRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public SawtoothRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class GabledRoofBuilder : RoofBuilder
     {
-        public GabledRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public GabledRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

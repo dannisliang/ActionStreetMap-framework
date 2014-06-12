@@ -67,7 +67,8 @@ namespace Mercraft.Explorer.Builders
                     Levels = levels,
                     Style = style,
                     TexturePack = texture,
-                    FootPrint = verticies.ToVector2()
+                    FootPrint = verticies.ToVector2(),
+                    GenerateRoof = false
                 });
 
             return gameObjectWrapper;

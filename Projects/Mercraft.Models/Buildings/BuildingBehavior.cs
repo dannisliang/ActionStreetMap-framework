@@ -20,15 +20,15 @@ namespace Mercraft.Models.Buildings
                 RanGen = new RandomGenerator((uint) settings.Seed)
             };
 
-            Generate(model, settings.Height, settings.Levels);
+            Generate(model, settings.Height, settings.Levels, settings.GenerateRoof);
         }
 
-        private void Generate(Model model, float height, int levels)
+        private void Generate(Model model, float height, int levels, bool generateRoof)
         {
-            var fullMesh = new DynamicMeshGenericMultiMaterialMesh();
-            BuildingGenerator.Generate(model, height, levels);
+            var fullMesh = new DynamicMultiMaterialMesh();
+            BuildingGenerator.Generate(model, height, levels, generateRoof);
 
-            UpdateRender(model, fullMesh);
+            UpdateRender(model, fullMesh, generateRoof);
 
             int vertexCount = fullMesh.VertexCount;
             int it = 20;
@@ -45,7 +45,7 @@ namespace Mercraft.Models.Buildings
                     model.Plan.Volumes[i].NumberOfFloors =
                         Mathf.RoundToInt(model.Plan.Volumes[i].Height/model.FloorHeight);
                 }
-                UpdateRender(model, fullMesh);
+                UpdateRender(model, fullMesh, generateRoof);
                 vertexCount = fullMesh.VertexCount;
 
                 it--;
@@ -54,7 +54,7 @@ namespace Mercraft.Models.Buildings
             }
         }
 
-        private void UpdateRender(Model model, DynamicMeshGenericMultiMaterialMesh fullMesh)
+        private void UpdateRender(Model model, DynamicMultiMaterialMesh fullMesh, bool generateRoof)
         {
             var meshHolders = new List<GameObject>();
             MeshRenderer meshRenderer = null;
@@ -63,7 +63,8 @@ namespace Mercraft.Models.Buildings
             fullMesh.SubMeshCount = model.Textures.Count;
 
             BuildingBoxBuilder.Build(fullMesh, model);
-            RoofGenerator.Generate(model, fullMesh);
+            if (generateRoof)
+                RoofGenerator.Generate(model, fullMesh);
             
             fullMesh.Build(false);
 

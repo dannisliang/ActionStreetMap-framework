@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class MansardRoofBuilder : RoofBuilder
     {
-        public MansardRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public MansardRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

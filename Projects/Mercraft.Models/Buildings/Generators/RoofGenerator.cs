@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Generators
 {
     public class RoofGenerator
     {
-        public static void Generate(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public static void Generate(Model model, DynamicMultiMaterialMesh mesh)
         {
             Plan plan = model.Plan;
 
@@ -38,7 +38,7 @@ namespace Mercraft.Models.Buildings.Generators
         }
 
         private static RoofBuilder GetRoofBuilder(RoofStyle roofStyle, Model model,
-            DynamicMeshGenericMultiMaterialMesh mesh)
+            DynamicMultiMaterialMesh mesh)
         {
             switch (roofStyle)
             {

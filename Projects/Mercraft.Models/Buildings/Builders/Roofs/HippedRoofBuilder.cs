@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class HippedRoofBuilder : RoofBuilder
     {
-        public HippedRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public HippedRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

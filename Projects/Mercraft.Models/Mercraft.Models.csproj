@@ -66,8 +66,8 @@
     <Compile Include="Buildings\TexturePack.cs" />
     <Compile Include="Buildings\Utils\BuildingProjectUVs.cs" />
     <Compile Include="Buildings\Utils\PolyClockwise.cs" />
-    <Compile Include="Buildings\Utils\DynamicMeshGenericMultiMaterial.cs" />
-    <Compile Include="Buildings\Utils\DynamicMeshGenericMultiMaterialMesh.cs" />
+    <Compile Include="Buildings\Utils\DynamicMultiMaterial.cs" />
+    <Compile Include="Buildings\Utils\DynamicMultiMaterialMesh.cs" />
     <Compile Include="Buildings\Utils\EarClipper.cs" />
     <Compile Include="Buildings\Utils\RandomGenerator.cs" />
     <Compile Include="Buildings\Utils\StraightSkeleton.cs" />

@@ -11,5 +11,7 @@ namespace Mercraft.Models.Buildings
         public TexturePack TexturePack { get; set; }
         public BuildingStyle Style { get; set; }
         public IEnumerable<Vector2> FootPrint { get; set; }
+
+        public bool GenerateRoof { get; set; }
     }
 }

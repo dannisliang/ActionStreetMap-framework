@@ -3,22 +3,21 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Utils
 {
-    public class DynamicMeshGenericMultiMaterialMesh
+    public class DynamicMultiMaterialMesh
     {
         public int VertexCount;
 
         public string Name = "mesh";
 
-        private readonly List<DynamicMeshGenericMultiMaterial> _meshes = new List<DynamicMeshGenericMultiMaterial>();
+        private readonly List<DynamicMultiMaterial> _meshes = new List<DynamicMultiMaterial>();
         private int _subMeshCount;
 
-
-        public DynamicMeshGenericMultiMaterialMesh()
+        public DynamicMultiMaterialMesh()
         {
-            _meshes = new List<DynamicMeshGenericMultiMaterial>();
+            _meshes = new List<DynamicMultiMaterial>();
         }
 
-        public DynamicMeshGenericMultiMaterial this[int index]
+        public DynamicMultiMaterial this[int index]
         {
             get { return _meshes[index]; }
         }
@@ -30,7 +29,7 @@ namespace Mercraft.Models.Buildings.Utils
 
         public void Build(bool calcTangents)
         {
-            foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
+            foreach (DynamicMultiMaterial mesh in _meshes)
             {
                 mesh.Build(calcTangents);
             }
@@ -38,7 +37,7 @@ namespace Mercraft.Models.Buildings.Utils
 
         public void Clear()
         {
-            foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
+            foreach (DynamicMultiMaterial mesh in _meshes)
                 mesh.Clear();
             VertexCount = 0;
             _meshes.Clear();
@@ -50,7 +49,7 @@ namespace Mercraft.Models.Buildings.Utils
             set
             {
                 _subMeshCount = value;
-                foreach (DynamicMeshGenericMultiMaterial mesh in _meshes)
+                foreach (DynamicMultiMaterial mesh in _meshes)
                     mesh.SubMeshCount = value;
             }
         }
@@ -60,7 +59,7 @@ namespace Mercraft.Models.Buildings.Utils
             int meshIndex = _meshes.Count - 1;
             if (meshIndex < 0) //check there is a mesh to begin with
             {
-                var newMesh = new DynamicMeshGenericMultiMaterial();
+                var newMesh = new DynamicMultiMaterial();
                 newMesh.Name = Name + " " + (meshIndex + 2);
                 newMesh.SubMeshCount = _subMeshCount;
                 _meshes.Add(newMesh);
@@ -70,7 +69,7 @@ namespace Mercraft.Models.Buildings.Utils
             int newVertCount = numberOfNewVerts + VertexCount - (meshIndex*65000);
             if (newVertCount >= 64990)
             {
-                var newMesh = new DynamicMeshGenericMultiMaterial();
+                var newMesh = new DynamicMultiMaterial();
                 newMesh.Name = Name + " " + (meshIndex + 2);
                 newMesh.SubMeshCount = _subMeshCount;
                 _meshes.Add(newMesh);

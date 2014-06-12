@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class FlatRoofBuilder : RoofBuilder
     {
-        public FlatRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public FlatRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

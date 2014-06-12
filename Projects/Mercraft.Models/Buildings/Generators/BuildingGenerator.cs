@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings.Generators
 {
     public class BuildingGenerator
     {
-        public static void Generate(Model model, float height, int levels)
+        public static void Generate(Model model, float height, int levels, bool generateRoof)
         {
             GenerateFloorPlan(model);
 
@@ -49,7 +49,8 @@ namespace Mercraft.Models.Buildings.Generators
             GetTextures(model);
 
             //roof generation
-            GenerateRoof(model);
+            if (generateRoof)
+                GenerateRoof(model);
         }
 
         private static void GenerateRoof(Model model)

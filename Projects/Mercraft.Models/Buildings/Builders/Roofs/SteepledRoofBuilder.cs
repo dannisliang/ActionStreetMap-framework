@@ -7,7 +7,7 @@ namespace Mercraft.Models.Buildings.Builders.Roofs
 {
     public class SteepledRoofBuilder : RoofBuilder
     {
-        public SteepledRoofBuilder(Model model, DynamicMeshGenericMultiMaterialMesh mesh)
+        public SteepledRoofBuilder(Model model, DynamicMultiMaterialMesh mesh)
             : base(model, mesh)
         {
         }

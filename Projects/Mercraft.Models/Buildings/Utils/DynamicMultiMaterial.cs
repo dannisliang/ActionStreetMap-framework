@@ -9,7 +9,7 @@ namespace Mercraft.Models.Buildings.Utils
     ///     Uses generic lists to contain the mesh Model allowing for the mesh to be of dynamic size
     ///     Creates a mesh that can support multiple materials
     /// </summary>
-    public class DynamicMeshGenericMultiMaterial
+    public class DynamicMultiMaterial
     {
         public string Name = "";
         public Mesh Mesh;
@@ -26,7 +26,7 @@ namespace Mercraft.Models.Buildings.Utils
         private Vector3[] _tan2;
         private Vector4[] _tangents;
 
-        public DynamicMeshGenericMultiMaterial()
+        public DynamicMultiMaterial()
         {
             Mesh = new Mesh();
             Vertices = new List<Vector3>();
@@ -37,7 +37,7 @@ namespace Mercraft.Models.Buildings.Utils
 
         public void Build(bool calcTangents)
         {
-            //Unity has an inbuilt limit of 65000 verticies. Use DynamicMeshGenericMultiMaterialMesh to handle more than 65000
+            //Unity has an inbuilt limit of 65000 verticies. Use DynamicMultiMaterialMesh to handle more than 65000
             if (VertexCount > 65000)
             {
                 Debug.LogWarning(Name + " is exceeding 65000 vertices - stop build");
