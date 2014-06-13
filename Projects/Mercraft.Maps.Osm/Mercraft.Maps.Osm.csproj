@@ -39,6 +39,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
+    <Reference Include="Zlib">
+      <HintPath>..\packages\Zlib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IElementSourceProvider.cs" />
@@ -46,12 +49,10 @@
     <Compile Include="Data\PbfIndexListElementSource.cs" />
     <Compile Include="Data\StatefulElementSource.cs" />
     <Compile Include="Data\IElementSource.cs" />
-    <Compile Include="Extensions\ConverterHelper.cs" />
     <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Element.cs" />
     <Compile Include="Helpers\LocationInfoExtractor.cs" />
-    <Compile Include="Formats\Xml\v0_6\Extensions.cs" />
     <Compile Include="Formats\Xml\v0_6\osm.cs">
       <DependentUpon>osm.xsd</DependentUpon>
     </Compile>

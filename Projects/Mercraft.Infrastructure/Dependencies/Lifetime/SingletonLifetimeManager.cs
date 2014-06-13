@@ -5,7 +5,7 @@ using Mercraft.Infrastructure.Dependencies.Interception;
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
-    /// Creates singleton instance for wrapped type
+    ///     Creates singleton instance for wrapped type
     /// </summary>
     public class SingletonLifetimeManager : ILifetimeManager
     {
@@ -16,16 +16,11 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         public object[] CstorArgs { get; set; }
         public System.Reflection.ConstructorInfo Constructor { get; set; }
 
-        public SingletonLifetimeManager()
-        {
-            
-        }
-
         private object _instance;
         private IProxy _proxy;
 
         /// <summary>
-        /// Returns singleton instance
+        ///     Returns singleton instance
         /// </summary>
         /// <returns></returns>
         public object GetInstance()
@@ -34,13 +29,13 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         }
 
         /// <summary>
-        /// returns new instance of the target type. The name parameters isn't used
+        ///     returns new instance of the target type. The name parameters isn't used
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public object GetInstance(string name)
         {
-            object target = _instance;
+            object target = _proxy ?? _instance;
             if (_instance == null)
             {
                 _instance = (Constructor ?? TypeHelper.GetConstructor(TargetType, CstorArgs))
@@ -64,7 +59,5 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
                 (_instance as IDisposable).Dispose();
             _instance = null;
         }
-
-        
     }
 }

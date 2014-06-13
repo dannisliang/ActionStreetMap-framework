@@ -9,9 +9,9 @@ namespace Mercraft.Infrastructure.Diagnostic
     {
         #region ITrace implementation
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         public int Level { get; set; }
