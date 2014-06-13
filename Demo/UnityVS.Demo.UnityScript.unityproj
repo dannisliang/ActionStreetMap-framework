@@ -67,6 +67,9 @@
     <Reference Include="protobuf-net">
       <HintPath>Assets\Dependencies\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="Zlib">
+      <HintPath>Assets\Dependencies\Zlib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.Demo.UnityScript.Plugins.unityproj">
@@ -88,6 +91,7 @@
     <None Include="Assets\Dependencies\Mercraft.Maps.Osm.dll" />
     <None Include="Assets\Dependencies\Mercraft.Models.dll" />
     <None Include="Assets\Dependencies\protobuf-net.dll" />
+    <None Include="Assets\Dependencies\Zlib.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />

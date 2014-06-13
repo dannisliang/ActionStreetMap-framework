@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -38,10 +39,10 @@ namespace Mercraft.Maps.Osm.Data
 
         public void Configure(IConfigSection configSection)
         {
-            string filePath = configSection.GetString("file");
+            string filePath = configSection.GetString("path");
             var fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
 
-            if (fileExtension == ".list")
+            if (String.IsNullOrEmpty(fileExtension))
             {
                 _dataSource = new PbfIndexListElementSource(filePath, _pathResolver);
             }

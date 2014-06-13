@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
@@ -10,20 +11,30 @@ namespace Mercraft.Maps.Osm.Data
 {
     public class PbfIndexListElementSource : PbfElementSource
     {
-        private const string filePattern = "{0}.osm.pbf";
-
-        private readonly IPathResolver _pathResolver;
+        private const string IndexFilePattern = "*.list";
+        private const string OsmFilePattern = "{0}.osm.pbf";
 
         private readonly Regex _geoCoordinateRegex =
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)", RegexOptions.Compiled);
 
-        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>();
-        private Dictionary<long, Element> _elements;
+        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex =
+            new List<KeyValuePair<string, BoundingBox>>();
 
         public PbfIndexListElementSource(string indexListPath, IPathResolver pathResolver)
         {
-            _pathResolver = pathResolver;
-            ReadIndex(indexListPath);
+            SearchAndReadIndexListFiles(pathResolver.Resolve(indexListPath));
+        }
+
+        /// <summary>
+        ///     Scans all directories recursively and processes index files
+        /// </summary>
+        private void SearchAndReadIndexListFiles(string folder)
+        {
+            Directory.GetFiles(folder, IndexFilePattern).ToList()
+                .ForEach(ReadIndex);
+
+            Directory.GetDirectories(folder).ToList()
+                .ForEach(SearchAndReadIndexListFiles);
         }
 
         /// <summary>
@@ -43,9 +54,8 @@ namespace Mercraft.Maps.Osm.Data
              */
             // This is just rough implementation to check idea
             // TODO improve it
-            var indexListPathResolved = _pathResolver.Resolve(indexListPath);
-            var indexFileDirectory = Path.GetDirectoryName(indexListPathResolved);
-            using (var reader = new StreamReader(indexListPathResolved))
+            var indexFileDirectory = Path.GetDirectoryName(indexListPath);
+            using (var reader = new StreamReader(indexListPath))
             {
                 // Skip three first lines
                 reader.ReadLine();
@@ -55,7 +65,7 @@ namespace Mercraft.Maps.Osm.Data
                 while (reader.Peek() >= 0)
                 {
                     var fileName = Path.Combine(indexFileDirectory,
-                        String.Format(filePattern,
+                        String.Format(OsmFilePattern,
                             reader.ReadLine().Split(':')[0]));
 
                     var coordinateStrings = reader.ReadLine().Split(new[] {"to"}, StringSplitOptions.None);
