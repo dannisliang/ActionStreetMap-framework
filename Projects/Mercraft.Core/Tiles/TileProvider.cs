@@ -21,6 +21,7 @@ namespace Mercraft.Core.Tiles
         private readonly ISceneBuilder _sceneBuilder;
         private readonly ITileListener _tileListener;
 
+        // TODO Use 2d index?
         private readonly List<Tile> _tiles;
 
         [Dependency]

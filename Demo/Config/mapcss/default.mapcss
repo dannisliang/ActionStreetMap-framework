@@ -98,15 +98,16 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 
 /* water */
 area[natural=water],	
-way[waterway],
-way[waterway][name],
 area[waterway=riverbank], 
-area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Grass;}
+area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
 
-way[barrier] :closed									{ z-index: 0.1;builder: flat; material: Grass; fill-color: #444444;  width: 0.4;}
+way[waterway],
+way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: road; material: Water;}
+														
+way[barrier] :closed									{ z-index: 0.1;builder: road; material: Road; fill-color: #444444;  width: 0.4;}
 
 /* roads */
-way[highway]											{ z-index: 0.1; builder: flat; material: Grass; fill-color: #FF0000; width:2 }
+way[highway]											{ z-index: 0.1; builder: road; material: Road; fill-color: #FF0000; width:2 }
 
 way[highway=tertiary],
 way[highway=residential],

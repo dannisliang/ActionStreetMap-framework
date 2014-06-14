@@ -32,7 +32,7 @@ namespace Mercraft.Core.Algorithms
             //if (geoCoordinates[0] == geoCoordinates[length - 1])
             //    length--;
 
-            var  verticies = geoCoordinates
+            var verticies = geoCoordinates
                 .Select(g => GeoProjection.ToMapCoordinate(center, g))
                 .Take(length).ToArray();
 

@@ -15,7 +15,6 @@ namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
-        private const string RenderModeKey = @"render/@mode";
         private const string ThemeKey = @"render/@theme";
         private readonly TexturePackProvider _textureProvider;
         private readonly BuildingStyleProvider _styleProvider;
