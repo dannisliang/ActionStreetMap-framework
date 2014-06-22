@@ -11,7 +11,6 @@ namespace Mercraft.Explorer.Bootstrappers
         private const string SceneBuilderKey = "scene";
         private const string TileProviderKey = "provider";
         private const string PositionListenerKey = "loader";
-        private const string GameObjectBuilderKey = "gameObjectBuilder";
         private const string TileListenerKey = "listeners/tile";
         private const string ZoneListenerKey = "listeners/zone";
 
@@ -20,7 +19,6 @@ namespace Mercraft.Explorer.Bootstrappers
             Configurator.RegisterComponent<ISceneBuilder>(ConfigSection.GetSection(SceneBuilderKey));
             Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
             Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
-            Configurator.RegisterComponent<IGameObjectBuilder>(ConfigSection.GetSection(GameObjectBuilderKey));
             Configurator.RegisterComponent<ITileListener>(ConfigSection.GetSection(TileListenerKey));
             Configurator.RegisterComponent<IZoneListener>(ConfigSection.GetSection(ZoneListenerKey));
 

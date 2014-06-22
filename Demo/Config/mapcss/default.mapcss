@@ -1,4 +1,7 @@
-canvas	 												{ z-index: 0; material: Terrain; background-color: #f1eee8;}
+canvas { z-index: 0; 
+	texture: 0, Pebbles, 10, 10;
+	texture: 0, Road, 10, 10;
+}
 
 /* buildings */
 /* Take note that building-style is set to residential. We have to distinguish different types */
@@ -106,6 +109,7 @@ way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: road;
 														
 way[barrier] :closed									{ z-index: 0.1;builder: road; material: Road; fill-color: #444444;  width: 0.4;}
 
+/* { z-index: 0.1; isTerrain:true; terrainIndex: 1; fill-color: #FF0000; width:2 } */
 /* roads */
 way[highway]											{ z-index: 0.1; builder: road; material: Road; fill-color: #FF0000; width:2 }
 

@@ -1,4 +1,10 @@
-﻿using Mercraft.Core.Unity;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mercraft.Core.Scene;
+using Mercraft.Core.Unity;
+using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Interactions;
+using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
@@ -13,6 +19,12 @@ namespace Mercraft.Explorer.Infrastructure
         public virtual IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new UnityGameObject(name, GetPrimitive(type));
+        }
+
+        public virtual IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders,
+            IEnumerable<IModelBehaviour> behaviours)
+        {
+            return new GameObjectBuilder(this, builders, behaviours);
         }
 
         private GameObject GetPrimitive(UnityPrimitiveType type)

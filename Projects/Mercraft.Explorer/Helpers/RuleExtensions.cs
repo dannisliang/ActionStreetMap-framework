@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.MapCss.Domain;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 using Mercraft.Explorer.Builders;
@@ -80,6 +81,32 @@ namespace Mercraft.Explorer.Helpers
         public static float GetWidth(this Rule rule)
         {
             return rule.Evaluate<float>("width");
+        }
+
+        public static bool IsTerrain(this Rule rule)
+        {
+            return rule.EvaluateDefault("isTerrain", false);
+        }
+
+        public static int GetSplatIndex(this Rule rule)
+        {
+            return rule.Evaluate<int>("terrainIndex");
+        }
+
+        public static SplatPrototype[] GetSplatPrototypes(this Rule rule)
+        {
+            var textures = rule.EvaluateList<List<string>>("texture");
+            var splatPrototypes = new SplatPrototype[textures.Count];
+            for (int i = 0; i < textures.Count; i++)
+            {
+                var texture = textures[i];
+                var splatPrototype = new SplatPrototype();
+                splatPrototype.texture = Resources.Load<Texture2D>("Textures/" + texture[1].Trim());
+                splatPrototype.tileSize = new Vector2(int.Parse(texture[2]), int.Parse(texture[3]));
+
+                splatPrototypes[i] = splatPrototype;
+            }
+            return splatPrototypes;
         }
     }
 }

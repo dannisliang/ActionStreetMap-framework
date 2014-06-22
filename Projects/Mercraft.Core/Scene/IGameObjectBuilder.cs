@@ -9,6 +9,7 @@ namespace Mercraft.Core.Scene
     /// </summary>
     public interface IGameObjectBuilder
     {
+        IGameObject CreateTileHolder();
         IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas);
         IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area);
         IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way);

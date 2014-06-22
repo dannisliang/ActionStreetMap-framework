@@ -45,7 +45,7 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
+           
             var canvas = new Canvas()
             {
                 Tile = new Tile(
@@ -54,10 +54,14 @@ namespace Assets.Scripts.Demo
                     new MapPoint(0, 0), 
                     50)
             };
+            var canvasRule = stylesheet.GetRule(canvas, false);
+            var splatPrototypes = canvasRule.GetSplatPrototypes();
 
-            var canvasRule = stylesheet.GetRule(canvas);
+            
+            /*
+            var canvasVisitor = container.Resolve<IGameObjectBuilder>();
             var canvasGameObject = canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
-
+            */
 
 
             Debug.Log("Generate Terrain: Done");

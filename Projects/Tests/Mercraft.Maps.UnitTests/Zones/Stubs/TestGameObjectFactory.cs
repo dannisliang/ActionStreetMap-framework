@@ -1,4 +1,6 @@
-﻿using Mercraft.Core.Unity;
+﻿using System.Collections.Generic;
+using Mercraft.Core.Scene;
+using Mercraft.Core.Unity;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -12,6 +14,12 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         public IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new TestGameObject();
+        }
+
+        public IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders,
+            IEnumerable<IModelBehaviour> behaviours)
+        {
+            return new TestGameObjectBuilder(this, builders, behaviours);
         }
     }
 }

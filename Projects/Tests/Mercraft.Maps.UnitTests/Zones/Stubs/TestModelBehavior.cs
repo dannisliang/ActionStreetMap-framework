@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.Scene.Models;
+﻿using Mercraft.Core.Scene;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Config;

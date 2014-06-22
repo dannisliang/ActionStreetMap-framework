@@ -1,7 +1,7 @@
 ﻿using System;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Interactions;
 using Mercraft.Maps.Osm.Helpers;
 using UnityEngine;
 using LocationInfo = Mercraft.Core.LocationInfo;

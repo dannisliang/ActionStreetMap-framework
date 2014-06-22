@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;

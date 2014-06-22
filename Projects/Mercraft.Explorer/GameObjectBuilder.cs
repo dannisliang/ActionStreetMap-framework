@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -10,6 +11,8 @@ using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer
@@ -20,7 +23,9 @@ namespace Mercraft.Explorer
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
-        [Dependency]
+        private List<Tuple<Area, Rule>> _terrainAreas = new List<Tuple<Area, Rule>>();
+        private List<Tuple<Way, Rule>> _terrainWays = new List<Tuple<Way, Rule>>();
+
         public GameObjectBuilder(IGameObjectFactory goFactory,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
@@ -32,34 +37,53 @@ namespace Mercraft.Explorer
 
         #region IGameObjectBuilder implementation
 
+        public IGameObject CreateTileHolder()
+        {
+            return _goFactory.CreateNew("tile");
+        }
+
         public IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
-            var material = rule.GetMaterial();
 
-            var gameObjectWrapper = _goFactory.CreatePrimitive("", UnityPrimitiveType.Quad);
-            var quad = gameObjectWrapper.GetComponent<GameObject>();
-            quad.name = "tile";
-            quad.transform.position = new Vector3(tile.TileMapCenter.X, 0, tile.TileMapCenter.Y);
-            quad.transform.transform.localScale = new Vector3(tile.Size, tile.Size, 1);
-            quad.transform.transform.Rotate(90, 0, 0);
-            quad.renderer.material = material;
+            var terrainSettings = new TerrainSettings()
+            {
+                CenterPosition = new Vector3(tile.TileMapCenter.X, 0, tile.TileMapCenter.Y),
+                TerrainSize = tile.Size,
+                SplatPrototypes = rule.GetSplatPrototypes(),
+                Polygons = _terrainAreas.Select(a => new TerrainElement()
+                {
+                    Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
+                    ZIndex = a.Item2.GetZIndex(),
+                    SplatIndex = a.Item2.GetSplatIndex()
+                }).ToArray(),
+                Curves = _terrainWays.Select(a => new TerrainElement()
+                {
+                    Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
+                    ZIndex = a.Item2.GetZIndex(),
+                    SplatIndex = a.Item2.GetSplatIndex()
+                }).ToArray()
+            };
 
-            return gameObjectWrapper;
+            var terrainBuilder = new TerrainBuilder(terrainSettings);
+            return terrainBuilder.Build(parent);
         }
 
         public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
         {
+            if (rule.IsTerrain())
+            {
+                _terrainAreas.Add(new Tuple<Area, Rule>(area, rule));
+                // TODO in future we want to build some special object which will be
+                // invisible as it's part of terrain but useful to provide some OSM info
+                // which is associated with it
+                return null;
+            }
+
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildArea(center, rule, area);
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
             gameObject.name = String.Format("{0} {1}", builder.Name, area);
-
-
-            /*var meshFilter = gameObject.GetComponent<MeshFilter>();
-
-            var collider = gameObject.AddComponent<MeshCollider>();
-            collider.sharedMesh = meshFilter.mesh;*/
 
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             ApplyBehaviour(gameObjectWrapper, rule, area);
@@ -69,6 +93,16 @@ namespace Mercraft.Explorer
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            if (rule.IsTerrain())
+            {
+                _terrainWays.Add(new Tuple<Way, Rule>(way, rule));
+                // TODO in future we want to build some special object which will be
+                // invisible as it's part of terrain but useful to provide some OSM info
+                // which is associated with it. For road it will be some waypoints which
+                // help AI to be placed on this road
+                return null;
+            }
+
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();

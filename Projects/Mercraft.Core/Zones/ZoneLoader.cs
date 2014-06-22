@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
+using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Core.Tiles;
@@ -19,7 +21,9 @@ namespace Mercraft.Core.Zones
         protected readonly TileProvider TileProvider;
         protected readonly IZoneListener ZoneListener;
         protected readonly IStylesheetProvider StylesheetProvider;
-        protected readonly IGameObjectBuilder SceneModelVisitor;
+        protected readonly IGameObjectFactory GameObjectFactory;
+        private readonly IEnumerable<IModelBuilder> _builders;
+        private readonly IEnumerable<IModelBehaviour> _behaviours;
        
         protected float Offset { get; set; }
 
@@ -38,12 +42,16 @@ namespace Mercraft.Core.Zones
         public ZoneLoader(TileProvider tileProvider, 
             IZoneListener zoneListener,
             IStylesheetProvider stylesheetProvider,
-            IGameObjectBuilder sceneModelVisitor)
+            IGameObjectFactory goFactory,
+            IEnumerable<IModelBuilder> builders,
+            IEnumerable<IModelBehaviour> behaviours)
         {
             TileProvider = tileProvider;
             ZoneListener = zoneListener;
             StylesheetProvider = stylesheetProvider;
-            SceneModelVisitor = sceneModelVisitor;
+            GameObjectFactory = goFactory;
+            _builders = builders.ToList();
+            _behaviours = behaviours.ToList();
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
@@ -63,7 +71,8 @@ namespace Mercraft.Core.Zones
 
             // Build zone
             ZoneListener.OnZoneLoadStarted(tile);
-            var zone = new Zone(tile, StylesheetProvider.Get(), SceneModelVisitor, Trace);
+            var zone = new Zone(tile, StylesheetProvider.Get(), GameObjectFactory, 
+                _builders, _behaviours, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);
             CurrentZone = zone;

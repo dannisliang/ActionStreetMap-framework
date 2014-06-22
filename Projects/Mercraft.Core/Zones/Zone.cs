@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -15,6 +16,7 @@ namespace Mercraft.Core.Zones
     public class Zone
     {
         private readonly IGameObjectBuilder _gameObjectBuilder;
+        private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITrace _trace;
 
         public Tile Tile { get; private set; }
@@ -22,12 +24,15 @@ namespace Mercraft.Core.Zones
 
         public Zone(Tile tile,
             Stylesheet stylesheet,
-            IGameObjectBuilder gameObjectBuilder,
+            IGameObjectFactory gameObjectFactory,
+            IEnumerable<IModelBuilder> builders,
+            IEnumerable<IModelBehaviour> behaviours,
             ITrace trace)
         {
             Tile = tile;
             Stylesheet = stylesheet;
-            _gameObjectBuilder = gameObjectBuilder;
+            _gameObjectFactory = gameObjectFactory;
+            _gameObjectBuilder = _gameObjectFactory.GetBuilder(builders, behaviours);
             _trace = trace;
         }
 
@@ -40,16 +45,17 @@ namespace Mercraft.Core.Zones
             // NOTE Dispose scene to release memory
             using (Tile.Scene)
             {
+                var tileHolder = _gameObjectBuilder.CreateTileHolder();
+
+                BuildModel(Tile.Scene.Areas.ToList(), loadedElementIds, (area, rule) =>
+                    _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, tileHolder, rule, area));
+
+                BuildModel(Tile.Scene.Ways.ToList(), loadedElementIds, (way, rule) =>
+                    _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, tileHolder, rule, way));
+
                 var canvas = Tile.Scene.Canvas;
-                var canvasRule = Stylesheet.GetRule(canvas);
-                IGameObject canvasObject =
-                    _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, null, canvasRule, canvas);
-
-                BuildModel(Tile.Scene.Areas, loadedElementIds, (area, rule) =>
-                    _gameObjectBuilder.FromArea(Tile.RelativeNullPoint, canvasObject, rule, area));
-
-                BuildModel(Tile.Scene.Ways, loadedElementIds, (way, rule) =>
-                    _gameObjectBuilder.FromWay(Tile.RelativeNullPoint, canvasObject, rule, way));
+                var canvasRule = Stylesheet.GetRule(canvas, false);
+                _gameObjectBuilder.FromCanvas(Tile.RelativeNullPoint, tileHolder, canvasRule, canvas);
             }
         }
 
@@ -66,10 +72,11 @@ namespace Mercraft.Core.Zones
                     var rule = Stylesheet.GetRule(model);
                     if (rule.IsApplicable)
                     {
-                        // TODO probably, we need to return built game object 
+                        // TODO probably, we need to save built game object 
                         // to be able to perform cleanup on our side
-                        builder(model, rule);
-                        loadedElementIds.Add(model.Id);
+                        var gameObject = builder(model, rule);
+                        if (gameObject != null)
+                            loadedElementIds.Add(model.Id);
                     }
                     else
                     {

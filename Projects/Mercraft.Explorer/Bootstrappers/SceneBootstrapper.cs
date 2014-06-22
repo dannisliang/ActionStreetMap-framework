@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core.MapCss;
+using Mercraft.Core.Scene;
 using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Bootstrap;

@@ -1,14 +1,12 @@
 ﻿using System;
-using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
-using UnityEngine;
 
-namespace Mercraft.Explorer.Builders
+namespace Mercraft.Core.Scene
 {
     public interface IModelBuilder
     {

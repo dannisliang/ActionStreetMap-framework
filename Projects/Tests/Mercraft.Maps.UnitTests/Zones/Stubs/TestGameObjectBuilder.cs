@@ -33,6 +33,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         #region IGameObjectBuilder implementation
 
+        public IGameObject CreateTileHolder()
+        {
+            return _goFactory.CreateNew("tile");
+        }
+
         public IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
@@ -42,6 +47,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
         {
+            if (rule.IsTerrain())
+            {
+                return null;
+            }
+
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildArea(center, rule, area);
             ApplyBehaviour(gameObjectWrapper, rule, area);
@@ -51,6 +61,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            if (rule.IsTerrain())
+            {
+                return null;
+            }
+
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
             ApplyBehaviour(gameObjectWrapper, rule, way);

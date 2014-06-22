@@ -1,7 +1,7 @@
 ﻿using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 
-namespace Mercraft.Explorer.Interactions
+namespace Mercraft.Core.Scene
 {
     public interface IModelBehaviour
     {

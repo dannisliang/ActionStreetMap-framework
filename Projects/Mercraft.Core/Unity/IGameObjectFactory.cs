@@ -1,4 +1,7 @@
 ﻿
+using System.Collections.Generic;
+using Mercraft.Core.Scene;
+
 namespace Mercraft.Core.Unity
 {
     /// <summary>
@@ -6,9 +9,11 @@ namespace Mercraft.Core.Unity
     /// </summary>
     public interface IGameObjectFactory
     {
+        // TODO add object pool logic?
         IGameObject CreateNew(string name);
         IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
 
-        // TODO add object pool logic?
+        IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders, 
+            IEnumerable<IModelBehaviour> behaviours);
     }
 }

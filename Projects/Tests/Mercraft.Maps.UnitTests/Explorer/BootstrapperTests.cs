@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Mercraft.Core.Scene;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Builders;
 using Mercraft.Infrastructure.Config;
