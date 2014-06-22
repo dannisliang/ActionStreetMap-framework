@@ -17,9 +17,12 @@ namespace Mercraft.Core.MapCss.Domain
             Styles = new List<Style>();
         }
 
-        public Rule GetRule(Model model)
+        public Rule GetRule(Model model, bool mergeDeclarations = true)
         {
-            return Styles.Aggregate(new Rule(model), (r, s) => MergeDeclarations(s, r, model));
+            if(mergeDeclarations)
+                return Styles.Aggregate(new Rule(model), (r, s) => MergeDeclarations(s, r, model));
+
+            return Styles.Aggregate(new Rule(model), (r, s) => CollectDeclarations(s, r, model));
         }
 
         private Rule MergeDeclarations(Style style, Rule rule, Model model)
@@ -47,6 +50,25 @@ namespace Mercraft.Core.MapCss.Domain
                         IsEval = ruleDeclarations.IsEval
                     });
                 }
+            }
+            return rule;
+        }
+
+        private Rule CollectDeclarations(Style style, Rule rule, Model model)
+        {
+            if (!style.IsApplicable(model))
+                return rule;
+
+            foreach (var ruleDeclarations in style.Declarations)
+            {
+                // Should copy Declaration
+                rule.Declarations.Add(new Declaration()
+                {
+                    Qualifier = ruleDeclarations.Qualifier,
+                    Value = ruleDeclarations.Value,
+                    Evaluator = ruleDeclarations.Evaluator,
+                    IsEval = ruleDeclarations.IsEval
+                });
             }
             return rule;
         }

@@ -46,6 +46,25 @@ namespace Mercraft.Core.MapCss.Domain
             return Evaluate(qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
         }
 
+        public List<T> EvaluateList<T>(string qualifier)
+        {
+            return EvaluateList(qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
+        }
+
+        public List<T> EvaluateList<T>(string qualifier, Func<string, T> converter)
+        {
+            var declarations = Declarations.Where(d => d.Qualifier == qualifier);
+            var values = new List<T>();
+            foreach (var declaration in declarations)
+            {
+                values.Add(declaration.IsEval ? 
+                    declaration.Evaluator.Walk<T>(_model) :
+                    converter(declaration.Value));
+            }
+
+            return values;
+        }
+
         public T Evaluate<T>(string qualifier, Func<string, T> converter)
         {
             Assert();

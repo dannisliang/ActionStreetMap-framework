@@ -30,6 +30,12 @@ namespace Mercraft.Core.MapCss.Visitors
                 declaration.Evaluator = new ColorTreeWalker(declarationTree.Children[1] as CommonTree);
             }
 
+            if (declaration.Value == "VALUE_LIST")
+            {
+                declaration.IsEval = true;
+                declaration.Evaluator = new ListTreeWalker(declarationTree.Children[1] as CommonTree);
+            }
+
             return declaration;
         }
     }

@@ -20,6 +20,11 @@ namespace Mercraft.Maps.UnitTests.MapCss
             return provider.Get();
         }
 
+        public static Canvas GetCanvas()
+        {
+            return new Canvas();
+        }
+
         public static Area GetArea(params KeyValuePair<string, string>[] tags)
         {
             return new Area
