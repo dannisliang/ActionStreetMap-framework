@@ -78,13 +78,18 @@
     <Compile Include="Roads\RoadSettings.cs" />
     <Compile Include="Terrain\AlphaMapElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
+    <Compile Include="Terrain\Areas\Area.cs" />
+    <Compile Include="Terrain\Areas\AreaBuilder.cs" />
     <Compile Include="Terrain\HeightMapGenerator.cs" />
+    <Compile Include="Terrain\Roads\Road.cs" />
+    <Compile Include="Terrain\Roads\RoadBuilder.cs" />
+    <Compile Include="Terrain\Roads\RoadSegment.cs" />
+    <Compile Include="Terrain\Roads\Segment.cs" />
+    <Compile Include="Terrain\TerrainBuilder.cs" />
+    <Compile Include="Terrain\TerrainSettings.cs" />
+    <Compile Include="Terrain\TerrainUtils.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />
     <Compile Include="Utils\PerlinNoise.cs" />
-    <Compile Include="Utils\PolygonUtils.cs" />
-    <Compile Include="Terrain\TerrainBuilder.cs" />
-    <Compile Include="Terrain\TerrainElement.cs" />
-    <Compile Include="Terrain\TerrainSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">

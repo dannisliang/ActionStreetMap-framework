@@ -13,6 +13,7 @@ using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Terrain;
+using Mercraft.Models.Terrain.Roads;
 using UnityEngine;
 
 namespace Mercraft.Explorer
@@ -51,16 +52,17 @@ namespace Mercraft.Explorer
                 CenterPosition = new Vector3(tile.TileMapCenter.X, 0, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 SplatPrototypes = rule.GetSplatPrototypes(),
-                Polygons = _terrainAreas.Select(a => new TerrainElement()
+                Areas = _terrainAreas.Select(a => new Mercraft.Models.Terrain.Areas.Area()
                 {
                     Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
                     ZIndex = a.Item2.GetZIndex(),
                     SplatIndex = a.Item2.GetSplatIndex()
                 }).ToArray(),
-                Curves = _terrainWays.Select(a => new TerrainElement()
+                Roads = _terrainWays.Select(a => new Road()
                 {
                     Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
                     ZIndex = a.Item2.GetZIndex(),
+                    Width = a.Item2.GetWidth(),
                     SplatIndex = a.Item2.GetSplatIndex()
                 }).ToArray()
             };

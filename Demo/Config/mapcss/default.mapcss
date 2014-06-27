@@ -1,6 +1,6 @@
 canvas { z-index: 0; 
 	texture: 0, Pebbles, 10, 10;
-	texture: 0, Road, 10, 10;
+	texture: 1, Road, 10, 10;
 }
 
 /* buildings */
@@ -111,7 +111,7 @@ way[barrier] :closed									{ z-index: 0.1;builder: road; material: Road; fill-
 
 /* { z-index: 0.1; isTerrain:true; terrainIndex: 1; fill-color: #FF0000; width:2 } */
 /* roads */
-way[highway]											{ z-index: 0.1; builder: road; material: Road; fill-color: #FF0000; width:2 }
+way[highway]											{ z-index: 0.1; isTerrain:true; terrainIndex:1; width:2 }
 
 way[highway=tertiary],
 way[highway=residential],

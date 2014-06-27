@@ -1,8 +1,8 @@
 ﻿using Mercraft.Core;
 
-namespace Mercraft.Models.Terrain
+namespace Mercraft.Models.Terrain.Areas
 {
-    public class TerrainElement
+    public class Area
     {
         public float ZIndex;
         public int SplatIndex;

@@ -1,4 +1,6 @@
-﻿namespace Mercraft.Core
+﻿using System;
+
+namespace Mercraft.Core
 {
     public struct MapPoint
     {
@@ -9,6 +11,11 @@
         {
             X = x;
             Y = y;
+        }
+
+        public float DistanceTo(MapPoint point)
+        {
+            return (float) Math.Sqrt(Math.Pow(point.X - X, 2) + Math.Pow(point.Y - Y, 2));
         }
 
         public override string ToString()

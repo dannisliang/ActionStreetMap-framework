@@ -38,6 +38,7 @@ namespace Mercraft.Models.Terrain
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             var terrain = gameObject.GetComponent<UnityEngine.Terrain>();
+
             terrain.transform.position = new Vector3(_settings.CornerPosition.x, 0, _settings.CornerPosition.y);
             terrain.heightmapPixelError = _settings.PixelMapError;
             terrain.basemapDistance = _settings.BaseMapDist;

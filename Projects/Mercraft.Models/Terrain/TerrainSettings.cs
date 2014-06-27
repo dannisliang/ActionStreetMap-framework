@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Mercraft.Models.Terrain.Areas;
+using Mercraft.Models.Terrain.Roads;
+using UnityEngine;
 
 namespace Mercraft.Models.Terrain
 {
@@ -34,8 +36,8 @@ namespace Mercraft.Models.Terrain
 
         public SplatPrototype[] SplatPrototypes;
 
-        public TerrainElement[] Curves;
-        public TerrainElement[] Polygons;
+        public Road[] Roads;
+        public Area[] Areas;
 
         public Vector2 CenterPosition;
         public Vector2 CornerPosition
@@ -46,6 +48,5 @@ namespace Mercraft.Models.Terrain
                 CenterPosition.y - TerrainSize / 2f);
             }
         }
-
     }
 }
