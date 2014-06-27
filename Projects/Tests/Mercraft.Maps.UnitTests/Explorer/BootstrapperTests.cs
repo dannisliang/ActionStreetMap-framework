@@ -24,7 +24,7 @@ namespace Mercraft.Maps.UnitTests.Explorer
 
             // ASSERT
             // NOTE change this value if you add/remove model builders
-            Assert.AreEqual(7, modelBuilders.Count);
+            Assert.AreEqual(6, modelBuilders.Count);
         }
     }
 }

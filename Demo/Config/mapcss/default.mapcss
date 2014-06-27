@@ -105,9 +105,9 @@ area[waterway=riverbank],
 area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
 
 way[waterway],
-way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: road; material: Water;}
+way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
 														
-way[barrier] :closed									{ z-index: 0.1;builder: road; material: Road; fill-color: #444444;  width: 0.4;}
+way[barrier] :closed									{ z-index: 0.1;isTerrain:true; terrainIndex: 1; fill-color: #444444;  width: 0.4;}
 
 /* { z-index: 0.1; isTerrain:true; terrainIndex: 1; fill-color: #FF0000; width:2 } */
 /* roads */

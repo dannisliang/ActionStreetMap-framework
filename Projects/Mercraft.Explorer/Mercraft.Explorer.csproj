@@ -42,7 +42,6 @@
     <Compile Include="Builders\BuildingModelBuilder.cs" />
     <Compile Include="Builders\EmptyModelBuilder.cs" />
     <Compile Include="Builders\FlatModelBuilder.cs" />
-    <Compile Include="Builders\RoadModelBuilder.cs" />
     <Compile Include="Builders\SolidModelBuilder.cs" />
     <Compile Include="Builders\CylinderModelBuilder.cs" />
     <Compile Include="Builders\SphereModelBuilder.cs" />
