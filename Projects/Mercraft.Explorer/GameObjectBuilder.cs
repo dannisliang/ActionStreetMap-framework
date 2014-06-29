@@ -49,7 +49,7 @@ namespace Mercraft.Explorer
 
             var terrainSettings = new TerrainSettings()
             {
-                CenterPosition = new Vector3(tile.TileMapCenter.X, 0, tile.TileMapCenter.Y),
+                CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 SplatPrototypes = rule.GetSplatPrototypes(),
                 Areas = _terrainAreas.Select(a => new Mercraft.Models.Terrain.Areas.Area()

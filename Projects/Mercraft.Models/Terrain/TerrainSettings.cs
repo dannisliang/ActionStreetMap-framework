@@ -10,7 +10,7 @@ namespace Mercraft.Models.Terrain
         /// This is the control map that controls how the splat textures will be blended
         /// </summary>
         public int AlphaMapSize = 512;
-        public float TerrainSize = 15;
+        public float TerrainSize = 500;
 
         /// <summary>
         /// Higher number will create more detailed height maps
