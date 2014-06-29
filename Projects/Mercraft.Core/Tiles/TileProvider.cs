@@ -27,6 +27,14 @@ namespace Mercraft.Core.Tiles
         [Dependency]
         public ITrace Trace { get; set; }
 
+        /// <summary>
+        ///     Returns loaded tile count
+        /// </summary>
+        public int TileCount
+        {
+            get { return _tiles.Count; }
+        }
+
         [Dependency]
         public TileProvider(ISceneBuilder sceneBuilder, ITileListener tileListener)
         {
@@ -66,7 +74,7 @@ namespace Mercraft.Core.Tiles
 
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
             var scene = _sceneBuilder.Build(bbox);
-           
+
             tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
             scene.Canvas.Tile = tile;
             _tiles.Add(tile);

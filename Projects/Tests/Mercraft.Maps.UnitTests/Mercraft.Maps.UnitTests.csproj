@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1402.2112\lib\net35\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
     <Compile Include="Zones\Stubs\TestTileListener.cs" />
     <Compile Include="Zones\Stubs\TestZoneListener.cs" />
     <Compile Include="Zones\Stubs\TestZoneLoader.cs" />
+    <Compile Include="Zones\TileProviderTests.cs" />
     <Compile Include="Zones\ZoneLoaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
