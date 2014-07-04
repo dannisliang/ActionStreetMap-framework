@@ -85,6 +85,7 @@
     <Compile Include="Terrain\TerrainBuilder.cs" />
     <Compile Include="Terrain\TerrainSettings.cs" />
     <Compile Include="Terrain\TerrainUtils.cs" />
+    <Compile Include="Unity\ITerrainData.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />
     <Compile Include="Utils\PerlinNoise.cs" />
   </ItemGroup>

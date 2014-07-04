@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Formats.Xml
@@ -21,16 +22,18 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             }
 
             // set latitude.
+            float lat = 0, lon = 0;
             if (nd.latSpecified)
             {
-                node.Latitude = nd.lat;
+                lat = (float)nd.lat;
             }
 
             // set longitude.
             if (nd.lonSpecified)
             {
-                node.Longitude = nd.lon;
+                lon = (float)nd.lon;
             }
+            node.Coordinate = new GeoCoordinate(lat, lon);
 
           /*  // set uid
             if (nd.uidSpecified)

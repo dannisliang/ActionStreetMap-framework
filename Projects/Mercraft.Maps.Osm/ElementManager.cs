@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Infrastructure.Primitives;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Visitors;
@@ -7,46 +10,54 @@ using Mercraft.Core;
 namespace Mercraft.Maps.Osm
 {
     /// <summary>
-    /// Manages elements in bbox
+    /// Manages elements in bbox. Stateful class (not thread safe!)
     /// </summary>
     public class ElementManager
     {
-        private Dictionary<long, Node> _resolveUnusedNodes = new Dictionary<long, Node>();
+        private Dictionary<long, Node> _unresolvedNodes = new Dictionary<long, Node>();
+
+        /// <summary>
+        /// Stores ways which crosses border between tiles
+        /// Key: way id
+        /// Value: Tuple of way instance and boolean flag which true if we added way in current request
+        /// </summary>
+        private Dictionary<long, Tuple<Way, bool>> _crossTileWays = new Dictionary<long, Tuple<Way, bool>>();
 
         /// <summary>
         /// Visits all elements in datasource which are located in bbox
         /// </summary>
         public void VisitBoundingBox(BoundingBox bbox, IElementSource elementSource,  IElementVisitor visitor)
         {
+            // process elements from elements source
             IEnumerable<Element> elements = elementSource.Get(bbox);
             foreach (var element in elements)
-            { 
-               Populate(element, elementSource);
+            {
+                Populate(bbox, element, elementSource);
                element.Accept(visitor); 
             }
+
+            ProcessLeftovers(bbox, visitor);
         }
 
         /// <summary>
         /// Populates the given OSM objects into corresponding geometries.
         /// </summary>
-        private void Populate(Element element, IElementSource elementSource)
+        private void Populate(BoundingBox bbox, Element element, IElementSource elementSource)
         {
             element.Accept(new ActionElementVisitor(
                 node => PopulateNode(node),
-                way => PopulateWay(way, elementSource),
+                way => PopulateWay(bbox, way, elementSource),
                 relation => PopulateRelation(relation, elementSource)));
- 
         }
 
         #region Populates given elements
 
         private Node PopulateNode(Node node)
         {
-            node.Coordinate = new GeoCoordinate(node.Latitude, node.Longitude);
             return node;
         }
 
-        private Way PopulateWay(Way way, IElementSource elementSource)
+        private Way PopulateWay(BoundingBox bbox, Way way, IElementSource elementSource)
         {
             int nodeCount = way.NodeIds.Count;
             way.Nodes = new List<Node>(nodeCount);
@@ -60,12 +71,12 @@ namespace Mercraft.Maps.Osm
                 if (node == null)
                 {
                     // try to resolve in HashSet
-                    if (_resolveUnusedNodes.ContainsKey(nodeId))
+                    if (_unresolvedNodes.ContainsKey(nodeId))
                     {
-                        node = _resolveUnusedNodes[nodeId];
+                        node = _unresolvedNodes[nodeId];
                         // this is necessary due to fact that first and last items the same
                         if (idx == latestIndex && way.NodeIds[0] == way.NodeIds[latestIndex])
-                            _resolveUnusedNodes.Remove(nodeId);
+                            _unresolvedNodes.Remove(nodeId);
                     }
                     else
                     {
@@ -83,12 +94,17 @@ namespace Mercraft.Maps.Osm
                 // to resolve the rest
                 foreach (var node in way.Nodes)
                 {
-                    if (!_resolveUnusedNodes.ContainsKey(node.Id))
-                        _resolveUnusedNodes.Add(node.Id, node);
+                    if (!_unresolvedNodes.ContainsKey(node.Id))
+                    {
+                        _unresolvedNodes.Add(node.Id, node);
+                        if (!_crossTileWays.ContainsKey(way.Id))
+                            _crossTileWays.Add(way.Id, new Tuple<Way, bool>(way, true));
+                    }
                 }
                 return null;
             }
 
+            CheckOutOfBoxNodes(bbox, way);
             return way;
         }
 
@@ -117,6 +133,77 @@ namespace Mercraft.Maps.Osm
         }
 
         #endregion
+
+
+        private void ProcessLeftovers(BoundingBox bbox, IElementVisitor visitor)
+        {
+            List<long> keysToDelete = new List<long>();
+            // process elements (ways) which cross tile borders
+            foreach (var crossTileWay in _crossTileWays)
+            {
+                var crossTileWayTuple = crossTileWay.Value;
+
+                // skip it as already processed (above)
+                if (crossTileWayTuple.Item2)
+                {
+                    // make it availabe for future processing for different tiles
+                    crossTileWayTuple.Item2 = false;
+                    continue;
+                }
+
+                var way = crossTileWayTuple.Item1;
+
+                // test all nodes to find any which is located in given bbox
+                // which means that we should process this way also
+                bool isInBbox = false;
+                bool hasOutOfBoxNotProcessed = false;
+                foreach (var node in way.Nodes)
+                {
+                    // IsOutOfBox in this context means that this node was out of 
+                    // bounding box for request where it was created
+                    if (node.IsOutOfBox)
+                    {
+                        if (bbox.Contains(node.Coordinate))
+                        {
+                            // mark it as processed
+                            node.IsOutOfBox = false;
+                            isInBbox = true;
+                        }
+                        else
+                        {
+                            hasOutOfBoxNotProcessed = true;
+                        }
+                    }
+
+                }
+                if (isInBbox)
+                {
+                    way.Accept(visitor);
+                    if (!hasOutOfBoxNotProcessed)
+                        keysToDelete.Add(crossTileWay.Key);
+                }
+                else
+                    keysToDelete.Add(crossTileWay.Key);
+            }
+            // we should cleanup way which has no nodes with IsOutOfBox = true;
+            keysToDelete.ForEach(k => _crossTileWays.Remove(k));
+        }
+
+        private void CheckOutOfBoxNodes(BoundingBox bbox, Way way)
+        {
+            if (_crossTileWays.ContainsKey(way.Id))
+                return;
+            for (int i = 0; i < way.Nodes.Count; i++)
+            {
+                // NOTE should we check bbox for real element source?
+                if (way.Nodes[i].IsOutOfBox /* && !bbox.Contains(way.Nodes[i].Coordinate)*/)
+                {
+                    // TODO should we check existence?
+                    _crossTileWays.Add(way.Id, new Tuple<Way, bool>(way, true));
+                    return;
+                }
+            }
+        }
 
     }
 }

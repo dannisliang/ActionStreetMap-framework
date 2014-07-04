@@ -106,6 +106,8 @@ namespace Mercraft.Maps.Osm.Data
             // due to IO/parsing/unzipping staff. We can't cache PrimitiveBlock
             // cause it leads to increasing memory consumption
             // TODO need to thing about how to improve it keeping corresponding logic
+            // so far it's done by splitting pbf file to multiply smaller with single
+            // index file
             _stream.Seek(0, SeekOrigin.Begin);
 
             block = _reader.MoveNext();
@@ -130,8 +132,7 @@ namespace Mercraft.Maps.Osm.Data
 
             var elementNode = new Entities.Node();
             elementNode.Id = node.id;
-            elementNode.Latitude = latitude;
-            elementNode.Longitude = longitude;
+            elementNode.Coordinate = new GeoCoordinate(latitude, longitude);
 
             if (node.keys.Any())
             {
@@ -148,7 +149,10 @@ namespace Mercraft.Maps.Osm.Data
             if (!Elements.ContainsKey(elementNode.Id))
                 Elements.Add(elementNode.Id, elementNode);
             if (_unresolvedNodes.Contains(elementNode.Id))
+            {
                 _unresolvedNodes.Remove(elementNode.Id);
+                elementNode.IsOutOfBox = true;
+            }
             _nodeIds.Add(elementNode.Id);
         }
 

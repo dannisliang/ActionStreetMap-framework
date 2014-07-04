@@ -20,9 +20,9 @@ namespace Mercraft.Models.Terrain
         {
             return new Vector2
             {
-                // NOTE worldPos is inverted here
-                x = (y - terrainPosition.x) * widthRatio,
-                y = (x - terrainPosition.y) * heightRatio
+                // NOTE Coords are inverted here!
+                y = (x - terrainPosition.x) * widthRatio,
+                x = (y - terrainPosition.y) * heightRatio
             };
         }
 

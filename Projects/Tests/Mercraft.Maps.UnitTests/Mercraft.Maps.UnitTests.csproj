@@ -63,8 +63,11 @@
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
     <Compile Include="Models\BuildingMapCssTests.cs" />
+    <Compile Include="Models\Stubs\TestTerrainData.cs" />
+    <Compile Include="Models\TerrainAlphaMapGeneratorTests.cs" />
     <Compile Include="Models\TerrainAreaTests.cs" />
     <Compile Include="Models\TerrainRoadTests.cs" />
+    <Compile Include="Osm\ElementManagerTests.cs" />
     <Compile Include="Osm\LocationInfoTests.cs" />
     <Compile Include="Osm\PbfIndexListElementSourceTests.cs" />
     <Compile Include="Osm\WayTests.cs" />

@@ -84,6 +84,14 @@ namespace Mercraft.Models.Terrain.Roads
         private List<Vector2> GetPointsFromRoadSegments(List<RoadSegment> roadSegments, bool useLeft)
         {
             var points = new List<Vector2>();
+            if (roadSegments.Count == 1)
+            {
+                var s = useLeft ? roadSegments[0].Left : roadSegments[0].Right;
+                points.Add(s.Start);
+                points.Add(s.End);
+                return points;
+            }
+
             for (int i = 1; i < roadSegments.Count; i++)
             {
                 var s1 = useLeft ? roadSegments[i - 1].Left : roadSegments[i - 1].Right;

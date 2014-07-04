@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -17,50 +16,53 @@ namespace Mercraft.Maps.Osm.Visitors
         public override void VisitWay(Way way)
         {
             if (!way.IsPolygon)
+            {
                 return;
+            }
 
             if (!IsArea(way.Tags))
             {
-                MergeTags(way);
                 Scene.AddWay(new Core.Scene.Models.Way
                 {
                     Id = way.Id,
                     Points = way.GetPoints(),
-                    Tags = way.Tags
+                    Tags = GetMergedTags(way)
                 });
 
                 return;
             }
 
-            MergeTags(way);
             var area = new Area
             {
                 Id = way.Id,
                 Points = way.GetPoints(),
-                Tags = way.Tags
+                Tags = GetMergedTags(way)
             };
-
             Scene.AddArea(area);
         }
 
-        private void MergeTags(Way way)
+        /// <summary>
+        /// Returns merged tags. We cannot do this in place as Way can be reused
+        /// in case of cross tile processing logic is applied
+        /// </summary>
+        private List<KeyValuePair<string,string>> GetMergedTags(Way way)
         {
+            var tags = way.Tags == null ? 
+                new List<KeyValuePair<string, string>>() : 
+                new List<KeyValuePair<string, string>>(way.Tags);
             foreach (var node in way.Nodes)
             {
                 if (node.Tags == null)
                     continue;
-                if (way.Tags == null)
-                {
-                    way.Tags = new List<KeyValuePair<string, string>>();
-                }
                 foreach (var tag in node.Tags)
                 {
-                    if (IsMergeTag(tag) && way.Tags.All(t => t.Key != tag.Key))
+                    if (IsMergeTag(tag) && tags.All(t => t.Key != tag.Key))
                     {
-                        way.Tags.Add(new KeyValuePair<string, string>(tag.Key, tag.Value));
+                        tags.Add(new KeyValuePair<string, string>(tag.Key, tag.Value));
                     }
                 }
             }
+            return tags;
         }
 
         private bool IsMergeTag(KeyValuePair<string, string> tag)
@@ -93,7 +95,7 @@ namespace Mercraft.Maps.Osm.Visitors
                     (tags.ContainsKey("aeroway") && !tags.IsFalse("aeroway")) ||
                     (tags.ContainsKey("addr:housenumber") && !tags.IsFalse("addr:housenumber")) ||
                     (tags.ContainsKey("addr:housename") && !tags.IsFalse("addr:housename"))
-                       );
+                    );
         }
     }
 }

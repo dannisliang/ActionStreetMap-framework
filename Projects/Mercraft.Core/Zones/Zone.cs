@@ -16,7 +16,6 @@ namespace Mercraft.Core.Zones
     public class Zone
     {
         private readonly IGameObjectBuilder _gameObjectBuilder;
-        private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITrace _trace;
 
         public Tile Tile { get; private set; }
@@ -31,8 +30,7 @@ namespace Mercraft.Core.Zones
         {
             Tile = tile;
             Stylesheet = stylesheet;
-            _gameObjectFactory = gameObjectFactory;
-            _gameObjectBuilder = _gameObjectFactory.GetBuilder(builders, behaviours);
+            _gameObjectBuilder = gameObjectFactory.GetBuilder(builders, behaviours);
             _trace = trace;
         }
 

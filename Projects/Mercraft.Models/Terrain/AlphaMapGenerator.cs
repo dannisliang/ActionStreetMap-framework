@@ -2,6 +2,7 @@
 using System.Linq;
 using Mercraft.Models.Terrain.Areas;
 using Mercraft.Models.Terrain.Roads;
+using Mercraft.Models.Unity;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
@@ -14,7 +15,7 @@ namespace Mercraft.Models.Terrain
         private readonly TerrainSettings _settings;
         private readonly Vector2 _terrainPosition;
 
-        private TerrainData _terrainData;
+        private ITerrainData _terrainData;
         private AlphaMapElement[] _polygons;
 
         public AlphaMapGenerator(TerrainSettings settings)
@@ -23,7 +24,7 @@ namespace Mercraft.Models.Terrain
             _terrainPosition = _settings.CornerPosition;
         }
 
-        public void FillAlphaMap(TerrainData terrainData)
+        public void FillAlphaMap(ITerrainData terrainData)
         {
             _terrainData = terrainData;
             var layers = _settings.SplatPrototypes.Length;
@@ -53,14 +54,14 @@ namespace Mercraft.Models.Terrain
                 }
             }
 
-            terrainData.alphamapResolution = _settings.AlphaMapSize;
+            terrainData.AlphamapResolution = _settings.AlphaMapSize;
             terrainData.SetAlphamaps(0, 0, map);
         }
 
         private void CreatePolygons()
         {
-            var widthRatio = _settings.AlphaMapSize/_terrainData.size.x;
-            var heightRatio = _settings.AlphaMapSize/_terrainData.size.z;
+            var widthRatio = _settings.AlphaMapSize/_terrainData.Size.x;
+            var heightRatio = _settings.AlphaMapSize/_terrainData.Size.z;
 
             var areaBuilder = new AreaBuilder(_terrainPosition, widthRatio, heightRatio);
             var roadBuilder = new RoadBuilder(_terrainPosition, widthRatio, heightRatio);

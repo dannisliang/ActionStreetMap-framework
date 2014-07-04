@@ -128,12 +128,11 @@ namespace Mercraft.Maps.Osm.Data
 
             if (_box == null)
             {
-                _box = new BoundingBox(new GeoCoordinate(node.Latitude, node.Longitude),
-                    new GeoCoordinate(node.Latitude, node.Longitude));
+                _box = new BoundingBox(node.Coordinate, node.Coordinate);
             }
             else
             {
-                _box = _box + new GeoCoordinate(node.Latitude, node.Longitude);
+                _box = _box + node.Coordinate;
             }
         }
 
@@ -367,7 +366,7 @@ namespace Mercraft.Maps.Osm.Data
             HashSet<long> ids = new HashSet<long>();
             foreach (Node node in _nodes.Values)
             {
-                if (bbox.Contains(node.Latitude, node.Longitude))
+                if (bbox.Contains(node.Coordinate))
                 {
                     res.Add(node);
                     ids.Add(node.Id);

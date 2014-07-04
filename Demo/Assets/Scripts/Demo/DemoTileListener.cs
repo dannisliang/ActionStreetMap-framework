@@ -19,7 +19,7 @@ namespace Assets.Scripts.Demo
         public void OnTileLoadStarted(MapPoint center, GeoCoordinate relativeNullPoint)
         {
             _stopwatch.Start();
-            Trace.Normal(LogTag, String.Format("Tile loading begin: center:{0}, geo:{1}",
+            Trace.Warn(LogTag, String.Format("Tile loading begin: center:{0}, geo:{1}",
                 center, relativeNullPoint));
         }
 

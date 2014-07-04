@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core.Unity;
+using Mercraft.Models.Unity;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace Mercraft.Models.Terrain
             terrainData.size = new Vector3(_settings.TerrainSize, _settings.TerrainHeight, _settings.TerrainSize);
             terrainData.splatPrototypes = _settings.SplatPrototypes;
 
-            _alphaMapGenerator.FillAlphaMap(terrainData);
+            _alphaMapGenerator.FillAlphaMap(new UnityTerrainData(terrainData));
 
             // create Terrain
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
