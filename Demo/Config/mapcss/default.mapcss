@@ -1,4 +1,6 @@
-canvas { z-index: 0; 
+canvas { 
+	z-index: 0; 
+	alphamapsize: 256;
 	texture: 0, Pebbles, 10, 10;
 	texture: 1, Road, 10, 10;
 }

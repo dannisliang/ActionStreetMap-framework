@@ -108,5 +108,10 @@ namespace Mercraft.Explorer.Helpers
             }
             return splatPrototypes;
         }
+
+        public static int GetAlphaMapSize(this Rule rule)
+        {
+            return rule.Evaluate<int>("alphamapsize"); 
+        }
     }
 }

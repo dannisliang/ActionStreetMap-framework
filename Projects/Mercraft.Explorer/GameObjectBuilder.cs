@@ -46,6 +46,7 @@ namespace Mercraft.Explorer
 
             var terrainSettings = new TerrainSettings()
             {
+                AlphaMapSize = rule.GetAlphaMapSize(),
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 SplatPrototypes = rule.GetSplatPrototypes(),
