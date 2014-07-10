@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core.Unity;
+using Mercraft.Models.Roads;
 using Mercraft.Models.Unity;
 using Mercraft.Models.Utils;
 using UnityEngine;
@@ -13,16 +14,19 @@ namespace Mercraft.Models.Terrain
         private readonly TerrainSettings _settings;
         private readonly HeightMapGenerator _heightMapGenerator;
         private readonly AlphaMapGenerator _alphaMapGenerator;
+        private readonly RoadBuilder _roadBuilder;
 
         public TerrainBuilder(TerrainSettings settings)
         {
             _settings = settings;
             _heightMapGenerator = new HeightMapGenerator(_settings);
             _alphaMapGenerator = new AlphaMapGenerator(_settings);
+            _roadBuilder = new RoadBuilder();
         }
 
         public IGameObject Build(IGameObject parent)
         {
+            // fill heightmap
             var htmap = new float[_settings.HeightMapSize, _settings.HeightMapSize];
             _heightMapGenerator.FillHeights(htmap);
 
@@ -33,9 +37,10 @@ namespace Mercraft.Models.Terrain
             terrainData.size = new Vector3(_settings.TerrainSize, _settings.TerrainHeight, _settings.TerrainSize);
             terrainData.splatPrototypes = _settings.SplatPrototypes;
 
+            // fill alphamap
             _alphaMapGenerator.FillAlphaMap(new UnityTerrainData(terrainData));
 
-            // create Terrain
+            // create Terrain using terrain data
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             var terrain = gameObject.GetComponent<UnityEngine.Terrain>();
@@ -47,7 +52,16 @@ namespace Mercraft.Models.Terrain
             //disable this for better frame rate
             terrain.castShadows = false;
 
-            return new GameObjectWrapper("terrain", gameObject);
+            var terrainGameObject = new GameObjectWrapper("terrain", gameObject);
+            
+            // process roads
+            foreach (var roadSetting in _settings.Roads)
+            {
+                roadSetting.TerrainObject = terrainGameObject;
+                _roadBuilder.Build(roadSetting);
+            }
+
+            return terrainGameObject;
         }
     }
 }

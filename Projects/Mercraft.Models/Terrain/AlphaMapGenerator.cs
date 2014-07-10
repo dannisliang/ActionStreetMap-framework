@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Models.Terrain.Areas;
-using Mercraft.Models.Terrain.Roads;
+using Mercraft.Models.Areas;
 using Mercraft.Models.Unity;
 using UnityEngine;
 
@@ -64,16 +63,8 @@ namespace Mercraft.Models.Terrain
             var heightRatio = _settings.AlphaMapSize/_terrainData.Size.z;
 
             var areaBuilder = new AreaBuilder(_terrainPosition, widthRatio, heightRatio);
-            var roadBuilder = new RoadBuilder(_terrainPosition, widthRatio, heightRatio);
-
             var areas = areaBuilder.Build(_settings.Areas);
-            var roads = roadBuilder.Build(_settings.Roads);
-
-            var tempPolygons = new List<AlphaMapElement>(areas.Length + roads.Length);
-            tempPolygons.AddRange(areas);
-            tempPolygons.AddRange(roads);
-
-            _polygons = tempPolygons.OrderBy(p => p.SplatIndex).ToArray();
+            _polygons = areas.OrderBy(p => p.SplatIndex).ToArray();
         }
 
         private IEnumerable<int> GetPolygonMainSplatIndex(Vector2 point)

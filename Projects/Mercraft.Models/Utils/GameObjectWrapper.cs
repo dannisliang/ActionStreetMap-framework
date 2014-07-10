@@ -15,6 +15,9 @@ namespace Mercraft.Models.Utils
 
         public T GetComponent<T>()
         {
+            if (!typeof(T).IsAssignableFrom(typeof (GameObject)))
+                return (T) (object)_gameObject.GetComponent(typeof(T));
+            
             // This is workaround to make code unit-tesable outside Unity context
             return (T) (object) _gameObject;
         }

@@ -8,9 +8,9 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Areas;
+using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
-using Mercraft.Models.Terrain.Roads;
 using UnityEngine;
 
 namespace Mercraft.Explorer
@@ -21,8 +21,8 @@ namespace Mercraft.Explorer
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
-        private List<Tuple<Area, Rule>> _terrainAreas = new List<Tuple<Area, Rule>>();
-        private List<Tuple<Way, Rule>> _terrainWays = new List<Tuple<Way, Rule>>();
+        private List<AreaSettings> _areas = new List<AreaSettings>();
+        private List<RoadSettings> _roads = new List<RoadSettings>();
 
         public GameObjectBuilder(IGameObjectFactory goFactory,
             IEnumerable<IModelBuilder> builders,
@@ -43,29 +43,20 @@ namespace Mercraft.Explorer
         public IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
-
-            var terrainSettings = new TerrainSettings()
+            var terrainBuilder = new TerrainBuilder(new TerrainSettings()
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 SplatPrototypes = rule.GetSplatPrototypes(),
-                Areas = _terrainAreas.Select(a => new Mercraft.Models.Terrain.Areas.Area()
-                {
-                    Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
-                    ZIndex = a.Item2.GetZIndex(),
-                    SplatIndex = a.Item2.GetSplatIndex()
-                }).ToArray(),
-                Roads = _terrainWays.Select(a => new Road()
-                {
-                    Points = a.Item1.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray(),
-                    ZIndex = a.Item2.GetZIndex(),
-                    Width = a.Item2.GetWidth(),
-                    SplatIndex = a.Item2.GetSplatIndex()
-                }).ToArray()
-            };
+                Areas = _areas,
+                Roads = _roads
+            });
 
-            var terrainBuilder = new TerrainBuilder(terrainSettings);
+            // NOTE not ideal solution to make class ready for next request
+            _areas = new List<AreaSettings>();
+            _roads = new List<RoadSettings>();
+
             return terrainBuilder.Build(parent);
         }
 
@@ -73,7 +64,12 @@ namespace Mercraft.Explorer
         {
             if (rule.IsTerrain())
             {
-                _terrainAreas.Add(new Tuple<Area, Rule>(area, rule));
+                _areas.Add(new AreaSettings()
+                {
+                    ZIndex = rule.GetZIndex(),
+                    SplatIndex = rule.GetSplatIndex(),
+                    Points = area.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
+                });
                 // TODO in future we want to build some special object which will be
                 // invisible as it's part of terrain but useful to provide some OSM info
                 // which is associated with it
@@ -93,14 +89,20 @@ namespace Mercraft.Explorer
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
-            if (rule.IsTerrain())
+            // NOTE Road should be processed with Terrain as it has dependencies on:
+            // 1. its heightmap (so far not important as we have flat map)
+            // 2. we should join roads (important)
+            if (rule.IsRoad())
             {
-                _terrainWays.Add(new Tuple<Way, Rule>(way, rule));
-                // TODO in future we want to build some special object which will be
-                // invisible as it's part of terrain but useful to provide some OSM info
-                // which is associated with it. For road it will be some waypoints which
-                // help AI to be placed on this road
-                return null;
+                var roadGameObject = _goFactory.CreateNew(way.ToString());
+                _roads.Add(new RoadSettings()
+                {
+                    Width = (int) Math.Round(rule.GetWidth() / 2),
+                    TargetObject = roadGameObject,
+                    Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
+                });
+                // this game object should be initialized inside of TerrainBuilder's logic
+                return roadGameObject;
             }
 
             var builder = rule.GetModelBuilder(_builders);

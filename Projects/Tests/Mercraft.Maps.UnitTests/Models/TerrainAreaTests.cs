@@ -1,5 +1,7 @@
-﻿using Mercraft.Core;
-using Mercraft.Models.Terrain.Areas;
+﻿using System.Collections.Generic;
+using Mercraft.Core;
+using Mercraft.Models.Areas;
+using Mercraft.Models.Terrain;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -13,9 +15,9 @@ namespace Mercraft.Maps.UnitTests.Models
         {
             // ARRANGE
             var areaBuilder = new AreaBuilder(new Vector2(0, 0), 512/500f, 512/500f);
-            var areas = new[]
+            var areas = new List<AreaSettings>()
             {
-                new Area
+                new AreaSettings
                 {
                     ZIndex = 0,
                     SplatIndex = 0,

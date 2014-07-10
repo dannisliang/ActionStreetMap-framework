@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mercraft.Models.Terrain;
 using UnityEngine;
 
-namespace Mercraft.Models.Terrain.Areas
+namespace Mercraft.Models.Areas
 {
     public class AreaBuilder
     {
@@ -16,7 +18,7 @@ namespace Mercraft.Models.Terrain.Areas
             _heightRatio = heightRatio;
         }
 
-        public AlphaMapElement[] Build(Area[] areas)
+        public AlphaMapElement[] Build(List<AreaSettings> areas)
         {
             return areas.Select(a => new AlphaMapElement()
             {

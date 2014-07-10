@@ -14,9 +14,11 @@ using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-
+using Mercraft.Models.Roads;
+using Mercraft.Models.Terrain;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
@@ -175,6 +177,35 @@ namespace Assets.Scripts.Demo
 
             visitor.FromArea(center, canvasGameObject, rule, area);
 
+        }
+
+        [MenuItem("OSM/Generate Road")]
+        static void BuildRoadOnTerrain()
+        {
+            var tile = new GameObjectFactory().CreateNew("tile");
+            var terrainBuilder = new TerrainBuilder(new TerrainSettings()
+            {
+                AlphaMapSize = 256,
+                CenterPosition = new Vector2(0, 0),
+                TerrainSize = 100,
+                Roads = new List<RoadSettings>()
+                {
+                    new RoadSettings()
+                    {
+                        Width = 13,
+                        Points = new []
+                        {
+                            new MapPoint(-120.1f, -54.2f), 
+                            new MapPoint(-105.8f, -48.3f), 
+                            new MapPoint(-89.3f, -41.0f), 
+                            new MapPoint(-71.6f, -33.2f), 
+                            new MapPoint(10.0f, -0.5f), 
+                            new MapPoint(31.6f, 7.6f), 
+                        }
+                    }
+                }
+            });
+            terrainBuilder.Build(tile);
         }
 
         [MenuItem("OSM/Generate Single Building")]

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -9,6 +11,7 @@ using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Roads;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -20,6 +23,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         private readonly IGameObjectFactory _goFactory;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
+
+        private List<RoadSettings> _roads = new List<RoadSettings>();
 
         [Dependency]
         public TestGameObjectBuilder(IGameObjectFactory goFactory,
@@ -61,9 +66,17 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
-            if (rule.IsTerrain())
+            if (rule.IsRoad())
             {
-                return null;
+                var roadGameObject = _goFactory.CreateNew(way.ToString());
+                _roads.Add(new RoadSettings()
+                {
+                    Width = (int)Math.Round(rule.GetWidth()),
+                    TargetObject = roadGameObject,
+                    Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
+                });
+                // this game object should be initialized inside of TerrainBuilder's logic
+                return roadGameObject;
             }
 
             var builder = rule.GetModelBuilder(_builders);

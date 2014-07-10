@@ -83,9 +83,14 @@ namespace Mercraft.Explorer.Helpers
             return rule.Evaluate<float>("width");
         }
 
+        public static bool IsRoad(this Rule rule)
+        {
+            return rule.EvaluateDefault("road", false);
+        }
+
         public static bool IsTerrain(this Rule rule)
         {
-            return rule.EvaluateDefault("isTerrain", false);
+            return rule.EvaluateDefault("terrain", false);
         }
 
         public static int GetSplatIndex(this Rule rule)

@@ -1,5 +1,6 @@
-﻿using Mercraft.Models.Terrain.Areas;
-using Mercraft.Models.Terrain.Roads;
+﻿using System.Collections.Generic;
+using Mercraft.Models.Areas;
+using Mercraft.Models.Roads;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
@@ -36,8 +37,8 @@ namespace Mercraft.Models.Terrain
 
         public SplatPrototype[] SplatPrototypes;
 
-        public Road[] Roads;
-        public Area[] Areas;
+        public List<RoadSettings> Roads;
+        public List<AreaSettings> Areas;
 
         public Vector2 CenterPosition;
         public Vector2 CornerPosition
