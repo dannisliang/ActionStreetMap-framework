@@ -89,18 +89,22 @@ namespace Mercraft.Explorer
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            // TODO refactor this: ideally, no special cases should be there
             // NOTE Road should be processed with Terrain as it has dependencies on:
             // 1. its heightmap (so far not important as we have flat map)
             // 2. we should join roads (important)
             if (rule.IsRoad())
             {
-                var roadGameObject = _goFactory.CreateNew(way.ToString());
+                var roadGameObject = _goFactory.CreateNew(String.Format("road {0}", way));
                 _roads.Add(new RoadSettings()
                 {
-                    Width = (int) Math.Round(rule.GetWidth() / 2),
+                    Width = (int)Math.Round(rule.GetWidth() / 2),
                     TargetObject = roadGameObject,
                     Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
                 });
+                // attach to parent
+                roadGameObject.GetComponent<GameObject>()
+                    .transform.parent = parent.GetComponent<GameObject>().transform;
                 // this game object should be initialized inside of TerrainBuilder's logic
                 return roadGameObject;
             }
