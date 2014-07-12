@@ -23,7 +23,7 @@ namespace Mercraft.Models.Terrain
             _terrainPosition = _settings.CornerPosition;
         }
 
-        public void FillAlphaMap(ITerrainData terrainData)
+        public float[,,] GetAlphaMap(ITerrainData terrainData)
         {
             _terrainData = terrainData;
             var layers = _settings.SplatPrototypes.Length;
@@ -54,7 +54,7 @@ namespace Mercraft.Models.Terrain
             }
 
             terrainData.AlphamapResolution = _settings.AlphaMapSize;
-            terrainData.SetAlphamaps(0, 0, map);
+            return map;
         }
 
         private void CreatePolygons()

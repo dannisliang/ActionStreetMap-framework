@@ -1,15 +1,6 @@
 ﻿/* Modified version of free Road Tool script
- * Basically, fixed some code-style issues
  * TODO Should be optimized
- * 
- * Written for "Dawn of the Tyrant" by SixTimesNothing 
-/* Please visit www.sixtimesnothing.com to learn more
-/*
-/* Note: This code is being released under the Artistic License 2.0
-/* Refer to the readme.txt or visit http://www.perlfoundation.org/artistic_license_2_0
-/* Basically, you can use this for anything you want but if you plan to change
-/* it or redistribute it, you should read the license
-*/
+ */
 
 using System;
 using System.Collections;
@@ -20,40 +11,32 @@ namespace Mercraft.Models.Roads
 {
     public class PathScript
     {
-        // Array of terrain cells for convenience 
-        public TerrainPathCell[] terrainCells;
-
         public bool addNodeMode;
         public bool isRoad = true;
         public bool isFinalized;
 
         public PathNodeObject[] nodeObjects;
-        public Vector3[] nodeObjectVerts; // keeps vertice positions for handles
+        // public Vector3[] nodeObjectVerts; // keeps vertice positions for handles
 
         public MeshCollider pathCollider;
-
-        // central terrian cells
-        public List<TerrainPathCell> pathCells;
-        public List<TerrainPathCell> totalPathVerts;
-        public List<TerrainPathCell> innerPathVerts;
 
         // GUI variables
         public int pathWidth;
         public int pathTexture;
-        public bool pathUniform;
-        public bool pathFlat;
+        public bool pathUniform = true;
+        public bool pathFlat = true;
         public bool showHandles;
         public float pathWear = 1f;
         public int pathSmooth = 5;
+
+        public float heightY = 0.1f;
 
         // name of the terrain that created the path
         public GameObject parentTerrain;
 
         public GameObject terrainObj;
         public UnityEngine.Terrain terComponent;
-        public TerrainData terData;
-        public TerrainCollider terrainCollider;
-        public float[,] terrainHeights;
+        public TerrainData terrainData;
 
         private GameObject _pathObject;
 
@@ -67,22 +50,17 @@ namespace Mercraft.Models.Roads
 
             terComponent = (UnityEngine.Terrain)terrainObject.GetComponent(typeof(UnityEngine.Terrain));
 
-            terData = terComponent.terrainData;
-            terrainHeights = terData.GetHeights(0, 0, terData.heightmapResolution, terData.heightmapResolution);
-            terrainCollider = (TerrainCollider)terrainObject.GetComponent(typeof(TerrainCollider));
+            terrainData = terComponent.terrainData;
         }
 
-        public void CreatePathNode(TerrainPathCell nodeCell)
+        public void CreatePathNode(Vector3 nodeCell)
         {
-            Vector3 pathPosition = new Vector3((nodeCell.Position.x / terData.heightmapResolution) * terData.size.x, nodeCell.HeightAtCell * terData.size.y, (nodeCell.Position.y / terData.heightmapResolution) * terData.size.z);
+            Vector3 pathPosition = new Vector3((nodeCell.x / terrainData.heightmapResolution) * terrainData.size.x,
+                nodeCell.y * terrainData.size.y, (nodeCell.z / terrainData.heightmapResolution) * terrainData.size.z);
 
             AddNode(pathPosition, pathWidth);
 
-            if (pathFlat || isRoad)
-                CreatePath(pathSmooth, true, false);
-
-            else
-                CreatePath(pathSmooth, false, false);
+            CreatePath(pathSmooth, true, false);
         }
 
         public void AddNode(Vector3 position, float width)
@@ -132,9 +110,8 @@ namespace Mercraft.Models.Roads
                 return;
 
             Mesh newMesh = meshFilter.sharedMesh;
-            terrainHeights = terData.GetHeights(0, 0, terData.heightmapResolution, terData.heightmapResolution);
+            //terrainHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
 
-            pathCells = new List<TerrainPathCell>();
 
             if (newMesh == null)
             {
@@ -159,7 +136,6 @@ namespace Mercraft.Models.Roads
             Vector2[] uvs = new Vector2[(verticesPerNode * (n - 1))];
             Vector3[] newVertices = new Vector3[(verticesPerNode * (n - 1))];
             int[] newTriangles = new int[(trianglesPerNode * (n - 1))];
-            nodeObjectVerts = new Vector3[(verticesPerNode * (n - 1))];
             int nextVertex = 0;
             int nextTriangle = 0;
             int nextUV = 0;
@@ -244,19 +220,12 @@ namespace Mercraft.Models.Roads
                         nextUV++;
                     }
 
-                    float u = (float)j / (float)(smoothingLevel + 1f);
+                    float u = j / (smoothingLevel + 1f);
 
-                    Cubic[] X = calcNaturalCubic(n - 1, cubicX);
-                    Cubic[] Z = calcNaturalCubic(n - 1, cubicZ);
+                    Cubic[] arrCubicX = CalcNaturalCubic(n - 1, cubicX);
+                    Cubic[] arrCubicz = CalcNaturalCubic(n - 1, cubicZ);
 
-                    Vector3 tweenPoint = new Vector3(X[i - 1].Eval(u), 0f, Z[i - 1].Eval(u));
-
-                    // Add the current tweenpoint as a path cell
-                    TerrainPathCell tC = new TerrainPathCell();
-                    tC.Position.x = ((tweenPoint.x - parentTerrain.transform.position.x) / terData.size.x) * terData.heightmapResolution;
-                    tC.Position.y = ((tweenPoint.z - parentTerrain.transform.position.z) / terData.size.z) * terData.heightmapResolution;
-                    tC.HeightAtCell = (tweenPoint.y - parentTerrain.transform.position.y) / terData.size.y;
-                    pathCells.Add(tC);
+                    Vector3 tweenPoint = new Vector3(arrCubicX[i - 1].Eval(u), 0f, arrCubicz[i - 1].Eval(u));
 
                     // update tweened points
                     g2[j] = tweenPoint;
@@ -273,23 +242,20 @@ namespace Mercraft.Models.Roads
                     extrudedPointR *= _widthAtNode;
 
                     // Height at the terrain
-                    tweenPoint.y = terrainHeights[GetIndexFromXPoint(tweenPoint), GetIndexFromZPoint(tweenPoint)] * terData.size.y + parentTerrain.transform.position.y;
+                    tweenPoint.y = 0;
+                    //terrainHeights[GetIndexFromXPoint(tweenPoint), GetIndexFromZPoint(tweenPoint)] * terrainData.size.y + parentTerrain.transform.position.y;
 
                     // create vertices at the perpendicular points
                     newVertices[nextVertex] = tweenPoint + extrudedPointR;
-                    if (!road)
-                        newVertices[nextVertex].y = (((float)terrainHeights[GetIndexFromXPoint(newVertices[nextVertex]), GetIndexFromZPoint(newVertices[nextVertex])] * terData.size.y + parentTerrain.transform.position.y) + newVertices[nextVertex - 2].y) / 2f;
-                    else
-                        newVertices[nextVertex].y = (float)terrainHeights[GetIndexFromZPoint(newVertices[nextVertex]), GetIndexFromXPoint(newVertices[nextVertex])] * terData.size.y + parentTerrain.transform.position.y;
-                    nodeObjectVerts[nextVertex] = newVertices[nextVertex];
+
+                    newVertices[nextVertex].y = heightY;
+                    // (float)terrainHeights[GetIndexFromZPoint(newVertices[nextVertex]), GetIndexFromXPoint(newVertices[nextVertex])] * terrainData.size.y + parentTerrain.transform.position.y;
                     nextVertex++;
 
                     newVertices[nextVertex] = tweenPoint + extrudedPointL;
-                    if (!road)
-                        newVertices[nextVertex].y = (((float)terrainHeights[GetIndexFromXPoint(newVertices[nextVertex]), GetIndexFromZPoint(newVertices[nextVertex])] * terData.size.y + parentTerrain.transform.position.y) + newVertices[nextVertex - 2].y) / 2f;
-                    else
-                        newVertices[nextVertex].y = (float)terrainHeights[GetIndexFromZPoint(newVertices[nextVertex]), GetIndexFromXPoint(newVertices[nextVertex])] * terData.size.y + parentTerrain.transform.position.y;
-                    nodeObjectVerts[nextVertex] = newVertices[nextVertex];
+
+                    newVertices[nextVertex].y = heightY;
+                    // (float)terrainHeights[GetIndexFromZPoint(newVertices[nextVertex]), GetIndexFromXPoint(newVertices[nextVertex])] * terrainData.size.y + parentTerrain.transform.position.y;
                     nextVertex++;
 
                     uvs[nextUV] = new Vector2(0f, 0f);
@@ -356,15 +322,15 @@ namespace Mercraft.Models.Roads
             extrudedPointR *= nodeObjects[0].Width;
 
             newVertices[0] = nodeObjects[0].Position + extrudedPointR;
-            newVertices[0].y = terrainHeights[GetIndexFromXPoint(newVertices[0]), GetIndexFromZPoint(newVertices[0])] * terData.size.y + parentTerrain.transform.position.y;
+            newVertices[0].y = heightY;
             newVertices[1] = nodeObjects[0].Position + extrudedPointL;
-            newVertices[1].y = terrainHeights[GetIndexFromXPoint(newVertices[1]), GetIndexFromZPoint(newVertices[1])] * terData.size.y + parentTerrain.transform.position.y;
+            newVertices[1].y = heightY;
 
             if (road)
             {
                 for (int i = 0; i < newVertices.Length; i++)
                 {
-                    newVertices[i].y = terComponent.SampleHeight(newVertices[i]) + (0.05f) + parentTerrain.transform.position.y;
+                    newVertices[i].y = heightY;
                 }
             }
 
@@ -383,468 +349,32 @@ namespace Mercraft.Models.Roads
 
             TangentSolver(newMesh);
 
-            //		newMesh.RecalculateNormals();
+            newMesh.RecalculateNormals();
             pathCollider.sharedMesh = meshFilter.sharedMesh;
             pathCollider.smoothSphereCollisions = true;
 
-            // we don't want to see the mesh
-            if (!road)
-                _pathObject.renderer.enabled = false;
-            else
-                _pathObject.renderer.enabled = true;
+
+            _pathObject.renderer.enabled = true;
 
             _pathObject.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        private int GetIndexFromXPoint(Vector3 point)
-        {
-            return Math.Abs((int)(((float)(point.x - parentTerrain.transform.position.x) / terData.size.x) * terData.heightmapResolution % terData.heightmapResolution));
-        }
-
-        private int GetIndexFromZPoint(Vector3 point)
-        {
-            return Math.Abs((int)(((float)(point.z - parentTerrain.transform.position.z) / terData.size.z) * terData.heightmapResolution % terData.heightmapResolution));
-        }
-
-        public bool FinalizePath()
+        public bool FinalizePath(float[, ,] alphamap)
         {
             _pathObject.transform.localScale = new Vector3(1, 1, 1);
-
-            if (terData.alphamapLayers > pathTexture || isRoad)
-            {
-                float[,] tempLRheightmap = terData.GetHeights(0, 0, terData.heightmapResolution, terData.heightmapResolution);
-
-                float[, ,] alphamap = terData.GetAlphamaps(0, 0, terData.alphamapWidth, terData.alphamapHeight);
-                float[, ,] preWornCells = terData.GetAlphamaps(0, 0, terData.alphamapWidth, terData.alphamapHeight);
-
-                innerPathVerts = new List<TerrainPathCell>();
-                totalPathVerts = new List<TerrainPathCell>();
-                ArrayList roadVerts = new ArrayList();
-                ArrayList wearCells = new ArrayList();
-                Vector3 returnCollision = new Vector3();
-
-                _pathObject.transform.Translate(0f, -150f, 0f);
-
-                pathWidth += 6;
-
-                if (pathFlat || isRoad)
-                    CreatePath(30, true, false);
-                else
-                    CreatePath(30, false, false);
-
-                foreach (TerrainPathCell tC in terrainCells)
-                {
-                    RaycastHit raycastHit = new RaycastHit();
-                    Ray pathRay = new Ray(new Vector3((float)((tC.Position.x * terData.size.x) / terData.heightmapResolution) + parentTerrain.transform.position.x, (float)tC.HeightAtCell * terData.size.y + parentTerrain.transform.position.y, (float)((tC.Position.y * terData.size.z) / terData.heightmapResolution) + parentTerrain.transform.position.z), -Vector3.up);
-
-                    if (pathCollider.Raycast(pathRay, out raycastHit, Mathf.Infinity))
-                    {
-                        innerPathVerts.Add(tC);
-                    }
-                }
-
-                if (isRoad)
-                {
-                    pathWidth -= 7;
-
-                    if (pathFlat || isRoad)
-                        CreatePath(30, true, false);
-                    else
-                        CreatePath(30, false, false);
-
-                    foreach (TerrainPathCell tC in terrainCells)
-                    {
-                        RaycastHit raycastHit = new RaycastHit();
-                        Ray pathRay = new Ray(new Vector3((float)((tC.Position.x * terData.size.x) / terData.heightmapResolution) + parentTerrain.transform.position.x, (float)tC.HeightAtCell * terData.size.y + parentTerrain.transform.position.y, (float)((tC.Position.y * terData.size.z) / terData.heightmapResolution) + parentTerrain.transform.position.z), -Vector3.up);
-
-                        if (pathCollider.Raycast(pathRay, out raycastHit, Mathf.Infinity))
-                        {
-                            roadVerts.Add(tC);
-                        }
-                    }
-
-                    pathWidth += 7;
-                }
-
-                pathWidth += 8;
-
-                if (pathFlat || isRoad)
-                    CreatePath(30, true, false);
-                else
-                    CreatePath(30, false, false);
-
-                foreach (TerrainPathCell tC in terrainCells)
-                {
-                    RaycastHit raycastHit = new RaycastHit();
-                    Ray pathRay = new Ray(new Vector3((float)((tC.Position.x * terData.size.x) / terData.heightmapResolution) + parentTerrain.transform.position.x, (float)tC.HeightAtCell * terData.size.y + parentTerrain.transform.position.y, (float)((tC.Position.y * terData.size.z) / terData.heightmapResolution) + parentTerrain.transform.position.z), -Vector3.up);
-
-                    if (pathCollider.Raycast(pathRay, out raycastHit, Mathf.Infinity))
-                    {
-                        returnCollision = raycastHit.point;
-                        returnCollision.y = (returnCollision.y - parentTerrain.transform.position.y) / terData.size.y;
-
-                        if (pathFlat || isRoad)
-                        {
-                            tempLRheightmap[(int)(tC.Position.y), (int)(tC.Position.x)] = returnCollision.y + ((float)(150.00f / terData.size.y));
-                        }
-
-                        totalPathVerts.Add(tC);
-                    }
-                }
-
-                if (isRoad)
-                    pathWidth -= 12;
-                else
-                    pathWidth -= 8;
-
-                if (pathFlat || isRoad)
-                    CreatePath(100, true, false);
-                else
-                    CreatePath(100, false, false);
-
-                ArrayList totalPathVerts2 = new ArrayList();
-
-                if (!isRoad)
-                {
-                    // After getting the terrain cells for terrain deformation, now get the ones for texturing
-                    foreach (TerrainPathCell tC in terrainCells)
-                    {
-                        RaycastHit raycastHit = new RaycastHit();
-                        Ray pathRay = new Ray(new Vector3((float)((tC.Position.x * terData.size.x) / terData.heightmapResolution) + parentTerrain.transform.position.x, (float)tC.HeightAtCell * terData.size.y + parentTerrain.transform.position.y, (float)((tC.Position.y * terData.size.x) / terData.heightmapResolution) + parentTerrain.transform.position.z), -Vector3.up);
-
-                        if (pathCollider.Raycast(pathRay, out raycastHit, Mathf.Infinity))
-                        {
-                            totalPathVerts2.Add(tC);
-                        }
-                    }
-
-                    _pathObject.transform.Translate(0f, 150f, 0f);
-
-                    foreach (TerrainPathCell tC in totalPathVerts2)
-                    {
-                        float closestDistance = 100f;
-                        float distanceFromPath = 0;
-
-                        foreach (TerrainPathCell pV in pathCells)
-                        {
-                            distanceFromPath = (float)Mathf.Sqrt((float)Mathf.Pow((pV.Position.x - tC.Position.x), 2f) + Mathf.Pow((pV.Position.y - tC.Position.y), 2f));
-
-                            if (distanceFromPath < closestDistance)
-                            {
-                                closestDistance = distanceFromPath;
-                            }
-                        }
-
-                        // draw actual path
-                        float blendAmount;
-                        float randomBlendAdd = UnityEngine.Random.Range(0.0f, 0.5f);
-
-                        blendAmount = (float)closestDistance / (pathWidth / 2f);
-
-                        if (blendAmount > 1.0f)
-                            blendAmount = 1.0f;
-
-                        if (blendAmount < 0.0f)
-                            blendAmount = 0.0f;
-
-                        if (!pathUniform)
-                        {
-                            blendAmount += randomBlendAdd;
-
-                            if (blendAmount > 1.0f)
-                                blendAmount = 1.0f;
-
-                            if (blendAmount < 0.0f)
-                                blendAmount = 0.0f;
-                        }
-
-                        for (int i = 0; i < terData.alphamapLayers; i++)
-                        {
-                            if (alphamap[Convert.ToInt32((tC.Position.y / terData.heightmapResolution) * terData.alphamapResolution), Convert.ToInt32((tC.Position.x / terData.heightmapResolution) * terData.alphamapResolution), i] > 0.0f)
-                            {
-                                Vector3 wearCell = new Vector3(Convert.ToInt32((tC.Position.y / terData.heightmapResolution) * terData.alphamapResolution), Convert.ToInt32((tC.Position.x / terData.heightmapResolution) * terData.alphamapResolution), 0f);
-
-                                wearCells.Add(wearCell);
-
-                                alphamap[Convert.ToInt32((tC.Position.y / terData.heightmapResolution) * terData.alphamapResolution), Convert.ToInt32((tC.Position.x / terData.heightmapResolution) * terData.alphamapResolution), i] *= blendAmount;
-                            }
-                        }
-
-                        alphamap[Convert.ToInt32((tC.Position.y / terData.heightmapResolution) * terData.alphamapResolution), Convert.ToInt32((tC.Position.x / terData.heightmapResolution) * terData.alphamapResolution), pathTexture] += (1f - blendAmount);
-                    }
-
-                    if (!pathUniform)
-                    {
-                        foreach (Vector3 wc in wearCells)
-                        {
-                            float newValue = 0.0f;
-                            float value = 0.0f;
-
-                            for (int i = 0; i < terData.alphamapLayers; i++)
-                            {
-                                if (i == pathTexture)
-                                {
-                                    value = alphamap[(int)wc.x, (int)wc.y, i];
-                                    alphamap[(int)wc.x, (int)wc.y, i] -= (1.0f - pathWear);
-
-                                    if (alphamap[(int)wc.x, (int)wc.y, i] < preWornCells[(int)wc.x, (int)wc.y, i])
-                                    {
-                                        alphamap[(int)wc.x, (int)wc.y, i] = preWornCells[(int)wc.x, (int)wc.y, i];
-                                    }
-
-                                    if (alphamap[(int)wc.x, (int)wc.y, i] < 0f)
-                                        alphamap[(int)wc.x, (int)wc.y, i] = 0.0f;
-
-                                    newValue = alphamap[(int)wc.x, (int)wc.y, i];
-                                }
-                            }
-
-                            for (int i = 0; i < terData.alphamapLayers; i++)
-                            {
-                                if (i != pathTexture)
-                                {
-                                    alphamap[(int)wc.x, (int)wc.y, i] = alphamap[(int)wc.x, (int)wc.y, i] + ((value - newValue) * (alphamap[(int)wc.x, (int)wc.y, i] / (1.0f - value)));
-
-                                    if (alphamap[(int)wc.x, (int)wc.y, i] > 1.0f)
-                                        alphamap[(int)wc.x, (int)wc.y, i] = 1.0f;
-                                }
-
-                                if (alphamap[(int)wc.x, (int)wc.y, i] < 0f)
-                                    alphamap[(int)wc.x, (int)wc.y, i] = 0.0f;
-                                if (alphamap[(int)wc.x, (int)wc.y, i] > 1.0f)
-                                    alphamap[(int)wc.x, (int)wc.y, i] = 1.0f;
-                            }
-                        }
-                    }
-
-                    terData.SetAlphamaps(0, 0, alphamap);
-                }
-
-                else
-                    _pathObject.transform.Translate(0f, 150f, 0f);
-
-                terData.SetHeights(0, 0, tempLRheightmap);
-
-                if (!isRoad)
-                {
-                    if (pathFlat)
-                        CreatePath(pathSmooth, true, false);
-                    else
-                        CreatePath(pathSmooth, false, false);
-                }
-
-                else
-                {
-                    // Perhaps a bit of an aggressive smooth routine ;)
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(totalPathVerts, 1.0f, true);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(totalPathVerts, 1.0f, true);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    float[,] newTerrainHeights = terData.GetHeights(0, 0, terData.heightmapResolution, terData.heightmapResolution);
-                    foreach (TerrainPathCell pv in roadVerts)
-                    {
-                        if (pathWidth < 10)
-                            newTerrainHeights[(int)pv.Position.y, (int)pv.Position.x] -= 0.007f;
-
-                        else
-                            newTerrainHeights[(int)pv.Position.y, (int)pv.Position.x] -= 0.002f;
-                    }
-                    terData.SetHeights(0, 0, newTerrainHeights);
-
-
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(innerPathVerts, 1.0f, false);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(totalPathVerts, 1.0f, true);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    AreaSmooth(totalPathVerts, 1.0f, true);
-
-                    foreach (TerrainPathCell tv in totalPathVerts)
-                        terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                    if (pathWidth > 10)
-                    {
-                        AreaSmooth(innerPathVerts, 1.0f, false);
-
-                        foreach (TerrainPathCell tv in totalPathVerts)
-                            terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                        AreaSmooth(innerPathVerts, 1.0f, false);
-
-                        foreach (TerrainPathCell tv in totalPathVerts)
-                            terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-
-                        AreaSmooth(innerPathVerts, 1.0f, false);
-
-                        foreach (TerrainPathCell tv in totalPathVerts)
-                            terrainCells[Convert.ToInt32((tv.Position.y) + ((tv.Position.x) * (terData.heightmapResolution)))].IsAdded = false;
-                    }
-
-                    CreatePath(pathSmooth, true, true);
-                }
-
-                terData.SetAlphamaps(0, 0, alphamap);
-
-                isFinalized = true;
-                Debug.Log("Now that you have finalized your road, it is advised that you delete the 'Attached Path Script' component of this game object to avoid corrupting it in the future");
-                return true;
-            }
-
-            else
-            {
-                Debug.LogError("Invalid texture prototype - please correct and re-finalize");
-                return false;
-            }
-        }
-
-        public void AreaSmooth(List<TerrainPathCell> terrainList, float blendAmount, bool exclusion)
-        {
-            TerrainPathCell tc;
-            TerrainPathCell lh;
-
-            float[,] blendLRheightmap = terData.GetHeights(0, 0, terData.heightmapResolution, terData.heightmapResolution);
-
-            if (exclusion)
-                foreach (TerrainPathCell tC in innerPathVerts)
-                {
-                    terrainCells[Convert.ToInt32((tC.Position.y) + ((tC.Position.x) * (terData.heightmapResolution)))].IsAdded = true;
-                }
-
-            for (int i = 0; i < terrainList.Count; i++)
-            {
-                tc = (TerrainPathCell)terrainList[i];
-                ArrayList locals = new ArrayList();
-
-                if (exclusion)
-                    for (int x = 2; x > -3; x--)
-                    {
-                        for (int y = 2; y > -3; y--)
-                        {
-                            var index = Convert.ToInt32((tc.Position.y + y) + ((tc.Position.x + x) * (terData.heightmapResolution)));
-                            if (index < 0)
-                                continue;
-                            var cell = terrainCells[index];
-                            if (cell.IsAdded == false)
-                            {
-                                locals.Add(cell);
-                                cell.IsAdded = true;
-                            }
-                        }
-                    }
-
-                else
-                    for (int x = 0; x > -1; x--)
-                    {
-                        for (int y = 0; y > -1; y--)
-                        {
-                            var cell = terrainCells[Convert.ToInt32((tc.Position.y + y) + ((tc.Position.x + x) * (terData.heightmapResolution)))];
-                            if (cell.IsAdded == false)
-                            {
-                                locals.Add(cell);
-                                cell.IsAdded = true;
-                            }
-                        }
-                    }
-
-                for (int p = 0; p < locals.Count; p++)
-                {
-                    lh = (TerrainPathCell)locals[p];
-                    ArrayList localHeights = new ArrayList();
-                    float cumulativeHeights = 0f;
-
-                    // Get all immediate neighbors 
-                    for (int x = 1; x > -2; x--)
-                    {
-                        for (int y = 1; y > -2; y--)
-                        {
-                            var index = Convert.ToInt32((lh.Position.y + y) + ((lh.Position.x + x) * (terData.heightmapResolution)));
-                            if (index < 0)
-                                continue;
-                            var cell = terrainCells[index];
-                            localHeights.Add(cell);
-                        }
-                    }
-
-                    foreach (TerrainPathCell lH in localHeights)
-                    {
-                        cumulativeHeights += blendLRheightmap[(int)lH.Position.y, (int)lH.Position.x];
-                    }
-
-                    blendLRheightmap[(int)(lh.Position.y), (int)(lh.Position.x)] = (terrainHeights[(int)lh.Position.y, (int)lh.Position.x] * (1f - blendAmount)) + (((float)cumulativeHeights / ((Mathf.Pow(((float)1f * 2f + 1f), 2f)) - 0f)) * blendAmount);
-                }
-            }
-
-            terData.SetHeights(0, 0, blendLRheightmap);
-
-            if (!isRoad)
-            {
-                if (pathFlat)
-                    CreatePath(pathSmooth, true, false);
-                else
-                    CreatePath(pathSmooth, false, false);
-            }
-
-            else if (isRoad && isFinalized)
-                CreatePath(pathSmooth, true, true);
-
-            else if (isRoad && !isFinalized)
-                CreatePath(pathSmooth, true, false);
-        }
-
-        public void OnDrawGizmos()
-        {
-            if (showHandles)
-            {
-                if (nodeObjectVerts != null)
-                    if (nodeObjectVerts.Length > 0)
-                    {
-                        int n = nodeObjectVerts.Length;
-                        for (int i = 0; i < n; i++)
-                        {
-                            // Handles...
-                            Gizmos.color = Color.white;
-                            Gizmos.DrawLine(_pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(-0.5f, 0, 0)), _pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(0.5f, 0, 0)));
-                            Gizmos.DrawLine(_pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(0, -0.5f, 0)), _pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(0, 0.5f, 0)));
-                            Gizmos.DrawLine(_pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(0, 0, -0.5f)), _pathObject.transform.TransformPoint(nodeObjectVerts[i] + new Vector3(0, 0, 0.5f)));
-                        }
-                    }
-            }
+            //_pathObject.transform.Translate(0f, -150f, 0f);
+            /*pathWidth += 6;
+            CreatePath(30, true, false);
+            pathWidth -= 7;
+            CreatePath(30, true, false);
+            pathWidth += 15;
+            CreatePath(30, true, false);
+            pathWidth -= 12;
+            CreatePath(100, true, false);*/
+            //_pathObject.transform.Translate(0f, 150f, 0f);
+            CreatePath(pathSmooth, true, true);
+            isFinalized = true;
+            return true;
         }
 
         public void TangentSolver(Mesh theMesh)
@@ -923,7 +453,7 @@ namespace Mercraft.Models.Roads
             theMesh.tangents = tangents;
         }
 
-        public Cubic[] calcNaturalCubic(int n, float[] x)
+        public Cubic[] CalcNaturalCubic(int n, float[] x)
         {
             float[] gamma = new float[n + 1];
             float[] delta = new float[n + 1];
@@ -958,8 +488,8 @@ namespace Mercraft.Models.Roads
             Cubic[] C = new Cubic[n + 1];
             for (i = 0; i < n; i++)
             {
-                C[i] = new Cubic((float)x[i], D[i], 3 * (x[i + 1] - x[i]) - 2 * D[i] - D[i + 1],
-                         2 * (x[i] - x[i + 1]) + D[i] + D[i + 1]);
+                C[i] = new Cubic(x[i], D[i], 3 * (x[i + 1] - x[i]) - 2 * D[i] - D[i + 1],
+                    2 * (x[i] - x[i + 1]) + D[i] + D[i + 1]);
             }
 
             return C;

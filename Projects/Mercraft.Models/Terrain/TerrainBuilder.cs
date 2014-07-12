@@ -28,7 +28,8 @@ namespace Mercraft.Models.Terrain
         {
             // fill heightmap
             var htmap = new float[_settings.HeightMapSize, _settings.HeightMapSize];
-            _heightMapGenerator.FillHeights(htmap);
+            // NOTE do not use heightmap generator so far as we assume that map is flat
+            //_heightMapGenerator.FillHeights(htmap);
 
             // create TerrainData
             var terrainData = new TerrainData();
@@ -38,7 +39,7 @@ namespace Mercraft.Models.Terrain
             terrainData.splatPrototypes = _settings.SplatPrototypes;
 
             // fill alphamap
-            _alphaMapGenerator.FillAlphaMap(new UnityTerrainData(terrainData));
+            var alphamap =_alphaMapGenerator.GetAlphaMap(new UnityTerrainData(terrainData));
 
             // create Terrain using terrain data
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
@@ -58,8 +59,10 @@ namespace Mercraft.Models.Terrain
             foreach (var roadSetting in _settings.Roads)
             {
                 roadSetting.TerrainObject = terrainGameObject;
-                _roadBuilder.Build(roadSetting);
+                _roadBuilder.Build(roadSetting, alphamap);
             }
+
+            terrainData.SetAlphamaps(0, 0, alphamap);
 
             return terrainGameObject;
         }

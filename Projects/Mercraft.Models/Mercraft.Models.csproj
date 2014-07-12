@@ -78,7 +78,6 @@
     <Compile Include="Roads\PathScript.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSettings.cs" />
-    <Compile Include="Roads\TerrainPathCell.cs" />
     <Compile Include="Terrain\AlphaMapElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
     <Compile Include="Areas\AreaSettings.cs" />

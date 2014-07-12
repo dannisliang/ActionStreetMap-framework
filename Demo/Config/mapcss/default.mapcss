@@ -109,7 +109,7 @@ area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat;
 way[waterway],
 way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
 														
-way[barrier] :closed									{ z-index: 0.1;terrain:true; terrainIndex: 1; fill-color: #444444;  width: 0.4;}
+/*way[barrier] :closed									{ z-index: 0.1;terrain:true; terrainIndex: 1; fill-color: #444444;  width: 0.4;}*/
 
 /* roads */
 way[highway]											{ z-index: 0.1; road:true; width:2 }

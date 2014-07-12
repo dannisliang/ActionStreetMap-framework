@@ -5,7 +5,7 @@ namespace Mercraft.Models.Roads
 {
     public class RoadBuilder
     {
-        public GameObject Build(RoadSettings roadSettings)
+        public GameObject Build(RoadSettings roadSettings, float[,,] alphamap)
         {
             var terrain = roadSettings.TerrainObject
                 .GetComponent<UnityEngine.Terrain>();
@@ -26,36 +26,14 @@ namespace Mercraft.Models.Roads
 
             foreach (var point in points)
             {
-                pathScript.CreatePathNode(GetTerrainPathCell(GetTerrainPosition(point, terrain.terrainData)));
+                pathScript.CreatePathNode(GetTerrainPosition(point, terrain.terrainData));
             }
-
-            pathScript.terrainCells = new TerrainPathCell[pathScript.terData.heightmapResolution * pathScript.terData.heightmapResolution];
-
-            /* for (int x = 0; x < pathScript.terData.heightmapResolution; x++)
-             {
-                 for (int y = 0; y < pathScript.terData.heightmapResolution; y++)
-                 {
-                     pathScript.terrainCells[(y) + (x*pathScript.terData.heightmapResolution)].position.y = y;
-                     pathScript.terrainCells[(y) + (x*pathScript.terData.heightmapResolution)].position.x = x;
-                     pathScript.terrainCells[(y) + (x*pathScript.terData.heightmapResolution)].heightAtCell =
-                         pathScript.terrainHeights[y, x];
-                     pathScript.terrainCells[(y) + (x*pathScript.terData.heightmapResolution)].isAdded = false;
-                 }
-             }*/
-            pathScript.FinalizePath();
+         
+            pathScript.FinalizePath(alphamap);
             return gameObject;
         }
 
-        private TerrainPathCell GetTerrainPathCell(Vector3 pathNode)
-        {
-            var pathNodeCell = new TerrainPathCell();
-            pathNodeCell.Position.x = pathNode.x;
-            pathNodeCell.Position.y = pathNode.z;
-            pathNodeCell.HeightAtCell = pathNode.y;
-
-            return pathNodeCell;
-        }
-
+      
         private Vector3 GetTerrainPosition(Vector3 point, TerrainData terrainData)
         {
             var returnCollision = point;
