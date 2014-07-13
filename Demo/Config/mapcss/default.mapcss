@@ -109,7 +109,7 @@ area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat;
 way[waterway],
 way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
 														
-/*way[barrier] :closed									{ z-index: 0.1;terrain:true; terrainIndex: 1; fill-color: #444444;  width: 0.4;}*/
+/*way[barrier] :closed									{ z-index: 0.1; builder:flat; fill-color: #444444; width: 0.4;}*/
 
 /* roads */
 way[highway]											{ z-index: 0.1; road:true; width:2 }
@@ -131,7 +131,7 @@ way[highway=motorway_link]								{ fill-color: #e7c930; width:13; }
 
 			
 way[highway=secondary],
-way[highway=secondary_link]								{ fill-color: #a37b48; width:16; }
+way[highway=secondary_link]								{ fill-color: #a37b48; width:10; }
 
 way[highway=tertiary],
 way[highway=tertiary_link]								{ fill-color: #e7c930; width:13; }
@@ -146,4 +146,4 @@ way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 way[level<0],
 way[layer<0],
 area[level<0],
-area[layer<0]											{ builder:empty }
+area[layer<0]											{ skip:true;}

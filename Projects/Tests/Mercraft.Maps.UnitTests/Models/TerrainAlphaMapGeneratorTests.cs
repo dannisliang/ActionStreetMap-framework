@@ -45,7 +45,7 @@ namespace Mercraft.Maps.UnitTests.Models
             };
 
             // ACT
-            generator.GetAlphaMap(terrainData);
+            terrainData.SetAlphamaps(0, 0, generator.GetAlphaMap(terrainData));
 
             return terrainData;
         }

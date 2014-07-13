@@ -21,5 +21,8 @@ namespace Mercraft.Models.Utils
             // This is workaround to make code unit-tesable outside Unity context
             return (T) (object) _gameObject;
         }
+
+        public string Name { get; set; }
+        public IGameObject Parent { set; private get; }
     }
 }

@@ -52,6 +52,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
         {
+            if (rule.IsSkipped())
+                return _goFactory.CreateNew(String.Format("skip {0}", area));
+
             if (rule.IsTerrain())
             {
                 return null;
@@ -66,6 +69,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            if (rule.IsSkipped())
+                return _goFactory.CreateNew(String.Format("skip {0}", way));
+
             if (rule.IsRoad())
             {
                 var roadGameObject = _goFactory.CreateNew(way.ToString());

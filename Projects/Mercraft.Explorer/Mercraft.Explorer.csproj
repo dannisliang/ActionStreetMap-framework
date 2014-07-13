@@ -40,7 +40,6 @@
     <Compile Include="Bootstrappers\BuildingBootstrapper.cs" />
     <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
     <Compile Include="Builders\BuildingModelBuilder.cs" />
-    <Compile Include="Builders\EmptyModelBuilder.cs" />
     <Compile Include="Builders\FlatModelBuilder.cs" />
     <Compile Include="Builders\SolidModelBuilder.cs" />
     <Compile Include="Builders\CylinderModelBuilder.cs" />

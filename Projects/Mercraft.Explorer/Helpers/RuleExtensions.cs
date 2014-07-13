@@ -61,6 +61,11 @@ namespace Mercraft.Explorer.Helpers
             return behaviours.Single(mb => mb.Name == builderName);
         }
 
+        public static bool IsSkipped(this Rule rule)
+        {
+            return rule.EvaluateDefault("skip", false);
+        }
+
         public static Color32 GetFillColor(this Rule rule)
         {
             var coreColor = rule.Evaluate("fill-color", ColorUtility.FromUnknown);

@@ -9,5 +9,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
             return default(T);
         }
+
+        public string Name { get; set; }
+        public IGameObject Parent { set; private get; }
     }
 }

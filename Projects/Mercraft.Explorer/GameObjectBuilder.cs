@@ -62,6 +62,9 @@ namespace Mercraft.Explorer
 
         public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
         {
+            if (rule.IsSkipped())
+                return CreateSkipped(parent, area);
+
             if (rule.IsTerrain())
             {
                 _areas.Add(new AreaSettings()
@@ -78,10 +81,9 @@ namespace Mercraft.Explorer
 
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildArea(center, rule, area);
-            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
-            gameObject.name = String.Format("{0} {1}", builder.Name, area);
+            gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
+            gameObjectWrapper.Parent = parent;
 
-            gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             ApplyBehaviour(gameObjectWrapper, rule, area);
 
             return gameObjectWrapper;
@@ -89,6 +91,9 @@ namespace Mercraft.Explorer
 
         public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            if (rule.IsSkipped())
+                return CreateSkipped(parent, way);
+
             // TODO refactor this: ideally, no special cases should be there
             // NOTE Road should be processed with Terrain as it has dependencies on:
             // 1. its heightmap (so far not important as we have flat map)
@@ -103,17 +108,15 @@ namespace Mercraft.Explorer
                     Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
                 });
                 // attach to parent
-                roadGameObject.GetComponent<GameObject>()
-                    .transform.parent = parent.GetComponent<GameObject>().transform;
+                roadGameObject.Parent = parent;
                 // this game object should be initialized inside of TerrainBuilder's logic
                 return roadGameObject;
             }
 
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
-            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
-            gameObject.name = String.Format("{0} {1}", builder.Name, way);
-            gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
+            gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, way);
+            gameObjectWrapper.Parent = parent;
 
             ApplyBehaviour(gameObjectWrapper, rule, way);
 
@@ -121,6 +124,13 @@ namespace Mercraft.Explorer
         }
 
         #endregion
+
+        private IGameObject CreateSkipped(IGameObject parent, Model model)
+        {
+            var skippedGameObject = _goFactory.CreateNew(String.Format("skip {0}", model));
+            skippedGameObject.Parent = parent;
+            return parent;
+        }
 
         private void ApplyBehaviour(IGameObject target, Rule rule, Model model)
         {

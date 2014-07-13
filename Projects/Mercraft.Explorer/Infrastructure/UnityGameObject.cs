@@ -27,5 +27,26 @@ namespace Mercraft.Explorer.Infrastructure
             // This is workaround to make code unit-tesable outside Unity context
             return (T) (object) _gameObject;
         }
+
+        public string Name
+        {
+            get
+            {
+                return _gameObject.name;
+            }
+            set
+            {
+                _gameObject.name = value;
+            }
+            
+        }
+
+        public IGameObject Parent
+        {
+            set
+            {
+                _gameObject.transform.parent = value.GetComponent<GameObject>().transform;
+            }
+        }
     }
 }
