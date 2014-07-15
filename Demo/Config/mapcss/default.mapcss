@@ -137,12 +137,12 @@ way[highway=tertiary],
 way[highway=tertiary_link]								{ fill-color: #e7c930; width:13; }
 
 
-way[highway=footway],
 way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
 /* Shouldn't be shown */
+way[highway=footway],
 way[level<0],
 way[layer<0],
 area[level<0],

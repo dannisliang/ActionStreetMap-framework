@@ -1,10 +1,13 @@
 ﻿using System.Linq;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads
 {
     public class RoadBuilder
     {
+        private const double SimplificationTolerance = 2;
+
         public GameObject Build(RoadSettings roadSettings, float[,,] alphamap)
         {
             var terrain = roadSettings.TerrainObject
@@ -21,8 +24,9 @@ namespace Mercraft.Models.Roads
             pathScript.addNodeMode = false;
             pathScript.pathWidth = roadSettings.Width;
 
-            // TODO Add offset for coordinates from (0,0)
-            var points = roadSettings.Points.Select(p => new Vector3(p.X, 0, p.Y));
+            var points = Geometry
+                .DouglasPeuckerReduction(roadSettings.Points, SimplificationTolerance)
+                .Select(p => new Vector3(p.X, 0, p.Y));
 
             foreach (var point in points)
             {
