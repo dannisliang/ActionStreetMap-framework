@@ -59,7 +59,7 @@ namespace Mercraft.Models.Terrain
             foreach (var roadSetting in _settings.Roads)
             {
                 roadSetting.TerrainObject = terrainGameObject;
-                _roadBuilder.Build(roadSetting, alphamap);
+                _roadBuilder.Build(roadSetting);
             }
 
             terrainData.SetAlphamaps(0, 0, alphamap);
