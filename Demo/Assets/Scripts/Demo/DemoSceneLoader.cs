@@ -12,6 +12,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.World.Roads;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Infrastructure;
@@ -19,6 +20,7 @@ using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
+using Mercraft.Models.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
@@ -158,7 +160,7 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
+            var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
             var canvas = new Canvas()
             {
                 Tile = new Tile(
@@ -169,13 +171,15 @@ namespace Assets.Scripts.Demo
             };
 
             var canvasRule = stylesheet.GetRule(canvas);
-            var canvasGameObject = canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
 
-            var visitor = container.Resolve<IGameObjectBuilder>();
+
+            canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+
+            var visitor = container.Resolve<ISceneVisitor>();
 
             var rule = stylesheet.GetRule(area);
 
-            visitor.FromArea(center, canvasGameObject, rule, area);
+            visitor.VisitArea(center, new UnityGameObject(""), rule, area);
 
         }
 
@@ -188,19 +192,25 @@ namespace Assets.Scripts.Demo
                 AlphaMapSize = 256,
                 CenterPosition = new Vector2(0, 0),
                 TerrainSize = 100,
-                Roads = new List<RoadSettings>()
+                Roads = new List<Road>()
                 {
-                    new RoadSettings()
+                    new Road()
                     {
-                        Width = 13,
-                        Points = new []
+                        Elements = new List<RoadElement>()
                         {
-                            new MapPoint(-120.1f, -54.2f), 
-                            new MapPoint(-105.8f, -48.3f), 
-                            new MapPoint(-89.3f, -41.0f), 
-                            new MapPoint(-71.6f, -33.2f), 
-                            new MapPoint(10.0f, -0.5f), 
-                            new MapPoint(31.6f, 7.6f), 
+                            new RoadElement()
+                            {
+                                Width = 13,
+                                Points = new[]
+                                {
+                                    new MapPoint(-120.1f, -54.2f),
+                                    new MapPoint(-105.8f, -48.3f),
+                                    new MapPoint(-89.3f, -41.0f),
+                                    new MapPoint(-71.6f, -33.2f),
+                                    new MapPoint(10.0f, -0.5f),
+                                    new MapPoint(31.6f, 7.6f),
+                                }
+                            }
                         }
                     }
                 }
@@ -251,7 +261,7 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<IGameObjectBuilder>("canvas");
+            var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
             var canvas = new Canvas()
             {
                 Tile = new Tile(
@@ -262,13 +272,13 @@ namespace Assets.Scripts.Demo
             };
 
             var canvasRule = stylesheet.GetRule(canvas);
-            var canvasGameObject =  canvasVisitor.FromCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+           canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
 
-            var visitor = container.Resolve<IGameObjectBuilder>("solid");
+            var visitor = container.Resolve<ISceneVisitor>("solid");
             
             var rule = stylesheet.GetRule(b1);
 
-            visitor.FromArea(center, canvasGameObject, rule, b1);
+            visitor.VisitArea(center, new UnityGameObject(""), rule, b1);
 
             Debug.Log("Generate Single Building: Done");          
 

@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Models.Areas;
-using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer
 {
-    public class GameObjectBuilder : IGameObjectBuilder
+    public class SceneVisitor : ISceneVisitor
     {
         private readonly IGameObjectFactory _goFactory;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
-        private List<RoadSettings> _roads = new List<RoadSettings>();
+        private List<RoadElement> _roadElements = new List<RoadElement>();
 
-        public GameObjectBuilder(IGameObjectFactory goFactory,
+        public SceneVisitor(IGameObjectFactory goFactory,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
@@ -33,16 +34,19 @@ namespace Mercraft.Explorer
             _behaviours = behaviours.ToList();
         }
 
-        #region IGameObjectBuilder implementation
+        #region ISceneVisitor implementation
 
-        public IGameObject CreateTileHolder()
-        {
-            return _goFactory.CreateNew("tile");
-        }
-
-        public IGameObject FromCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
+        public bool VisitCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
         {
             var tile = canvas.Tile;
+
+            var roads = RoadElementComposer.Compose(_roadElements).Select(reList=> new Road()
+            {
+                Elements = reList,
+                GameObject = _goFactory.CreateNew(reList.Aggregate(new StringBuilder("road "), 
+                (sb, re) => sb.AppendFormat("{0}/ ", re.Address)).ToString())
+            }).ToArray();
+
             var terrainBuilder = new TerrainBuilder(new TerrainSettings()
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
@@ -50,20 +54,24 @@ namespace Mercraft.Explorer
                 TerrainSize = tile.Size,
                 SplatPrototypes = rule.GetSplatPrototypes(),
                 Areas = _areas,
-                Roads = _roads
+                Roads = roads
             });
 
             // NOTE not ideal solution to make class ready for next request
             _areas = new List<AreaSettings>();
-            _roads = new List<RoadSettings>();
+            _roadElements = new List<RoadElement>();
 
-            return terrainBuilder.Build(parent);
+            terrainBuilder.Build(parent);
+            return true;
         }
 
-        public IGameObject FromArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
+        public bool VisitArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
         {
             if (rule.IsSkipped())
-                return CreateSkipped(parent, area);
+            {
+                CreateSkipped(parent, area);
+                return true;
+            }
 
             if (rule.IsTerrain())
             {
@@ -76,7 +84,7 @@ namespace Mercraft.Explorer
                 // TODO in future we want to build some special object which will be
                 // invisible as it's part of terrain but useful to provide some OSM info
                 // which is associated with it
-                return null;
+                return false;
             }
 
             var builder = rule.GetModelBuilder(_builders);
@@ -86,13 +94,16 @@ namespace Mercraft.Explorer
 
             ApplyBehaviour(gameObjectWrapper, rule, area);
 
-            return gameObjectWrapper;
+            return true;
         }
 
-        public IGameObject FromWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
+        public bool VisitWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
             if (rule.IsSkipped())
-                return CreateSkipped(parent, way);
+            {
+                CreateSkipped(parent, way);
+                return true;
+            }
 
             // TODO refactor this: ideally, no special cases should be there
             // NOTE Road should be processed with Terrain as it has dependencies on:
@@ -101,16 +112,15 @@ namespace Mercraft.Explorer
             if (rule.IsRoad())
             {
                 var roadGameObject = _goFactory.CreateNew(String.Format("road {0}", way));
-                _roads.Add(new RoadSettings()
+                _roadElements.Add(new RoadElement()
                 {
                     Width = (int)Math.Round(rule.GetWidth() / 2),
-                    TargetObject = roadGameObject,
                     Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
                 });
                 // attach to parent
                 roadGameObject.Parent = parent;
                 // this game object should be initialized inside of TerrainBuilder's logic
-                return roadGameObject;
+                return true;
             }
 
             var builder = rule.GetModelBuilder(_builders);
@@ -120,7 +130,7 @@ namespace Mercraft.Explorer
 
             ApplyBehaviour(gameObjectWrapper, rule, way);
 
-            return gameObjectWrapper;
+            return true;
         }
 
         #endregion

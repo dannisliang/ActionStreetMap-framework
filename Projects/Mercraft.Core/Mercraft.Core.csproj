@@ -46,7 +46,7 @@
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
-    <Compile Include="LocationInfo.cs" />
+    <Compile Include="World\Address.cs" />
     <Compile Include="MapCss\Visitors\Eval\ListTreeWalker.cs" />
     <Compile Include="Scene\IModelBehaviour.cs" />
     <Compile Include="Scene\IModelBuilder.cs" />
@@ -57,6 +57,11 @@
     <Compile Include="Tiles\ITileListener.cs" />
     <Compile Include="MapPoint.cs" />
     <Compile Include="Unity\UnityPrimitiveType.cs" />
+    <Compile Include="World\Roads\Road.cs" />
+    <Compile Include="World\Roads\RoadElement.cs" />
+    <Compile Include="World\Roads\RoadElementComposer.cs" />
+    <Compile Include="World\Roads\RoadGraph.cs" />
+    <Compile Include="World\WorldManager.cs" />
     <Compile Include="Zones\IZoneListener.cs" />
     <Compile Include="MapCss\Domain\Declaration.cs" />
     <Compile Include="MapCss\Domain\Rule.cs" />
@@ -77,7 +82,7 @@
     <Compile Include="MapCss\Visitors\MapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitorBase.cs" />
     <Compile Include="MapCss\Visitors\SelectorMapCssVisitor.cs" />
-    <Compile Include="Scene\IGameObjectBuilder.cs" />
+    <Compile Include="Scene\ISceneVisitor.cs" />
     <Compile Include="Scene\Models\Area.cs" />
     <Compile Include="Scene\Models\Canvas.cs" />
     <Compile Include="Scene\Models\Model.cs" />

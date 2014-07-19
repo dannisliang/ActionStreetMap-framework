@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
+using Mercraft.Core.World;
 using Mercraft.Maps.Osm.Extensions;
 
 namespace Mercraft.Maps.Osm.Helpers
 {
     /// <summary>
-    ///     Extracts LocationInfo from OSM tag collection
+    ///     Extracts Address from OSM tag collection
     /// </summary>
-    public class LocationInfoExtractor
+    public class AddressExtractor
     {
-        #region Sorted lists of possible tags for LocationInfo's fields
+        #region Sorted lists of possible tags for Address's fields
 
         private static readonly List<string> NameKeyList = new List<string>
         {
@@ -29,9 +30,9 @@ namespace Mercraft.Maps.Osm.Helpers
 
         #endregion
 
-        public static LocationInfo Extract(IList<KeyValuePair<string, string>> tags)
+        public static Address Extract(IList<KeyValuePair<string, string>> tags)
         {
-            return new LocationInfo
+            return new Address
             {
                 Name = GetValue(NameKeyList, tags),
                 Street = GetValue(StreetKeyList, tags),

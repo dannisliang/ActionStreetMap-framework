@@ -1,9 +1,9 @@
-﻿namespace Mercraft.Core
+﻿namespace Mercraft.Core.World
 {
     /// <summary>
     ///     Provides location information about the object
     /// </summary>
-    public class LocationInfo
+    public class Address
     {
         /// <summary>
         ///     Gets name, e.g. house number or road name
@@ -21,6 +21,5 @@
         public string Code { get; set; }
 
         // TODO add other valuable information
-
     }
 }

@@ -54,7 +54,7 @@
     <Compile Include="IGameRunner.cs" />
     <Compile Include="Infrastructure\UnityGameObject.cs" />
     <Compile Include="Interactions\CompositeModelBehaviour.cs" />
-    <Compile Include="GameObjectBuilder.cs" />
+    <Compile Include="SceneVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\UnityConsoleTrace.cs" />
   </ItemGroup>

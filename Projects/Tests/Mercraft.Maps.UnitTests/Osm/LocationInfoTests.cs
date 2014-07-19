@@ -20,7 +20,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             };
 
             // ACT
-            var locationInfo = LocationInfoExtractor.Extract(tags);
+            var locationInfo = AddressExtractor.Extract(tags);
 
             // ASSERT
             Assert.AreEqual("26", locationInfo.Name);

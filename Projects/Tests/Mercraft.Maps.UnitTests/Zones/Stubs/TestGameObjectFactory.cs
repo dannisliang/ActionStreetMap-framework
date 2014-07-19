@@ -16,10 +16,10 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             return new TestGameObject();
         }
 
-        public IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders,
+        public ISceneVisitor GetBuilder(IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            return new TestGameObjectBuilder(this, builders, behaviours);
+            return new TestSceneVisitor(this, builders, behaviours);
         }
     }
 }

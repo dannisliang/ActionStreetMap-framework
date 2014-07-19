@@ -2,9 +2,9 @@
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Maps.Osm.Helpers;
 using UnityEngine;
-using LocationInfo = Mercraft.Core.LocationInfo;
 
 namespace Assets.Scripts.Map
 {
@@ -14,7 +14,7 @@ namespace Assets.Scripts.Map
     /// </summary>
     public class LocationInfoHolder : MonoBehaviour, IModelBehaviour
     {
-        public LocationInfo LocationInfo { get; private set; }
+        public Address Address { get; private set; }
 
         /// <summary>
         /// Gets "center" coordinate of object
@@ -25,8 +25,8 @@ namespace Assets.Scripts.Map
 
         public void Apply(IGameObject go, Model model)
         {
-            LocationInfo = LocationInfoExtractor.Extract(model.Tags);
-            if (!String.IsNullOrEmpty(LocationInfo.Street))
+            Address = AddressExtractor.Extract(model.Tags);
+            if (!String.IsNullOrEmpty(Address.Street))
             {
                 // attach OSM tag
                 go.GetComponent<GameObject>().tag = Consts.OsmTag;

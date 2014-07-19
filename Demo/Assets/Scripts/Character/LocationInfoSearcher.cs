@@ -21,7 +21,7 @@ namespace Assets.Scripts.Character
             if (_nearestObject != null)
             {
                 var locationInfoHolder = _nearestObject.GetComponent<LocationInfoHolder>();
-                var locationInfo = locationInfoHolder.LocationInfo;
+                var locationInfo = locationInfoHolder.Address;
                 GUI.Box(new Rect(0, 0, 300, 30), locationInfo.Street);
             }
         }

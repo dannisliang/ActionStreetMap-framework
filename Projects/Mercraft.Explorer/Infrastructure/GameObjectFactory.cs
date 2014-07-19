@@ -21,10 +21,10 @@ namespace Mercraft.Explorer.Infrastructure
             return new UnityGameObject(name, GetPrimitive(type));
         }
 
-        public virtual IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders,
+        public virtual ISceneVisitor GetBuilder(IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            return new GameObjectBuilder(this, builders, behaviours);
+            return new SceneVisitor(this, builders, behaviours);
         }
 
         private GameObject GetPrimitive(UnityPrimitiveType type)

@@ -13,7 +13,7 @@ namespace Mercraft.Core.Unity
         IGameObject CreateNew(string name);
         IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
 
-        IGameObjectBuilder GetBuilder(IEnumerable<IModelBuilder> builders, 
+        ISceneVisitor GetBuilder(IEnumerable<IModelBuilder> builders, 
             IEnumerable<IModelBehaviour> behaviours);
     }
 }

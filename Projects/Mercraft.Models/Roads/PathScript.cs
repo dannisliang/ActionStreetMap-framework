@@ -28,11 +28,6 @@ namespace Mercraft.Models.Roads
             _nodeObjects = new PathNodeObject[0];
         }
 
-        public void CreatePathNode(Vector3 nodeCell)
-        {
-            AddNode(nodeCell, PathWidth);
-        }
-
         public void AddNode(Vector3 position, float width)
         {
             var newPathNodeObject = new PathNodeObject();
@@ -105,14 +100,11 @@ namespace Mercraft.Models.Roads
             var cubicX = new float[n];
             var cubicZ = new float[n];
 
-            /*Debug.Log(_nodeObjects[n - 1].Position);
             var lastPointDirection = (_nodeObjects[n - 1].Position - _nodeObjects[n - 2].Position);
-            Debug.Log(lastPointDirection);
-             _nodeObjects[n - 1].Position =  new Vector3(
-                  _nodeObjects[n - 1].Position.x + lastPointDirection.x / 5,
+            _nodeObjects[n - 1].Position =  new Vector3(
+                  _nodeObjects[n - 1].Position.x + lastPointDirection.x / 8,
                   _nodeObjects[n - 1].Position.y,
-                  _nodeObjects[n - 1].Position.z + lastPointDirection.z / 5);
-            Debug.Log(_nodeObjects[n - 1].Position);*/
+                  _nodeObjects[n - 1].Position.z + lastPointDirection.z / 8);
             var oldG2 = new Vector3();
 
             for (int i = 0; i < n; i++)
@@ -140,7 +132,7 @@ namespace Mercraft.Models.Roads
                     continue;
                 }
 
-                float widthAtNode = PathWidth;
+                float widthAtNode = _nodeObjects[i].Width;
 
                 // Interpolate points along the path using splines for direction and bezier curves for heights
                 for (int j = 0; j < smoothingLevel + 1; j++)
@@ -241,14 +233,12 @@ namespace Mercraft.Models.Roads
             }
 
             newMesh.normals = myNormals;
-
             newMesh.RecalculateNormals();
+
             _pathCollider.sharedMesh = meshFilter.sharedMesh;
             _pathCollider.smoothSphereCollisions = true;
 
-
             _pathObject.renderer.enabled = true;
-
             _pathObject.transform.localScale = new Vector3(1, 1, 1);
         }
 
