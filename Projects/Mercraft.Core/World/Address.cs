@@ -1,4 +1,6 @@
-﻿namespace Mercraft.Core.World
+﻿using System;
+
+namespace Mercraft.Core.World
 {
     /// <summary>
     ///     Provides location information about the object
@@ -21,5 +23,10 @@
         public string Code { get; set; }
 
         // TODO add other valuable information
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}", Name, Street, Code);
+        }
     }
 }

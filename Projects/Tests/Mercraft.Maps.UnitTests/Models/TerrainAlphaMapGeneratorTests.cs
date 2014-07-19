@@ -73,7 +73,11 @@ namespace Mercraft.Maps.UnitTests.Models
             {
                 CenterPosition = center,
                 TerrainSize = 10,
-                SplatPrototypes = new SplatPrototype[2],
+                TextureParams = new List<List<string>>
+                {
+                    new List<string>(),
+                    new List<string>()
+                },
                 Areas = new List<AreaSettings>
                 {
                     new AreaSettings

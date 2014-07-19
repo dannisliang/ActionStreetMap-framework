@@ -36,7 +36,7 @@ namespace Mercraft.Models.Terrain
         /// </summary>
         public float BaseMapDist = 1000.0f;
 
-        public SplatPrototype[] SplatPrototypes;
+        public List<List<string>> TextureParams;
 
         public IEnumerable<Road> Roads;
         public List<AreaSettings> Areas;

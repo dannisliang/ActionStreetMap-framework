@@ -11,9 +11,10 @@ namespace Mercraft.Core.Unity
     {
         // TODO add object pool logic?
         IGameObject CreateNew(string name);
+        IGameObject CreateNew(string name, IGameObject parent);
         IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
 
-        ISceneVisitor GetBuilder(IEnumerable<IModelBuilder> builders, 
+        ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders, 
             IEnumerable<IModelBehaviour> behaviours);
     }
 }

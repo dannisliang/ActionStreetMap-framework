@@ -26,7 +26,7 @@ namespace Mercraft.Models.Terrain
         public float[,,] GetAlphaMap(ITerrainData terrainData)
         {
             _terrainData = terrainData;
-            var layers = _settings.SplatPrototypes.Length;
+            var layers = _settings.TextureParams.Count;
 
             CreatePolygons();
 

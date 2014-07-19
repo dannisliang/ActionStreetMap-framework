@@ -32,7 +32,7 @@ namespace Mercraft.Core.Zones
             Tile = tile;
             Stylesheet = stylesheet;
             _goFactory = gameObjectFactory;
-            _sceneVisitor = gameObjectFactory.GetBuilder(builders, behaviours);
+            _sceneVisitor = gameObjectFactory.CreateVisitor(builders, behaviours);
             _trace = trace;
         }
 

@@ -91,7 +91,6 @@
     <Compile Include="Zones\Stubs\TestFlatModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestDefaultModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestGameObject.cs" />
-    <Compile Include="Zones\Stubs\TestSceneVisitor.cs" />
     <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
     <Compile Include="Zones\Stubs\TestModelBehavior.cs" />
     <Compile Include="Zones\Stubs\TestTileListener.cs" />

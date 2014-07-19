@@ -5,7 +5,10 @@
     /// </summary>
     public class RoadElement
     {
+        public long Id { get; set; }
+
         public Address Address { get; set; }
+
         public float Width { get; set; }
 
         /// <summary>

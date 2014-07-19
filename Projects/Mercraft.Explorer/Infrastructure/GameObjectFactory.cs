@@ -16,12 +16,19 @@ namespace Mercraft.Explorer.Infrastructure
             return new UnityGameObject(name);
         }
 
+        public IGameObject CreateNew(string name, IGameObject parent)
+        {
+            var go = CreateNew(name);
+            go.Parent = parent;
+            return go;
+        }
+
         public virtual IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new UnityGameObject(name, GetPrimitive(type));
         }
 
-        public virtual ISceneVisitor GetBuilder(IEnumerable<IModelBuilder> builders,
+        public virtual ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
             return new SceneVisitor(this, builders, behaviours);

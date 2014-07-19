@@ -8,7 +8,7 @@ namespace Mercraft.Models.Roads
 {
     public class RoadBuilder
     {
-        private const double SimplificationTolerance = 2;
+        private const double SimplificationTolerance = 10;
 
         public GameObject Build(Road road, IGameObject terrainGameObject)
         {

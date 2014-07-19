@@ -6,15 +6,6 @@ namespace Mercraft.Core.World.Roads
 {
     public static class RoadElementComposer
     {
-
-        private class MapPointComparer : IComparer<MapPoint>
-        {
-            public int Compare(MapPoint x, MapPoint y)
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
         /// <summary>
         ///     Composes RoadElement collection which consist of list of joined road elements 
         /// </summary>
