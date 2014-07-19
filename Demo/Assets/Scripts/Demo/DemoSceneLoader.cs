@@ -59,7 +59,7 @@ namespace Assets.Scripts.Demo
                     50)
             };
             var canvasRule = stylesheet.GetRule(canvas, false);
-            var splatPrototypes = canvasRule.GetSplatPrototypes();
+            
 
             
             /*
@@ -186,36 +186,67 @@ namespace Assets.Scripts.Demo
         [MenuItem("OSM/Generate Road")]
         static void BuildRoadOnTerrain()
         {
-            var tile = new GameObjectFactory().CreateNew("tile");
-            var terrainBuilder = new TerrainBuilder(new TerrainSettings()
-            {
-                AlphaMapSize = 256,
-                CenterPosition = new Vector2(0, 0),
-                TerrainSize = 100,
-                Roads = new List<Road>()
+            RoadBuilder builder = new RoadBuilder();
+            builder.Build(
+                new Road()
                 {
-                    new Road()
+                    GameObject = new UnityGameObject("road"),
+                    Elements = new List<RoadElement>()
                     {
-                        Elements = new List<RoadElement>()
+                        /*new RoadElement()
                         {
-                            new RoadElement()
+                            Width = 8,
+                            Points = new[]
                             {
-                                Width = 13,
-                                Points = new[]
-                                {
-                                    new MapPoint(-120.1f, -54.2f),
-                                    new MapPoint(-105.8f, -48.3f),
-                                    new MapPoint(-89.3f, -41.0f),
-                                    new MapPoint(-71.6f, -33.2f),
-                                    new MapPoint(10.0f, -0.5f),
-                                    new MapPoint(31.6f, 7.6f),
-                                }
+                                new MapPoint(13.6f, 145.9f),
+                                new MapPoint(35.0f, 112.6f),
+                                new MapPoint(72.4f, 54.4f),
+                                new MapPoint(74.3f, 51.5f),
+                                new MapPoint(76.7f, 50.3f),
+                                new MapPoint(78.9f, 51.5f),
+                                new MapPoint(80.1f, 54.9f),
+                                new MapPoint(79.4f, 58.9f),
+                                new MapPoint(21.0f, 150.6f),
                             }
-                        }
+                        },
+                        new RoadElement()
+                        {
+                            Width = 5,
+                            Points = new[]
+                            {
+                                new MapPoint(21.0f, 150.6f),
+                                new MapPoint(32.8f, 156.0f),
+                                new MapPoint(120.9f, 218.3f),
+                                new MapPoint(140.9f, 232.4f),
+                                new MapPoint(161.9f, 247.2f),
+                                new MapPoint(164.2f, 248.8f),
+                            }
+                        },*/
+                        new RoadElement()
+                        {
+                            Width = 5,
+                            Points = new[]
+                            {
+                                new MapPoint(164.2f, 248.8f),
+                                new MapPoint(181.9f, 259.8f),
+                                new MapPoint(183.6f, 260.9f),
+                        /*    }
+                        },
+                        new RoadElement()
+                        {
+                            Width = 8,
+                            Points = new[]
+                            {*/
+                                new MapPoint(183.6f, 260.9f),
+                                new MapPoint(186.8f, 257.0f),
+                                new MapPoint(189.7f, 253.6f),
+                                new MapPoint(202.8f, 238.6f),
+                                new MapPoint(221.1f, 217.6f),
+                                new MapPoint(243.0f, 188.1f),
+                            }
+                        },
                     }
-                }
-            });
-            terrainBuilder.Build(tile);
+                }, new UnityGameObject("terrain"));
         }
 
         [MenuItem("OSM/Generate Single Building")]

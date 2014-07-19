@@ -10,6 +10,11 @@ namespace Mercraft.Models.Roads
     {
         private const double SimplificationTolerance = 10;
 
+        /// <summary>
+        /// Height of road. So far, we support only flat surfaces
+        /// </summary>
+        private const float Height = 0.1f;
+
         public GameObject Build(Road road, IGameObject terrainGameObject)
         {
             var gameObject = road.GameObject.GetComponent<GameObject>();
@@ -18,6 +23,8 @@ namespace Mercraft.Models.Roads
             gameObject.AddComponent<MeshRenderer>().material = Resources.Load<Material>(@"Materials/RoadMaterial");
 
             var pathScript = new PathScript();
+            // NOTE This is just workaround to avoid flickering of overlapping roads
+            pathScript.HeightY = Height + Random.Range(0.001f, 0.01f);
             pathScript.NewPath(gameObject, terrainGameObject.GetComponent<GameObject>());
 
             foreach (var roadElement in road.Elements)

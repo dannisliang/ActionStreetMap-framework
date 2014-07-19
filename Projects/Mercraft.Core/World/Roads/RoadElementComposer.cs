@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Infrastructure.Primitives;
 
@@ -12,7 +13,6 @@ namespace Mercraft.Core.World.Roads
         public static IEnumerable<List<RoadElement>> Compose(List<RoadElement> roadElements)
         {
             var firstPointMap = GetFirstPointDictionary(roadElements);
-
             // join last point of current RoadElement with first point if applicable
             var joinedRoadElementIndecies = new HashSet<int>();
             for (int i = 0; i < roadElements.Count; i++)
@@ -32,9 +32,12 @@ namespace Mercraft.Core.World.Roads
                     join = false;
                     if (firstPointMap.ContainsKey(lastPoint))
                     {
-                        var reToJoin = firstPointMap[lastPoint];
+                        var reToJoin = firstPointMap[lastPoint]
+                            // do not join roads with different width
+                            .Where(re => Math.Abs(re.Item2.Width - roadElement.Width) < float.Epsilon);
                         foreach (var tuple in reToJoin)
                         {
+                            // TODO choose the best matched road element using info from address
                             if (!joinedRoadElementIndecies.Contains(tuple.Item1))
                             {
                                 resultRoadElements.Add(tuple.Item2);
