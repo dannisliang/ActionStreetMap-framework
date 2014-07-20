@@ -193,6 +193,29 @@ namespace Assets.Scripts.Demo
                     GameObject = new UnityGameObject("road"),
                     Elements = new List<RoadElement>()
                     {
+
+                        new RoadElement()
+                        {
+                            Width = 8,
+                            Points = new[]
+                            {
+                                new MapPoint(-227.1f, -58.5f),
+                                new MapPoint(-126.7f, 9.6f),
+                                new MapPoint(-42.2f, 66.6f),
+                                new MapPoint(52.9f, 99.2f),
+                            }
+                        },
+                        new RoadElement()
+                        {
+                            Width = 8,
+                            Points = new[]
+                            {
+                                new MapPoint(52.9f, 99.2f),
+                                new MapPoint(104.6f, -7.7f),
+                                new MapPoint(229.0f, -198.1f),
+                            }
+                        },
+
                         /*new RoadElement()
                         {
                             Width = 8,
@@ -221,7 +244,7 @@ namespace Assets.Scripts.Demo
                                 new MapPoint(161.9f, 247.2f),
                                 new MapPoint(164.2f, 248.8f),
                             }
-                        },*/
+                        },
                         new RoadElement()
                         {
                             Width = 5,
@@ -230,13 +253,13 @@ namespace Assets.Scripts.Demo
                                 new MapPoint(164.2f, 248.8f),
                                 new MapPoint(181.9f, 259.8f),
                                 new MapPoint(183.6f, 260.9f),
-                        /*    }
+                            }
                         },
                         new RoadElement()
                         {
                             Width = 8,
                             Points = new[]
-                            {*/
+                            {
                                 new MapPoint(183.6f, 260.9f),
                                 new MapPoint(186.8f, 257.0f),
                                 new MapPoint(189.7f, 253.6f),
@@ -244,7 +267,7 @@ namespace Assets.Scripts.Demo
                                 new MapPoint(221.1f, 217.6f),
                                 new MapPoint(243.0f, 188.1f),
                             }
-                        },
+                        },*/
                     }
                 }, new UnityGameObject("terrain"));
         }

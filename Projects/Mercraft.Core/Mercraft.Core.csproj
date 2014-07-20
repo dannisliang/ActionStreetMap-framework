@@ -46,6 +46,8 @@
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="GeoCoordinate.cs" />
+    <Compile Include="Geometry\DouglasPeuckerReduction.cs" />
+    <Compile Include="Geometry\LineSegment.cs" />
     <Compile Include="World\Address.cs" />
     <Compile Include="MapCss\Visitors\Eval\ListTreeWalker.cs" />
     <Compile Include="Scene\IModelBehaviour.cs" />

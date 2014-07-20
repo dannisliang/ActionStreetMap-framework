@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
 
-namespace Mercraft.Models.Utils
+namespace Mercraft.Core.Geometry
 {
-    public static class Geometry
+    /// <summary>
+    /// Implements the Douglas Peucker algorithim to reduce the number of points
+    /// </summary>
+    public class DouglasPeuckerReduction
     {
-       /// <summary>
-        /// Uses the Douglas Peucker algorithim to reduce the number of points.
+        /// <summary>
+        /// Reduces the number of points
         /// </summary>
-        public static IList<MapPoint> DouglasPeuckerReduction(MapPoint[] points, Double tolerance)
+        public static IList<MapPoint> Reduce(MapPoint[] points, Double tolerance)
         {
             if (points == null || points.Length < 3)
                 return points;
@@ -29,7 +31,7 @@ namespace Mercraft.Models.Utils
                 lastPoint--;
             }
 
-            DouglasPeuckerReduction(points, firstPoint, lastPoint, tolerance, ref pointIndexsToKeep);
+            Reduce(points, firstPoint, lastPoint, tolerance, ref pointIndexsToKeep);
 
             var returnPoints = new List<MapPoint>();
             pointIndexsToKeep.Sort();
@@ -44,7 +46,7 @@ namespace Mercraft.Models.Utils
         /// <summary>
         /// Douglases the peucker reduction.
         /// </summary>
-        private static void DouglasPeuckerReduction(MapPoint[] points, Int32 firstPoint, Int32 lastPoint, Double tolerance, ref List<Int32> pointIndexsToKeep)
+        private static void Reduce(MapPoint[] points, Int32 firstPoint, Int32 lastPoint, Double tolerance, ref List<Int32> pointIndexsToKeep)
         {
             Double maxDistance = 0;
             Int32 indexFarthest = 0;
@@ -64,8 +66,8 @@ namespace Mercraft.Models.Utils
                 //Add the largest point that exceeds the tolerance
                 pointIndexsToKeep.Add(indexFarthest);
 
-                DouglasPeuckerReduction(points, firstPoint, indexFarthest, tolerance, ref pointIndexsToKeep);
-                DouglasPeuckerReduction(points, indexFarthest, lastPoint, tolerance, ref pointIndexsToKeep);
+                Reduce(points, firstPoint, indexFarthest, tolerance, ref pointIndexsToKeep);
+                Reduce(points, indexFarthest, lastPoint, tolerance, ref pointIndexsToKeep);
             }
         }
 
@@ -80,5 +82,5 @@ namespace Mercraft.Models.Utils
 
             return height;
         }
-    }   
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Geometry;
 using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Core.World.Roads
@@ -38,8 +39,11 @@ namespace Mercraft.Core.World.Roads
                         foreach (var tuple in reToJoin)
                         {
                             // TODO choose the best matched road element using info from address
-                            if (!joinedRoadElementIndecies.Contains(tuple.Item1))
+                            if (!joinedRoadElementIndecies.Contains(tuple.Item1) && 
+                                IsCorrectAngleBetween(roadElement, tuple.Item2))
                             {
+                                // choose road at the same line
+
                                 resultRoadElements.Add(tuple.Item2);
                                 joinedRoadElementIndecies.Add(tuple.Item1);
                                 lastPoint = tuple.Item2.Points.Last();
@@ -51,6 +55,21 @@ namespace Mercraft.Core.World.Roads
                 }
                 yield return resultRoadElements;
             }
+        }
+
+        /// <summary>
+        /// Returns true if angle between road elements is correct for current render algortihm 
+        /// </summary>
+        private static bool IsCorrectAngleBetween(RoadElement start, RoadElement end)
+        {
+            var lineSegment1 = new LineSegment(start.Points[start.Points.Length - 2],
+                start.Points[start.Points.Length - 1]);
+            var lineSegment2 = new LineSegment(end.Points[0], end.Points[1]);
+
+            var angle = lineSegment1.AngleBetween(lineSegment2);
+
+            // NOTE which value is reasonable?
+            return Math.Abs(angle) < 30;
         }
 
         private static Dictionary<MapPoint, List<Tuple<int, RoadElement>>> GetFirstPointDictionary(List<RoadElement> roadElements)

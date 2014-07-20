@@ -61,7 +61,7 @@ namespace Mercraft.Explorer
                 Roads = roads
             });
 
-            // NOTE not ideal solution to make class ready for next request
+            // NOTE not ideal solution to make the class ready for next request
             _areas = new List<AreaSettings>();
             _roadElements = new List<RoadElement>();
 
@@ -102,16 +102,15 @@ namespace Mercraft.Explorer
 
         public bool VisitWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
         {
+            // mapcss rule is set to skip this element
             if (rule.IsSkipped())
             {
                 CreateSkipped(parent, way);
+                // return true to mark this element as processed
                 return true;
             }
 
-            // TODO refactor this: ideally, no special cases should be there
-            // NOTE Road should be processed with Terrain as it has dependencies on:
-            // 1. its heightmap (so far not important as we have flat map)
-            // 2. we should join roads (important)
+            // mapcss rule is set to road
             if (rule.IsRoad())
             {
                 _roadElements.Add(new RoadElement()
@@ -121,10 +120,10 @@ namespace Mercraft.Explorer
                     Width = (int)Math.Round(rule.GetWidth() / 2),
                     Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
                 });
-                // this game object should be initialized inside of TerrainBuilder's logic
                 return true;
             }
 
+            // mapcss rule should contain builder
             var builder = rule.GetModelBuilder(_builders);
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
             gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, way);

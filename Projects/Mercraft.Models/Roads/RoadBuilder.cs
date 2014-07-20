@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Mercraft.Core.Geometry;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
 using Mercraft.Models.Utils;
@@ -29,8 +30,8 @@ namespace Mercraft.Models.Roads
 
             foreach (var roadElement in road.Elements)
             {
-                var points = Geometry
-                 .DouglasPeuckerReduction(roadElement.Points, SimplificationTolerance)
+                var points = DouglasPeuckerReduction
+                 .Reduce(roadElement.Points, SimplificationTolerance)
                  .Select(p => new Vector3(p.X, 0, p.Y));
                 foreach (var point in points)
                 {

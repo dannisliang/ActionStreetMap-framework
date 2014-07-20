@@ -1,11 +1,11 @@
 ﻿using Mercraft.Core;
-using Mercraft.Models.Utils;
+using Mercraft.Core.Geometry;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Algorithms
+namespace Mercraft.Maps.UnitTests.Geometry
 {
     [TestFixture]
-    public class GeometryTests
+    public class DouglasPeuckerReductionTests
     {
         [Test]
         public void CanSimplifyCurve()
@@ -19,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Algorithms
             };
 
             // ACT
-            var simplified = Geometry.DouglasPeuckerReduction(points, 1);
+            var simplified = DouglasPeuckerReduction.Reduce(points, 1);
 
             // ASSERT
             // NOTE this is rough checking and should be improved
@@ -40,7 +40,7 @@ namespace Mercraft.Maps.UnitTests.Algorithms
             };
 
             // ACT
-            var simplified = Geometry.DouglasPeuckerReduction(points, 1);
+            var simplified = DouglasPeuckerReduction.Reduce(points, 1);
 
             // ASSERT
             // NOTE this is rough cchecking and should be improved
