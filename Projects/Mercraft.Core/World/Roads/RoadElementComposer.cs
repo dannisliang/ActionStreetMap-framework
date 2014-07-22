@@ -24,7 +24,8 @@ namespace Mercraft.Core.World.Roads
 
                 var roadElement = roadElements[i];
                 resultRoadElements.Add(roadElement);
-                joinedRoadElementIndecies.Add(i);
+                
+                //joinedRoadElementIndecies.Add(i);
 
                 var lastPoint = roadElement.Points.Last();
                 var join = true;
@@ -33,17 +34,15 @@ namespace Mercraft.Core.World.Roads
                     join = false;
                     if (firstPointMap.ContainsKey(lastPoint))
                     {
-                        var reToJoin = firstPointMap[lastPoint]
+                        var reToJoin = firstPointMap[lastPoint];
                             // do not join roads with different width
-                            .Where(re => Math.Abs(re.Item2.Width - roadElement.Width) < float.Epsilon);
+                           // .Where(re => Math.Abs(re.Item2.Width - roadElement.Width) < float.Epsilon);
                         foreach (var tuple in reToJoin)
                         {
                             // TODO choose the best matched road element using info from address
                             if (!joinedRoadElementIndecies.Contains(tuple.Item1) && 
                                 IsCorrectAngleBetween(roadElement, tuple.Item2))
                             {
-                                // choose road at the same line
-
                                 resultRoadElements.Add(tuple.Item2);
                                 joinedRoadElementIndecies.Add(tuple.Item1);
                                 lastPoint = tuple.Item2.Points.Last();
@@ -69,7 +68,7 @@ namespace Mercraft.Core.World.Roads
             var angle = lineSegment1.AngleBetween(lineSegment2);
 
             // NOTE which value is reasonable?
-            return Math.Abs(angle) < 30;
+            return Math.Abs(angle) < 10;
         }
 
         private static Dictionary<MapPoint, List<Tuple<int, RoadElement>>> GetFirstPointDictionary(List<RoadElement> roadElements)
