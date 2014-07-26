@@ -186,9 +186,7 @@ namespace Assets.Scripts.Demo
         [MenuItem("OSM/Generate Road")]
         static void BuildRoadOnTerrain()
         {
-            RoadBuilder builder = new RoadBuilder();
-            builder.Build(
-                new Road()
+            RoadBuilder builder = new RoadBuilder(new Road()
                 {
                     GameObject = new UnityGameObject("road"),
                     Elements = new List<RoadElement>()
@@ -269,7 +267,8 @@ namespace Assets.Scripts.Demo
                             }
                         },*/
                     }
-                }, new UnityGameObject("terrain"));
+                });
+            builder.Build();
         }
 
         [MenuItem("OSM/Generate Single Building")]

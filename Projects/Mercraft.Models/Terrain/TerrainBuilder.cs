@@ -16,7 +16,6 @@ namespace Mercraft.Models.Terrain
         {
             //var heightMapGenerator = new HeightMapGenerator(settings);
             var alphaMapGenerator = new AlphaMapGenerator(settings);
-            var roadBuilder = new RoadBuilder();
 
             // fill heightmap
             var htmap = new float[settings.HeightMapSize, settings.HeightMapSize];
@@ -48,9 +47,10 @@ namespace Mercraft.Models.Terrain
             var terrainGameObject = new GameObjectWrapper("terrain", gameObject);
             
             // process roads
-            foreach (var roadSetting in settings.Roads)
+            foreach (var road in settings.Roads)
             {
-                roadBuilder.Build(roadSetting, terrainGameObject);
+                var roadBuilder = new RoadBuilder(road);
+                roadBuilder.Build();
             }
 
             terrainData.SetAlphamaps(0, 0, alphamap);
