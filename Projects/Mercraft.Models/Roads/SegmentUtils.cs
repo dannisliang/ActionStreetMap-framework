@@ -5,6 +5,9 @@ namespace Mercraft.Models.Roads
 {
     public class SegmentUtils
     {
+        /// <summary>
+        /// Gets intersection point of two segments
+        /// </summary>
         public static Vector2 IntersectionPoint(Segment first, Segment second)
         {
             float a1 = first.End.y - first.Start.y;
@@ -19,7 +22,7 @@ namespace Mercraft.Models.Roads
             // Get delta and check if the lines are parallel
             float delta = a1 * b2 - a2 * b1;
             if (Math.Abs(delta) < float.MinValue)
-                throw new System.Exception("Segments are parallel");
+                throw new ArgumentException("Segments are parallel");
 
             // now return the Vector2 intersection point
             return new Vector2(
@@ -28,6 +31,9 @@ namespace Mercraft.Models.Roads
             );
         }
 
+        /// <summary>
+        /// Returns true if segmens intersect
+        /// </summary>
         public static bool Intersect(Segment first, Segment second)
         {
             Vector2 a = first.End - first.Start;
@@ -47,7 +53,6 @@ namespace Mercraft.Models.Roads
             }
             else
             {
-
                 if (alphaDenominator > 0)
                 {
                     if (alphaNumerator < 0 || alphaNumerator > alphaDenominator)
@@ -72,7 +77,6 @@ namespace Mercraft.Models.Roads
                     doIntersect = false;
                 }
             }
-
             return doIntersect;
         }
     }

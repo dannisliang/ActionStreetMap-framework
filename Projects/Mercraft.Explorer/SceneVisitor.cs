@@ -44,12 +44,19 @@ namespace Mercraft.Explorer
         {
             var tile = canvas.Tile;
 
-            var roads = RoadElementComposer.Compose(_roadElements).Select(reList => new Road()
+           /* var roads = RoadElementComposer.
+                Compose(_roadElements).Select(reList => new Road()
             {
                 Elements = reList,
                 GameObject = _goFactory.CreateNew(reList.Aggregate(new StringBuilder("road "),
                     (sb, re) => sb.AppendFormat("[{0}] {1}/ ", re.Id, re.Address)).ToString(), parent)
-            }).ToArray();
+            }).ToArray();*/
+
+            var roads = _roadElements.Select(re => new Road()
+            {
+                Elements = new List<RoadElement>() {re},
+                GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), parent),
+            });
 
             _terrainBuilder.Build(parent, new TerrainSettings()
             {

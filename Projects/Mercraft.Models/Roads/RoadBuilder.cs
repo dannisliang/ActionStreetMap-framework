@@ -17,7 +17,7 @@ namespace Mercraft.Models.Roads
         private List<int> _triangles;
         private List<Vector2> _uv;
 
-        private float _ratio = 3;
+        private float _ratio = 20;
         private int _trisIndex = 0;
         private Tuple<Vector2, Vector2> _startPoints;
 
@@ -54,6 +54,8 @@ namespace Mercraft.Models.Roads
             gameObject.AddComponent<MeshCollider>();
             gameObject.AddComponent<MeshRenderer>().material = Resources.Load<Material>(@"Materials/RoadMaterial");
         }
+
+        #region Segment processing
 
         public void ProcessRoadData(RoadElement roadElement)
         {
@@ -140,7 +142,9 @@ namespace Mercraft.Models.Roads
                 AddTrapezoid(_startPoints.Item1, _startPoints.Item2, lastSegment.Left.End, lastSegment.Right.End);
             }
         }
+        #endregion
 
+        #region Turn/Straight cases
         private void StraightLineCase(RoadSegment first, RoadSegment second)
         {
             AddTrapezoid(_startPoints.Item1, _startPoints.Item2, first.Left.End, first.Right.End);
@@ -162,7 +166,9 @@ namespace Mercraft.Models.Roads
             AddTriangle(first.Right.End, intersectionPoint, second.Right.Start, true);
             _startPoints = new Tuple<Vector2, Vector2>(second.Right.Start, intersectionPoint);
         }
+        #endregion
 
+        #region Add shapes
         private void AddTriangle(Vector2 first, Vector2 second, Vector2 third, bool invert)
         {
             _points.Add(first);
@@ -211,7 +217,9 @@ namespace Mercraft.Models.Roads
                 new Vector2(1, tiles),
             });
         }
+        #endregion
 
+        #region Getting segments and turn types
         private List<RoadSegment> GetRoadSegments(RoadElement roadElement)
         {
             var roadSegments = new List<RoadSegment>();
@@ -260,6 +268,7 @@ namespace Mercraft.Models.Roads
 
             return RoadManeuver.Straight;
         }
+        #endregion
 
         private enum RoadManeuver
         {
