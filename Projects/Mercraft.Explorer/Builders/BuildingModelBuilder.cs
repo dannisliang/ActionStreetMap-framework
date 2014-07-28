@@ -5,30 +5,28 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World.Buildings;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Config;
+using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Config;
-using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
-        private const string ThemeKey = @"render/@theme";
-        private readonly TexturePackProvider _textureProvider;
-        private readonly BuildingStyleProvider _styleProvider;
-
-        private string _theme;
+        private readonly IBuildingBuilder _builder;
+        //private readonly IBuildingStyleProvider _styleProvider;
 
         [Dependency]
-        public BuildingModelBuilder(IGameObjectFactory goFactory,
-            TexturePackProvider textureProvider, BuildingStyleProvider styleProvider):
+        public BuildingModelBuilder(IGameObjectFactory goFactory, 
+            IBuildingBuilder builder):
+            //IBuildingStyleProvider styleProvider):
             base(goFactory)
         {
-            _textureProvider = textureProvider;
-            _styleProvider = styleProvider;
+            _builder = builder;
+            //_styleProvider = styleProvider;
         }
 
         private const int NoValue = 0;
@@ -48,36 +46,26 @@ namespace Mercraft.Explorer.Builders
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
             var gameObjectWrapper = _goFactory.CreateNew(String.Format("Building {0}", model));
-            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
+            
+            // TODO should we save this object in WorldManager?
+            var building = new Building()
+            {
+                Address = AddressExtractor.Extract(model.Tags),
+                GameObject = gameObjectWrapper,
+                Height = rule.GetHeight(NoValue),
+                Levels = rule.GetLevels(NoValue),
+                Type = rule.GetBuildingType(),
+                BottomOffset = rule.GetZIndex(),
+                Footprint = PolygonHelper.GetVerticies2D(center, footPrint)
+            };
 
-            var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
-            var height = rule.GetHeight(NoValue);
-            var levels = rule.GetLevels(NoValue);
+            //var style = _styleProvider.Get(building);
 
-            var styleName = rule.GetBuildingStyle();
+            BuildingStyle style = null;
 
-            var style = _styleProvider.Get(_theme, styleName);
-            var texture = _textureProvider.Get(style.Texture);
-
-            gameObject.AddComponent<BuildingBehavior>().Attach(
-                new BuildingSettings
-                {
-                    Seed = model.Id,
-                    Height = height,
-                    Levels = levels,
-                    Style = style,
-                    TexturePack = texture,
-                    FootPrint = verticies.ToVector2(),
-                    GenerateRoof = false
-                });
+            _builder.Build(building, style);
 
             return gameObjectWrapper;
-        }
-
-        public override void Configure(IConfigSection configSection)
-        {
-            base.Configure(configSection);
-            _theme = configSection.GetString(ThemeKey);
         }
     }
 }

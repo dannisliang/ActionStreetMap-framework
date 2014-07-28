@@ -38,40 +38,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\Builders\Facades\BuildingBoxBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\BarrelRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\FlatRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\GabledRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\HippedRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\LeantoRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\MansardRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\RoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\SawtoothRoofBuilder.cs" />
-    <Compile Include="Buildings\Builders\Roofs\SteepledRoofBuilder.cs" />
-    <Compile Include="Buildings\BuildingBehavior.cs" />
-    <Compile Include="Buildings\Generators\BuildingGenerator.cs" />
-    <Compile Include="Buildings\BuildingMeasurements.cs" />
-    <Compile Include="Buildings\BuildingSettings.cs" />
+    <Compile Include="Buildings\BuildingBuilder.cs" />
     <Compile Include="Buildings\BuildingStyle.cs" />
-    <Compile Include="Buildings\Config\BuildingStyleProvider.cs" />
-    <Compile Include="Buildings\Config\TexturePackProvider.cs" />
-    <Compile Include="Buildings\Entities\Model.cs" />
-    <Compile Include="Buildings\Entities\Plan.cs" />
-    <Compile Include="Buildings\Entities\Roof.cs" />
-    <Compile Include="Buildings\Entities\RoofStyle.cs" />
-    <Compile Include="Buildings\Entities\Texture.cs" />
-    <Compile Include="Buildings\Entities\Volume.cs" />
-    <Compile Include="Buildings\Entities\VolumeStyle.cs" />
-    <Compile Include="Buildings\Generators\RoofGenerator.cs" />
-    <Compile Include="Buildings\TexturePack.cs" />
-    <Compile Include="Buildings\Utils\BuildingProjectUVs.cs" />
-    <Compile Include="Buildings\Utils\PolyClockwise.cs" />
-    <Compile Include="Buildings\Utils\DynamicMultiMaterial.cs" />
-    <Compile Include="Buildings\Utils\DynamicMultiMaterialMesh.cs" />
-    <Compile Include="Buildings\Utils\EarClipper.cs" />
-    <Compile Include="Buildings\Utils\RandomGenerator.cs" />
-    <Compile Include="Buildings\Utils\StraightSkeleton.cs" />
-    <Compile Include="Buildings\Utils\VectorExtensions.cs" />
+    <Compile Include="Buildings\BuildingTextureMap.cs" />
+    <Compile Include="Buildings\Facades\FlatFacadeBuilder.cs" />
+    <Compile Include="Buildings\Facades\IFacadeBuilder.cs" />
+    <Compile Include="Buildings\MeshData.cs" />
+    <Compile Include="Buildings\Roofs\FlatRoofBuilder.cs" />
+    <Compile Include="Buildings\Roofs\IRoofBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSegment.cs" />
@@ -99,10 +73,6 @@
       <Name>Mercraft.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Buildings\README.txt" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,5 @@
-﻿using System;
-using Mercraft.Infrastructure.Config;
+﻿using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Infrastructure.Bootstrap

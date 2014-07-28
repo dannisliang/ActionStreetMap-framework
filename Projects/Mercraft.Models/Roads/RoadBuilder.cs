@@ -52,6 +52,8 @@ namespace Mercraft.Models.Roads
             var meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
             gameObject.AddComponent<MeshCollider>();
+
+            // TODO extract this from style
             gameObject.AddComponent<MeshRenderer>().material = Resources.Load<Material>(@"Materials/RoadMaterial");
         }
 

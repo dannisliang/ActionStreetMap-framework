@@ -59,7 +59,6 @@
     <Compile Include="MapCss\CanvasTests.cs" />
     <Compile Include="MapCss\MapCssHelper.cs" />
     <Compile Include="MapCss\SelectorsTests.cs" />
-    <Compile Include="Models\BuildingConfigTests.cs" />
     <Compile Include="Core\TypeHelperTests.cs" />
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="SceneHelper.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="TestPathResolver.cs" />
+    <Compile Include="Themes\ThemeProviderTests.cs" />
     <Compile Include="World\RoadTests.cs" />
     <Compile Include="Zones\Stubs\TestBuildingModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />

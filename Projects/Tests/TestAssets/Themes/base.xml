@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings environment="test">
+<themes>
+	<theme name="berlin" merge="no">
+		<buildings>
+			<types>
+				<type name="residental1">
+					<style>
+						<texture>Texture1</texture>
+						<material>Material1</material>
+						<floors>9</floors>
+						<textureMap index="0" />
+					</style>
+					<style>
+						<texture>Texture2</texture>
+						<material>Material2</material>
+						<floors>2</floors>
+						<textureMap index="0" />
+					</style>
+				</type>
+				<type name="residental2">
+					<style>
+						<texture>Texture3</texture>
+						<material>Material3</material>
+						<floors>5</floors>
+						<textureMap index="0" />
+					</style>
+				</type>
+			</types>
+			<!-- uv mapping array -->
+			<textureMap>
+				<uv index="0">
+					<facade>
+						<front>	
+							<uv x="1" y="0" />
+							<uv x="0" y="0" />
+							<uv x="0" y="1" />
+							<uv x="1" y="1" />
+						</front>
+						<back>	
+							<uv x="1" y="0" />
+							<uv x="0" y="0" />
+							<uv x="0" y="1" />
+							<uv x="1" y="1" />
+						</back>
+						<side>
+							<uv x="1" y="0" />
+							<uv x="0" y="0" />
+							<uv x="0" y="1" />
+							<uv x="1" y="1" />
+						</side>
+					</facade>
+					<roof>
+						<uv x="0" y="0" />
+						<uv x="0" y="0" />
+						<uv x="0" y="0" />
+						<uv x="0" y="0" />
+					</roof>
+				</uv>
+			</textureMap>
+		</buildings>
+	</theme>
+</themes>
+</settings>

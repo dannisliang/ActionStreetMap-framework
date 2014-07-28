@@ -94,8 +94,7 @@ namespace Mercraft.Core.Algorithms
 
         public static int[] GetTriangles(MapPoint[] verticies2D)
         {
-            var triangulator = new Triangulator(verticies2D);
-            return triangulator.Triangulate();
+            return Triangulator.Triangulate(verticies2D);
         }
 
         // TODO optimization: we needn't triangles for floor in case of building!
@@ -103,8 +102,7 @@ namespace Mercraft.Core.Algorithms
         {
             var verticiesLength = verticies2D.Length;
             
-            var triangulator = new Triangulator(verticies2D);
-            var indecies = triangulator.Triangulate();
+            var indecies = Triangulator.Triangulate(verticies2D);
             
             //var indecies = PolygonTriangulation.GetTriangles3D(verticies2D);
             

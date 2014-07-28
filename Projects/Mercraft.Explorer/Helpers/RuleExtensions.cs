@@ -42,7 +42,7 @@ namespace Mercraft.Explorer.Helpers
             return rule.EvaluateDefault<float>("min_height", defaultValue);
         }
 
-        public static string GetBuildingStyle(this Rule rule)
+        public static string GetBuildingType(this Rule rule)
         {
             return rule.Evaluate<string>("building-style");
         }

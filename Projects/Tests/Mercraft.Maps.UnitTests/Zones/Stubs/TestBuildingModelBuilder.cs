@@ -4,27 +4,20 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings.Config;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestBuildingModelBuilder : ModelBuilder
     {
-        private readonly TexturePackProvider _textureProvider;
-        private readonly BuildingStyleProvider _styleProvider;
 
         private string _theme = "berlin";
 
         [Dependency]
-        public TestBuildingModelBuilder(IGameObjectFactory goFactory,
-            TexturePackProvider textureProvider, BuildingStyleProvider styleProvider)
+        public TestBuildingModelBuilder(IGameObjectFactory goFactory)
             : base(goFactory)
         {
-            _textureProvider = textureProvider;
-            _styleProvider = styleProvider;
         }
 
         private const int NoValue = 0;
@@ -49,10 +42,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             var height = rule.GetHeight(NoValue);
             var levels = rule.GetLevels(NoValue);
 
-            var styleName = rule.GetBuildingStyle();
+            var styleName = rule.GetBuildingType();
 
-            var style = _styleProvider.Get(_theme, styleName);
-            var texture = _textureProvider.Get(style.Texture);
 
             return gameObjectWrapper;
         }

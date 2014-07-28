@@ -30,7 +30,7 @@ namespace Mercraft.Maps.UnitTests.Models
 
             // ACT
             var rule = stylesheet.GetRule(building);
-            var style = rule.GetBuildingStyle();
+            var style = rule.GetBuildingType();
 
             // ASSERT
             Assert.AreEqual("residential", style);

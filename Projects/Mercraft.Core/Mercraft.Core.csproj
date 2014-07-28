@@ -59,6 +59,7 @@
     <Compile Include="Tiles\ITileListener.cs" />
     <Compile Include="MapPoint.cs" />
     <Compile Include="Unity\UnityPrimitiveType.cs" />
+    <Compile Include="World\Buildings\Building.cs" />
     <Compile Include="World\Roads\Road.cs" />
     <Compile Include="World\Roads\RoadElement.cs" />
     <Compile Include="World\Roads\RoadElementComposer.cs" />

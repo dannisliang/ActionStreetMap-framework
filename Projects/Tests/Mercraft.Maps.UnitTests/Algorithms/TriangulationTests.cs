@@ -29,10 +29,9 @@ namespace Mercraft.Maps.UnitTests.Algorithms
                 new MapPoint(664.1f, -190.5f),
                 new MapPoint(671.2f, -188.2f)
             };
-            var triangulator = new Triangulator(verticies);
 
-            // ACT
-            var triangles = triangulator.Triangulate();
+            // ACT & ASSERT
+            Triangulator.Triangulate(verticies);
         }
 
         [Test]
