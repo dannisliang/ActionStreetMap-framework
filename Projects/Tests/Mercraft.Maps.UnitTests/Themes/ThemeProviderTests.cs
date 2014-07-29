@@ -17,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Themes
             provider.Configure(GetTestThemeConfig());
 
             // ACT
-            var theme = provider.Get("berlin");
+            var theme = provider.Get("default");
 
             // ASSERT
             Assert.IsNotNull(theme);
@@ -37,10 +37,10 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.AreEqual(4, style.TextureMap.RoofUv.Length);
         }
 
-        private ConfigSection GetTestThemeConfig()
+        private IConfigSection GetTestThemeConfig()
         {
             var appDocument = XDocument.Load(TestHelper.TestThemeFile);
-            return new ConfigSection(new ConfigElement(appDocument.Root));
+            return (new ConfigSection(new ConfigElement(appDocument.Root))).GetSection("themes");
         }
     }
 }

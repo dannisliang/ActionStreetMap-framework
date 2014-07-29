@@ -14,15 +14,15 @@ namespace Mercraft.Explorer.Builders
     public class FlatModelBuilder : ModelBuilder
     {
         [Dependency]
-        public FlatModelBuilder(IGameObjectFactory goFactory)
-            : base(goFactory)
+        public FlatModelBuilder(IGameObjectFactory gameObjectFactory)
+            : base(gameObjectFactory)
         {
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            IGameObject gameObjectWrapper = _goFactory.CreateNew(String.Format("Flat {0}", area));
+            IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Flat {0}", area));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
             var floor = rule.GetZIndex();

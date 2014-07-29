@@ -15,8 +15,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         private string _theme = "berlin";
 
         [Dependency]
-        public TestBuildingModelBuilder(IGameObjectFactory goFactory)
-            : base(goFactory)
+        public TestBuildingModelBuilder(IGameObjectFactory gameObjectFactory)
+            : base(gameObjectFactory)
         {
         }
 
@@ -36,7 +36,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
-            var gameObjectWrapper = _goFactory.CreateNew("");
+            var gameObjectWrapper = GameObjectFactory.CreateNew("");
 
             var verticies = PolygonHelper.GetVerticies2D(center, footPrint);
             var height = rule.GetHeight(NoValue);

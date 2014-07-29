@@ -16,17 +16,20 @@ namespace Mercraft.Explorer.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {
+        private readonly IThemeProvider _themeProvider;
+        private readonly IBuildingStyleProvider _buildingStyleProvider;
         private readonly IBuildingBuilder _builder;
-        //private readonly IBuildingStyleProvider _styleProvider;
 
         [Dependency]
-        public BuildingModelBuilder(IGameObjectFactory goFactory, 
-            IBuildingBuilder builder):
-            //IBuildingStyleProvider styleProvider):
-            base(goFactory)
+        public BuildingModelBuilder(IGameObjectFactory gameObjectFactory, 
+            IThemeProvider themeProvider,
+            IBuildingStyleProvider buildingStyleProvider,
+            IBuildingBuilder builder) :
+            base(gameObjectFactory)
         {
+            _themeProvider = themeProvider;
+            _buildingStyleProvider = buildingStyleProvider;
             _builder = builder;
-            //_styleProvider = styleProvider;
         }
 
         private const int NoValue = 0;
@@ -45,7 +48,7 @@ namespace Mercraft.Explorer.Builders
 
         private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
-            var gameObjectWrapper = _goFactory.CreateNew(String.Format("Building {0}", model));
+            var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
             
             // TODO should we save this object in WorldManager?
             var building = new Building()
@@ -59,9 +62,8 @@ namespace Mercraft.Explorer.Builders
                 Footprint = PolygonHelper.GetVerticies2D(center, footPrint)
             };
 
-            //var style = _styleProvider.Get(building);
-
-            BuildingStyle style = null;
+            var theme = _themeProvider.Get();
+            BuildingStyle style = _buildingStyleProvider.Get(theme, building);
 
             _builder.Build(building, style);
 

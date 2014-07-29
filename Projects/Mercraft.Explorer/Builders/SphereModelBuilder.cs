@@ -14,8 +14,8 @@ namespace Mercraft.Explorer.Builders
     public class SphereModelBuilder : ModelBuilder
     {
         [Dependency]
-        public SphereModelBuilder(IGameObjectFactory goFactory)
-            : base(goFactory)
+        public SphereModelBuilder(IGameObjectFactory gameObjectFactory)
+            : base(gameObjectFactory)
         {
         }
 
@@ -38,7 +38,7 @@ namespace Mercraft.Explorer.Builders
             var diameter = circle.Item1;
             var sphereCenter = circle.Item2;
 
-            IGameObject gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Spfere {0}", model),
+            IGameObject gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Spfere {0}", model),
                 UnityPrimitiveType.Sphere);
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
 

@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     public class TestCylinderModelBuilder : ModelBuilder
     {
         [Dependency]
-        public TestCylinderModelBuilder(IGameObjectFactory goFactory) : base(goFactory)
+        public TestCylinderModelBuilder(IGameObjectFactory gameObjectFactory) : base(gameObjectFactory)
         {
         }
 
@@ -39,7 +39,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             var minHeight = rule.GetMinHeight();
 
             var actualHeight = (height - minHeight)/2;
-            return _goFactory.CreatePrimitive("", UnityPrimitiveType.Cylinder);
+            return GameObjectFactory.CreatePrimitive("", UnityPrimitiveType.Cylinder);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace Mercraft.Explorer.Builders
     public class CylinderModelBuilder : ModelBuilder
     {
         [Dependency]
-        public CylinderModelBuilder(IGameObjectFactory goFactory) : base(goFactory)
+        public CylinderModelBuilder(IGameObjectFactory gameObjectFactory)
+            : base(gameObjectFactory)
         {
         }
 
@@ -42,7 +43,7 @@ namespace Mercraft.Explorer.Builders
 
             var actualHeight = (height - minHeight)/2;
 
-            var gameObjectWrapper = _goFactory.CreatePrimitive(String.Format("Cylinder {0}", model),
+            var gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Cylinder {0}", model),
                 UnityPrimitiveType.Cylinder);
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();
 

@@ -6,11 +6,23 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Themes
 {
-    public class ThemeProvider: IConfigurable
+    public interface IThemeProvider
     {
-        private const string ThemesKey = "themes/theme";
+        Theme Get();
+        Theme Get(string name);
+    }
+
+    public class ThemeProvider: IThemeProvider, IConfigurable
+    {
+        private string _defaultThemeName;
+        private const string ThemesKey = "theme";
         
         private Dictionary<string, Theme> _themes;
+
+        public Theme Get()
+        {
+            return Get(_defaultThemeName);
+        }
 
         public Theme Get(string name)
         {
@@ -25,6 +37,10 @@ namespace Mercraft.Explorer.Themes
                 var theme = new Theme();
                 theme.BuildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
                 theme.Name = themeConfig.GetString("@name");
+
+                // set default theme name
+                if (string.IsNullOrEmpty(_defaultThemeName))
+                    _defaultThemeName = theme.Name;
 
                 ConfigureBuildings(themeConfig, theme);
 

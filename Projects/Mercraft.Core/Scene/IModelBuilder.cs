@@ -23,12 +23,12 @@ namespace Mercraft.Core.Scene
         [Dependency]
         protected ITrace Trace { get; set; }
 
-        protected readonly IGameObjectFactory _goFactory;
+        protected readonly IGameObjectFactory GameObjectFactory;
 
         [Dependency]
-        public ModelBuilder(IGameObjectFactory goFactory)
+        public ModelBuilder(IGameObjectFactory gameObjectFactory)
         {
-            _goFactory = goFactory;
+            GameObjectFactory = gameObjectFactory;
         }
 
         public virtual IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)

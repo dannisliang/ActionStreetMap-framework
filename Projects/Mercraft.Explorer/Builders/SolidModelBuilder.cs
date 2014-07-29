@@ -16,14 +16,15 @@ namespace Mercraft.Explorer.Builders
     public class SolidModelBuilder : ModelBuilder
     {
         [Dependency]
-        public SolidModelBuilder(IGameObjectFactory goFactory) : base(goFactory)
+        public SolidModelBuilder(IGameObjectFactory gameObjectFactory)
+            : base(gameObjectFactory)
         {
         }
 
         public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
         {
             base.BuildArea(center, rule, area);
-            IGameObject gameObjectWrapper = _goFactory.CreateNew(String.Format("Solid {0}", area));
+            IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Solid {0}", area));
             BuildModel(center, gameObjectWrapper, rule, area.Points.ToList());
             return gameObjectWrapper;
         }
@@ -31,7 +32,7 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
         {
             base.BuildWay(center, rule, way);
-            IGameObject gameObjectWrapper = _goFactory.CreateNew(String.Format("Solid {0}", way));
+            IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Solid {0}", way));
             BuildModel(center, gameObjectWrapper, rule, way.Points.ToList());
             return gameObjectWrapper;
         }

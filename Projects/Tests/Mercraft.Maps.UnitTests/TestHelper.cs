@@ -24,7 +24,7 @@ namespace Mercraft.Maps.UnitTests
 
         public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\base.xml";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
-        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\mapcss\default.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\themes\default\default.mapcss";
 
         public static IPathResolver GetPathResolver()
         {
