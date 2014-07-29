@@ -6,8 +6,8 @@
 			<types>
 				<type name="residental">
 					<style>
-						<texture>Textures\Buildings\Soviet1</texture>
-						<material>Building</material>
+						<texture>Textures/Buildings/Soviet1</texture>
+						<material>Materials/Building</material>
 						<floors>9</floors>
 						<textureMap index="0" />
 						<facade builder="flat" />
