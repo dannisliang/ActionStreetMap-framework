@@ -4,26 +4,14 @@
 	<theme name="default" merge="no">
 		<buildings>
 			<types>
-				<type name="residental1">
+				<type name="residental">
 					<style>
-						<texture>Texture1</texture>
-						<material>Material1</material>
+						<texture>Textures\Buildings\Soviet1</texture>
+						<material>Building</material>
 						<floors>9</floors>
 						<textureMap index="0" />
-					</style>
-					<style>
-						<texture>Texture2</texture>
-						<material>Material2</material>
-						<floors>2</floors>
-						<textureMap index="0" />
-					</style>
-				</type>
-				<type name="residental2">
-					<style>
-						<texture>Texture3</texture>
-						<material>Material3</material>
-						<floors>5</floors>
-						<textureMap index="0" />
+						<facade builder="flat" />
+						<roof builder="flat" />
 					</style>
 				</type>
 			</types>

@@ -12,7 +12,6 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class SceneBootstrapper: BootstrapperPlugin
     {
-        private const string ThemesGlobalKey = "themes";
         private const string StylesheetProviderKey = "stylesheet";
         private const string BuildersKey = "builders/builder";
         private const string BehavioursKey = "behaviours/behaviour";
@@ -26,7 +25,7 @@ namespace Mercraft.Explorer.Bootstrappers
                 .For<IThemeProvider>()
                 .Use<ThemeProvider>()
                 .Singleton()
-                .SetConfig(Config.GetSection(ThemesGlobalKey)));
+                .SetConfig(Config.GetRoot()));
 
             // register stylesheet provider
             Configurator.RegisterComponent<IStylesheetProvider>(ConfigSection.GetSection(StylesheetProviderKey));

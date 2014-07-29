@@ -35,12 +35,14 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.AreEqual(4, style.TextureMap.BackUv.Length);
             Assert.AreEqual(4, style.TextureMap.SideUv.Length);
             Assert.AreEqual(4, style.TextureMap.RoofUv.Length);
+            Assert.IsNotNull(style.FacadeBuilder);
+            Assert.IsNotNull(style.RoofBuilder);
         }
 
         private IConfigSection GetTestThemeConfig()
         {
             var appDocument = XDocument.Load(TestHelper.TestThemeFile);
-            return (new ConfigSection(new ConfigElement(appDocument.Root))).GetSection("themes");
+            return (new ConfigSection(new ConfigElement(appDocument.Root)));
         }
     }
 }

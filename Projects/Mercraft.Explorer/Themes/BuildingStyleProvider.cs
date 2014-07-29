@@ -12,7 +12,8 @@ namespace Mercraft.Explorer.Themes
     {
         public BuildingStyle Get(Theme theme, Building building)
         {
-            return null;
+            // TODO use smart logic
+            return theme.BuildingTypeStyleMapping[building.Type][0];
         }
     }
 }

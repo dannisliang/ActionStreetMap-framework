@@ -18,9 +18,7 @@ namespace Mercraft.Models.Buildings
             // roof triangles calculated starting from 0, so we need to add offset
             var trisOffset = facadeMeshData.Vertices.Length;
             for (int i = 0; i < roofMeshData.Triangles.Length; i++)
-            {
                 roofMeshData.Triangles[i] += trisOffset;
-            }
 
             var gameObject = building.GameObject.GetComponent<GameObject>();
             

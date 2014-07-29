@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Buildings.Facades;
+using Mercraft.Models.Buildings.Roofs;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Themes
@@ -15,7 +18,9 @@ namespace Mercraft.Explorer.Themes
     public class ThemeProvider: IThemeProvider, IConfigurable
     {
         private string _defaultThemeName;
-        private const string ThemesKey = "theme";
+        private const string ThemesKey = "themes/theme";
+        private const string FacadeBuildersKey = "scene/world/buildings/builders/facades";
+        private const string RoofBuildersKey = "scene/world/buildings/builders/roofs";
         
         private Dictionary<string, Theme> _themes;
 
@@ -31,6 +36,8 @@ namespace Mercraft.Explorer.Themes
 
         public void Configure(IConfigSection configSection)
         {
+            var facadeBuilderMap = LoadFacadeBuilderMap(configSection.GetSection(FacadeBuildersKey));
+            var roofBuilderMap = LoadRoofBuilderMap(configSection.GetSection(RoofBuildersKey));
             _themes = new Dictionary<string, Theme>();
             foreach (var themeConfig in configSection.GetSections(ThemesKey))
             {
@@ -42,15 +49,17 @@ namespace Mercraft.Explorer.Themes
                 if (string.IsNullOrEmpty(_defaultThemeName))
                     _defaultThemeName = theme.Name;
 
-                ConfigureBuildings(themeConfig, theme);
+                ConfigureBuildings(themeConfig, theme, facadeBuilderMap, roofBuilderMap);
 
                 _themes.Add(theme.Name, theme);
             }
         }
 
-        private void ConfigureBuildings(IConfigSection themeConfig, Theme theme)
+        private void ConfigureBuildings(IConfigSection themeConfig, Theme theme,
+            Dictionary<string, IFacadeBuilder> facadeBuilderMap, Dictionary<string, IRoofBuilder> roofBuilderMap)
         {
             var textureMap = LoadTextureMap(themeConfig);
+
             foreach (var buildingTypeConfig in themeConfig.GetSections("buildings/types/type"))
             {
                 var typeName = buildingTypeConfig.GetString("@name");
@@ -62,11 +71,35 @@ namespace Mercraft.Explorer.Themes
                         Texture = buildingStyleConfig.GetString("texture"),
                         Material = buildingStyleConfig.GetString("material"),
                         Floors = buildingStyleConfig.GetInt("floors"),
-                        TextureMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")]
+                        TextureMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")],
+                        FacadeBuilder = facadeBuilderMap[buildingStyleConfig.GetString("facade/@builder")],
+                        RoofBuilder = roofBuilderMap[buildingStyleConfig.GetString("roof/@builder")]
                     });
                 }
                 theme.BuildingTypeStyleMapping.Add(typeName, styles);
             }
+        }
+
+        private Dictionary<string, IFacadeBuilder> LoadFacadeBuilderMap(IConfigSection facadeBuilderMapConfig)
+        {
+            var map = new Dictionary<string, IFacadeBuilder>();
+            foreach (var facadeBuilderConfig in facadeBuilderMapConfig.GetSections("include"))
+            {
+                map.Add(facadeBuilderConfig.GetString("@name"),
+                    facadeBuilderConfig.GetInstance<IFacadeBuilder>("@type"));
+            }
+            return map;
+        }
+
+        private Dictionary<string, IRoofBuilder> LoadRoofBuilderMap(IConfigSection roofBuilderMap)
+        {
+            var map = new Dictionary<string, IRoofBuilder>();
+            foreach (var roofBuilderConfig in roofBuilderMap.GetSections("include"))
+            {
+                map.Add(roofBuilderConfig.GetString("@name"),
+                    roofBuilderConfig.GetInstance<IRoofBuilder>("@type"));
+            }
+            return map;
         }
 
         private Dictionary<int, BuildingTextureMap> LoadTextureMap(IConfigSection textureMapConfig)

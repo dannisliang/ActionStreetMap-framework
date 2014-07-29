@@ -87,6 +87,11 @@
             return null;
         }
 
+        public IConfigSection GetRoot()
+        {
+            return new ConfigSection(_root);
+        }
+
         /// <summary>
         /// Get section
         /// </summary>
