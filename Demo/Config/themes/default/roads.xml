@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings environment="test">
+<themes>
+	<theme merge="name" name="default">
+		<roads>
+			<types>
+				<type name="residental">
+					<style>
+						<texture>Textures/Roads/Soviet1</texture>
+						<material>Materials/Road</material>
+						<textureMap index="0" />
+					</style>
+				</type>
+			</types>
+			<!-- uv mapping array -->
+			<textureMap>
+				<uv index="0">
+					<main>
+						<uv x="1" y="0" />
+						<uv x="1" y="0" />
+						<uv x="1" y="0" />
+						<uv x="1" y="0" />
+					</main>
+					<turn>
+						<uv x="1" y="0" />
+						<uv x="1" y="0" />
+						<uv x="1" y="0" />
+					</turn>
+				</uv>
+			</textureMap>
+		</roads>
+	</theme>
+</themes>
+</settings>

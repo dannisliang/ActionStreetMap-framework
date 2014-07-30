@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <settings environment="test">
 	<themes>
-		<theme name="default" merge="no">
+		<theme merge="name" name="default">
 			<buildings>
 				<types>
 					<type name="residental1">

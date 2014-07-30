@@ -7,6 +7,8 @@ namespace Mercraft.Models.Roads
         public string Texture { get; set; }
         public string Material { get; set; }
 
+        public TextureUvMap UvMap { get; set; }
+
         public IRoadBuilder Builder { get; set; }
 
         public class TextureUvMap

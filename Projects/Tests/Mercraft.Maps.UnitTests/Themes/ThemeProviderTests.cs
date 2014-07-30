@@ -10,7 +10,7 @@ namespace Mercraft.Maps.UnitTests.Themes
     public class ThemeProviderTests
     {
         [Test]
-        public void CanLoadTheme()
+        public void CanLoadBuildingTheme()
         {
             // ARRANGE
             var provider = new ThemeProvider();
@@ -39,10 +39,34 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.IsNotNull(style.RoofBuilder);
         }
 
+        [Test]
+        public void CanLoadRoadTheme()
+        {
+            // ARRANGE
+            var provider = new ThemeProvider();
+            provider.Configure(GetTestThemeConfig());
+
+            // ACT
+            var theme = provider.Get("default");
+
+            // ASSERT
+            Assert.IsNotNull(theme);
+            Assert.AreEqual(1, theme.RoadTypeStyleMapping.Keys.Count);
+
+            var styles = theme.RoadTypeStyleMapping["residental"];
+            Assert.AreEqual(2, styles.Count);
+            var style = styles[1];
+            Assert.AreEqual("Textures2", style.Texture);
+            Assert.AreEqual("Materials2", style.Material);
+            Assert.IsNotNull(style.UvMap);
+            Assert.AreEqual(4, style.UvMap.Main.Length);
+            Assert.AreEqual(3, style.UvMap.Turn.Length);
+        }
+
         private IConfigSection GetTestThemeConfig()
         {
-            var appDocument = XDocument.Load(TestHelper.TestThemeFile);
-            return (new ConfigSection(new ConfigElement(appDocument.Root)));
+            var settings = new ConfigSettings(TestHelper.TestThemeFile, new TestPathResolver());
+            return settings.GetRoot();
         }
     }
 }

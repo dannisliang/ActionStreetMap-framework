@@ -5,6 +5,7 @@ using Mercraft.Infrastructure.Config;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
+using Mercraft.Models.Roads;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Themes
@@ -42,23 +43,27 @@ namespace Mercraft.Explorer.Themes
             foreach (var themeConfig in configSection.GetSections(ThemesKey))
             {
                 var theme = new Theme();
-                theme.BuildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
                 theme.Name = themeConfig.GetString("@name");
-
+                theme.BuildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
+                theme.RoadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
+                
                 // set default theme name
                 if (string.IsNullOrEmpty(_defaultThemeName))
                     _defaultThemeName = theme.Name;
 
                 ConfigureBuildings(themeConfig, theme, facadeBuilderMap, roofBuilderMap);
+                ConfigureRoads(themeConfig, theme);
 
                 _themes.Add(theme.Name, theme);
             }
         }
 
+        #region Buildings
+
         private void ConfigureBuildings(IConfigSection themeConfig, Theme theme,
             Dictionary<string, IFacadeBuilder> facadeBuilderMap, Dictionary<string, IRoofBuilder> roofBuilderMap)
         {
-            var textureMap = LoadTextureMap(themeConfig);
+            var textureMap = LoadBuildingTextureMap(themeConfig);
 
             foreach (var buildingTypeConfig in themeConfig.GetSections("buildings/types/type"))
             {
@@ -102,7 +107,7 @@ namespace Mercraft.Explorer.Themes
             return map;
         }
 
-        private Dictionary<int, BuildingStyle.TextureUvMap> LoadTextureMap(IConfigSection textureMapConfig)
+        private Dictionary<int, BuildingStyle.TextureUvMap> LoadBuildingTextureMap(IConfigSection textureMapConfig)
         {
             var textureMaps = new Dictionary<int, BuildingStyle.TextureUvMap>();
             foreach (var uvConfig in textureMapConfig.GetSections("buildings/textureMap/uv"))
@@ -118,6 +123,47 @@ namespace Mercraft.Explorer.Themes
             }
             return textureMaps;
         }
+
+        #endregion
+
+        #region Roads
+
+        private void ConfigureRoads(IConfigSection themeConfig, Theme theme)
+        {
+            var textureMap = LoadRoadTextureMap(themeConfig);
+            foreach (var buildingTypeConfig in themeConfig.GetSections("roads/types/type"))
+            {
+                var typeName = buildingTypeConfig.GetString("@name");
+                var styles = new List<RoadStyle>();
+                foreach (var roadStyleConfig in buildingTypeConfig.GetSections("style"))
+                {
+                    styles.Add(new RoadStyle()
+                    {
+                        Texture = roadStyleConfig.GetString("texture"),
+                        Material = roadStyleConfig.GetString("material"),
+                        UvMap = textureMap[roadStyleConfig.GetInt("textureMap/@index")],
+                    });
+                }
+                theme.RoadTypeStyleMapping.Add(typeName, styles);
+            }
+        }
+
+        private Dictionary<int, RoadStyle.TextureUvMap> LoadRoadTextureMap(IConfigSection textureMapConfig)
+        {
+            var textureMaps = new Dictionary<int, RoadStyle.TextureUvMap>();
+            foreach (var uvConfig in textureMapConfig.GetSections("roads/textureMap/uv"))
+            {
+                var index = uvConfig.GetInt("@index");
+                textureMaps.Add(index, new RoadStyle.TextureUvMap()
+                {
+                    Main = GetUv(uvConfig.GetSection("main")).ToArray(),
+                    Turn = GetUv(uvConfig.GetSection("turn")).ToArray(),
+                });
+            }
+            return textureMaps;
+        }
+
+        #endregion
 
         private IEnumerable<Vector2> GetUv(IConfigSection uvsConfig)
         {

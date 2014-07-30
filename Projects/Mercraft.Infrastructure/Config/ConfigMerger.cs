@@ -9,7 +9,7 @@
     /// </summary>
     public class ConfigMerger
     {
-        private const string NoMergeKey = "merge";
+        private const string MergeKey = "merge";
         static readonly XAttributeEqualityComparer AttrComparer = new XAttributeEqualityComparer();
         static readonly XNameComparer NameComparer = new XNameComparer();
 
@@ -49,8 +49,13 @@
                     // TODO refactor this approach
                     // NOTE this is crunch to support collection of the same elements in different files
                     // Otherwise, they will be merged to one element
-                    var noMerge = elements1[i1].Attribute(NoMergeKey) ?? elements2[i2].Attribute(NoMergeKey);
-                    if (noMerge != null && noMerge.Value == "no")
+                    var mergeKey1 = elements1[i1].Attribute(MergeKey);
+                    var mergeKey2 = elements2[i2].Attribute(MergeKey);
+                    var noMergeKey = mergeKey1 ?? mergeKey2;
+                    if ((noMergeKey != null && noMergeKey.Value == "no") ||
+                        (mergeKey1 != null && mergeKey2 != null &&
+                        elements1[i1].Attribute(mergeKey1.Value).Value != 
+                        elements2[i2].Attribute(mergeKey2.Value).Value))
                     {
                        // e = new XElement(elements1[i1].Name, elements1[i1], elements2[i2]);
                         elements.Add(elements1[i1++]);

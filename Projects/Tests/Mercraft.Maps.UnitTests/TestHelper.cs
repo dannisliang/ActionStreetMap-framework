@@ -22,7 +22,7 @@ namespace Mercraft.Maps.UnitTests
 
         public const string TestBigPbfIndexListPath = @"..\..\..\..\..\Demo\Maps";
 
-        public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\base.xml";
+        public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.config";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\themes\default\default.mapcss";
 
