@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Unity;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Unity;
 using Mercraft.Models.Utils;
@@ -7,12 +8,25 @@ using UnityEngine;
 
 namespace Mercraft.Models.Terrain
 {
+    public interface ITerrainBuilder
+    {
+        IGameObject Build(IGameObject parent, TerrainSettings settings);
+    }
+
     /// <summary>
     ///     Creates Terrain object using given settings
     /// </summary>
-    public class TerrainBuilder
+    public class TerrainBuilder: ITerrainBuilder
     {
-        public virtual IGameObject Build(IGameObject parent, TerrainSettings settings)
+        private readonly IRoadBuilder _roadBuilder;
+
+        [Dependency]
+        public TerrainBuilder(IRoadBuilder roadBuilder)
+        {
+            _roadBuilder = roadBuilder;
+        }
+
+        public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
             //var heightMapGenerator = new HeightMapGenerator(settings);
             var alphaMapGenerator = new AlphaMapGenerator(settings);
@@ -45,12 +59,11 @@ namespace Mercraft.Models.Terrain
             terrain.castShadows = false;
 
             var terrainGameObject = new GameObjectWrapper("terrain", gameObject);
-            
+
             // process roads
             foreach (var road in settings.Roads)
             {
-                var roadBuilder = new RoadBuilder(road);
-                roadBuilder.Build();
+                _roadBuilder.Build(road);
             }
 
             terrainData.SetAlphamaps(0, 0, alphamap);

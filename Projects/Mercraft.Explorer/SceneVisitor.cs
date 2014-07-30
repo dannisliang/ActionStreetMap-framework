@@ -20,7 +20,7 @@ namespace Mercraft.Explorer
     public class SceneVisitor : ISceneVisitor
     {
         private readonly IGameObjectFactory _goFactory;
-        private readonly TerrainBuilder _terrainBuilder;
+        private readonly ITerrainBuilder _terrainBuilder;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
@@ -28,14 +28,14 @@ namespace Mercraft.Explorer
         private List<RoadElement> _roadElements = new List<RoadElement>();
 
         public SceneVisitor(IGameObjectFactory goFactory,
+            ITerrainBuilder terrainBuilder,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
             _goFactory = goFactory;
+            _terrainBuilder = terrainBuilder;
             _builders = builders.ToList();
             _behaviours = behaviours.ToList();
-
-            _terrainBuilder = new TerrainBuilder();
         }
 
         #region ISceneVisitor implementation

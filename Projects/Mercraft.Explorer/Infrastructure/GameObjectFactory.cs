@@ -1,16 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
-using Mercraft.Explorer.Interactions;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
 {
     public class GameObjectFactory : IGameObjectFactory
     {
+        private readonly ITerrainBuilder _terrainBuilder;
+
+        [Dependency]
+        public GameObjectFactory(ITerrainBuilder terrainBuilder)
+        {
+            _terrainBuilder = terrainBuilder;
+        }
+
         public virtual IGameObject CreateNew(string name)
         {
             return new UnityGameObject(name);
@@ -31,7 +37,7 @@ namespace Mercraft.Explorer.Infrastructure
         public virtual ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            return new SceneVisitor(this, builders, behaviours);
+            return new SceneVisitor(this, _terrainBuilder, builders, behaviours);
         }
 
         private GameObject GetPrimitive(UnityPrimitiveType type)

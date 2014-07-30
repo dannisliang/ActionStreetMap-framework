@@ -1,12 +1,11 @@
 ﻿using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
-using Mercraft.Explorer.Builders;
-using Mercraft.Explorer.Interactions;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings;
-
+using Mercraft.Models.Roads;
+using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
@@ -15,8 +14,14 @@ namespace Mercraft.Explorer.Bootstrappers
         private const string StylesheetProviderKey = "stylesheet";
         private const string BuildersKey = "builders/builder";
         private const string BehavioursKey = "behaviours/behaviour";
+
+        private const string TerrainBuilderKey = "world/terrain";
+
         private const string BuildingBuilderKey = "world/buildings/builder";
         private const string BuildingStyleKey = "world/buildings/style";
+
+        private const string RoadBuilderKey = "world/roads/builder";
+        private const string RoadStyleKey = "world/roads/style";
 
         public override bool Run()
         {
@@ -38,9 +43,17 @@ namespace Mercraft.Explorer.Bootstrappers
             foreach (var behaviourConfig in ConfigSection.GetSections(BehavioursKey))
                 Configurator.RegisterNamedComponent<IModelBehaviour>(behaviourConfig);
 
-            // building specific
+            // buildings
             Configurator.RegisterComponent<IBuildingBuilder>(ConfigSection.GetSection(BuildingBuilderKey));
             Configurator.RegisterComponent<IBuildingStyleProvider>(ConfigSection.GetSection(BuildingStyleKey));
+
+            // terrain
+            Configurator.RegisterComponent<ITerrainBuilder>(ConfigSection.GetSection(TerrainBuilderKey));
+            
+            // roads
+            Configurator.RegisterComponent<IRoadBuilder>(ConfigSection.GetSection(RoadBuilderKey));
+            Configurator.RegisterComponent<IRoadStyleProvider>(ConfigSection.GetSection(RoadStyleKey));
+
 
             return true;
         }

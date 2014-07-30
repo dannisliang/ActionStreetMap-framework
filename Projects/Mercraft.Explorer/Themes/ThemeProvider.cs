@@ -71,7 +71,7 @@ namespace Mercraft.Explorer.Themes
                         Texture = buildingStyleConfig.GetString("texture"),
                         Material = buildingStyleConfig.GetString("material"),
                         Floors = buildingStyleConfig.GetInt("floors"),
-                        TextureMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")],
+                        UvMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")],
                         FacadeBuilder = facadeBuilderMap[buildingStyleConfig.GetString("facade/@builder")],
                         RoofBuilder = roofBuilderMap[buildingStyleConfig.GetString("roof/@builder")]
                     });
@@ -102,18 +102,18 @@ namespace Mercraft.Explorer.Themes
             return map;
         }
 
-        private Dictionary<int, BuildingTextureMap> LoadTextureMap(IConfigSection textureMapConfig)
+        private Dictionary<int, BuildingStyle.TextureUvMap> LoadTextureMap(IConfigSection textureMapConfig)
         {
-            var textureMaps = new Dictionary<int, BuildingTextureMap>();
+            var textureMaps = new Dictionary<int, BuildingStyle.TextureUvMap>();
             foreach (var uvConfig in textureMapConfig.GetSections("buildings/textureMap/uv"))
             {
                 var index = uvConfig.GetInt("@index");
-                textureMaps.Add(index, new BuildingTextureMap()
+                textureMaps.Add(index, new BuildingStyle.TextureUvMap()
                 {
-                    FrontUv = GetUv(uvConfig.GetSection("facade/front")).ToArray(),
-                    BackUv = GetUv(uvConfig.GetSection("facade/back")).ToArray(),
-                    SideUv = GetUv(uvConfig.GetSection("facade/side")).ToArray(),
-                    RoofUv = GetUv(uvConfig.GetSection("roof")).ToArray(),
+                    Front = GetUv(uvConfig.GetSection("facade/front")).ToArray(),
+                    Back = GetUv(uvConfig.GetSection("facade/back")).ToArray(),
+                    Side = GetUv(uvConfig.GetSection("facade/side")).ToArray(),
+                    Roof = GetUv(uvConfig.GetSection("roof")).ToArray(),
                 });
             }
             return textureMaps;

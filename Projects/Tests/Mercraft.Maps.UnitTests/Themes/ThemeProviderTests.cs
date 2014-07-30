@@ -30,11 +30,11 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.AreEqual(2, style.Floors);
             Assert.AreEqual("Texture2", style.Texture);
             Assert.AreEqual("Material2", style.Material);
-            Assert.IsNotNull(style.TextureMap);
-            Assert.AreEqual(4, style.TextureMap.FrontUv.Length);
-            Assert.AreEqual(4, style.TextureMap.BackUv.Length);
-            Assert.AreEqual(4, style.TextureMap.SideUv.Length);
-            Assert.AreEqual(4, style.TextureMap.RoofUv.Length);
+            Assert.IsNotNull(style.UvMap);
+            Assert.AreEqual(4, style.UvMap.Front.Length);
+            Assert.AreEqual(4, style.UvMap.Back.Length);
+            Assert.AreEqual(4, style.UvMap.Side.Length);
+            Assert.AreEqual(4, style.UvMap.Roof.Length);
             Assert.IsNotNull(style.FacadeBuilder);
             Assert.IsNotNull(style.RoofBuilder);
         }

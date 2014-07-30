@@ -86,8 +86,9 @@
     <Compile Include="TestPathResolver.cs" />
     <Compile Include="Themes\ThemeProviderTests.cs" />
     <Compile Include="World\RoadTests.cs" />
+    <Compile Include="Zones\Stubs\TestRoadBuilder.cs" />
+    <Compile Include="Zones\Stubs\TestTerrainBuilder.cs" />
     <Compile Include="Zones\Stubs\TestBuildingBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestBuildingModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestFlatModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestDefaultModelBuilder.cs" />

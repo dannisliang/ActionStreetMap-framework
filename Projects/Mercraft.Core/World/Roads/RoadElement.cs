@@ -9,6 +9,8 @@
 
         public Address Address { get; set; }
 
+        public int Lanes { get; set; }
+
         public float Width { get; set; }
 
         /// <summary>

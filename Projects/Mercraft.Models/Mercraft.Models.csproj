@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="Buildings\BuildingBuilder.cs" />
     <Compile Include="Buildings\BuildingStyle.cs" />
-    <Compile Include="Buildings\BuildingTextureMap.cs" />
     <Compile Include="Buildings\Facades\FlatFacadeBuilder.cs" />
     <Compile Include="Buildings\Facades\IFacadeBuilder.cs" />
     <Compile Include="Buildings\MeshData.cs" />
@@ -49,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSegment.cs" />
+    <Compile Include="Roads\RoadStyle.cs" />
     <Compile Include="Roads\Segment.cs" />
     <Compile Include="Terrain\AlphaMapElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
