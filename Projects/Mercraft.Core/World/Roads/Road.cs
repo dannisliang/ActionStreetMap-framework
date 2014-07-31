@@ -10,6 +10,7 @@ namespace Mercraft.Core.World.Roads
     public class Road
     {
         public IGameObject GameObject { get; set; }
+
         public List<RoadElement> Elements { get; set; }
     }
 }

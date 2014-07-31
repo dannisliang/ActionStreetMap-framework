@@ -42,17 +42,15 @@ namespace Mercraft.Explorer.Themes
             _themes = new Dictionary<string, Theme>();
             foreach (var themeConfig in configSection.GetSections(ThemesKey))
             {
-                var theme = new Theme();
+                var buildingStyleProvider = GetBuildingStyleProvider(themeConfig, facadeBuilderMap, roofBuilderMap);
+                var roadStyleProvider = GetRoadStyleProvider(themeConfig);
+
+                var theme = new Theme(buildingStyleProvider, roadStyleProvider);
                 theme.Name = themeConfig.GetString("@name");
-                theme.BuildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
-                theme.RoadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
                 
                 // set default theme name
                 if (string.IsNullOrEmpty(_defaultThemeName))
                     _defaultThemeName = theme.Name;
-
-                ConfigureBuildings(themeConfig, theme, facadeBuilderMap, roofBuilderMap);
-                ConfigureRoads(themeConfig, theme);
 
                 _themes.Add(theme.Name, theme);
             }
@@ -60,11 +58,11 @@ namespace Mercraft.Explorer.Themes
 
         #region Buildings
 
-        private void ConfigureBuildings(IConfigSection themeConfig, Theme theme,
+        private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection themeConfig,
             Dictionary<string, IFacadeBuilder> facadeBuilderMap, Dictionary<string, IRoofBuilder> roofBuilderMap)
         {
             var textureMap = LoadBuildingTextureMap(themeConfig);
-
+            var buildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
             foreach (var buildingTypeConfig in themeConfig.GetSections("buildings/types/type"))
             {
                 var typeName = buildingTypeConfig.GetString("@name");
@@ -81,8 +79,10 @@ namespace Mercraft.Explorer.Themes
                         RoofBuilder = roofBuilderMap[buildingStyleConfig.GetString("roof/@builder")]
                     });
                 }
-                theme.BuildingTypeStyleMapping.Add(typeName, styles);
+                buildingTypeStyleMapping.Add(typeName, styles);
             }
+
+            return new BuildingStyleProvider(buildingTypeStyleMapping);
         }
 
         private Dictionary<string, IFacadeBuilder> LoadFacadeBuilderMap(IConfigSection facadeBuilderMapConfig)
@@ -128,8 +128,9 @@ namespace Mercraft.Explorer.Themes
 
         #region Roads
 
-        private void ConfigureRoads(IConfigSection themeConfig, Theme theme)
+        private IRoadStyleProvider GetRoadStyleProvider(IConfigSection themeConfig)
         {
+            var roadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
             var textureMap = LoadRoadTextureMap(themeConfig);
             foreach (var buildingTypeConfig in themeConfig.GetSections("roads/types/type"))
             {
@@ -144,8 +145,10 @@ namespace Mercraft.Explorer.Themes
                         UvMap = textureMap[roadStyleConfig.GetInt("textureMap/@index")],
                     });
                 }
-                theme.RoadTypeStyleMapping.Add(typeName, styles);
+                roadTypeStyleMapping.Add(typeName, styles);
             }
+
+            return new RoadStyleProvider(roadTypeStyleMapping);
         }
 
         private Dictionary<int, RoadStyle.TextureUvMap> LoadRoadTextureMap(IConfigSection textureMapConfig)

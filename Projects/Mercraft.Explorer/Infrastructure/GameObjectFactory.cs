@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Unity;
+using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Terrain;
 using UnityEngine;
@@ -9,11 +10,13 @@ namespace Mercraft.Explorer.Infrastructure
 {
     public class GameObjectFactory : IGameObjectFactory
     {
+        private readonly IThemeProvider _themeProvider;
         private readonly ITerrainBuilder _terrainBuilder;
 
         [Dependency]
-        public GameObjectFactory(ITerrainBuilder terrainBuilder)
+        public GameObjectFactory(IThemeProvider themeProvider, ITerrainBuilder terrainBuilder)
         {
+            _themeProvider = themeProvider;
             _terrainBuilder = terrainBuilder;
         }
 
@@ -37,7 +40,7 @@ namespace Mercraft.Explorer.Infrastructure
         public virtual ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            return new SceneVisitor(this, _terrainBuilder, builders, behaviours);
+            return new SceneVisitor(this, _themeProvider, _terrainBuilder, builders, behaviours);
         }
 
         private GameObject GetPrimitive(UnityPrimitiveType type)

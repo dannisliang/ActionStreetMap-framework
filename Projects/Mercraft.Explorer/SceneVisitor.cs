@@ -10,8 +10,10 @@ using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Explorer.Themes;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Areas;
+using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 using UnityEngine;
 
@@ -20,6 +22,7 @@ namespace Mercraft.Explorer
     public class SceneVisitor : ISceneVisitor
     {
         private readonly IGameObjectFactory _goFactory;
+        private readonly IThemeProvider _themeProvider;
         private readonly ITerrainBuilder _terrainBuilder;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
@@ -28,11 +31,13 @@ namespace Mercraft.Explorer
         private List<RoadElement> _roadElements = new List<RoadElement>();
 
         public SceneVisitor(IGameObjectFactory goFactory,
+            IThemeProvider themeProvider,
             ITerrainBuilder terrainBuilder,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
             _goFactory = goFactory;
+            _themeProvider = themeProvider;
             _terrainBuilder = terrainBuilder;
             _builders = builders.ToList();
             _behaviours = behaviours.ToList();
@@ -65,7 +70,9 @@ namespace Mercraft.Explorer
                 TerrainSize = tile.Size,
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
-                Roads = roads
+                Roads = roads,
+                RoadStyleProvider = _themeProvider.Get()
+                    .GetStyleProvider<IRoadStyleProvider>()
             });
 
             // NOTE not ideal solution to make the class ready for next request

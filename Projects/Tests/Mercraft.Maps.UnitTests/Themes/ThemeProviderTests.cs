@@ -1,5 +1,6 @@
-﻿
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using Mercraft.Core.World.Buildings;
+using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Config;
 using NUnit.Framework;
@@ -10,7 +11,7 @@ namespace Mercraft.Maps.UnitTests.Themes
     public class ThemeProviderTests
     {
         [Test]
-        public void CanLoadBuildingTheme()
+        public void CanGetBuildingStyle()
         {
             // ARRANGE
             var provider = new ThemeProvider();
@@ -21,12 +22,12 @@ namespace Mercraft.Maps.UnitTests.Themes
 
             // ASSERT
             Assert.IsNotNull(theme);
-            Assert.AreEqual(2, theme.BuildingTypeStyleMapping.Keys.Count);
 
-            var styles = theme.BuildingTypeStyleMapping["residental1"];
-            Assert.AreEqual(2, styles.Count);
+            var style = theme.GetBuildingStyle( new Building()
+            {
+                Type = "residental1"
+            });
 
-            var style = styles[1];
             Assert.AreEqual(2, style.Floors);
             Assert.AreEqual("Texture2", style.Texture);
             Assert.AreEqual("Material2", style.Material);
@@ -40,7 +41,7 @@ namespace Mercraft.Maps.UnitTests.Themes
         }
 
         [Test]
-        public void CanLoadRoadTheme()
+        public void CanGetRoadStyle()
         {
             // ARRANGE
             var provider = new ThemeProvider();
@@ -51,11 +52,17 @@ namespace Mercraft.Maps.UnitTests.Themes
 
             // ASSERT
             Assert.IsNotNull(theme);
-            Assert.AreEqual(1, theme.RoadTypeStyleMapping.Keys.Count);
 
-            var styles = theme.RoadTypeStyleMapping["residental"];
-            Assert.AreEqual(2, styles.Count);
-            var style = styles[1];
+            var style = theme.GetRoadStyle(new Road()
+            {
+                Elements = new List<RoadElement>()
+                {
+                    new RoadElement()
+                    {
+                        Type = "residental"
+                    }
+                }
+            });
             Assert.AreEqual("Textures2", style.Texture);
             Assert.AreEqual("Materials2", style.Material);
             Assert.IsNotNull(style.UvMap);

@@ -6,13 +6,13 @@
 				<types>
 					<type name="residental">
 						<style>
-							<texture>Textures/Roads/Soviet1</texture>
-							<material>Materials/Road</material>
+							<texture>Textures2</texture>
+							<material>Materials2</material>
 							<textureMap index="0" />
 						</style>
 						<style>
-							<texture>Textures2</texture>
-							<material>Materials2</material>
+							<texture>Textures/Roads/Soviet1</texture>
+							<material>Materials/Road</material>
 							<textureMap index="0" />
 						</style>
 					</type>

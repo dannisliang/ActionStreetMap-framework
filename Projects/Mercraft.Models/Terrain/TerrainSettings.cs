@@ -39,6 +39,8 @@ namespace Mercraft.Models.Terrain
         public List<List<string>> TextureParams;
 
         public IEnumerable<Road> Roads;
+        public IRoadStyleProvider RoadStyleProvider;
+
         public List<AreaSettings> Areas;
 
         public Vector2 CenterPosition;

@@ -6,17 +6,17 @@
 				<types>
 					<type name="residental1">
 						<style>
-							<texture>Texture1</texture>
-							<material>Material1</material>
-							<floors>9</floors>
+							<texture>Texture2</texture>
+							<material>Material2</material>
+							<floors>2</floors>
 							<textureMap index="0" />
 							<facade builder="flat" />
 							<roof builder="flat" />
 						</style>
 						<style>
-							<texture>Texture2</texture>
-							<material>Material2</material>
-							<floors>2</floors>
+							<texture>Texture1</texture>
+							<material>Material1</material>
+							<floors>9</floors>
 							<textureMap index="0" />
 							<facade builder="flat" />
 							<roof builder="flat" />

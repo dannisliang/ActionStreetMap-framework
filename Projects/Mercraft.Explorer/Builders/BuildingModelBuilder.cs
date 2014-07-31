@@ -17,18 +17,15 @@ namespace Mercraft.Explorer.Builders
     public class BuildingModelBuilder : ModelBuilder
     {
         private readonly IThemeProvider _themeProvider;
-        private readonly IBuildingStyleProvider _buildingStyleProvider;
         private readonly IBuildingBuilder _builder;
 
         [Dependency]
         public BuildingModelBuilder(IGameObjectFactory gameObjectFactory, 
             IThemeProvider themeProvider,
-            IBuildingStyleProvider buildingStyleProvider,
             IBuildingBuilder builder) :
             base(gameObjectFactory)
         {
             _themeProvider = themeProvider;
-            _buildingStyleProvider = buildingStyleProvider;
             _builder = builder;
         }
 
@@ -64,7 +61,7 @@ namespace Mercraft.Explorer.Builders
             };
 
             var theme = _themeProvider.Get();
-            BuildingStyle style = _buildingStyleProvider.Get(theme, building);
+            BuildingStyle style = theme.GetBuildingStyle(building);
 
             _builder.Build(building, style);
 

@@ -35,7 +35,7 @@ namespace Mercraft.Explorer.Bootstrappers
             // register stylesheet provider
             Configurator.RegisterComponent<IStylesheetProvider>(ConfigSection.GetSection(StylesheetProviderKey));
 
-            // register mesh builders
+            // register model builders
             foreach (var builderConfig in ConfigSection.GetSections(BuildersKey))
                 Configurator.RegisterNamedComponent<IModelBuilder>(builderConfig);
 
@@ -45,15 +45,12 @@ namespace Mercraft.Explorer.Bootstrappers
 
             // buildings
             Configurator.RegisterComponent<IBuildingBuilder>(ConfigSection.GetSection(BuildingBuilderKey));
-            Configurator.RegisterComponent<IBuildingStyleProvider>(ConfigSection.GetSection(BuildingStyleKey));
 
             // terrain
             Configurator.RegisterComponent<ITerrainBuilder>(ConfigSection.GetSection(TerrainBuilderKey));
             
             // roads
             Configurator.RegisterComponent<IRoadBuilder>(ConfigSection.GetSection(RoadBuilderKey));
-            Configurator.RegisterComponent<IRoadStyleProvider>(ConfigSection.GetSection(RoadStyleKey));
-
 
             return true;
         }

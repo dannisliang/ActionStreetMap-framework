@@ -42,10 +42,12 @@
     <Compile Include="Buildings\BuildingStyle.cs" />
     <Compile Include="Buildings\Facades\FlatFacadeBuilder.cs" />
     <Compile Include="Buildings\Facades\IFacadeBuilder.cs" />
+    <Compile Include="Buildings\IBuildingStyleProvider.cs" />
     <Compile Include="Buildings\MeshData.cs" />
     <Compile Include="Buildings\Roofs\FlatRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\IRoofBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roads\IRoadStyleProvider.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />

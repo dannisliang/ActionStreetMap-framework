@@ -12,14 +12,14 @@ namespace Mercraft.Models.Roads
     /// </summary>
     public interface IRoadBuilder
     {
-        void Build(Road road);
+        void Build(Road road, RoadStyle style);
     }
 
     public class RoadBuilder : IRoadBuilder
     {
-        public void Build(Road road)
+        public void Build(Road road, RoadStyle style)
         {
-            var context = new BuilderContext(road);
+            var context = new BuilderContext(road, style);
             var elementsCount = context.Road.Elements.Count;
             for (context.ElementIndex = 0; context.ElementIndex < elementsCount; context.ElementIndex++)
             {
@@ -39,8 +39,9 @@ namespace Mercraft.Models.Roads
             meshFilter.mesh = mesh;
             gameObject.AddComponent<MeshCollider>();
 
-            // TODO extract this from style
-            gameObject.AddComponent<MeshRenderer>().material = Resources.Load<Material>(@"Materials/RoadMaterial");
+            var renderer = gameObject.AddComponent<MeshRenderer>();
+            renderer.material = Resources.Load<Material>(style.Material);
+            renderer.material.mainTexture = Resources.Load<Texture>(style.Texture);
         }
 
         #region Segment processing
@@ -287,9 +288,12 @@ namespace Mercraft.Models.Roads
             public int ElementIndex;
             public bool IsLastElement;
 
-            public BuilderContext(Road road)
+            public RoadStyle Style;
+
+            public BuilderContext(Road road, RoadStyle style)
             {
                 Road = road;
+                Style = style;
             }
         }
     }

@@ -63,7 +63,8 @@ namespace Mercraft.Models.Terrain
             // process roads
             foreach (var road in settings.Roads)
             {
-                _roadBuilder.Build(road);
+                var style = settings.RoadStyleProvider.Get(road);
+                _roadBuilder.Build(road, style);
             }
 
             terrainData.SetAlphamaps(0, 0, alphamap);

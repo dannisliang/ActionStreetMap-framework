@@ -1,5 +1,6 @@
 ﻿using Mercraft.Core.Unity;
 using Mercraft.Explorer.Infrastructure;
+using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Terrain;
 
@@ -8,7 +9,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     public class TestGameObjectFactory : GameObjectFactory
     {
         [Dependency]
-        public TestGameObjectFactory(ITerrainBuilder terrainBuilder) : base(terrainBuilder)
+        public TestGameObjectFactory(IThemeProvider themeProvider, ITerrainBuilder terrainBuilder)
+            : base(themeProvider, terrainBuilder)
         {
         }
 

@@ -6,8 +6,8 @@
 			<types>
 				<type name="residental">
 					<style>
-						<texture>Textures/Roads/Soviet1</texture>
-						<material>Materials/Road</material>
+						<texture>Textures/Roads/Road</texture>
+						<material>Materials/RoadMaterial</material>
 						<textureMap index="0" />
 					</style>
 				</type>
