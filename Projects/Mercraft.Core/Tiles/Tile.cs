@@ -53,8 +53,8 @@ namespace Mercraft.Core.Tiles
         /// <param name="offset">offset from bounds</param>
         public bool Contains(MapPoint position, float offset)
         {
-            var result = (position.X > TopLeft.X + offset) && (position.Y < TopLeft.Y - offset) &&
-                         (position.X < BottomRight.X - offset) && (position.Y > BottomRight.Y + offset);
+            var result = (position.X >= TopLeft.X + offset) && (position.Y <= TopLeft.Y - offset) &&
+                         (position.X <= BottomRight.X - offset) && (position.Y >= BottomRight.Y + offset);
 
             return result;
         }

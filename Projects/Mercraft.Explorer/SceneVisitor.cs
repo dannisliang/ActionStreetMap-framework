@@ -61,7 +61,7 @@ namespace Mercraft.Explorer
             {
                 Elements = new List<RoadElement>() {re},
                 GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), parent),
-            });
+            }).ToArray();
 
             _terrainBuilder.Build(parent, new TerrainSettings()
             {

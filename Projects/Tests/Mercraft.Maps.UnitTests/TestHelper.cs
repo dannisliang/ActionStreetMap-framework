@@ -5,7 +5,7 @@ using Mercraft.Infrastructure.Config;
 
 namespace Mercraft.Maps.UnitTests
 {
-    internal static class TestHelper
+    public static class TestHelper
     {
         public static readonly GeoCoordinate BerlinGeoCenter = new GeoCoordinate(52.529814, 13.388015);
         public static readonly GeoCoordinate BerlinInvalidenStr = new GeoCoordinate(52.531036, 13.384866);

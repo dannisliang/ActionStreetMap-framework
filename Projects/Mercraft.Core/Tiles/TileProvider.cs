@@ -84,8 +84,7 @@ namespace Mercraft.Core.Tiles
 
         private Tile GetTile(MapPoint position, float offset)
         {
-            // TODO change to FirstOrDefault after ensure that only one tile is found
-            return _tiles.SingleOrDefault(t => t.Contains(position, offset));
+            return _tiles.FirstOrDefault(t => t.Contains(position, offset));
         }
 
         private Tile GetTile(MapPoint tileCenter)
