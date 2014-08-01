@@ -15,10 +15,9 @@ namespace Mercraft.Core.Scene
         IGameObject BuildWay(GeoCoordinate center,  Rule rule, Way way);
     }
 
-    public class ModelBuilder : IModelBuilder, IConfigurable
+    public abstract class ModelBuilder : IModelBuilder
     {
-        private const string NameKey = "@name";
-        public string Name { get; private set; }
+        public abstract string Name { get; }
 
         [Dependency]
         protected ITrace Trace { get; set; }
@@ -41,11 +40,6 @@ namespace Mercraft.Core.Scene
         {
             Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
             return null;
-        }
-
-        public virtual void Configure(IConfigSection configSection)
-        {
-            Name = configSection.GetString(NameKey);
         }
     }
 }

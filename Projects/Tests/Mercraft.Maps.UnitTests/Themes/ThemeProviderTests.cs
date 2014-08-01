@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Config;
+using Mercraft.Models.Buildings.Facades;
+using Mercraft.Models.Buildings.Roofs;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Themes
@@ -14,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Themes
         public void CanGetBuildingStyle()
         {
             // ARRANGE
-            var provider = new ThemeProvider();
+            var provider = GetThemeProvider();
             provider.Configure(GetTestThemeConfig());
 
             // ACT
@@ -44,7 +47,7 @@ namespace Mercraft.Maps.UnitTests.Themes
         public void CanGetRoadStyle()
         {
             // ARRANGE
-            var provider = new ThemeProvider();
+            var provider = GetThemeProvider();
             provider.Configure(GetTestThemeConfig());
 
             // ACT
@@ -70,9 +73,22 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.AreEqual(3, style.UvMap.Turn.Length);
         }
 
+        private ThemeProvider GetThemeProvider()
+        {
+            return new ThemeProvider(
+                new List<IFacadeBuilder>()
+                {
+                   new FlatFacadeBuilder()
+                }, 
+                new List<IRoofBuilder>()
+                {
+                    new FlatRoofBuilder()
+                });
+        }
+
         private IConfigSection GetTestThemeConfig()
         {
-            var settings = new ConfigSettings(TestHelper.TestThemeFile, new TestPathResolver());
+            var settings = new ConfigSettings(TestHelper.TestThemeFile, TestHelper.GetPathResolver());
             return settings.GetRoot();
         }
     }

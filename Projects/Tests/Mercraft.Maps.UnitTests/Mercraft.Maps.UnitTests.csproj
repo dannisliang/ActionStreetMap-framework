@@ -87,18 +87,15 @@
     <Compile Include="TestPathResolver.cs" />
     <Compile Include="Themes\ThemeProviderTests.cs" />
     <Compile Include="World\RoadTests.cs" />
+    <Compile Include="Zones\Stubs\TestModelBehaviour.cs" />
+    <Compile Include="Zones\Stubs\TestBootstrapperPlugin.cs" />
     <Compile Include="Zones\Stubs\TestRoadBuilder.cs" />
     <Compile Include="Zones\Stubs\TestTerrainBuilder.cs" />
     <Compile Include="Zones\Stubs\TestBuildingBuilder.cs" />
     <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestFlatModelBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestDefaultModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestGameObject.cs" />
     <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
-    <Compile Include="Zones\Stubs\TestModelBehavior.cs" />
-    <Compile Include="Zones\Stubs\TestTileListener.cs" />
-    <Compile Include="Zones\Stubs\TestZoneListener.cs" />
-    <Compile Include="Zones\Stubs\TestZoneLoader.cs" />
     <Compile Include="Zones\TileProviderTests.cs" />
     <Compile Include="Zones\ZoneLoaderTests.cs" />
   </ItemGroup>
@@ -107,7 +104,7 @@
     <None Include="test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="test.merge.config">
+    <None Include="test.settings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>

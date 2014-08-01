@@ -13,6 +13,11 @@ namespace Mercraft.Explorer.Builders
 {
     public class FlatModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "flat"; }
+        }
+
         [Dependency]
         public FlatModelBuilder(IGameObjectFactory gameObjectFactory)
             : base(gameObjectFactory)

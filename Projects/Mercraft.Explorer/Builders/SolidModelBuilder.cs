@@ -15,6 +15,11 @@ namespace Mercraft.Explorer.Builders
 {
     public class SolidModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "solid"; }
+        }
+
         [Dependency]
         public SolidModelBuilder(IGameObjectFactory gameObjectFactory)
             : base(gameObjectFactory)

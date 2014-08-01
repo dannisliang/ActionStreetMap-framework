@@ -39,7 +39,7 @@ namespace Mercraft.Maps.Osm.Data
 
         public void Configure(IConfigSection configSection)
         {
-            string filePath = configSection.GetString("path");
+            string filePath = configSection.GetString("");
             var fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
 
             if (String.IsNullOrEmpty(fileExtension))

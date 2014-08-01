@@ -7,6 +7,8 @@ namespace Mercraft.Models.Buildings.Facades
 {
     public class FlatFacadeBuilder: IFacadeBuilder
     {
+        public string Name { get{ return "flat"; } }
+
         public MeshData Build(Building building, BuildingStyle style)
         {
             var vertices2D = building.Footprint;

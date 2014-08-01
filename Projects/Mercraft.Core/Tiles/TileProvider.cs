@@ -140,8 +140,8 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         public void Configure(IConfigSection configSection)
         {
-            _tileSize = configSection.GetFloat("tile/@size");
-            _offset = configSection.GetFloat("tile/@offset");
+            _tileSize = configSection.GetFloat("@size");
+            _offset = configSection.GetFloat("@offset");
         }
     }
 }

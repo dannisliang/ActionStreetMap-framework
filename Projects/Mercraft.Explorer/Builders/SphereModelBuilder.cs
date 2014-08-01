@@ -13,6 +13,11 @@ namespace Mercraft.Explorer.Builders
 {
     public class SphereModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "sphere"; }
+        }
+
         [Dependency]
         public SphereModelBuilder(IGameObjectFactory gameObjectFactory)
             : base(gameObjectFactory)

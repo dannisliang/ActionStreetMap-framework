@@ -7,14 +7,22 @@ namespace Mercraft.Explorer.Bootstrappers
 {
     public class OsmBootstrapper: BootstrapperPlugin
     {
-        private const string DataSourceProviderKey = "dataSourceProvider";
+        private const string DataSourceProviderKey = "mapdata";
+
+        public override string Name { get { return "osm"; } }
 
         public override bool Run()
         {
-            Configurator.RegisterComponent<IElementSourceProvider>(
-                ConfigSection.GetSection(DataSourceProviderKey));
+            Container.Register(Component
+               .For<IElementSourceProvider>()
+               .Use<DefaultElementSourceProvider>()
+               .Singleton()
+               .SetConfig(GlobalConfigSection.GetSection(DataSourceProviderKey)));
 
-            Container.Register(Component.For<ElementManager>().Use<ElementManager>().Singleton());
+            Container.Register(Component
+                .For<ElementManager>()
+                .Use<ElementManager>()
+                .Singleton());
 
             return true;
         }

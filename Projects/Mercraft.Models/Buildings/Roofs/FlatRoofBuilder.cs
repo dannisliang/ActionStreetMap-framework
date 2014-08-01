@@ -7,6 +7,8 @@ namespace Mercraft.Models.Buildings.Roofs
 {
     public class FlatRoofBuilder: IRoofBuilder
     {
+        public string Name { get { return "flat"; } }
+
         public MeshData Build(Building building, BuildingStyle style)
         {
             return new MeshData()

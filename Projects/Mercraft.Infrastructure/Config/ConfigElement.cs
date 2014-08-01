@@ -34,6 +34,10 @@
                 string[] paths = this._xpath.Split('/');
 
                 XElement current = this._node;
+
+                if (_xpath == "")
+                    return;
+
                 for (int i = 0; i < paths.Length; i++)
                 {
                     if (paths[i].StartsWith("@"))

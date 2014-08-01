@@ -3,24 +3,37 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Bootstrap;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Maps.Osm;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
     public class ZoneBootstrapper : BootstrapperPlugin
     {
-        private const string SceneBuilderKey = "scene";
-        private const string TileProviderKey = "provider";
-        private const string PositionListenerKey = "loader";
-        private const string TileListenerKey = "listeners/tile";
-        private const string ZoneListenerKey = "listeners/zone";
+        private const string TileKey = "tile";
+        private const string PositionKey = "position";
+
+        public override string Name { get { return "zone"; } }
 
         public override bool Run()
         {
-            Configurator.RegisterComponent<ISceneBuilder>(ConfigSection.GetSection(SceneBuilderKey));
-            Configurator.RegisterComponent<TileProvider>(ConfigSection.GetSection(TileProviderKey));
-            Configurator.RegisterComponent<IPositionListener>(ConfigSection.GetSection(PositionListenerKey));
-            Configurator.RegisterComponent<ITileListener>(ConfigSection.GetSection(TileListenerKey));
-            Configurator.RegisterComponent<IZoneListener>(ConfigSection.GetSection(ZoneListenerKey));
+            Container.Register(Component.For<ISceneBuilder>().Use<OsmSceneBuilder>().Singleton());
+            
+            Container.Register(Component
+                .For<TileProvider>()
+                .Use<TileProvider>()
+                .Singleton()
+                .SetConfig(GlobalConfigSection.GetSection(TileKey)));
+
+
+            Container.Register(Component
+                .For<IPositionListener>()
+                .Use<ZoneLoader>()
+                .Singleton()
+                .SetConfig(GlobalConfigSection.GetSection(PositionKey)));
+
+            Container.Register(Component.For<ITileListener>().Use<DefaultTileListener>().Singleton());
+            Container.Register(Component.For<IZoneListener>().Use<ZoneListener>().Singleton());
 
             return true;
         }

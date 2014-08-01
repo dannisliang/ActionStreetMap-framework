@@ -13,6 +13,11 @@ namespace Mercraft.Explorer.Builders
 {
     public class CylinderModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "cylinder"; }
+        }
+
         [Dependency]
         public CylinderModelBuilder(IGameObjectFactory gameObjectFactory)
             : base(gameObjectFactory)

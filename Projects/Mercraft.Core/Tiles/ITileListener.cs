@@ -1,5 +1,4 @@
-﻿
-namespace Mercraft.Core.Tiles
+﻿namespace Mercraft.Core.Tiles
 {
     /// <summary>
     ///     Provides the way to listen events of tile processing
@@ -25,5 +24,24 @@ namespace Mercraft.Core.Tiles
         /// <param name="tile">Actual tile</param>
         /// <param name="position">Actual position</param>
         void OnTileFound(Tile tile, MapPoint position);
+    }
+
+
+    /// <summary>
+    ///     Default Tile listener
+    /// </summary>
+    public class DefaultTileListener : ITileListener
+    {
+        public void OnTileLoadStarted(MapPoint center, GeoCoordinate relativeNullPoint)
+        {
+        }
+
+        public void OnTileLoadFinished(Tile tile)
+        {
+        }
+
+        public void OnTileFound(Tile tile, MapPoint position)
+        {
+        }
     }
 }

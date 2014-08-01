@@ -115,5 +115,36 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
                 Assert.AreSame(configSection, instance.ConfigSection);
             }
         }
+
+        [Test]
+        public void ShouldUseLastRegisteredClass()
+        {
+            // ARRANGE
+            var container = new Container();
+            container.Register(Component.For<IClassA>().Use<ClassA1>());
+            container.Register(Component.For<IClassA>().Use<ClassA2>());
+
+            // ACT
+            var result = container.Resolve<IClassA>();
+
+            // ASSERT
+            Assert.IsInstanceOf<ClassA2>(result);
+        }
+
+        [Test]
+        public void ShouldUseLastRegisteredNamedClass()
+        {
+            // ARRANGE
+            var container = new Container();
+            container.Register(Component.For<IClassA>().Use<ClassA1>().Named("name1"));
+            container.Register(Component.For<IClassA>().Use<ClassA2>().Named("name1"));
+            container.Register(Component.For<IClassA>().Use<ClassA3>().Named("name"));
+
+            // ACT
+            var result = container.Resolve<IClassA>();
+
+            // ASSERT
+            Assert.IsInstanceOf<ClassA2>(result);
+        }
     }
 }

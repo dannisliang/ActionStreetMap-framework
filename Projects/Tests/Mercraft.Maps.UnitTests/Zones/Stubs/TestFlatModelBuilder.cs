@@ -5,7 +5,6 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 
@@ -13,6 +12,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestFlatModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "flat"; }
+        }
+
         [Dependency]
         public TestFlatModelBuilder(IGameObjectFactory gameObjectFactory)
             : base(gameObjectFactory)

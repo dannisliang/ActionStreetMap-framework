@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Mercraft.Infrastructure.Dependencies.Interception;
 using Mercraft.Infrastructure.Dependencies.Lifetime;
+using Mercraft.Infrastructure.Extenstions;
 using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Infrastructure.Dependencies
@@ -48,7 +49,7 @@ namespace Mercraft.Infrastructure.Dependencies
 
                 //try to find using only type and delegate resolving of instance by name to LifetimeManager that
                 //can be useful in custom lifetime managers
-                var altKey = _typeMapping.Keys.SingleOrDefault(k => k.Item2 == type);
+                var altKey = _typeMapping.Keys.FirstOrDefault(k => k.Item2 == type);
 
                 // auto resolving of IEnumerable<T> feature
                 if (altKey == null || (altKey.Item1 == null && altKey.Item2 == null) && IsEnumerable(type))
@@ -62,8 +63,12 @@ namespace Mercraft.Infrastructure.Dependencies
                     return castResult;
                 }
 
+                var lifetimeManager = _typeMapping.Keys.Count(k => k.Item2 == type) > 1 ? 
+                    _typeMapping.GetLast(altKey.Item1, altKey.Item2) :
+                    _typeMapping[altKey];
+
                 //inject container dependency here if attribute is specified
-                return ResolveDependencies(ResolveLifetime(_typeMapping[altKey]).GetInstance(name));
+                return ResolveDependencies(ResolveLifetime(lifetimeManager).GetInstance(name));
             }
             catch (Exception ex)
             {
@@ -78,8 +83,15 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public IEnumerable<object> ResolveAll(Type type)
         {
-            var keys = _typeMapping.Keys.Where(k => k.Item2 == type);
-            return keys.Select(key => ResolveDependencies(ResolveLifetime(_typeMapping[key]).GetInstance(key.Item1)));
+            var closure = type;
+            var keys = _typeMapping.Keys.Where(k => k.Item2 == closure).DistinctByLast(k => k.Item1);
+            return keys.Select(key =>
+            {
+                var lifetimeManager = _typeMapping.Keys.Count(k => k.Item2 == type) > 1 ?
+                   _typeMapping.GetLast(key.Item1, key.Item2) :
+                   _typeMapping[key];
+                return ResolveDependencies(ResolveLifetime(lifetimeManager).GetInstance(key.Item1));
+            });
         }
 
 
@@ -272,6 +284,21 @@ namespace Mercraft.Infrastructure.Dependencies
                 {
                     return Get(index.Item1, index.Item2);
                 }
+            }
+
+            public ILifetimeManager GetLast(string name, Type type)
+            {
+                ILifetimeManager result = null;
+                for (int i = 0; i < _keys.Count; i++)
+                {
+                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
+                    {
+                        result = _values[i];
+                    }
+                }
+                if (result != null)
+                    return result;
+                throw new KeyNotFoundException(String.Format("Unable to find {0}:{1}", name, type));
             }
 
             public ILifetimeManager Get(string name, Type type)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
@@ -18,12 +19,19 @@ namespace Mercraft.Explorer.Themes
 
     public class ThemeProvider: IThemeProvider, IConfigurable
     {
+        private readonly IEnumerable<IFacadeBuilder> _facadeBuilders;
+        private readonly IEnumerable<IRoofBuilder> _roofBuilders;
         private string _defaultThemeName;
         private const string ThemesKey = "themes/theme";
-        private const string FacadeBuildersKey = "scene/world/buildings/builders/facades";
-        private const string RoofBuildersKey = "scene/world/buildings/builders/roofs";
-        
         private Dictionary<string, Theme> _themes;
+
+        [Dependency]
+        public ThemeProvider(IEnumerable<IFacadeBuilder> facadeBuilders, 
+            IEnumerable<IRoofBuilder> roofBuilders)
+        {
+            _facadeBuilders = facadeBuilders.ToArray();
+            _roofBuilders = roofBuilders.ToArray();
+        }
 
         public Theme Get()
         {
@@ -37,12 +45,10 @@ namespace Mercraft.Explorer.Themes
 
         public void Configure(IConfigSection configSection)
         {
-            var facadeBuilderMap = LoadFacadeBuilderMap(configSection.GetSection(FacadeBuildersKey));
-            var roofBuilderMap = LoadRoofBuilderMap(configSection.GetSection(RoofBuildersKey));
             _themes = new Dictionary<string, Theme>();
             foreach (var themeConfig in configSection.GetSections(ThemesKey))
             {
-                var buildingStyleProvider = GetBuildingStyleProvider(themeConfig, facadeBuilderMap, roofBuilderMap);
+                var buildingStyleProvider = GetBuildingStyleProvider(themeConfig);
                 var roadStyleProvider = GetRoadStyleProvider(themeConfig);
 
                 var theme = new Theme(buildingStyleProvider, roadStyleProvider);
@@ -58,8 +64,7 @@ namespace Mercraft.Explorer.Themes
 
         #region Buildings
 
-        private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection themeConfig,
-            Dictionary<string, IFacadeBuilder> facadeBuilderMap, Dictionary<string, IRoofBuilder> roofBuilderMap)
+        private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection themeConfig)
         {
             var textureMap = LoadBuildingTextureMap(themeConfig);
             var buildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
@@ -75,36 +80,14 @@ namespace Mercraft.Explorer.Themes
                         Material = buildingStyleConfig.GetString("material"),
                         Floors = buildingStyleConfig.GetInt("floors"),
                         UvMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")],
-                        FacadeBuilder = facadeBuilderMap[buildingStyleConfig.GetString("facade/@builder")],
-                        RoofBuilder = roofBuilderMap[buildingStyleConfig.GetString("roof/@builder")]
+                        FacadeBuilder = _facadeBuilders.Single(b => b.Name == buildingStyleConfig.GetString("facade/@builder")),
+                        RoofBuilder = _roofBuilders.Single(b => b.Name == buildingStyleConfig.GetString("roof/@builder"))
                     });
                 }
                 buildingTypeStyleMapping.Add(typeName, styles);
             }
 
             return new BuildingStyleProvider(buildingTypeStyleMapping);
-        }
-
-        private Dictionary<string, IFacadeBuilder> LoadFacadeBuilderMap(IConfigSection facadeBuilderMapConfig)
-        {
-            var map = new Dictionary<string, IFacadeBuilder>();
-            foreach (var facadeBuilderConfig in facadeBuilderMapConfig.GetSections("include"))
-            {
-                map.Add(facadeBuilderConfig.GetString("@name"),
-                    facadeBuilderConfig.GetInstance<IFacadeBuilder>("@type"));
-            }
-            return map;
-        }
-
-        private Dictionary<string, IRoofBuilder> LoadRoofBuilderMap(IConfigSection roofBuilderMap)
-        {
-            var map = new Dictionary<string, IRoofBuilder>();
-            foreach (var roofBuilderConfig in roofBuilderMap.GetSections("include"))
-            {
-                map.Add(roofBuilderConfig.GetString("@name"),
-                    roofBuilderConfig.GetInstance<IRoofBuilder>("@type"));
-            }
-            return map;
         }
 
         private Dictionary<int, BuildingStyle.TextureUvMap> LoadBuildingTextureMap(IConfigSection textureMapConfig)

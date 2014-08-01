@@ -17,7 +17,7 @@ namespace Mercraft.Core.MapCss
     /// </summary>
     public class StylesheetProvider : IStylesheetProvider, IConfigurable
     {
-        private const string PathKey = "path";
+        private const string PathKey = "";
 
         private string _path;
         private readonly IPathResolver _pathResolver;

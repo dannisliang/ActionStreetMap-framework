@@ -4,7 +4,6 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 
@@ -12,6 +11,11 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
     public class TestCylinderModelBuilder : ModelBuilder
     {
+        public override string Name
+        {
+            get { return "cylinder"; }
+        }
+
         [Dependency]
         public TestCylinderModelBuilder(IGameObjectFactory gameObjectFactory) : base(gameObjectFactory)
         {

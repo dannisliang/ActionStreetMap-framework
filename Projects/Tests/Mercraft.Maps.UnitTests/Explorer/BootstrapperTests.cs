@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Mercraft.Core.Scene;
-using Mercraft.Explorer;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using NUnit.Framework;
 
@@ -15,8 +13,9 @@ namespace Mercraft.Maps.UnitTests.Explorer
         {
             // ARRANGE
             var container = new Container();
-            var root = new GameRunner(container,
-                new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver()));
+
+            // it should fill container
+            var root = TestHelper.GetGameRunner(container);
 
             // ACT
             var modelBuilders = container.ResolveAll<IModelBuilder>().ToList();

@@ -15,7 +15,6 @@ namespace Mercraft.Core.Zones
     /// </summary>
     public class ZoneLoader: IPositionListener, IConfigurable
     {
-        private const string OffsetKey = "offset";
         private const string PositionKey = "position";
 
         protected readonly TileProvider TileProvider;
@@ -50,8 +49,8 @@ namespace Mercraft.Core.Zones
             ZoneListener = zoneListener;
             StylesheetProvider = stylesheetProvider;
             GameObjectFactory = goFactory;
-            _builders = builders.ToList();
-            _behaviours = behaviours.ToList();
+            _builders = builders.ToArray();
+            _behaviours = behaviours.ToArray();
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
@@ -90,11 +89,9 @@ namespace Mercraft.Core.Zones
 
         public void Configure(IConfigSection configSection)
         {
-            Offset = configSection.GetFloat(OffsetKey);
-            var relativeNullPointConfig = configSection.GetSection(PositionKey);
             RelativeNullPoint = new GeoCoordinate(
-                relativeNullPointConfig.GetFloat("@latitude"),
-                relativeNullPointConfig.GetFloat("@longitude"));
+                configSection.GetFloat("@latitude"),
+                configSection.GetFloat("@longitude"));
         }
     }
 }

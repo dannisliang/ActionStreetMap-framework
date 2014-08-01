@@ -2,25 +2,18 @@
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
     /// Provides default functionality to execute startup plugins
     /// </summary>
-    public class BootstrapperService: IBootstrapperService, IConfigurable
+    public class BootstrapperService: IBootstrapperService
     {
-        private const string BootConfigKey = "bootstrappers/bootstrapper";
-
         private readonly IEnumerable<IBootstrapperPlugin> _plugins;
-        private IConfigSection _configSection;
 
         [Dependency]
         public IContainer Container { get; set; }
-
-        [Dependency]
-        public ComponentConfigurator Configurator { get; set; }
 
         [Dependency]
         public BootstrapperService() { }
@@ -31,19 +24,6 @@ namespace Mercraft.Infrastructure.Bootstrap
             _plugins = plugins;
         }
 
-        public bool IsInitialized { get; private set; }
-
-        private void Initialze()
-        {
-            var bootstrappers = _configSection.GetSections(BootConfigKey);
-            foreach (var bootsrapperSection in bootstrappers)
-            {
-                Configurator.RegisterNamedComponent<IBootstrapperPlugin>(bootsrapperSection);
-            }
-            IsInitialized = true;
-        }
-
-
         #region IBootstrapperService members
 
         /// <summary>
@@ -52,9 +32,6 @@ namespace Mercraft.Infrastructure.Bootstrap
         /// <returns></returns>
         public bool Run()
         {
-            if(!IsInitialized && _plugins == null)
-                Initialze();
-            
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();
             return plugins
                 .ToList().Aggregate(true, (current, task) => current & task.Run());
@@ -83,10 +60,5 @@ namespace Mercraft.Infrastructure.Bootstrap
         }
 
         #endregion
-
-        public void Configure(IConfigSection configSection)
-        {
-            _configSection = configSection;
-        }
     }
 }

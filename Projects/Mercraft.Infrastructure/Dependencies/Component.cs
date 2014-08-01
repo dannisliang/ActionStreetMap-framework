@@ -40,6 +40,8 @@ namespace Mercraft.Infrastructure.Dependencies
         {
             InterfaceType = interfaceType;
             _proxyType = proxyType;
+            // Default is singleton
+            LifetimeManager = new SingletonLifetimeManager();
         }
 
         /// <summary>

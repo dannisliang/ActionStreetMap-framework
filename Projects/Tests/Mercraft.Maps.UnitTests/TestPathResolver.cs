@@ -6,7 +6,8 @@ namespace Mercraft.Maps.UnitTests
     {
         public string Resolve(string path)
         {
-            return path;
+            return path.StartsWith(".") || path.StartsWith("test") ? path : 
+                "..\\..\\..\\..\\..\\Demo\\Config\\themes\\default\\" + path;
         }
     }
 }

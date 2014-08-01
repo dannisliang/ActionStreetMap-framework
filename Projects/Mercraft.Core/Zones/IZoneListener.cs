@@ -19,4 +19,18 @@ namespace Mercraft.Core.Zones
         /// <param name="zone">Loaded zone</param>
         void OnZoneLoadFinished(Zone zone);
     }
+
+    /// <summary>
+    ///     Default Zone listener
+    /// </summary>
+    public class ZoneListener : IZoneListener
+    {
+        public void OnZoneLoadStarted(Tile tile)
+        {
+        }
+
+        public void OnZoneLoadFinished(Zone zone)
+        {
+        }
+    }
 }

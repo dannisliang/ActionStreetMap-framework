@@ -1,26 +1,23 @@
 ﻿using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    /// Represents a bootstrapper plugin
+    ///     Represents a bootstrapper plugin
     /// </summary>
-    public abstract class BootstrapperPlugin: IBootstrapperPlugin, IConfigurable
+    public abstract class BootstrapperPlugin: IBootstrapperPlugin
     {
         [Dependency]
         public IContainer Container { get; set; }
 
         [Dependency]
-        public ConfigSettings Config { get; set; }
+        public IConfigSection GlobalConfigSection { get; set; }
 
         [Dependency]
-        public ComponentConfigurator Configurator { get; set; }
+        public IPathResolver PathResolver { get; set; }
 
-        public IConfigSection ConfigSection { get; set; }
-
-        public string Name { get; private set; }
+        public abstract string Name { get; }
 
         #region IBootstrapperPlugin members
 
@@ -37,11 +34,5 @@ namespace Mercraft.Infrastructure.Bootstrap
         }
 
         #endregion
-
-        public virtual void Configure(IConfigSection configSection)
-        {
-            ConfigSection = configSection;
-            Name = configSection.GetString(ConfigKeys.Name);
-        }
     }
 }

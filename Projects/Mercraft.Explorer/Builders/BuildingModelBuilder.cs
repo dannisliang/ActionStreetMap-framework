@@ -19,6 +19,11 @@ namespace Mercraft.Explorer.Builders
         private readonly IThemeProvider _themeProvider;
         private readonly IBuildingBuilder _builder;
 
+        public override string Name
+        {
+            get { return "building"; }
+        }
+
         [Dependency]
         public BuildingModelBuilder(IGameObjectFactory gameObjectFactory, 
             IThemeProvider themeProvider,

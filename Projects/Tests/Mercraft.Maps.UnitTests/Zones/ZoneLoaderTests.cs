@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Mercraft.Core;
+using Mercraft.Core.Tiles;
+using Mercraft.Core.Zones;
 using Mercraft.Explorer;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -19,20 +23,17 @@ namespace Mercraft.Maps.UnitTests.Zones
             var logger = new PerformanceLogger();
             logger.Start();
             var container = new Container();
-            var pathResolver = TestHelper.GetPathResolver();
-            container.RegisterInstance(typeof(IPathResolver), pathResolver);
-            var componentRoot = new GameRunner(container,
-                new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
+            var componentRoot = TestHelper.GetGameRunner(container);
             componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
 
             // ACT
-            var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
+            var zoneLoader = container.Resolve<IPositionListener>() as ZoneLoader;
 
             logger.Stop();
 
             // ASSERT
             Assert.IsNotNull(zoneLoader);
-            Assert.AreEqual(1, zoneLoader.ZoneCollection.Count);
+            Assert.AreEqual(1, GetZones(zoneLoader).Count());
 
             Assert.Less(logger.Seconds, 15, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
@@ -45,17 +46,21 @@ namespace Mercraft.Maps.UnitTests.Zones
         {
             // ARRANGE
             var container = new Container();
-            var pathResolver = TestHelper.GetPathResolver();
-            container.RegisterInstance(typeof(IPathResolver), pathResolver);
-            var componentRoot = new GameRunner(container,
-                new ConfigSettings(TestHelper.ConfigTestRootFile, pathResolver));
+            var componentRoot = TestHelper.GetGameRunner(container);
             componentRoot.RunGame(TestHelper.BerlinGeoCenter);
 
             // ACT
-            var zoneLoader = container.Resolve<IPositionListener>() as TestZoneLoader;
+            var zoneLoader = container.Resolve<IPositionListener>() as ZoneLoader;
 
             // ASSERT
-            Assert.IsNotNull(zoneLoader.ZoneCollection.Single().Tile.Scene.Areas);
+            Assert.IsNotNull(GetZones(zoneLoader).Single().Tile.Scene.Areas);
+        }
+
+        private IEnumerable<Zone> GetZones(ZoneLoader zoneLoader)
+        {
+            var property = typeof (ZoneLoader).GetProperty("Zones", BindingFlags.NonPublic |
+                BindingFlags.Instance | BindingFlags.GetProperty);
+            return (property.GetValue(zoneLoader, null) as Dictionary<Tile, Zone>).Values;
         }
     }
 }
