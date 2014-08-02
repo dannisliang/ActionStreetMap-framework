@@ -12,7 +12,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
         [TestFixtureSetUp]
         public void Initialize()
         {
-            var config = new ConfigSettings("test.config", TestHelper.GetPathResolver());
+            var config = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
             _stubSection = config.GetSection("stubs");
         }
 

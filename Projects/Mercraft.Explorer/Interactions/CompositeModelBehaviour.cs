@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Config;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Interactions
 {
-    public class CompositeModelBehaviour : IModelBehaviour, IConfigurable
+    public class CompositeModelBehaviour : IModelBehaviour
     {
-        private const string NameKey = "@name";
-        private const string BehaviourKey = "scripts/include";
-        private const string BehaviourValue = "@type";
-
-        private readonly List<Type> _behaviours = new List<Type>();
+        private readonly IEnumerable<Type> _behaviourTypes;
 
         public string Name { get; private set; }
 
+        public CompositeModelBehaviour(string name, IEnumerable<Type> behaviourTypes)
+        {
+            Name = name;
+            _behaviourTypes = behaviourTypes;
+        }
+
         public void Apply(IGameObject gameObject, Model model)
         {
-            foreach (var behaviour in _behaviours)
+            foreach (var behaviour in _behaviourTypes)
             {
                 // NOTE: behavior should implement Unity's MonoBehavior
                 var component = gameObject.GetComponent<GameObject>()
@@ -33,15 +34,6 @@ namespace Mercraft.Explorer.Interactions
                 {
                     modelBehaviour.Apply(gameObject, model);
                 }
-            }
-        }
-
-        public void Configure(IConfigSection configSection)
-        {
-            Name = configSection.GetString(NameKey);
-            foreach (var behaviourConfig in configSection.GetSections(BehaviourKey))
-            {
-                _behaviours.Add(behaviourConfig.GetType(BehaviourValue));
             }
         }
     }

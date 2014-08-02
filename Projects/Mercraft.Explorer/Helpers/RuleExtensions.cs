@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
-using Mercraft.Explorer.Builders;
-using Mercraft.Explorer.Interactions;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers

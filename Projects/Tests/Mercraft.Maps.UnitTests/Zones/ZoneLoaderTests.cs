@@ -5,10 +5,7 @@ using System.Reflection;
 using Mercraft.Core;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Zones;
-using Mercraft.Explorer;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.UnitTests.Zones.Stubs;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Zones

@@ -104,10 +104,6 @@
     <None Include="test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="test.settings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="test.stubs.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

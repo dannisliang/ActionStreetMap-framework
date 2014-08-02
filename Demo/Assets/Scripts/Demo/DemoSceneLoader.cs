@@ -14,8 +14,10 @@ using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer;
+using Mercraft.Explorer.Bootstrappers;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Infrastructure;
+using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
@@ -36,6 +38,17 @@ namespace Assets.Scripts.Demo
             var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
             var container = new Container();
             container.RegisterInstance(typeof (IPathResolver), pathResolver);
+            container.RegisterInstance<IConfigSection>(new ConfigSettings("Config\app.config", pathResolver).GetRoot());
+
+            // actual boot service
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
+
+            // boot plugins
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<ZoneBootstrapper>().Named("zone"));
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
+
             return container.RegisterInstance(debugConsole);
         }
 
@@ -46,7 +59,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
+            var componentRoot = new GameRunner(container);
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
            
@@ -105,7 +118,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
+            var componentRoot = new GameRunner(container);
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
             var rule = stylesheet.GetRule(way);
 
@@ -157,7 +170,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
+            var componentRoot = new GameRunner(container);
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
@@ -258,7 +271,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container, new ConfigSettings(@"Config/app.config", pathResolver));
+            var componentRoot = new GameRunner(container);
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
@@ -290,7 +303,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Berlin Small Part..");
 
             var container = GetContainer();
-            var componentRoot = new GameRunner(container, @"Config/app.config", pathResolver);
+            var componentRoot = new GameRunner(container);
 
             //componentRoot.RunGame(new GeoCoordinate(52.529814, 13.388015)); // home
             //componentRoot.RunGame(new GeoCoordinate(52.520833, 13.409403)); // teletower

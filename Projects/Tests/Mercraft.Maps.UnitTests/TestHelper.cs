@@ -16,6 +16,7 @@ namespace Mercraft.Maps.UnitTests
         public static readonly GeoCoordinate BerlinInvalidenStr = new GeoCoordinate(52.531036, 13.384866);
 
         public const string ConfigTestRootFile = "test.config";
+        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Config\app.config";
 
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 
@@ -40,7 +41,7 @@ namespace Mercraft.Maps.UnitTests
             // these items are used during boot process
             var pathResolver = GetPathResolver();
             container.RegisterInstance<IPathResolver>(pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSettings(ConfigTestRootFile, pathResolver).GetRoot());
+            container.RegisterInstance<IConfigSection>(new ConfigSettings(ConfigAppRootFile, pathResolver).GetRoot());
 
             // actual boot service
             container.Register(Component.For<IBootstrapperService>().Use<BootstrapperService>());
