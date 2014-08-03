@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.World.Roads;
+﻿using Mercraft.Core.World.Buildings;
+using Mercraft.Core.World.Roads;
 
 namespace Mercraft.Core.World
 {
@@ -7,6 +8,7 @@ namespace Mercraft.Core.World
     /// </summary>
     public class WorldManager
     {
+        public BuildingCollection Buildings { get; private set; }
         public RoadGraph Roads { get; private set; }
     }
 }

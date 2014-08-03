@@ -6,6 +6,8 @@ namespace Mercraft.Core.World.Buildings
     {
         public long Id { get; set; }
 
+        public bool IsDestroyed { get; set; }
+
         public Address Address { get; set; }
 
         public IGameObject GameObject { get; set; }

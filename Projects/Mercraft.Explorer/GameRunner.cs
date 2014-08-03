@@ -1,11 +1,7 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using UnityEngine;
-using Component = Mercraft.Infrastructure.Dependencies.Component;
 
 namespace Mercraft.Explorer
 {
