@@ -15,11 +15,6 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public override void VisitWay(Way way)
         {
-            if (!way.IsPolygon)
-            {
-                return;
-            }
-
             if (!IsArea(way.Tags))
             {
                 Scene.AddWay(new Core.Scene.Models.Way
@@ -31,6 +26,9 @@ namespace Mercraft.Maps.Osm.Visitors
 
                 return;
             }
+
+            if (!way.IsPolygon)
+                return;
 
             var area = new Area
             {
