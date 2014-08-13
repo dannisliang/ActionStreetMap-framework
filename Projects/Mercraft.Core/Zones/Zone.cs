@@ -25,14 +25,13 @@ namespace Mercraft.Core.Zones
         public Zone(Tile tile,
             Stylesheet stylesheet,
             IGameObjectFactory gameObjectFactory,
-            IEnumerable<IModelBuilder> builders,
-            IEnumerable<IModelBehaviour> behaviours,
+            ISceneVisitor sceneVisitor,
             ITrace trace)
         {
             Tile = tile;
             Stylesheet = stylesheet;
             _goFactory = gameObjectFactory;
-            _sceneVisitor = gameObjectFactory.CreateVisitor(builders, behaviours);
+            _sceneVisitor = sceneVisitor;
             _trace = trace;
         }
 

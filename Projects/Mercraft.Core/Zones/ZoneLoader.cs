@@ -70,8 +70,9 @@ namespace Mercraft.Core.Zones
 
             // Build zone
             ZoneListener.OnZoneLoadStarted(tile);
-            var zone = new Zone(tile, StylesheetProvider.Get(), GameObjectFactory, 
-                _builders, _behaviours, Trace);
+            var sceneVisitor = GameObjectFactory.CreateVisitor(_builders, _behaviours);
+            var zone = new Zone(tile, StylesheetProvider.Get(), GameObjectFactory,
+                sceneVisitor, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);
             CurrentZone = zone;
