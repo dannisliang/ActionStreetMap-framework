@@ -12,7 +12,7 @@ namespace Mercraft.Explorer.Bootstrappers
 
         public override bool Run()
         {
-            Container.Register(Component.For<ITrace>().Use<DefaultTrace>().Singleton());
+            Container.Register(Component.For<ITrace>().Use<UnityConsoleTrace>().Singleton());
             Container.Register(Component.For<IGameObjectFactory>().Use<GameObjectFactory>().Singleton());
 
             return true;
