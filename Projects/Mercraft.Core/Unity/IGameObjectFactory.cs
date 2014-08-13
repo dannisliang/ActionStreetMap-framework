@@ -1,7 +1,4 @@
 ﻿
-using System.Collections.Generic;
-using Mercraft.Core.Scene;
-
 namespace Mercraft.Core.Unity
 {
     /// <summary>
@@ -13,8 +10,5 @@ namespace Mercraft.Core.Unity
         IGameObject CreateNew(string name);
         IGameObject CreateNew(string name, IGameObject parent);
         IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
-
-        ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders, 
-            IEnumerable<IModelBehaviour> behaviours);
     }
 }

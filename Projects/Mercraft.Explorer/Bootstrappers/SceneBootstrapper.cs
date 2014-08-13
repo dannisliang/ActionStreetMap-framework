@@ -22,6 +22,8 @@ namespace Mercraft.Explorer.Bootstrappers
 
         public override bool Run()
         {
+            Container.Register(Component.For<ISceneVisitor>().Use<SceneVisitor>().Singleton());
+
             var themeConfigPath = GlobalConfigSection.GetString(ThemeKey);
             var themeConfig = new ConfigSettings(themeConfigPath, PathResolver);
             // register theme provider

@@ -11,6 +11,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
@@ -29,6 +30,7 @@ namespace Mercraft.Explorer
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<RoadElement> _roadElements = new List<RoadElement>();
 
+        [Dependency]
         public SceneVisitor(IGameObjectFactory goFactory,
             IThemeProvider themeProvider,
             ITerrainBuilder terrainBuilder,

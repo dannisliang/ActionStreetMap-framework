@@ -11,7 +11,7 @@ using Mercraft.Infrastructure.Diagnostic;
 namespace Mercraft.Core.Zones
 {
     /// <summary>
-    /// Represents square with created game objects
+    ///     Represents square with created game objects
     /// </summary>
     public class Zone
     {
@@ -36,7 +36,7 @@ namespace Mercraft.Core.Zones
         }
 
         /// <summary>
-        /// Builds game objects
+        ///     Builds game objects
         /// </summary>
         /// <param name="loadedElementIds">Contains ids of previously loaded elements. Used to prevent duplicates</param>
         public void Build(HashSet<long> loadedElementIds)

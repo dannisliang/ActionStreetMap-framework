@@ -1,29 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Mercraft.Core.Zones
 {
     /// <summary>
-    /// This class is responsible for loading different zones as response to position changes
+    ///     This class is responsible for loading different zones as response to position changes
     /// </summary>
-    public class ZoneLoader: IPositionListener, IConfigurable
+    public class ZoneLoader : IPositionListener, IConfigurable
     {
-        private const string PositionKey = "position";
-
         protected readonly TileProvider TileProvider;
         protected readonly IZoneListener ZoneListener;
         protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly IGameObjectFactory GameObjectFactory;
-        private readonly IEnumerable<IModelBuilder> _builders;
-        private readonly IEnumerable<IModelBehaviour> _behaviours;
-       
+        private readonly ISceneVisitor _sceneVisitor;
+
         protected float Offset { get; set; }
 
         protected readonly HashSet<long> LoadedModelIds;
@@ -38,19 +34,17 @@ namespace Mercraft.Core.Zones
         protected ITrace Trace { get; set; }
 
         [Dependency]
-        public ZoneLoader(TileProvider tileProvider, 
+        public ZoneLoader(TileProvider tileProvider,
             IZoneListener zoneListener,
             IStylesheetProvider stylesheetProvider,
             IGameObjectFactory goFactory,
-            IEnumerable<IModelBuilder> builders,
-            IEnumerable<IModelBehaviour> behaviours)
+            ISceneVisitor sceneVisitor)
         {
             TileProvider = tileProvider;
             ZoneListener = zoneListener;
             StylesheetProvider = stylesheetProvider;
             GameObjectFactory = goFactory;
-            _builders = builders.ToArray();
-            _behaviours = behaviours.ToArray();
+            _sceneVisitor = sceneVisitor;
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
@@ -70,9 +64,8 @@ namespace Mercraft.Core.Zones
 
             // Build zone
             ZoneListener.OnZoneLoadStarted(tile);
-            var sceneVisitor = GameObjectFactory.CreateVisitor(_builders, _behaviours);
             var zone = new Zone(tile, StylesheetProvider.Get(), GameObjectFactory,
-                sceneVisitor, Trace);
+                _sceneVisitor, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);
             CurrentZone = zone;
@@ -82,7 +75,7 @@ namespace Mercraft.Core.Zones
         public virtual void OnGeoPositionChanged(GeoCoordinate position)
         {
             RelativeNullPoint = position;
-            
+
             // TODO need think about this
             // TODO Destroy existing!
             Zones = new Dictionary<Tile, Zone>();

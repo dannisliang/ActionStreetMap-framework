@@ -37,12 +37,6 @@ namespace Mercraft.Explorer.Infrastructure
             return new UnityGameObject(name, GetPrimitive(type));
         }
 
-        public virtual ISceneVisitor CreateVisitor(IEnumerable<IModelBuilder> builders,
-            IEnumerable<IModelBehaviour> behaviours)
-        {
-            return new SceneVisitor(this, _themeProvider, _terrainBuilder, builders, behaviours);
-        }
-
         private GameObject GetPrimitive(UnityPrimitiveType type)
         {
             switch (type)
