@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Maps.UnitTests.Models.Stubs;
-using Mercraft.Models.Areas;
 using Mercraft.Models.Terrain;
 using NUnit.Framework;
 using UnityEngine;

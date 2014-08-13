@@ -1,6 +1,6 @@
 ﻿using Mercraft.Core;
 
-namespace Mercraft.Models.Areas
+namespace Mercraft.Models.Terrain
 {
     public class AreaSettings
     {

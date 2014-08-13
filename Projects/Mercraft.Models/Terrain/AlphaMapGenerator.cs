@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Models.Areas;
 using Mercraft.Models.Unity;
 using UnityEngine;
 
@@ -62,8 +61,14 @@ namespace Mercraft.Models.Terrain
             var widthRatio = _settings.AlphaMapSize/_terrainData.Size.x;
             var heightRatio = _settings.AlphaMapSize/_terrainData.Size.z;
 
-            var areaBuilder = new AreaBuilder(_terrainPosition, widthRatio, heightRatio);
-            var areas = areaBuilder.Build(_settings.Areas);
+            var areas = _settings.Areas.Select(a => new AlphaMapElement()
+            {
+                ZIndex = a.ZIndex,
+                SplatIndex = a.SplatIndex,
+                Points = a.Points.Select(p =>
+                    TerrainUtils.ConvertWorldToTerrain(p, _terrainPosition, widthRatio, heightRatio)).ToArray()
+            }).ToArray();
+
             _polygons = areas.OrderBy(p => p.SplatIndex).ToArray();
         }
 

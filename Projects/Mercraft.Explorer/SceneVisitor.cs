@@ -12,7 +12,6 @@ using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Maps.Osm.Helpers;
-using Mercraft.Models.Areas;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 using UnityEngine;
