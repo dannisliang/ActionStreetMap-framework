@@ -67,6 +67,9 @@
     <Reference Include="protobuf-net">
       <HintPath>Assets\Dependencies\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>Assets\Dependencies\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="Zlib">
       <HintPath>Assets\Dependencies\Zlib.dll</HintPath>
     </Reference>

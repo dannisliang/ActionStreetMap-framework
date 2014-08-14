@@ -15,10 +15,10 @@ namespace Mercraft.Core.Zones
     public class ZoneLoader : IPositionListener, IConfigurable
     {
         protected readonly TileProvider TileProvider;
-        protected readonly IZoneListener ZoneListener;
         protected readonly IStylesheetProvider StylesheetProvider;
         protected readonly IGameObjectFactory GameObjectFactory;
         private readonly ISceneVisitor _sceneVisitor;
+        private readonly IMessageBus _messageBus;
 
         protected float Offset { get; set; }
 
@@ -35,16 +35,16 @@ namespace Mercraft.Core.Zones
 
         [Dependency]
         public ZoneLoader(TileProvider tileProvider,
-            IZoneListener zoneListener,
             IStylesheetProvider stylesheetProvider,
             IGameObjectFactory goFactory,
-            ISceneVisitor sceneVisitor)
+            ISceneVisitor sceneVisitor,
+            IMessageBus messageBus)
         {
             TileProvider = tileProvider;
-            ZoneListener = zoneListener;
             StylesheetProvider = stylesheetProvider;
             GameObjectFactory = goFactory;
             _sceneVisitor = sceneVisitor;
+            _messageBus = messageBus;
 
             LoadedModelIds = new HashSet<long>();
             Zones = new Dictionary<Tile, Zone>();
@@ -63,13 +63,13 @@ namespace Mercraft.Core.Zones
             }
 
             // Build zone
-            ZoneListener.OnZoneLoadStarted(tile);
+            _messageBus.Send(new ZoneLoadStartMessage(tile));
             var zone = new Zone(tile, StylesheetProvider.Get(), GameObjectFactory,
                 _sceneVisitor, Trace);
             zone.Build(LoadedModelIds);
             Zones.Add(tile, zone);
             CurrentZone = zone;
-            ZoneListener.OnZoneLoadFinished(zone);
+            _messageBus.Send(new ZoneLoadFinishMessage(zone));
         }
 
         public virtual void OnGeoPositionChanged(GeoCoordinate position)

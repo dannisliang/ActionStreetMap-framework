@@ -140,7 +140,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             configMock.Setup(c => c.GetFloat("@size")).Returns(Size);
             configMock.Setup(c => c.GetFloat("@offset")).Returns(Offset);
 
-            var provider = new TileProvider(sceneBuilderMock.Object, new DefaultTileListener());
+            var provider = new TileProvider(sceneBuilderMock.Object, new MessageBus());
             provider.Configure(configMock.Object);
 
             return provider;

@@ -59,7 +59,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container);
+            var componentRoot = new GameRunner(container, new MessageBus());
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
            
@@ -118,7 +118,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container);
+            var componentRoot = new GameRunner(container, new MessageBus());
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
             var rule = stylesheet.GetRule(way);
 
@@ -170,7 +170,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container);
+            var componentRoot = new GameRunner(container, new MessageBus());
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
@@ -271,7 +271,7 @@ namespace Assets.Scripts.Demo
 
             var container = GetContainer();
             var center = new GeoCoordinate(52.529814, 13.388015);
-            var componentRoot = new GameRunner(container);
+            var componentRoot = new GameRunner(container, new MessageBus());
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
@@ -303,7 +303,7 @@ namespace Assets.Scripts.Demo
             Debug.Log("Generate Berlin Small Part..");
 
             var container = GetContainer();
-            var componentRoot = new GameRunner(container);
+            var componentRoot = new GameRunner(container, new MessageBus());
 
             //componentRoot.RunGame(new GeoCoordinate(52.529814, 13.388015)); // home
             //componentRoot.RunGame(new GeoCoordinate(52.520833, 13.409403)); // teletower

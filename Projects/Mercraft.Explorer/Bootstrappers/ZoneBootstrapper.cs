@@ -31,10 +31,7 @@ namespace Mercraft.Explorer.Bootstrappers
                 .Use<ZoneLoader>()
                 .Singleton()
                 .SetConfig(GlobalConfigSection.GetSection(PositionKey)));
-
-            Container.Register(Component.For<ITileListener>().Use<DefaultTileListener>().Singleton());
-            Container.Register(Component.For<IZoneListener>().Use<ZoneListener>().Singleton());
-
+            
             return true;
         }
     }

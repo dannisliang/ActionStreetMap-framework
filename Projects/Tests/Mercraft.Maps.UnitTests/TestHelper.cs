@@ -53,7 +53,7 @@ namespace Mercraft.Maps.UnitTests
             container.Register(Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
             container.Register(Component.For<IBootstrapperPlugin>().Use<TestBootstrapperPlugin>().Named("test"));
 
-            return new GameRunner(container);
+            return new GameRunner(container, new MessageBus());
         }
 
         public static IPathResolver GetPathResolver()

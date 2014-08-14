@@ -1,45 +1,48 @@
-﻿using System;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Explorer
 {
     /// <summary>
-    /// Represents application component root
+    ///     Represents application component root
     /// </summary>
     public class GameRunner : IGameRunner, IPositionListener
     {
         /// <summary>
-        /// DI container
+        ///     DI container
         /// </summary>
         private readonly IContainer _container;
 
         /// <summary>
-        /// Actual zone loader
+        ///     Message bus
+        /// </summary>
+        private readonly IMessageBus _messageBus;
+
+        /// <summary>
+        ///     Actual zone loader
         /// </summary>
         private IPositionListener _positionListener;
 
         /// <summary>
-        /// Returns relative null geo coordinate point which is used as center for calculation
+        ///     Returns relative null geo coordinate point which is used as center for calculation
         /// </summary>
         public GeoCoordinate RelativeNullPoint
         {
-            get
-            {
-                return _positionListener.RelativeNullPoint;
-            }
+            get { return _positionListener.RelativeNullPoint; }
         }
 
-        public GameRunner(IContainer container)
+        public GameRunner(IContainer container, IMessageBus messageBus)
         {
             _container = container;
+            _messageBus = messageBus;
             Initialize();
         }
 
         private void Initialize()
-        {           
+        {
             // run bootstrappers
+            _container.RegisterInstance(_messageBus);
             _container.Resolve<IBootstrapperService>().Run();
         }
 

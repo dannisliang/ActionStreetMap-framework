@@ -19,7 +19,7 @@ namespace Mercraft.Core.Tiles
         private float _offset;
 
         private readonly ISceneBuilder _sceneBuilder;
-        private readonly ITileListener _tileListener;
+        private readonly IMessageBus _messageBus;
 
         // TODO Use 2d index?
         private readonly List<Tile> _tiles;
@@ -36,10 +36,10 @@ namespace Mercraft.Core.Tiles
         }
 
         [Dependency]
-        public TileProvider(ISceneBuilder sceneBuilder, ITileListener tileListener)
+        public TileProvider(ISceneBuilder sceneBuilder, IMessageBus messageBus)
         {
             _sceneBuilder = sceneBuilder;
-            _tileListener = tileListener;
+            _messageBus = messageBus;
 
             _tiles = new List<Tile>();
         }
@@ -53,7 +53,7 @@ namespace Mercraft.Core.Tiles
             Tile tile = GetTile(position, _offset);
             if (tile != null)
             {
-                _tileListener.OnTileFound(tile, position);
+                _messageBus.Send(new TileFoundMessage(tile, position));
                 return tile;
             }
 
@@ -63,14 +63,14 @@ namespace Mercraft.Core.Tiles
             tile = GetTile(nextTileCenter);
             if (tile != null)
             {
-                _tileListener.OnTileFound(tile, position);
+                _messageBus.Send(new TileFoundMessage(tile, position));
                 return tile;
             }
 
             // calculate geo center
             var geoCoordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, nextTileCenter);
 
-            _tileListener.OnTileLoadStarted(nextTileCenter, relativeNullPoint);
+            _messageBus.Send(new TileLoadStartMessage(nextTileCenter));
 
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
             var scene = _sceneBuilder.Build(bbox);
@@ -78,7 +78,8 @@ namespace Mercraft.Core.Tiles
             tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
             scene.Canvas.Tile = tile;
             _tiles.Add(tile);
-            _tileListener.OnTileLoadFinished(tile);
+
+            _messageBus.Send(new TileLoadFinishMessage(tile));
             return tile;
         }
 

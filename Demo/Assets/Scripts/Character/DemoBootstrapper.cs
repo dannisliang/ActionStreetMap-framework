@@ -21,7 +21,6 @@ namespace Assets.Scripts.Character
                 typeof(LocationInfoHolder),
             }));
 
-
             return true;
         }
     }
