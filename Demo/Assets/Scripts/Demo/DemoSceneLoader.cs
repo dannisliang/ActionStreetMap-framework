@@ -20,9 +20,6 @@ using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Terrain;
-using Mercraft.Models.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;

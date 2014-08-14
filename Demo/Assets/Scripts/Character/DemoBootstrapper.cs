@@ -8,6 +8,7 @@ namespace Assets.Scripts.Character
 {
     public class DemoBootstrapper: BootstrapperPlugin
     {
+        private CompositeModelBehaviour _solidModelBehavior;
         public override string Name
         {
             get { return "demo"; }
@@ -15,11 +16,15 @@ namespace Assets.Scripts.Character
 
         public override bool Run()
         {
-            Container.RegisterInstance<IModelBehaviour>(new CompositeModelBehaviour("solid", new Type[]
+            // NOTE we should keep reference to prevent GC as RegisterInstance uses WeakReference
+            // TODO add ability to register object without this trick
+            _solidModelBehavior = new CompositeModelBehaviour("solid", new Type[]
             {
-                typeof(DestroyableObject),
-                typeof(LocationInfoHolder),
-            }));
+                typeof (DestroyableObject),
+                typeof (LocationInfoHolder),
+            });
+
+            Container.RegisterInstance<IModelBehaviour>(_solidModelBehavior);
 
             return true;
         }

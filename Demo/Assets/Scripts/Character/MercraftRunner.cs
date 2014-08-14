@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Reactive.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
@@ -7,6 +7,7 @@ using Assets.Scripts.Demo;
 using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Bootstrappers;
+using Mercraft.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -17,26 +18,51 @@ namespace Assets.Scripts.Character
 {
     public class MercraftRunner : MonoBehaviour
     {
-        public float delta = 50;
-        private GameRunner component;
-        private Vector2 position2D;
+        public float Delta = 10;
+
+        private GameRunner _gameRunner;
+
+        private ITrace _trace;
+
+        private Vector2 _position2D;
         
         private DebugConsole _console;
 
-        // NOTE store listeners here to prevent GC
-        private List<object> _listeners = new List<object>();
+        private event DataEventHandler<MapPoint> CharacterMove;
 
         // Use this for initialization
         private void Start()
+        {
+            Initialize();
+        }
+
+        // Update is called once per frame
+        void Update () {
+            if (Math.Abs(transform.position.x - _position2D.x) > Delta
+                || Math.Abs(transform.position.z - _position2D.y) > Delta)
+            {
+                _position2D = new Vector2(transform.position.x, transform.position.z);
+                if (CharacterMove != null)
+                {
+                    CharacterMove(this, new DataEventArgs<MapPoint>(
+                        new MapPoint(transform.position.x, transform.position.z)));
+                }
+            }
+        }
+
+
+        #region Initialization
+
+        private void Initialize()
         {
             // create and register DebugConsole inside Container
             var container = new Container();
             var messageBus = new MessageBus();
             var pathResolver = new DemoPathResolver();
-            var trace = new DebugConsoleTrace();
+            _trace = new DebugConsoleTrace();
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
             container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config/app.config", pathResolver).GetRoot());
-            container.RegisterInstance<ITrace>(trace);
+            container.RegisterInstance<ITrace>(_trace);
 
             // actual boot service
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
@@ -49,28 +75,23 @@ namespace Assets.Scripts.Character
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
 
             InitializeConsole(container);
-            InitializeMessageBusListeners(messageBus, trace);
+            InitializeMessageBusListeners(messageBus, _trace);
             try
             {
-                component = new GameRunner(container, messageBus);
-                component.RunGame();
+                _gameRunner = new GameRunner(container, messageBus);
+                _gameRunner.RunGame();
             }
             catch (Exception ex)
             {
                 _console.LogMessage(new ConsoleMessage("Error running game:" + ex.ToString(), RecordType.Error, Color.red));
                 throw;
             }
-        }
 
-        // Update is called once per frame
-        void Update () {
-            if (Math.Abs(transform.position.x - position2D.x) > delta
-                || Math.Abs(transform.position.z - position2D.y) > delta)
-            {
-                //_trace.Normal("position change:" + transform.position);
-                position2D = new Vector2(transform.position.x, transform.position.z);
-                component.OnMapPositionChanged(new MapPoint(transform.position.x, transform.position.z));
-            }
+            // subscribe on position changes
+            Observable.FromEventPattern<DataEventHandler<MapPoint>, DataEventArgs<MapPoint>>(h =>
+               CharacterMove += h, h => CharacterMove -= h)
+              .Do(e => _gameRunner.OnMapPositionChanged(e.EventArgs.Data))
+              .Subscribe();
         }
 
         private void InitializeConsole(IContainer container)
@@ -84,8 +105,10 @@ namespace Assets.Scripts.Character
         private void InitializeMessageBusListeners(IMessageBus messageBus, ITrace trace)
         {
             // NOTE not sure that these classes won't be collected during GC
-            new DemoTileListener(messageBus, trace);
-            new DemoZoneListener(messageBus, trace);
+            //new DemoTileListener(messageBus, trace);
+            //new DemoZoneListener(messageBus, trace);
         }
+
+        #endregion
     }
 }
