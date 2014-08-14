@@ -6,44 +6,41 @@
 			<types>
 				<type name="residental">
 					<style>
-						<texture>Textures/Buildings/Soviet1</texture>
-						<material>Materials/Building</material>
-						<floors>9</floors>
-						<textureMap index="0" />
-						<facade builder="flat" />
-						<roof builder="flat" />
+						<floors size="9" />
+						<facade>
+							<texture>Textures/Buildings/Soviet1</texture>
+							<material>Materials/Building</material>
+							<builder name="flat" />
+							<uvMap>
+								<front index="0"/>
+								<back index="0"/>
+								<side index="0"/>
+							</uvMap>
+						</facade>
+						<roof>
+							<texture>Textures/Buildings/Soviet1</texture>
+							<material>Materials/Building</material>
+							<builder name="flat" />
+							<uvMap>
+								<main index="1"/>
+							</uvMap>
+						</roof>					
 					</style>
 				</type>
 			</types>
 			<!-- uv mapping array -->
 			<textureMap>
 				<uv index="0">
-					<facade>
-						<front>	
-							<uv x="1" y="0" />
-							<uv x="0" y="0" />
-							<uv x="0" y="1" />
-							<uv x="1" y="1" />
-						</front>
-						<back>	
-							<uv x="1" y="0" />
-							<uv x="0" y="0" />
-							<uv x="0" y="1" />
-							<uv x="1" y="1" />
-						</back>
-						<side>
-							<uv x="1" y="0" />
-							<uv x="0" y="0" />
-							<uv x="0" y="1" />
-							<uv x="1" y="1" />
-						</side>
-					</facade>
-					<roof>
-						<uv x="0" y="0" />
-						<uv x="0" y="0" />
-						<uv x="0" y="0" />
-						<uv x="0" y="0" />
-					</roof>
+					<v x="1" y="0" />
+					<v x="0" y="0" />
+					<v x="0" y="1" />
+					<v x="1" y="1" />
+				</uv>
+				<uv index="1">
+					<v x="0" y="0" />
+					<v x="0" y="0" />
+					<v x="0" y="0" />
+					<v x="0" y="0" />
 				</uv>
 			</textureMap>
 		</buildings>

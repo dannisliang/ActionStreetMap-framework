@@ -8,24 +8,25 @@
 					<style>
 						<texture>Textures/Roads/Road</texture>
 						<material>Materials/RoadMaterial</material>
-						<textureMap index="0" />
+						<uvMap>
+							<main index="0" />
+							<turn index="1" />
+						</uvMap>
 					</style>
 				</type>
 			</types>
 			<!-- uv mapping array -->
 			<textureMap>
 				<uv index="0">
-					<main>
-						<uv x="1" y="0" />
-						<uv x="1" y="0" />
-						<uv x="1" y="0" />
-						<uv x="1" y="0" />
-					</main>
-					<turn>
-						<uv x="1" y="0" />
-						<uv x="1" y="0" />
-						<uv x="1" y="0" />
-					</turn>
+					<v x="1" y="0" />
+					<v x="1" y="0" />
+					<v x="1" y="0" />
+					<v x="1" y="0" />
+				</uv>
+				<uv index="1">	
+					<v x="1" y="0" />
+					<v x="1" y="0" />
+					<v x="1" y="0" />
 				</uv>
 			</textureMap>
 		</roads>

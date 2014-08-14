@@ -12,8 +12,8 @@ namespace Mercraft.Models.Buildings
     {
         public void Build(Building building, BuildingStyle style)
         {
-            var facadeMeshData = style.FacadeBuilder.Build(building, style);
-            var roofMeshData = style.RoofBuilder.Build(building, style);
+            var facadeMeshData = style.Facade.Builder.Build(building, style);
+            var roofMeshData = style.Roof.Builder.Build(building, style);
 
             // roof triangles calculated starting from 0, so we need to add offset
             var trisOffset = facadeMeshData.Vertices.Length;
@@ -31,8 +31,8 @@ namespace Mercraft.Models.Buildings
             var mf = gameObject.AddComponent<MeshFilter>();
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = Resources.Load<Material>(style.Material);
-            renderer.material.mainTexture = Resources.Load<Texture>(style.Texture);
+            renderer.material = Resources.Load<Material>(style.Facade.Material);
+            renderer.material.mainTexture = Resources.Load<Texture>(style.Facade.Texture);
 
             mf.mesh = mesh;
 

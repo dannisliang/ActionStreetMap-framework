@@ -66,7 +66,7 @@ namespace Mercraft.Explorer.Themes
 
         private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection themeConfig)
         {
-            var textureMap = LoadBuildingTextureMap(themeConfig);
+            var textureMap = LoadTextureMap("buildings/textureMap/uv", themeConfig);
             var buildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
             foreach (var buildingTypeConfig in themeConfig.GetSections("buildings/types/type"))
             {
@@ -76,12 +76,9 @@ namespace Mercraft.Explorer.Themes
                 {
                     styles.Add(new BuildingStyle()
                     {
-                        Texture = buildingStyleConfig.GetString("texture"),
-                        Material = buildingStyleConfig.GetString("material"),
-                        Floors = buildingStyleConfig.GetInt("floors"),
-                        UvMap = textureMap[buildingStyleConfig.GetInt("textureMap/@index")],
-                        FacadeBuilder = _facadeBuilders.Single(b => b.Name == buildingStyleConfig.GetString("facade/@builder")),
-                        RoofBuilder = _roofBuilders.Single(b => b.Name == buildingStyleConfig.GetString("roof/@builder"))
+                        Facade = GetFacadeStyle(textureMap, buildingStyleConfig.GetSection("facade")),
+                        Roof = GetRoofStyle(textureMap, buildingStyleConfig.GetSection("roof")),
+                        Floors = buildingStyleConfig.GetInt("floors/@size")
                     });
                 }
                 buildingTypeStyleMapping.Add(typeName, styles);
@@ -90,21 +87,28 @@ namespace Mercraft.Explorer.Themes
             return new BuildingStyleProvider(buildingTypeStyleMapping);
         }
 
-        private Dictionary<int, BuildingStyle.TextureUvMap> LoadBuildingTextureMap(IConfigSection textureMapConfig)
+        private BuildingStyle.RoofStyle GetRoofStyle(Dictionary<int, Vector2[]>  textureMap, IConfigSection roofConfig)
         {
-            var textureMaps = new Dictionary<int, BuildingStyle.TextureUvMap>();
-            foreach (var uvConfig in textureMapConfig.GetSections("buildings/textureMap/uv"))
+            return new BuildingStyle.RoofStyle()
             {
-                var index = uvConfig.GetInt("@index");
-                textureMaps.Add(index, new BuildingStyle.TextureUvMap()
-                {
-                    Front = GetUv(uvConfig.GetSection("facade/front")).ToArray(),
-                    Back = GetUv(uvConfig.GetSection("facade/back")).ToArray(),
-                    Side = GetUv(uvConfig.GetSection("facade/side")).ToArray(),
-                    Roof = GetUv(uvConfig.GetSection("roof")).ToArray(),
-                });
-            }
-            return textureMaps;
+                Texture = roofConfig.GetString("texture"),
+                Material = roofConfig.GetString("material"),
+                Builder = _roofBuilders.Single(b => b.Name == roofConfig.GetString("builder/@name")),
+                UvMap = textureMap[roofConfig.GetInt("uvMap/main/@index")]
+            };
+        }
+
+        private BuildingStyle.FacadeStyle GetFacadeStyle(Dictionary<int, Vector2[]> textureMap, IConfigSection facadeConfig)
+        {
+            return new BuildingStyle.FacadeStyle()
+            {
+                Texture = facadeConfig.GetString("texture"),
+                Material = facadeConfig.GetString("material"),
+                Builder = _facadeBuilders.Single(b => b.Name == facadeConfig.GetString("builder/@name")),
+                FrontUvMap = textureMap[facadeConfig.GetInt("uvMap/front/@index")],
+                BackUvMap = textureMap[facadeConfig.GetInt("uvMap/back/@index")],
+                SideUvMap = textureMap[facadeConfig.GetInt("uvMap/side/@index")],
+            };
         }
 
         #endregion
@@ -114,7 +118,7 @@ namespace Mercraft.Explorer.Themes
         private IRoadStyleProvider GetRoadStyleProvider(IConfigSection themeConfig)
         {
             var roadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
-            var textureMap = LoadRoadTextureMap(themeConfig);
+            var textureMap = LoadTextureMap("roads/textureMap/uv", themeConfig);
             foreach (var buildingTypeConfig in themeConfig.GetSections("roads/types/type"))
             {
                 var typeName = buildingTypeConfig.GetString("@name");
@@ -125,7 +129,11 @@ namespace Mercraft.Explorer.Themes
                     {
                         Texture = roadStyleConfig.GetString("texture"),
                         Material = roadStyleConfig.GetString("material"),
-                        UvMap = textureMap[roadStyleConfig.GetInt("textureMap/@index")],
+                        UvMap = new RoadStyle.TextureUvMap()
+                        {
+                            Main = textureMap[roadStyleConfig.GetInt("uvMap/main/@index")],
+                            Turn = textureMap[roadStyleConfig.GetInt("uvMap/turn/@index")],
+                        }
                     });
                 }
                 roadTypeStyleMapping.Add(typeName, styles);
@@ -134,26 +142,22 @@ namespace Mercraft.Explorer.Themes
             return new RoadStyleProvider(roadTypeStyleMapping);
         }
 
-        private Dictionary<int, RoadStyle.TextureUvMap> LoadRoadTextureMap(IConfigSection textureMapConfig)
+        #endregion
+
+        private Dictionary<int, Vector2[]> LoadTextureMap(string path, IConfigSection textureMapConfig)
         {
-            var textureMaps = new Dictionary<int, RoadStyle.TextureUvMap>();
-            foreach (var uvConfig in textureMapConfig.GetSections("roads/textureMap/uv"))
+            var textureMaps = new Dictionary<int, Vector2[]>();
+            foreach (var uvConfig in textureMapConfig.GetSections(path))
             {
                 var index = uvConfig.GetInt("@index");
-                textureMaps.Add(index, new RoadStyle.TextureUvMap()
-                {
-                    Main = GetUv(uvConfig.GetSection("main")).ToArray(),
-                    Turn = GetUv(uvConfig.GetSection("turn")).ToArray(),
-                });
+                textureMaps.Add(index, GetUv(uvConfig).ToArray());
             }
             return textureMaps;
         }
 
-        #endregion
-
         private IEnumerable<Vector2> GetUv(IConfigSection uvsConfig)
         {
-            foreach (var uvConfig in uvsConfig.GetSections("uv"))
+            foreach (var uvConfig in uvsConfig.GetSections("v"))
             {
                 yield return new Vector2(uvConfig.GetFloat("@x"), uvConfig.GetFloat("@y"));
             }

@@ -28,19 +28,24 @@ namespace Mercraft.Maps.UnitTests.Themes
 
             var style = theme.GetBuildingStyle( new Building()
             {
-                Type = "residental1"
+                Type = "residental"
             });
 
-            Assert.AreEqual(2, style.Floors);
-            Assert.AreEqual("Texture2", style.Texture);
-            Assert.AreEqual("Material2", style.Material);
-            Assert.IsNotNull(style.UvMap);
-            Assert.AreEqual(4, style.UvMap.Front.Length);
-            Assert.AreEqual(4, style.UvMap.Back.Length);
-            Assert.AreEqual(4, style.UvMap.Side.Length);
-            Assert.AreEqual(4, style.UvMap.Roof.Length);
-            Assert.IsNotNull(style.FacadeBuilder);
-            Assert.IsNotNull(style.RoofBuilder);
+            Assert.AreEqual(9, style.Floors);
+            
+            Assert.IsNotNull(style.Facade);
+            Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Texture);
+            Assert.AreEqual("Materials/Building", style.Facade.Material);
+            Assert.AreEqual(4, style.Facade.FrontUvMap.Length);
+            Assert.AreEqual(4, style.Facade.BackUvMap.Length);
+            Assert.AreEqual(4, style.Facade.SideUvMap.Length);
+            Assert.IsNotNull(style.Facade.Builder);
+
+            Assert.IsNotNull(style.Roof);
+            Assert.AreEqual("Textures/Buildings/Soviet1", style.Roof.Texture);
+            Assert.AreEqual("Materials/Building", style.Roof.Material);
+            Assert.AreEqual(4, style.Roof.UvMap.Length);
+            Assert.IsNotNull(style.Roof.Builder);
         }
 
         [Test]
