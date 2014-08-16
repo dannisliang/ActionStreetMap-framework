@@ -20,7 +20,7 @@
 						<roof>
 							<texture>Textures/Buildings/Soviet1</texture>
 							<material>Materials/Building</material>
-							<builder name="flat" />
+							<builder name="mansard" />
 							<uvMap>
 								<main index="1"/>
 							</uvMap>

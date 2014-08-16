@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Geometry;
 using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Core.World.Roads

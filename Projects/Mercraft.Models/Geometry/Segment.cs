@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mercraft.Models.Roads
+namespace Mercraft.Models.Geometry
 {
     public class Segment
     {

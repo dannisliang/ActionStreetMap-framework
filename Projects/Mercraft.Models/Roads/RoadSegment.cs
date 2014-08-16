@@ -1,4 +1,6 @@
-﻿namespace Mercraft.Models.Roads
+﻿using Mercraft.Models.Geometry;
+
+namespace Mercraft.Models.Roads
 {
     public class RoadSegment
     {

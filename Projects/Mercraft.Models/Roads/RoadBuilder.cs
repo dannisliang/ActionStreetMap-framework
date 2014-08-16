@@ -3,6 +3,7 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads

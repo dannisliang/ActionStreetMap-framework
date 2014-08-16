@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Mercraft.Models.Roads
+namespace Mercraft.Models.Geometry
 {
     public class SegmentUtils
     {
@@ -78,6 +78,22 @@ namespace Mercraft.Models.Roads
                 }
             }
             return doIntersect;
+        }
+
+        /// <summary>
+        /// Gets parallel segment with given offset
+        /// </summary>
+        public static Segment GetParallel(Segment segment, float offset)
+        {
+            float x1 = segment.Start.x, x2 = segment.End.x, y1 = segment.Start.y, y2 = segment.End.y;
+            float l = (float)Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+            var x1p = x1 + offset * (y2 - y1) / l;
+            var x2p = x2 + offset * (y2 - y1) / l;
+            var y1p = y1 + offset * (x1 - x2) / l;
+            var y2p = y2 + offset * (x1 - x2) / l;
+
+            return new Segment(new Vector2(x1p, y1p), new Vector2(x2p, y2p));
         }
     }
 }

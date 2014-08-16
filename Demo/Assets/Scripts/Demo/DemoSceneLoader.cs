@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Assets.Scripts.Character;
 using Assets.Scripts.Console;
 using Assets.Scripts.TankDemo;
 using Mercraft.Core;
@@ -35,7 +36,7 @@ namespace Assets.Scripts.Demo
             var debugConsole = consoleGameObject.AddComponent<DebugConsole>();
             var container = new Container();
             container.RegisterInstance(typeof (IPathResolver), pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSettings("Config\app.config", pathResolver).GetRoot());
+            container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config\app.config", pathResolver).GetRoot());
 
             // actual boot service
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
@@ -45,6 +46,7 @@ namespace Assets.Scripts.Demo
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<ZoneBootstrapper>().Named("zone"));
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
 
             return container.RegisterInstance(debugConsole);
         }
@@ -237,10 +239,17 @@ namespace Assets.Scripts.Demo
                 Tags = new Collection<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("building", "residential"),
-                  new KeyValuePair<string, string>("addr:housename", "Nokia"),
+                     new KeyValuePair<string, string>("addr:housename", "Nokia"),
                 },
                 Points = new GeoCoordinate[]
                 {
+                    /*new GeoCoordinate(52.5296255,13.3846858),
+			        new GeoCoordinate(52.5295643,13.3845374),
+			        new GeoCoordinate(52.5297658,13.3843128),
+			        new GeoCoordinate(52.529827,13.3844612),
+			        new GeoCoordinate(52.5296255,13.3846858),*/
+
+
 			        new GeoCoordinate(52.5304687,13.3848508),
                     new GeoCoordinate(52.5305881,13.3847611),
                     new GeoCoordinate(52.5306392,13.3849447),
@@ -271,23 +280,8 @@ namespace Assets.Scripts.Demo
             var componentRoot = new GameRunner(container, new MessageBus());
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
-            var canvasVisitor = container.Resolve<ISceneVisitor>("canvas");
-            var canvas = new Canvas()
-            {
-                Tile = new Tile(
-                    null,
-                    new GeoCoordinate(52.529814, 13.388015),
-                    new MapPoint(0, 0), 
-                    50)
-            };
-
-            var canvasRule = stylesheet.GetRule(canvas);
-           canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
-
             var visitor = container.Resolve<ISceneVisitor>("solid");
-            
             var rule = stylesheet.GetRule(b1);
-
             visitor.VisitArea(center, new UnityGameObject(""), rule, b1);
 
             Debug.Log("Generate Single Building: Done");          

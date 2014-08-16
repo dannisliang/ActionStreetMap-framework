@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core;
 
-namespace Mercraft.Core.Geometry
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     /// Implements the Douglas Peucker algorithim to reduce the number of points

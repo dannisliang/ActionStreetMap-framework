@@ -64,6 +64,7 @@
     <Compile Include="MapCss\StylesheetTests.cs" />
     <Compile Include="MapCss\RuleEvalTests.cs" />
     <Compile Include="Models\BuildingMapCssTests.cs" />
+    <Compile Include="Models\Buildings\Roofs\MansardRoofTest.cs" />
     <Compile Include="Models\Stubs\TestTerrainData.cs" />
     <Compile Include="Models\TerrainAlphaMapGeneratorTests.cs" />
     <Compile Include="Osm\ElementManagerTests.cs" />

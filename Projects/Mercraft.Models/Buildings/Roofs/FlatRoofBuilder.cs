@@ -21,20 +21,20 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(MapPoint[] verticies2D, float top)
+        private Vector3[] GetVerticies3D(MapPoint[] footprint, float top)
         {
-            var length = verticies2D.Length;
+            var length = footprint.Length;
             var vertices3D = new Vector3[length];
             for (int i = 0; i < length; i++)
             {
-                vertices3D[i] = new Vector3(verticies2D[i].X, top, verticies2D[i].Y);
+                vertices3D[i] = new Vector3(footprint[i].X, top, footprint[i].Y);
             }
             return vertices3D;
         }
 
-        private Vector2[] GetUV(MapPoint[] verticies2D)
+        private Vector2[] GetUV(MapPoint[] footprint)
         {
-            var uv = new Vector2[verticies2D.Length];
+            var uv = new Vector2[footprint.Length];
 
             for (int i = 0; i< uv.Length; i++)
             {

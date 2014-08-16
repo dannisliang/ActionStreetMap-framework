@@ -1,5 +1,5 @@
 ﻿using Mercraft.Core;
-using Mercraft.Core.Geometry;
+using Mercraft.Models.Geometry;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Geometry

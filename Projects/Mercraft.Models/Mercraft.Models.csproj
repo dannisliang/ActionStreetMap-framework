@@ -46,12 +46,15 @@
     <Compile Include="Buildings\MeshData.cs" />
     <Compile Include="Buildings\Roofs\FlatRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\IRoofBuilder.cs" />
+    <Compile Include="Buildings\Roofs\MansardRoofBuilder.cs" />
+    <Compile Include="Geometry\Polygon.cs" />
+    <Compile Include="Geometry\DouglasPeuckerReduction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roads\IRoadStyleProvider.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />
-    <Compile Include="Roads\Segment.cs" />
+    <Compile Include="Geometry\Segment.cs" />
     <Compile Include="Terrain\AlphaMapElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
@@ -62,7 +65,7 @@
     <Compile Include="Unity\ITerrainData.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />
     <Compile Include="Utils\PerlinNoise.cs" />
-    <Compile Include="Roads\SegmentUtils.cs" />
+    <Compile Include="Geometry\SegmentUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
