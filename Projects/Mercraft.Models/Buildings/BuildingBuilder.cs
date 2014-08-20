@@ -1,4 +1,6 @@
 ﻿using Mercraft.Core.World.Buildings;
+using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Unity;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings
@@ -10,6 +12,14 @@ namespace Mercraft.Models.Buildings
 
     public class BuildingBuilder : IBuildingBuilder
     {
+        private readonly IResourceProvider _resourceProvider;
+
+        [Dependency]
+        public BuildingBuilder(IResourceProvider resourceProvider)
+        {
+            _resourceProvider = resourceProvider;
+        }
+
         public void Build(Building building, BuildingStyle style)
         {
             var facadeMeshData = style.Facade.Builder.Build(building, style);
@@ -36,8 +46,8 @@ namespace Mercraft.Models.Buildings
             var mf = gameObject.AddComponent<MeshFilter>();
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = Resources.Load<Material>(meshData.Material);
-            renderer.material.mainTexture = Resources.Load<Texture>(meshData.Texture);
+            renderer.material = _resourceProvider.GetMatertial(meshData.MaterialKey);
+            renderer.material.mainTexture =  _resourceProvider.GetTexture(meshData.TextureKey);
 
             mf.mesh = mesh;
         }

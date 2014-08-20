@@ -35,6 +35,7 @@ namespace Assets.Scripts.Demo
             _stopwatch.Stop();
             _trace.Normal(LogTag, String.Format("Tile of size {0} is loaded in {1} ms", 
                 tile.Size, _stopwatch.ElapsedMilliseconds));
+            System.GC.Collect();
         }
 
         public void OnTileFound(Tile tile, MapPoint position)

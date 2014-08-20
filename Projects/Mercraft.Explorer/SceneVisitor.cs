@@ -67,6 +67,7 @@ namespace Mercraft.Explorer
             _terrainBuilder.Build(parent, new TerrainSettings()
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
+                HeightMapSize = rule.GetAlphaMapSize() + 1,
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 TextureParams = rule.GetTextureParams(),

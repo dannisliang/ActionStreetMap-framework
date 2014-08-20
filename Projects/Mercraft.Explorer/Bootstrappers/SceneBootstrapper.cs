@@ -10,6 +10,7 @@ using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
+using Mercraft.Models.Unity;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
@@ -22,6 +23,8 @@ namespace Mercraft.Explorer.Bootstrappers
 
         public override bool Run()
         {
+            Container.Register(Component.For<IResourceProvider>().Use<UnityResourceProvider>().Singleton());
+
             Container.Register(Component.For<ISceneVisitor>().Use<SceneVisitor>().Singleton());
 
             var themeConfigPath = GlobalConfigSection.GetString(ThemeKey);

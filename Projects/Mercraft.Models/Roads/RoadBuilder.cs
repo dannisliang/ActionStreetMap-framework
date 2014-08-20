@@ -2,8 +2,10 @@
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.World.Roads;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Unity;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads
@@ -18,6 +20,14 @@ namespace Mercraft.Models.Roads
 
     public class RoadBuilder : IRoadBuilder
     {
+         private readonly IResourceProvider _resourceProvider;
+
+        [Dependency]
+         public RoadBuilder(IResourceProvider resourceProvider)
+        {
+            _resourceProvider = resourceProvider;
+        }
+
         public void Build(Road road, RoadStyle style)
         {
             var context = new BuilderContext(road, style);
@@ -41,8 +51,8 @@ namespace Mercraft.Models.Roads
             //gameObject.AddComponent<MeshCollider>();
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = Resources.Load<Material>(style.Material);
-            renderer.material.mainTexture = Resources.Load<Texture>(style.Texture);
+            renderer.material = _resourceProvider.GetMatertial(style.MaterialKey);
+            renderer.material.mainTexture = _resourceProvider.GetTexture(style.TextureKey);
         }
 
         #region Segment processing

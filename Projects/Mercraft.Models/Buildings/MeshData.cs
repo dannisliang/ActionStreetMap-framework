@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings
         public int[] Triangles;
         public Vector2[] UV;
         
-        public string Texture;
-        public string Material;
+        public string TextureKey;
+        public string MaterialKey;
     }
 }

@@ -79,7 +79,7 @@ namespace Mercraft.Models.Terrain
             {
                 var texture = textureParams[i];
                 var splatPrototype = new SplatPrototype();
-                splatPrototype.texture = Resources.Load<Texture2D>("Textures/" + texture[1].Trim());
+                splatPrototype.texture = Resources.Load<Texture2D>(@"Textures/Terrain/" + texture[1].Trim());
                 splatPrototype.tileSize = new Vector2(int.Parse(texture[2]), int.Parse(texture[3]));
 
                 splatPrototypes[i] = splatPrototype;

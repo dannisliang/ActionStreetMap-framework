@@ -71,8 +71,8 @@ namespace Mercraft.Maps.UnitTests.Themes
                     }
                 }
             });
-            Assert.AreEqual("Textures2", style.Texture);
-            Assert.AreEqual("Materials2", style.Material);
+            Assert.AreEqual("Textures2", style.TextureKey);
+            Assert.AreEqual("Materials2", style.MaterialKey);
             Assert.IsNotNull(style.UvMap);
             Assert.AreEqual(4, style.UvMap.Main.Length);
             Assert.AreEqual(3, style.UvMap.Turn.Length);

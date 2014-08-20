@@ -127,8 +127,8 @@ namespace Mercraft.Explorer.Themes
                 {
                     styles.Add(new RoadStyle()
                     {
-                        Texture = roadStyleConfig.GetString("texture"),
-                        Material = roadStyleConfig.GetString("material"),
+                        TextureKey = roadStyleConfig.GetString("texture"),
+                        MaterialKey = roadStyleConfig.GetString("material"),
                         UvMap = new RoadStyle.TextureUvMap()
                         {
                             Main = textureMap[roadStyleConfig.GetInt("uvMap/main/@index")],
