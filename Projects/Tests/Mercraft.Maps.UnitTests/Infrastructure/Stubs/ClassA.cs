@@ -58,15 +58,13 @@ namespace Mercraft.Maps.UnitTests.Infrastructure.Stubs
         public System.Int32 Add(System.Int32 a, System.Int32 b)
         {
             var methodInvocation = BuildMethodInvocation(MethodBase.GetCurrentMethod(), a, b);
-            return RunBehaviors(methodInvocation)
-                    .GetReturnValue<System.Int32>();
+            return (int) RunBehaviors(methodInvocation).GetReturnValue();
         }
 
         public System.String SayHello(System.String name)
         {
             var methodInvocation = BuildMethodInvocation(MethodBase.GetCurrentMethod(), name);
-            return RunBehaviors(methodInvocation)
-                    .GetReturnValue<System.String>();
+            return (string) RunBehaviors(methodInvocation).GetReturnValue();
         }
     }
 }

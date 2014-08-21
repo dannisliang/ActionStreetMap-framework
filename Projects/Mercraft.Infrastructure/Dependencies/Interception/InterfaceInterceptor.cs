@@ -40,5 +40,11 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         {
             ProxyComponentMapping.Add(type, component);
         }
+
+        public void Register(Type type)
+        {
+            if (!ProxyComponentMapping.ContainsKey(type))
+                ProxyComponentMapping.Add(type, new Component(type, ProxyGen.Generate(type)));
+        }
     }
 }

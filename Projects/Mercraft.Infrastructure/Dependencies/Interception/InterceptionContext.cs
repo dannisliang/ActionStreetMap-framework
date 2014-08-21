@@ -9,10 +9,10 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
     /// </summary>
     internal static class InterceptionContext
     {
-        static readonly List<IInterceptor> __interceptors = new List<IInterceptor>();
+        static readonly List<IInterceptor> Interceptors = new List<IInterceptor>();
         static InterceptionContext()
         {
-            __interceptors.Add(new InterfaceInterceptor());
+            Interceptors.Add(new InterfaceInterceptor());
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// </summary>
         public static IInterceptor GetInterceptor(Type type)
         {
-            return __interceptors.SingleOrDefault(i => i.CanIntercept(type));
+            return Interceptors.SingleOrDefault(i => i.CanIntercept(type));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// </summary>
         public static IInterceptor GetInterceptor()
         {
-            return __interceptors.First();
+            return Interceptors.First();
         }
     }
 }

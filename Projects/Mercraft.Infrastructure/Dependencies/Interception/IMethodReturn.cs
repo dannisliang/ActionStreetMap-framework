@@ -10,7 +10,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// <summary>
         /// Returns return value of method
         /// </summary>
-        T GetReturnValue<T>();
+        object GetReturnValue();
 
         /// <summary>
         /// Exception which occured during method invocation

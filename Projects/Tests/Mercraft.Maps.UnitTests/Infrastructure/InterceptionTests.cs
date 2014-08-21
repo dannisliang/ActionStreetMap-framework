@@ -16,7 +16,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             {
                 container.Register(Component.For<IClassA>()
                                             .Use<ClassA1>()
-                                            .Proxy<ClassAProxy>()
+                                            .WithProxy<ClassAProxy>()
                                             .AddBehavior(new ExecuteBehavior())
                                             .Singleton());
 
@@ -37,7 +37,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             {
                 container.Register(Component.For<IClassA>()
                                             .Use<ClassA1>()
-                                            .Proxy<ClassAProxy>()
+                                            .WithProxy<ClassAProxy>()
                                             .AddBehavior(new ExecuteBehavior())
                                             .Singleton());
 
@@ -47,6 +47,71 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
 
                 // ASSERT
                 Assert.IsInstanceOf(typeof(ClassAProxy), classA);
+                Assert.AreEqual("Hello from A1, Ilya", result);
+            }
+        }
+
+        [Test]
+        public void CanGenerateProxy()
+        {
+            // ARRANGE
+            using (IContainer container = new Container())
+            {
+                container.Register(Component.For<IClassA>()
+                                            .Use<ClassA1>()
+                                            .WithProxy()
+                                            .AddBehavior(new ExecuteBehavior())
+                                            .Singleton());
+                // ACT
+                var classA = container.Resolve<IClassA>();
+                var result = classA.SayHello("Ilya");
+
+                // ASSERT
+                Assert.AreEqual("Mercraft.Dynamics.IClassAProxy", classA.GetType().FullName);
+                Assert.AreEqual("Hello from A1, Ilya", result);
+            }
+        }
+
+        [Test]
+        public void CanUseGlobalBehavior()
+        {
+            // ARRANGE
+            using (IContainer container = new Container())
+            {
+                container.Register(Component.For<IClassA>()
+                                            .Use<ClassA1>()
+                                            .WithProxy<ClassAProxy>()
+                                            .Singleton());
+                container.AddGlobalBehavior(new ExecuteBehavior());
+
+                // ACT
+                var classA = container.Resolve<IClassA>();
+                var result = classA.SayHello("Ilya");
+
+                // ASSERT
+                Assert.AreEqual("Hello from A1, Ilya", result);
+            }
+        }
+
+        [Test]
+        public void CanAutogenerateProxy()
+        {
+            // ARRANGE
+            using (IContainer container = new Container())
+            {
+                container.Register(Component.For<IClassA>()
+                                            .Use<ClassA1>()
+                                            .Singleton());
+                container.AllowProxy = true;
+                container.AutoGenerateProxy = true;
+                container.AddGlobalBehavior(new ExecuteBehavior());
+
+                // ACT
+                var classA = container.Resolve<IClassA>();
+                var result = classA.SayHello("Ilya");
+
+                // ASSERT
+                Assert.AreEqual("Mercraft.Dynamics.IClassAProxy", classA.GetType().FullName);
                 Assert.AreEqual("Hello from A1, Ilya", result);
             }
         }

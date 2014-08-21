@@ -22,6 +22,8 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// </summary>
         void Register(Type type, Component component);
 
+        void Register(Type type);
+
         /// <summary>
         /// Resolves component
         /// </summary>

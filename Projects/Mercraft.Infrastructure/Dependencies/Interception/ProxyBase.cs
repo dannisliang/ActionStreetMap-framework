@@ -20,7 +20,9 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// <param name="behavior"></param>
         public void AddBehavior(IBehavior behavior)
         {
-            _behaviors.AddLast(behavior);
+            // NOTE due to the current IContainer implementation we should check this
+            if(!_behaviors.Contains(behavior))
+                _behaviors.AddLast(behavior);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         }
 
         /// <summary>
-        /// Cleares list of behaviors
+        /// Clears list of behaviors
         /// </summary>
         public void ClearBehaviors()
         {

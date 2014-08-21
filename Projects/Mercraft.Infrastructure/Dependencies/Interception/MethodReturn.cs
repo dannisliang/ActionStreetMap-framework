@@ -16,13 +16,9 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// <summary>
         /// Returns return value of method
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T GetReturnValue<T>()
+        public object GetReturnValue()
         {
-            if (_returnValue == null)
-                return default(T);
-            return (T) _returnValue;
+            return _returnValue;
         }
 
         /// <summary>

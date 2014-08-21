@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mercraft.Infrastructure.Dependencies.Interception;
+using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Dependencies.Lifetime;
 using Mercraft.Infrastructure.Extenstions;
 using Mercraft.Infrastructure.Primitives;
@@ -15,8 +16,8 @@ namespace Mercraft.Infrastructure.Dependencies
     /// </summary>
     public sealed class Container : IContainer
     {
-        //TODO use specific type here
         private readonly TypeMapping _typeMapping = new TypeMapping();
+        private readonly List<IBehavior>  _globalBehaviors = new List<IBehavior>();
 
         private readonly object[] _emptyArguments = new object[0];
         private readonly object _syncLock = new object();
@@ -24,6 +25,15 @@ namespace Mercraft.Infrastructure.Dependencies
         private readonly string _defaultKey = String.Empty;
 
         #region IContainer implementation
+
+        public bool AllowProxy { get; set; }
+        public bool AutoGenerateProxy { get; set; }
+
+        public IContainer AddGlobalBehavior(IBehavior behavior)
+        {
+            _globalBehaviors.Add(behavior);
+            return this;
+        }
 
         #region Resolve
 
@@ -94,7 +104,6 @@ namespace Mercraft.Infrastructure.Dependencies
             });
         }
 
-
         private ILifetimeManager ResolveLifetime(ILifetimeManager lifetimeManager)
         {
             //if cstor isn't provided, try to resolve one with dependency attribute
@@ -106,7 +115,8 @@ namespace Mercraft.Infrastructure.Dependencies
                 lifetimeManager.CstorArgs = lifetimeManager.Constructor.GetParameters()
                     .Select(p=> Resolve(p.ParameterType)).ToArray();
 
-
+            if (AllowProxy && AutoGenerateProxy)
+                InterceptionContext.GetInterceptor().Register(lifetimeManager.InterfaceType);
 
             return lifetimeManager;
         }
@@ -123,16 +133,25 @@ namespace Mercraft.Infrastructure.Dependencies
         {
             //if type's methods are intercepted, instance is proxy and doesn't have properties to do DI
             object proxy = null;
-            if (instance is IProxy)
+            if (AllowProxy)
             {
-                proxy = instance;
-                instance = (instance as IProxy).Instance;
-            }
+                var proxyReference = (instance as IProxy);
+                if (proxyReference != null)
+                {
+                    proxy = instance;
+                    instance = proxyReference.Instance;
+                }
+
+                // NOTE we have to attach global behaviors to proxy, so far it's the best place to do
+                // TODO find way not to call addBehavior every time without overcomplicating IProxy interface
+                if (proxyReference != null)
+                    _globalBehaviors.ForEach(proxyReference.AddBehavior);
+            } 
 
             //Try to resolve property dependency injection
             Type objectType = instance.GetType();
 
-            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             var properties = objectType.GetProperties(flags).ToList();
             var baseType = objectType.BaseType;
             while (baseType != null)
