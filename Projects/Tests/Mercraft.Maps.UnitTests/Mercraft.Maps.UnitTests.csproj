@@ -57,6 +57,7 @@
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
     <Compile Include="Infrastructure\InterceptionTests.cs" />
     <Compile Include="Infrastructure\PrimitiveTypeTests.cs" />
+    <Compile Include="Infrastructure\Stubs\TestStringBuilderTrace.cs" />
     <Compile Include="MapCss\CanvasTests.cs" />
     <Compile Include="MapCss\MapCssHelper.cs" />
     <Compile Include="MapCss\SelectorsTests.cs" />

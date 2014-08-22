@@ -12,19 +12,22 @@ namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
             Name = "execute";
         }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
         /// <summary>
         /// Executes method
         /// </summary>
         public virtual IMethodReturn Invoke(MethodInvocation methodInvocation)
         {
-            var methodBase = TypeHelper.GetMethodBySign(methodInvocation.Target.GetType(), 
-                methodInvocation.MethodBase, methodInvocation.GenericTypes.ToArray());
-            var result = methodBase.Invoke(methodInvocation.Target, methodInvocation.Parameters.Values.ToArray());
-            methodInvocation.IsInvoked = true;
-            return methodInvocation.Return = new MethodReturn(result);
+            if (!methodInvocation.IsInvoked)
+            {
+                var methodBase = TypeHelper.GetMethodBySign(methodInvocation.Target.GetType(),
+                    methodInvocation.MethodBase, methodInvocation.GenericTypes.ToArray());
+                var result = methodBase.Invoke(methodInvocation.Target, methodInvocation.Parameters.Values.ToArray());
+                methodInvocation.IsInvoked = true;
+                return methodInvocation.Return = new MethodReturn(result);
+            }
+            return methodInvocation.Return;
         }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mercraft.Infrastructure.Dependencies;
+﻿using System.Text;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Maps.UnitTests.Infrastructure.Stubs;
 using NUnit.Framework;
@@ -113,6 +114,30 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
                 // ASSERT
                 Assert.AreEqual("Mercraft.Dynamics.IClassAProxy", classA.GetType().FullName);
                 Assert.AreEqual("Hello from A1, Ilya", result);
+            }
+        }
+
+        [Test]
+        public void CanUseTraceBehavior()
+        {
+            // ARRANGE
+            using (IContainer container = new Container())
+            {
+                var sb = new StringBuilder();
+                container.Register(Component.For<IClassA>()
+                                            .Use<ClassA1>()
+                                            .WithProxy<ClassAProxy>()
+                                            .AddBehavior(new ExecuteBehavior())
+                                            .AddBehavior(new TraceBehavior(new TestStringBuilderTrace(sb)))
+                                            .Singleton());
+
+                // ACT
+                var classA = container.Resolve<IClassA>();
+                classA.SayHello("Ilya");
+                classA.Add(10, 20);
+
+                // ASSERT
+                Assert.IsNotEmpty(sb.ToString());
             }
         }
     }

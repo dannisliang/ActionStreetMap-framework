@@ -93,8 +93,12 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
 
         private static void BuildMethod(TypeBuilder typeBuilder, MethodInfo methodInfo)
         {
+            // NOTE this method builds interception logic related to ProxyBase class
             // TODO refactor this method to more userfriendly representation
-            #region methods
+            
+            #region MethodInfo stuff
+
+            // TODO use static variables for them?
 
             // Declaring method builder
             // Method attributes
@@ -109,42 +113,26 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
                 "GetCurrentMethod",
                 BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new Type[]
-                {
-                },
-                null
-                );
+                new Type[]{},
+                null);
             MethodInfo method2 = typeof (ProxyBase).GetMethod(
                 "BuildMethodInvocation",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new[]
-                {
-                    typeof (MethodBase),
-                    typeof (Object[])
-                },
-                null
-                );
+                new[]{typeof (MethodBase),typeof (Object[])},
+                null);
             MethodInfo method3 = typeof (ProxyBase).GetMethod(
                 "RunBehaviors",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new[]
-                {
-                    typeof (MethodInvocation)
-                },
-                null
-                );
-
+                new[]{typeof (MethodInvocation)},
+                null);
             MethodInfo method4 = typeof (IMethodReturn).GetMethod(
                 "GetReturnValue",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new Type[]
-                {
-                },
-                null
-                );
+                new Type[]{},
+                null);
 
             #endregion
 

@@ -61,6 +61,8 @@
     <Compile Include="Dependencies\IContainer.cs" />
     <Compile Include="Dependencies\Interception\Behaviors\ExecuteBehavior.cs" />
     <Compile Include="Dependencies\Interception\Behaviors\IBehavior.cs" />
+    <Compile Include="Dependencies\Interception\Behaviors\ProfileBehavior.cs" />
+    <Compile Include="Dependencies\Interception\Behaviors\TraceBehavior.cs" />
     <Compile Include="Dependencies\Interception\IInterceptor.cs" />
     <Compile Include="Dependencies\Interception\IMethodReturn.cs" />
     <Compile Include="Dependencies\Interception\InterceptionContext.cs" />
