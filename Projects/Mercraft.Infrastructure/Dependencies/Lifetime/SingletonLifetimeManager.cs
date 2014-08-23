@@ -41,13 +41,14 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
                 _instance = (Constructor ?? TypeHelper.GetConstructor(TargetType, CstorArgs))
                     .Invoke(CstorArgs);
                 _proxy = InterceptionContext.CreateProxy(InterfaceType, _instance);
-
-                target = _proxy ?? _instance;
-                var configurable = target as IConfigurable;
+                
+                var configurable = _instance as IConfigurable;
                 if (configurable != null && ConfigSection != null)
                 {
                     configurable.Configure(ConfigSection);
                 }
+
+                target = _proxy ?? _instance;
             }
 
             return target;

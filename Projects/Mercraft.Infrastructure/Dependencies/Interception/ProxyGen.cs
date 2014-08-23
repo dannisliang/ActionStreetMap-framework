@@ -34,6 +34,9 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         {
             if (!Map.ContainsKey(interfaceType))
             {
+                if (!interfaceType.IsInterface)
+                    return null;
+
                 try
                 {
                     var typeBuilder = BuildTypeBuilder(ModuleBuilder, interfaceType);
@@ -49,7 +52,8 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
                 }
                 catch
                 {
-                    Map[interfaceType] = null;
+                    //Map[interfaceType] = null;
+                    return null;
                 }
             }
             return Map[interfaceType];

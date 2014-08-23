@@ -7,10 +7,12 @@ using Assets.Scripts.Demo;
 using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Bootstrappers;
+using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Diagnostic;
 using UnityEngine;
 
@@ -59,7 +61,7 @@ namespace Assets.Scripts.Character
             var container = new Container();
             var messageBus = new MessageBus();
             var pathResolver = new DemoPathResolver();
-            _trace = new DebugConsoleTrace();
+            _trace = new UnityConsoleTrace();
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
             container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config/app.config", pathResolver).GetRoot());
             container.RegisterInstance<ITrace>(_trace);
@@ -76,6 +78,12 @@ namespace Assets.Scripts.Character
 
             InitializeConsole(container);
             InitializeMessageBusListeners(messageBus, _trace);
+
+            // interception
+            //container.AllowProxy = true;
+            //container.AutoGenerateProxy = true;
+            //container.AddGlobalBehavior(new TraceBehavior(_trace));
+
             try
             {
                 _gameRunner = new GameRunner(container, messageBus);

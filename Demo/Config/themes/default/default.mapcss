@@ -2,6 +2,7 @@ canvas {
 	z-index: 0; 
 	alphamapsize: 256;
 	texture: 0, Pebbles, 10, 10;
+	texture: 1, Grass, 10, 10;
 }
 
 /* buildings */
@@ -82,7 +83,7 @@ area[landuse=railway]									{ z-index: 0.1; builder: flat; material: Grass; fi
 
 area[natural=wood],		
 area[leisure=park],		
-area[landuse=forest] 									{ fill-color: #8dc56c; }
+area[landuse=forest] 									{ terrain: true; splat: 1; fill-color: #8dc56c; }
 
 area[landuse=meadow],
 area[landuse=farmland],

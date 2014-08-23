@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine">
       <HintPath>..\packages\UnityEngine.dll</HintPath>
@@ -56,10 +57,10 @@
     <Compile Include="Terrain\AlphaMapElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
+    <Compile Include="Terrain\TerrainScanLine.cs" />
     <Compile Include="Terrain\HeightMapGenerator.cs" />
     <Compile Include="Terrain\TerrainBuilder.cs" />
     <Compile Include="Terrain\TerrainSettings.cs" />
-    <Compile Include="Terrain\TerrainUtils.cs" />
     <Compile Include="Unity\ResourceProvider.cs" />
     <Compile Include="Unity\ITerrainData.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />

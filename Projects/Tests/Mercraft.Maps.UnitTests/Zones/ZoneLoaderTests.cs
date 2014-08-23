@@ -6,6 +6,7 @@ using Mercraft.Core;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Zones
@@ -39,7 +40,7 @@ namespace Mercraft.Maps.UnitTests.Zones
 
         [Test]
         [ExpectedException(typeof(ObjectDisposedException))]
-        public void ShouldUnloadTile()
+        public void CanDisposeTile()
         {
             // ARRANGE
             var container = new Container();
@@ -51,6 +52,27 @@ namespace Mercraft.Maps.UnitTests.Zones
 
             // ASSERT
             Assert.IsNotNull(GetZones(zoneLoader).Single().Tile.Scene.Areas);
+        }
+
+        [Test]
+        public void CanLoadZoneWithProxy()
+        {
+            // ARRANGE
+            var container = new Container();
+
+            container.AllowProxy = true;
+            container.AutoGenerateProxy = true;
+            container.AddGlobalBehavior(new ExecuteBehavior());
+
+            var componentRoot = TestHelper.GetGameRunner(container);
+            componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
+
+            // ACT
+            var zoneLoader = container.Resolve<IPositionListener>();
+
+            // ASSERT
+            Assert.IsNotNull(zoneLoader);
+            Assert.IsTrue(zoneLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
         }
 
         private IEnumerable<Zone> GetZones(ZoneLoader zoneLoader)

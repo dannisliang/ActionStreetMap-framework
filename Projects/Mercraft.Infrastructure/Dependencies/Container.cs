@@ -115,7 +115,7 @@ namespace Mercraft.Infrastructure.Dependencies
                 lifetimeManager.CstorArgs = lifetimeManager.Constructor.GetParameters()
                     .Select(p=> Resolve(p.ParameterType)).ToArray();
 
-            if (AllowProxy && AutoGenerateProxy)
+            if (AllowProxy && AutoGenerateProxy && lifetimeManager.InterfaceType != null)
                 InterceptionContext.GetInterceptor().Register(lifetimeManager.InterfaceType);
 
             return lifetimeManager;

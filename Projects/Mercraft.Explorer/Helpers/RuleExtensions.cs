@@ -97,7 +97,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static int GetSplatIndex(this Rule rule)
         {
-            return rule.Evaluate<int>("terrainIndex");
+            return rule.Evaluate<int>("splat");
         }
 
         public static List<List<string>> GetTextureParams(this Rule rule)

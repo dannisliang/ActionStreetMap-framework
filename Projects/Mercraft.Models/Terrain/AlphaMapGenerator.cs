@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Mercraft.Models.Unity;
 using UnityEngine;
 
@@ -14,7 +13,6 @@ namespace Mercraft.Models.Terrain
         private readonly Vector2 _terrainPosition;
 
         private ITerrainData _terrainData;
-        private AlphaMapElement[] _polygons;
 
         public AlphaMapGenerator(TerrainSettings settings)
         {
@@ -27,36 +25,23 @@ namespace Mercraft.Models.Terrain
             _terrainData = terrainData;
             var layers = _settings.TextureParams.Count;
 
-            CreatePolygons();
+            var map = new float[_settings.AlphaMapSize, _settings.AlphaMapSize, layers];
 
-            float[,,] map = new float[_settings.AlphaMapSize, _settings.AlphaMapSize, layers];
+            var polygons = CreatePolygons();
 
+            // set default value
+            // TODO Performance optimization: do this during scanline logic?
             for (int x = 0; x < _settings.AlphaMapSize; x++)
-            {
                 for (int y = 0; y < _settings.AlphaMapSize; y++)
-                {
-                    var splatIndecies = GetPolygonMainSplatIndex(new Vector2(x, y)).ToArray();
-                    // TODO process different layers with blending
-                    // set default tecture
-                    if (splatIndecies.Length == 0)
-                    {
-                        map[x, y, 0] = 1;
-                    }
-                    else
-                    {
-                        foreach (var splatIndex in splatIndecies)
-                        {
-                            map[x, y, splatIndex] = 1;
-                        }
-                    }
-                }
-            }
+                    map[x, y, 0] = 1;          
+
+            TerrainScanLine.Fill(map, polygons);
 
             terrainData.AlphamapResolution = _settings.AlphaMapSize;
             return map;
         }
 
-        private void CreatePolygons()
+        private AlphaMapElement[] CreatePolygons()
         {
             var widthRatio = _settings.AlphaMapSize/_terrainData.Size.x;
             var heightRatio = _settings.AlphaMapSize/_terrainData.Size.z;
@@ -66,21 +51,20 @@ namespace Mercraft.Models.Terrain
                 ZIndex = a.ZIndex,
                 SplatIndex = a.SplatIndex,
                 Points = a.Points.Select(p =>
-                    TerrainUtils.ConvertWorldToTerrain(p, _terrainPosition, widthRatio, heightRatio)).ToArray()
+                    ConvertWorldToTerrain(p.X, p.Y, _terrainPosition, widthRatio, heightRatio)).ToArray()
             }).ToArray();
 
-            _polygons = areas.OrderBy(p => p.SplatIndex).ToArray();
+            return areas.OrderBy(p => p.SplatIndex).ToArray();
         }
 
-        private IEnumerable<int> GetPolygonMainSplatIndex(Vector2 point)
+        private static Vector2 ConvertWorldToTerrain(float x, float y, Vector2 terrainPosition, float widthRatio, float heightRatio)
         {
-            for (int i = 0; i < _polygons.Length; i++)
+            return new Vector2
             {
-                if (TerrainUtils.IsPointInPolygon(_polygons[i].Points, point))
-                {
-                    yield return _polygons[i].SplatIndex;
-                }
-            }
-        }
+                // NOTE Coords are inverted here!
+                y = (x - terrainPosition.x) * widthRatio,
+                x = (y - terrainPosition.y) * heightRatio
+            };
+        } 
     }
 }
