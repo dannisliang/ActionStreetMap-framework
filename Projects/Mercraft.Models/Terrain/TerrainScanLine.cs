@@ -73,8 +73,9 @@ namespace Mercraft.Models.Terrain
                     {
                         if (i != 0 && points[i] == points[i - 1])
                         {
-                            points.RemoveAt(i);
-                            points.RemoveAt(--i);
+                           points.RemoveAt(i);
+                            if(points.Count % 2 != 0)
+                                points.RemoveAt(--i);
                         }
                     }
                 }
