@@ -9,7 +9,7 @@
 						<floors size="9" />
 						<facade>
 							<texture>Textures/Buildings/Soviet1</texture>
-							<material>Materials/Building</material>
+							<material>Materials/Buildings/Building</material>
 							<builder name="flat" />
 							<uvMap>
 								<front index="0"/>
@@ -19,7 +19,7 @@
 						</facade>
 						<roof>
 							<texture>Textures/Buildings/Soviet1</texture>
-							<material>Materials/Building</material>
+							<material>Materials/Buildings/Building</material>
 							<builder name="flat" />
 							<uvMap>
 								<main index="1"/>

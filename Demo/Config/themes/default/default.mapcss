@@ -13,7 +13,7 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Concrete_Patterned; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
+area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Buildings/Building; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[height]											{ height: eval(num(tag('height')));}
@@ -70,7 +70,7 @@ area[amenity=kindergarten] {
     fill-color: #f0f0d8;
 }
 
-area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea;}
+/*area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea;}*/
 
 
 /* green zones */
@@ -105,10 +105,10 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 /* water */
 area[natural=water],	
 area[waterway=riverbank], 
-area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
+area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 
 way[waterway],
-way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water;}
+way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 														
 /*way[barrier] :closed									{ z-index: 0.1; builder:flat; fill-color: #444444; width: 0.4;}*/
 

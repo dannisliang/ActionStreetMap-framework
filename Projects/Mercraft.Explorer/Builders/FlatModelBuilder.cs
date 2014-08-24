@@ -13,6 +13,7 @@ namespace Mercraft.Explorer.Builders
 {
     public class FlatModelBuilder : ModelBuilder
     {
+        private const int NoLayer = -1;
         public override string Name
         {
             get { return "flat"; }
@@ -47,6 +48,10 @@ namespace Mercraft.Explorer.Builders
             gameObject.AddComponent<MeshRenderer>();
             gameObject.renderer.material = rule.GetMaterial();
             gameObject.renderer.material.color = rule.GetFillColor();
+
+            var layerIndex = rule.GetLayerIndex(NoLayer);
+            if (layerIndex != NoLayer)
+                gameObject.layer = layerIndex;
 
             return gameObjectWrapper;
         }

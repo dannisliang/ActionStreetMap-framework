@@ -7,7 +7,7 @@
 				<type name="residental">
 					<style>
 						<texture>Textures/Roads/Road</texture>
-						<material>Materials/RoadMaterial</material>
+						<material>Materials/Roads/Road</material>
 						<uvMap>
 							<main index="0" />
 							<turn index="1" />

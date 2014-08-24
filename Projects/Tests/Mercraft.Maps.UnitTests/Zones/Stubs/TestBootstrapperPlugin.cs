@@ -32,7 +32,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());
             Container.Register(Component.For<IRoadBuilder>().Use<TestRoadBuilder>());
 
-            Container.RegisterInstance<IModelBehaviour>(new TestModelBehaviour("solid"));
+            Container.RegisterInstance<IModelBehaviour>(new TestModelBehaviour("solid"), "solid");
+            Container.RegisterInstance<IModelBehaviour>(new TestModelBehaviour("water"), "water");
 
             return true;
         }

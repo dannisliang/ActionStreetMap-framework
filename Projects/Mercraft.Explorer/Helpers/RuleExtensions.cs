@@ -69,6 +69,11 @@ namespace Mercraft.Explorer.Helpers
             return new Color32(coreColor.r, coreColor.g, coreColor.b, coreColor.a);
         }
 
+        public static int GetLayerIndex(this Rule rule, int @default = -1)
+        {
+            return rule.EvaluateDefault("layer", @default);
+        }
+
         /// <summary>
         /// Z-index is just the lowest y coordinate
         /// </summary>

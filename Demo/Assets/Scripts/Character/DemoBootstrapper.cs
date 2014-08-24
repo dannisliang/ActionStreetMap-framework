@@ -9,6 +9,9 @@ namespace Assets.Scripts.Character
     public class DemoBootstrapper: BootstrapperPlugin
     {
         private CompositeModelBehaviour _solidModelBehavior;
+
+        private CompositeModelBehaviour _waterModelBehavior;
+
         public override string Name
         {
             get { return "demo"; }
@@ -24,7 +27,14 @@ namespace Assets.Scripts.Character
                 typeof (LocationInfoHolder),
             });
 
-            Container.RegisterInstance<IModelBehaviour>(_solidModelBehavior);
+            Container.RegisterInstance<IModelBehaviour>(_solidModelBehavior, "solid");
+
+            _waterModelBehavior = new CompositeModelBehaviour("water", new Type[]
+            {
+                typeof(WaterSimple)
+            });
+
+            Container.RegisterInstance<IModelBehaviour>(_waterModelBehavior, "water");
 
             return true;
         }
