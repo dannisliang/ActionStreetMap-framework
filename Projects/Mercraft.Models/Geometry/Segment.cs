@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Mercraft.Models.Geometry
 {
@@ -11,6 +12,11 @@ namespace Mercraft.Models.Geometry
         {
             Start = start;
             End = end;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", Start, End);
         }
     }
 }

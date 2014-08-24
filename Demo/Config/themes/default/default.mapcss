@@ -1,8 +1,9 @@
 canvas { 
 	z-index: 0; 
-	alphamapsize: 256;
-	texture: 0, Pebbles, 10, 10;
+	alphamapsize: 512;
+	texture: 0, Asphalt_background, 5, 5;
 	texture: 1, Grass, 10, 10;
+	texture: 2, Pebbles, 10, 10;
 }
 
 /* buildings */
@@ -36,7 +37,7 @@ area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 area[amenity],
 area[natural],
 area[historic=memorial],
-area[landuse]											{ z-index: 0.1; builder: flat; fill-color: #FF0000; material: Concrete_Patterned;}
+area[landuse]											{ terrain: true; splat: 2; z-index: 0.1; fill-color: #FF0000;}
 
 area[landuse=residential]								{ fill-color: #dddddd;}
 
@@ -69,7 +70,7 @@ area[amenity=kindergarten] {
     fill-color: #f0f0d8;
 }
 
-area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea; material: Concrete_Patterned; builder: flat;}
+area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea;}
 
 
 /* green zones */
@@ -79,7 +80,7 @@ area[landuse=village_green],
 area[landuse=grass],
 area[landuse=meadow],													
 area[landuse=industrial],		
-area[landuse=railway]									{ z-index: 0.1; builder: flat; material: Grass; fill-color:gray}
+area[landuse=railway]									{ terrain: true; splat: 1; z-index: 0.1; fill-color:gray}
 
 area[natural=wood],		
 area[leisure=park],		
@@ -88,15 +89,15 @@ area[landuse=forest] 									{ terrain: true; splat: 1; fill-color: #8dc56c; }
 area[landuse=meadow],
 area[landuse=farmland],
 area[landuse=scrub],
-area[landuse=grass]										{ fill-color:#e9efda; }
+area[landuse=grass]										{ terrain: true; splat: 1;fill-color:#e9efda; }
 
 area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]									{ fill-color: #cfeca8;}
+area[landuse=meadow]									{ terrain: true; splat: 1;fill-color: #cfeca8;}
 
-area[leisure=recreation_ground]							{ fill-color: #b6fdb6; }
+area[leisure=recreation_ground]							{ terrain: true; splat: 1;fill-color: #b6fdb6; }
 
 area[landuse=industrial],		
 area[landuse=railway]									{ fill-color: #dfd1d6;}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mercraft.Models.Geometry;
 
@@ -67,36 +68,37 @@ namespace Mercraft.Models.Terrain
                 {
                     // TODO use optimized data structure
                     points.Sort();
-                    points = points.Distinct().ToList();
+                    // merge connected ranges
+                    for (int i = points.Count - 1; i > 0; i--)
+                    {
+                        if (i != 0 && points[i] == points[i - 1])
+                        {
+                            points.RemoveAt(i);
+                            points.RemoveAt(--i);
+                        }
+                    }
                 }
 
                 // ignore single point
                 if (points.Count == 1)
                     continue;
 
-
                 if (points.Count % 2 != 0)
-                {
-                    // special case when two segments are parallel and they have different height
-                    if (points.Count == 3)
-                        points.RemoveAt(1);
-                    else
-                        throw new InvalidOperationException(
-                            "Bug in algorithm! We're expecting to have even number of intersection points: (points.Count % 2 != 0)");
-                }
+                    throw new InvalidOperationException(
+                        "Bug in algorithm! We're expecting to have even number of intersection points: (points.Count % 2 != 0)");
 
                 for (int i = 0; i < points.Count; i += 2)
-                {
-                    // TODO limit start/end poing by map size
-                    Fill(map, y, points[i], points[i + 1], 1);
-                }
+                    Fill(map, y, points[i], points[i + 1], splatIndex);
 
+                // reuse list
                 points.Clear();
             }
         }
 
         private static void Fill(float[, ,] map, int line, int start, int end, int splatIndex)
         {
+            // TODO improve fill logic
+
             for (int i = start; i <= end; i++)
             {
                 map[i, line, splatIndex] = 0.5f;
