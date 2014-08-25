@@ -19,5 +19,7 @@
         public string Type { get; set; }
 
         public MapPoint[] Points { get; set; }
+
+        public float ZIndex { get; set; }
     }
 }

@@ -46,7 +46,9 @@ namespace Mercraft.Explorer.Helpers
 
         public static IModelBuilder GetModelBuilder(this Rule rule, IEnumerable<IModelBuilder> builders)
         {
-            var builderName = rule.Evaluate<string>("builder");
+            var builderName = rule.EvaluateDefault<string>("builder", null);
+            if (builderName == null)
+                return null;
             return builders.Single(mb => mb.Name == builderName);
         }
 
@@ -93,6 +95,11 @@ namespace Mercraft.Explorer.Helpers
         public static bool IsRoad(this Rule rule)
         {
             return rule.EvaluateDefault("road", false);
+        }
+
+        public static bool IsElevation(this Rule rule)
+        {
+            return rule.EvaluateDefault("elevation", false);
         }
 
         public static bool IsTerrain(this Rule rule)

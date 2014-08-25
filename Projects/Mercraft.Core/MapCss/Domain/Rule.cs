@@ -8,6 +8,7 @@ namespace Mercraft.Core.MapCss.Domain
     public class Rule
     {
         private readonly Model _model;
+
         /// <summary>
         /// List of declarations.
         /// </summary>

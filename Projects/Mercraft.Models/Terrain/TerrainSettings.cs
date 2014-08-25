@@ -17,13 +17,7 @@ namespace Mercraft.Models.Terrain
         /// Higher number will create more detailed height maps
         /// </summary>
         public int HeightMapSize = 513;
-        public int TerrainHeight = 1;
-
-        //Noise settings. A higher frq will create larger scale details. Each seed value will create a unique look
-        public int GroundSeed = 0;
-        public float GroundFrq = 800.0f;
-        public int MountainSeed = 1;
-        public float MountainFrq = 1200.0f;
+        public float TerrainHeight = 10;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower
@@ -33,7 +27,7 @@ namespace Mercraft.Models.Terrain
         /// <summary>
         /// The distance at which the low res base map will be drawn. Decrease to increase performance
         /// </summary>
-        public float BaseMapDist = 1000.0f;
+        public float BaseMapDist = 200.0f;
 
         public List<List<string>> TextureParams;
 
@@ -43,6 +37,7 @@ namespace Mercraft.Models.Terrain
         public List<AreaSettings> Areas;
         public List<AreaSettings> Elevations;
 
+        public float ZIndex;
         public Vector2 CenterPosition;
         public Vector2 CornerPosition
         {

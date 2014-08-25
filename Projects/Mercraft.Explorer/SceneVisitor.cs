@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
@@ -28,6 +29,7 @@ namespace Mercraft.Explorer
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
+        private List<AreaSettings> _elevations = new List<AreaSettings>();
         private List<RoadElement> _roadElements = new List<RoadElement>();
 
         [Dependency]
@@ -70,9 +72,11 @@ namespace Mercraft.Explorer
                 HeightMapSize = rule.GetAlphaMapSize() + 1,
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
+                TerrainHeight = rule.GetHeight(),
+                ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
-                Elevations = new List<AreaSettings>(),
+                Elevations = _elevations,
                 Roads = roads,
                 RoadStyleProvider = _themeProvider.Get()
                     .GetStyleProvider<IRoadStyleProvider>()
@@ -80,6 +84,7 @@ namespace Mercraft.Explorer
 
             // NOTE not ideal solution to make the class ready for next request
             _areas = new List<AreaSettings>();
+            _elevations = new List<AreaSettings>();
             _roadElements = new List<RoadElement>();
 
             return true;
@@ -93,21 +98,40 @@ namespace Mercraft.Explorer
                 return true;
             }
 
+            var builder = rule.GetModelBuilder(_builders);
+            bool processed = false;
             if (rule.IsTerrain())
             {
                 _areas.Add(new AreaSettings()
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
-                    Points = area.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
+                    Points = PolygonHelper.GetVerticies2D(center, area.Points)
                 });
                 // TODO in future we want to build some special object which will be
                 // invisible as it's part of terrain but useful to provide some OSM info
                 // which is associated with it
-                return false;
+                processed = true;
             }
 
-            var builder = rule.GetModelBuilder(_builders);
+            if (rule.IsElevation())
+            {
+                _elevations.Add(new AreaSettings()
+                {
+                    ZIndex = rule.GetZIndex(),
+                    Points = PolygonHelper.GetVerticies2D(center, area.Points)
+                });
+                processed = true;
+            }
+
+            if (builder == null)
+            {
+                if (processed)
+                    return true;
+                // mapcss rule should contain builder
+                throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", area));
+            }       
+            
             var gameObjectWrapper = builder.BuildArea(center, rule, area);
             gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
             gameObjectWrapper.Parent = parent;
@@ -127,6 +151,8 @@ namespace Mercraft.Explorer
                 return true;
             }
 
+            bool processed = false;
+            var builder = rule.GetModelBuilder(_builders);
             // mapcss rule is set to road
             if (rule.IsRoad())
             {
@@ -135,13 +161,21 @@ namespace Mercraft.Explorer
                     Id = way.Id,
                     Address = AddressExtractor.Extract(way.Tags),
                     Width = (int)Math.Round(rule.GetWidth() / 2),
+                    ZIndex = rule.GetZIndex(),
                     Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
                 });
-                return true;
+
+                processed = true;
             }
 
-            // mapcss rule should contain builder
-            var builder = rule.GetModelBuilder(_builders);
+            if (builder == null)
+            {
+                if (processed)
+                    return true;
+                // mapcss rule should contain builder
+                throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", way));
+            }               
+
             var gameObjectWrapper = builder.BuildWay(center, rule, way);
             gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, way);
             gameObjectWrapper.Parent = parent;

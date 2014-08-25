@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
@@ -33,7 +34,10 @@ namespace Mercraft.Models.Terrain
             var size = new Vector3(settings.TerrainSize, settings.TerrainHeight, settings.TerrainSize);
 
             // fill heightmap
-            var heightMapElements = CreateElements(settings, size, settings.Elevations);
+            var heightMapElements = CreateElements(settings, settings.Elevations,
+                settings.HeightMapSize / size.x,
+                settings.HeightMapSize / size.z,
+                t => t.ZIndex);
             var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);
 
             // create TerrainData
@@ -44,7 +48,10 @@ namespace Mercraft.Models.Terrain
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);
 
             // fill alphamap
-            var alphaMapElements = CreateElements(settings, size, settings.Areas);
+            var alphaMapElements = CreateElements(settings, settings.Areas, 
+                settings.AlphaMapSize / size.x,
+                settings.AlphaMapSize / size.z,
+                t => t.SplatIndex);
             var alphamap = _alphaMapGenerator.GetAlphaMap(settings, alphaMapElements);
 
             // create Terrain using terrain data
@@ -52,7 +59,7 @@ namespace Mercraft.Models.Terrain
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             var terrain = gameObject.GetComponent<UnityEngine.Terrain>();
 
-            terrain.transform.position = new Vector3(settings.CornerPosition.x, 0, settings.CornerPosition.y);
+            terrain.transform.position = new Vector3(settings.CornerPosition.x, settings.ZIndex, settings.CornerPosition.y);
             terrain.heightmapPixelError = settings.PixelMapError;
             terrain.basemapDistance = settings.BaseMapDist;
 
@@ -90,21 +97,16 @@ namespace Mercraft.Models.Terrain
             return splatPrototypes;
         }
 
-        private TerrainElement[] CreateElements(TerrainSettings settings, 
-            Vector3 size, IEnumerable<AreaSettings> areas)
+        private TerrainElement[] CreateElements(TerrainSettings settings,
+            IEnumerable<AreaSettings> areas, float widthRatio, float heightRatio, Func<TerrainElement, float> orderBy)
         {
-            var widthRatio = settings.AlphaMapSize / size.x;
-            var heightRatio = settings.AlphaMapSize / size.z;
-
-            var elements = areas.Select(a => new TerrainElement()
+            return areas.Select(a => new TerrainElement()
             {
                 ZIndex = a.ZIndex,
                 SplatIndex = a.SplatIndex,
                 Points = a.Points.Select(p =>
-                    ConvertWorldToTerrain(p.X, p.Y, settings.CenterPosition, widthRatio, heightRatio)).ToArray()
-            }).ToArray();
-
-            return elements.OrderBy(p => p.SplatIndex).ToArray();
+                    ConvertWorldToTerrain(p.X, p.Y, settings.CornerPosition, widthRatio, heightRatio)).ToArray()
+            }).OrderBy(orderBy).ToArray();
         }
 
         private static Vector2 ConvertWorldToTerrain(float x, float y, Vector2 terrainPosition, float widthRatio, float heightRatio)

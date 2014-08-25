@@ -39,8 +39,11 @@ namespace Mercraft.Models.Roads
                 ProcessRoadData(context, roadElement);
             }
 
+            // TODO so far we support only flat roads, but we needs elevations feature for something else (e.g. water)
+            float zIndex = road.Elements[0].ZIndex;
+
             Mesh mesh = new Mesh();
-            mesh.vertices = context.Points.Select(p => new Vector3(p.x, 0, p.y)).ToArray();
+            mesh.vertices = context.Points.Select(p => new Vector3(p.x, zIndex, p.y)).ToArray();
             mesh.triangles = context.Triangles.ToArray();
             mesh.uv = context.Uv.ToArray();
             mesh.RecalculateNormals();

@@ -1,5 +1,6 @@
 canvas { 
 	z-index: 0; 
+	height: 10;
 	alphamapsize: 512;
 	texture: 0, Asphalt_background, 5, 5;
 	texture: 1, Grass, 10, 10;
@@ -13,7 +14,7 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 0; builder: building; behaviour: solid; material: Buildings/Building; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; material: Buildings/Building; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[height]											{ height: eval(num(tag('height')));}
@@ -37,7 +38,7 @@ area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 area[amenity],
 area[natural],
 area[historic=memorial],
-area[landuse]											{ terrain: true; splat: 2; z-index: 0.1; fill-color: #FF0000;}
+area[landuse]											{ terrain: true; splat: 2; z-index: 10; fill-color: #FF0000;}
 
 area[landuse=residential]								{ fill-color: #dddddd;}
 
@@ -70,7 +71,7 @@ area[amenity=kindergarten] {
     fill-color: #f0f0d8;
 }
 
-/*area[tourism=attraction]									{ z-index: 0.1; fill-color: #f2caea;}*/
+/*area[tourism=attraction]									{ z-index: 10; fill-color: #f2caea;}*/
 
 
 /* green zones */
@@ -80,7 +81,7 @@ area[landuse=village_green],
 area[landuse=grass],
 area[landuse=meadow],													
 area[landuse=industrial],		
-area[landuse=railway]									{ terrain: true; splat: 1; z-index: 0.1; fill-color:gray}
+area[landuse=railway]									{ terrain: true; splat: 1; z-index: 10; fill-color:gray}
 
 area[natural=wood],		
 area[leisure=park],		
@@ -105,15 +106,15 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 /* water */
 area[natural=water],	
 area[waterway=riverbank], 
-area[waterway=dock]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
+area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 
 way[waterway],
-way[waterway][name]										{ z-index: 0.1; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
+way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: flat; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 														
-/*way[barrier] :closed									{ z-index: 0.1; builder:flat; fill-color: #444444; width: 0.4;}*/
+/*way[barrier] :closed									{ z-index: 10; builder:flat; fill-color: #444444; width: 0.4;}*/
 
 /* roads */
-way[highway]											{ z-index: 0.1; road:true; width:2 }
+way[highway]											{ z-index: 10; road:true; width:2 }
 
 way[highway=tertiary],
 way[highway=residential],
