@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Mercraft.Models.Geometry;
 
 namespace Mercraft.Models.Terrain
 {
     /// <summary>
-    ///     Custom version of Scanline algorithm to fill terrain alphamap
+    ///     Custom version of Scanline algorithm to fill terrain alphamap/heightmap
     /// </summary>
     public class TerrainScanLine
     {
-        public static void Fill(float[, ,] map, params AlphaMapElement[] elements)
+        public static void ScanAndFill(Polygon polygon, int size,
+            Action<int, int, int> fillAction)
         {
-            var polygons = elements.Select(e => new Polygon(e.Points)).ToArray();
-
-            for (int i = 0; i < polygons.Length; i++)
-            {
-                ScanAndFill(map, polygons[i], elements[i].SplatIndex);
-            }
-        }
-
-        private static void ScanAndFill(float[, ,] map, Polygon polygon, int splatIndex)
-        {
-            var size = map.GetLength(0);
             var points = new List<int>();
-
             for (int y = 0; y < size; y++)
             {
                 foreach (var segment in polygon.Segments)
@@ -68,13 +55,15 @@ namespace Mercraft.Models.Terrain
                 {
                     // TODO use optimized data structure
                     points.Sort();
+                    //points = points.Distinct().ToList();
+
                     // merge connected ranges
                     for (int i = points.Count - 1; i > 0; i--)
                     {
                         if (i != 0 && points[i] == points[i - 1])
                         {
-                           points.RemoveAt(i);
-                            if(points.Count % 2 != 0)
+                            points.RemoveAt(i);
+                            if (points.Count % 2 != 0)
                                 points.RemoveAt(--i);
                         }
                     }
@@ -84,25 +73,17 @@ namespace Mercraft.Models.Terrain
                 if (points.Count == 1)
                     continue;
 
+
                 if (points.Count % 2 != 0)
+                {
                     throw new InvalidOperationException(
                         "Bug in algorithm! We're expecting to have even number of intersection points: (points.Count % 2 != 0)");
+                }
 
                 for (int i = 0; i < points.Count; i += 2)
-                    Fill(map, y, points[i], points[i + 1], splatIndex);
+                    fillAction(y, points[i], points[i + 1]);
 
-                // reuse list
                 points.Clear();
-            }
-        }
-
-        private static void Fill(float[, ,] map, int line, int start, int end, int splatIndex)
-        {
-            // TODO improve fill logic
-
-            for (int i = start; i <= end; i++)
-            {
-                map[i, line, splatIndex] = 0.5f;
             }
         }
     }

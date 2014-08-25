@@ -2,7 +2,7 @@
 
 namespace Mercraft.Models.Terrain
 {
-    public class AlphaMapElement
+    public class TerrainElement
     {
         public float ZIndex;
         public int SplatIndex;

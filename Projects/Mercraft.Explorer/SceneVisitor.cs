@@ -72,6 +72,7 @@ namespace Mercraft.Explorer
                 TerrainSize = tile.Size,
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
+                Elevations = new List<AreaSettings>(),
                 Roads = roads,
                 RoadStyleProvider = _themeProvider.Get()
                     .GetStyleProvider<IRoadStyleProvider>()

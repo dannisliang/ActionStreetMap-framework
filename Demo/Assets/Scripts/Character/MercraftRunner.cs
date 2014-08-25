@@ -61,7 +61,7 @@ namespace Assets.Scripts.Character
             var container = new Container();
             var messageBus = new MessageBus();
             var pathResolver = new DemoPathResolver();
-            _trace = new UnityConsoleTrace();
+            _trace = new DebugConsoleTrace();
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
             container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config/app.config", pathResolver).GetRoot());
             container.RegisterInstance<ITrace>(_trace);

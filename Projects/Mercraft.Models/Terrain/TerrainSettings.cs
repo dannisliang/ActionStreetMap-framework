@@ -41,6 +41,7 @@ namespace Mercraft.Models.Terrain
         public IRoadStyleProvider RoadStyleProvider;
 
         public List<AreaSettings> Areas;
+        public List<AreaSettings> Elevations;
 
         public Vector2 CenterPosition;
         public Vector2 CornerPosition

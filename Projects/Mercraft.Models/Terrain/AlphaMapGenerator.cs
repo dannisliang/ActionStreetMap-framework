@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Mercraft.Models.Unity;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mercraft.Models.Geometry;
 
 namespace Mercraft.Models.Terrain
 {
@@ -9,62 +9,37 @@ namespace Mercraft.Models.Terrain
     /// </summary>
     public class AlphaMapGenerator
     {
-        private readonly TerrainSettings _settings;
-        private readonly Vector2 _terrainPosition;
-
-        private ITerrainData _terrainData;
-
-        public AlphaMapGenerator(TerrainSettings settings)
+        public float[, ,] GetAlphaMap(TerrainSettings settings, TerrainElement[] elements)
         {
-            _settings = settings;
-            _terrainPosition = _settings.CornerPosition;
-        }
+            var layers = settings.TextureParams.Count;
 
-        public float[,,] GetAlphaMap(ITerrainData terrainData)
-        {
-            _terrainData = terrainData;
-            var layers = _settings.TextureParams.Count;
-
-            var map = new float[_settings.AlphaMapSize, _settings.AlphaMapSize, layers];
-
-            var polygons = CreatePolygons();
+            var map = new float[settings.AlphaMapSize, settings.AlphaMapSize, layers];
 
             // set default value
             // TODO Performance optimization: do this during scanline logic?
-            for (int x = 0; x < _settings.AlphaMapSize; x++)
-                for (int y = 0; y < _settings.AlphaMapSize; y++)
-                    map[x, y, 0] = 1;          
+            for (int x = 0; x < settings.AlphaMapSize; x++)
+                for (int y = 0; y < settings.AlphaMapSize; y++)
+                    map[x, y, 0] = 1;
 
-            TerrainScanLine.Fill(map, polygons);
+            var polygons = elements.Select(e => new Polygon(e.Points)).ToArray();
 
-            terrainData.AlphamapResolution = _settings.AlphaMapSize;
+            for (int i = 0; i < polygons.Length; i++)
+            {
+                var index = i;
+                TerrainScanLine.ScanAndFill(polygons[index], settings.AlphaMapSize,
+                    (line, start, end) => Fill(map, line, start, end, elements[index].SplatIndex));
+            }
+
             return map;
         }
 
-        private AlphaMapElement[] CreatePolygons()
+        private static void Fill(float[, ,] map, int line, int start, int end, int splatIndex)
         {
-            var widthRatio = _settings.AlphaMapSize/_terrainData.Size.x;
-            var heightRatio = _settings.AlphaMapSize/_terrainData.Size.z;
-
-            var areas = _settings.Areas.Select(a => new AlphaMapElement()
+            // TODO improve fill logic
+            for (int i = start; i <= end; i++)
             {
-                ZIndex = a.ZIndex,
-                SplatIndex = a.SplatIndex,
-                Points = a.Points.Select(p =>
-                    ConvertWorldToTerrain(p.X, p.Y, _terrainPosition, widthRatio, heightRatio)).ToArray()
-            }).ToArray();
-
-            return areas.OrderBy(p => p.SplatIndex).ToArray();
-        }
-
-        private static Vector2 ConvertWorldToTerrain(float x, float y, Vector2 terrainPosition, float widthRatio, float heightRatio)
-        {
-            return new Vector2
-            {
-                // NOTE Coords are inverted here!
-                y = (x - terrainPosition.x) * widthRatio,
-                x = (y - terrainPosition.y) * heightRatio
-            };
-        } 
+                map[i, line, splatIndex] = 0.5f;
+            }
+        }       
     }
 }
