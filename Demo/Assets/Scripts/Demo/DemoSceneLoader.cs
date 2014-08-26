@@ -185,13 +185,13 @@ namespace Assets.Scripts.Demo
             var canvasRule = stylesheet.GetRule(canvas);
 
 
-            canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas);
+            canvasVisitor.VisitCanvas(new GeoCoordinate(52.529814, 13.388015), null, canvasRule, canvas, false);
 
             var visitor = container.Resolve<ISceneVisitor>();
 
             var rule = stylesheet.GetRule(area);
 
-            visitor.VisitArea(center, new UnityGameObject(""), rule, area);
+            visitor.VisitArea(center, new UnityGameObject(""), rule, area, false);
 
         }
 
@@ -282,7 +282,7 @@ namespace Assets.Scripts.Demo
 
             var visitor = container.Resolve<ISceneVisitor>("solid");
             var rule = stylesheet.GetRule(b1);
-            visitor.VisitArea(center, new UnityGameObject(""), rule, b1);
+            visitor.VisitArea(center, new UnityGameObject(""), rule, b1, false);
 
             Debug.Log("Generate Single Building: Done");          
 

@@ -48,7 +48,7 @@ namespace Mercraft.Explorer
 
         #region ISceneVisitor implementation
 
-        public bool VisitCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas)
+        public bool VisitCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas, bool visitedBefore)
         {
             var tile = canvas.Tile;
 
@@ -90,7 +90,7 @@ namespace Mercraft.Explorer
             return true;
         }
 
-        public bool VisitArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area)
+        public bool VisitArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area, bool visitedBefore)
         {
             if (rule.IsSkipped())
             {
@@ -128,20 +128,24 @@ namespace Mercraft.Explorer
             {
                 if (processed)
                     return true;
+
                 // mapcss rule should contain builder
                 throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", area));
-            }       
-            
-            var gameObjectWrapper = builder.BuildArea(center, rule, area);
-            gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
-            gameObjectWrapper.Parent = parent;
+            }
 
-            ApplyBehaviour(gameObjectWrapper, rule, area);
+            if (!visitedBefore)
+            {
+                var gameObjectWrapper = builder.BuildArea(center, rule, area);
+                gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
+                gameObjectWrapper.Parent = parent;
+
+                ApplyBehaviour(gameObjectWrapper, rule, area);
+            }
 
             return true;
         }
 
-        public bool VisitWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way)
+        public bool VisitWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way, bool visitedBefore)
         {
             // mapcss rule is set to skip this element
             if (rule.IsSkipped())

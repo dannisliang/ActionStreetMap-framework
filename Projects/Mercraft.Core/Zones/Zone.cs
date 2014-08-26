@@ -46,33 +46,33 @@ namespace Mercraft.Core.Zones
             {
                 var tileHolder = _goFactory.CreateNew("tile");
 
-                BuildModel(Tile.Scene.Areas.ToList(), loadedElementIds, (area, rule) =>
-                    _sceneVisitor.VisitArea(Tile.RelativeNullPoint, tileHolder, rule, area));
+                BuildModel(Tile.Scene.Areas.ToList(), loadedElementIds, (area, rule, visited) =>
+                    _sceneVisitor.VisitArea(Tile.RelativeNullPoint, tileHolder, rule, area, visited));
 
-                BuildModel(Tile.Scene.Ways.ToList(), loadedElementIds, (way, rule) =>
-                    _sceneVisitor.VisitWay(Tile.RelativeNullPoint, tileHolder, rule, way));
+                BuildModel(Tile.Scene.Ways.ToList(), loadedElementIds, (way, rule, visited) =>
+                    _sceneVisitor.VisitWay(Tile.RelativeNullPoint, tileHolder, rule, way, visited));
 
                 var canvas = Tile.Scene.Canvas;
                 var canvasRule = Stylesheet.GetRule(canvas, false);
-                _sceneVisitor.VisitCanvas(Tile.RelativeNullPoint, tileHolder, canvasRule, canvas);
+                _sceneVisitor.VisitCanvas(Tile.RelativeNullPoint, tileHolder, canvasRule, canvas, false);
             }
         }
 
         private void BuildModel<T>(IEnumerable<T> models, HashSet<long> loadedElementIds,
-            Func<T, Rule, bool> builder) where T : Model
+            Func<T, Rule, bool, bool> builder) where T : Model
         {
             foreach (T model in models)
             {
                 try
                 {
-                    if (loadedElementIds.Contains(model.Id))
-                        continue;
+                   // if (loadedElementIds.Contains(model.Id))
+                   //     continue;
 
                     var rule = Stylesheet.GetRule(model);
                     if (rule.IsApplicable)
                     {
-                        var isCreated = builder(model, rule);
-                        if (isCreated)
+                        var isCreated = builder(model, rule, loadedElementIds.Contains(model.Id));
+                        if (isCreated && !loadedElementIds.Contains(model.Id))
                             loadedElementIds.Add(model.Id);
                     }
                     else
