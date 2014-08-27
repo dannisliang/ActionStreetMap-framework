@@ -95,6 +95,7 @@
     <Compile Include="Zones\Stubs\TestFlatModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestGameObject.cs" />
     <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
+    <Compile Include="Zones\Stubs\TestWaterModelBuilder.cs" />
     <Compile Include="Zones\TileProviderTests.cs" />
     <Compile Include="Zones\ZoneLoaderTests.cs" />
   </ItemGroup>

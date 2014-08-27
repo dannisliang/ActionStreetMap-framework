@@ -1,15 +1,21 @@
 ﻿using Mercraft.Core.World.Roads;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
-using NUnit.Framework;
+using Mercraft.Models.Unity;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
-    class TestRoadBuilder: IRoadBuilder
+    public class TestRoadBuilder: RoadBuilder
     {
-        public void Build(Road road, RoadStyle style)
+        [Dependency]
+        public TestRoadBuilder(IResourceProvider resourceProvider) : base(resourceProvider)
         {
-            Assert.IsNotNull(road);
-            Assert.IsNotNull(style);
+
+        }
+
+        protected override void CreateMesh(Road road, RoadStyle style, BuilderContext context)
+        {
+            // Do nothing
         }
     }
 }

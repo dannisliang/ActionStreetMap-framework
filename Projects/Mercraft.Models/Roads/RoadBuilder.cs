@@ -39,6 +39,11 @@ namespace Mercraft.Models.Roads
                 ProcessRoadData(context, roadElement);
             }
 
+            CreateMesh(road, style, context);
+        }
+
+        protected virtual void CreateMesh(Road road, RoadStyle style, BuilderContext context)
+        {
             // TODO so far we support only flat roads, but we needs elevations feature for something else (e.g. water)
             float zIndex = road.Elements[0].ZIndex;
 
@@ -60,9 +65,13 @@ namespace Mercraft.Models.Roads
 
         #region Segment processing
 
-        private void ProcessRoadData(BuilderContext context, RoadElement roadElement)
+        protected void ProcessRoadData(BuilderContext context, RoadElement roadElement)
         {
             var roadSegments = GetRoadSegments(roadElement);
+
+            // NOTE Sometimes the road has only one point (wrong pbf file?)
+            if (roadSegments.Count == 0)
+                return;
 
             ProcessFirstSegments(context, roadSegments);
             ProcessLastSegment(context, roadSegments, roadElement.Width);
@@ -288,7 +297,7 @@ namespace Mercraft.Models.Roads
         /// <summary>
         ///     Represents builder context. Used to make class stateless
         /// </summary>
-        private class BuilderContext
+        protected class BuilderContext
         {
             public Road Road;
             public List<Vector2> Points = new List<Vector2>();
