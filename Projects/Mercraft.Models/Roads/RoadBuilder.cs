@@ -20,10 +20,10 @@ namespace Mercraft.Models.Roads
 
     public class RoadBuilder : IRoadBuilder
     {
-         private readonly IResourceProvider _resourceProvider;
+        private readonly IResourceProvider _resourceProvider;
 
         [Dependency]
-         public RoadBuilder(IResourceProvider resourceProvider)
+        public RoadBuilder(IResourceProvider resourceProvider)
         {
             _resourceProvider = resourceProvider;
         }

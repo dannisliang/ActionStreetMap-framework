@@ -121,5 +121,10 @@ namespace Mercraft.Explorer.Helpers
         {
             return rule.Evaluate<int>("alphamapsize"); 
         }
+
+        public static int GetHeightMapSize(this Rule rule)
+        {
+            return rule.Evaluate<int>("heightmapsize");
+        }
     }
 }

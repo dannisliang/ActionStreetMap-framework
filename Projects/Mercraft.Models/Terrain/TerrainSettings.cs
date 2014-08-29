@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.World.Roads;
-using Mercraft.Models.Roads;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
@@ -30,9 +28,6 @@ namespace Mercraft.Models.Terrain
         public float BaseMapDist = 200.0f;
 
         public List<List<string>> TextureParams;
-
-        public IEnumerable<Road> Roads;
-        public IRoadStyleProvider RoadStyleProvider;
 
         public List<AreaSettings> Areas;
         public List<AreaSettings> Elevations;

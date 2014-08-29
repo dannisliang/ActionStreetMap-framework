@@ -9,7 +9,7 @@ namespace Mercraft.Maps.UnitTests
             if (path.StartsWith(".") || path.StartsWith("test"))
                 return path;
 
-            if (path.StartsWith("Config") || path.StartsWith("Maps"))
+            if (path.StartsWith("Config") || path.StartsWith("Maps") || path.StartsWith("Elevation"))
                 return "..\\..\\..\\..\\..\\Demo\\" + path;
 
             return "..\\..\\..\\..\\..\\Demo\\Config\\themes\\default\\" + path;

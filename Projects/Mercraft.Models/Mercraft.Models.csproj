@@ -54,6 +54,7 @@
     <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />
     <Compile Include="Geometry\Segment.cs" />
+    <Compile Include="Terrain\HeightMapProvider.cs" />
     <Compile Include="Terrain\TerrainElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
@@ -75,6 +76,9 @@
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
       <Name>Mercraft.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HeightMap\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

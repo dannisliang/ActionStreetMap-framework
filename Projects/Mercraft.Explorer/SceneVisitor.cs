@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -25,8 +26,15 @@ namespace Mercraft.Explorer
         private readonly IGameObjectFactory _goFactory;
         private readonly IThemeProvider _themeProvider;
         private readonly ITerrainBuilder _terrainBuilder;
+        private readonly IRoadBuilder _roadBuilder;
+        private readonly IHeightMapProvider _heightMapProvider;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
+
+        // TODO refactoring: I don't like to store this here
+        private float[,] _heightMap;
+        private int _heightMapResolution;
+        private float _maxElevation;
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<AreaSettings> _elevations = new List<AreaSettings>();
@@ -36,57 +44,78 @@ namespace Mercraft.Explorer
         public SceneVisitor(IGameObjectFactory goFactory,
             IThemeProvider themeProvider,
             ITerrainBuilder terrainBuilder,
+            IRoadBuilder roadBuilder,
+            IHeightMapProvider heightMapProvider,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
             _goFactory = goFactory;
             _themeProvider = themeProvider;
             _terrainBuilder = terrainBuilder;
+            _roadBuilder = roadBuilder;
+            _heightMapProvider = heightMapProvider;
             _builders = builders.ToList();
             _behaviours = behaviours.ToList();
         }
 
         #region ISceneVisitor implementation
 
+        public void Prepare(IScene scene, Stylesheet stylesheet)
+        {
+            //  NOTE We have to precalculate heightmap to use it's values 
+            // in all models to build non-flat world
+
+            var tile = scene.Canvas.Tile;
+
+            _heightMapResolution = stylesheet.GetRule(scene.Canvas, false).GetHeightMapSize();
+
+            var center = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
+
+            _heightMap = _heightMapProvider.GetHeightMap(center, _heightMapResolution, tile.Size, 
+                out _maxElevation);
+        }
+
+        public void Finalize(IScene scene)
+        {
+            // NOTE not ideal solution to make the class ready for next request
+            _areas = new List<AreaSettings>();
+            _elevations = new List<AreaSettings>();
+            _roadElements = new List<RoadElement>();
+        }
+
         public bool VisitCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas, bool visitedBefore)
         {
             var tile = canvas.Tile;
 
-           /* var roads = RoadElementComposer.
-                Compose(_roadElements).Select(reList => new Road()
-            {
-                Elements = reList,
-                GameObject = _goFactory.CreateNew(reList.Aggregate(new StringBuilder("road "),
-                    (sb, re) => sb.AppendFormat("[{0}] {1}/ ", re.Id, re.Address)).ToString(), parent)
-            }).ToArray();*/
-
+            // TODO compose roads
             var roads = _roadElements.Select(re => new Road()
             {
-                Elements = new List<RoadElement>() {re},
+                Elements = new List<RoadElement>() { re },
                 GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), parent),
             }).ToArray();
+
+            var roadStyleProvider = _themeProvider.Get()
+                .GetStyleProvider<IRoadStyleProvider>();
+
+            // process roads
+            foreach (var road in roads)
+            {
+                var style = roadStyleProvider.Get(road);
+                _roadBuilder.Build(road, style);
+            }
 
             _terrainBuilder.Build(parent, new TerrainSettings()
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
-                HeightMapSize = rule.GetAlphaMapSize() + 1,
+                HeightMapSize = _heightMapResolution,
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
                 TerrainHeight = rule.GetHeight(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
-                Elevations = _elevations,
-                Roads = roads,
-                RoadStyleProvider = _themeProvider.Get()
-                    .GetStyleProvider<IRoadStyleProvider>()
+                Elevations = _elevations
             });
-
-            // NOTE not ideal solution to make the class ready for next request
-            _areas = new List<AreaSettings>();
-            _elevations = new List<AreaSettings>();
-            _roadElements = new List<RoadElement>();
-
             return true;
         }
 
