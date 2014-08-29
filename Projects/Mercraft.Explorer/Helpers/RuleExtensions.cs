@@ -126,5 +126,10 @@ namespace Mercraft.Explorer.Helpers
         {
             return rule.Evaluate<int>("heightmapsize");
         }
+
+        public static int GetPixelMapError(this Rule rule)
+        {
+            return rule.Evaluate<int>("pixelMapError");
+        }
     }
 }

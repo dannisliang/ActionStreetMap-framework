@@ -11,16 +11,12 @@ namespace Mercraft.Models.Terrain
         public int AlphaMapSize = 512;
         public float TerrainSize = 500;
 
-        /// <summary>
-        /// Higher number will create more detailed height maps
-        /// </summary>
-        public int HeightMapSize = 513;
-        public float TerrainHeight = 10;
+        public HeightMap HeightMap;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower
         /// </summary>
-        public float PixelMapError = 6.0f;
+        public float PixelMapError = 100f;
 
         /// <summary>
         /// The distance at which the low res base map will be drawn. Decrease to increase performance

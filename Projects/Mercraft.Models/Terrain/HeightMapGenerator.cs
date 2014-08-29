@@ -8,10 +8,11 @@ namespace Mercraft.Models.Terrain
     {
         public float[,] FillHeights(TerrainSettings settings, TerrainElement[] elements)
         {
-            var map = new float[settings.HeightMapSize, settings.HeightMapSize];
+            var heightMapSize = settings.HeightMap.Resolution;
+            var map = new float[heightMapSize, heightMapSize];
             
-            for (int x = 0; x < settings.HeightMapSize; x++)
-                for (int y = 0; y < settings.HeightMapSize; y++)
+            for (int x = 0; x < heightMapSize; x++)
+                for (int y = 0; y < heightMapSize; y++)
                     map[y, x] = 1;
 
             var polygons = elements.Select(e => new Polygon(e.Points)).ToArray();
@@ -26,7 +27,7 @@ namespace Mercraft.Models.Terrain
                     Debug.Log(vertex);
                 }
 
-                TerrainScanLine.ScanAndFill(polygons[index], settings.HeightMapSize,
+                TerrainScanLine.ScanAndFill(polygons[index], heightMapSize,
                     (line, start, end) => Fill(map, line, start, end, elements[index].ZIndex));
             }
 

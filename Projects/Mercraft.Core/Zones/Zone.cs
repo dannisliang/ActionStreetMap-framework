@@ -46,6 +46,8 @@ namespace Mercraft.Core.Zones
             {
                 var tileHolder = _goFactory.CreateNew("tile");
 
+                _sceneVisitor.Prepare(Tile.Scene, Stylesheet);
+
                 BuildModel(Tile.Scene.Areas.ToList(), loadedElementIds, (area, rule, visited) =>
                     _sceneVisitor.VisitArea(Tile.RelativeNullPoint, tileHolder, rule, area, visited));
 
@@ -55,6 +57,8 @@ namespace Mercraft.Core.Zones
                 var canvas = Tile.Scene.Canvas;
                 var canvasRule = Stylesheet.GetRule(canvas, false);
                 _sceneVisitor.VisitCanvas(Tile.RelativeNullPoint, tileHolder, canvasRule, canvas, false);
+
+                _sceneVisitor.Finalize(Tile.Scene);
             }
         }
 

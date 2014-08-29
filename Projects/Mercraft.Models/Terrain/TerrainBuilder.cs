@@ -22,18 +22,18 @@ namespace Mercraft.Models.Terrain
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
-            var size = new Vector3(settings.TerrainSize, settings.TerrainHeight, settings.TerrainSize);
+            var size = new Vector3(settings.TerrainSize, settings.HeightMap.MaxElevation, settings.TerrainSize);
 
             // fill heightmap
             var heightMapElements = CreateElements(settings, settings.Elevations,
-                settings.HeightMapSize / size.x,
-                settings.HeightMapSize / size.z,
+                settings.HeightMap.Resolution / size.x,
+                settings.HeightMap.Resolution / size.z,
                 t => t.ZIndex);
             var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);
 
             // create TerrainData
             var terrainData = new TerrainData();
-            terrainData.heightmapResolution = settings.HeightMapSize;
+            terrainData.heightmapResolution = settings.HeightMap.Resolution;
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);

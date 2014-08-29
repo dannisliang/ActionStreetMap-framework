@@ -54,6 +54,7 @@
     <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />
     <Compile Include="Geometry\Segment.cs" />
+    <Compile Include="Terrain\HeightMap.cs" />
     <Compile Include="Terrain\HeightMapProvider.cs" />
     <Compile Include="Terrain\TerrainElement.cs" />
     <Compile Include="Terrain\AlphaMapGenerator.cs" />

@@ -1,7 +1,11 @@
 canvas { 
 	z-index: 0; 
 	height: 10;
+	
+	pixelMapError: 50;
 	alphamapsize: 512;
+	heightmapsize: 512;
+	
 	texture: 0, Asphalt_background, 5, 5;
 	texture: 1, Grass, 10, 10;
 	texture: 2, Pebbles, 10, 10;

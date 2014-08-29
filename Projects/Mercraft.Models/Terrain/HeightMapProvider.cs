@@ -10,12 +10,12 @@ namespace Mercraft.Models.Terrain
         /// <summary>
         ///     Returns heightmap array for given center with given resolution
         /// </summary>
-        float[,] GetHeightMap(GeoCoordinate center, int resolution, float tileSize, out float maxElevation);
+        HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize);
 
         /// <summary>
         ///     Returns corresponding height for given point from given heightmap
         /// </summary>
-        float LookupHeight(float[,] map, GeoCoordinate coordinate);
+        float LookupHeight(HeightMap heightMap, GeoCoordinate coordinate);
     }
 
     public class HeightMapProvider: IHeightMapProvider
@@ -30,7 +30,7 @@ namespace Mercraft.Models.Terrain
             _elevationProvider = elevationProvider;
         }
 
-        public float[,] GetHeightMap(GeoCoordinate center, int resolution, float tileSize, out float maxElevation)
+        public HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize)
         {
             var map = new float[resolution, resolution];
 
@@ -39,7 +39,7 @@ namespace Mercraft.Models.Terrain
             var latStep = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution;
             var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
 
-            maxElevation = 0;
+            float maxElevation = 0;
 
             for (int i = 0; i < resolution; i++)
             {
@@ -66,10 +66,19 @@ namespace Mercraft.Models.Terrain
                 map[i, j] /= maxElevation;
                 
             // TODO which value to use?
-            return GenerateSmoothNoise(map, 4);
+            map = GenerateSmoothNoise(map, 4);
+
+            return new HeightMap()
+            {
+                Center = center,
+                Map = map,
+                MaxElevation = maxElevation,
+                Resolution = resolution,
+                Size = tileSize
+            };
         }
 
-        public float LookupHeight(float[,] map, GeoCoordinate coordinate)
+        public float LookupHeight(HeightMap heightMap, GeoCoordinate coordinate)
         {
             throw new System.NotImplementedException();
         }

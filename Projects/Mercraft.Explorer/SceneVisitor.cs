@@ -31,10 +31,7 @@ namespace Mercraft.Explorer
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
-        // TODO refactoring: I don't like to store this here
-        private float[,] _heightMap;
-        private int _heightMapResolution;
-        private float _maxElevation;
+        private HeightMap _heightMap;
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<AreaSettings> _elevations = new List<AreaSettings>();
@@ -62,17 +59,16 @@ namespace Mercraft.Explorer
 
         public void Prepare(IScene scene, Stylesheet stylesheet)
         {
-            //  NOTE We have to precalculate heightmap to use it's values 
+            // NOTE We have to precalculate heightmap to use it's values 
             // in all models to build non-flat world
 
             var tile = scene.Canvas.Tile;
 
-            _heightMapResolution = stylesheet.GetRule(scene.Canvas, false).GetHeightMapSize();
+            var heightMapResolution = stylesheet.GetRule(scene.Canvas, false).GetHeightMapSize();
 
             var center = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
 
-            _heightMap = _heightMapProvider.GetHeightMap(center, _heightMapResolution, tile.Size, 
-                out _maxElevation);
+            _heightMap = _heightMapProvider.GetHeightMap(center, heightMapResolution, tile.Size);
         }
 
         public void Finalize(IScene scene)
@@ -104,18 +100,23 @@ namespace Mercraft.Explorer
                 _roadBuilder.Build(road, style);
             }
 
+            // NOTE not ready yet
+            //if (_heightMap.IsFlat)
+                _heightMap.MaxElevation = rule.GetHeight();
+
             _terrainBuilder.Build(parent, new TerrainSettings()
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
-                HeightMapSize = _heightMapResolution,
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 TerrainSize = tile.Size,
-                TerrainHeight = rule.GetHeight(),
+                HeightMap = _heightMap,
+                PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
                 Elevations = _elevations
             });
+
             return true;
         }
 
