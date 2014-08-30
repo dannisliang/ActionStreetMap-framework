@@ -15,7 +15,7 @@ namespace Mercraft.Models.Buildings.Facades
 
             return new MeshData()
             {
-                Vertices = GetVerticies3D(vertices2D, building.BottomOffset, building.BottomOffset + building.Height),
+                Vertices = GetVerticies3D(vertices2D, building.Height),
                 Triangles = GetTriangles3D(vertices2D),
                 UV = GetUV(vertices2D),
                 TextureKey = style.Roof.Texture,
@@ -23,9 +23,9 @@ namespace Mercraft.Models.Buildings.Facades
             };
         }
 
-        private Vector3[] GetVerticies3D(MapPoint[] verticies2D, float floor, float top)
+        private Vector3[] GetVerticies3D(MapPoint[] maPoints, float height)
         {
-            var length = verticies2D.Length;
+            var length = maPoints.Length;
             var verticies3D = new Vector3[length * 4];
 
             for (int i = 0; i < length; i++)
@@ -33,10 +33,12 @@ namespace Mercraft.Models.Buildings.Facades
                 var v3DIndex = i * 4;
                 var v2DIndex = i == (length - 1) ? 0 : i + 1;
 
-                verticies3D[v3DIndex] = new Vector3(verticies2D[i].X, floor, verticies2D[i].Y);
-                verticies3D[v3DIndex + 1] = new Vector3(verticies2D[v2DIndex].X, floor, verticies2D[v2DIndex].Y);
-                verticies3D[v3DIndex + 2] = new Vector3(verticies2D[v2DIndex].X, top, verticies2D[v2DIndex].Y);
-                verticies3D[v3DIndex + 3] = new Vector3(verticies2D[i].X, top, verticies2D[i].Y);
+                verticies3D[v3DIndex] = new Vector3(maPoints[i].X, maPoints[i].Elevation, maPoints[i].Y);
+
+                verticies3D[v3DIndex + 1] = new Vector3(maPoints[v2DIndex].X, maPoints[v2DIndex].Elevation, maPoints[v2DIndex].Y);
+                verticies3D[v3DIndex + 2] = new Vector3(maPoints[v2DIndex].X, maPoints[v2DIndex].Elevation + height, maPoints[v2DIndex].Y);
+
+                verticies3D[v3DIndex + 3] = new Vector3(maPoints[i].X, maPoints[i].Elevation + height, maPoints[i].Y);
             }
 
             return verticies3D;

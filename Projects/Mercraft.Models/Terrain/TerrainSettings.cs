@@ -9,9 +9,12 @@ namespace Mercraft.Models.Terrain
         /// This is the control map that controls how the splat textures will be blended
         /// </summary>
         public int AlphaMapSize = 512;
-        public float TerrainSize = 500;
+        public float Size = 500;
 
-        public HeightMap HeightMap;
+        public int HeightMapSize = 513;
+        public float Height = 10;
+
+        public float[,] HeightMapData;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower
@@ -34,8 +37,8 @@ namespace Mercraft.Models.Terrain
         {
             get
             {
-                return new Vector2(CenterPosition.x - TerrainSize / 2f,
-                CenterPosition.y - TerrainSize / 2f);
+                return new Vector2(CenterPosition.x - Size / 2f,
+                CenterPosition.y - Size / 2f);
             }
         }
     }

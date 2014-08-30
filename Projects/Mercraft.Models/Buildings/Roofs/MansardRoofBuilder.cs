@@ -17,7 +17,7 @@ namespace Mercraft.Models.Buildings.Roofs
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
             var roofHeight = 3f;
-            var verticies3D = GetVerticies3D(polygon, building.BottomOffset + building.Height, offset, roofHeight);
+            var verticies3D = GetVerticies3D(polygon, building.Height, offset, roofHeight);
 
             return new MeshData()
             {
@@ -29,7 +29,7 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(Polygon polygon, float top, float offset, float roofHeight)
+        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset, float roofHeight)
         {
             var verticies = new List<Vector3>(polygon.Verticies.Length * 2);
             var topVerticies = new List<Vector3>(polygon.Verticies.Length);
@@ -50,6 +50,9 @@ namespace Mercraft.Models.Buildings.Roofs
                 var ip2 = SegmentUtils.IntersectionPoint(parallel2, parallel3);
 
                 // TODO check whether offset is correct for intersection
+
+                // TODO check whether elevation is correct
+                var top = polygon.Elevations[i] + buildingHeight;
 
                 verticies.Add(new Vector3(segment1.End.x, top, segment1.End.y));
                 verticies.Add(new Vector3(ip1.x, top + roofHeight, ip1.y));

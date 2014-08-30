@@ -22,7 +22,7 @@ namespace Mercraft.Models.Terrain
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
-            var size = new Vector3(settings.TerrainSize, settings.HeightMap.MaxElevation, settings.TerrainSize);
+            var size = new Vector3(settings.Size, settings.Height, settings.Size);
 
             /*// fill heightmap
             var heightMapElements = CreateElements(settings, settings.Elevations,
@@ -31,11 +31,11 @@ namespace Mercraft.Models.Terrain
                 t => t.ZIndex);
             var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);*/
 
-            var htmap = settings.HeightMap.Data;
+            var htmap = settings.HeightMapData;
 
             // create TerrainData
             var terrainData = new TerrainData();
-            terrainData.heightmapResolution = settings.HeightMap.Resolution;
+            terrainData.heightmapResolution = settings.HeightMapSize;
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);

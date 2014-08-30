@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Elevation;
 
 namespace Mercraft.Core.Algorithms
 {
@@ -34,6 +35,36 @@ namespace Mercraft.Core.Algorithms
 
             var verticies = geoCoordinates
                 .Select(g => GeoProjection.ToMapCoordinate(center, g))
+                .Take(length).ToArray();
+
+            return SortVertices(verticies);
+        }
+
+        public static MapPoint[] GetVerticies3D(GeoCoordinate center, HeightMap heightMap, 
+            IList<GeoCoordinate> geoCoordinates)
+        {
+            var length = geoCoordinates.Count;
+
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                if (geoCoordinates[i] == geoCoordinates[length - 1])
+                {
+                    length--;
+                    break;
+                }
+            }
+
+            //if (geoCoordinates[0] == geoCoordinates[length - 1])
+            //    length--;
+
+            var verticies = geoCoordinates
+                .Select(g =>
+                {
+                    var point = GeoProjection.ToMapCoordinate(center, g);
+                    point.Elevation = heightMap.LookupHeight(g);
+                    return point;
+                })
                 .Take(length).ToArray();
 
             return SortVertices(verticies);

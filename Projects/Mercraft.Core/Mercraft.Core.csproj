@@ -48,6 +48,8 @@
     <Compile Include="Algorithms\GeoProjection.cs" />
     <Compile Include="Algorithms\PolygonHelper.cs" />
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Elevation\HeightMap.cs" />
+    <Compile Include="Elevation\HeightMapProvider.cs" />
     <Compile Include="Elevation\IElevationProvider.cs" />
     <Compile Include="Elevation\Srtm\SrtmElevationProvider.cs" />
     <Compile Include="Elevation\Srtm\SrtmDataCell.cs" />

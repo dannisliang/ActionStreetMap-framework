@@ -7,12 +7,16 @@ namespace Mercraft.Models.Geometry
 {
     public class Polygon
     {
+        // TODO store vertices in Vector3 and remove Elevations
+        public float[] Elevations { get; private set; }
+
         public Vector2[] Verticies { get; private set; }
 
         public Segment[] Segments { get; private set; }
 
         public Polygon(IEnumerable<MapPoint> verticies)
         {
+            Elevations = verticies.Select(v => v.Elevation).ToArray();
             Verticies = verticies.Select(v => new Vector2(v.X, v.Y)).ToArray();
             ComputeSegments();
         }

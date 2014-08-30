@@ -1,6 +1,7 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
@@ -40,16 +41,16 @@ namespace Mercraft.Explorer.Builders
         public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
             base.BuildArea(center, heightMap, rule, area);
-            return BuildBuilding(center, area, area.Points, rule);
+            return BuildBuilding(center, heightMap, area, area.Points, rule);
         }
 
         public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
         {
             base.BuildWay(center, heightMap, rule, way);
-            return BuildBuilding(center, way, way.Points, rule);
+            return BuildBuilding(center, heightMap, way, way.Points, rule);
         }
 
-        private IGameObject BuildBuilding(GeoCoordinate center, Model model, GeoCoordinate[] footPrint, Rule rule)
+        private IGameObject BuildBuilding(GeoCoordinate center, HeightMap heightMap, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
             
@@ -63,7 +64,7 @@ namespace Mercraft.Explorer.Builders
                 // TODO map osm type to ours
                 Type = "residental",//rule.GetBuildingType(),
                 BottomOffset = rule.GetZIndex(),
-                Footprint = PolygonHelper.GetVerticies2D(center, footPrint)
+                Footprint = PolygonHelper.GetVerticies3D(center, heightMap, footPrint)
             };
 
             var theme = _themeProvider.Get();

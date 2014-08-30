@@ -101,7 +101,6 @@ namespace Mercraft.Explorer
                 _roadBuilder.Build(road, style);
             }
 
-            // NOTE not ready yet
             if (_heightMap.IsFlat)
                 _heightMap.MaxElevation = rule.GetHeight();
 
@@ -109,8 +108,10 @@ namespace Mercraft.Explorer
             {
                 AlphaMapSize = rule.GetAlphaMapSize(),
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
-                TerrainSize = tile.Size,
-                HeightMap = _heightMap,
+                Size = tile.Size,
+                Height = _heightMap.MaxElevation,
+                HeightMapSize = _heightMap.Resolution,
+                HeightMapData = _heightMap.Data,
                 PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),

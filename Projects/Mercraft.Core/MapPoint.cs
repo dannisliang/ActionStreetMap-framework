@@ -7,7 +7,7 @@ namespace Mercraft.Core
         public float X;
         public float Y;
 
-        // TODO make it like point in 3D
+        // TODO make it like point in 3D?
         public float Elevation;
 
         public MapPoint(float x, float y): this()

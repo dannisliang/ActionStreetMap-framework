@@ -8,7 +8,7 @@ namespace Mercraft.Models.Terrain
     {
         public float[,] FillHeights(TerrainSettings settings, TerrainElement[] elements)
         {
-            var heightMapSize = settings.HeightMap.Resolution;
+            var heightMapSize = settings.HeightMapSize;
             var map = new float[heightMapSize, heightMapSize];
             
             for (int x = 0; x < heightMapSize; x++)

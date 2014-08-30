@@ -13,7 +13,7 @@ namespace Mercraft.Models.Buildings.Roofs
         {
             return new MeshData()
             {
-                Vertices = GetVerticies3D(building.Footprint, building.BottomOffset + building.Height),
+                Vertices = GetVerticies3D(building.Footprint, building.Height),
                 Triangles = Triangulator.Triangulate(building.Footprint),
                 UV = GetUV(building.Footprint),
                 TextureKey = style.Roof.Texture,
@@ -21,12 +21,13 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(MapPoint[] footprint, float top)
+        private Vector3[] GetVerticies3D(MapPoint[] footprint, float height)
         {
             var length = footprint.Length;
             var vertices3D = new Vector3[length];
             for (int i = 0; i < length; i++)
             {
+                var top = footprint[i].Elevation + height;
                 vertices3D[i] = new Vector3(footprint[i].X, top, footprint[i].Y);
             }
             return vertices3D;

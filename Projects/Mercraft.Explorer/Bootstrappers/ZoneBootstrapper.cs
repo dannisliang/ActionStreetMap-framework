@@ -7,7 +7,6 @@ using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
-using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Bootstrappers
 {

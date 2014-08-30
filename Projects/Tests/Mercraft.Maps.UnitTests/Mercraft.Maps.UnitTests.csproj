@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elevation\HeightMapTests.cs" />
     <Compile Include="Geometry\DouglasPeuckerReductionTests.cs" />
     <Compile Include="Algorithms\ProjectionTests.cs" />
     <Compile Include="Algorithms\TriangulationTests.cs" />

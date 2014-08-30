@@ -4,7 +4,7 @@ canvas {
 	
 	pixelMapError: 1;
 	alphamapsize: 512;
-	heightmapsize: 1024;
+	heightmapsize: 513;
 	
 	texture: 0, Asphalt_background, 5, 5;
 	texture: 1, Grass, 10, 10;

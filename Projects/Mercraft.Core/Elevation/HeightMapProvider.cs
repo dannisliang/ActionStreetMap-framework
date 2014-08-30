@@ -1,9 +1,6 @@
-﻿
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Infrastructure.Dependencies;
+﻿using Mercraft.Infrastructure.Dependencies;
 
-namespace Mercraft.Models.Terrain
+namespace Mercraft.Core.Elevation
 {
     public interface IHeightMapProvider
     {
@@ -19,10 +16,15 @@ namespace Mercraft.Models.Terrain
 
         private readonly IElevationProvider _elevationProvider;
 
+        public bool DoSmooth { get; set; }
+        public bool Normalize { get; set; }
+
         [Dependency]
         public HeightMapProvider(IElevationProvider elevationProvider)
         {
             _elevationProvider = elevationProvider;
+            DoSmooth = true;
+            Normalize = true;
         }
 
         public HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize)
@@ -36,12 +38,12 @@ namespace Mercraft.Models.Terrain
 
             float maxElevation = 0;
 
-            for (int i = 0; i < resolution; i++)
+            // NOTE Assume that [0,0] is bottom left corner
+            var lon = bbox.MinPoint.Longitude + lonStep/2;
+            for (int j = 0; j < resolution; j++)
             {
-                var lat = bbox.MinPoint.Latitude + latStep / 2 + i * latStep;
-                var lon = bbox.MinPoint.Longitude + lonStep / 2;
-
-                for (int j = 0; j < resolution; j++)
+                var lat = bbox.MinPoint.Latitude + latStep / 2;
+                for (int i = 0; i < resolution; i++)
                 {
                     var elevation = _elevationProvider.GetElevation(lat, lon);
 
@@ -49,22 +51,30 @@ namespace Mercraft.Models.Terrain
                     if (elevation > maxElevation && elevation < MaxHeight)
                         maxElevation = elevation;
 
-                    map[i, j] = elevation > MaxHeight ? maxElevation : elevation;
+                    map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
 
-                    lon += lonStep;
+                    lat += latStep;
                 }
+                lon += lonStep;
             }
 
             // normalize
-            for (int i = 0; i < resolution; i++)
-              for (int j = 0; j < resolution; j++)
-                map[i, j] /= maxElevation;
-                
+            if (Normalize)
+            {
+                for (int i = 0; i < resolution; i++)
+                    for (int j = 0; j < resolution; j++)
+                        map[i, j] /= maxElevation;
+            }
+
             // TODO which value to use?
-            map = GenerateSmoothNoise(map, 5);
+            if (DoSmooth)
+                map = GenerateSmoothNoise(map, 5);
 
             return new HeightMap()
             {
+                BoundingBox = bbox,
+                LatitudeOffset = latStep,
+                LongitudeOffset = lonStep,
                 Data = map,
                 MaxElevation = maxElevation,
                 Resolution = resolution,

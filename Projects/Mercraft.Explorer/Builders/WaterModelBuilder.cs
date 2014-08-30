@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
