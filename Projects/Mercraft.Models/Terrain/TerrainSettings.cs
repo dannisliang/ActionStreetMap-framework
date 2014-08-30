@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core.Elevation;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
@@ -11,10 +12,7 @@ namespace Mercraft.Models.Terrain
         public int AlphaMapSize = 512;
         public float Size = 500;
 
-        public int HeightMapSize = 513;
-        public float Height = 10;
-
-        public float[,] HeightMapData;
+        public HeightMap HeightMap;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower

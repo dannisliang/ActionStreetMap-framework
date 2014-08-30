@@ -22,7 +22,7 @@ namespace Mercraft.Models.Terrain
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
-            var size = new Vector3(settings.Size, settings.Height, settings.Size);
+            var size = new Vector3(settings.Size, settings.HeightMap.MaxElevation, settings.Size);
 
             /*// fill heightmap
             var heightMapElements = CreateElements(settings, settings.Elevations,
@@ -31,11 +31,17 @@ namespace Mercraft.Models.Terrain
                 t => t.ZIndex);
             var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);*/
 
-            var htmap = settings.HeightMapData;
+            var htmap = settings.HeightMap.Data;
+
+            // normalize
+            for (int i = 0; i < settings.HeightMap.Resolution; i++)
+                for (int j = 0; j < settings.HeightMap.Resolution; j++)
+                    htmap[i, j] /= settings.HeightMap.MaxElevation;
+            
 
             // create TerrainData
             var terrainData = new TerrainData();
-            terrainData.heightmapResolution = settings.HeightMapSize;
+            terrainData.heightmapResolution = settings.HeightMap.Resolution;
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);
@@ -91,17 +97,18 @@ namespace Mercraft.Models.Terrain
                 ZIndex = a.ZIndex,
                 SplatIndex = a.SplatIndex,
                 Points = a.Points.Select(p =>
-                    ConvertWorldToTerrain(p.X, p.Y, settings.CornerPosition, widthRatio, heightRatio)).ToArray()
+                    ConvertWorldToTerrain(p.X, p.Elevation, p.Y, settings.CornerPosition, widthRatio, heightRatio)).ToArray()
             }).OrderBy(orderBy).ToArray();
         }
 
-        private static Vector2 ConvertWorldToTerrain(float x, float y, Vector2 terrainPosition, float widthRatio, float heightRatio)
+        private static Vector3 ConvertWorldToTerrain(float x, float y, float z, Vector2 terrainPosition, float widthRatio, float heightRatio)
         {
-            return new Vector2
+            return new Vector3
             {
                 // NOTE Coords are inverted here!
-                y = (x - terrainPosition.x) * widthRatio,
-                x = (y - terrainPosition.y) * heightRatio
+                z = (x - terrainPosition.x) * widthRatio,
+                x = (z - terrainPosition.y) * heightRatio,
+                y = y,
             };
         } 
     }

@@ -5,10 +5,10 @@ namespace Mercraft.Models.Geometry
 {
     public class Segment
     {
-        public Vector2 Start;
-        public Vector2 End;
+        public Vector3 Start;
+        public Vector3 End;
 
-        public Segment(Vector2 start, Vector2 end)
+        public Segment(Vector3 start, Vector3 end)
         {
             Start = start;
             End = end;

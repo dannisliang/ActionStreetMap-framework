@@ -109,9 +109,7 @@ namespace Mercraft.Explorer
                 AlphaMapSize = rule.GetAlphaMapSize(),
                 CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
                 Size = tile.Size,
-                Height = _heightMap.MaxElevation,
-                HeightMapSize = _heightMap.Resolution,
-                HeightMapData = _heightMap.Data,
+                HeightMap = _heightMap,
                 PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
@@ -198,7 +196,12 @@ namespace Mercraft.Explorer
                     Address = AddressExtractor.Extract(way.Tags),
                     Width = (int)Math.Round(rule.GetWidth() / 2),
                     ZIndex = rule.GetZIndex(),
-                    Points = way.Points.Select(p => GeoProjection.ToMapCoordinate(center, p)).ToArray()
+                    Points = way.Points.Select(p =>
+                    {
+                        var mapPoint = GeoProjection.ToMapCoordinate(center, p);
+                        mapPoint.Elevation = _heightMap.LookupHeight(p);
+                        return mapPoint;
+                    }).ToArray()
                 });
 
                 processed = true;

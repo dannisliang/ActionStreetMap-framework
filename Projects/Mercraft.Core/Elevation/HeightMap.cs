@@ -15,6 +15,7 @@ namespace Mercraft.Core.Elevation
         public float MaxElevation { get; set; }
 
         public bool IsFlat { get; set; }
+        public bool IsNormalized { get; set; }
 
         public float[,] Data { get; set; }
 
@@ -43,7 +44,7 @@ namespace Mercraft.Core.Elevation
             j = j < 0 ? 0 : j;
             i = i < 0 ? 0 : i;
 
-            return Data[j, i] * MaxElevation;
+            return Data[j, i];
         }
     }
 }

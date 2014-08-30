@@ -6,6 +6,6 @@ namespace Mercraft.Models.Terrain
     {
         public float ZIndex;
         public int SplatIndex;
-        public Vector2[] Points;
+        public Vector3[] Points;
     }
 }

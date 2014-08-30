@@ -13,23 +13,23 @@ namespace Mercraft.Models.Terrain
             Action<int, int, int> fillAction)
         {
             var points = new List<int>();
-            for (int y = 0; y < size; y++)
+            for (int z = 0; z < size; z++)
             {
                 foreach (var segment in polygon.Segments)
                 {
-                    if ((segment.Start.y > y && segment.End.y > y) || // above
-                       (segment.Start.y < y && segment.End.y < y)) // below
+                    if ((segment.Start.z > z && segment.End.z > z) || // above
+                       (segment.Start.z < z && segment.End.z < z)) // below
                         continue;
 
                     var start = segment.Start.x < segment.End.x ? segment.Start : segment.End;
                     var end = segment.Start.x < segment.End.x ? segment.End : segment.Start;
 
                     var x1 = start.x;
-                    var y1 = start.y;
+                    var z1 = start.z;
                     var x2 = end.x;
-                    var y2 = end.y;
+                    var z2 = end.z;
 
-                    var d = Math.Abs(y2 - y1);
+                    var d = Math.Abs(z2 - z1);
 
                     if (Math.Abs(d) < float.Epsilon)
                         continue;
@@ -40,7 +40,7 @@ namespace Mercraft.Models.Terrain
 
                     float tanBeta = Math.Abs(x1 - x2) / d;
 
-                    var b = Math.Abs(y1 - y);
+                    var b = Math.Abs(z1 - z);
                     var length = b * tanBeta;
 
                     var x = (int)(x1 + Math.Floor(length));
@@ -81,7 +81,7 @@ namespace Mercraft.Models.Terrain
                 }
 
                 for (int i = 0; i < points.Count; i += 2)
-                    fillAction(y, points[i], points[i + 1]);
+                    fillAction(z, points[i], points[i + 1]);
 
                 points.Clear();
             }

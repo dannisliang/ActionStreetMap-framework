@@ -44,11 +44,8 @@ namespace Mercraft.Models.Roads
 
         protected virtual void CreateMesh(Road road, RoadStyle style, BuilderContext context)
         {
-            // TODO so far we support only flat roads, but we needs elevations feature for something else (e.g. water)
-            float zIndex = road.Elements[0].ZIndex;
-
             Mesh mesh = new Mesh();
-            mesh.vertices = context.Points.Select(p => new Vector3(p.x, zIndex, p.y)).ToArray();
+            mesh.vertices = context.Points.ToArray();
             mesh.triangles = context.Triangles.ToArray();
             mesh.uv = context.Uv.ToArray();
             mesh.RecalculateNormals();
@@ -86,12 +83,12 @@ namespace Mercraft.Models.Roads
             if (segmentsCount == 1)
             {
                 AddTrapezoid(context, roadSegments[0].Left, roadSegments[0].Right);
-                context.StartPoints = new Tuple<Vector2, Vector2>(roadSegments[0].Right.End, roadSegments[0].Left.End);
+                context.StartPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.End, roadSegments[0].Left.End);
             }
             else
             {
                 if (context.StartPoints == null)
-                    context.StartPoints = new Tuple<Vector2, Vector2>(roadSegments[0].Right.Start, roadSegments[0].Left.Start);
+                    context.StartPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.Start, roadSegments[0].Left.Start);
 
                 for (int i = 1; i < segmentsCount; i++)
                 {
@@ -127,26 +124,26 @@ namespace Mercraft.Models.Roads
                 var second = GetRoadSegment(nextRoadElement.Points[0],
                     nextRoadElement.Points[1], width);
 
-                Vector2 nextIntersectionPoint;
+                Vector3 nextIntersectionPoint;
                 switch (GetManeuverType(first, second))
                 {
                     case RoadManeuver.Straight:
                         AddTrapezoid(context, second.Right.Start, second.Left.Start, second.Left.End, second.Right.End);
-                        context.StartPoints = new Tuple<Vector2, Vector2>(first.Right.End, first.Left.End);
+                        context.StartPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
                         break;
                     case RoadManeuver.LeftTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
                         AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, 
                             nextIntersectionPoint, first.Right.End);
                         AddTriangle(context, first.Right.End, nextIntersectionPoint, second.Right.Start, true);
-                        context.StartPoints = new Tuple<Vector2, Vector2>(second.Right.Start, nextIntersectionPoint);
+                        context.StartPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
                         break;
                     case RoadManeuver.RightTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
                         AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, 
                             first.Left.End, nextIntersectionPoint);
                         AddTriangle(context, first.Left.End, nextIntersectionPoint, second.Left.Start, false);
-                        context.StartPoints = new Tuple<Vector2, Vector2>(nextIntersectionPoint, second.Left.Start);
+                        context.StartPoints = new Tuple<Vector3, Vector3>(nextIntersectionPoint, second.Left.Start);
                         break;
                 }
             }
@@ -163,7 +160,7 @@ namespace Mercraft.Models.Roads
         private void StraightLineCase(BuilderContext context, RoadSegment first, RoadSegment second)
         {
             AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, first.Left.End, first.Right.End);
-            context.StartPoints = new Tuple<Vector2, Vector2>(first.Right.End, first.Left.End);
+            context.StartPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
         }
 
         private void TurnRightCase(BuilderContext context, RoadSegment first, RoadSegment second)
@@ -172,7 +169,7 @@ namespace Mercraft.Models.Roads
             AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2,
                 first.Left.End, intersectionPoint);
             AddTriangle(context, first.Left.End, intersectionPoint, second.Left.Start, false);
-            context.StartPoints = new Tuple<Vector2, Vector2>(intersectionPoint, second.Left.Start);
+            context.StartPoints = new Tuple<Vector3, Vector3>(intersectionPoint, second.Left.Start);
         }
 
         private void TurnLeftCase(BuilderContext context, RoadSegment first, RoadSegment second)
@@ -181,12 +178,12 @@ namespace Mercraft.Models.Roads
             AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2,
                 intersectionPoint, first.Right.End);
             AddTriangle(context, first.Right.End, intersectionPoint, second.Right.Start, true);
-            context.StartPoints = new Tuple<Vector2, Vector2>(second.Right.Start, intersectionPoint);
+            context.StartPoints = new Tuple<Vector3, Vector3>(second.Right.Start, intersectionPoint);
         }
         #endregion
 
         #region Add shapes
-        private void AddTriangle(BuilderContext context, Vector2 first, Vector2 second, Vector2 third, bool invert)
+        private void AddTriangle(BuilderContext context, Vector3 first, Vector3 second, Vector3 third, bool invert)
         {
             context.Points.Add(first);
             context.Points.Add(second);
@@ -210,7 +207,7 @@ namespace Mercraft.Models.Roads
             AddTrapezoid(context, right.Start, left.Start, left.End, right.End);
         }
 
-        private void AddTrapezoid(BuilderContext context, Vector2 rightStart, Vector2 leftStart, Vector2 leftEnd, Vector2 rightEnd)
+        private void AddTrapezoid(BuilderContext context, Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
         {
             context.Points.Add(rightStart);
             context.Points.Add(leftStart);
@@ -224,7 +221,7 @@ namespace Mercraft.Models.Roads
             });
             context.TrisIndex += 4;
 
-            var distance = Vector2.Distance(rightStart, rightEnd);
+            var distance = Vector3.Distance(rightStart, rightEnd);
             float tiles = distance / context.Ratio;
             context.Uv.AddRange(new[]
             {
@@ -269,8 +266,8 @@ namespace Mercraft.Models.Roads
             float rX2 = point2.X + dyLi;
             float rY2 = point2.Y - dxLi;
 
-            var leftSegment = new Segment(new Vector2(lX1, lY1), new Vector2(lX2, lY2));
-            var rightSegment = new Segment(new Vector2(rX1, rY1), new Vector2(rX2, rY2));
+            var leftSegment = new Segment(new Vector3(lX1, point1.Elevation, lY1), new Vector3(lX2, point2.Elevation, lY2));
+            var rightSegment = new Segment(new Vector3(rX1, point1.Elevation, rY1), new Vector3(rX2, point2.Elevation, rY2));
 
             return new RoadSegment(leftSegment, rightSegment);
         }
@@ -300,13 +297,14 @@ namespace Mercraft.Models.Roads
         protected class BuilderContext
         {
             public Road Road;
-            public List<Vector2> Points = new List<Vector2>();
+            public List<Vector3> Points = new List<Vector3>();
+
             public List<int> Triangles = new List<int>();
             public List<Vector2> Uv = new List<Vector2>();
 
             public float Ratio = 20;
             public int TrisIndex = 0;
-            public Tuple<Vector2, Vector2> StartPoints;
+            public Tuple<Vector3, Vector3> StartPoints;
 
             public int ElementIndex;
             public bool IsLastElement;

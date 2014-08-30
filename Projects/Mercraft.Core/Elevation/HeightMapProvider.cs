@@ -17,14 +17,12 @@ namespace Mercraft.Core.Elevation
         private readonly IElevationProvider _elevationProvider;
 
         public bool DoSmooth { get; set; }
-        public bool Normalize { get; set; }
 
         [Dependency]
         public HeightMapProvider(IElevationProvider elevationProvider)
         {
             _elevationProvider = elevationProvider;
             DoSmooth = true;
-            Normalize = true;
         }
 
         public HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize)
@@ -56,14 +54,6 @@ namespace Mercraft.Core.Elevation
                     lat += latStep;
                 }
                 lon += lonStep;
-            }
-
-            // normalize
-            if (Normalize)
-            {
-                for (int i = 0; i < resolution; i++)
-                    for (int j = 0; j < resolution; j++)
-                        map[i, j] /= maxElevation;
             }
 
             // TODO which value to use?

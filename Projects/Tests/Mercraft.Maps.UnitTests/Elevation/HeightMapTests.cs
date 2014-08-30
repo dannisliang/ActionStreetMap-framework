@@ -3,7 +3,6 @@ using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Moq;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Elevation
 {
@@ -31,7 +30,6 @@ namespace Mercraft.Maps.UnitTests.Elevation
             });
 
             var provider = new HeightMapProvider(elevationProvider.Object);
-            provider.Normalize = false;
             provider.DoSmooth = false;
             
             // ACT
@@ -84,18 +82,17 @@ namespace Mercraft.Maps.UnitTests.Elevation
 
             var cornerValue = resolution - 1;
             // center
-            Assert.AreEqual((resolution + resolution - 2) / 2, heightMap.LookupHeight(center) / maxElevation);
-            
+            Assert.AreEqual((resolution + resolution - 2) / 2, heightMap.LookupHeight(center));
             
             // left upper corner
-            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MinPoint.Latitude, bbox.MaxPoint.Longitude) / maxElevation);
+            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MinPoint.Latitude, bbox.MaxPoint.Longitude));
             // left bottom corner
-            Assert.AreEqual(0, heightMap.LookupHeight(bbox.MinPoint) / maxElevation);
+            Assert.AreEqual(0, heightMap.LookupHeight(bbox.MinPoint));
             
             // right upper corner
-            Assert.AreEqual(cornerValue * 2, heightMap.LookupHeight(bbox.MaxPoint) / maxElevation);
+            Assert.AreEqual(cornerValue * 2, heightMap.LookupHeight(bbox.MaxPoint));
             // right bottom corner
-            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MaxPoint.Latitude, bbox.MinPoint.Longitude) / maxElevation);
+            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MaxPoint.Latitude, bbox.MinPoint.Longitude));
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Mercraft.Maps.UnitTests
         public static readonly GeoCoordinate BerlinInvalidenStr = new GeoCoordinate(52.531036, 13.384866);
         public static readonly GeoCoordinate BerlinHauptBanhoff = new GeoCoordinate(52.5254967, 13.3733636);
         public static readonly GeoCoordinate BerlinTiergarten = new GeoCoordinate(52.516809, 13.367598);
+        public static readonly GeoCoordinate BerlinVolksPark = new GeoCoordinate(52.526437, 13.432122);
 
         public const string ConfigTestRootFile = "test.config";
         public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Config\app.config";
