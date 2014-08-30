@@ -10,6 +10,11 @@ namespace Mercraft.Core
         // TODO make it like point in 3D?
         public float Elevation;
 
+        public MapPoint(float x, float y, float elevation) : this(x, y)
+        {
+            Elevation = elevation;
+        }
+
         public MapPoint(float x, float y): this()
         {
             X = x;
@@ -18,8 +23,10 @@ namespace Mercraft.Core
 
         public float DistanceTo(MapPoint point)
         {
-            return (float)Math.Sqrt(Math.Pow(point.X - X, 2) + Math.Pow(point.Y - Y, 2) 
-                + Math.Pow(point.Elevation - Elevation, 2));
+            return (float) Math.Sqrt(Math.Pow(point.X - X, 2) + Math.Pow(point.Y - Y, 2));
+
+            // NOTE should we ignore elevation here?
+            //+ Math.Pow(point.Elevation - Elevation, 2));
         }
 
         public override string ToString()

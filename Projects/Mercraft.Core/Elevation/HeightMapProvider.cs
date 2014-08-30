@@ -22,7 +22,7 @@ namespace Mercraft.Core.Elevation
         public HeightMapProvider(IElevationProvider elevationProvider)
         {
             _elevationProvider = elevationProvider;
-            DoSmooth = true;
+            DoSmooth = false;
         }
 
         public HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize)

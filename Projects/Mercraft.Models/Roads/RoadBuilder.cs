@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.World.Roads;
@@ -20,6 +21,9 @@ namespace Mercraft.Models.Roads
 
     public class RoadBuilder : IRoadBuilder
     {
+        // TODO this value depends on heightmap accuracy
+        private const float MaxPointDistance = 5f;
+
         private readonly IResourceProvider _resourceProvider;
 
         [Dependency]
@@ -121,8 +125,10 @@ namespace Mercraft.Models.Roads
             {
                 var first = roadSegments[segmentsCount - 1];
                 var nextRoadElement = context.Road.Elements[context.ElementIndex + 1];
-                var second = GetRoadSegment(nextRoadElement.Points[0],
-                    nextRoadElement.Points[1], width);
+
+                var secondPoint = LineUtils.GetNextIntermediatePoint(nextRoadElement.Points[0],
+                    nextRoadElement.Points[1], MaxPointDistance);
+                var second = GetRoadSegment(nextRoadElement.Points[0], secondPoint, width);
 
                 Vector3 nextIntersectionPoint;
                 switch (GetManeuverType(first, second))
@@ -234,15 +240,15 @@ namespace Mercraft.Models.Roads
         #endregion
 
         #region Getting segments and turn types
+
         private List<RoadSegment> GetRoadSegments(RoadElement roadElement)
         {
             var roadSegments = new List<RoadSegment>();
-            for (int i = 1; i < roadElement.Points.Length; i++)
-            {
-                var point1 = roadElement.Points[i - 1];
-                var point2 = roadElement.Points[i];
+            var points =  LineUtils.GetIntermediatePoints(roadElement.Points, MaxPointDistance);
 
-                roadSegments.Add(GetRoadSegment(point1, point2, roadElement.Width));
+            for (int i = 1; i < points.Length; i++)
+            {
+                roadSegments.Add(GetRoadSegment(points[i - 1], points[i], roadElement.Width));
             }
             return roadSegments;
         }

@@ -10,8 +10,6 @@ namespace Mercraft.Models.Roads
         // NOTE ignored so far by default RoadBuilder
         public TextureUvMap UvMap { get; set; }
 
-        public IRoadBuilder Builder { get; set; }
-
         public class TextureUvMap
         {
             public Vector2[] Main { get; set; }

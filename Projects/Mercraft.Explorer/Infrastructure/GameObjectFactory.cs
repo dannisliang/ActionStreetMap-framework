@@ -10,16 +10,6 @@ namespace Mercraft.Explorer.Infrastructure
 {
     public class GameObjectFactory : IGameObjectFactory
     {
-        private readonly IThemeProvider _themeProvider;
-        private readonly ITerrainBuilder _terrainBuilder;
-
-        [Dependency]
-        public GameObjectFactory(IThemeProvider themeProvider, ITerrainBuilder terrainBuilder)
-        {
-            _themeProvider = themeProvider;
-            _terrainBuilder = terrainBuilder;
-        }
-
         public virtual IGameObject CreateNew(string name)
         {
             return new UnityGameObject(name);

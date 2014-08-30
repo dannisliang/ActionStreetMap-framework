@@ -46,6 +46,7 @@
     <Compile Include="Buildings\Roofs\FlatRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\IRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\MansardRoofBuilder.cs" />
+    <Compile Include="Geometry\LineUtils.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\DouglasPeuckerReduction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

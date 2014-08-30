@@ -6,7 +6,7 @@ namespace Mercraft.Maps.UnitTests
     {
         public string Resolve(string path)
         {
-            if (path.StartsWith(".") || path.StartsWith("test"))
+            if (path.StartsWith(".") || path.StartsWith("test") || path.StartsWith("f:"))
                 return path;
 
             if (path.StartsWith("Config") || path.StartsWith("Maps") || path.StartsWith("Elevation"))
