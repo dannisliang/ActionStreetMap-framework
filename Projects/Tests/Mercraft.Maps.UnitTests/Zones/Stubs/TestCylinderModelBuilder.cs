@@ -4,8 +4,10 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
+using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Terrain;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -21,15 +23,15 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
-            base.BuildArea(center, rule, area);
+            base.BuildArea(center, heightMap, rule, area);
             return BuildCylinder(center, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
         {
-            base.BuildWay(center, rule, way);
+            base.BuildWay(center, heightMap, rule, way);
             return BuildCylinder(center, way.Points, rule);
         }
 

@@ -7,6 +7,7 @@ using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -24,20 +25,20 @@ namespace Mercraft.Explorer.Builders
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
-            base.BuildArea(center, rule, area);
-            return BuildSphere(center, area, area.Points, rule);
+            base.BuildArea(center, heightMap, rule, area);
+            return BuildSphere(center, heightMap, area, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap,  Rule rule, Way way)
         {
-            base.BuildWay(center, rule, way);
+            base.BuildWay(center, heightMap, rule, way);
             // TODO is it applied to way?
-            return BuildSphere(center, way, way.Points, rule);
+            return BuildSphere(center, heightMap, way, way.Points, rule);
         }
 
-        private IGameObject BuildSphere(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
+        private IGameObject BuildSphere(GeoCoordinate center, HeightMap heightMap, Model model, GeoCoordinate[] points, Rule rule)
         {
             var circle = CircleHelper.GetCircle(center, points);
             var diameter = circle.Item1;

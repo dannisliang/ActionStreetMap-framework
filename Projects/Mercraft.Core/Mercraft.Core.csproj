@@ -57,7 +57,6 @@
     <Compile Include="World\Address.cs" />
     <Compile Include="MapCss\Visitors\Eval\ListTreeWalker.cs" />
     <Compile Include="Scene\IModelBehaviour.cs" />
-    <Compile Include="Scene\IModelBuilder.cs" />
     <Compile Include="Unity\Color32.cs" />
     <Compile Include="Unity\IGameObject.cs" />
     <Compile Include="Unity\IGameObjectFactory.cs" />

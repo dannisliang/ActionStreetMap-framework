@@ -24,12 +24,14 @@ namespace Mercraft.Models.Terrain
         {
             var size = new Vector3(settings.TerrainSize, settings.HeightMap.MaxElevation, settings.TerrainSize);
 
-            // fill heightmap
+            /*// fill heightmap
             var heightMapElements = CreateElements(settings, settings.Elevations,
                 settings.HeightMap.Resolution / size.x,
                 settings.HeightMap.Resolution / size.z,
                 t => t.ZIndex);
-            var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);
+            var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);*/
+
+            var htmap = settings.HeightMap.Data;
 
             // create TerrainData
             var terrainData = new TerrainData();

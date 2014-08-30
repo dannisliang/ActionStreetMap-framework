@@ -11,6 +11,7 @@ using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Builders
 {
@@ -36,15 +37,15 @@ namespace Mercraft.Explorer.Builders
 
         private const int NoValue = 0;
 
-        public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
-            base.BuildArea(center, rule, area);
+            base.BuildArea(center, heightMap, rule, area);
             return BuildBuilding(center, area, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
         {
-            base.BuildWay(center, rule, way);
+            base.BuildWay(center, heightMap, rule, way);
             return BuildBuilding(center, way, way.Points, rule);
         }
 

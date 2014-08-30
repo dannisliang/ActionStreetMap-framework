@@ -5,8 +5,10 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
+using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Terrain;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -23,18 +25,18 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
-            base.BuildArea(center, rule, area);
+            base.BuildArea(center, heightMap, rule, area);
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew("");
             BuildModel(center, gameObjectWrapper, rule, area.Points.ToList());
             var floor = rule.GetZIndex();
             return gameObjectWrapper;
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
         {
-            base.BuildWay(center, rule, way);
+            base.BuildWay(center, heightMap, rule, way);
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew("");
             BuildModel(center, gameObjectWrapper, rule, way.Points.ToList());
             var width = rule.GetWidth();

@@ -11,11 +11,6 @@ namespace Mercraft.Models.Terrain
         ///     Returns heightmap array for given center with given resolution
         /// </summary>
         HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize);
-
-        /// <summary>
-        ///     Returns corresponding height for given point from given heightmap
-        /// </summary>
-        float LookupHeight(HeightMap heightMap, GeoCoordinate coordinate);
     }
 
     public class HeightMapProvider: IHeightMapProvider
@@ -66,21 +61,15 @@ namespace Mercraft.Models.Terrain
                 map[i, j] /= maxElevation;
                 
             // TODO which value to use?
-            map = GenerateSmoothNoise(map, 4);
+            map = GenerateSmoothNoise(map, 5);
 
             return new HeightMap()
             {
-                Center = center,
-                Map = map,
+                Data = map,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
                 Size = tileSize
             };
-        }
-
-        public float LookupHeight(HeightMap heightMap, GeoCoordinate coordinate)
-        {
-            throw new System.NotImplementedException();
         }
 
         #region Smooth noise

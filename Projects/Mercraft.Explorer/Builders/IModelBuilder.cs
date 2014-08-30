@@ -1,18 +1,19 @@
 ﻿using System;
+using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Models.Terrain;
 
-namespace Mercraft.Core.Scene
+namespace Mercraft.Explorer.Builders
 {
     public interface IModelBuilder
     {
         string Name { get; }
-        IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area);
-        IGameObject BuildWay(GeoCoordinate center,  Rule rule, Way way);
+        IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area);
+        IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way);
     }
 
     public abstract class ModelBuilder : IModelBuilder
@@ -30,13 +31,13 @@ namespace Mercraft.Core.Scene
             GameObjectFactory = gameObjectFactory;
         }
 
-        public virtual IGameObject BuildArea(GeoCoordinate center, Rule rule, Area area)
+        public virtual IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
         {
             Trace.Normal(String.Format("{0}: building area {1}", Name, area.Id));
             return null;
         }
 
-        public virtual IGameObject BuildWay(GeoCoordinate center, Rule rule, Way way)
+        public virtual IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
         {
             Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
             return null;

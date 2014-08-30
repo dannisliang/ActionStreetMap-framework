@@ -11,6 +11,7 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
+using Mercraft.Explorer.Builders;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
@@ -101,7 +102,7 @@ namespace Mercraft.Explorer
             }
 
             // NOTE not ready yet
-            //if (_heightMap.IsFlat)
+            if (_heightMap.IsFlat)
                 _heightMap.MaxElevation = rule.GetHeight();
 
             _terrainBuilder.Build(parent, new TerrainSettings()
@@ -165,7 +166,7 @@ namespace Mercraft.Explorer
 
             if (!visitedBefore)
             {
-                var gameObjectWrapper = builder.BuildArea(center, rule, area);
+                var gameObjectWrapper = builder.BuildArea(center, _heightMap, rule, area);
                 gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
                 gameObjectWrapper.Parent = parent;
 
@@ -210,7 +211,7 @@ namespace Mercraft.Explorer
                 throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", way));
             }               
 
-            var gameObjectWrapper = builder.BuildWay(center, rule, way);
+            var gameObjectWrapper = builder.BuildWay(center, _heightMap, rule, way);
             gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, way);
             gameObjectWrapper.Parent = parent;
 
