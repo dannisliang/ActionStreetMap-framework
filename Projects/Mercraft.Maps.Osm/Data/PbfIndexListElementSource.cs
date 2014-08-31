@@ -15,7 +15,7 @@ namespace Mercraft.Maps.Osm.Data
         private const string OsmFilePattern = "{0}.osm.pbf";
 
         private readonly Regex _geoCoordinateRegex =
-            new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)", RegexOptions.Compiled);
+            new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)");
 
         private readonly List<KeyValuePair<string, BoundingBox>> _listIndex =
             new List<KeyValuePair<string, BoundingBox>>();

@@ -23,13 +23,13 @@ namespace Mercraft.Core.Utilities
             return 180.0*radians/Math.PI;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Compares two float numbers using epsilon
         /// </summary>
         public static bool AreEqual(float a, float b, float epsilon = float.Epsilon)
         {
             return Math.Abs(a - b) < epsilon;
-        }
+        }*/
 
         public static bool AreEqual(double a, double b, double epsilon = double.Epsilon)
         {

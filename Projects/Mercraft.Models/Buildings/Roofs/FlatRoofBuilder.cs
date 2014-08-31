@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System.Linq;
+using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
 using UnityEngine;
@@ -25,9 +26,12 @@ namespace Mercraft.Models.Buildings.Roofs
         {
             var length = footprint.Length;
             var vertices3D = new Vector3[length];
+            
+            var elevation = footprint.Min(p => p.Elevation);
+            var top = elevation + height;
+            
             for (int i = 0; i < length; i++)
             {
-                var top = footprint[i].Elevation + height;
                 vertices3D[i] = new Vector3(footprint[i].X, top, footprint[i].Y);
             }
             return vertices3D;

@@ -1,17 +1,20 @@
-﻿using Mercraft.Core.World.Buildings;
+﻿using Mercraft.Core.Elevation;
+using Mercraft.Core.World.Buildings;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Unity;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings
 {
     public interface IBuildingBuilder
     {
-        void Build(Building building, BuildingStyle style);
+        void Build(HeightMap heightMap, Building building, BuildingStyle style);
     }
 
     public class BuildingBuilder : IBuildingBuilder
     {
+        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
         private readonly IResourceProvider _resourceProvider;
 
         [Dependency]
@@ -20,8 +23,14 @@ namespace Mercraft.Models.Buildings
             _resourceProvider = resourceProvider;
         }
 
-        public void Build(Building building, BuildingStyle style)
+        public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
+            if (!heightMap.IsFlat)
+            {
+                _heightMapProcessor.Recycle(heightMap);
+                _heightMapProcessor.AdjustPolygon(building.Footprint);
+            }
+
             var facadeMeshData = style.Facade.Builder.Build(building, style);
             var roofMeshData = style.Roof.Builder.Build(building, style);
 

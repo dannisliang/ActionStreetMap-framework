@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using Mercraft.Core;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Geometry;
 using Mercraft.Models.Unity;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads
@@ -16,7 +19,7 @@ namespace Mercraft.Models.Roads
     /// </summary>
     public interface IRoadBuilder
     {
-        void Build(Road road, RoadStyle style);
+        void Build(HeightMap heightMap, Road road, RoadStyle style);
     }
 
     public class RoadBuilder : IRoadBuilder
@@ -24,6 +27,7 @@ namespace Mercraft.Models.Roads
         // TODO this value depends on heightmap accuracy
         private const float MaxPointDistance = 5f;
 
+        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
         private readonly IResourceProvider _resourceProvider;
 
         [Dependency]
@@ -32,9 +36,9 @@ namespace Mercraft.Models.Roads
             _resourceProvider = resourceProvider;
         }
 
-        public void Build(Road road, RoadStyle style)
+        public void Build(HeightMap heightMap, Road road, RoadStyle style)
         {
-            var context = new BuilderContext(road, style);
+            var context = new BuilderContext(heightMap, road, style);
             var elementsCount = context.Road.Elements.Count;
             for (context.ElementIndex = 0; context.ElementIndex < elementsCount; context.ElementIndex++)
             {
@@ -68,7 +72,7 @@ namespace Mercraft.Models.Roads
 
         protected void ProcessRoadData(BuilderContext context, RoadElement roadElement)
         {
-            var roadSegments = GetRoadSegments(roadElement);
+            var roadSegments = GetRoadSegments(context, roadElement);
 
             // NOTE Sometimes the road has only one point (wrong pbf file?)
             if (roadSegments.Count == 0)
@@ -126,7 +130,8 @@ namespace Mercraft.Models.Roads
                 var first = roadSegments[segmentsCount - 1];
                 var nextRoadElement = context.Road.Elements[context.ElementIndex + 1];
 
-                var secondPoint = LineUtils.GetNextIntermediatePoint(nextRoadElement.Points[0],
+                var secondPoint = LineUtils.GetNextIntermediatePoint(context.HeightMap,
+                    nextRoadElement.Points[0],
                     nextRoadElement.Points[1], MaxPointDistance);
                 var second = GetRoadSegment(nextRoadElement.Points[0], secondPoint, width);
 
@@ -241,15 +246,24 @@ namespace Mercraft.Models.Roads
 
         #region Getting segments and turn types
 
-        private List<RoadSegment> GetRoadSegments(RoadElement roadElement)
+        private List<RoadSegment> GetRoadSegments(BuilderContext context, RoadElement roadElement)
         {
             var roadSegments = new List<RoadSegment>();
-            var points =  LineUtils.GetIntermediatePoints(roadElement.Points, MaxPointDistance);
+            
+            MapPoint[] points;
+            if (context.HeightMap.IsFlat)
+                points = roadElement.Points;
+            else
+            {
+                _heightMapProcessor.Recycle(context.HeightMap);
+                points = LineUtils.GetIntermediatePoints(context.HeightMap, roadElement.Points, MaxPointDistance);
+                for (int i = 0; i < points.Length - 1; i++)
+                    _heightMapProcessor.AdjustLine(points[i], points[i + 1], roadElement.Width);
+            }
 
             for (int i = 1; i < points.Length; i++)
-            {
                 roadSegments.Add(GetRoadSegment(points[i - 1], points[i], roadElement.Width));
-            }
+            
             return roadSegments;
         }
 
@@ -280,6 +294,15 @@ namespace Mercraft.Models.Roads
 
         private RoadManeuver GetManeuverType(RoadSegment first, RoadSegment second)
         {
+            // just straight line with shared point
+
+            var area = first.Left.Start.x*(first.Left.End.z - second.Left.End.z) +
+                       first.Left.End.x*(second.Left.End.z - first.Left.Start.z) +
+                       second.Left.End.x*(first.Left.Start.z - first.Left.End.z);
+            if (area < 0.1) 
+                return RoadManeuver.Straight;
+
+
             if (SegmentUtils.Intersect(first.Left, second.Left))
                 return RoadManeuver.LeftTurn;
 
@@ -288,6 +311,16 @@ namespace Mercraft.Models.Roads
 
             return RoadManeuver.Straight;
         }
+
+        #endregion
+
+        #region Make terrain flatten
+
+        private void FlattenTrapezoid(BuilderContext context)
+        {
+            
+        }
+
         #endregion
 
         private enum RoadManeuver
@@ -302,6 +335,7 @@ namespace Mercraft.Models.Roads
         /// </summary>
         protected class BuilderContext
         {
+            public HeightMap HeightMap;
             public Road Road;
             public List<Vector3> Points = new List<Vector3>();
 
@@ -317,8 +351,9 @@ namespace Mercraft.Models.Roads
 
             public RoadStyle Style;
 
-            public BuilderContext(Road road, RoadStyle style)
+            public BuilderContext(HeightMap heightMap, Road road, RoadStyle style)
             {
+                HeightMap = heightMap;
                 Road = road;
                 Style = style;
             }

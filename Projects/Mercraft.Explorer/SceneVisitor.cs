@@ -69,7 +69,7 @@ namespace Mercraft.Explorer
 
             var center = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
 
-            _heightMap = _heightMapProvider.GetHeightMap(center, heightMapResolution, tile.Size);
+            _heightMap = _heightMapProvider.GetHeightMap(tile, heightMapResolution);
         }
 
         public void Finalize(IScene scene)
@@ -98,7 +98,7 @@ namespace Mercraft.Explorer
             foreach (var road in roads)
             {
                 var style = roadStyleProvider.Get(road);
-                _roadBuilder.Build(road, style);
+                _roadBuilder.Build(_heightMap, road, style);
             }
 
             if (_heightMap.IsFlat)

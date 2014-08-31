@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Models.Geometry;
+using UnityEngine;
 
 namespace Mercraft.Models.Terrain
 {
     /// <summary>
-    ///     Custom version of Scanline algorithm to fill terrain alphamap/heightmap
+    ///     Custom version of Scanline algorithm to process terrain alphamap/heightmap
     /// </summary>
     public class TerrainScanLine
     {

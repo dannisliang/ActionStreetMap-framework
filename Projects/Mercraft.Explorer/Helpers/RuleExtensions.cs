@@ -7,6 +7,7 @@ using Mercraft.Core.Utilities;
 using Mercraft.Explorer.Builders;
 using UnityEngine;
 
+
 namespace Mercraft.Explorer.Helpers
 {
     /// <summary>
@@ -23,11 +24,6 @@ namespace Mercraft.Explorer.Helpers
         public static int GetLevels(this Rule rule, int @default = 0)
         {
             return rule.EvaluateDefault("levels", @default);
-        }
-
-        public static float GetHeight(this Rule rule)
-        {
-            return rule.Evaluate<float>("height");
         }
 
         public static float GetHeight(this Rule rule, float defaultValue = 0)
@@ -68,7 +64,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static Color32 GetFillColor(this Rule rule)
         {
-            var coreColor = rule.Evaluate("fill-color", ColorUtility.FromUnknown);
+            var coreColor = rule.Evaluate<Core.Unity.Color32>("fill-color", ColorUtility.FromUnknown);
             return new Color32(coreColor.r, coreColor.g, coreColor.b, coreColor.a);
         }
 

@@ -64,6 +64,7 @@
     <Compile Include="Terrain\TerrainSettings.cs" />
     <Compile Include="Unity\ResourceProvider.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />
+    <Compile Include="Utils\HeightMapProcessor.cs" />
     <Compile Include="Utils\PerlinNoise.cs" />
     <Compile Include="Geometry\SegmentUtils.cs" />
   </ItemGroup>

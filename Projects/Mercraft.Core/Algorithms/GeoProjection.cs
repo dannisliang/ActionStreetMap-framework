@@ -38,13 +38,20 @@ namespace Mercraft.Core.Algorithms
         /// </summary>
         public static GeoCoordinate ToGeoCoordinate(GeoCoordinate relativeNullPoint, MapPoint mapPoint)
         {
+            return ToGeoCoordinate(relativeNullPoint, mapPoint.X, mapPoint.Y);
+        }
+
+        /// <summary>
+        /// Calculates geo coordinate from map coordinate. Reverse operation to ToMapCoordinates()
+        /// </summary>
+        public static GeoCoordinate ToGeoCoordinate(GeoCoordinate relativeNullPoint, float x, float y)
+        {
             double latitudeCircumference = LatitudeEquator * Math.Cos(MathUtility.Deg2Rad(relativeNullPoint.Latitude));
 
-            var deltaLongitude = (mapPoint.X * 360) / latitudeCircumference;
-            var deltaLatitude = (mapPoint.Y * 360) / CircleDistance;
+            var deltaLongitude = (x * 360) / latitudeCircumference;
+            var deltaLatitude = (y * 360) / CircleDistance;
 
-            return new GeoCoordinate(
-                relativeNullPoint.Latitude + deltaLatitude, 
+            return new GeoCoordinate(relativeNullPoint.Latitude + deltaLatitude,
                 relativeNullPoint.Longitude + deltaLongitude);
         }
     }

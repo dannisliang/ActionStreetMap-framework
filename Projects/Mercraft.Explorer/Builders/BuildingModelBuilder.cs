@@ -70,7 +70,7 @@ namespace Mercraft.Explorer.Builders
             var theme = _themeProvider.Get();
             BuildingStyle style = theme.GetBuildingStyle(building);
 
-            _builder.Build(building, style);
+            _builder.Build(heightMap, building, style);
 
             return gameObjectWrapper;
         }

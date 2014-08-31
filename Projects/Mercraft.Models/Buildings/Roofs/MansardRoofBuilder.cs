@@ -17,7 +17,8 @@ namespace Mercraft.Models.Buildings.Roofs
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
             var roofHeight = 3f;
-            var verticies3D = GetVerticies3D(polygon, building.Height, offset, roofHeight);
+            var elevation = building.Footprint.Min(p => p.Elevation);
+            var verticies3D = GetVerticies3D(polygon, building.Height, offset, elevation, roofHeight);
 
             return new MeshData()
             {
@@ -29,7 +30,8 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset, float roofHeight)
+        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset, 
+            float elevation, float roofHeight)
         {
             var verticies = new List<Vector3>(polygon.Verticies.Length * 2);
             var topVerticies = new List<Vector3>(polygon.Verticies.Length);
@@ -54,13 +56,13 @@ namespace Mercraft.Models.Buildings.Roofs
                 // TODO check whether elevation is correct
                // var top = polygon.Elevations[i] + buildingHeight;
 
-                verticies.Add(new Vector3(segment1.End.x, segment1.End.y + buildingHeight, segment1.End.z));
+                verticies.Add(new Vector3(segment1.End.x, elevation + buildingHeight, segment1.End.z));
                 verticies.Add(new Vector3(ip1.x, segment1.End.y + roofHeight, ip1.y));
 
-                verticies.Add(new Vector3(segment2.End.x, segment2.End.y + buildingHeight, segment2.End.z));
-                verticies.Add(new Vector3(ip2.x, segment2.End.y + roofHeight, ip2.y));
+                verticies.Add(new Vector3(segment2.End.x, elevation + buildingHeight, segment2.End.z));
+                verticies.Add(new Vector3(ip2.x, elevation + roofHeight, ip2.y));
 
-                topVerticies.Add(new Vector3(ip1.x, segment1.End.y + roofHeight, ip1.y));
+                topVerticies.Add(new Vector3(ip1.x, elevation + roofHeight, ip1.y));
             }
             verticies.AddRange(topVerticies);
             return verticies.ToArray();

@@ -5,7 +5,7 @@ namespace Mercraft.Core.Utilities
 {
     public static class SanitizeHelper
     {
-        private static Regex RegexFloat = new Regex(@"(?<number>[0-9\.]*).*", RegexOptions.Compiled);
+        private static Regex RegexFloat = new Regex(@"(?<number>[0-9\.]*).*");
         
         public static string SanitizeFloat(string s)
         {

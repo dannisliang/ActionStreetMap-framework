@@ -1,4 +1,6 @@
-﻿using Mercraft.Infrastructure.Dependencies;
+﻿using Mercraft.Core.Algorithms;
+using Mercraft.Core.Tiles;
+using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Core.Elevation
 {
@@ -7,7 +9,7 @@ namespace Mercraft.Core.Elevation
         /// <summary>
         ///     Returns heightmap array for given center with given resolution
         /// </summary>
-        HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize);
+        HeightMap GetHeightMap(Tile tile, int resolution);
     }
 
     public class HeightMapProvider: IHeightMapProvider
@@ -22,14 +24,15 @@ namespace Mercraft.Core.Elevation
         public HeightMapProvider(IElevationProvider elevationProvider)
         {
             _elevationProvider = elevationProvider;
-            DoSmooth = false;
+            DoSmooth = true;
         }
 
-        public HeightMap GetHeightMap(GeoCoordinate center, int resolution, float tileSize)
+        public HeightMap GetHeightMap(Tile tile, int resolution)
         {
             var map = new float[resolution, resolution];
 
-            var bbox = BoundingBox.CreateBoundingBox(center, tileSize / 2);
+            var geoCenter = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
+            var bbox = BoundingBox.CreateBoundingBox(geoCenter, tile.Size / 2);
 
             var latStep = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution;
             var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
@@ -37,10 +40,10 @@ namespace Mercraft.Core.Elevation
             float maxElevation = 0;
 
             // NOTE Assume that [0,0] is bottom left corner
-            var lon = bbox.MinPoint.Longitude + lonStep/2;
+            var lat = bbox.MinPoint.Latitude + latStep/2;
             for (int j = 0; j < resolution; j++)
             {
-                var lat = bbox.MinPoint.Latitude + latStep / 2;
+                var lon = bbox.MinPoint.Longitude + lonStep / 2;
                 for (int i = 0; i < resolution; i++)
                 {
                     var elevation = _elevationProvider.GetElevation(lat, lon);
@@ -51,9 +54,9 @@ namespace Mercraft.Core.Elevation
 
                     map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
 
-                    lat += latStep;
+                    lon += lonStep;
                 }
-                lon += lonStep;
+                lat += latStep;
             }
 
             // TODO which value to use?
@@ -65,16 +68,23 @@ namespace Mercraft.Core.Elevation
                 BoundingBox = bbox,
                 LatitudeOffset = latStep,
                 LongitudeOffset = lonStep,
+                
+                IsFlat = !DoSmooth,
+
+                LeftBottomCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MinPoint),
+                RightUpperCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MaxPoint),
+                AxisOffset = tile.Size / resolution,
+
                 Data = map,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
-                Size = tileSize
+                Size = tile.Size
             };
         }
 
         #region Smooth noise
 
-        private static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
+        public static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
         {
             int width = baseNoise.GetLength(0);
             int height = baseNoise.GetLength(1);

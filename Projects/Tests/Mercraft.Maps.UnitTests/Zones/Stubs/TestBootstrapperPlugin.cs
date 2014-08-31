@@ -16,6 +16,9 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
     /// </summary>
     public class TestBootstrapperPlugin: BootstrapperPlugin
     {
+        private TestModelBehaviour _solidModelBehaviour = new TestModelBehaviour("solid");
+        private TestModelBehaviour _waterModelBehaviour = new TestModelBehaviour("water");
+
         public override string Name
         {
             get { return "test"; }
@@ -34,8 +37,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());
             Container.Register(Component.For<IRoadBuilder>().Use<TestRoadBuilder>());
 
-            Container.RegisterInstance<IModelBehaviour>(new TestModelBehaviour("solid"), "solid");
-            Container.RegisterInstance<IModelBehaviour>(new TestModelBehaviour("water"), "water");
+            Container.RegisterInstance<IModelBehaviour>(_solidModelBehaviour, "solid");
+            Container.RegisterInstance<IModelBehaviour>(_waterModelBehaviour, "water");
 
             return true;
         }

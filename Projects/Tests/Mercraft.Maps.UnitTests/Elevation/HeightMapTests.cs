@@ -1,6 +1,7 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
+using Mercraft.Core.Tiles;
 using Moq;
 using NUnit.Framework;
 
@@ -33,8 +34,8 @@ namespace Mercraft.Maps.UnitTests.Elevation
             provider.DoSmooth = false;
             
             // ACT
-            var heightMap = provider.GetHeightMap(center, resolution, tileSize);
-
+            var heightMap = provider.GetHeightMap(new Tile(null, center, new MapPoint(), tileSize), resolution);
+                
             // ASSERT
             Assert.IsNotNull(heightMap);
             Assert.IsNotNull(heightMap.Data);
