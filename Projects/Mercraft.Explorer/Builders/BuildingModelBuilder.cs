@@ -63,7 +63,7 @@ namespace Mercraft.Explorer.Builders
                 Levels = rule.GetLevels(NoValue),
                 // TODO map osm type to ours
                 Type = "residental",//rule.GetBuildingType(),
-                BottomOffset = rule.GetZIndex(),
+                Elevation = rule.GetZIndex(),
                 Footprint = PolygonHelper.GetVerticies3D(center, heightMap, footPrint)
             };
 

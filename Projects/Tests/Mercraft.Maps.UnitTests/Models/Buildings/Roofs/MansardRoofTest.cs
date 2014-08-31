@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings.Roofs
                     new MapPoint(5, 5),
                     new MapPoint(5, 0),
                 },
-                BottomOffset = 0,
+                Elevation = 0,
                 Height = 1
             }, new BuildingStyle()
             {

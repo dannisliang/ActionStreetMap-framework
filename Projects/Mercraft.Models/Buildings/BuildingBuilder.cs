@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.Elevation;
+﻿using System.Linq;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Unity;
@@ -25,10 +26,13 @@ namespace Mercraft.Models.Buildings
 
         public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
+            // NOTE we do not support elevations changes for buildings
+            // should we use max point or min?
+            building.Elevation = building.Footprint.Min(p => p.Elevation);
             if (!heightMap.IsFlat)
             {
                 _heightMapProcessor.Recycle(heightMap);
-                _heightMapProcessor.AdjustPolygon(building.Footprint);
+                _heightMapProcessor.AdjustPolygon(building.Footprint, building.Elevation);
             }
 
             var facadeMeshData = style.Facade.Builder.Build(building, style);

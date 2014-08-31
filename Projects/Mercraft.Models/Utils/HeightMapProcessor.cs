@@ -43,17 +43,14 @@ namespace Mercraft.Models.Utils
             ScanAndFill(elevation);
         }
 
-        public void AdjustPolygon(MapPoint[] points)
+        public void AdjustPolygon(MapPoint[] points, float elevation)
         {
             _mapPointBuffer = new MapPoint[points.Length];
 
-            float elevation = Int32.MaxValue;
             for (int i = 0; i < points.Length; i++)
             {
                 var point = points[i];
                 _mapPointBuffer[i] = GetHeightMapPoint(point.X, point.Y);
-                if (elevation > point.Elevation)
-                    elevation = point.Elevation;
             }
 
             InitializeScanLine();

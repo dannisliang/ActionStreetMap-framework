@@ -14,7 +14,8 @@ namespace Mercraft.Core.World.Buildings
 
         public float Height { get; set; }
         public int Levels { get; set; }
-        public float BottomOffset { get; set; }
+
+        public float Elevation { get; set; }
 
         public MapPoint[] Footprint { get; set; }
 

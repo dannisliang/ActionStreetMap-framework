@@ -17,8 +17,8 @@ namespace Mercraft.Models.Buildings.Roofs
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
             var roofHeight = 3f;
-            var elevation = building.Footprint.Min(p => p.Elevation);
-            var verticies3D = GetVerticies3D(polygon, building.Height, offset, elevation, roofHeight);
+            
+            var verticies3D = GetVerticies3D(polygon, building.Height, offset, building.Elevation, roofHeight);
 
             return new MeshData()
             {

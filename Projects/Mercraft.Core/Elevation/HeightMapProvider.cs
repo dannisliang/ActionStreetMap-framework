@@ -48,7 +48,6 @@ namespace Mercraft.Core.Elevation
                 {
                     var elevation = _elevationProvider.GetElevation(lat, lon);
 
-                    // TODO refactor: constant is SRTM specific which means there is no data
                     if (elevation > maxElevation && elevation < MaxHeight)
                         maxElevation = elevation;
 
@@ -61,7 +60,7 @@ namespace Mercraft.Core.Elevation
 
             // TODO which value to use?
             if (DoSmooth)
-                map = GenerateSmoothNoise(map, 5);
+                map = GenerateSmoothNoise(map, 8);
 
             return new HeightMap()
             {
@@ -69,8 +68,6 @@ namespace Mercraft.Core.Elevation
                 LatitudeOffset = latStep,
                 LongitudeOffset = lonStep,
                 
-                IsFlat = !DoSmooth,
-
                 LeftBottomCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MinPoint),
                 RightUpperCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MaxPoint),
                 AxisOffset = tile.Size / resolution,
