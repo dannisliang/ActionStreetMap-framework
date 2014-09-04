@@ -28,7 +28,11 @@ namespace Mercraft.Models.Buildings
         {
             // NOTE we do not support elevations changes for buildings
             // should we use max point or min?
-            building.Elevation = building.Footprint.Min(p => p.Elevation);
+            building.Elevation = building.Footprint.Max(p => p.Elevation);
+
+            for (int i = 0; i < building.Footprint.Length; i++)
+                building.Footprint[i].Elevation = building.Elevation;
+
             if (!heightMap.IsFlat)
             {
                 _heightMapProcessor.Recycle(heightMap);

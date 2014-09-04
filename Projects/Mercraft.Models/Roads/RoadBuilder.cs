@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
+
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Roads;
@@ -25,7 +24,23 @@ namespace Mercraft.Models.Roads
     public class RoadBuilder : IRoadBuilder
     {
         // TODO this value depends on heightmap accuracy
-        private const float MaxPointDistance = 5f;
+        private const float MaxPointDistance = 4f;
+
+        private HeightMap _heightMap;
+
+        private List<Vector3> _points = new List<Vector3>();
+        private List<int> _triangles = new List<int>();
+        private List<Vector2> _uv = new List<Vector2>();
+
+        // TODO ration depends on texture
+        private float _ratio = 20;
+
+        private int _trisIndex = 0;
+        private Tuple<Vector3, Vector3> _startPoints;
+
+        private List<RoadElement> _roadElements;
+        private int _elementIndex;
+        private bool _isLastElement;
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
         private readonly IResourceProvider _resourceProvider;
@@ -38,24 +53,40 @@ namespace Mercraft.Models.Roads
 
         public void Build(HeightMap heightMap, Road road, RoadStyle style)
         {
-            var context = new BuilderContext(heightMap, road, style);
-            var elementsCount = context.Road.Elements.Count;
-            for (context.ElementIndex = 0; context.ElementIndex < elementsCount; context.ElementIndex++)
+            _heightMap = heightMap;
+
+            _roadElements = RoadUtils.GetRoadElementsInTile(heightMap, road.Elements);
+            var elementsCount = _roadElements.Count;
+            for (_elementIndex = 0; _elementIndex < elementsCount; _elementIndex++)
             {
-                context.IsLastElement = context.ElementIndex == elementsCount - 1;
-                var roadElement = road.Elements[context.ElementIndex];
-                ProcessRoadData(context, roadElement);
+                _isLastElement = _elementIndex == elementsCount - 1;
+
+                var roadElement = _roadElements[_elementIndex];
+                // it means that there is no connection to previous road element
+                if (roadElement.IsNotContinuation)
+                    _startPoints = null;
+                    
+                ProcessRoadData(roadElement);
             }
 
-            CreateMesh(road, style, context);
+            CreateMesh(road, style);
+
+            // reset state defaults
+            _heightMap = null;
+            _trisIndex = 0;
+            _startPoints = null;
+            _isLastElement = false;
+            _points.Clear();
+            _triangles.Clear();
+            _uv.Clear();
         }
 
-        protected virtual void CreateMesh(Road road, RoadStyle style, BuilderContext context)
+        protected virtual void CreateMesh(Road road, RoadStyle style)
         {
             Mesh mesh = new Mesh();
-            mesh.vertices = context.Points.ToArray();
-            mesh.triangles = context.Triangles.ToArray();
-            mesh.uv = context.Uv.ToArray();
+            mesh.vertices = _points.ToArray();
+            mesh.triangles = _triangles.ToArray();
+            mesh.uv = _uv.ToArray();
             mesh.RecalculateNormals();
 
             var gameObject = road.GameObject.GetComponent<GameObject>();
@@ -70,33 +101,33 @@ namespace Mercraft.Models.Roads
 
         #region Segment processing
 
-        protected void ProcessRoadData(BuilderContext context, RoadElement roadElement)
+        protected void ProcessRoadData(RoadElement roadElement)
         {
-            var roadSegments = GetRoadSegments(context, roadElement);
+            var roadSegments = GetRoadSegments(roadElement);
 
             // NOTE Sometimes the road has only one point (wrong pbf file?)
             if (roadSegments.Count == 0)
                 return;
 
-            ProcessFirstSegments(context, roadSegments);
-            ProcessLastSegment(context, roadSegments, roadElement.Width);
+            ProcessFirstSegments(roadSegments);
+            ProcessLastSegment(roadSegments, roadElement.IsNotContinuation, roadElement.Width);
         }
 
         /// <summary>
-        /// Processes first road segments except last one (if roadSegments.Count > 1)
+        ///     Processes first road segments except last one (if roadSegments.Count > 1)
         /// </summary>
-        private void ProcessFirstSegments(BuilderContext context, List<RoadSegment> roadSegments)
+        private void ProcessFirstSegments(List<RoadSegment> roadSegments)
         {
             var segmentsCount = roadSegments.Count;
             if (segmentsCount == 1)
             {
-                AddTrapezoid(context, roadSegments[0].Left, roadSegments[0].Right);
-                context.StartPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.End, roadSegments[0].Left.End);
+                AddTrapezoid(roadSegments[0].Left, roadSegments[0].Right);
+                _startPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.End, roadSegments[0].Left.End);
             }
             else
             {
-                if (context.StartPoints == null)
-                    context.StartPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.Start, roadSegments[0].Left.Start);
+                if (_startPoints == null)
+                    _startPoints = new Tuple<Vector3, Vector3>(roadSegments[0].Right.Start, roadSegments[0].Left.Start);
 
                 for (int i = 1; i < segmentsCount; i++)
                 {
@@ -105,13 +136,13 @@ namespace Mercraft.Models.Roads
                     switch (GetManeuverType(s1, s2))
                     {
                         case RoadManeuver.Straight:
-                            StraightLineCase(context, s1, s2);
+                            StraightLineCase(s1, s2);
                             break;
                         case RoadManeuver.LeftTurn:
-                            TurnLeftCase(context, s1, s2);
+                            TurnLeftCase(s1, s2);
                             break;
                         case RoadManeuver.RightTurn:
-                            TurnRightCase(context, s1, s2);
+                            TurnRightCase(s1, s2);
                             break;
                     }
                 }
@@ -119,122 +150,132 @@ namespace Mercraft.Models.Roads
         }
 
         /// <summary>
-        /// Processes last road segment of current RoadElement
+        ///     Processes last road segment of current RoadElement
         /// </summary>
-        private void ProcessLastSegment(BuilderContext context, List<RoadSegment> roadSegments, float width)
+        private void ProcessLastSegment(List<RoadSegment> roadSegments, bool isNotContinuation, float width)
         {
             var segmentsCount = roadSegments.Count;
-            // NOTE We have to connect last segment with first segment of next road element
-            if (!context.IsLastElement)
+
+            // We have to connect last segment with first segment of next road element
+            if (!_isLastElement)
             {
                 var first = roadSegments[segmentsCount - 1];
-                var nextRoadElement = context.Road.Elements[context.ElementIndex + 1];
+                var nextRoadElement = _roadElements[_elementIndex + 1];
 
-                var secondPoint = LineUtils.GetNextIntermediatePoint(context.HeightMap,
-                    nextRoadElement.Points[0],
-                    nextRoadElement.Points[1], MaxPointDistance);
+                // NOTE we couldn't connect last segment of current element with next cause it's marked as not continuation
+                if(nextRoadElement.IsNotContinuation)
+                    return;
+
+                MapPoint secondPoint = _heightMap.IsFlat
+                    ? nextRoadElement.Points[1]
+                    // we split roadElement to smaller parts in non-flat mode
+                    : LineUtils.GetNextIntermediatePoint(_heightMap,
+                        nextRoadElement.Points[0],
+                        nextRoadElement.Points[1], MaxPointDistance);
+                
                 var second = GetRoadSegment(nextRoadElement.Points[0], secondPoint, width);
 
                 Vector3 nextIntersectionPoint;
                 switch (GetManeuverType(first, second))
                 {
                     case RoadManeuver.Straight:
-                        AddTrapezoid(context, second.Right.Start, second.Left.Start, second.Left.End, second.Right.End);
-                        context.StartPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
+                        AddTrapezoid(second.Right.Start, second.Left.Start, second.Left.End, second.Right.End);
+                        _startPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
                         break;
                     case RoadManeuver.LeftTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
-                        AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, 
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
                             nextIntersectionPoint, first.Right.End);
-                        AddTriangle(context, first.Right.End, nextIntersectionPoint, second.Right.Start, true);
-                        context.StartPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
+                        AddTriangle(first.Right.End, nextIntersectionPoint, second.Right.Start, true);
+                        _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
                         break;
                     case RoadManeuver.RightTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
-                        AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, 
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
                             first.Left.End, nextIntersectionPoint);
-                        AddTriangle(context, first.Left.End, nextIntersectionPoint, second.Left.Start, false);
-                        context.StartPoints = new Tuple<Vector3, Vector3>(nextIntersectionPoint, second.Left.Start);
+                        AddTriangle(first.Left.End, nextIntersectionPoint, second.Left.Start, false);
+                        _startPoints = new Tuple<Vector3, Vector3>(nextIntersectionPoint, second.Left.Start);
                         break;
                 }
             }
             else
             {
+                // TODO do I need this?
                 var lastSegment = roadSegments[segmentsCount - 1];
-                AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, 
+                AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
                     lastSegment.Left.End, lastSegment.Right.End);
             }
         }
         #endregion
 
         #region Turn/Straight cases
-        private void StraightLineCase(BuilderContext context, RoadSegment first, RoadSegment second)
+        private void StraightLineCase(RoadSegment first, RoadSegment second)
         {
-            AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2, first.Left.End, first.Right.End);
-            context.StartPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
+            AddTrapezoid(_startPoints.Item1, _startPoints.Item2, first.Left.End, first.Right.End);
+            _startPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
         }
 
-        private void TurnRightCase(BuilderContext context, RoadSegment first, RoadSegment second)
+        private void TurnRightCase(RoadSegment first, RoadSegment second)
         {
             var intersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
-            AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2,
+            AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                 first.Left.End, intersectionPoint);
-            AddTriangle(context, first.Left.End, intersectionPoint, second.Left.Start, false);
-            context.StartPoints = new Tuple<Vector3, Vector3>(intersectionPoint, second.Left.Start);
+            AddTriangle(first.Left.End, intersectionPoint, second.Left.Start, false);
+            _startPoints = new Tuple<Vector3, Vector3>(intersectionPoint, second.Left.Start);
         }
 
-        private void TurnLeftCase(BuilderContext context, RoadSegment first, RoadSegment second)
+        private void TurnLeftCase( RoadSegment first, RoadSegment second)
         {
             var intersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
-            AddTrapezoid(context, context.StartPoints.Item1, context.StartPoints.Item2,
+            AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                 intersectionPoint, first.Right.End);
-            AddTriangle(context, first.Right.End, intersectionPoint, second.Right.Start, true);
-            context.StartPoints = new Tuple<Vector3, Vector3>(second.Right.Start, intersectionPoint);
+            AddTriangle(first.Right.End, intersectionPoint, second.Right.Start, true);
+            _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, intersectionPoint);
         }
         #endregion
 
         #region Add shapes
-        private void AddTriangle(BuilderContext context, Vector3 first, Vector3 second, Vector3 third, bool invert)
+        private void AddTriangle(Vector3 first, Vector3 second, Vector3 third, bool invert)
         {
-            context.Points.Add(first);
-            context.Points.Add(second);
-            context.Points.Add(third);
+            _points.Add(first);
+            _points.Add(second);
+            _points.Add(third);
 
-            context.Triangles.AddRange(new int[]
+            _triangles.AddRange(new int[]
             {
-                context.TrisIndex + 0, context.TrisIndex + (invert? 1 : 2), context.TrisIndex + (invert? 2 : 1)
+                _trisIndex + 0, _trisIndex + (invert? 1 : 2), _trisIndex + (invert? 2 : 1)
             });
-            context.Uv.AddRange(new[]
+            _uv.AddRange(new[]
             {
                 new Vector2(0f, 0f),
                 new Vector2(1f, 0f),
                 new Vector2(0f, 1f),
             });
-            context.TrisIndex += 3;
+            _trisIndex += 3;
         }
 
-        private void AddTrapezoid(BuilderContext context, Segment left, Segment right)
+        private void AddTrapezoid(Segment left, Segment right)
         {
-            AddTrapezoid(context, right.Start, left.Start, left.End, right.End);
+            AddTrapezoid(right.Start, left.Start, left.End, right.End);
         }
 
-        private void AddTrapezoid(BuilderContext context, Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
+        private void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
         {
-            context.Points.Add(rightStart);
-            context.Points.Add(leftStart);
-            context.Points.Add(leftEnd);
-            context.Points.Add(rightEnd);
+            _points.Add(rightStart);
+            _points.Add(leftStart);
+            _points.Add(leftEnd);
+            _points.Add(rightEnd);
 
-            context.Triangles.AddRange(new[]
+            _triangles.AddRange(new[]
             {
-                context.TrisIndex + 0, context.TrisIndex + 1, context.TrisIndex + 2,
-                context.TrisIndex + 2, context.TrisIndex + 3, context.TrisIndex + 0
+                _trisIndex + 0, _trisIndex + 1, _trisIndex + 2,
+                _trisIndex + 2, _trisIndex + 3, _trisIndex + 0
             });
-            context.TrisIndex += 4;
+            _trisIndex += 4;
 
             var distance = Vector3.Distance(rightStart, rightEnd);
-            float tiles = distance / context.Ratio;
-            context.Uv.AddRange(new[]
+            float tiles = distance / _ratio;
+            _uv.AddRange(new[]
             {
                 new Vector2(1f, 0f),
                 new Vector2(0f, 0f),
@@ -246,17 +287,18 @@ namespace Mercraft.Models.Roads
 
         #region Getting segments and turn types
 
-        private List<RoadSegment> GetRoadSegments(BuilderContext context, RoadElement roadElement)
+        private List<RoadSegment> GetRoadSegments(RoadElement roadElement)
         {
             var roadSegments = new List<RoadSegment>();
             
             MapPoint[] points;
-            if (context.HeightMap.IsFlat)
+            if (_heightMap.IsFlat)
                 points = roadElement.Points;
             else
             {
-                _heightMapProcessor.Recycle(context.HeightMap);
-                points = LineUtils.GetIntermediatePoints(context.HeightMap, roadElement.Points, MaxPointDistance);
+                _heightMapProcessor.Recycle(_heightMap);
+                // we should add intermediate points between given to follow elevation changes more smooth 
+                points = LineUtils.GetIntermediatePoints(_heightMap, roadElement.Points, MaxPointDistance);
                 for (int i = 0; i < points.Length - 1; i++)
                     _heightMapProcessor.AdjustLine(points[i], points[i + 1], roadElement.Width);
             }
@@ -295,13 +337,11 @@ namespace Mercraft.Models.Roads
         private RoadManeuver GetManeuverType(RoadSegment first, RoadSegment second)
         {
             // just straight line with shared point
-
-            var area = first.Left.Start.x*(first.Left.End.z - second.Left.End.z) +
-                       first.Left.End.x*(second.Left.End.z - first.Left.Start.z) +
-                       second.Left.End.x*(first.Left.Start.z - first.Left.End.z);
-            if (area < 0.1) 
+            var area = first.Left.Start.x * (first.Left.End.z - second.Left.End.z) +
+                       first.Left.End.x * (second.Left.End.z - first.Left.Start.z) +
+                       second.Left.End.x * (first.Left.Start.z - first.Left.End.z);
+            if (area < 0.1)
                 return RoadManeuver.Straight;
-
 
             if (SegmentUtils.Intersect(first.Left, second.Left))
                 return RoadManeuver.LeftTurn;
@@ -314,49 +354,11 @@ namespace Mercraft.Models.Roads
 
         #endregion
 
-        #region Make terrain flatten
-
-        private void FlattenTrapezoid(BuilderContext context)
-        {
-            
-        }
-
-        #endregion
-
         private enum RoadManeuver
         {
             Straight,
             LeftTurn,
             RightTurn
-        }
-
-        /// <summary>
-        ///     Represents builder context. Used to make class stateless
-        /// </summary>
-        protected class BuilderContext
-        {
-            public HeightMap HeightMap;
-            public Road Road;
-            public List<Vector3> Points = new List<Vector3>();
-
-            public List<int> Triangles = new List<int>();
-            public List<Vector2> Uv = new List<Vector2>();
-
-            public float Ratio = 20;
-            public int TrisIndex = 0;
-            public Tuple<Vector3, Vector3> StartPoints;
-
-            public int ElementIndex;
-            public bool IsLastElement;
-
-            public RoadStyle Style;
-
-            public BuilderContext(HeightMap heightMap, Road road, RoadStyle style)
-            {
-                HeightMap = heightMap;
-                Road = road;
-                Style = style;
-            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         }
 
-        protected override void CreateMesh(Road road, RoadStyle style, BuilderContext context)
+        protected override void CreateMesh(Road road, RoadStyle style)
         {
             // Do nothing
         }

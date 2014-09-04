@@ -6,7 +6,7 @@ namespace Mercraft.Models.Roads
     {
         public Segment Left;
         public Segment Right;
-
+        
         public RoadSegment(Segment left, Segment right)
         {
             Left = left;

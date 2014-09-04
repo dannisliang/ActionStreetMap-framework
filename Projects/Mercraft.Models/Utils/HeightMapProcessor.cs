@@ -25,6 +25,8 @@ namespace Mercraft.Models.Utils
         private List<int> _scanListBuffer = new List<int>(2);
         private MapPoint[] _mapPointBuffer = new MapPoint[4];
 
+        private bool _outOfTile;
+
         public void Recycle(HeightMap heightMap)
         {
             _heightMap = heightMap;
@@ -54,25 +56,33 @@ namespace Mercraft.Models.Utils
             }
 
             InitializeScanLine();
-            ScanAndFill(elevation);
+
+            if(!_outOfTile)
+                ScanAndFill(elevation);
         }
 
         private void InitializeScanLine()
         {
+            _outOfTile = false;
             _scanLineStart = int.MaxValue;
             _scanLineEnd = int.MinValue;
 
+            // search start and end values
             for (int i = 0; i < _mapPointBuffer.Length; i++)
             {
                 var point = _mapPointBuffer[i];
-                if (_scanLineEnd < point.Y && point.Y >= 0)
+
+                if (point.Y <= 0 || point.Y >= _size)
+                {
+                    _outOfTile = true;
+                    continue;
+                }
+
+                if (_scanLineEnd < point.Y)
                     _scanLineEnd = (int)point.Y;
-                if (_scanLineStart > point.Y && point.Y >= 0)
+                if (_scanLineStart > point.Y)
                     _scanLineStart = (int)point.Y;
             }
-
-            _scanLineStart = _scanLineStart < _size ? _scanLineStart : _size - 1;
-            _scanLineEnd = _scanLineEnd < _size ? _scanLineEnd : _size - 1;
         }
 
         /// <summary>
