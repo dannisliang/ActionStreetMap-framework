@@ -27,7 +27,7 @@ namespace Assets.Scripts.Demo
         public void OnZoneLoadStarted(Tile tile)
         {
             _stopwatch.Start();
-            _trace.Normal(LogTag, String.Format("Zone loading begin: {0} {1}", tile.TileMapCenter, tile.RelativeNullPoint));
+            _trace.Normal(LogTag, String.Format("Zone loading begin: {0} {1}", tile.MapCenter, tile.RelativeNullPoint));
         }
 
         public void OnZoneLoadFinished(Zone zone)

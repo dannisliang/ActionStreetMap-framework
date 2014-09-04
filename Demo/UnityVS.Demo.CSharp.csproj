@@ -104,7 +104,6 @@
     <Compile Include="Assets\Scripts\Console\Watchers\WatchVarBase.cs" />
     <Compile Include="Assets\Scripts\Consts.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoPathResolver.cs" />
-    <Compile Include="Assets\Scripts\Demo\DemoSceneLoader.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoTileListener.cs" />
     <Compile Include="Assets\Scripts\Demo\DemoZoneListener.cs" />
     <Compile Include="Assets\Scripts\Demo\SceneHelper.cs" />
