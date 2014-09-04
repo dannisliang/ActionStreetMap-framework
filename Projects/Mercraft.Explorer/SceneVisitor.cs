@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Builders;
@@ -22,6 +21,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer
 {
+    // TODO Refactoring this class is overcomplicated
     public class SceneVisitor : ISceneVisitor
     {
         private readonly IGameObjectFactory _goFactory;
@@ -31,8 +31,6 @@ namespace Mercraft.Explorer
         private readonly IHeightMapProvider _heightMapProvider;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
-
-        private HeightMap _heightMap;
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<AreaSettings> _elevations = new List<AreaSettings>();
@@ -67,9 +65,7 @@ namespace Mercraft.Explorer
 
             var heightMapResolution = stylesheet.GetRule(scene.Canvas, false).GetHeightMapSize();
 
-            var center = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
-
-            _heightMap = _heightMapProvider.GetHeightMap(tile, heightMapResolution);
+            tile.HeightMap = _heightMapProvider.GetHeightMap(tile, heightMapResolution);
         }
 
         public void Finalize(IScene scene)
@@ -80,15 +76,13 @@ namespace Mercraft.Explorer
             _roadElements = new List<RoadElement>();
         }
 
-        public bool VisitCanvas(GeoCoordinate center, IGameObject parent, Rule rule, Canvas canvas, bool visitedBefore)
+        public SceneVisitResult VisitCanvas(Tile tile, Rule rule, Canvas canvas, bool visitedBefore)
         {
-            var tile = canvas.Tile;
-
             // TODO compose roads
             var roads = _roadElements.Select(re => new Road()
             {
                 Elements = new List<RoadElement>() { re },
-                GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), parent),
+                GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), tile.GameObject),
             }).ToArray();
 
             var roadStyleProvider = _themeProvider.Get()
@@ -98,18 +92,18 @@ namespace Mercraft.Explorer
             foreach (var road in roads)
             {
                 var style = roadStyleProvider.Get(road);
-                _roadBuilder.Build(_heightMap, road, style);
+                _roadBuilder.Build(tile.HeightMap, road, style);
             }
 
-            if (_heightMap.IsFlat)
-                _heightMap.MaxElevation = rule.GetHeight();
+            if (tile.HeightMap.IsFlat)
+                tile.HeightMap.MaxElevation = rule.GetHeight();
 
-            _terrainBuilder.Build(parent, new TerrainSettings()
+            _terrainBuilder.Build(tile.GameObject, new TerrainSettings()
             {
+                Tile = tile,
                 AlphaMapSize = rule.GetAlphaMapSize(),
-                CenterPosition = new Vector2(tile.TileMapCenter.X, tile.TileMapCenter.Y),
-                Size = tile.Size,
-                HeightMap = _heightMap,
+                CenterPosition = new Vector2(tile.MapCenter.X, tile.MapCenter.Y),
+                CornerPosition = new Vector2(tile.BottomLeft.X, tile.BottomLeft.Y),
                 PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
@@ -117,31 +111,30 @@ namespace Mercraft.Explorer
                 Elevations = _elevations
             });
 
-            return true;
+            return SceneVisitResult.Completed;
         }
 
-        public bool VisitArea(GeoCoordinate center, IGameObject parent, Rule rule, Area area, bool visitedBefore)
+        public SceneVisitResult VisitArea(Tile tile, Rule rule, Area area, bool visitedBefore)
         {
             if (rule.IsSkipped())
             {
-                CreateSkipped(parent, area);
-                return true;
+                CreateSkipped(tile.GameObject, area);
+                // mark it as completed to filter it in future
+                return SceneVisitResult.Completed;
             }
 
-            var builder = rule.GetModelBuilder(_builders);
-            bool processed = false;
             if (rule.IsTerrain())
             {
                 _areas.Add(new AreaSettings()
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
-                    Points = PolygonHelper.GetVerticies2D(center, area.Points)
+                    Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
                 });
                 // TODO in future we want to build some special object which will be
                 // invisible as it's part of terrain but useful to provide some OSM info
                 // which is associated with it
-                processed = true;
+                return SceneVisitResult.Partial;
             }
 
             if (rule.IsElevation())
@@ -149,47 +142,42 @@ namespace Mercraft.Explorer
                 _elevations.Add(new AreaSettings()
                 {
                     ZIndex = rule.GetZIndex(),
-                    Points = PolygonHelper.GetVerticies2D(center, area.Points)
+                    Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
                 });
-                processed = true;
             }
 
+            var builder = rule.GetModelBuilder(_builders);
             if (builder == null)
-            {
-                if (processed)
-                    return true;
-
-                // mapcss rule should contain builder
-                throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", area));
-            }
+                return SceneVisitResult.None;
+            
 
             if (!visitedBefore)
             {
-                var gameObjectWrapper = builder.BuildArea(center, _heightMap, rule, area);
+                var gameObjectWrapper = builder.BuildArea(tile, rule, area);
                 gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, area);
-                gameObjectWrapper.Parent = parent;
+                gameObjectWrapper.Parent = tile.GameObject;
 
                 ApplyBehaviour(gameObjectWrapper, rule, area);
             }
 
-            return true;
+            return SceneVisitResult.Completed;
         }
 
-        public bool VisitWay(GeoCoordinate center, IGameObject parent, Rule rule, Way way, bool visitedBefore)
+        public SceneVisitResult VisitWay(Tile tile, Rule rule, Way way, bool visitedBefore)
         {
             // mapcss rule is set to skip this element
             if (rule.IsSkipped())
             {
-                CreateSkipped(parent, way);
-                // return true to mark this element as processed
-                return true;
+                CreateSkipped(tile.GameObject, way);
+                // however we return result as completed
+                return SceneVisitResult.Completed;
             }
 
-            bool processed = false;
             var builder = rule.GetModelBuilder(_builders);
-            // mapcss rule is set to road
             if (rule.IsRoad())
             {
+                // road should be processed in canvas: it's better to collect all 
+                // roads and create connected road network
                 _roadElements.Add(new RoadElement()
                 {
                     Id = way.Id,
@@ -198,37 +186,36 @@ namespace Mercraft.Explorer
                     ZIndex = rule.GetZIndex(),
                     Points = way.Points.Select(p =>
                     {
-                        var mapPoint = GeoProjection.ToMapCoordinate(center, p);
-                        mapPoint.Elevation = _heightMap.LookupHeight(p);
+                        var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, p);
+                        mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
                         return mapPoint;
                     }).ToArray()
                 });
 
-                processed = true;
+                // flat road can be rendered fully for cross-tile case, but not for elevation
+                return tile.HeightMap.IsFlat ? SceneVisitResult.Completed : SceneVisitResult.Partial;
             }
 
+            // this implementation relies on builder declaration in mapcss
+            // if we have no such declaration we cannot render this model
             if (builder == null)
-            {
-                if (processed)
-                    return true;
-                // mapcss rule should contain builder
-                throw new InvalidOperationException(String.Format("Incorrect mapcss rule for {0}", way));
-            }               
+                return SceneVisitResult.None;
 
-            var gameObjectWrapper = builder.BuildWay(center, _heightMap, rule, way);
+            var gameObjectWrapper = builder.BuildWay(tile, rule, way);
             gameObjectWrapper.Name = String.Format("{0} {1}", builder.Name, way);
-            gameObjectWrapper.Parent = parent;
+            gameObjectWrapper.Parent = tile.GameObject;
 
             ApplyBehaviour(gameObjectWrapper, rule, way);
 
-            return true;
+            return SceneVisitResult.Completed;
         }
 
         #endregion
 
         private void CreateSkipped(IGameObject parent, Model model)
         {
-            // TODO 
+            // TODO this is useful only for debug, in release we should avoid creation of 
+            // additional objects due to performance reason
             var skippedGameObject = _goFactory.CreateNew(String.Format("skip {0}", model));
             skippedGameObject.Parent = parent;
         }

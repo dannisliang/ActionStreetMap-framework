@@ -1,14 +1,12 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -26,22 +24,22 @@ namespace Mercraft.Explorer.Builders
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
+        public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            base.BuildArea(center, heightMap, rule, area);
-            return BuildSphere(center, heightMap, area, area.Points, rule);
+            base.BuildArea(tile, rule, area);
+            return BuildSphere(tile, area, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap,  Rule rule, Way way)
+        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            base.BuildWay(center, heightMap, rule, way);
+            base.BuildWay(tile, rule, way);
             // TODO is it applied to way?
-            return BuildSphere(center, heightMap, way, way.Points, rule);
+            return BuildSphere(tile, way, way.Points, rule);
         }
 
-        private IGameObject BuildSphere(GeoCoordinate center, HeightMap heightMap, Model model, GeoCoordinate[] points, Rule rule)
+        private IGameObject BuildSphere(Tile tile, Model model, GeoCoordinate[] points, Rule rule)
         {
-            var circle = CircleHelper.GetCircle(center, points);
+            var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, points);
             var diameter = circle.Item1;
             var sphereCenter = circle.Item2;
 

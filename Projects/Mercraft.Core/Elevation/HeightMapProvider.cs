@@ -31,8 +31,7 @@ namespace Mercraft.Core.Elevation
         {
             var map = new float[resolution, resolution];
 
-            var geoCenter = GeoProjection.ToGeoCoordinate(tile.RelativeNullPoint, tile.TileMapCenter);
-            var bbox = BoundingBox.CreateBoundingBox(geoCenter, tile.Size / 2);
+            var bbox = tile.BoundingBox;
 
             var latStep = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution;
             var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
@@ -64,18 +63,14 @@ namespace Mercraft.Core.Elevation
 
             return new HeightMap()
             {
-                BoundingBox = bbox,
-                LatitudeOffset = latStep,
-                LongitudeOffset = lonStep,
-                
-                LeftBottomCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MinPoint),
-                RightUpperCorner = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, bbox.MaxPoint),
+                LeftBottomCorner = tile.BottomLeft,
+                RightUpperCorner = tile.TopRight,
                 AxisOffset = tile.Size / resolution,
-
+                IsFlat = false,
+                Size = tile.Size,
                 Data = map,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
-                Size = tile.Size
             };
         }
 

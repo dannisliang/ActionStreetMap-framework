@@ -62,7 +62,7 @@ namespace Mercraft.Core.Algorithms
                 .Select(g =>
                 {
                     var point = GeoProjection.ToMapCoordinate(center, g);
-                    point.Elevation = heightMap.LookupHeight(g);
+                    point.Elevation = heightMap.LookupHeight(point);
                     return point;
                 })
                 .Take(length).ToArray();

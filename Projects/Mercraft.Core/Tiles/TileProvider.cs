@@ -90,7 +90,7 @@ namespace Mercraft.Core.Tiles
 
         private Tile GetTile(MapPoint tileCenter)
         {
-            return _tiles.SingleOrDefault(t => tileCenter.AreSame(t.TileMapCenter));
+            return _tiles.SingleOrDefault(t => tileCenter.AreSame(t.MapCenter));
         }
 
         private MapPoint GetNextTileCenter(MapPoint position)
@@ -106,19 +106,19 @@ namespace Mercraft.Core.Tiles
                 throw new InvalidOperationException("Instant position changing detected!");
 
             // top
-            if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.TopRight))
-                return new MapPoint(tile.TileMapCenter.X, tile.TileMapCenter.Y + _tileSize);
+            if (IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.TopRight))
+                return new MapPoint(tile.MapCenter.X, tile.MapCenter.Y + _tileSize);
 
             // left
-            if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopLeft, tile.BottomLeft))
-                return new MapPoint(tile.TileMapCenter.X - _tileSize, tile.TileMapCenter.Y);
+            if (IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.BottomLeft))
+                return new MapPoint(tile.MapCenter.X - _tileSize, tile.MapCenter.Y);
 
             // right
-            if (IsPointInTreangle(position, tile.TileMapCenter, tile.TopRight, tile.BottomRight))
-                return new MapPoint(tile.TileMapCenter.X + _tileSize, tile.TileMapCenter.Y);
+            if (IsPointInTreangle(position, tile.MapCenter, tile.TopRight, tile.BottomRight))
+                return new MapPoint(tile.MapCenter.X + _tileSize, tile.MapCenter.Y);
 
             // bottom
-            return new MapPoint(tile.TileMapCenter.X, tile.TileMapCenter.Y - _tileSize);
+            return new MapPoint(tile.MapCenter.X, tile.MapCenter.Y - _tileSize);
         }
 
         /// <summary>

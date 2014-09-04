@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -28,19 +26,19 @@ namespace Mercraft.Explorer.Builders
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
+        public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            base.BuildArea(center, heightMap, rule, area);
+            base.BuildArea(tile, rule, area);
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Solid {0}", area));
-            BuildModel(center, gameObjectWrapper, rule, area.Points.ToList());
+            BuildModel(tile.RelativeNullPoint, gameObjectWrapper, rule, area.Points.ToList());
             return gameObjectWrapper;
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
+        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            base.BuildWay(center, heightMap, rule, way);
+            base.BuildWay(tile, rule, way);
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Solid {0}", way));
-            BuildModel(center, gameObjectWrapper, rule, way.Points.ToList());
+            BuildModel(tile.RelativeNullPoint, gameObjectWrapper, rule, way.Points.ToList());
             return gameObjectWrapper;
         }
 

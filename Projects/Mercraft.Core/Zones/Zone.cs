@@ -44,26 +44,26 @@ namespace Mercraft.Core.Zones
             // NOTE Dispose scene to release memory
             using (Tile.Scene)
             {
-                var tileHolder = _goFactory.CreateNew("tile");
+                Tile.GameObject = _goFactory.CreateNew("tile");
 
                 _sceneVisitor.Prepare(Tile.Scene, Stylesheet);
 
                 BuildModel(Tile.Scene.Areas.ToList(), loadedElementIds, (area, rule, visited) =>
-                    _sceneVisitor.VisitArea(Tile.RelativeNullPoint, tileHolder, rule, area, visited));
+                    _sceneVisitor.VisitArea(Tile, rule, area, visited));
 
                 BuildModel(Tile.Scene.Ways.ToList(), loadedElementIds, (way, rule, visited) =>
-                    _sceneVisitor.VisitWay(Tile.RelativeNullPoint, tileHolder, rule, way, visited));
+                    _sceneVisitor.VisitWay(Tile, rule, way, visited));
 
                 var canvas = Tile.Scene.Canvas;
                 var canvasRule = Stylesheet.GetRule(canvas, false);
-                _sceneVisitor.VisitCanvas(Tile.RelativeNullPoint, tileHolder, canvasRule, canvas, false);
+                _sceneVisitor.VisitCanvas(Tile, canvasRule, canvas, false);
 
                 _sceneVisitor.Finalize(Tile.Scene);
             }
         }
 
         private void BuildModel<T>(IEnumerable<T> models, HashSet<long> loadedElementIds,
-            Func<T, Rule, bool, bool> builder) where T : Model
+            Func<T, Rule, bool, SceneVisitResult> builder) where T : Model
         {
             foreach (T model in models)
             {
@@ -75,8 +75,8 @@ namespace Mercraft.Core.Zones
                     var rule = Stylesheet.GetRule(model);
                     if (rule.IsApplicable)
                     {
-                        var isCreated = builder(model, rule, loadedElementIds.Contains(model.Id));
-                        if (isCreated && !loadedElementIds.Contains(model.Id))
+                        var result = builder(model, rule, loadedElementIds.Contains(model.Id));
+                        if (result == SceneVisitResult.Completed && !loadedElementIds.Contains(model.Id))
                             loadedElementIds.Add(model.Id);
                     }
                     else

@@ -1,14 +1,12 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -26,17 +24,17 @@ namespace Mercraft.Explorer.Builders
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
+        public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            base.BuildArea(center, heightMap, rule, area);
-            return BuildCylinder(center, area, area.Points, rule);
+            base.BuildArea(tile, rule, area);
+            return BuildCylinder(tile.RelativeNullPoint, area, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
+        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            base.BuildWay(center, heightMap, rule, way);
+            base.BuildWay(tile, rule, way);
             // TODO is it applied to way?
-            return BuildCylinder(center, way, way.Points, rule);
+            return BuildCylinder(tile.RelativeNullPoint, way, way.Points, rule);
         }
 
         private IGameObject BuildCylinder(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
@@ -52,6 +50,7 @@ namespace Mercraft.Explorer.Builders
 
             var gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Cylinder {0}", model),
                 UnityPrimitiveType.Cylinder);
+
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();
 
             cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);

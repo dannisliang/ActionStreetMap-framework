@@ -55,6 +55,7 @@
     <Compile Include="Elevation\Srtm\SrtmDataCell.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="MessageBus.cs" />
+    <Compile Include="Scene\SceneVisitResult.cs" />
     <Compile Include="Tiles\TileMessages.cs" />
     <Compile Include="World\Address.cs" />
     <Compile Include="MapCss\Visitors\Eval\ListTreeWalker.cs" />

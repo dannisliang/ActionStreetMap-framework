@@ -5,12 +5,11 @@ namespace Mercraft.Core.Elevation
     public class HeightMap
     {
         public int Resolution { get; set; }
-        public float Size { get; set; }
+        //public float Size { get; set; }
 
-        public BoundingBox BoundingBox { get; set; }
+        /*public BoundingBox BoundingBox { get; set; }
         public double LatitudeOffset { get; set; }
-        public double LongitudeOffset { get; set; }
-
+        public double LongitudeOffset { get; set; }*/
 
         public MapPoint LeftBottomCorner { get; set; }
         public MapPoint RightUpperCorner { get; set; }
@@ -23,7 +22,9 @@ namespace Mercraft.Core.Elevation
 
         public float[,] Data { get; set; }
 
-        /// <summary>
+        public float Size { get; set; }
+
+        /*/// <summary>
         ///     Returns corresponding height for given point from given heightmap
         /// </summary>
         public float LookupHeight(GeoCoordinate coordinate)
@@ -49,7 +50,7 @@ namespace Mercraft.Core.Elevation
             i = i < 0 ? 0 : i;
 
             return Data[j, i];
-        }
+        }*/
 
         public float LookupHeight(MapPoint mapPoint)
         {

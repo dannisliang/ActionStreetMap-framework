@@ -1,5 +1,6 @@
 ﻿using System;
 using Mercraft.Core;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Tiles;
 using Moq;
@@ -51,15 +52,17 @@ namespace Mercraft.Maps.UnitTests.Elevation
             Assert.AreEqual(cornerValue * 2, data[resolution - 1, resolution - 1]);
         }
 
-        [TestCase(257, 100, 52, 13)]
-        [TestCase(513, 500, 52, 13)]
-        [TestCase(1025, 1000, 52, 13)]
-        public void CanLookupInTestData(int resolution, float tileSize, double latitude, double longitude)
+        [TestCase(257, 100)]
+        [TestCase(513, 500)]
+        [TestCase(1025, 1000)]
+        public void CanLookupInTestData(int resolution, float tileSize)
         {
             
             // ARRANGE
-            var center = new GeoCoordinate(latitude, longitude);
-            var bbox = BoundingBox.CreateBoundingBox(center, tileSize / 2);
+            var center = new MapPoint(0, 0);
+            var bottomLeft = new MapPoint(center.X - tileSize / 2, center.Y - tileSize / 2);
+            var topRight = new MapPoint(center.X + tileSize / 2, center.Y + tileSize / 2);
+            
             var data = new float[resolution, resolution];
 
             for (int j = 0; j < resolution; j++)
@@ -69,11 +72,11 @@ namespace Mercraft.Maps.UnitTests.Elevation
             var maxElevation = resolution + resolution - 2;
             var heightMap = new HeightMap()
             {
-                BoundingBox = bbox,
                 Data = data,
                 IsFlat = false,
-                LatitudeOffset = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution,
-                LongitudeOffset = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution,
+                RightUpperCorner = new MapPoint(center.X + tileSize / 2, center.Y + tileSize / 2),
+                LeftBottomCorner = new MapPoint(center.X - tileSize / 2, center.Y - tileSize / 2),
+                AxisOffset = tileSize / resolution,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
                 Size = tileSize
@@ -86,14 +89,14 @@ namespace Mercraft.Maps.UnitTests.Elevation
             Assert.AreEqual((resolution + resolution - 2) / 2, heightMap.LookupHeight(center));
             
             // left upper corner
-            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MinPoint.Latitude, bbox.MaxPoint.Longitude));
+            Assert.AreEqual(cornerValue, heightMap.LookupHeight(new MapPoint(bottomLeft.X, topRight.Y)));
             // left bottom corner
-            Assert.AreEqual(0, heightMap.LookupHeight(bbox.MinPoint));
+            Assert.AreEqual(0, heightMap.LookupHeight(bottomLeft));
             
             // right upper corner
-            Assert.AreEqual(cornerValue * 2, heightMap.LookupHeight(bbox.MaxPoint));
+            Assert.AreEqual(cornerValue * 2, heightMap.LookupHeight(topRight));
             // right bottom corner
-            Assert.AreEqual(cornerValue, heightMap.LookupHeight(bbox.MaxPoint.Latitude, bbox.MinPoint.Longitude));
+            Assert.AreEqual(cornerValue, heightMap.LookupHeight(new MapPoint(topRight.X, bottomLeft.Y)));
         }
     }
 }

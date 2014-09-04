@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Elevation;
+using Mercraft.Core.Tiles;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
 {
     public class TerrainSettings
     {
+        public Tile Tile;
+
         /// <summary>
         /// This is the control map that controls how the splat textures will be blended
         /// </summary>
         public int AlphaMapSize = 512;
-        public float Size = 500;
-
-        public HeightMap HeightMap;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower
@@ -31,13 +30,6 @@ namespace Mercraft.Models.Terrain
 
         public float ZIndex;
         public Vector2 CenterPosition;
-        public Vector2 CornerPosition
-        {
-            get
-            {
-                return new Vector2(CenterPosition.x - Size / 2f,
-                CenterPosition.y - Size / 2f);
-            }
-        }
+        public Vector2 CornerPosition;
     }
 }

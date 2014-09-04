@@ -1,10 +1,9 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Explorer.Helpers;
@@ -12,7 +11,6 @@ using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
-using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Builders
 {
@@ -38,19 +36,19 @@ namespace Mercraft.Explorer.Builders
 
         private const int NoValue = 0;
 
-        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
+        public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            base.BuildArea(center, heightMap, rule, area);
-            return BuildBuilding(center, heightMap, area, area.Points, rule);
+            base.BuildArea(tile, rule, area);
+            return BuildBuilding(tile, area, area.Points, rule);
         }
 
-        public override IGameObject BuildWay(GeoCoordinate center, HeightMap heightMap, Rule rule, Way way)
+        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            base.BuildWay(center, heightMap, rule, way);
-            return BuildBuilding(center, heightMap, way, way.Points, rule);
+            base.BuildWay(tile, rule, way);
+            return BuildBuilding(tile, way, way.Points, rule);
         }
 
-        private IGameObject BuildBuilding(GeoCoordinate center, HeightMap heightMap, Model model, GeoCoordinate[] footPrint, Rule rule)
+        private IGameObject BuildBuilding(Tile tile, Model model, GeoCoordinate[] footPrint, Rule rule)
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
             
@@ -64,13 +62,13 @@ namespace Mercraft.Explorer.Builders
                 // TODO map osm type to ours
                 Type = "residental",//rule.GetBuildingType(),
                 Elevation = rule.GetZIndex(),
-                Footprint = PolygonHelper.GetVerticies3D(center, heightMap, footPrint)
+                Footprint = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint)
             };
 
             var theme = _themeProvider.Get();
             BuildingStyle style = theme.GetBuildingStyle(building);
 
-            _builder.Build(heightMap, building, style);
+            _builder.Build(tile.HeightMap, building, style);
 
             return gameObjectWrapper;
         }

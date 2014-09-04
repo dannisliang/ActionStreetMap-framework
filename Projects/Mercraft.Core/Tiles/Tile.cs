@@ -1,4 +1,7 @@
-﻿using Mercraft.Core.Scene;
+﻿using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
+using Mercraft.Core.Scene;
+using Mercraft.Core.Unity;
 
 namespace Mercraft.Core.Tiles
 {
@@ -15,12 +18,27 @@ namespace Mercraft.Core.Tiles
         /// <summary>
         ///     Stores tile center coordinate in Unity metrics
         /// </summary>
-        public MapPoint TileMapCenter { get; private set; }
+        public MapPoint MapCenter { get; private set; }
+
+        /// <summary>
+        ///     Gets bounding box for current tile
+        /// </summary>
+        public BoundingBox BoundingBox { get; private set; }
 
         /// <summary>
         ///     Square side size in Unity metrics
         /// </summary>
         public float Size { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets game object which is used to represent this tile
+        /// </summary>
+        public IGameObject GameObject { get; set; }
+
+        /// <summary>
+        ///     Gets or sets heightmap of given tile
+        /// </summary>
+        public HeightMap HeightMap { get; set; }
 
         /// <summary>
         ///     Stores scene
@@ -32,18 +50,21 @@ namespace Mercraft.Core.Tiles
         public MapPoint BottomLeft { get; set; }
         public MapPoint BottomRight { get; set; }
 
-        public Tile(IScene scene, GeoCoordinate relativeNullPoint, MapPoint tileMapCenter, float size)
+        public Tile(IScene scene, GeoCoordinate relativeNullPoint, MapPoint mapCenter, float size)
         {
             Scene = scene;
             RelativeNullPoint = relativeNullPoint;
-            TileMapCenter = tileMapCenter;
+            MapCenter = mapCenter;
             Size = size;
 
-            TopLeft = new MapPoint(TileMapCenter.X - Size/2, TileMapCenter.Y + Size/2);
-            BottomRight = new MapPoint(TileMapCenter.X + Size / 2, TileMapCenter.Y - Size / 2);
+            var geoCenter = GeoProjection.ToGeoCoordinate(relativeNullPoint, mapCenter);
+            BoundingBox = BoundingBox.CreateBoundingBox(geoCenter, size / 2);
 
-            TopRight = new MapPoint(TileMapCenter.X + Size / 2, TileMapCenter.Y + Size / 2);
-            BottomLeft = new MapPoint(TileMapCenter.X - Size / 2, TileMapCenter.Y - Size / 2);
+            TopLeft = new MapPoint(MapCenter.X - Size/2, MapCenter.Y + Size/2);
+            BottomRight = new MapPoint(MapCenter.X + Size / 2, MapCenter.Y - Size / 2);
+
+            TopRight = new MapPoint(MapCenter.X + Size / 2, MapCenter.Y + Size / 2);
+            BottomLeft = new MapPoint(MapCenter.X - Size / 2, MapCenter.Y - Size / 2);
         }
 
         /// <summary>

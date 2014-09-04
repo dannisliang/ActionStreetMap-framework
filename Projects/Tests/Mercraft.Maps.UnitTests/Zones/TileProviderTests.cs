@@ -32,7 +32,7 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new MapPoint(-(Half - Offset), 0),
                 new MapPoint(-(Half * 2 - Offset - 1), 0), 0);
 
-            Assert.AreEqual(tile.TileMapCenter, new MapPoint(-Size, 0));
+            Assert.AreEqual(tile.MapCenter, new MapPoint(-Size, 0));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new MapPoint(Half - Offset, 0),
                 new MapPoint(Half * 2 - Offset - 1, 0), 0);
 
-            Assert.AreEqual(tile.TileMapCenter, new MapPoint(Size, 0));
+            Assert.AreEqual(tile.MapCenter, new MapPoint(Size, 0));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new MapPoint(0, Half - Offset),
                 new MapPoint(0, Half * 2 - Offset - 1), 0);
 
-            Assert.AreEqual(tile.TileMapCenter, new MapPoint(0, Size));
+            Assert.AreEqual(tile.MapCenter, new MapPoint(0, Size));
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new MapPoint(0, -(Half - Offset)),
                 new MapPoint(0, -(Half * 2 - Offset - 1)), 0);
 
-            Assert.AreEqual(tile.TileMapCenter, new MapPoint(0, -Size));
+            Assert.AreEqual(tile.MapCenter, new MapPoint(0, -Size));
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             var tileCenterTest1 = provider.GetTile(first, center);
             Assert.AreSame(tileCenter, tileCenterTest1);
             Assert.AreEqual(++tileCount, provider.TileCount);
-            Assert.AreEqual(tileCenterTest1.TileMapCenter, new MapPoint(0, 0));
+            Assert.AreEqual(tileCenterTest1.MapCenter, new MapPoint(0, 0));
 
             // this force to load new tile
             var tileNext = provider.GetTile(second, center);

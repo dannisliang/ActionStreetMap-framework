@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Geometry;
-using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders
@@ -30,15 +27,15 @@ namespace Mercraft.Explorer.Builders
         {
         }
 
-        public override IGameObject BuildArea(GeoCoordinate center, HeightMap heightMap, Rule rule, Area area)
+        public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            base.BuildArea(center, heightMap, rule, area);
+            base.BuildArea(tile, rule, area);
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
             var floor = rule.GetZIndex();
 
-            var verticies = PolygonHelper.GetVerticies2D(center, area.Points);
+            var verticies = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
 
             var mesh = new Mesh();
             mesh.vertices = GetOffsetPoints(verticies).GetVerticies(floor);
