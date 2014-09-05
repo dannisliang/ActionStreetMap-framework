@@ -6,9 +6,8 @@ using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Unity;
 using Mercraft.Models.Utils;
+using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads
@@ -169,7 +168,7 @@ namespace Mercraft.Models.Roads
                 MapPoint secondPoint = _heightMap.IsFlat
                     ? nextRoadElement.Points[1]
                     // we split roadElement to smaller parts in non-flat mode
-                    : LineUtils.GetNextIntermediatePoint(_heightMap,
+                    : RoadUtils.GetNextIntermediatePoint(_heightMap,
                         nextRoadElement.Points[0],
                         nextRoadElement.Points[1], MaxPointDistance);
                 
@@ -298,7 +297,7 @@ namespace Mercraft.Models.Roads
             {
                 _heightMapProcessor.Recycle(_heightMap);
                 // we should add intermediate points between given to follow elevation changes more smooth 
-                points = LineUtils.GetIntermediatePoints(_heightMap, roadElement.Points, MaxPointDistance);
+                points = RoadUtils.GetIntermediatePoints(_heightMap, roadElement.Points, MaxPointDistance);
                 for (int i = 0; i < points.Length - 1; i++)
                     _heightMapProcessor.AdjustLine(points[i], points[i + 1], roadElement.Width);
             }

@@ -7,7 +7,8 @@ using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Geometry;
+using Mercraft.Models.Utils;
+using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Builders

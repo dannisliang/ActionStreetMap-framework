@@ -3,11 +3,10 @@ using System.Linq;
 using Mercraft.Core;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry
+namespace Mercraft.Models.Utils.Geometry
 {
     public class Polygon
     {
-
         public Vector3[] Verticies { get; private set; }
 
         public Segment[] Segments { get; private set; }

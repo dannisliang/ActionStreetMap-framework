@@ -1,7 +1,7 @@
 ﻿using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
-using Mercraft.Models.Unity;
+using Mercraft.Models.Utils;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Models.Geometry;
+using Mercraft.Models.Utils;
+using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain

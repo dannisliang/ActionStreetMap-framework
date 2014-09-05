@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mercraft.Models.Unity
+namespace Mercraft.Models.Utils
 {
     public interface IResourceProvider
     {

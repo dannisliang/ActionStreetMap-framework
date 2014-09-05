@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mercraft.Models.Geometry;
+﻿using System.Linq;
+using Mercraft.Models.Utils.Geometry;
 
 namespace Mercraft.Models.Terrain
 {

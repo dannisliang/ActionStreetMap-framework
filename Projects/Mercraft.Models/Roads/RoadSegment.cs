@@ -1,4 +1,5 @@
-﻿using Mercraft.Models.Geometry;
+﻿using Mercraft.Models.Utils;
+using Mercraft.Models.Utils.Geometry;
 
 namespace Mercraft.Models.Roads
 {
