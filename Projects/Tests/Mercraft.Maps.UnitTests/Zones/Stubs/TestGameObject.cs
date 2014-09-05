@@ -1,5 +1,4 @@
-﻿using System;
-using Mercraft.Core.Unity;
+﻿using Mercraft.Core.Unity;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {

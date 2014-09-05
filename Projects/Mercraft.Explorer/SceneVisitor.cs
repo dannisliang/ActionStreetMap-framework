@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
@@ -17,7 +16,6 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer
@@ -34,8 +32,6 @@ namespace Mercraft.Explorer
         private readonly IHeightMapProvider _heightMapProvider;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
-
-        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<AreaSettings> _elevations = new List<AreaSettings>();
@@ -83,33 +79,13 @@ namespace Mercraft.Explorer
 
         public SceneVisitResult VisitCanvas(Tile tile, Rule rule, Canvas canvas, bool visitedBefore)
         {
-            // TODO compose roads
+            // TODO implement compose road logic
             var roads = _roadElements.Select(re => new Road()
             {
                 Elements = new List<RoadElement>() { re },
                 GameObject = _goFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), tile.GameObject),
             }).ToArray();
-
-            var roadStyleProvider = _themeProvider.Get()
-                .GetStyleProvider<IRoadStyleProvider>();
-
-            // process roads
-            foreach (var road in roads)
-            {
-                var style = roadStyleProvider.Get(road);
-                _roadBuilder.Build(tile.HeightMap, road, style);
-            }
-
-            if (_elevations.Any())
-            {
-                var elevation = tile.HeightMap.MinElevation - 10;
-                foreach (var elevationArea in _elevations)
-                {
-                    _heightMapProcessor.Recycle(tile.HeightMap);
-                    _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
-                }
-            }
-
+            
             if (tile.HeightMap.IsFlat)
                 tile.HeightMap.MaxElevation = rule.GetHeight();
 
@@ -123,6 +99,11 @@ namespace Mercraft.Explorer
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
+                Elevations = _elevations,
+
+                Roads = roads,
+                RoadBuilder = _roadBuilder,
+                RoadStyleProvider = _themeProvider.Get().GetStyleProvider<IRoadStyleProvider>()
             });
 
             return SceneVisitResult.Completed;
@@ -163,7 +144,6 @@ namespace Mercraft.Explorer
             var builder = rule.GetModelBuilder(_builders);
             if (builder == null)
                 return SceneVisitResult.None;
-            
 
             if (!visitedBefore)
             {

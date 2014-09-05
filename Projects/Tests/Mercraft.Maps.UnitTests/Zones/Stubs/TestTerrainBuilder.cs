@@ -3,11 +3,11 @@ using Mercraft.Models.Terrain;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
-    class TestTerrainBuilder: ITerrainBuilder
+    public class TestTerrainBuilder: TerrainBuilder
     {
-        public IGameObject Build(IGameObject parent, TerrainSettings settings)
+        protected override IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings, float[,] htmap)
         {
-            return null;
+            return new TestGameObject();
         }
     }
 }

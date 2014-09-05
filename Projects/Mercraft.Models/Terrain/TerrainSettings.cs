@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.World.Roads;
+using Mercraft.Models.Roads;
 using UnityEngine;
 
 namespace Mercraft.Models.Terrain
@@ -26,6 +28,11 @@ namespace Mercraft.Models.Terrain
         public List<List<string>> TextureParams;
 
         public List<AreaSettings> Areas;
+        public IEnumerable<Road> Roads;
+        public IEnumerable<AreaSettings> Elevations;
+
+        public IRoadBuilder RoadBuilder;
+        public IRoadStyleProvider RoadStyleProvider;
 
         public float ZIndex;
         public Vector2 CenterPosition;

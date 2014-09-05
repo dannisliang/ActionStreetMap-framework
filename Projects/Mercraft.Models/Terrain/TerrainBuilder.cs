@@ -18,11 +18,11 @@ namespace Mercraft.Models.Terrain
     public class TerrainBuilder: ITerrainBuilder
     {
         private readonly AlphaMapGenerator _alphaMapGenerator = new AlphaMapGenerator();
-        
+        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
-            var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
+            ProcessTerrainObjects(settings);
 
             var htmap = settings.Tile.HeightMap.Data;
 
@@ -31,6 +31,37 @@ namespace Mercraft.Models.Terrain
                 for (int j = 0; j < settings.Tile.HeightMap.Resolution; j++)
                     htmap[i, j] /= settings.Tile.HeightMap.MaxElevation;
 
+            return CreateTerrainGameObject(parent, settings, htmap);
+        }
+
+        private void ProcessTerrainObjects(TerrainSettings settings)
+        {
+            var heightMap = settings.Tile.HeightMap;
+            var roadStyleProvider = settings.RoadStyleProvider;
+            var roadBuilder = settings.RoadBuilder;
+            
+            // process roads
+            foreach (var road in settings.Roads)
+            {
+                var style = roadStyleProvider.Get(road);
+                roadBuilder.Build(heightMap, road, style);
+            }
+
+            // process elevations
+            if (settings.Elevations.Any())
+            {
+                var elevation = heightMap.MinElevation - 10;
+                foreach (var elevationArea in settings.Elevations)
+                {
+                    _heightMapProcessor.Recycle(heightMap);
+                    _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
+                }
+            }
+        }
+
+        protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings, float[,] htmap)
+        {
+            var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
             // create TerrainData
             var terrainData = new TerrainData();
             terrainData.heightmapResolution = settings.Tile.HeightMap.Resolution;
@@ -39,7 +70,7 @@ namespace Mercraft.Models.Terrain
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);
 
             // fill alphamap
-            var alphaMapElements = CreateElements(settings, settings.Areas, 
+            var alphaMapElements = CreateElements(settings, settings.Areas,
                 settings.AlphaMapSize / size.x,
                 settings.AlphaMapSize / size.z,
                 t => t.SplatIndex);
@@ -57,11 +88,9 @@ namespace Mercraft.Models.Terrain
             //disable this for better frame rate
             terrain.castShadows = false;
 
-            var terrainGameObject = new GameObjectWrapper("terrain", gameObject);
-
             terrainData.SetAlphamaps(0, 0, alphamap);
 
-            return terrainGameObject;
+            return new GameObjectWrapper("terrain", gameObject);
         }
 
         protected SplatPrototype[] GetSplatPrototypes(List<List<string>> textureParams)
