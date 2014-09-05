@@ -36,9 +36,9 @@ namespace Mercraft.Explorer.Builders
             var floor = rule.GetZIndex();
 
             var verticies = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
-
+            
             var mesh = new Mesh();
-            mesh.vertices = GetOffsetPoints(verticies).GetVerticies(floor);
+            mesh.vertices = GetOffsetPoints(verticies).GetVerticies(tile.HeightMap.MinElevation - 2);
             mesh.uv = verticies.GetUV();
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 
@@ -75,7 +75,7 @@ namespace Mercraft.Explorer.Builders
 
                 var ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
 
-                result[i] = new MapPoint(ip1.x, ip1.y);
+                result[i] = new MapPoint(ip1.x, ip1.z);
             }
 
             return result;

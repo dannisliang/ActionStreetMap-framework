@@ -22,7 +22,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             logger.Start();
             var container = new Container();
             var componentRoot = TestHelper.GetGameRunner(container);
-            componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
+            componentRoot.RunGame(TestHelper.BerlinHauptBanhoff);
 
             // ACT
             var zoneLoader = container.Resolve<IPositionListener>() as ZoneLoader;
@@ -33,9 +33,9 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.IsNotNull(zoneLoader);
             Assert.AreEqual(1, GetZones(zoneLoader).Count());
 
-            Assert.Less(logger.Seconds, 15, "Loading took to long");
+            Assert.Less(logger.Seconds, 5, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
-            Assert.Less(logger.Memory, 50, "Memory consumption to hight!");
+            Assert.Less(logger.Memory, 20, "Memory consumption is to hight!");
         }
 
         [Test]

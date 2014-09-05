@@ -37,7 +37,7 @@ namespace Mercraft.Core.Elevation
             var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
 
             float maxElevation = 0;
-
+            float minElevation = MaxHeight;
             // NOTE Assume that [0,0] is bottom left corner
             var lat = bbox.MinPoint.Latitude + latStep/2;
             for (int j = 0; j < resolution; j++)
@@ -49,6 +49,8 @@ namespace Mercraft.Core.Elevation
 
                     if (elevation > maxElevation && elevation < MaxHeight)
                         maxElevation = elevation;
+                    else if (elevation < minElevation)
+                        minElevation = elevation;
 
                     map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
 
@@ -69,6 +71,7 @@ namespace Mercraft.Core.Elevation
                 IsFlat = false,
                 Size = tile.Size,
                 Data = map,
+                MinElevation = minElevation,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
             };

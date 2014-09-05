@@ -18,18 +18,11 @@ namespace Mercraft.Models.Terrain
     public class TerrainBuilder: ITerrainBuilder
     {
         private readonly AlphaMapGenerator _alphaMapGenerator = new AlphaMapGenerator();
-        private readonly HeightMapGenerator _heightMapGenerator = new HeightMapGenerator();
+        
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
             var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
-
-            /*// fill heightmap
-            var heightMapElements = CreateElements(settings, settings.Elevations,
-                settings.HeightMap.Resolution / size.x,
-                settings.HeightMap.Resolution / size.z,
-                t => t.ZIndex);
-            var htmap = _heightMapGenerator.FillHeights(settings, heightMapElements);*/
 
             var htmap = settings.Tile.HeightMap.Data;
 
@@ -37,7 +30,6 @@ namespace Mercraft.Models.Terrain
             for (int i = 0; i < settings.Tile.HeightMap.Resolution; i++)
                 for (int j = 0; j < settings.Tile.HeightMap.Resolution; j++)
                     htmap[i, j] /= settings.Tile.HeightMap.MaxElevation;
-            
 
             // create TerrainData
             var terrainData = new TerrainData();

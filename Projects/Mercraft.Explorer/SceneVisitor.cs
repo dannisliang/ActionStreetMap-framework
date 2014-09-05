@@ -17,6 +17,7 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer
@@ -26,11 +27,15 @@ namespace Mercraft.Explorer
     {
         private readonly IGameObjectFactory _goFactory;
         private readonly IThemeProvider _themeProvider;
+        
         private readonly ITerrainBuilder _terrainBuilder;
         private readonly IRoadBuilder _roadBuilder;
+
         private readonly IHeightMapProvider _heightMapProvider;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
+
+        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
         private List<AreaSettings> _areas = new List<AreaSettings>();
         private List<AreaSettings> _elevations = new List<AreaSettings>();
@@ -95,6 +100,16 @@ namespace Mercraft.Explorer
                 _roadBuilder.Build(tile.HeightMap, road, style);
             }
 
+            if (_elevations.Any())
+            {
+                var elevation = tile.HeightMap.MinElevation - 10;
+                foreach (var elevationArea in _elevations)
+                {
+                    _heightMapProcessor.Recycle(tile.HeightMap);
+                    _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
+                }
+            }
+
             if (tile.HeightMap.IsFlat)
                 tile.HeightMap.MaxElevation = rule.GetHeight();
 
@@ -108,7 +123,6 @@ namespace Mercraft.Explorer
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
-                Elevations = _elevations
             });
 
             return SceneVisitResult.Completed;

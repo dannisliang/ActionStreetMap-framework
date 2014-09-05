@@ -26,7 +26,6 @@ namespace Mercraft.Models.Terrain
         public List<List<string>> TextureParams;
 
         public List<AreaSettings> Areas;
-        public List<AreaSettings> Elevations;
 
         public float ZIndex;
         public Vector2 CenterPosition;

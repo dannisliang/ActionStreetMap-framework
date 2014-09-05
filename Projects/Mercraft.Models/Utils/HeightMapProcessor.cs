@@ -63,7 +63,7 @@ namespace Mercraft.Models.Utils
 
         private void InitializeScanLine()
         {
-            _outOfTile = false;
+            _outOfTile = true;
             _scanLineStart = int.MaxValue;
             _scanLineEnd = int.MinValue;
 
@@ -73,11 +73,9 @@ namespace Mercraft.Models.Utils
                 var point = _mapPointBuffer[i];
 
                 if (point.Y <= 0 || point.Y >= _size)
-                {
-                    _outOfTile = true;
                     continue;
-                }
-
+                
+                _outOfTile = false;
                 if (_scanLineEnd < point.Y)
                     _scanLineEnd = (int)point.Y;
                 if (_scanLineStart > point.Y)

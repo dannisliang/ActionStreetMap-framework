@@ -60,7 +60,6 @@
     <Compile Include="Terrain\AlphaMapGenerator.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
     <Compile Include="Terrain\TerrainScanLine.cs" />
-    <Compile Include="Terrain\HeightMapGenerator.cs" />
     <Compile Include="Terrain\TerrainBuilder.cs" />
     <Compile Include="Terrain\TerrainSettings.cs" />
     <Compile Include="Unity\ResourceProvider.cs" />
