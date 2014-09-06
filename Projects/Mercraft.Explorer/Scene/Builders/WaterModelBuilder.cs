@@ -39,7 +39,7 @@ namespace Mercraft.Explorer.Scene.Builders
             
             var mesh = new Mesh();
             mesh.vertices = GetOffsetPoints(verticies).GetVerticies(tile.HeightMap.MinElevation - 2);
-            mesh.uv = verticies.GetUV();
+            //mesh.uv = verticies.GetUV();
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 
             var meshFilter = gameObject.AddComponent<MeshFilter>();

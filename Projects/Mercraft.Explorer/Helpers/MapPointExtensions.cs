@@ -31,20 +31,6 @@ namespace Mercraft.Explorer.Helpers
             return verticies3D;
         }
 
-        public static Vector2[] GetUV(this MapPoint[] verticies2D)
-        {
-            var length = verticies2D.Length;
-            var uvs = new Vector2[length * 2];
-
-            for (int i = 0; i < length; i++)
-            {
-                uvs[i] = new Vector2(verticies2D[i].X, verticies2D[i].Y);
-                uvs[i + length] = new Vector2(verticies2D[i].X, verticies2D[i].Y);
-            }
-
-            return uvs;
-        }
-
         public static Vector2[] ToVector2(this MapPoint[] verticies2D)
         {
             var length = verticies2D.Length;

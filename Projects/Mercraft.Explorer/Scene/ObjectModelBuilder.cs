@@ -12,17 +12,16 @@ namespace Mercraft.Explorer.Scene
     public class ObjectModelBuilder: IModelBuilder
     {
         private readonly HashSet<long> _loadedModelIds;
-
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
         public string Name { get { return "gameobject"; }}
 
-        public ObjectModelBuilder(
+        public ObjectModelBuilder(HashSet<long> loadedModelIds,
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            _loadedModelIds = new HashSet<long>();
+            _loadedModelIds = loadedModelIds;
             _builders = builders;
             _behaviours = behaviours;
         }
@@ -51,6 +50,8 @@ namespace Mercraft.Explorer.Scene
                 var behaviour = rule.GetModelBehaviour(_behaviours);
                 if (behaviour != null)
                     behaviour.Apply(gameObjectWrapper, model);
+
+                _loadedModelIds.Add(model.Id);
 
                 return gameObjectWrapper;
             }

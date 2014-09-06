@@ -47,7 +47,6 @@ namespace Mercraft.Explorer.Bootstrappers
             // register model builders
             Container.Register(Component.For<IModelBuilder>().Use<BuildingModelBuilder>().Named("building").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<SolidModelBuilder>().Named("solid").Singleton());
-            Container.Register(Component.For<IModelBuilder>().Use<FlatModelBuilder>().Named("flat").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<SphereModelBuilder>().Named("sphere").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<CylinderModelBuilder>().Named("cylinder").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<WaterModelBuilder>().Named("water").Singleton());

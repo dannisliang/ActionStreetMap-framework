@@ -54,7 +54,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var mesh = new Mesh();
             mesh.vertices = verticies.GetVerticies3D(top, floor);
-            mesh.uv = verticies.GetUV();
+            //mesh.uv = verticies.GetUV();
             mesh.triangles = PolygonHelper.GetTriangles3D(verticies);
 
             var unityGameObject = gameObject.GetComponent<GameObject>();
