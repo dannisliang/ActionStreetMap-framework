@@ -29,15 +29,15 @@ namespace Mercraft.Explorer.Scene
 
         public IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            return ProcessGameObject(rule, area, b => b.BuildArea(tile, rule, area));
+            return ProcessGameObject(tile, rule, area, b => b.BuildArea(tile, rule, area));
         }
 
         public IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            return ProcessGameObject(rule, way, b => b.BuildWay(tile, rule, way));
+            return ProcessGameObject(tile, rule, way, b => b.BuildWay(tile, rule, way));
         }
 
-        private IGameObject ProcessGameObject(Rule rule, Model model, Func<IModelBuilder, IGameObject> goFunc)
+        private IGameObject ProcessGameObject(Tile tile, Rule rule, Model model, Func<IModelBuilder, IGameObject> goFunc)
         {
             if (!_loadedModelIds.Contains(model.Id))
             {
@@ -45,6 +45,8 @@ namespace Mercraft.Explorer.Scene
                 if (builder == null)
                     return null;
                 var gameObjectWrapper = goFunc(builder);
+
+                gameObjectWrapper.Parent = tile.GameObject;
 
                 var behaviour = rule.GetModelBehaviour(_behaviours);
                 if (behaviour != null)

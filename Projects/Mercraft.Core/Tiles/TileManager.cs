@@ -83,7 +83,7 @@ namespace Mercraft.Core.Tiles
         /// <summary>
         ///     Gets tile for given map position and relative null point
         /// </summary>
-        public Tile GetTile(MapPoint position, GeoCoordinate relativeNullPoint)
+        private Tile GetTile(MapPoint position, GeoCoordinate relativeNullPoint)
         {
             // check whether we're in tile with offset - no need to preload tile
             Tile tile = GetTile(position, _offset);
