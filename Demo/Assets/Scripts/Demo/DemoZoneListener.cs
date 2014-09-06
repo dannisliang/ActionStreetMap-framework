@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reactive.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Tiles;
-using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Demo
@@ -20,17 +19,17 @@ namespace Assets.Scripts.Demo
         {
             _trace = trace;
 
-            messageBus.AsObservable<ZoneLoadStartMessage>().Do(m => OnZoneLoadStarted(m.Tile)).Subscribe();
-            messageBus.AsObservable<ZoneLoadFinishMessage>().Do(m => OnZoneLoadFinished(m.Zone)).Subscribe();
+            messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileLoadStarted(m.Tile)).Subscribe();
+            messageBus.AsObservable<TileLoadFinishMessage>().Do(m => OnTileLoadFinished(m.Tile)).Subscribe();
         }
 
-        public void OnZoneLoadStarted(Tile tile)
+        public void OnTileLoadStarted(Tile tile)
         {
             _stopwatch.Start();
             _trace.Normal(LogTag, String.Format("Zone loading begin: {0} {1}", tile.MapCenter, tile.RelativeNullPoint));
         }
 
-        public void OnZoneLoadFinished(Zone zone)
+        public void OnTileLoadFinished(Tile tile)
         {
             _stopwatch.Stop();
             _trace.Normal(LogTag, String.Format("Zone is loaded in {0} ms", _stopwatch.ElapsedMilliseconds));

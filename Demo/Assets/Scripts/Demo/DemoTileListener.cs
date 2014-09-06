@@ -19,7 +19,7 @@ namespace Assets.Scripts.Demo
         {
             _trace = trace;
 
-            messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileLoadStarted(m.TileCenter)).Subscribe();
+            messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileLoadStarted(m.Tile.MapCenter)).Subscribe();
             messageBus.AsObservable<TileLoadFinishMessage>().Do(m => OnTileLoadFinished(m.Tile)).Subscribe();
             messageBus.AsObservable<TileFoundMessage>().Do(m => OnTileFound(m.Tile, m.Position)).Subscribe();
         }

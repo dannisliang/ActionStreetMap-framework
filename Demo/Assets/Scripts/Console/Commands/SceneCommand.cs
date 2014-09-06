@@ -5,7 +5,7 @@ using Assets.Scripts.Console.Grep;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene;
-using Mercraft.Core.Zones;
+using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Assets.Scripts.Console.Commands
@@ -28,9 +28,9 @@ namespace Assets.Scripts.Console.Commands
                 var arguments = new Arguments(args);
                 // NOTE assume that we're using default implementation where
                 // ZoneLoader is used as IPositionListener 
-                var zoneLoader = _container.Resolve<IPositionListener>() as ZoneLoader;
-                var tile = zoneLoader.CurrentZone.Tile;
-                var currentGeoPosition = GeoProjection.ToGeoCoordinate(zoneLoader.RelativeNullPoint, zoneLoader.CurrentPosition);
+                var tileLoader = _container.Resolve<IPositionListener>() as TileLoader;
+                var tile = tileLoader.CurrentTile;
+                var currentGeoPosition = GeoProjection.ToGeoCoordinate(tileLoader.RelativeNullPoint, tileLoader.CurrentPosition);
 
                 if (arguments["f"] != null)
                     FindModel(tile.Scene, long.Parse((string)arguments["f"]), response);
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Console.Commands
                     DumpScene(_container.Resolve<ISceneBuilder>(), currentGeoPosition, tileSize, response);
                 }
                 else if(arguments["i"] != null)
-                    GeneralInfo(zoneLoader, currentGeoPosition, response);
+                    GeneralInfo(tileLoader, currentGeoPosition, response);
                 else
                     PrintHelp(response);
             }
@@ -97,12 +97,12 @@ namespace Assets.Scripts.Console.Commands
             }
         }
 
-        private void GeneralInfo(ZoneLoader zoneLoader, GeoCoordinate currentGeoPosition, StringBuilder response)
+        private void GeneralInfo(TileLoader tileLoader, GeoCoordinate currentGeoPosition, StringBuilder response)
         {
-            var tile = zoneLoader.CurrentZone.Tile;
+            var tile = tileLoader.CurrentTile;
             var scene = tile.Scene;
             response.AppendFormat("Geo position: {0}\n", currentGeoPosition);
-            response.AppendFormat("Map position: {0}\n", zoneLoader.CurrentPosition);
+            response.AppendFormat("Map position: {0}\n", tileLoader.CurrentPosition);
             response.AppendFormat("Tile size: {0}\n", tile.Size);
             response.AppendFormat("Areas:{0}\n", scene.Areas.Count());
             response.AppendFormat("Ways:{0}", scene.Ways.Count());
