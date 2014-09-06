@@ -55,7 +55,9 @@
     <Compile Include="Elevation\Srtm\SrtmDataCell.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="MessageBus.cs" />
-    <Compile Include="Scene\SceneVisitResult.cs" />
+    <Compile Include="Scene\IModelVisitor.cs" />
+    <Compile Include="Tiles\ITileVisitor.cs" />
+    <Compile Include="Tiles\TileLoader.cs" />
     <Compile Include="Tiles\TileMessages.cs" />
     <Compile Include="World\Address.cs" />
     <Compile Include="MapCss\Visitors\Eval\ListTreeWalker.cs" />
@@ -92,7 +94,6 @@
     <Compile Include="MapCss\Visitors\MapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitorBase.cs" />
     <Compile Include="MapCss\Visitors\SelectorMapCssVisitor.cs" />
-    <Compile Include="Scene\ISceneVisitor.cs" />
     <Compile Include="Scene\Models\Area.cs" />
     <Compile Include="Scene\Models\Canvas.cs" />
     <Compile Include="Scene\Models\Model.cs" />
@@ -108,9 +109,6 @@
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileProvider.cs" />
     <Compile Include="Utilities\TypeHelper.cs" />
-    <Compile Include="Zones\Zone.cs" />
-    <Compile Include="Zones\ZoneLoader.cs" />
-    <Compile Include="Zones\ZoneMessages.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">

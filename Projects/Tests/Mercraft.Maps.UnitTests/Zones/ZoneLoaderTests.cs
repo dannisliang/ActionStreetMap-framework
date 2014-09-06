@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mercraft.Core;
 using Mercraft.Core.Tiles;
-using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using NUnit.Framework;
@@ -25,7 +23,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             componentRoot.RunGame(TestHelper.BerlinHauptBanhoff);
 
             // ACT
-            var zoneLoader = container.Resolve<IPositionListener>() as ZoneLoader;
+            var zoneLoader = container.Resolve<IPositionListener>() as TileLoader;
 
             logger.Stop();
 
@@ -36,22 +34,6 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.Less(logger.Seconds, 5, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
             Assert.Less(logger.Memory, 20, "Memory consumption is to hight!");
-        }
-
-        [Test]
-        [ExpectedException(typeof(ObjectDisposedException))]
-        public void CanDisposeTile()
-        {
-            // ARRANGE
-            var container = new Container();
-            var componentRoot = TestHelper.GetGameRunner(container);
-            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
-
-            // ACT
-            var zoneLoader = container.Resolve<IPositionListener>() as ZoneLoader;
-
-            // ASSERT
-            Assert.IsNotNull(GetZones(zoneLoader).Single().Tile.Scene.Areas);
         }
 
         [Test]
@@ -75,11 +57,11 @@ namespace Mercraft.Maps.UnitTests.Zones
             Assert.IsTrue(zoneLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
         }
 
-        private IEnumerable<Zone> GetZones(ZoneLoader zoneLoader)
+        private IEnumerable<Tile> GetZones(TileLoader zoneLoader)
         {
-            var property = typeof (ZoneLoader).GetProperty("Zones", BindingFlags.NonPublic |
+            var property = typeof(TileLoader).GetProperty("Tiles", BindingFlags.NonPublic |
                 BindingFlags.Instance | BindingFlags.GetProperty);
-            return (property.GetValue(zoneLoader, null) as Dictionary<Tile, Zone>).Values;
+            return (property.GetValue(zoneLoader, null) as HashSet<Tile>).AsEnumerable();
         }
     }
 }

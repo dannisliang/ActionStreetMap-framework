@@ -6,7 +6,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
-namespace Mercraft.Explorer.Builders
+namespace Mercraft.Explorer.Scene
 {
     public interface IModelBuilder
     {

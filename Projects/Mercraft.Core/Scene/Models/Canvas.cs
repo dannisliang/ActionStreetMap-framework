@@ -10,5 +10,10 @@ namespace Mercraft.Core.Scene.Models
         {
             get { return true; }
         }
+
+        public override void Accept(IModelVisitor visitor)
+        {
+            visitor.VisitCanvas(this);
+        }
     }
 }

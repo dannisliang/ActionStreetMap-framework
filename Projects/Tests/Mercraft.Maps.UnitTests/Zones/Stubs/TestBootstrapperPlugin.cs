@@ -1,7 +1,7 @@
 ﻿using System;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Scene;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;

@@ -12,7 +12,7 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
 
-namespace Mercraft.Explorer.Builders
+namespace Mercraft.Explorer.Scene.Builders
 {
     public class BuildingModelBuilder : ModelBuilder
     {

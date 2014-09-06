@@ -1,6 +1,7 @@
 ﻿using Mercraft.Core.MapCss;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Builders;
+using Mercraft.Core.Tiles;
+using Mercraft.Explorer.Scene;
+using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
@@ -25,7 +26,7 @@ namespace Mercraft.Explorer.Bootstrappers
         {
             Container.Register(Component.For<IResourceProvider>().Use<UnityResourceProvider>().Singleton());
 
-            Container.Register(Component.For<ISceneVisitor>().Use<SceneVisitor>().Singleton());
+            Container.Register(Component.For<ITileVisitor>().Use<TileModelVisitor>().Singleton());
 
             var themeConfigPath = GlobalConfigSection.GetString(ThemeKey);
             var themeConfig = new ConfigSettings(themeConfigPath, PathResolver);

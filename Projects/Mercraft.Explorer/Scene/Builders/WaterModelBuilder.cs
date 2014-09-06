@@ -7,11 +7,10 @@ using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Utils;
 using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Builders
+namespace Mercraft.Explorer.Scene.Builders
 {
     // NOTE this class has some duplicated in flat builder functionality
     public class WaterModelBuilder : ModelBuilder

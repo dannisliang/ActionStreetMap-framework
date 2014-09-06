@@ -3,7 +3,6 @@ using Mercraft.Core.Elevation;
 using Mercraft.Core.Elevation.Srtm;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
-using Mercraft.Core.Zones;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
@@ -35,7 +34,7 @@ namespace Mercraft.Explorer.Bootstrappers
 
             Container.Register(Component
                 .For<IPositionListener>()
-                .Use<ZoneLoader>()
+                .Use<TileLoader>()
                 .Singleton()
                 .SetConfig(GlobalConfigSection.GetSection(PositionKey)));
             

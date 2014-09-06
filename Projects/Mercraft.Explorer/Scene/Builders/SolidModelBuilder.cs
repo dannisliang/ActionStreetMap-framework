@@ -11,7 +11,7 @@ using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Builders
+namespace Mercraft.Explorer.Scene.Builders
 {
     public class SolidModelBuilder : ModelBuilder
     {

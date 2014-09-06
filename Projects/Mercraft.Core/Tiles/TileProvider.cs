@@ -70,7 +70,7 @@ namespace Mercraft.Core.Tiles
             // calculate geo center
             var geoCoordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, nextTileCenter);
 
-            _messageBus.Send(new TileLoadStartMessage(nextTileCenter));
+            _messageBus.Send(new TileBuildStartMessage(nextTileCenter));
 
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
             var scene = _sceneBuilder.Build(bbox);
@@ -79,7 +79,7 @@ namespace Mercraft.Core.Tiles
             scene.Canvas.Tile = tile;
             _tiles.Add(tile);
 
-            _messageBus.Send(new TileLoadFinishMessage(tile));
+            _messageBus.Send(new TileBuildFinishMessage(tile));
             return tile;
         }
 

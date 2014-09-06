@@ -1,7 +1,7 @@
 ﻿using Mercraft.Core;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs

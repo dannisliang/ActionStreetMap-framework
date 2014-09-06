@@ -18,5 +18,10 @@
                     Points[0] == Points[Points.Length - 1];
             }
         }
+
+        public override void Accept(IModelVisitor visitor)
+        {
+            visitor.VisitArea(this);
+        }
     }
 }

@@ -13,13 +13,33 @@ namespace Mercraft.Core.Tiles
         }
     }
 
-    public sealed class TileLoadStartMessage
+    public sealed class TileBuildStartMessage
     {
         public MapPoint TileCenter { get; private set; }
 
-        public TileLoadStartMessage(MapPoint tileCenter)
+        public TileBuildStartMessage(MapPoint tileCenter)
         {
             TileCenter = tileCenter;
+        }
+    }
+
+    public sealed class TileBuildFinishMessage
+    {
+        public Tile Tile { get; private set; }
+
+        public TileBuildFinishMessage(Tile tile)
+        {
+            Tile = tile;
+        }
+    }
+
+    public sealed class TileLoadStartMessage
+    {
+        public Tile Tile { get; private set; }
+
+        public TileLoadStartMessage(Tile tile)
+        {
+            Tile = tile;
         }
     }
 

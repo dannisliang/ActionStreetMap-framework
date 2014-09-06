@@ -13,5 +13,10 @@ namespace Mercraft.Core.Scene.Models
         {
             get { return Points[0] == Points[Points.Length - 1]; }
         }
+
+        public override void Accept(IModelVisitor visitor)
+        {
+            visitor.VisitWay(this);
+        }
     }
 }

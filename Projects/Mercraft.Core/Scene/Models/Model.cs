@@ -1,17 +1,18 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mercraft.Core.Scene.Models
 {
     public abstract class Model
     {
         public long Id { get; set; }
+       
+        public IList<KeyValuePair<string, string>> Tags { get; set; }
         public abstract bool IsClosed { get; }
 
-        public IList<KeyValuePair<string, string>> Tags { get; set; }
+        public abstract void Accept(IModelVisitor visitor);
 
         /// <summary>
-        /// Returns a description of this object.
+        ///     Returns a description of this object.
         /// </summary>
         public override string ToString()
         {

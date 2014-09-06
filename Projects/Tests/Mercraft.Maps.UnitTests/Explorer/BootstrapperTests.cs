@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Builders;
+using Mercraft.Explorer.Scene;
 using Mercraft.Infrastructure.Dependencies;
 using NUnit.Framework;
 

@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Mercraft.Core.Scene.Models
 {
     public class Node: Model
@@ -8,6 +10,11 @@ namespace Mercraft.Core.Scene.Models
         public override bool IsClosed
         {
             get { return false; }
+        }
+
+        public override void Accept(IModelVisitor visitor)
+        {
+            throw new NotImplementedException();
         }
     }
 }
