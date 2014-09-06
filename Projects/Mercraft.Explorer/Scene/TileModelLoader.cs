@@ -18,7 +18,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene
 {
-    public class TileModelVisitor : ITileVisitor, IModelVisitor
+    public class TileModelLoader : ITileLoader, IModelVisitor
     {
         private readonly IHeightMapProvider _heighMapProvider;
         private readonly ITerrainBuilder _terrainBuilder;
@@ -39,7 +39,7 @@ namespace Mercraft.Explorer.Scene
         private readonly List<RoadElement> _roadElements = new List<RoadElement>();
 
         [Dependency]
-        public TileModelVisitor(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
+        public TileModelLoader(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
             IHeightMapProvider heighMapProvider, ITerrainBuilder terrainBuilder,             
             IRoadBuilder roadBuilder, IStylesheetProvider stylesheetProvider,
             IEnumerable<IModelBuilder> builders, IEnumerable<IModelBehaviour> behaviours)
@@ -54,9 +54,9 @@ namespace Mercraft.Explorer.Scene
             _stylesheet = stylesheetProvider.Get();
         }
 
-        #region ITileVisitor
+        #region ITileLoader
 
-        public void Visit(Tile tile)
+        public void Load(Tile tile)
         {
             _tile = tile;
             // terrain builder knows about terrain type elements like areas (e.g. parks, green zones 

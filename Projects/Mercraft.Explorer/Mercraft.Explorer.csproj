@@ -37,7 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrappers\ZoneBootstrapper.cs" />
+    <Compile Include="Bootstrappers\TileBootstrapper.cs" />
     <Compile Include="Scene\Builders\BuildingModelBuilder.cs" />
     <Compile Include="Scene\Builders\FlatModelBuilder.cs" />
     <Compile Include="Scene\IModelBuilder.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Themes\ThemeProvider.cs" />
     <Compile Include="Scene\ObjectModelBuilder.cs" />
     <Compile Include="Scene\TerrainModelBuilder.cs" />
-    <Compile Include="Scene\TileModelVisitor.cs" />
+    <Compile Include="Scene\TileModelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">

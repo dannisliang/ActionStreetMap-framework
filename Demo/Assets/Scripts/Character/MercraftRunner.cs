@@ -72,7 +72,7 @@ namespace Assets.Scripts.Character
             // boot plugins
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<ZoneBootstrapper>().Named("zone"));
+            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
 

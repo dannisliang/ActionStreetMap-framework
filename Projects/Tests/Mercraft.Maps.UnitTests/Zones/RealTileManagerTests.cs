@@ -10,10 +10,10 @@ using NUnit.Framework;
 namespace Mercraft.Maps.UnitTests.Zones
 {
     [TestFixture]
-    public class ZoneLoaderTests
+    public class RealTileManagerTests
     {
         [Test]
-        public void CanLoadZoneDynamically()
+        public void CanLoadTileDynamically()
         {
             // ARRANGE
             var logger = new PerformanceLogger();
@@ -23,13 +23,13 @@ namespace Mercraft.Maps.UnitTests.Zones
             componentRoot.RunGame(TestHelper.BerlinHauptBanhoff);
 
             // ACT
-            var zoneLoader = container.Resolve<IPositionListener>() as TileLoader;
+            var tileLoader = container.Resolve<IPositionListener>() as TileManager;
 
             logger.Stop();
 
             // ASSERT
-            Assert.IsNotNull(zoneLoader);
-            Assert.AreEqual(1, GetZones(zoneLoader).Count());
+            Assert.IsNotNull(tileLoader);
+            Assert.AreEqual(1, GetTiles(tileLoader).Count());
 
             Assert.Less(logger.Seconds, 5, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
@@ -37,7 +37,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         }
 
         [Test]
-        public void CanLoadZoneWithProxy()
+        public void CanLoadTileWithProxy()
         {
             // ARRANGE
             var container = new Container();
@@ -50,18 +50,18 @@ namespace Mercraft.Maps.UnitTests.Zones
             componentRoot.RunGame(TestHelper.BerlinInvalidenStr);
 
             // ACT
-            var zoneLoader = container.Resolve<IPositionListener>();
+            var tileLoader = container.Resolve<IPositionListener>();
 
             // ASSERT
-            Assert.IsNotNull(zoneLoader);
-            Assert.IsTrue(zoneLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
+            Assert.IsNotNull(tileLoader);
+            Assert.IsTrue(tileLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
         }
 
-        private IEnumerable<Tile> GetZones(TileLoader zoneLoader)
+        private IEnumerable<Tile> GetTiles(TileManager tileManager)
         {
-            var property = typeof(TileLoader).GetProperty("Tiles", BindingFlags.NonPublic |
+            var property = typeof(TileManager).GetProperty("Tiles", BindingFlags.NonPublic |
                 BindingFlags.Instance | BindingFlags.GetProperty);
-            return (property.GetValue(zoneLoader, null) as HashSet<Tile>).AsEnumerable();
+            return (property.GetValue(tileManager, null) as HashSet<Tile>).AsEnumerable();
         }
     }
 }

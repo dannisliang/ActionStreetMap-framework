@@ -51,7 +51,7 @@ namespace Mercraft.Maps.UnitTests
             // boot plugins
             container.Register(Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
             container.Register(Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
-            container.Register(Component.For<IBootstrapperPlugin>().Use<ZoneBootstrapper>().Named("zone"));
+            container.Register(Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
             container.Register(Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
             container.Register(Component.For<IBootstrapperPlugin>().Use<TestBootstrapperPlugin>().Named("test"));
 

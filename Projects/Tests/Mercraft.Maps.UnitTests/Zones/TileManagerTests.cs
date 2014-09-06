@@ -3,14 +3,13 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Config;
-using Mercraft.Maps.UnitTests.Zones.Stubs;
 using Moq;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Zones
 {
     [TestFixture]
-    internal class TileProviderTests
+    internal class TileManagerTests
     {
         private const float Size = 50;
         private const float Half = Size/2;
@@ -20,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanMoveLeft()
         {
             // ARRANGE
-            var provider = GetProvider();
+            var provider = GetManager();
             var center = new GeoCoordinate(52, 13);
 
             // ACT & ASSERT
@@ -39,7 +38,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanMoveRight()
         {
             // ARRANGE
-            var provider = GetProvider();
+            var provider = GetManager();
             var center = new GeoCoordinate(52, 13);
 
             // ACT & ASSERT
@@ -58,7 +57,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanMoveTop()
         {
             // ARRANGE
-            var provider = GetProvider();
+            var provider = GetManager();
             var center = new GeoCoordinate(52, 13);
 
             // ACT & ASSERT
@@ -77,7 +76,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanMoveBottom()
         {
             // ARRANGE
-            var provider = GetProvider();
+            var provider = GetManager();
             var center = new GeoCoordinate(52, 13);
 
             // ACT & ASSERT
@@ -96,7 +95,7 @@ namespace Mercraft.Maps.UnitTests.Zones
         public void CanMoveArround()
         {
             // ARRANGE
-            var provider = GetProvider();
+            var provider = GetManager();
             var center = new GeoCoordinate(52, 13);
 
             // ACT & ASSERT
@@ -127,7 +126,7 @@ namespace Mercraft.Maps.UnitTests.Zones
                 new MapPoint(0, -(Half*2 - Offset - 1)), 3);
         }
 
-        private TileProvider GetProvider()
+        private TileManager GetManager()
         {
             var sceneBuilderMock = new Mock<ISceneBuilder>();
             sceneBuilderMock
@@ -140,30 +139,30 @@ namespace Mercraft.Maps.UnitTests.Zones
             configMock.Setup(c => c.GetFloat("@size")).Returns(Size);
             configMock.Setup(c => c.GetFloat("@offset")).Returns(Offset);
 
-            var provider = new TileProvider(sceneBuilderMock.Object, new MessageBus());
+            var provider = new TileManager(sceneBuilderMock.Object, null, new MessageBus());
             provider.Configure(configMock.Object);
 
             return provider;
         }
 
-        private Tile CanLoadTile(TileProvider provider, Tile tileCenter, GeoCoordinate center,
+        private Tile CanLoadTile(TileManager manager, Tile tileCenter, GeoCoordinate center,
             MapPoint first, MapPoint second, MapPoint third, int tileCount)
         {
             // this shouldn't load new tile
-            var tileCenterTest1 = provider.GetTile(first, center);
+            var tileCenterTest1 = manager.GetTile(first, center);
             Assert.AreSame(tileCenter, tileCenterTest1);
-            Assert.AreEqual(++tileCount, provider.TileCount);
+            Assert.AreEqual(++tileCount, manager.TileCount);
             Assert.AreEqual(tileCenterTest1.MapCenter, new MapPoint(0, 0));
 
             // this force to load new tile
-            var tileNext = provider.GetTile(second, center);
+            var tileNext = manager.GetTile(second, center);
             Assert.AreNotSame(tileCenter, tileNext);
-            Assert.AreEqual(++tileCount, provider.TileCount);
+            Assert.AreEqual(++tileCount, manager.TileCount);
 
             // this shouldn't load new tile
-            var tileNextTest = provider.GetTile(third, center);
+            var tileNextTest = manager.GetTile(third, center);
             Assert.AreSame(tileNext, tileNextTest);
-            Assert.AreEqual(tileCount, provider.TileCount);
+            Assert.AreEqual(tileCount, manager.TileCount);
 
             return tileNext;
         }

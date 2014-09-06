@@ -97,8 +97,8 @@
     <Compile Include="Zones\Stubs\TestGameObject.cs" />
     <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
     <Compile Include="Zones\Stubs\TestWaterModelBuilder.cs" />
-    <Compile Include="Zones\TileProviderTests.cs" />
-    <Compile Include="Zones\ZoneLoaderTests.cs" />
+    <Compile Include="Zones\TileManagerTests.cs" />
+    <Compile Include="Zones\RealTileManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -9,13 +9,12 @@ using Mercraft.Maps.Osm;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
-    public class ZoneBootstrapper : BootstrapperPlugin
+    public class TileBootstrapper : BootstrapperPlugin
     {
         private const string TileKey = "tile";
-        private const string PositionKey = "position";
         private const string ElevationKey = "elevationdata";
 
-        public override string Name { get { return "zone"; } }
+        public override string Name { get { return "tile"; } }
 
         public override bool Run()
         {
@@ -26,17 +25,10 @@ namespace Mercraft.Explorer.Bootstrappers
                 .SetConfig(GlobalConfigSection.GetSection(ElevationKey)));
             
             Container.Register(Component
-                .For<TileProvider>()
-                .Use<TileProvider>()
+                .For<IPositionListener>()
+                .Use<TileManager>()
                 .Singleton()
                 .SetConfig(GlobalConfigSection.GetSection(TileKey)));
-
-
-            Container.Register(Component
-                .For<IPositionListener>()
-                .Use<TileLoader>()
-                .Singleton()
-                .SetConfig(GlobalConfigSection.GetSection(PositionKey)));
             
             return true;
         }

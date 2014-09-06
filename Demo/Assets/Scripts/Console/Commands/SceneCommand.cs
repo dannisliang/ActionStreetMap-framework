@@ -28,7 +28,7 @@ namespace Assets.Scripts.Console.Commands
                 var arguments = new Arguments(args);
                 // NOTE assume that we're using default implementation where
                 // ZoneLoader is used as IPositionListener 
-                var tileLoader = _container.Resolve<IPositionListener>() as TileLoader;
+                var tileLoader = _container.Resolve<IPositionListener>() as TileManager;
                 var tile = tileLoader.CurrentTile;
                 var currentGeoPosition = GeoProjection.ToGeoCoordinate(tileLoader.RelativeNullPoint, tileLoader.CurrentPosition);
 
@@ -97,7 +97,7 @@ namespace Assets.Scripts.Console.Commands
             }
         }
 
-        private void GeneralInfo(TileLoader tileLoader, GeoCoordinate currentGeoPosition, StringBuilder response)
+        private void GeneralInfo(TileManager tileLoader, GeoCoordinate currentGeoPosition, StringBuilder response)
         {
             var tile = tileLoader.CurrentTile;
             var scene = tile.Scene;
