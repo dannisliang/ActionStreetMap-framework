@@ -10,8 +10,8 @@ namespace Assets.Scripts.TankDemo
         private Transform bulletSpawnPoint;    
         private float curSpeed, targetSpeed, rotSpeed;
         private float turretRotSpeed = 10.0f;
-        private float maxForwardSpeed = 10.0f;
-        private float maxBackwardSpeed = -10.0f;
+        public float maxForwardSpeed = 100.0f;
+        public float maxBackwardSpeed = -100.0f;
 
         //Bullet shooting rate
         protected float shootRate;
