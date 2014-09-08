@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
-using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Utils.Geometry;
 
 namespace Mercraft.Models.Utils
 {
@@ -23,11 +24,8 @@ namespace Mercraft.Models.Utils
         private int _scanLineEnd;
 
         // reusable buffers
-        private SortedSet<int> _scanListBuffer = new SortedSet<int>();
-
+        private List<int> _scanListBuffer = new List<int>(2);
         private MapPoint[] _mapPointBuffer = new MapPoint[4];
-
-        private bool _outOfTile;
 
         public void Recycle(HeightMap heightMap)
         {
@@ -52,21 +50,20 @@ namespace Mercraft.Models.Utils
         {
             _mapPointBuffer = new MapPoint[points.Length];
 
-            for (int i = 0; i < _mapPointBuffer.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
                 var point = points[i];
                 _mapPointBuffer[i] = GetHeightMapPoint(point.X, point.Y);
             }
 
-            InitializeScanLine();
-
-            if (!_outOfTile)
-                ScanAndFill(elevation);
+            // we use different algorithm for random polygon cause current implementation of
+            // 
+           ScanLine.FillPolygon(_mapPointBuffer, (scanline, s, e) => 
+               Fill(scanline, s, e, elevation));
         }
 
         private void InitializeScanLine()
         {
-            _outOfTile = true;
             _scanLineStart = int.MaxValue;
             _scanLineEnd = int.MinValue;
 
@@ -78,7 +75,6 @@ namespace Mercraft.Models.Utils
                 if (point.Y <= 0 || point.Y >= _size)
                     continue;
 
-                _outOfTile = false;
                 if (_scanLineEnd < point.Y)
                     _scanLineEnd = (int)point.Y;
                 if (_scanLineStart > point.Y)
@@ -120,32 +116,23 @@ namespace Mercraft.Models.Utils
                     if (Math.Abs(d) < float.Epsilon)
                         continue;
 
-                    double tanBeta = Math.Abs(x1 - x2) / d;
+                    float tanBeta = Math.Abs(x1 - x2) / d;
 
                     var b = Math.Abs(y1 - z);
                     var length = b * tanBeta;
 
-                    var x = (int)Math.Round(x1 + Math.Floor(length));
+                    var x = (int)(x1 + Math.Floor(length));
+
+                    if (x >= _size) x = _size - 1;
+                    if (x < 0) x = 0;
+
                     _scanListBuffer.Add(x);
                 }
 
-                var count = _scanListBuffer.Values.Count;
-                if (count > 1)
+                if (_scanListBuffer.Count > 1)
                 {
-                    for (int i = 0; i < count - 1; i++)
-                    {
-                        var first = _scanListBuffer.Values[i];
-                        var second = _scanListBuffer.Values[++i];
-
-                        // algorithm contains bugs for some cases
-                        if (i < count - 1 && _scanListBuffer.Values[i + 1] < _lastIndex && Math.Abs(first - second) <= 2)
-                            second = _scanListBuffer.Values[++i];
-
-                        if (count % 2 != 0 && i <= count - 2 && second > _lastIndex)
-                            break;
-
-                        Fill(z, first, second, elevation);
-                    }
+                    _scanListBuffer.Sort();
+                    Fill(z, _scanListBuffer[0], _scanListBuffer[_scanListBuffer.Count - 1], elevation);
                 }
 
                 _scanListBuffer.Clear();
@@ -154,16 +141,19 @@ namespace Mercraft.Models.Utils
 
         private void Fill(int line, int start, int end, float elevation)
         {
-            if ((start > _lastIndex) || (end < 0))
+            if ((start > _lastIndex) || (end < 0) || line < 0 || line > _lastIndex)
                 return;
 
-            var s = start < 0 ? 0 : start;
+            var s = start > _lastIndex ? _lastIndex : start;
+            s = s < 0 ? 0 : s;
+
             var e = end > _lastIndex ? _lastIndex : end;
 
-            for (int i = s; i <= e; i++)
+            for (int i = s; i <= e && i < _size; i++)
             {
                 _data[line, i] = elevation;
             }
+
         }
 
         private MapPoint GetHeightMapPoint(float x, float y)

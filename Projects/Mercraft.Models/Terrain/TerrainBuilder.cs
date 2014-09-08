@@ -53,6 +53,11 @@ namespace Mercraft.Models.Terrain
                 var elevation = heightMap.MinElevation - 10;
                 foreach (var elevationArea in settings.Elevations)
                 {
+                    foreach (var mapPoint in elevationArea.Points)
+                    {
+                        Console.WriteLine("new MapPoint({0}f, {1}f),", mapPoint.X, mapPoint.Y);
+                    }
+                    
                     _heightMapProcessor.Recycle(heightMap);
                     _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
                 }

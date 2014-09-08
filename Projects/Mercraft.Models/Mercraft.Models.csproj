@@ -52,6 +52,7 @@
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />
+    <Compile Include="Utils\Geometry\ScanLine.cs" />
     <Compile Include="Utils\Geometry\Segment.cs" />
     <Compile Include="Roads\RoadUtils.cs" />
     <Compile Include="Terrain\TerrainElement.cs" />
