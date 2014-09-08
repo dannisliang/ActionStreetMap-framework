@@ -61,6 +61,7 @@
     <Compile Include="Terrain\TerrainScanLine.cs" />
     <Compile Include="Terrain\TerrainBuilder.cs" />
     <Compile Include="Terrain\TerrainSettings.cs" />
+    <Compile Include="Utils\Geometry\SimpleScanLine.cs" />
     <Compile Include="Utils\ResourceProvider.cs" />
     <Compile Include="Utils\GameObjectWrapper.cs" />
     <Compile Include="Utils\HeightMapProcessor.cs" />
