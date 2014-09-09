@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.MapCss.Domain;
@@ -12,13 +13,14 @@ using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene
 {
-    public class TileModelLoader : ITileLoader, IModelVisitor
+    public class TileModelLoader : ITileLoader, IModelVisitor, IModelBuilder
     {
         private readonly IHeightMapProvider _heighMapProvider;
         private readonly ITerrainBuilder _terrainBuilder;
@@ -31,16 +33,13 @@ namespace Mercraft.Explorer.Scene
 
         private Tile _tile;
 
-        private IModelBuilder _terrainModelBuilder;
-        private IModelBuilder _objectModelBuilder;
-
         private readonly List<AreaSettings> _areas = new List<AreaSettings>();
         private readonly List<AreaSettings> _elevations = new List<AreaSettings>();
         private readonly List<RoadElement> _roadElements = new List<RoadElement>();
 
         [Dependency]
         public TileModelLoader(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
-            IHeightMapProvider heighMapProvider, ITerrainBuilder terrainBuilder,             
+            IHeightMapProvider heighMapProvider, ITerrainBuilder terrainBuilder,
             IRoadBuilder roadBuilder, IStylesheetProvider stylesheetProvider,
             IEnumerable<IModelBuilder> builders, IEnumerable<IModelBehaviour> behaviours)
         {
@@ -59,10 +58,6 @@ namespace Mercraft.Explorer.Scene
         public void Load(Tile tile)
         {
             _tile = tile;
-            // terrain builder knows about terrain type elements like areas (e.g. parks, green zones 
-            // which should be drawn using different terrain alpha map splats), elevations 
-            _terrainModelBuilder = new TerrainModelBuilder(_areas, _elevations, _roadElements);
-            _objectModelBuilder = new ObjectModelBuilder(_builders, _behaviours);
 
             var heightMapResolution = _stylesheet.GetRule(tile.Scene.Canvas, false).GetHeightMapSize();
             tile.GameObject = _gameObjectFactory.CreateNew("tile");
@@ -92,10 +87,18 @@ namespace Mercraft.Explorer.Scene
 
             if (rule.IsSkipped())
                 CreateSkipped(_tile.GameObject, area);
-            else 
+            else
             {
-                _objectModelBuilder.BuildArea(_tile, rule, area);
-                _terrainModelBuilder.BuildArea(_tile, rule, area);
+                // NOTE this is work-around as we cannot register instance in our container multiply time
+                // with default RegisterComponent
+                BuildArea(_tile, rule, area);
+
+                var modelBuilder = rule.GetModelBuilder(_builders);
+                if (modelBuilder != null)
+                {
+                    var gameObject = modelBuilder.BuildArea(_tile, rule, area);
+                    AttachExtras(gameObject, rule, area);
+                }
             }
         }
 
@@ -109,8 +112,16 @@ namespace Mercraft.Explorer.Scene
                 CreateSkipped(_tile.GameObject, way);
             else
             {
-                _objectModelBuilder.BuildWay(_tile, rule, way);
-                _terrainModelBuilder.BuildWay(_tile, rule, way);
+                // NOTE this is work-around as we cannot register instance in our container multiply time
+                // with default RegisterComponent
+                BuildWay(_tile, rule, way);
+
+                var modelBuilder = rule.GetModelBuilder(_builders);
+                if (modelBuilder != null)
+                {
+                    var gameObject = modelBuilder.BuildWay(_tile, rule, way);
+                    AttachExtras(gameObject, rule, way);
+                }
             }
         }
 
@@ -121,8 +132,9 @@ namespace Mercraft.Explorer.Scene
             // TODO this should be done by road composer
             var roads = _roadElements.Select(re => new Road()
             {
-                Elements = new List<RoadElement>() { re },
-                GameObject = _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
+                Elements = new List<RoadElement>() {re},
+                GameObject =
+                    _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
             }).ToArray();
 
             if (_tile.HeightMap.IsFlat)
@@ -151,6 +163,74 @@ namespace Mercraft.Explorer.Scene
             // additional objects due to performance reason
             var skippedGameObject = _gameObjectFactory.CreateNew(String.Format("skip {0}", model));
             skippedGameObject.Parent = parent;
+        }
+
+        private void AttachExtras(IGameObject gameObject, Rule rule, Model model)
+        {
+            if (gameObject != null)
+            {
+                gameObject.Parent = _tile.GameObject;
+                var behaviour = rule.GetModelBehaviour(_behaviours);
+                if (behaviour != null)
+                    behaviour.Apply(gameObject, model);
+            }
+        }
+
+        #endregion
+
+        #region IModelBuilder 
+
+        public string Name
+        {
+            get { return "tile"; }
+        }
+
+        public IGameObject BuildArea(Tile tile, Rule rule, Area area)
+        {
+            if (rule.IsTerrain())
+            {
+                _areas.Add(new AreaSettings()
+                {
+                    ZIndex = rule.GetZIndex(),
+                    SplatIndex = rule.GetSplatIndex(),
+                    Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
+                });
+            }
+
+            if (rule.IsElevation())
+            {
+                _elevations.Add(new AreaSettings()
+                {
+                    ZIndex = rule.GetZIndex(),
+                    Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
+                });
+            }
+            return null;
+        }
+
+        public IGameObject BuildWay(Tile tile, Rule rule, Way way)
+        {
+            if (rule.IsRoad())
+            {
+                // road should be processed in one place: it's better to collect all 
+                // roads and create connected road network
+                _roadElements.Add(new RoadElement()
+                {
+                    Id = way.Id,
+                    Address = AddressExtractor.Extract(way.Tags),
+                    Width = (int) Math.Round(rule.GetWidth()/2),
+                    ZIndex = rule.GetZIndex(),
+                    Points = way.Points.Select(p =>
+                    {
+                        var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, p);
+                        mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
+                        return mapPoint;
+                    }).ToArray()
+                });
+            }
+
+            // flat road can be rendered fully for cross-tile case, but not for elevation
+            return null;
         }
 
         #endregion

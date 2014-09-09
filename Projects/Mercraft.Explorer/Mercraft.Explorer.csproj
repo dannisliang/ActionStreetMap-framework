@@ -59,8 +59,6 @@
     <Compile Include="Themes\RoadStyleProvider.cs" />
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeProvider.cs" />
-    <Compile Include="Scene\ObjectModelBuilder.cs" />
-    <Compile Include="Scene\TerrainModelBuilder.cs" />
     <Compile Include="Scene\TileModelLoader.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,14 @@ namespace Mercraft.Explorer.Helpers
             return rule.Evaluate<string>("building-style");
         }
 
+        /*public static IEnumerable<IModelBuilder> GetModelBuilders(this Rule rule, IEnumerable<IModelBuilder> builders)
+        {
+            var builderNames = rule.Evaluate<List<string>>("builder");
+            if (builderNames == null)
+                return null;
+            return builders.Where(mb => builderNames.Contains(mb.Name));
+        }*/
+
         public static IModelBuilder GetModelBuilder(this Rule rule, IEnumerable<IModelBuilder> builders)
         {
             var builderName = rule.EvaluateDefault<string>("builder", null);
