@@ -5,6 +5,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
@@ -19,22 +20,19 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public SphereModelBuilder(IGameObjectFactory gameObjectFactory)
-            : base(gameObjectFactory)
+        public SphereModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+            : base(worldManager, gameObjectFactory)
         {
         }
 
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
-            return BuildSphere(tile, area, area.Points, rule);
-        }
 
-        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
-        {
-            base.BuildWay(tile, rule, way);
-            // TODO is it applied to way?
-            return BuildSphere(tile, way, way.Points, rule);
+            if (WorldManager.Contains(area.Id))
+                return null;
+
+            return BuildSphere(tile, area, area.Points, rule);
         }
 
         private IGameObject BuildSphere(Tile tile, Model model, GeoCoordinate[] points, Rule rule)
@@ -54,6 +52,8 @@ namespace Mercraft.Explorer.Scene.Builders
             var minHeight = rule.GetMinHeight();
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
             sphere.transform.position = new Vector3(sphereCenter.X, minHeight + diameter/2, sphereCenter.Y);
+
+            WorldManager.AddModel(model.Id);
 
             return gameObjectWrapper;
         }

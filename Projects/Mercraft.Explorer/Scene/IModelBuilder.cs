@@ -3,6 +3,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
@@ -23,10 +24,12 @@ namespace Mercraft.Explorer.Scene
         protected ITrace Trace { get; set; }
 
         protected readonly IGameObjectFactory GameObjectFactory;
+        protected readonly WorldManager WorldManager;
 
         [Dependency]
-        public ModelBuilder(IGameObjectFactory gameObjectFactory)
+        public ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
         {
+            WorldManager = worldManager;
             GameObjectFactory = gameObjectFactory;
         }
 

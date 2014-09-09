@@ -1,5 +1,6 @@
 ﻿using Mercraft.Core.MapCss;
 using Mercraft.Core.Tiles;
+using Mercraft.Core.World;
 using Mercraft.Explorer.Scene;
 using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Explorer.Themes;
@@ -24,6 +25,8 @@ namespace Mercraft.Explorer.Bootstrappers
 
         public override bool Run()
         {
+            Container.Register(Component.For<WorldManager>().Use<WorldManager>().Singleton());
+
             Container.Register(Component.For<IResourceProvider>().Use<UnityResourceProvider>().Singleton());
 
             Container.Register(Component.For<ITileLoader>().Use<TileModelLoader>().Singleton());
@@ -46,7 +49,6 @@ namespace Mercraft.Explorer.Bootstrappers
 
             // register model builders
             Container.Register(Component.For<IModelBuilder>().Use<BuildingModelBuilder>().Named("building").Singleton());
-            Container.Register(Component.For<IModelBuilder>().Use<SolidModelBuilder>().Named("solid").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<SphereModelBuilder>().Named("sphere").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<CylinderModelBuilder>().Named("cylinder").Singleton());
             Container.Register(Component.For<IModelBuilder>().Use<WaterModelBuilder>().Named("water").Singleton());

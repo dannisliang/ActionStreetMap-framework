@@ -14,7 +14,6 @@ namespace Mercraft.Models.Buildings
 
     public class BuildingBuilder : IBuildingBuilder
     {
-        private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
         private readonly IResourceProvider _resourceProvider;
 
         [Dependency]
@@ -25,19 +24,6 @@ namespace Mercraft.Models.Buildings
 
         public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
-            // NOTE we do not support elevations changes for buildings
-            // should we use max point or min?
-            building.Elevation = building.Footprint.Max(p => p.Elevation);
-
-            for (int i = 0; i < building.Footprint.Length; i++)
-                building.Footprint[i].Elevation = building.Elevation;
-
-            if (!heightMap.IsFlat)
-            {
-                _heightMapProcessor.Recycle(heightMap);
-                _heightMapProcessor.AdjustPolygon(building.Footprint, building.Elevation);
-            }
-
             var facadeMeshData = style.Facade.Builder.Build(building, style);
             var roofMeshData = style.Roof.Builder.Build(building, style);
 

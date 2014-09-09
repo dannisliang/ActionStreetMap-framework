@@ -31,9 +31,6 @@ namespace Mercraft.Explorer.Scene
 
         private Tile _tile;
 
-        // TODO use WorldManager instead
-        private readonly HashSet<long> _loadedModelIds = new HashSet<long>();
-
         private IModelBuilder _terrainModelBuilder;
         private IModelBuilder _objectModelBuilder;
 
@@ -65,7 +62,7 @@ namespace Mercraft.Explorer.Scene
             // terrain builder knows about terrain type elements like areas (e.g. parks, green zones 
             // which should be drawn using different terrain alpha map splats), elevations 
             _terrainModelBuilder = new TerrainModelBuilder(_areas, _elevations, _roadElements);
-            _objectModelBuilder = new ObjectModelBuilder(_loadedModelIds, _builders, _behaviours);
+            _objectModelBuilder = new ObjectModelBuilder(_builders, _behaviours);
 
             var heightMapResolution = _stylesheet.GetRule(tile.Scene.Canvas, false).GetHeightMapSize();
             tile.GameObject = _gameObjectFactory.CreateNew("tile");

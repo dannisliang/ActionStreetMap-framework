@@ -69,11 +69,10 @@
     <Compile Include="MapPoint.cs" />
     <Compile Include="Unity\UnityPrimitiveType.cs" />
     <Compile Include="World\Buildings\Building.cs" />
-    <Compile Include="World\Buildings\BuildingCollection.cs" />
+    <Compile Include="World\Collection.cs" />
     <Compile Include="World\Roads\Road.cs" />
     <Compile Include="World\Roads\RoadElement.cs" />
     <Compile Include="World\Roads\RoadElementComposer.cs" />
-    <Compile Include="World\Roads\RoadGraph.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="MapCss\Domain\Declaration.cs" />
     <Compile Include="MapCss\Domain\Rule.cs" />

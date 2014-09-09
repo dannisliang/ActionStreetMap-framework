@@ -5,6 +5,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using UnityEngine;
@@ -19,22 +20,19 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public CylinderModelBuilder(IGameObjectFactory gameObjectFactory)
-            : base(gameObjectFactory)
+        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+            : base(worldManager, gameObjectFactory)
         {
         }
 
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
-            return BuildCylinder(tile.RelativeNullPoint, area, area.Points, rule);
-        }
 
-        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
-        {
-            base.BuildWay(tile, rule, way);
-            // TODO is it applied to way?
-            return BuildCylinder(tile.RelativeNullPoint, way, way.Points, rule);
+            if (WorldManager.Contains(area.Id))
+                return null;
+
+            return BuildCylinder(tile.RelativeNullPoint, area, area.Points, rule);
         }
 
         private IGameObject BuildCylinder(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
@@ -60,6 +58,8 @@ namespace Mercraft.Explorer.Scene.Builders
             cylinder.AddComponent<MeshRenderer>();
             cylinder.renderer.material = rule.GetMaterial();
             cylinder.renderer.material.color = rule.GetFillColor();
+
+            WorldManager.AddModel(model.Id);
 
             return gameObjectWrapper;
         }

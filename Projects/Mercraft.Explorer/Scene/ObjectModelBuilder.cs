@@ -9,19 +9,20 @@ using Mercraft.Explorer.Helpers;
 
 namespace Mercraft.Explorer.Scene
 {
-    public class ObjectModelBuilder: IModelBuilder
+    public class ObjectModelBuilder : IModelBuilder
     {
-        private readonly HashSet<long> _loadedModelIds;
         private readonly IEnumerable<IModelBuilder> _builders;
         private readonly IEnumerable<IModelBehaviour> _behaviours;
 
-        public string Name { get { return "gameobject"; }}
+        public string Name
+        {
+            get { return "gameobject"; }
+        }
 
-        public ObjectModelBuilder(HashSet<long> loadedModelIds,
+        public ObjectModelBuilder(
             IEnumerable<IModelBuilder> builders,
             IEnumerable<IModelBehaviour> behaviours)
         {
-            _loadedModelIds = loadedModelIds;
             _builders = builders;
             _behaviours = behaviours;
         }
@@ -38,25 +39,21 @@ namespace Mercraft.Explorer.Scene
 
         private IGameObject ProcessGameObject(Tile tile, Rule rule, Model model, Func<IModelBuilder, IGameObject> goFunc)
         {
-            if (!_loadedModelIds.Contains(model.Id))
-            {
-                var builder = rule.GetModelBuilder(_builders);
-                if (builder == null)
-                    return null;
-                var gameObjectWrapper = goFunc(builder);
+            var builder = rule.GetModelBuilder(_builders);
+            if (builder == null)
+                return null;
+            var gameObjectWrapper = goFunc(builder);
 
-                gameObjectWrapper.Parent = tile.GameObject;
+            if (gameObjectWrapper == null)
+                return null;
 
-                var behaviour = rule.GetModelBehaviour(_behaviours);
-                if (behaviour != null)
-                    behaviour.Apply(gameObjectWrapper, model);
+            gameObjectWrapper.Parent = tile.GameObject;
 
-                _loadedModelIds.Add(model.Id);
+            var behaviour = rule.GetModelBehaviour(_behaviours);
+            if (behaviour != null)
+                behaviour.Apply(gameObjectWrapper, model);
 
-                return gameObjectWrapper;
-            }
-
-            return null;
+            return gameObjectWrapper;
         }
     }
 }

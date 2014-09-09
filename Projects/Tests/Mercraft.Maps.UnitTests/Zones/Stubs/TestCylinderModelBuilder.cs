@@ -4,6 +4,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Scene;
 using Mercraft.Infrastructure.Dependencies;
@@ -18,7 +19,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         }
 
         [Dependency]
-        public TestCylinderModelBuilder(IGameObjectFactory gameObjectFactory) : base(gameObjectFactory)
+        public TestCylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory) :
+            base(worldManager, gameObjectFactory)
         {
         }
 

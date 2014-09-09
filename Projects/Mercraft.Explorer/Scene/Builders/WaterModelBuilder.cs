@@ -5,6 +5,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Utils.Geometry;
@@ -22,14 +23,18 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public WaterModelBuilder(IGameObjectFactory gameObjectFactory)
-            : base(gameObjectFactory)
+        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+            : base(worldManager ,gameObjectFactory)
         {
         }
 
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
+
+            if (WorldManager.Contains(area.Id))
+                return null;
+
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
@@ -54,6 +59,8 @@ namespace Mercraft.Explorer.Scene.Builders
             var layerIndex = rule.GetLayerIndex(NoLayer);
             if (layerIndex != NoLayer)
                 gameObject.layer = layerIndex;
+
+            WorldManager.AddModel(area.Id);
 
             return gameObjectWrapper;
         }
