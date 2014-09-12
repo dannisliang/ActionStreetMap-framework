@@ -14,7 +14,7 @@ namespace Mercraft.Core.Scene.Models
 
         public override void Accept(IModelVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.VisitNode(this);
         }
     }
 }

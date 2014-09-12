@@ -70,12 +70,15 @@ namespace Mercraft.Explorer.Scene
                 area.Accept(this);
             foreach (var way in tile.Scene.Ways)
                 way.Accept(this);
+            foreach (var node in tile.Scene.Nodes)
+                node.Accept(this);
             tile.Scene.Canvas.Accept(this);
 
             // clear collections to reuse
             _areas.Clear();
             _elevations.Clear();
             _roadElements.Clear();
+            _trees.Clear();
         }
 
         #endregion
@@ -123,7 +126,7 @@ namespace Mercraft.Explorer.Scene
             var rule = _stylesheet.GetRule(node);
             if (ShouldUseBuilder(rule, node))
             {
-
+                BuildNode(_tile, rule, node);
             }
         }
 
@@ -254,10 +257,14 @@ namespace Mercraft.Explorer.Scene
         {
             if (rule.IsTree())
             {
+                // TODO extract this method
+                var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
+                mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
+
                 _trees.Add(new TreeDetail()
                 {
                     Id = node.Id,
-                    Point = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point)
+                    Point = mapPoint
                 });
             }
             return null;

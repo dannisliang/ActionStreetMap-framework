@@ -9,6 +9,8 @@ namespace Mercraft.Models.Details
     public class TreeDetail
     {
         public long Id { get; set; }
+
+        public int Index { get; set; }
         public MapPoint Point { get; set; }
     }
 }

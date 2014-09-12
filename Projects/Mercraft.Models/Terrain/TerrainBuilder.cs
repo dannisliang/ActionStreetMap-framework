@@ -90,6 +90,9 @@ namespace Mercraft.Models.Terrain
 
             terrainData.SetAlphamaps(0, 0, alphamap);
 
+            terrainData.treePrototypes = GetTreePrototypes();
+            SetTrees(settings, terrain, size);
+
             return new GameObjectWrapper("terrain", gameObject);
         }
 
@@ -108,6 +111,44 @@ namespace Mercraft.Models.Terrain
                 splatPrototypes[i] = splatPrototype;
             }
             return splatPrototypes;
+        }
+
+        protected TreePrototype[] GetTreePrototypes()
+        {
+            // TODO make this configurable
+            var treeProtoTypes = new TreePrototype[3];
+
+            treeProtoTypes[0] = new TreePrototype();
+            treeProtoTypes[0].prefab = Resources.Load<GameObject>(@"Models/Trees/Alder");
+
+            treeProtoTypes[1] = new TreePrototype();
+            treeProtoTypes[1].prefab = Resources.Load<GameObject>(@"Models/Trees/Banyan");
+
+            treeProtoTypes[2] = new TreePrototype();
+            treeProtoTypes[2].prefab = Resources.Load<GameObject>(@"Models/Trees/Mimosa");
+
+            return treeProtoTypes;
+        }
+
+        protected void SetTrees(TerrainSettings settings, UnityEngine.Terrain terrain, Vector3 size)
+        {
+            // set trees
+            foreach (var treeDetail in settings.Trees)
+            {
+                TreeInstance temp = new TreeInstance();
+                temp.position = new Vector3(
+                    (treeDetail.Point.X - settings.CornerPosition.x) / size.x,
+                    1,
+                    (treeDetail.Point.Y - settings.CornerPosition.y) / size.z);
+
+                temp.prototypeIndex = UnityEngine.Random.Range(0, 3);
+                temp.widthScale = 1;
+                temp.heightScale = 1;
+                temp.color = Color.white;
+                temp.lightmapColor = Color.white;
+
+                terrain.AddTreeInstance(temp);
+            }
         }
 
         private TerrainElement[] CreateElements(TerrainSettings settings,
