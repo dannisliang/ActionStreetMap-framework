@@ -44,6 +44,7 @@ namespace Mercraft.Core.Scene
                 return _ways;
             }
         }
+
         public void AddWay(Way way)
         {
             ThrowIfDisposed();
@@ -52,10 +53,29 @@ namespace Mercraft.Core.Scene
 
         #endregion
 
+        #region Nodes
+
+        private List<Node> _nodes;
+        public IEnumerable<Node> Nodes
+        {
+            get
+            {
+                return _nodes;
+            }
+        }
+
+        public void AddNode(Node node)
+        {
+            _nodes.Add(node);
+        }
+
+        #endregion
+
         public MapScene()
         {
             _areas = new List<Area>(64);
             _ways = new List<Way>(64);
+            _nodes = new List<Node>(1024); 
         }
 
         private void ThrowIfDisposed()
@@ -69,6 +89,7 @@ namespace Mercraft.Core.Scene
             Canvas = null;
             _areas.Clear();
             _ways.Clear();
+            _nodes.Clear();
             _disposed = true;
         }
     }

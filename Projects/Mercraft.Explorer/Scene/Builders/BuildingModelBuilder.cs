@@ -72,7 +72,7 @@ namespace Mercraft.Explorer.Scene.Builders
             // TODO if we have added building to WorldManager then
             // we should use elevation from existing building
 
-            var elevation = footPrint.Max(p => p.Elevation);
+            var elevation = footPrint.Average(p => p.Elevation);
 
             for (int i = 0; i < footPrint.Length; i++)
                 footPrint[i].Elevation = elevation;

@@ -82,12 +82,7 @@ namespace Mercraft.Explorer.Scene
         public void VisitArea(Area area)
         {
             var rule = _stylesheet.GetRule(area);
-            if (!rule.IsApplicable)
-                return;
-
-            if (rule.IsSkipped())
-                CreateSkipped(_tile.GameObject, area);
-            else
+            if (ShouldUseBuilder(rule, area))
             {
                 // NOTE this is work-around as we cannot register instance in our container multiply time
                 // with default RegisterComponent
@@ -105,12 +100,7 @@ namespace Mercraft.Explorer.Scene
         public void VisitWay(Way way)
         {
             var rule = _stylesheet.GetRule(way);
-            if (!rule.IsApplicable)
-                return;
-
-            if (rule.IsSkipped())
-                CreateSkipped(_tile.GameObject, way);
-            else
+            if (ShouldUseBuilder(rule, way))
             {
                 // NOTE this is work-around as we cannot register instance in our container multiply time
                 // with default RegisterComponent
@@ -122,6 +112,15 @@ namespace Mercraft.Explorer.Scene
                     var gameObject = modelBuilder.BuildWay(_tile, rule, way);
                     AttachExtras(gameObject, rule, way);
                 }
+            }
+        }
+
+        public void VisitNode(Node node)
+        {
+            var rule = _stylesheet.GetRule(node);
+            if (ShouldUseBuilder(rule, node))
+            {
+
             }
         }
 
@@ -157,6 +156,20 @@ namespace Mercraft.Explorer.Scene
             });
         }
 
+        private bool ShouldUseBuilder(Rule rule, Model model)
+        {
+            if (!rule.IsApplicable)
+                return false;
+
+            if (rule.IsSkipped())
+            {
+                CreateSkipped(_tile.GameObject, model);
+                return false;
+            }
+
+            return true;
+        }
+
         private void CreateSkipped(IGameObject parent, Model model)
         {
             // TODO this is useful only for debug, in release we should avoid creation of 
@@ -170,9 +183,9 @@ namespace Mercraft.Explorer.Scene
             if (gameObject != null)
             {
                 gameObject.Parent = _tile.GameObject;
-                var behaviour = rule.GetModelBehaviour(_behaviours);
-                if (behaviour != null)
-                    behaviour.Apply(gameObject, model);
+                //var behaviour = rule.GetModelBehaviour(_behaviours);
+                //if (behaviour != null)
+                //    behaviour.Apply(gameObject, model);
             }
         }
 

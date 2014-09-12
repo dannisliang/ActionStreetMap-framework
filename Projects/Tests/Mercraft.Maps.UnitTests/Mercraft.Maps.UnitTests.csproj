@@ -69,6 +69,7 @@
     <Compile Include="Models\Buildings\Roofs\MansardRoofTest.cs" />
     <Compile Include="Osm\ElementManagerTests.cs" />
     <Compile Include="Osm\LocationInfoTests.cs" />
+    <Compile Include="Osm\NodeTests.cs" />
     <Compile Include="Osm\PbfIndexListElementSourceTests.cs" />
     <Compile Include="Osm\WayTests.cs" />
     <Compile Include="PerformanceLogger.cs" />

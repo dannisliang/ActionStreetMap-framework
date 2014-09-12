@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Mercraft.Core.Scene;
+﻿using Mercraft.Core.Scene;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
@@ -15,7 +11,15 @@ namespace Mercraft.Maps.Osm.Visitors
 
         public override void VisitNode(Node node)
         {
-            // TODO
+            if (node.Tags != null)
+            {
+                Scene.AddNode(new Core.Scene.Models.Node()
+                {
+                    Id = node.Id,
+                    Point = node.Coordinate,
+                    Tags = node.Tags
+                });
+            }
         }
     }
 }

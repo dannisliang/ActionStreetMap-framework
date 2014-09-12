@@ -18,8 +18,10 @@ namespace Mercraft.Core.Scene
         // probably, we needn't to differentiate models
         void AddArea(Area area);
         void AddWay(Way way);
+        void AddNode(Node node);
 
         IEnumerable<Area> Areas { get; }
         IEnumerable<Way> Ways { get; }
+        IEnumerable<Node> Nodes { get; }
     }
 }
