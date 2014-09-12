@@ -14,6 +14,7 @@ namespace Mercraft.Explorer.Scene
         string Name { get; }
         IGameObject BuildArea(Tile tile, Rule rule, Area area);
         IGameObject BuildWay(Tile tile, Rule rule, Way way);
+        IGameObject BuildNode(Tile tile, Rule rule, Node node);
     }
 
     public abstract class ModelBuilder : IModelBuilder
@@ -27,7 +28,7 @@ namespace Mercraft.Explorer.Scene
         protected readonly WorldManager WorldManager;
 
         [Dependency]
-        public ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+        protected ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
         {
             WorldManager = worldManager;
             GameObjectFactory = gameObjectFactory;
@@ -42,6 +43,12 @@ namespace Mercraft.Explorer.Scene
         public virtual IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
+            return null;
+        }
+
+        public virtual IGameObject BuildNode(Tile tile, Rule rule, Node node)
+        {
+            Trace.Normal(String.Format("{0}: building node {1}", Name, node.Id));
             return null;
         }
     }

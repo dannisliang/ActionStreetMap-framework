@@ -14,6 +14,7 @@ using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
+using Mercraft.Models.Details;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 using UnityEngine;
@@ -33,9 +34,11 @@ namespace Mercraft.Explorer.Scene
 
         private Tile _tile;
 
+        // NOTE these objects should be processed either as part of terrain or together
         private readonly List<AreaSettings> _areas = new List<AreaSettings>();
         private readonly List<AreaSettings> _elevations = new List<AreaSettings>();
         private readonly List<RoadElement> _roadElements = new List<RoadElement>();
+        private readonly List<TreeDetail> _trees = new List<TreeDetail>();
 
         [Dependency]
         public TileModelLoader(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
@@ -150,6 +153,7 @@ namespace Mercraft.Explorer.Scene
                 TextureParams = rule.GetTextureParams(),
                 Areas = _areas,
                 Elevations = _elevations,
+                Trees = _trees,
                 Roads = roads,
                 RoadBuilder = _roadBuilder,
                 RoadStyleProvider = _themeProvider.Get().GetStyleProvider<IRoadStyleProvider>()
@@ -243,6 +247,19 @@ namespace Mercraft.Explorer.Scene
             }
 
             // flat road can be rendered fully for cross-tile case, but not for elevation
+            return null;
+        }
+
+        public IGameObject BuildNode(Tile tile, Rule rule, Node node)
+        {
+            if (rule.IsTree())
+            {
+                _trees.Add(new TreeDetail()
+                {
+                    Id = node.Id,
+                    Point = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point)
+                });
+            }
             return null;
         }
 

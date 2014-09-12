@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.World.Roads;
+using Mercraft.Models.Details;
 using Mercraft.Models.Roads;
 using UnityEngine;
 
@@ -27,9 +28,10 @@ namespace Mercraft.Models.Terrain
 
         public List<List<string>> TextureParams;
 
-        public List<AreaSettings> Areas;
+        public IEnumerable<AreaSettings> Areas;
         public IEnumerable<Road> Roads;
         public IEnumerable<AreaSettings> Elevations;
+        public IEnumerable<TreeDetail> Trees;
 
         public IRoadBuilder RoadBuilder;
         public IRoadStyleProvider RoadStyleProvider;

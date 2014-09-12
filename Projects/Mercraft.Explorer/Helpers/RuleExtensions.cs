@@ -107,6 +107,11 @@ namespace Mercraft.Explorer.Helpers
             return rule.EvaluateDefault("elevation", false);
         }
 
+        public static bool IsTree(this Rule rule)
+        {
+            return rule.EvaluateDefault("tree", false);
+        }
+
         public static bool IsTerrain(this Rule rule)
         {
             return rule.EvaluateDefault("terrain", false);
