@@ -144,10 +144,16 @@ namespace Mercraft.Maps.Osm.Data
                     elementNode.Tags.Add(new KeyValuePair<string, string>(key, value));
                 }
             }
-            // TODO this situation occurs rarely; need to investigate
-            // is it proper way to ignore (or should we merge nodes?)
+            
             if (!Elements.ContainsKey(elementNode.Id))
                 Elements.Add(elementNode.Id, elementNode);
+            else
+            {
+                // merge tags if element is present in collection
+                foreach (var keyValuePair in elementNode.Tags)
+                    Elements[elementNode.Id].Tags.Add(keyValuePair);
+            }
+
             if (_unresolvedNodes.Contains(elementNode.Id))
             {
                 _unresolvedNodes.Remove(elementNode.Id);
@@ -283,11 +289,9 @@ namespace Mercraft.Maps.Osm.Data
                             currentLat = currentLat + primitivegroup.dense.lat[idx];
                             currentLon = currentLon + primitivegroup.dense.lon[idx];
 
-                            if (obbox == null && !_unresolvedNodes.Contains(currentId))
-                                continue;
-
-                            if (obbox != null && !obbox.Contains(currentLat, currentLon))
-                                continue;
+                            bool shouldAdd = !((obbox == null && !_unresolvedNodes.Contains(currentId)) ||
+                                               (obbox != null && !obbox.Contains(currentLat, currentLon)));
+                                
 
                             var node = new Formats.Pbf.Node();
                             node.id = currentId;
@@ -299,13 +303,16 @@ namespace Mercraft.Maps.Osm.Data
                             var keysValsCount = keysVals.Count;
                             while (keysValsCount > keyValsIdx && keysVals[keyValsIdx] != 0)
                             {
-                                node.keys.Add((uint) keysVals[keyValsIdx]);
+                                if(shouldAdd)
+                                    node.keys.Add((uint) keysVals[keyValsIdx]);
                                 keyValsIdx++;
-                                node.vals.Add((uint) keysVals[keyValsIdx]);
+                                if(shouldAdd)
+                                    node.vals.Add((uint) keysVals[keyValsIdx]);
                                 keyValsIdx++;
                             }
                             keyValsIdx++;
-                            nodes.Add(node);
+                            if(shouldAdd)
+                                nodes.Add(node);
                         }
                         primitivegroup.nodes = nodes;
                     }
