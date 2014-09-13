@@ -36,19 +36,19 @@ namespace Mercraft.Explorer.Scene
 
         public virtual IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
-            Trace.Normal(String.Format("{0}: building area {1}", Name, area.Id));
+            //Trace.Normal(String.Format("{0}: building area {1}", Name, area.Id));
             return null;
         }
 
         public virtual IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
+            //Trace.Normal(String.Format("{0}: building way {1}", Name, way.Id));
             return null;
         }
 
         public virtual IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
-            Trace.Normal(String.Format("{0}: building node {1}", Name, node.Id));
+            //Trace.Normal(String.Format("{0}: building node {1}", Name, node.Id));
             return null;
         }
     }

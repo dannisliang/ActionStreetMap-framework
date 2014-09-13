@@ -40,7 +40,7 @@ namespace Assets.Scripts.Demo
 
         public void OnTileFound(Tile tile, MapPoint position)
         {
-            _trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.MapCenter));
+            //_trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.MapCenter));
         }
     }
 }
