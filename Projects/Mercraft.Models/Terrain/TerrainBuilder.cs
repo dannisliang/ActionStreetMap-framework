@@ -135,11 +135,16 @@ namespace Mercraft.Models.Terrain
             // set trees
             foreach (var treeDetail in settings.Trees)
             {
-                TreeInstance temp = new TreeInstance();
-                temp.position = new Vector3(
-                    (treeDetail.Point.X - settings.CornerPosition.x) / size.x,
-                    1,
+                var position = new Vector3((treeDetail.Point.X - settings.CornerPosition.x) / size.x, 1,
                     (treeDetail.Point.Y - settings.CornerPosition.y) / size.z);
+
+                // TODO investigate, why we get nodes out of current bbox for trees
+                // probably, it's better to filter them in osm level (however, they should be filtered!)
+                if (position.x > 1 || position.x < 0 || position.z > 1 || position.z < 0)
+                    continue;
+
+                TreeInstance temp = new TreeInstance();
+                temp.position = position;
 
                 temp.prototypeIndex = UnityEngine.Random.Range(0, 3);
                 temp.widthScale = 1;
