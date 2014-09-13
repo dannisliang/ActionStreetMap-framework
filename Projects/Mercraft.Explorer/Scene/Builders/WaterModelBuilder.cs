@@ -43,7 +43,7 @@ namespace Mercraft.Explorer.Scene.Builders
             var verticies = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
             
             var mesh = new Mesh();
-            mesh.vertices = GetOffsetPoints(verticies).GetVerticies(tile.HeightMap.MinElevation - 2);
+            mesh.vertices = GetOffsetPoints(verticies).GetVerticies(tile.HeightMap.MinElevation);
             //mesh.uv = verticies.GetUV();
             mesh.triangles = PolygonHelper.GetTriangles(verticies);
 

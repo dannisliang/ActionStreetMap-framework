@@ -191,9 +191,9 @@ namespace Mercraft.Explorer.Scene
             if (gameObject != null)
             {
                 gameObject.Parent = _tile.GameObject;
-                //var behaviour = rule.GetModelBehaviour(_behaviours);
-                //if (behaviour != null)
-                //    behaviour.Apply(gameObject, model);
+                var behaviour = rule.GetModelBehaviour(_behaviours);
+                if (behaviour != null)
+                    behaviour.Apply(gameObject, model);
             }
         }
 
