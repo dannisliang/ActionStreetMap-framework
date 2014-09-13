@@ -15,9 +15,9 @@ namespace Mercraft.Models.Terrain
     /// <summary>
     ///     Creates Terrain object using given settings
     /// </summary>
-    public class TerrainBuilder: ITerrainBuilder
+    public class TerrainBuilder : ITerrainBuilder
     {
-        private readonly AlphaMapGenerator _alphaMapGenerator = new AlphaMapGenerator();
+        private readonly AreaBuilder _areaBuilder = new AreaBuilder();
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
@@ -39,7 +39,7 @@ namespace Mercraft.Models.Terrain
             var heightMap = settings.Tile.HeightMap;
             var roadStyleProvider = settings.RoadStyleProvider;
             var roadBuilder = settings.RoadBuilder;
-            
+
             // process roads
             foreach (var road in settings.Roads)
             {
@@ -61,6 +61,8 @@ namespace Mercraft.Models.Terrain
 
         protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings, float[,] htmap)
         {
+            // TODO makecode more readable
+
             var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
             // create TerrainData
             var terrainData = new TerrainData();
@@ -68,34 +70,43 @@ namespace Mercraft.Models.Terrain
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
             terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);
+            terrainData.detailPrototypes = GetDetailPrototype();
 
+            var layers = settings.TextureParams.Count;
+            var splatMap = new float[settings.AlphaMapSize, settings.AlphaMapSize, layers];
+            var detailMapList = new List<int[,]>(settings.DetailParams.Count);
             // fill alphamap
             var alphaMapElements = CreateElements(settings, settings.Areas,
                 settings.AlphaMapSize / size.x,
                 settings.AlphaMapSize / size.z,
                 t => t.SplatIndex);
-            var alphamap = _alphaMapGenerator.GetAlphaMap(settings, alphaMapElements);
+
+
+            _areaBuilder.Build(settings, alphaMapElements, splatMap, detailMapList);
 
             // create Terrain using terrain data
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             var terrain = gameObject.GetComponent<UnityEngine.Terrain>();
 
-            terrain.transform.position = new Vector3(settings.CornerPosition.x, settings.ZIndex, settings.CornerPosition.y);
+            terrain.transform.position = new Vector3(settings.CornerPosition.x,
+                settings.ZIndex, settings.CornerPosition.y);
             terrain.heightmapPixelError = settings.PixelMapError;
             terrain.basemapDistance = settings.BaseMapDist;
 
             //disable this for better frame rate
             terrain.castShadows = false;
 
-            terrainData.SetAlphamaps(0, 0, alphamap);
+            terrainData.SetAlphamaps(0, 0, splatMap);
 
-            terrainData.treePrototypes = GetTreePrototypes();
-            SetTrees(settings, terrain, size);
+            SetTrees(terrain, settings, size);
+
+            SetDetails(terrain, settings, detailMapList);
 
             return new GameObjectWrapper("terrain", gameObject);
         }
 
+        #region Alpha map splats
         protected SplatPrototype[] GetSplatPrototypes(List<List<string>> textureParams)
         {
             var splatPrototypes = new SplatPrototype[textureParams.Count];
@@ -113,6 +124,9 @@ namespace Mercraft.Models.Terrain
             return splatPrototypes;
         }
 
+        #endregion
+
+        #region Trees
         protected TreePrototype[] GetTreePrototypes()
         {
             // TODO make this configurable
@@ -130,9 +144,9 @@ namespace Mercraft.Models.Terrain
             return treeProtoTypes;
         }
 
-        protected void SetTrees(TerrainSettings settings, UnityEngine.Terrain terrain, Vector3 size)
+        protected void SetTrees(UnityEngine.Terrain terrain, TerrainSettings settings, Vector3 size)
         {
-            // set trees
+            terrain.terrainData.treePrototypes = GetTreePrototypes();
             foreach (var treeDetail in settings.Trees)
             {
                 var position = new Vector3((treeDetail.Point.X - settings.CornerPosition.x) / size.x, 1,
@@ -145,7 +159,6 @@ namespace Mercraft.Models.Terrain
 
                 TreeInstance temp = new TreeInstance();
                 temp.position = position;
-
                 temp.prototypeIndex = UnityEngine.Random.Range(0, 3);
                 temp.widthScale = 1;
                 temp.heightScale = 1;
@@ -155,6 +168,50 @@ namespace Mercraft.Models.Terrain
                 terrain.AddTreeInstance(temp);
             }
         }
+        #endregion
+
+        #region Details
+        protected DetailPrototype[] GetDetailPrototype()
+        {
+            // TODO make this configurable
+            DetailRenderMode detailMode = DetailRenderMode.GrassBillboard;
+            var detailProtoTypes = new DetailPrototype[1];
+            Color grassHealthyColor = Color.white;
+            Color grassDryColor = Color.white;
+
+            detailProtoTypes[0] = new DetailPrototype();
+            detailProtoTypes[0].prototypeTexture = Resources.Load<Texture2D>("Textures/Terrain/Weed2");
+            detailProtoTypes[0].renderMode = detailMode;
+            detailProtoTypes[0].healthyColor = grassHealthyColor;
+            detailProtoTypes[0].dryColor = grassDryColor;
+
+            return detailProtoTypes;
+        }
+
+        protected void SetDetails(UnityEngine.Terrain terrain, TerrainSettings settings, List<int[,]> detailMapList)
+        {
+            int detailMapSize = settings.AlphaMapSize; //Resolutions of detail (Grass) layers
+            int detailObjectDistance = 400;   //The distance at which details will no longer be drawn
+            float detailObjectDensity = 4.0f; //Creates more dense details within patch
+            int detailResolutionPerPatch = 32; //The size of detail patch. A higher number may reduce draw calls as details will be batch in larger patches
+            float wavingGrassStrength = 0.4f;
+            float wavingGrassAmount = 0.2f;
+            float wavingGrassSpeed = 0.4f;
+            Color wavingGrassTint = Color.white;
+
+            terrain.terrainData.wavingGrassStrength = wavingGrassStrength;
+            terrain.terrainData.wavingGrassAmount = wavingGrassAmount;
+            terrain.terrainData.wavingGrassSpeed = wavingGrassSpeed;
+            terrain.terrainData.wavingGrassTint = wavingGrassTint;
+            terrain.detailObjectDensity = detailObjectDensity;
+            terrain.detailObjectDistance = detailObjectDistance;
+            terrain.terrainData.SetDetailResolution(detailMapSize, detailResolutionPerPatch);
+
+            for (int i = 0; i < detailMapList.Count; i++)
+                terrain.terrainData.SetDetailLayer(0, 0, i, detailMapList[i]);
+            
+        }
+        #endregion
 
         private TerrainElement[] CreateElements(TerrainSettings settings,
             IEnumerable<AreaSettings> areas, float widthRatio, float heightRatio, Func<TerrainElement, float> orderBy)
@@ -163,6 +220,7 @@ namespace Mercraft.Models.Terrain
             {
                 ZIndex = a.ZIndex,
                 SplatIndex = a.SplatIndex,
+                DetailIndex = a.DetailIndex,
                 Points = a.Points.Select(p =>
                     ConvertWorldToTerrain(p.X, p.Elevation, p.Y, settings.CornerPosition, widthRatio, heightRatio)).ToArray()
             }).OrderBy(orderBy).ToArray();
@@ -177,6 +235,6 @@ namespace Mercraft.Models.Terrain
                 x = (z - terrainPosition.y) * heightRatio,
                 y = y,
             };
-        } 
+        }
     }
 }

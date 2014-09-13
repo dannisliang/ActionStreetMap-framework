@@ -33,7 +33,7 @@ namespace Mercraft.Maps.Osm
             foreach (var element in elements)
             {
                 Populate(bbox, element, elementSource);
-               element.Accept(visitor); 
+                element.Accept(visitor);
             }
 
             ProcessLeftovers(bbox, visitor);

@@ -27,6 +27,7 @@ namespace Mercraft.Models.Terrain
         public float BaseMapDist = 200.0f;
 
         public List<List<string>> TextureParams;
+        public List<List<string>> DetailParams;
 
         public IEnumerable<AreaSettings> Areas;
         public IEnumerable<Road> Roads;

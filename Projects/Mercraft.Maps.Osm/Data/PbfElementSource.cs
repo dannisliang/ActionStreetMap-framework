@@ -150,8 +150,11 @@ namespace Mercraft.Maps.Osm.Data
             else
             {
                 // merge tags if element is present in collection
-                foreach (var keyValuePair in elementNode.Tags)
-                    Elements[elementNode.Id].Tags.Add(keyValuePair);
+                if (elementNode.Tags != null && elementNode.Tags.Count > 0)
+                {
+                    foreach (var keyValuePair in elementNode.Tags)
+                        Elements[elementNode.Id].Tags.Add(keyValuePair);
+                }
             }
 
             if (_unresolvedNodes.Contains(elementNode.Id))

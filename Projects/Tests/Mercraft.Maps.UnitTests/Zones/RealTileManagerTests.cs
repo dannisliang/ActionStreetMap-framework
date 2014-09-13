@@ -20,7 +20,7 @@ namespace Mercraft.Maps.UnitTests.Zones
             logger.Start();
             var container = new Container();
             var componentRoot = TestHelper.GetGameRunner(container);
-            componentRoot.RunGame(TestHelper.BerlinGeoCenter);
+            componentRoot.RunGame(new GeoCoordinate(52.53162, 13.38960));
 
             // ACT
             var tileLoader = container.Resolve<IPositionListener>() as TileManager;

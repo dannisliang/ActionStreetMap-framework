@@ -58,7 +58,7 @@
     <Compile Include="Utils\Geometry\Segment.cs" />
     <Compile Include="Roads\RoadUtils.cs" />
     <Compile Include="Terrain\TerrainElement.cs" />
-    <Compile Include="Terrain\AlphaMapGenerator.cs" />
+    <Compile Include="Terrain\AreaBuilder.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
     <Compile Include="Terrain\TerrainScanLine.cs" />
     <Compile Include="Terrain\TerrainBuilder.cs" />

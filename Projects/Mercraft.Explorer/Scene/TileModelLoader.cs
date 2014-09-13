@@ -154,6 +154,11 @@ namespace Mercraft.Explorer.Scene
                 PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
                 TextureParams = rule.GetTextureParams(),
+                // TODO define in config and parse
+                DetailParams = new List<List<string>>()
+                {
+                    new List<string>(),
+                },
                 Areas = _areas,
                 Elevations = _elevations,
                 Trees = _trees,
@@ -213,6 +218,7 @@ namespace Mercraft.Explorer.Scene
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
+                    DetailIndex = 0,
                     Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
                 });
             }

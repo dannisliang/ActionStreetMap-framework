@@ -28,7 +28,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             elementManager.VisitBoundingBox(bbox, dataSource, new NodeVisitor(scene));
 
             // ASSERT
-            Assert.AreEqual(4740, scene.Nodes.Count());
+            Assert.AreEqual(4252, scene.Nodes.Count());
         }
     }
 }
