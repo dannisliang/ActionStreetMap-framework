@@ -69,16 +69,16 @@ namespace Mercraft.Models.Terrain
             terrainData.heightmapResolution = settings.Tile.HeightMap.Resolution;
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
-            terrainData.splatPrototypes = GetSplatPrototypes(settings.TextureParams);
-            terrainData.detailPrototypes = GetDetailPrototype();
+            terrainData.splatPrototypes = GetSplatPrototypes(settings.SplatParams);
+            terrainData.detailPrototypes = GetDetailPrototype(settings.DetailParams);
 
-            var layers = settings.TextureParams.Count;
-            var splatMap = new float[settings.AlphaMapSize, settings.AlphaMapSize, layers];
+            var layers = settings.SplatParams.Count;
+            var splatMap = new float[settings.Resolution, settings.Resolution, layers];
             var detailMapList = new List<int[,]>(settings.DetailParams.Count);
             // fill alphamap
             var alphaMapElements = CreateElements(settings, settings.Areas,
-                settings.AlphaMapSize / size.x,
-                settings.AlphaMapSize / size.z,
+                settings.Resolution / size.x,
+                settings.Resolution / size.z,
                 t => t.SplatIndex);
 
 
@@ -107,17 +107,16 @@ namespace Mercraft.Models.Terrain
         }
 
         #region Alpha map splats
-        protected SplatPrototype[] GetSplatPrototypes(List<List<string>> textureParams)
+        protected SplatPrototype[] GetSplatPrototypes(List<List<string>> splatParams)
         {
-            var splatPrototypes = new SplatPrototype[textureParams.Count];
-            for (int i = 0; i < textureParams.Count; i++)
+            var splatPrototypes = new SplatPrototype[splatParams.Count];
+            for (int i = 0; i < splatParams.Count; i++)
             {
-                var texture = textureParams[i];
+                var splat = splatParams[i];
                 var splatPrototype = new SplatPrototype();
                 // TODO remove hardcoded path
-                // NOTE use TerrainSettings and mapcss rule?
-                splatPrototype.texture = Resources.Load<Texture2D>(@"Textures/Terrain/" + texture[1].Trim());
-                splatPrototype.tileSize = new Vector2(int.Parse(texture[2]), int.Parse(texture[3]));
+                splatPrototype.texture = Resources.Load<Texture2D>(@"Textures/Terrain/" + splat[1].Trim());
+                splatPrototype.tileSize = new Vector2(int.Parse(splat[2]), int.Parse(splat[3]));
 
                 splatPrototypes[i] = splatPrototype;
             }
@@ -171,29 +170,35 @@ namespace Mercraft.Models.Terrain
         #endregion
 
         #region Details
-        protected DetailPrototype[] GetDetailPrototype()
+        protected DetailPrototype[] GetDetailPrototype(List<List<string>> detailParams)
         {
             // TODO make this configurable
             DetailRenderMode detailMode = DetailRenderMode.GrassBillboard;
-            var detailProtoTypes = new DetailPrototype[1];
             Color grassHealthyColor = Color.white;
             Color grassDryColor = Color.white;
 
-            detailProtoTypes[0] = new DetailPrototype();
-            detailProtoTypes[0].prototypeTexture = Resources.Load<Texture2D>("Textures/Terrain/Weed2");
-            detailProtoTypes[0].renderMode = detailMode;
-            detailProtoTypes[0].healthyColor = grassHealthyColor;
-            detailProtoTypes[0].dryColor = grassDryColor;
+            var detailProtoTypes = new DetailPrototype[detailParams.Count];
+            for (int i = 0; i < detailParams.Count; i++)
+            {
+                var detail = detailParams[i];
+                detailProtoTypes[i] = new DetailPrototype();
+                // TODO remove hardcoded path
+                detailProtoTypes[i].prototypeTexture = Resources.Load<Texture2D>(@"Textures/Terrain/" + detail[1].Trim());
+                detailProtoTypes[i].renderMode = detailMode;
+                detailProtoTypes[i].healthyColor = grassHealthyColor;
+                detailProtoTypes[i].dryColor = grassDryColor;
+            }
 
             return detailProtoTypes;
         }
 
         protected void SetDetails(UnityEngine.Terrain terrain, TerrainSettings settings, List<int[,]> detailMapList)
         {
-            int detailMapSize = settings.AlphaMapSize; //Resolutions of detail (Grass) layers
+            // TODO make this configurable
+            int detailMapSize = settings.Resolution; //Resolutions of detail (Grass) layers
             int detailObjectDistance = 400;   //The distance at which details will no longer be drawn
-            float detailObjectDensity = 4.0f; //Creates more dense details within patch
-            int detailResolutionPerPatch = 32; //The size of detail patch. A higher number may reduce draw calls as details will be batch in larger patches
+            float detailObjectDensity = 1f; //Creates more dense details within patch
+            int detailResolutionPerPatch = 128; //The size of detail patch. A higher number may reduce draw calls as details will be batch in larger patches
             float wavingGrassStrength = 0.4f;
             float wavingGrassAmount = 0.2f;
             float wavingGrassSpeed = 0.4f;

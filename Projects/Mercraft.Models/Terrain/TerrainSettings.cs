@@ -12,21 +12,21 @@ namespace Mercraft.Models.Terrain
         public Tile Tile;
 
         /// <summary>
-        /// This is the control map that controls how the splat textures will be blended
+        /// This is the control map that controls how the splat textures and details will be blended
         /// </summary>
-        public int AlphaMapSize = 512;
+        public int Resolution = 512;
 
         /// <summary>
         /// A lower pixel error will draw terrain at a higher Level of detail but will be slower
         /// </summary>
-        public float PixelMapError = 100f;
+        public float PixelMapError = 5f;
 
         /// <summary>
         /// The distance at which the low res base map will be drawn. Decrease to increase performance
         /// </summary>
         public float BaseMapDist = 200.0f;
 
-        public List<List<string>> TextureParams;
+        public List<List<string>> SplatParams;
         public List<List<string>> DetailParams;
 
         public IEnumerable<AreaSettings> Areas;

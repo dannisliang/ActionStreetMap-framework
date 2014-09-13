@@ -5,6 +5,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Utilities;
 using Mercraft.Explorer.Scene;
+using Mercraft.Models.Terrain;
 using UnityEngine;
 
 
@@ -122,14 +123,24 @@ namespace Mercraft.Explorer.Helpers
             return rule.Evaluate<int>("splat");
         }
 
-        public static List<List<string>> GetTextureParams(this Rule rule)
+        public static int GetDetailIndex(this Rule rule)
         {
-            return rule.EvaluateList<List<string>>("texture");
+            return rule.EvaluateDefault<int>("detail", AreaSettings.DefaultIndex);
         }
 
-        public static int GetAlphaMapSize(this Rule rule)
+        public static List<List<string>> GetSplatParams(this Rule rule)
         {
-            return rule.Evaluate<int>("alphamapsize"); 
+            return rule.EvaluateList<List<string>>("splat");
+        }
+
+        public static List<List<string>> GetDetailParams(this Rule rule)
+        {
+            return rule.EvaluateList<List<string>>("detail");
+        }
+
+        public static int GetResolution(this Rule rule)
+        {
+            return rule.Evaluate<int>("resolution"); 
         }
 
         public static int GetHeightMapSize(this Rule rule)

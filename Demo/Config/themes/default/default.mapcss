@@ -3,12 +3,14 @@ canvas {
 	height: 10;
 	
 	pixelMapError: 1;
-	alphamapsize: 512;
+	resolution: 512;
 	heightmapsize: 513;
 	
-	texture: 0, Asphalt_background, 5, 5;
-	texture: 1, Grass, 10, 10;
-	texture: 2, Pebbles, 10, 10;
+	splat: 0, Asphalt_background, 5, 5;
+	splat: 1, Grass, 10, 10;
+	splat: 2, Pebbles, 10, 10;
+	
+	detail: 0, Weed2;
 }
 
 /* buildings */
@@ -18,7 +20,7 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; material: Buildings/Building; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; material: BuildingsBuilding; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[height]											{ height: eval(num(tag('height')));}
@@ -89,20 +91,20 @@ area[landuse=railway]									{ terrain: true; splat: 1; z-index: 10; fill-color
 
 area[natural=wood],		
 area[leisure=park],		
-area[landuse=forest] 									{ terrain: true; splat: 1; fill-color: #8dc56c; }
+area[landuse=forest] 									{ terrain: true; splat: 1; detail:0; fill-color: #8dc56c; }
 
 area[landuse=meadow],
 area[landuse=farmland],
 area[landuse=scrub],
-area[landuse=grass]										{ terrain: true; splat: 1;fill-color:#e9efda; }
+area[landuse=grass]										{ terrain: true; splat: 1; detail:0; fill-color:#e9efda; }
 
 area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]									{ terrain: true; splat: 1;fill-color: #cfeca8;}
+area[landuse=meadow]									{ terrain: true; splat: 1; detail:0; fill-color: #cfeca8;}
 
-area[leisure=recreation_ground]							{ terrain: true; splat: 1;fill-color: #b6fdb6; }
+area[leisure=recreation_ground]							{ terrain: true; splat: 1; detail:0; fill-color: #b6fdb6; }
 
 area[landuse=industrial],		
 area[landuse=railway]									{ fill-color: #dfd1d6;}
@@ -110,10 +112,10 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 /* water */
 area[natural=water],	
 area[waterway=riverbank], 
-area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
+area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: WaterDaylight_Simple_Water; behaviour: water; layer:4;}
 
 way[waterway],
-way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
+way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: WaterDaylight_Simple_Water; behaviour: water; layer:4;}
 														
 /*way[barrier] :closed									{ z-index: 10; builder:flat; fill-color: #444444; width: 0.4;}*/
 

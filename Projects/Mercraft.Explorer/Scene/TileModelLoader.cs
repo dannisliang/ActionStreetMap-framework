@@ -148,17 +148,13 @@ namespace Mercraft.Explorer.Scene
             _terrainBuilder.Build(_tile.GameObject, new TerrainSettings()
             {
                 Tile = _tile,
-                AlphaMapSize = rule.GetAlphaMapSize(),
+                Resolution = rule.GetResolution(),
                 CenterPosition = new Vector2(_tile.MapCenter.X, _tile.MapCenter.Y),
                 CornerPosition = new Vector2(_tile.BottomLeft.X, _tile.BottomLeft.Y),
                 PixelMapError = rule.GetPixelMapError(),
                 ZIndex = rule.GetZIndex(),
-                TextureParams = rule.GetTextureParams(),
-                // TODO define in config and parse
-                DetailParams = new List<List<string>>()
-                {
-                    new List<string>(),
-                },
+                SplatParams = rule.GetSplatParams(),
+                DetailParams = rule.GetDetailParams(),
                 Areas = _areas,
                 Elevations = _elevations,
                 Trees = _trees,
@@ -218,7 +214,7 @@ namespace Mercraft.Explorer.Scene
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
-                    DetailIndex = 0,
+                    DetailIndex = rule.GetDetailIndex(),
                     Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
                 });
             }
