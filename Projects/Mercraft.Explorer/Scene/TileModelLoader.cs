@@ -214,7 +214,7 @@ namespace Mercraft.Explorer.Scene
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
-                    DetailIndex = rule.GetDetailIndex(),
+                    DetailIndex = rule.GetTerrainDetailIndex(),
                     Points = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points)
                 });
             }

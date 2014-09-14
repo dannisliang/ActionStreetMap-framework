@@ -123,9 +123,9 @@ namespace Mercraft.Explorer.Helpers
             return rule.Evaluate<int>("splat");
         }
 
-        public static int GetDetailIndex(this Rule rule)
+        public static int GetTerrainDetailIndex(this Rule rule)
         {
-            return rule.EvaluateDefault<int>("detail", AreaSettings.DefaultIndex);
+            return rule.EvaluateDefault<int>("terrainDetail", AreaSettings.DefaultIndex);
         }
 
         public static List<List<string>> GetSplatParams(this Rule rule)

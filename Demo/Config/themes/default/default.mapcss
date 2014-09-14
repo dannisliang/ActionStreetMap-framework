@@ -91,20 +91,20 @@ area[landuse=railway]									{ terrain: true; splat: 1; z-index: 10; fill-color
 
 area[natural=wood],		
 area[leisure=park],		
-area[landuse=forest] 									{ terrain: true; splat: 1; detail:0; fill-color: #8dc56c; }
+area[landuse=forest] 									{ terrain: true; splat: 1; terrainDetail:0; fill-color: #8dc56c; }
 
 area[landuse=meadow],
 area[landuse=farmland],
 area[landuse=scrub],
-area[landuse=grass]										{ terrain: true; splat: 1; detail:0; fill-color:#e9efda; }
+area[landuse=grass]										{ terrain: true; splat: 1; terrainDetail:0; fill-color:#e9efda; }
 
 area[landuse=village_green],
 area[amenity=kindergarten]								{ fill-color: #22FF11;}
 
 area[landuse=grass],
-area[landuse=meadow]									{ terrain: true; splat: 1; detail:0; fill-color: #cfeca8;}
+area[landuse=meadow]									{ terrain: true; splat: 1; terrainDetail:0; fill-color: #cfeca8;}
 
-area[leisure=recreation_ground]							{ terrain: true; splat: 1; detail:0; fill-color: #b6fdb6; }
+area[leisure=recreation_ground]							{ terrain: true; splat: 1; terrainDetail:0; fill-color: #b6fdb6; }
 
 area[landuse=industrial],		
 area[landuse=railway]									{ fill-color: #dfd1d6;}
