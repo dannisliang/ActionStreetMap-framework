@@ -127,6 +127,12 @@ namespace Mercraft.Explorer.Scene
             if (ShouldUseBuilder(rule, node))
             {
                 BuildNode(_tile, rule, node);
+                var modelBuilder = rule.GetModelBuilder(_builders);
+                if (modelBuilder != null)
+                {
+                    var gameObject = modelBuilder.BuildNode(_tile, rule, node);
+                    AttachExtras(gameObject, rule, node);
+                }
             }
         }
 

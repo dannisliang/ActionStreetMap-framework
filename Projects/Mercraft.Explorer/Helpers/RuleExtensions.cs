@@ -154,5 +154,10 @@ namespace Mercraft.Explorer.Helpers
         {
             return rule.Evaluate<int>("pixelMapError");
         }
+
+        public static string GetDetail(this Rule rule)
+        {
+            return rule.Evaluate<string>("detail");
+        }
     }
 }

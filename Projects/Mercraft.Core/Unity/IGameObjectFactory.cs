@@ -10,5 +10,7 @@ namespace Mercraft.Core.Unity
         IGameObject CreateNew(string name);
         IGameObject CreateNew(string name, IGameObject parent);
         IGameObject CreatePrimitive(string name, UnityPrimitiveType type);
+
+        IGameObject Wrap(string name, object gameObject);
     }
 }

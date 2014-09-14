@@ -20,7 +20,7 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; material: BuildingsBuilding; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[height]											{ height: eval(num(tag('height')));}
@@ -112,10 +112,10 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 /* water */
 area[natural=water],	
 area[waterway=riverbank], 
-area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: WaterDaylight_Simple_Water; behaviour: water; layer:4;}
+area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 
 way[waterway],
-way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: WaterDaylight_Simple_Water; behaviour: water; layer:4;}
+way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 														
 /*way[barrier] :closed									{ z-index: 10; builder:flat; fill-color: #444444; width: 0.4;}*/
 
@@ -153,6 +153,7 @@ way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 /* Nodes */
 
 node[natural=tree]										{ tree:true; }
+node[highway=traffic_signals]							{ z-index: 4.5; builder:detail; detail:Models/Details/Traffic_light_1; }
 
 /* Shouldn't be shown */
 way[highway=footway],

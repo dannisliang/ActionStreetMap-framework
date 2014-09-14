@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using Mercraft.Core.Scene;
+﻿using System;
 using Mercraft.Core.Unity;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Terrain;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
@@ -25,6 +21,16 @@ namespace Mercraft.Explorer.Infrastructure
         public virtual IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new UnityGameObject(name, GetPrimitive(type));
+        }
+
+        public IGameObject Wrap(string name, object gameObject)
+        {
+            var instance = gameObject as GameObject;
+            if(instance == null)
+                throw new ArgumentException(
+                    String.Format("Unable to wrap {0}. Expecting UnityEngine.GameObject", gameObject), "gameObject");
+
+            return new UnityGameObject(name, instance);
         }
 
         private GameObject GetPrimitive(UnityPrimitiveType type)

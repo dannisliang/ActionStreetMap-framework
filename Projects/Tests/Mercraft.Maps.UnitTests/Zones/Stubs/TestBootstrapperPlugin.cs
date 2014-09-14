@@ -31,6 +31,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             Container.Register(Component.For<IGameObjectFactory>().Use<TestGameObjectFactory>());
 
             Container.Register(Component.For<IModelBuilder>().Use<TestWaterModelBuilder>().Named("water"));
+            Container.Register(Component.For<IModelBuilder>().Use<TestDetailModelBuilder>().Named("detail"));
 
             Container.Register(Component.For<ITerrainBuilder>().Use<TestTerrainBuilder>());
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());
