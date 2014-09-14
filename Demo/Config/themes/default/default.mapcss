@@ -26,8 +26,8 @@ area[building]											{ z-index: 10; builder: building; behaviour: solid; hei
 area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
 area[min_height]										{ min_height: eval(num(tag('min_height')));}
-area[building:shape=sphere]								{ builder: sphere;}
-area[building:shape=cylinder]							{ builder: cylinder;}
+area[building:shape=sphere]								{ builder: sphere; material: Buildings/Building;}
+area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}
 
 area[building=residential], 	
 area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:residential;}
@@ -126,23 +126,23 @@ way[highway=tertiary],
 way[highway=residential],
 way[highway=service],
 way[highway=unclassified],
-way[highway=road]										{ fill-color: #bbbbbb; width:16; }
-way[highway=living_street]								{ fill-color: #000000; width:14.5; }
+way[highway=road]										{ fill-color: #bbbbbb; width:12; }
+way[highway=living_street]								{ fill-color: #000000; width:10.5; }
 
 way[highway=trunk],
 way[highway=trunk_link],
 way[highway=primary],
 way[highway=primary_link],
 way[highway=motorway],
-way[highway=motorway_link]								{ fill-color: #e7c930; width:13; }
+way[highway=motorway_link]								{ fill-color: #e7c930; width:11; }
 
 
 			
 way[highway=secondary],
-way[highway=secondary_link]								{ fill-color: #a37b48; width:10; }
+way[highway=secondary_link]								{ fill-color: #a37b48; width:9; }
 
 way[highway=tertiary],
-way[highway=tertiary_link]								{ fill-color: #e7c930; width:13; }
+way[highway=tertiary_link]								{ fill-color: #e7c930; width:11; }
 
 
 way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
@@ -153,7 +153,12 @@ way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 /* Nodes */
 
 node[natural=tree]										{ tree:true; }
-node[highway=traffic_signals]							{ z-index: 4.5; builder:detail; detail:Models/Details/Traffic_light_1; }
+node[highway=traffic_signals]							{ z-index: 2.6; builder:detail; detail:Models/Details/Traffic_light_1; }
+node[highway=bus_stop]									{ z-index: 1.1; builder:detail; detail:Models/Details/Bus_stop_1;}
+node[railway=tram_stop]									{ z-index: 1.1; builder:detail; detail:Models/Details/Bus_stop_1;}
+node[amenity=recycling]									{ z-index: 0.45; builder:detail; detail:Models/Details/trashbox_1;}
+node[amenity=telephone]									{ z-index: 1; builder:detail; detail:Models/Details/Phone_1;}
+node[amenity=atm]										{ z-index: 0.3; builder:detail; detail:Models/Details/atm_1;}
 
 /* Shouldn't be shown */
 way[highway=footway],

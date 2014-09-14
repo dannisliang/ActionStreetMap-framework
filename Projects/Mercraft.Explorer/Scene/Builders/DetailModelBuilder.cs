@@ -30,13 +30,17 @@ namespace Mercraft.Explorer.Scene.Builders
 
         public override IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
+            var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
+            if (!tile.Contains(mapPoint, 0))
+                return null;
+
             var detail = rule.GetDetail();
             var zIndex = rule.GetZIndex();
             var prefab = _resourceProvider.GetGameObject(detail);
 
             var gameObject = (GameObject) GameObject.Instantiate(prefab);
 
-            var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
+            
             mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
 
             gameObject.transform.position = new Vector3(mapPoint.X, mapPoint.Elevation + zIndex, mapPoint.Y);
