@@ -15,7 +15,7 @@ namespace Mercraft.Models.Buildings.Facades
 
             return new MeshData()
             {
-                Vertices = GetVerticies3D(vertices2D, building.Elevation, building.Height),
+                Vertices = GetVerticies3D(vertices2D, building.Elevation + building.MinHeight, building.Height),
                 Triangles = GetTriangles3D(vertices2D),
                 UV = GetUV(vertices2D),
                 TextureKey = style.Roof.Texture,

@@ -13,6 +13,9 @@ namespace Mercraft.Core.World.Buildings
         public IGameObject GameObject { get; set; }
 
         public float Height { get; set; }
+
+        public float MinHeight { get; set; }
+
         public int Levels { get; set; }
 
         public float Elevation { get; set; }
