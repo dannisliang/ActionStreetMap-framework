@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Bootstrappers\TileBootstrapper.cs" />
     <Compile Include="Scene\Builders\BuildingModelBuilder.cs" />
+    <Compile Include="Scene\Builders\DetailModelBuilder.cs" />
     <Compile Include="Scene\IModelBuilder.cs" />
     <Compile Include="Scene\Builders\CylinderModelBuilder.cs" />
     <Compile Include="Scene\Builders\SphereModelBuilder.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Unity;
+using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -17,8 +18,15 @@ namespace Mercraft.Models.Terrain
     /// </summary>
     public class TerrainBuilder : ITerrainBuilder
     {
+        private readonly IResourceProvider _resourceProvider;
         private readonly AreaBuilder _areaBuilder = new AreaBuilder();
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
+
+        [Dependency]
+        public TerrainBuilder(IResourceProvider resourceProvider)
+        {
+            _resourceProvider = resourceProvider;
+        }
 
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
@@ -115,7 +123,7 @@ namespace Mercraft.Models.Terrain
                 var splat = splatParams[i];
                 var splatPrototype = new SplatPrototype();
                 // TODO remove hardcoded path
-                splatPrototype.texture = Resources.Load<Texture2D>(@"Textures/Terrain/" + splat[1].Trim());
+                splatPrototype.texture = _resourceProvider.GetTexture2D(@"Textures/Terrain/" + splat[1].Trim());
                 splatPrototype.tileSize = new Vector2(int.Parse(splat[2]), int.Parse(splat[3]));
 
                 splatPrototypes[i] = splatPrototype;
@@ -132,13 +140,13 @@ namespace Mercraft.Models.Terrain
             var treeProtoTypes = new TreePrototype[3];
 
             treeProtoTypes[0] = new TreePrototype();
-            treeProtoTypes[0].prefab = Resources.Load<GameObject>(@"Models/Trees/Alder");
+            treeProtoTypes[0].prefab = _resourceProvider.GetGameObject(@"Models/Trees/Alder");
 
             treeProtoTypes[1] = new TreePrototype();
-            treeProtoTypes[1].prefab = Resources.Load<GameObject>(@"Models/Trees/Banyan");
+            treeProtoTypes[1].prefab = _resourceProvider.GetGameObject(@"Models/Trees/Banyan");
 
             treeProtoTypes[2] = new TreePrototype();
-            treeProtoTypes[2].prefab = Resources.Load<GameObject>(@"Models/Trees/Mimosa");
+            treeProtoTypes[2].prefab = _resourceProvider.GetGameObject(@"Models/Trees/Mimosa");
 
             return treeProtoTypes;
         }
@@ -183,7 +191,7 @@ namespace Mercraft.Models.Terrain
                 var detail = detailParams[i];
                 detailProtoTypes[i] = new DetailPrototype();
                 // TODO remove hardcoded path
-                detailProtoTypes[i].prototypeTexture = Resources.Load<Texture2D>(@"Textures/Terrain/" + detail[1].Trim());
+                detailProtoTypes[i].prototypeTexture = _resourceProvider.GetTexture2D(@"Textures/Terrain/" + detail[1].Trim());
                 detailProtoTypes[i].renderMode = detailMode;
                 detailProtoTypes[i].healthyColor = grassHealthyColor;
                 detailProtoTypes[i].dryColor = grassDryColor;

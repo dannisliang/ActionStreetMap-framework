@@ -8,6 +8,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Utils;
 using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace Mercraft.Explorer.Scene.Builders
     // NOTE this class has some duplicated in flat builder functionality
     public class WaterModelBuilder : ModelBuilder
     {
+        private readonly IResourceProvider _resourceProvider;
         private const int NoLayer = -1;
         public override string Name
         {
@@ -23,9 +25,11 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
+            IResourceProvider resourceProvider)
             : base(worldManager ,gameObjectFactory)
         {
+            _resourceProvider = resourceProvider;
         }
 
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
@@ -53,7 +57,7 @@ namespace Mercraft.Explorer.Scene.Builders
             meshFilter.mesh.RecalculateNormals();
 
             gameObject.AddComponent<MeshRenderer>();
-            gameObject.renderer.material = rule.GetMaterial();
+            gameObject.renderer.material = rule.GetMaterial(_resourceProvider);
             gameObject.renderer.material.color = rule.GetFillColor();
 
             var layerIndex = rule.GetLayerIndex(NoLayer);

@@ -8,21 +8,26 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
     public class CylinderModelBuilder : ModelBuilder
     {
+        private readonly IResourceProvider _resourceProvider;
+
         public override string Name
         {
             get { return "cylinder"; }
         }
 
         [Dependency]
-        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
+            IResourceProvider resourceProvider)
             : base(worldManager, gameObjectFactory)
         {
+            _resourceProvider = resourceProvider;
         }
 
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
@@ -56,7 +61,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
 
             cylinder.AddComponent<MeshRenderer>();
-            cylinder.renderer.material = rule.GetMaterial();
+            cylinder.renderer.material = rule.GetMaterial(_resourceProvider);
             cylinder.renderer.material.color = rule.GetFillColor();
 
             WorldManager.AddModel(model.Id);

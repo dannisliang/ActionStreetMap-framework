@@ -6,6 +6,7 @@ using Mercraft.Core.Scene;
 using Mercraft.Core.Utilities;
 using Mercraft.Explorer.Scene;
 using Mercraft.Models.Terrain;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 
@@ -16,10 +17,11 @@ namespace Mercraft.Explorer.Helpers
     /// </summary>
     public static class RuleExtensions
     {
-        public static Material GetMaterial(this Rule rule)
+        public static Material GetMaterial(this Rule rule, IResourceProvider resourceProvider)
         {
+            // TODO use resource loader
             var path =  rule.Evaluate<string>("material");
-            return Resources.Load<Material>(@"Materials/" + path);
+            return resourceProvider.GetMatertial(@"Materials/" + path);
         }
 
         public static int GetLevels(this Rule rule, int @default = 0)
