@@ -29,6 +29,11 @@ namespace Mercraft.Core
             //+ Math.Pow(point.Elevation - Elevation, 2));
         }
 
+        public float DistanceTo(float x, float y)
+        {
+            return (float)Math.Sqrt(Math.Pow(x - X, 2) + Math.Pow(y - Y, 2));
+        }
+
         public override string ToString()
         {
             return string.Format("({0:F1}, {1:F1}):{2:F1}", X, Y, Elevation);
