@@ -6,6 +6,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Roads;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -39,9 +40,13 @@ namespace Mercraft.Explorer.Scene.Builders
             var prefab = _resourceProvider.GetGameObject(detail);
 
             var gameObject = (GameObject) GameObject.Instantiate(prefab);
-
             
             mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
+
+            if (rule.IsRoadFix())
+            {
+                gameObject.AddComponent<RoadFixBehavior>().RotationOffset = rule.GetDetailRotation();
+            }
 
             gameObject.transform.position = new Vector3(mapPoint.X, mapPoint.Elevation + zIndex, mapPoint.Y);
             

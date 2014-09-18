@@ -91,7 +91,10 @@ namespace Mercraft.Models.Roads
             var gameObject = road.GameObject.GetComponent<GameObject>();
             var meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
-            //gameObject.AddComponent<MeshCollider>();
+
+            gameObject.AddComponent<MeshCollider>();
+            gameObject.AddComponent<RoadBehavior>().Road = road;
+            gameObject.tag = "osm.road";
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
             renderer.material = _resourceProvider.GetMatertial(style.MaterialKey);

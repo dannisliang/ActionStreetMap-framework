@@ -153,12 +153,12 @@ way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 /* Nodes */
 
 node[natural=tree]										{ tree:true; }
-node[highway=traffic_signals]							{ z-index: 2.6; builder:detail; detail:Models/Details/Traffic_light_1; }
-node[highway=bus_stop]									{ z-index: 1.1; builder:detail; detail:Models/Details/Bus_stop_1;}
-node[railway=tram_stop]									{ z-index: 1.1; builder:detail; detail:Models/Details/Bus_stop_1;}
-node[amenity=recycling]									{ z-index: 0.45; builder:detail; detail:Models/Details/trashbox_1;}
-node[amenity=telephone]									{ z-index: 1; builder:detail; detail:Models/Details/Phone_1;}
-node[amenity=atm]										{ z-index: 0.3; builder:detail; detail:Models/Details/atm_1;}
+node[highway=traffic_signals]							{ z-index: 2.6; builder:detail; detail:Prefabs/Details/Traffic_light_1; roadFix:true; rotation:180;}
+node[highway=bus_stop]									{ z-index: 1.1; builder:detail; detail:Prefabs/Details/Bus_stop_1; roadFix:true; rotation:-40;}
+node[railway=tram_stop]									{ z-index: 1.1; builder:detail; detail:Prefabs/Details/Bus_stop_1; roadFix:true; rotation:-40;}
+node[amenity=recycling]									{ z-index: 0.45; builder:detail; detail:Prefabs/Details/trashbox_1; roadFix:true;}
+node[amenity=telephone]									{ z-index: 1; builder:detail; detail:Prefabs/Details/Phone_1; roadFix:true;}
+node[amenity=atm]										{ z-index: 0.3; builder:detail; detail:Prefabs/Details/atm_1; roadFix:true;}
 
 /* Shouldn't be shown */
 way[highway=footway],

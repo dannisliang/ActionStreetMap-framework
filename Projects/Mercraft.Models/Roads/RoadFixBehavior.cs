@@ -6,12 +6,19 @@ using UnityEngine;
 
 namespace Mercraft.Models.Roads
 {
+    /// <summary>
+    ///     This class tries to remove Object from roads in right direction
+    ///     Actually, algortihm can be improved
+    /// </summary>
     public class RoadFixBehavior : MonoBehaviour
     {
         // TODO determine the best value or ignore it?
         private const float ClosestPointTreshold = 10;
-        private const float Step = 3f;
+        //private const float InitialStep = 3f;
+        private const float IncrementStep = 5f;
         private const int MaxCollisionCount = 50;
+
+        public float RotationOffset { get; set; }
 
         private int _collisionCount;
 
@@ -40,11 +47,9 @@ namespace Mercraft.Models.Roads
                 var direction = collisionPoint - newPosition;
                 var targetRotation = Quaternion.FromToRotation(Vector3.forward, Vector3.left) *
                     Quaternion.LookRotation(direction.normalized);
-                transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+                transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y + RotationOffset, 0);
 
-                Debug.DrawLine(
-                    new Vector3(collisionPoint.x, collisionPoint.y + 0.3f, collisionPoint.z),
-                    new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z), Color.red, 100, false);
+                Debug.DrawLine(collisionPoint, transform.position, Color.red, 100);
             }
         }
 
@@ -84,7 +89,14 @@ namespace Mercraft.Models.Roads
             var mapPointB = pointIndex != roadElement.Points.Length - 1
                 ? roadElement.Points[pointIndex + 1]
                 : roadElement.Points[pointIndex - 1];
-          
+
+            // NOTE sometimes we cannot use orthogonal vector cause detail has some specific place which
+            // leads to infinite loop of movements (e.g. center of crossing roads)
+            // so, we tried to use some different from orthogonal vector
+            //var noise = 0f;
+            //if (_collisionCount > MaxCollisionCount/5)
+            //    noise = 0.1f;
+
             var orthogonal = new Vector3(-(mapPointB.Y - mapPointA.Y), collisionPoint.y, mapPointB.X - mapPointA.X);
 
             var ba = new Vector3(mapPointB.X - mapPointA.X, collisionPoint.y, mapPointB.Y - mapPointA.Y);
@@ -100,10 +112,12 @@ namespace Mercraft.Models.Roads
 
             orthogonal.Normalize();
 
+            var offset = roadElement.Width/2 + _collisionCount * IncrementStep;
+
             // NOTE this point isn't necessary will be outside of road, we let other collisions happen
             // We cannot use big step, otherwise it will lead object to be too far away from road
             // TODO should step detect on road size to reduce amount of further collisions?
-            return collisionPoint + orthogonal * Step;
+            return collisionPoint + orthogonal * offset;
         }
     }
 }
