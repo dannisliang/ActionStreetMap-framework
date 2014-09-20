@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Roads;
@@ -97,9 +97,12 @@ namespace Mercraft.Models.Roads
             gameObject.tag = "osm.road";
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            // TODO Use not only first material
-            renderer.material = _resourceProvider.GetMatertial(style.Materials[0]);
-            renderer.material.mainTexture = _resourceProvider.GetTexture(style.Textures[0]);
+
+            renderer.material = _resourceProvider.GetMatertial(style.Materials[RandomHelper
+                .GetIndex(road.Elements.First().Id, style.Materials.Length)]);
+
+            renderer.material.mainTexture = _resourceProvider.GetTexture(style.Textures[RandomHelper
+                .GetIndex(road.Elements.First().Id, style.Textures.Length)]);
         }
 
         #region Segment processing

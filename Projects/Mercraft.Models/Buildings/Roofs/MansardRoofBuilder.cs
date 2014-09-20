@@ -26,8 +26,8 @@ namespace Mercraft.Models.Buildings.Roofs
                 Vertices = verticies3D,
                 Triangles = GetTriangles(building.Footprint),
                 UV = GetUV(building.Footprint),
-                TextureKey = style.Roof.Textures[0],
-                MaterialKey = style.Roof.Materials[0]
+                TextureKey = style.Roof.Textures[RandomHelper.GetIndex(building.Id, style.Roof.Textures.Length)],
+                MaterialKey = style.Roof.Materials[RandomHelper.GetIndex(building.Id, style.Roof.Materials.Length)]
             };
         }
 

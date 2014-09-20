@@ -2,6 +2,7 @@
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
@@ -17,8 +18,8 @@ namespace Mercraft.Models.Buildings.Roofs
                 Vertices = GetVerticies3D(building.Footprint, building.Elevation + building.MinHeight, building.Height),
                 Triangles = Triangulator.Triangulate(building.Footprint),
                 UV = GetUV(building.Footprint),
-                TextureKey = style.Roof.Textures[0],
-                MaterialKey = style.Roof.Materials[0]
+                TextureKey = style.Roof.Textures[RandomHelper.GetIndex(building.Id, style.Roof.Textures.Length)],
+                MaterialKey = style.Roof.Materials[RandomHelper.GetIndex(building.Id, style.Roof.Materials.Length)]
             };
         }
 

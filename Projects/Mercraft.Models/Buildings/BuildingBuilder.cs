@@ -24,13 +24,17 @@ namespace Mercraft.Models.Buildings
 
         public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
-            // TODO select builders based on building id
-            var facadeMeshData = style.Facade.Builders[0].Build(building, style);
-            var roofMeshData = style.Roof.Builders[0].Build(building, style);
+            var facadeMeshData = style.Facade.Builders[RandomHelper
+                .GetIndex(building.Id, style.Facade.Builders.Length)]
+                .Build(building, style);
+
+            var roofMeshData = style.Roof.Builders[RandomHelper
+                .GetIndex(building.Id, style.Roof.Builders.Length)]
+                .Build(building, style);
 
             var gameObject = building.GameObject.GetComponent<GameObject>();
 
-            // NOTE use different gameObject to support different materials
+            // NOTE use different gameObject only to support different materials
             AttachChildGameObject(gameObject, "facade", facadeMeshData);
             AttachChildGameObject(gameObject, "roof", roofMeshData);
         }
