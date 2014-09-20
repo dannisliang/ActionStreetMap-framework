@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml.Linq;
 
     /// <summary>
     /// Represens a config entry
@@ -12,7 +13,12 @@
         private readonly ConfigElement _element;
         public ConfigSection(ConfigElement element)
         {
-            this._element = element;
+            _element = element;
+        }
+
+        public ConfigSection(string path)
+        {
+            _element = new ConfigElement(XDocument.Load(path).Root);
         }
 
         /// <summary>

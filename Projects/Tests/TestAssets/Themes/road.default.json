@@ -1,0 +1,13 @@
+{
+	"name": ["default"],
+	"entries": [
+		{
+			"textures":["Textures/Roads/Road"],
+			"materials": ["Materials/Roads/Road"],
+			"uvs":{"main":0,"turn":1}
+		}
+	],
+	"uvs": [
+		{"index":0, "data": [{"x":1, "y":0}, {"x":1, "y":0} {"x":1, "y":0} {"x":1, "y":0}]},
+		{"index":1, "data": [{"x":1, "y":0}, {"x":1, "y":0} {"x":1, "y":0}]}]
+}

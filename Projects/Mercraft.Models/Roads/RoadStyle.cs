@@ -4,8 +4,8 @@ namespace Mercraft.Models.Roads
 {
     public class RoadStyle
     {
-        public string TextureKey { get; set; }
-        public string MaterialKey { get; set; }
+        public string[] Textures { get; set; }
+        public string[] Materials { get; set; }
 
         // NOTE ignored so far by default RoadBuilder
         public TextureUvMap UvMap { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Xml.Linq;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Themes;
@@ -21,31 +23,31 @@ namespace Mercraft.Maps.UnitTests.Themes
             provider.Configure(GetTestThemeConfig());
 
             // ACT
-            var theme = provider.Get("default");
+            var theme = provider.Get();
 
             // ASSERT
             Assert.IsNotNull(theme);
 
             var style = theme.GetBuildingStyle( new Building()
             {
-                Type = "residental"
+                Type = "residential"
             });
 
-            Assert.AreEqual(9, style.Floors);
+            Assert.AreEqual(9, style.Facade.Floors);
             
             Assert.IsNotNull(style.Facade);
-            Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Texture);
-            Assert.AreEqual("Materials/Building", style.Facade.Material);
+            Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Textures[0]);
+            Assert.AreEqual("Materials/Buildings/Building", style.Facade.Materials[0]);
             Assert.AreEqual(4, style.Facade.FrontUvMap.Length);
             Assert.AreEqual(4, style.Facade.BackUvMap.Length);
             Assert.AreEqual(4, style.Facade.SideUvMap.Length);
-            Assert.IsNotNull(style.Facade.Builder);
+            Assert.IsNotNull(style.Facade.Builders);
 
             Assert.IsNotNull(style.Roof);
-            Assert.AreEqual("Textures/Buildings/Soviet1", style.Roof.Texture);
-            Assert.AreEqual("Materials/Building", style.Roof.Material);
+            Assert.AreEqual("Textures/Buildings/Soviet1", style.Roof.Textures[0]);
+            Assert.AreEqual("Materials/Buildings/Building", style.Roof.Materials[0]);
             Assert.AreEqual(4, style.Roof.UvMap.Length);
-            Assert.IsNotNull(style.Roof.Builder);
+            Assert.IsNotNull(style.Roof.Builders);
         }
 
         [Test]
@@ -56,7 +58,7 @@ namespace Mercraft.Maps.UnitTests.Themes
             provider.Configure(GetTestThemeConfig());
 
             // ACT
-            var theme = provider.Get("default");
+            var theme = provider.Get();
 
             // ASSERT
             Assert.IsNotNull(theme);
@@ -71,8 +73,8 @@ namespace Mercraft.Maps.UnitTests.Themes
                     }
                 }
             });
-            Assert.AreEqual("Textures2", style.TextureKey);
-            Assert.AreEqual("Materials2", style.MaterialKey);
+            Assert.AreEqual("Textures/Roads/Road", style.Textures[0]);
+            Assert.AreEqual("Materials/Roads/Road", style.Materials[0]);
             Assert.IsNotNull(style.UvMap);
             Assert.AreEqual(4, style.UvMap.Main.Length);
             Assert.AreEqual(3, style.UvMap.Turn.Length);
@@ -81,6 +83,7 @@ namespace Mercraft.Maps.UnitTests.Themes
         private ThemeProvider GetThemeProvider()
         {
             return new ThemeProvider(
+                new TestPathResolver(), 
                 new List<IFacadeBuilder>()
                 {
                    new FlatFacadeBuilder()
@@ -93,8 +96,7 @@ namespace Mercraft.Maps.UnitTests.Themes
 
         private IConfigSection GetTestThemeConfig()
         {
-            var settings = new ConfigSettings(TestHelper.TestThemeFile, TestHelper.GetPathResolver());
-            return settings.GetRoot();
+            return new ConfigSection(TestHelper.TestThemeFile);
         }
     }
 }

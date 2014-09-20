@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core.World.Buildings;
-using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Buildings;
 
 namespace Mercraft.Explorer.Themes
@@ -64,9 +63,10 @@ namespace Mercraft.Explorer.Themes
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
             var rating = 0;
-            if (style.Floors == building.Levels)
+            if (style.Facade.Floors == building.Levels)
                 rating += 5;
-            if (style.Facade.Material == building.FacadeMaterial)
+            // TODO
+            if (style.Facade.Materials[0] == building.FacadeMaterial)
                 rating += 2;
 
             // Add color

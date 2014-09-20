@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Formats.Json;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
@@ -14,100 +16,105 @@ namespace Mercraft.Explorer.Themes
     public interface IThemeProvider
     {
         Theme Get();
-        Theme Get(string name);
     }
 
-    public class ThemeProvider: IThemeProvider, IConfigurable
+    public class ThemeProvider : IThemeProvider, IConfigurable
     {
+        private readonly IPathResolver _pathResolver;
+        private const string BuildingsThemeFile = @"buildings/include";
+        private const string RoadsThemeFile = @"roads/include";
+
         private readonly IEnumerable<IFacadeBuilder> _facadeBuilders;
         private readonly IEnumerable<IRoofBuilder> _roofBuilders;
-        private string _defaultThemeName;
-        private const string ThemesKey = "themes/theme";
-        private Dictionary<string, Theme> _themes;
+
+        private Theme _theme;
+
 
         [Dependency]
-        public ThemeProvider(IEnumerable<IFacadeBuilder> facadeBuilders, 
+        public ThemeProvider(IPathResolver pathResolver,
+            IEnumerable<IFacadeBuilder> facadeBuilders,
             IEnumerable<IRoofBuilder> roofBuilders)
         {
+            _pathResolver = pathResolver;
             _facadeBuilders = facadeBuilders.ToArray();
             _roofBuilders = roofBuilders.ToArray();
         }
 
         public Theme Get()
         {
-            return Get(_defaultThemeName);
-        }
-
-        public Theme Get(string name)
-        {
-            return _themes[name];
+            return _theme;
         }
 
         public void Configure(IConfigSection configSection)
         {
-            _themes = new Dictionary<string, Theme>();
-            foreach (var themeConfig in configSection.GetSections(ThemesKey))
-            {
-                var buildingStyleProvider = GetBuildingStyleProvider(themeConfig);
-                var roadStyleProvider = GetRoadStyleProvider(themeConfig);
-
-                var theme = new Theme(buildingStyleProvider, roadStyleProvider);
-                theme.Name = themeConfig.GetString("@name");
-                
-                // set default theme name
-                if (string.IsNullOrEmpty(_defaultThemeName))
-                    _defaultThemeName = theme.Name;
-
-                _themes.Add(theme.Name, theme);
-            }
+            var buildingStyleProvider = GetBuildingStyleProvider(configSection);
+            var roadStyleProvider = GetRoadStyleProvider(configSection);
+            _theme = new Theme(buildingStyleProvider, roadStyleProvider);
         }
 
         #region Buildings
 
-        private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection themeConfig)
+        public IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection configSection)
         {
-            var textureMap = LoadTextureMap("buildings/textureMap/uv", themeConfig);
             var buildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
-            foreach (var buildingTypeConfig in themeConfig.GetSections("buildings/types/type"))
+            foreach (var buildThemeConfig in configSection.GetSections(BuildingsThemeFile))
             {
-                var typeName = buildingTypeConfig.GetString("@name");
-                var styles = new List<BuildingStyle>();
-                foreach (var buildingStyleConfig in buildingTypeConfig.GetSections("style"))
+                var path = buildThemeConfig.GetString("@path");
+                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
                 {
-                    styles.Add(new BuildingStyle()
-                    {
-                        Facade = GetFacadeStyle(textureMap, buildingStyleConfig.GetSection("facade")),
-                        Roof = GetRoofStyle(textureMap, buildingStyleConfig.GetSection("roof")),
-                        Floors = buildingStyleConfig.GetInt("floors/@size")
-                    });
-                }
-                buildingTypeStyleMapping.Add(typeName, styles);
-            }
+                    var jsonStr = reader.ReadToEnd();
+                    var json = JSON.Parse(jsonStr);
 
+                    var buildingStyles = GetBuildingStyles(json);
+
+                    var types = json["name"].AsArray.Childs.Select(t => t.Value);
+                    foreach (var type in types)
+                        buildingTypeStyleMapping.Add(type, buildingStyles);
+                }
+            }
             return new BuildingStyleProvider(buildingTypeStyleMapping);
         }
 
-        private BuildingStyle.RoofStyle GetRoofStyle(Dictionary<int, Vector2[]>  textureMap, IConfigSection roofConfig)
+        private List<BuildingStyle> GetBuildingStyles(JSONNode json)
         {
-            return new BuildingStyle.RoofStyle()
+            var buildingStyles = new List<BuildingStyle>();
+            var uvs = LoadTextureMap(json);
+            foreach (JSONNode entry in json["entries"].AsArray)
             {
-                Texture = roofConfig.GetString("texture"),
-                Material = roofConfig.GetString("material"),
-                Builder = _roofBuilders.Single(b => b.Name == roofConfig.GetString("builder/@name")),
-                UvMap = textureMap[roofConfig.GetInt("uvMap/main/@index")]
+                buildingStyles.Add(new BuildingStyle()
+                {
+                    Facade = GetFacadeStyle(uvs, entry["facade"]),
+                    Roof = GetRoofStyle(uvs, entry["roof"]),
+                });
+            }
+            return buildingStyles;
+        }
+
+        private BuildingStyle.FacadeStyle GetFacadeStyle(Dictionary<int, Vector2[]> textureMap, JSONNode node)
+        {
+            var desc = node["desc"];
+            var render = node["render"];
+            return new BuildingStyle.FacadeStyle()
+            {
+                Floors = desc["floors"].AsInt,
+                Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                Builders = render["builders"].AsArray.Childs.Select(t => _facadeBuilders.Single(b => b.Name ==t.Value)).ToArray(),
+                FrontUvMap = textureMap[render["uvs"]["front"].AsInt],
+                BackUvMap = textureMap[render["uvs"]["back"].AsInt],
+                SideUvMap = textureMap[render["uvs"]["side"].AsInt],
             };
         }
 
-        private BuildingStyle.FacadeStyle GetFacadeStyle(Dictionary<int, Vector2[]> textureMap, IConfigSection facadeConfig)
+        private BuildingStyle.RoofStyle GetRoofStyle(Dictionary<int, Vector2[]> textureMap, JSONNode node)
         {
-            return new BuildingStyle.FacadeStyle()
+            var render = node["render"];
+            return new BuildingStyle.RoofStyle()
             {
-                Texture = facadeConfig.GetString("texture"),
-                Material = facadeConfig.GetString("material"),
-                Builder = _facadeBuilders.Single(b => b.Name == facadeConfig.GetString("builder/@name")),
-                FrontUvMap = textureMap[facadeConfig.GetInt("uvMap/front/@index")],
-                BackUvMap = textureMap[facadeConfig.GetInt("uvMap/back/@index")],
-                SideUvMap = textureMap[facadeConfig.GetInt("uvMap/side/@index")],
+                Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),
+                UvMap = textureMap[render["uvs"]["main"].AsInt]
             };
         }
 
@@ -115,52 +122,63 @@ namespace Mercraft.Explorer.Themes
 
         #region Roads
 
-        private IRoadStyleProvider GetRoadStyleProvider(IConfigSection themeConfig)
+        public IRoadStyleProvider GetRoadStyleProvider(IConfigSection configSection)
         {
             var roadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
-            var textureMap = LoadTextureMap("roads/textureMap/uv", themeConfig);
-            foreach (var buildingTypeConfig in themeConfig.GetSections("roads/types/type"))
+            foreach (var roadThemeConfig in configSection.GetSections(RoadsThemeFile))
             {
-                var typeName = buildingTypeConfig.GetString("@name");
-                var styles = new List<RoadStyle>();
-                foreach (var roadStyleConfig in buildingTypeConfig.GetSections("style"))
+                var path = roadThemeConfig.GetString("@path");
+                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
                 {
-                    styles.Add(new RoadStyle()
-                    {
-                        TextureKey = roadStyleConfig.GetString("texture"),
-                        MaterialKey = roadStyleConfig.GetString("material"),
-                        UvMap = new RoadStyle.TextureUvMap()
-                        {
-                            Main = textureMap[roadStyleConfig.GetInt("uvMap/main/@index")],
-                            Turn = textureMap[roadStyleConfig.GetInt("uvMap/turn/@index")],
-                        }
-                    });
-                }
-                roadTypeStyleMapping.Add(typeName, styles);
-            }
+                    var jsonStr = reader.ReadToEnd();
+                    var json = JSON.Parse(jsonStr);
+                    var roadStyles = GetRoadStyles(json);
 
+                    var types = json["name"].AsArray.Childs.Select(t => t.Value);
+                    foreach (var type in types)
+                        roadTypeStyleMapping.Add(type, roadStyles);
+                }
+            }
             return new RoadStyleProvider(roadTypeStyleMapping);
+        }
+
+        private List<RoadStyle> GetRoadStyles(JSONNode json)
+        {
+            var buildingStyles = new List<RoadStyle>();
+            var uvs = LoadTextureMap(json);
+            foreach (JSONNode entry in json["entries"].AsArray)
+            {
+                buildingStyles.Add(new RoadStyle()
+                {
+                    Textures = entry["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    Materials = entry["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    UvMap = new RoadStyle.TextureUvMap()
+                    {
+                        Main = uvs[entry["uvs"]["main"].AsInt],
+                        Turn = uvs[entry["uvs"]["turn"].AsInt]
+                    }
+                });
+            }
+            return buildingStyles;
         }
 
         #endregion
 
-        private Dictionary<int, Vector2[]> LoadTextureMap(string path, IConfigSection textureMapConfig)
+        private Dictionary<int, Vector2[]> LoadTextureMap(JSONNode json)
         {
             var textureMaps = new Dictionary<int, Vector2[]>();
-            foreach (var uvConfig in textureMapConfig.GetSections(path))
+            foreach (JSONNode uvConfig in json["uvs"].AsArray)
             {
-                var index = uvConfig.GetInt("@index");
+                var index = uvConfig["index"].AsInt;
                 textureMaps.Add(index, GetUv(uvConfig).ToArray());
             }
             return textureMaps;
         }
 
-        private IEnumerable<Vector2> GetUv(IConfigSection uvsConfig)
+        private IEnumerable<Vector2> GetUv(JSONNode uvsConfig)
         {
-            foreach (var uvConfig in uvsConfig.GetSections("v"))
-            {
-                yield return new Vector2(uvConfig.GetFloat("@x"), uvConfig.GetFloat("@y"));
-            }
+            foreach (JSONNode uvConfig in uvsConfig["data"].AsArray)
+                yield return new Vector2(uvConfig["x"].AsFloat, uvConfig["y"].AsFloat);
         }
     }
 }

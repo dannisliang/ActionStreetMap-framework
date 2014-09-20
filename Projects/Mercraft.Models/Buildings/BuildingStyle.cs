@@ -8,23 +8,23 @@ namespace Mercraft.Models.Buildings
     {
         public RoofStyle Roof { get; set; }
         public FacadeStyle Facade { get; set; }
-        public int Floors { get; set; }
 
         #region Nested classes
 
         public class RoofStyle
         {
-            public string Texture { get; set; }
-            public string Material { get; set; }
-            public IRoofBuilder Builder { get; set; }
+            public string[] Textures { get; set; }
+            public string[] Materials { get; set; }
+            public IRoofBuilder[] Builders { get; set; }
             public Vector2[] UvMap { get; set; }
         }
 
         public class FacadeStyle
         {
-            public string Texture { get; set; }
-            public string Material { get; set; }
-            public IFacadeBuilder Builder { get; set; }
+            public int Floors { get; set; }
+            public string[] Textures { get; set; }
+            public string[] Materials { get; set; }
+            public IFacadeBuilder[] Builders { get; set; }
             public Vector2[] FrontUvMap { get; set; }
             public Vector2[] BackUvMap { get; set; }
             public Vector2[] SideUvMap { get; set; }

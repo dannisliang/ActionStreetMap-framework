@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.MapCss.Visitors.Eval;
+﻿using System;
+using Mercraft.Core.MapCss.Visitors.Eval;
 
 namespace Mercraft.Core.MapCss.Domain
 {
@@ -9,5 +10,10 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsEval { get; set; }
         public ITreeWalker Evaluator { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("[{0}:{1}]:{2}", Qualifier, Value, IsEval);
+        }
     }
 }

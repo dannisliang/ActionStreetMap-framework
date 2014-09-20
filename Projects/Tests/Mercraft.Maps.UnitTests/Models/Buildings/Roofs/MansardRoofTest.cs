@@ -33,7 +33,12 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings.Roofs
                 Height = 1
             }, new BuildingStyle()
             {
-                Roof = new BuildingStyle.RoofStyle(),
+                Roof = new BuildingStyle.RoofStyle()
+                {
+                    Builders = new IRoofBuilder[] { new FlatRoofBuilder(), },
+                    Materials = new string[] { ""},
+                    Textures = new string[] { ""},
+                },
                 Facade = new BuildingStyle.FacadeStyle()
             });
 

@@ -97,8 +97,9 @@ namespace Mercraft.Models.Roads
             gameObject.tag = "osm.road";
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = _resourceProvider.GetMatertial(style.MaterialKey);
-            renderer.material.mainTexture = _resourceProvider.GetTexture(style.TextureKey);
+            // TODO Use not only first material
+            renderer.material = _resourceProvider.GetMatertial(style.Materials[0]);
+            renderer.material.mainTexture = _resourceProvider.GetTexture(style.Textures[0]);
         }
 
         #region Segment processing

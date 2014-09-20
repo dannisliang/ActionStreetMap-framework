@@ -11,7 +11,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static string GetBuildingType(this Rule rule)
         {
-            return rule.Evaluate<string>("building");
+            return rule.Evaluate<string>("building-style");
         }
 
         public static int GetLevels(this Rule rule, int @default = 0)

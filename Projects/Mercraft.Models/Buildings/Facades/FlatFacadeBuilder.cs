@@ -18,8 +18,8 @@ namespace Mercraft.Models.Buildings.Facades
                 Vertices = GetVerticies3D(vertices2D, building.Elevation + building.MinHeight, building.Height),
                 Triangles = GetTriangles3D(vertices2D),
                 UV = GetUV(vertices2D),
-                TextureKey = style.Roof.Texture,
-                MaterialKey = style.Roof.Material
+                TextureKey = style.Roof.Textures[0],
+                MaterialKey = style.Roof.Materials[0]
             };
         }
 

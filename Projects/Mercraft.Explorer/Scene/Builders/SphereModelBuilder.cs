@@ -40,7 +40,7 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildSphere(tile, area, area.Points, rule);
         }
 
-        private IGameObject BuildSphere(Tile tile, Model model, GeoCoordinate[] points, Rule rule)
+        protected virtual IGameObject BuildSphere(Tile tile, Model model, GeoCoordinate[] points, Rule rule)
         {
             var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, points);
             var diameter = circle.Item1;

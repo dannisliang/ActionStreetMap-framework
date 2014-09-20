@@ -92,6 +92,7 @@
     <Compile Include="Zones\Stubs\TestModelBehaviour.cs" />
     <Compile Include="Zones\Stubs\TestBootstrapperPlugin.cs" />
     <Compile Include="Zones\Stubs\TestRoadBuilder.cs" />
+    <Compile Include="Zones\Stubs\TestSphereModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestTerrainBuilder.cs" />
     <Compile Include="Zones\Stubs\TestBuildingBuilder.cs" />
     <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />

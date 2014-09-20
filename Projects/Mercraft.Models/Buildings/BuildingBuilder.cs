@@ -24,8 +24,9 @@ namespace Mercraft.Models.Buildings
 
         public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
-            var facadeMeshData = style.Facade.Builder.Build(building, style);
-            var roofMeshData = style.Roof.Builder.Build(building, style);
+            // TODO select builders based on building id
+            var facadeMeshData = style.Facade.Builders[0].Build(building, style);
+            var roofMeshData = style.Roof.Builders[0].Build(building, style);
 
             var gameObject = building.GameObject.GetComponent<GameObject>();
 
