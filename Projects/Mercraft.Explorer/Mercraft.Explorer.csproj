@@ -42,6 +42,7 @@
     <Compile Include="Helpers\DetailRuleExtensions.cs" />
     <Compile Include="Helpers\ModelRuleExtensions.cs" />
     <Compile Include="Helpers\TerrainRuleExtensions.cs" />
+    <Compile Include="ErrorStrings.cs" />
     <Compile Include="Scene\Builders\BuildingModelBuilder.cs" />
     <Compile Include="Scene\Builders\DetailModelBuilder.cs" />
     <Compile Include="Scene\IModelBuilder.cs" />
