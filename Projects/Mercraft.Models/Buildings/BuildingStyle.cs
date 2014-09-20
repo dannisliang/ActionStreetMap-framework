@@ -6,10 +6,19 @@ namespace Mercraft.Models.Buildings
 {
     public class BuildingStyle
     {
+        public Description Desc { get; set; }
         public RoofStyle Roof { get; set; }
         public FacadeStyle Facade { get; set; }
 
         #region Nested classes
+
+        public class Description
+        {
+            public int Floors { get; set; }
+            public float Width { get; set; }
+            public string Material { get; set; }
+            public string Colour { get; set; }
+        }
 
         public class RoofStyle
         {
@@ -21,7 +30,6 @@ namespace Mercraft.Models.Buildings
 
         public class FacadeStyle
         {
-            public int Floors { get; set; }
             public string[] Textures { get; set; }
             public string[] Materials { get; set; }
             public IFacadeBuilder[] Builders { get; set; }

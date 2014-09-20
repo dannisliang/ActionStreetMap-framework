@@ -33,7 +33,7 @@ namespace Mercraft.Maps.UnitTests.Themes
                 Type = "residential"
             });
 
-            Assert.AreEqual(9, style.Facade.Floors);
+            Assert.AreEqual(9, style.Desc.Floors);
             
             Assert.IsNotNull(style.Facade);
             Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Textures[0]);

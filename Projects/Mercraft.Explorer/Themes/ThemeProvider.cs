@@ -83,6 +83,7 @@ namespace Mercraft.Explorer.Themes
             {
                 buildingStyles.Add(new BuildingStyle()
                 {
+                    Desc = GetDescription(entry["facade"]["desc"]),
                     Facade = GetFacadeStyle(uvs, entry["facade"]),
                     Roof = GetRoofStyle(uvs, entry["roof"]),
                 });
@@ -90,13 +91,24 @@ namespace Mercraft.Explorer.Themes
             return buildingStyles;
         }
 
+        private BuildingStyle.Description GetDescription(JSONNode desc)
+        {
+            return new BuildingStyle.Description()
+            {
+                Floors = desc["floors"].AsInt,
+                Width = desc["width"].AsFloat,
+                Material = desc["material"].Value,
+                Colour = desc["colour"].Value
+            };
+        }
+
         private BuildingStyle.FacadeStyle GetFacadeStyle(Dictionary<int, Vector2[]> textureMap, JSONNode node)
         {
-            var desc = node["desc"];
+
             var render = node["render"];
             return new BuildingStyle.FacadeStyle()
             {
-                Floors = desc["floors"].AsInt,
+
                 Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
                 Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
                 Builders = render["builders"].AsArray.Childs.Select(t => _facadeBuilders.Single(b => b.Name ==t.Value)).ToArray(),
