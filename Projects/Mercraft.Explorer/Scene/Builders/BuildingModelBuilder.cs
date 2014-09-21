@@ -88,15 +88,23 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
 
+            // NOTE observed that min_height should be subracted from height for building:part
+            // TODO this should be done in mapcss, but stylesheet doesn't support multiply eval operations
+            // on the same tag
+            var minHeight = rule.GetMinHeight();
+            var height = rule.GetHeight(NoValue);
+            if (rule.IsPart())
+                height -= minHeight;
+
             // TODO should we save this object in WorldManager?
             var building = new Building()
             {
                 Id = model.Id,
                 Address = AddressExtractor.Extract(model.Tags),
                 GameObject = gameObjectWrapper,
-                Height = rule.GetHeight(NoValue),
+                Height = height,
                 Levels = rule.GetLevels(NoValue),
-                MinHeight = rule.GetMinHeight(),
+                MinHeight = minHeight,
                 // TODO map osm type to ours
                 Type = "residental",//rule.GetBuildingType(),
                 Elevation = points[0].Elevation, // we set equal elevation for every point

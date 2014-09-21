@@ -168,6 +168,40 @@ namespace Mercraft.Maps.UnitTests.MapCss
             Assert.AreEqual(15, evalResult);
         }
 
+
+        [Test]
+        public void CanPerformTwoEvalOperationSequence()
+        {
+            // ARRANGE
+            var model = new Area
+            {
+                Id = 1,
+                Tags = new Collection<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("building:part", "yes"),
+                    new KeyValuePair<string, string>("building:height", "20"),
+                    new KeyValuePair<string, string>("building:min_height", "3"),
+                    new KeyValuePair<string, string>("roof:height", "5"),
+                }
+            };
+
+            var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n"+
+                                                        "area[building:part][building:height][building:min_height] { height: eval(num(tag('building:height')) - num(tag('building:min_height')));}");
+            var rule = stylesheet.GetRule(model);
+
+
+            foreach (var declaration in rule.Declarations)
+            {
+                var height = declaration.Evaluator.Walk<float>(model);
+            }
+
+            // ACT
+            //var evalResult = rule.GetHeight();
+
+            // ASSERT
+           // Assert.AreEqual(12, evalResult);
+        }
+
         [Test]
         public void CanGetMissing()
         {

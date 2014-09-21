@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.MapCss.Domain;
+﻿using System.Net.Mail;
+using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Explorer.Helpers
 {
@@ -19,5 +20,9 @@ namespace Mercraft.Explorer.Helpers
             return rule.EvaluateDefault("levels", @default);
         }
 
+        public static bool IsPart(this Rule rule)
+        {
+            return rule.EvaluateDefault("part", false);
+        }
     }
 }

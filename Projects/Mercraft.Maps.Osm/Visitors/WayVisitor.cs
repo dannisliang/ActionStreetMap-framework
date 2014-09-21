@@ -72,6 +72,7 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             return (tags != null) &&
                    ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||
+                   (tags.ContainsKey("building:part") && !tags.IsFalse("building:part")) ||
                     (tags.ContainsKey("landuse") && !tags.IsFalse("landuse")) ||
                     (tags.ContainsKey("amenity") && !tags.IsFalse("amenity")) ||
                     (tags.ContainsKey("harbour") && !tags.IsFalse("harbour")) ||

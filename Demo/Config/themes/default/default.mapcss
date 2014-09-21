@@ -23,11 +23,19 @@ area[building:part],
 area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
-area[height]											{ height: eval(num(tag('height')));}
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
+area[height]											{ height: eval(num(tag('height')));}
+area[building:height]									{ height: eval(num(tag('building:height')));}
+area[building:height][roof:height]						{ height: eval(num(tag('building:height')) - num(tag('roof:height')));}
+
+
+area[building:min_height]								{ min_height: eval(num(tag('building:min_height')));}
 area[min_height]										{ min_height: eval(num(tag('min_height')));}
+
 area[building:shape=sphere]								{ builder: sphere; material: Buildings/Building;}
 area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}
+
+area[building:part]										{ part: true;}									
 
 area[building=residential], 	
 area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:residential;}
