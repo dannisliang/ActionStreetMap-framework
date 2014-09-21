@@ -36,7 +36,7 @@ namespace Mercraft.Models.Buildings
 
             // NOTE use different gameObject only to support different materials
             AttachChildGameObject(gameObject, "facade", facadeMeshData, 
-                style.Desc.AllowSetColor? UnityColorUtility.FromCore(building.FacadeColor): default(Color32));
+                style.Facade.AllowSetColor? UnityColorUtility.FromCore(building.FacadeColor): default(Color32));
             AttachChildGameObject(gameObject, "roof", roofMeshData, default(Color32));
         }
 

@@ -1,25 +1,24 @@
 {
 	"name":["residental","residential"],
-	"entries": [
+	"facades":[
 		{
-			"facade":{
-				"desc":{
-					"floors":9,	"width": 0, "material":"", "colour":"", "allowSetColor":"true"
-				},
-				"render":{
-					"builders":["flat"],
-					"textures":["Textures/Buildings/Soviet1"],
-					"materials": ["Materials/Buildings/Building"],
-					"uvs":{"front":0,"back":0,"side":0}
-				}
+			"desc":{
+				"floors":9,	"width": 0, "material":"", "colour":"", "allowSetColor":"true"
 			},
-			"roof":{
-				"render":{
-					"builders":["flat"],
-					"textures":["Textures/Buildings/Soviet1"],
-					"materials": ["Materials/Buildings/Building"],
-					"uvs":{"main":1}
-				}
+			"render":{
+				"builders":["flat"],
+				"textures":["Textures/Buildings/Soviet1"],
+				"materials": ["Materials/Buildings/Building"],
+				"uvs":{"front":0,"back":0,"side":0}
+			}
+		}],
+	"roofs":[
+		{
+			"render":{
+				"builders":["flat"],
+				"textures":["Textures/Buildings/Soviet1"],
+				"materials": ["Materials/Buildings/Building"],
+				"uvs":{"main":1}
 			}
 		}],
 	"uvs": [

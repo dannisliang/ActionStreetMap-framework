@@ -56,7 +56,8 @@ namespace Mercraft.Explorer.Themes
 
         public IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection configSection)
         {
-            var buildingTypeStyleMapping = new Dictionary<string, List<BuildingStyle>>();
+            var facadeStyleMapping = new Dictionary<string, List<BuildingStyle.FacadeStyle>>();
+            var roofStyleMapping = new Dictionary<string, List<BuildingStyle.RoofStyle>>();
             foreach (var buildThemeConfig in configSection.GetSections(BuildingsThemeFile))
             {
                 var path = buildThemeConfig.GetString("@path");
@@ -65,70 +66,63 @@ namespace Mercraft.Explorer.Themes
                     var jsonStr = reader.ReadToEnd();
                     var json = JSON.Parse(jsonStr);
 
-                    var buildingStyles = GetBuildingStyles(json);
+                    var facadeStyles = GetFacadeStyles(json);
+                    var roofStyles = GetRoofStyles(json);
 
                     var types = json["name"].AsArray.Childs.Select(t => t.Value);
                     foreach (var type in types)
-                        buildingTypeStyleMapping.Add(type, buildingStyles);
+                    {
+                        facadeStyleMapping.Add(type, facadeStyles);
+                        roofStyleMapping.Add(type, roofStyles);
+                    }
                 }
             }
-            return new BuildingStyleProvider(buildingTypeStyleMapping);
+            return new BuildingStyleProvider(facadeStyleMapping, roofStyleMapping);
         }
 
-        private List<BuildingStyle> GetBuildingStyles(JSONNode json)
+        private List<BuildingStyle.FacadeStyle> GetFacadeStyles(JSONNode json)
         {
-            var buildingStyles = new List<BuildingStyle>();
-            var uvs = LoadTextureMap(json);
-            foreach (JSONNode entry in json["entries"].AsArray)
+            var facadeStyles = new List<BuildingStyle.FacadeStyle>();
+            var textureMap = LoadTextureMap(json);
+            foreach (JSONNode node in json["facades"].AsArray)
             {
-                buildingStyles.Add(new BuildingStyle()
+                var desc = node["desc"];
+                var render = node["render"];
+                facadeStyles.Add(new BuildingStyle.FacadeStyle()
                 {
-                    Desc = GetDescription(entry["facade"]["desc"]),
-                    Facade = GetFacadeStyle(uvs, entry["facade"]),
-                    Roof = GetRoofStyle(uvs, entry["roof"]),
+                    Floors = desc["floors"].AsInt,
+                    Width = desc["width"].AsFloat,
+                    Material = desc["material"].Value,
+                    Colour = desc["colour"].Value,
+                    AllowSetColor = desc["allowSetColor"].AsBool,
+
+                    Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    Builders = render["builders"].AsArray.Childs.Select(t => _facadeBuilders.Single(b => b.Name == t.Value)).ToArray(),
+                    FrontUvMap = textureMap[render["uvs"]["front"].AsInt],
+                    BackUvMap = textureMap[render["uvs"]["back"].AsInt],
+                    SideUvMap = textureMap[render["uvs"]["side"].AsInt],
                 });
             }
-            return buildingStyles;
+            return facadeStyles;
         }
 
-        private BuildingStyle.Description GetDescription(JSONNode desc)
+        private List<BuildingStyle.RoofStyle> GetRoofStyles(JSONNode json)
         {
-            return new BuildingStyle.Description()
+            var roofStyles = new List<BuildingStyle.RoofStyle>();
+            var textureMap = LoadTextureMap(json);
+            foreach (JSONNode node in json["roofs"].AsArray)
             {
-                Floors = desc["floors"].AsInt,
-                Width = desc["width"].AsFloat,
-                Material = desc["material"].Value,
-                Colour = desc["colour"].Value,
-                AllowSetColor = desc["allowSetColor"].AsBool
-            };
-        }
-
-        private BuildingStyle.FacadeStyle GetFacadeStyle(Dictionary<int, Vector2[]> textureMap, JSONNode node)
-        {
-
-            var render = node["render"];
-            return new BuildingStyle.FacadeStyle()
-            {
-
-                Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                Builders = render["builders"].AsArray.Childs.Select(t => _facadeBuilders.Single(b => b.Name ==t.Value)).ToArray(),
-                FrontUvMap = textureMap[render["uvs"]["front"].AsInt],
-                BackUvMap = textureMap[render["uvs"]["back"].AsInt],
-                SideUvMap = textureMap[render["uvs"]["side"].AsInt],
-            };
-        }
-
-        private BuildingStyle.RoofStyle GetRoofStyle(Dictionary<int, Vector2[]> textureMap, JSONNode node)
-        {
-            var render = node["render"];
-            return new BuildingStyle.RoofStyle()
-            {
-                Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),
-                UvMap = textureMap[render["uvs"]["main"].AsInt]
-            };
+                var render = node["render"];
+                roofStyles.Add(new BuildingStyle.RoofStyle()
+                {
+                    Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
+                    Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),
+                    UvMap = textureMap[render["uvs"]["main"].AsInt]
+                });
+            }
+            return roofStyles;
         }
 
         #endregion

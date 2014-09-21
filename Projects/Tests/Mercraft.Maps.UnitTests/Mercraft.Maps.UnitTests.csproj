@@ -86,6 +86,7 @@
     <Compile Include="SceneHelper.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="TestPathResolver.cs" />
+    <Compile Include="Themes\Buildings\BuildingTextureBalancerTests.cs" />
     <Compile Include="Themes\ThemeProviderTests.cs" />
     <Compile Include="World\RoadTests.cs" />
     <Compile Include="Zones\Stubs\TestDetailModelBuilder.cs" />

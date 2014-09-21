@@ -28,14 +28,16 @@ namespace Mercraft.Maps.UnitTests.Themes
             // ASSERT
             Assert.IsNotNull(theme);
 
-            var style = theme.GetBuildingStyle( new Building()
+            var style = theme.GetBuildingStyle(new Building()
             {
                 Type = "residential"
             });
 
-            Assert.AreEqual(9, style.Desc.Floors);
-            
+            Assert.IsNotNull(style);
             Assert.IsNotNull(style.Facade);
+
+            Assert.AreEqual(9, style.Facade.Floors);
+            
             Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Textures[0]);
             Assert.AreEqual("Materials/Buildings/Building", style.Facade.Materials[0]);
             Assert.AreEqual(4, style.Facade.FrontUvMap.Length);

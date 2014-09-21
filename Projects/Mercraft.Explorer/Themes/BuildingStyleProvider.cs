@@ -11,11 +11,14 @@ namespace Mercraft.Explorer.Themes
     /// </summary>
     public class BuildingStyleProvider : IBuildingStyleProvider
     {
-        private readonly Dictionary<string, List<BuildingStyle>> _buildingTypeStyleMapping;
+        private readonly Dictionary<string, List<BuildingStyle.FacadeStyle>> _facadeStyleMapping;
+        private readonly Dictionary<string, List<BuildingStyle.RoofStyle>> _roofStyleMapping;
 
-        public BuildingStyleProvider(Dictionary<string, List<BuildingStyle>> buildingTypeStyleMapping)
+        public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
+            Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
         {
-            _buildingTypeStyleMapping = buildingTypeStyleMapping;
+            _facadeStyleMapping = facadeStyleMapping;
+            _roofStyleMapping = roofStyleMapping;
         }
 
         /// <summary>
@@ -26,26 +29,32 @@ namespace Mercraft.Explorer.Themes
             // NOTE we don't want to have osm specific logic in code outside osm project.
             // Tags mapping this should be done in mapcss file. So, we will throw exception 
             // here if type isn't mapped to existing style
-            if (!_buildingTypeStyleMapping.ContainsKey(building.Type))
+            if (!_facadeStyleMapping.ContainsKey(building.Type))
                 throw new ArgumentException(String.Format(ErrorStrings.CannotGetBuildingStyle, building.Type));
 
-            var styles = _buildingTypeStyleMapping[building.Type];
+            var facadeStyle = _facadeStyleMapping[building.Type];
+            var roofStyle = _roofStyleMapping[building.Type];
 
-            if (styles.Count == 1)
-                return styles[0];
+            if (facadeStyle.Count == 1 && roofStyle.Count == 1)
+                return new BuildingStyle()
+                {
+                    Facade = facadeStyle.First(),
+                    Roof = roofStyle.First()
+                };
 
-            return FindBestMatch(building, styles);
+            return FindBestMatch(building, facadeStyle, roofStyle);
         }
 
-        private static BuildingStyle FindBestMatch(Building building, List<BuildingStyle> styles)
+        private static BuildingStyle FindBestMatch(Building building, List<BuildingStyle.FacadeStyle> facadeStyles,
+            List<BuildingStyle.RoofStyle> roofStyles)
         {
             // TODO define additional data in BuildingStyle to improve matching
 
             var max = 0;
             var index = 0;
-            for (int i = 0; i < styles.Count; i++)
+            for (int i = 0; i < facadeStyles.Count; i++)
             {
-                var rating = Balance(building, styles[i]);
+                var rating = Balance(building, facadeStyles[i]);
                 if (rating > max)
                 {
                     max = rating;
@@ -56,17 +65,21 @@ namespace Mercraft.Explorer.Themes
                     // TODO should decide use new or keep old index to prevent "first win" strategy
                 }
             }
-            return styles[index];
+            return new BuildingStyle()
+            {
+                Facade = facadeStyles[index],
+                Roof = roofStyles.First()
+            };
         }
 
-        private static int Balance(Building building, BuildingStyle style)
+        private static int Balance(Building building, BuildingStyle.FacadeStyle style)
         {
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
             var rating = 0;
-            if (style.Desc.Floors == building.Levels)
+            if (style.Floors == building.Levels)
                 rating += 5;
-            if (style.Desc.Material == building.FacadeMaterial)
+            if (style.Material == building.FacadeMaterial)
                 rating += 2;
 
             // Add color
