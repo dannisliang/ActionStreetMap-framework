@@ -5,7 +5,7 @@ namespace Mercraft.Models.Utils
     {
         public static int GetIndex(long seed, int count)
         {
-            return (int) seed % count;
+            return (int)( seed % count);
         }
     }
 }
