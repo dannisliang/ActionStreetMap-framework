@@ -2,6 +2,7 @@
 using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Utilities;
 using Mercraft.Maps.Osm.Extensions;
 using Way = Mercraft.Maps.Osm.Entities.Way;
 

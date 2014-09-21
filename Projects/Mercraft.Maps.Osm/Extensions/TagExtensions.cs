@@ -58,14 +58,6 @@ namespace Mercraft.Maps.Osm.Extensions
             return false;
         }
 
-        /// <summary>
-        ///     Returns true if the given key is found in this tags collection.
-        /// </summary>
-        public static bool ContainsKey(this IList<KeyValuePair<string, string>> tags, string key)
-        {
-            return tags != null && tags.Any(tag => tag.Key == key);
-        }
-
         #endregion
 
         public static bool IsNullOrWhiteSpace(string str)
