@@ -14,10 +14,15 @@ namespace Mercraft.Explorer.Helpers
             return resourceProvider.GetMatertial(@"Materials/" + path);
         }
 
-        public static Color32 GetFillColor(this Rule rule)
+        public static Color32 GetFillUnityColor(this Rule rule)
         {
             var coreColor = rule.Evaluate<Core.Unity.Color32>("fill-color", ColorUtility.FromUnknown);
             return new Color32(coreColor.r, coreColor.g, coreColor.b, coreColor.a);
+        }
+
+        public static Core.Unity.Color32 GetFillColor(this Rule rule)
+        {
+            return rule.Evaluate<Core.Unity.Color32>("fill-color", ColorUtility.FromUnknown);
         }
 
         public static bool IsSkipped(this Rule rule)

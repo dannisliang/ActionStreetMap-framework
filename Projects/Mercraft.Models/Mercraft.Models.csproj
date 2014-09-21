@@ -71,6 +71,7 @@
     <Compile Include="Utils\GameObjectWrapper.cs" />
     <Compile Include="Utils\HeightMapProcessor.cs" />
     <Compile Include="Utils\Geometry\SegmentUtils.cs" />
+    <Compile Include="Utils\UnityColorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">

@@ -58,7 +58,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             gameObject.AddComponent<MeshRenderer>();
             gameObject.renderer.material = rule.GetMaterial(_resourceProvider);
-            gameObject.renderer.material.color = rule.GetFillColor();
+            gameObject.renderer.material.color = rule.GetFillUnityColor();
 
             var layerIndex = rule.GetLayerIndex(NoLayer);
             if (layerIndex != NoLayer)

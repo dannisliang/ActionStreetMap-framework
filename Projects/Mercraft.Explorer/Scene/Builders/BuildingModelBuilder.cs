@@ -105,8 +105,8 @@ namespace Mercraft.Explorer.Scene.Builders
                 Height = height,
                 Levels = rule.GetLevels(NoValue),
                 MinHeight = minHeight,
-                // TODO map osm type to ours
-                Type = "residental",//rule.GetBuildingType(),
+                Type = rule.GetBuildingType(),
+                FacadeColor = rule.GetFillColor(),
                 Elevation = points[0].Elevation, // we set equal elevation for every point
                 Footprint = points,
             };

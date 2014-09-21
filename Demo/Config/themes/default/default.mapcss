@@ -15,12 +15,12 @@ canvas {
 
 /* buildings */
 /* Take note that building-style is set to residential. We have to distinguish different types */
-area[barrier=fence],
+/*area[barrier=fence],*/
 area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0;  fill-color: #FF0000; building-style:residential; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; fill-color:#000000; building-style:residential; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
@@ -28,22 +28,20 @@ area[height]											{ height: eval(num(tag('height')));}
 area[building:height]									{ height: eval(num(tag('building:height')));}
 area[building:height][roof:height]						{ height: eval(num(tag('building:height')) - num(tag('roof:height')));}
 
-
 area[building:min_height]								{ min_height: eval(num(tag('building:min_height')));}
 area[min_height]										{ min_height: eval(num(tag('min_height')));}
 
 area[building:shape=sphere]								{ builder: sphere; material: Buildings/Building;}
-area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}
-
-area[building:part]										{ part: true;}									
+area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}					
 
 area[building=residential], 	
-area[building=yes]										{ builder: building; fill-color: #bca9a9; building-style:residential;}
+area[building=yes]										{ builder: building; building-style:residential;}
+area[building:part]										{ part: true; building-style: part;}	
 
-area[building=tourism]									{ fill-color: #0066ff;}
+/*area[building=tourism]								{ fill-color: #0066ff;}
 area[building=commercial] 								{ fill-color: #efc8c8;}
 area[building=garage] 									{ fill-color: #bca9a9;}
-area[building=apartments]								{ fill-color: #bca9a9;}
+area[building=apartments]								{ fill-color: #bca9a9;}*/
 
 area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
 area[building:color]									{ fill-color:eval(color(tag('building:color')));}

@@ -52,7 +52,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             sphere.AddComponent<MeshRenderer>();
             sphere.renderer.material = rule.GetMaterial(_resourceProvider);
-            sphere.renderer.material.color = rule.GetFillColor();
+            sphere.renderer.material.color = rule.GetFillUnityColor();
 
             var minHeight = rule.GetMinHeight();
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);

@@ -98,7 +98,8 @@ namespace Mercraft.Explorer.Themes
                 Floors = desc["floors"].AsInt,
                 Width = desc["width"].AsFloat,
                 Material = desc["material"].Value,
-                Colour = desc["colour"].Value
+                Colour = desc["colour"].Value,
+                AllowSetColor = desc["allowSetColor"].AsBool
             };
         }
 

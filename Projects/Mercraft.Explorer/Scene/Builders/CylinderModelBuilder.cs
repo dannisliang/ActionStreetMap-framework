@@ -62,7 +62,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             cylinder.AddComponent<MeshRenderer>();
             cylinder.renderer.material = rule.GetMaterial(_resourceProvider);
-            cylinder.renderer.material.color = rule.GetFillColor();
+            cylinder.renderer.material.color = rule.GetFillUnityColor();
 
             WorldManager.AddModel(model.Id);
 

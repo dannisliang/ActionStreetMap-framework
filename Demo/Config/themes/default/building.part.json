@@ -1,5 +1,5 @@
 {
-	"name":["residental","residential"],
+	"name": ["part"],
 	"entries": [
 		{
 			"facade":{
@@ -8,7 +8,9 @@
 				},
 				"render":{
 					"builders":["flat"],
-					"textures":["Textures/Buildings/Soviet1"],
+					"textures":[
+						"Textures/Buildings/gray",
+					],
 					"materials": ["Materials/Buildings/Building"],
 					"uvs":{"front":0,"back":0,"side":0}
 				}
@@ -16,7 +18,7 @@
 			"roof":{
 				"render":{
 					"builders":["flat"],
-					"textures":["Textures/Buildings/Soviet1"],
+					"textures":["Textures/Buildings/gray"],
 					"materials": ["Materials/Buildings/Building"],
 					"uvs":{"main":1}
 				}

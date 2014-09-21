@@ -67,7 +67,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             Assert.AreEqual("sphere", rule.Evaluate<string>("builder"), "Unable to merge declarations!");
             Assert.AreEqual(100, rule.Evaluate<float>("min_height"), "Unable to eval min_height from tag!");
-            Assert.AreEqual(new Color32(250, 128, 114, 255), rule.GetFillColor(), "Unable to merge declarations!");
+            Assert.AreEqual(new Color32(250, 128, 114, 255), rule.GetFillUnityColor(), "Unable to merge declarations!");
             Assert.AreEqual("solid", rule.Evaluate<string>("behaviour"), "First rule isn't applied!");
             Assert.AreEqual("Concrete_Patterned", rule.Evaluate<string>("material"), "First rule isn't applied!");
             Assert.AreEqual(15, rule.Evaluate<float>("height"), "Unable to eval height from building:levels!");
@@ -264,7 +264,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromName("red"),
-                GetOriginalColorTypeObject(rule.GetFillColor()));
+                GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
         [Test]
@@ -289,7 +289,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromName("salmon"),
-                GetOriginalColorTypeObject(rule.GetFillColor()));
+                GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace Mercraft.Maps.UnitTests.MapCss
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"),
-                GetOriginalColorTypeObject(rule.GetFillColor()));
+                GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
         private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)
