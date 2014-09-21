@@ -1,35 +1,25 @@
 {
-	"name": ["part"],
-	"entries": [
+	"name":["part"],
+	
+	"facades":[
 		{
-			"facade":{
-				"desc":{
-					"floors":9,	"width": 0, "material":"", "colour":"", "allowSetColor":"true"
-				},
-				"render":{
+			"desc":{
+				"floors":0,	"width": 0, "material":"", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
 					"builders":["flat"],
 					"textures":[
 						"Textures/Buildings/gray",
 					],
 					"materials": ["Materials/Buildings/Building"],
 					"uvs":{"front":0,"back":0,"side":0}
-				}
-			},
-			"roof":{
-				"render":{
-					"builders":["flat"],
-					"textures":["Textures/Buildings/gray"],
-					"materials": ["Materials/Buildings/Building"],
-					"uvs":{"main":1}
-				}
 			}
 		},
 		{
-			"facade":{
-				"desc":{
-					"floors":0,	"width": 0, "material":"brick", "colour":"", "allowSetColor":"true"
-				},
-				"render":{
+			"desc":{
+				"floors":0,	"width": 0, "material":"brick", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
 					"builders":["flat"],
 					"textures":[
 						"Textures/Materials/brick/brown-brick",
@@ -37,47 +27,35 @@
 					],
 					"materials": ["Materials/Buildings/Building"],
 					"uvs":{"front":0,"back":0,"side":0}
-				}
-			},
-			"roof":{
-				"render":{
-					"builders":["flat"],
-					"textures":[
-						"Textures/Materials/brick/brown-brick", 
-						"Textures/Materials/brick/brick-texture"
-					],
-					"materials": ["Materials/Buildings/Building"],
-					"uvs":{"main":1}
-				}
 			}
 		},
 		{
-			"facade":{
-				"desc":{
-					"floors":0,	"width": 0, "material":"glass", "colour":"", "allowSetColor":"true"
-				},
-				"render":{
+			"desc":{
+				"floors":0,	"width": 0, "material":"glass", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
 					"builders":["flat"],
 					"textures":[
 						"Textures/Materials/glass/glass_facade"
 					],
 					"materials": ["Materials/Buildings/Building"],
 					"uvs":{"front":0,"back":0,"side":0}
-				}
-			},
-			"roof":{
-				"render":{
-					"builders":["flat"],
-					"textures":[
-						"Textures/Materials/brick/brown-brick", 
-						"Textures/Materials/brick/brick-texture"
-					],
-					"materials": ["Materials/Buildings/Building"],
-					"uvs":{"main":1}
-				}
 			}
-		}
-		],
+		}],
+		
+	"roofs":[
+		{
+			"desc":{
+				"type":"", "material":"", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
+				"builders":["flat"],
+				"textures":["Textures/Buildings/Soviet1"],
+				"materials": ["Materials/Buildings/Building"],
+				"uvs":{"main":1}
+			}
+		}],
+		
 	"uvs": [
 		{"index":0, "data": [{"x":1, "y":0}, {"x":0, "y":0} {"x":0, "y":1} {"x":1, "y":1}]},
 		{"index":1, "data": [{"x":0, "y":0}, {"x":0, "y":0} {"x":0, "y":0} {"x":0, "y":0}]}]

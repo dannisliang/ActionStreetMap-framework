@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Formats.Json;
@@ -93,7 +94,7 @@ namespace Mercraft.Explorer.Themes
                     Floors = desc["floors"].AsInt,
                     Width = desc["width"].AsFloat,
                     Material = desc["material"].Value,
-                    Colour = desc["colour"].Value,
+                    Color = ColorUtility.FromUnknown(desc["color"].Value),
                     AllowSetColor = desc["allowSetColor"].AsBool,
 
                     Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
@@ -113,9 +114,15 @@ namespace Mercraft.Explorer.Themes
             var textureMap = LoadTextureMap(json);
             foreach (JSONNode node in json["roofs"].AsArray)
             {
+                var desc = node["desc"];
                 var render = node["render"];
                 roofStyles.Add(new BuildingStyle.RoofStyle()
                 {
+                    Type = desc["type"],
+                    Color = ColorUtility.FromUnknown(desc["color"].Value),
+                    Material = desc["material"],
+                    AllowSetColor = desc["allowSetColor"].AsBool,
+
                     Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
                     Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
                     Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),

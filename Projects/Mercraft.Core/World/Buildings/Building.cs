@@ -28,6 +28,7 @@ namespace Mercraft.Core.World.Buildings
         public Color32 FacadeColor { get; set; }
         public string FacadeMaterial { get; set; }
 
+        public string RoofColor { get; set; }
         public string RoofMaterial { get; set; }
         public string RoofType { get; set; }
 

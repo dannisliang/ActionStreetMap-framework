@@ -1,6 +1,7 @@
 ﻿using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
 using UnityEngine;
+using Color32 = Mercraft.Core.Unity.Color32;
 
 namespace Mercraft.Models.Buildings
 {
@@ -13,6 +14,11 @@ namespace Mercraft.Models.Buildings
 
         public class RoofStyle
         {
+            public string Type { get; set; }
+            public string Material { get; set; }
+            public Color32 Color { get; set; }
+            public bool AllowSetColor { get; set; }
+
             public string[] Textures { get; set; }
             public string[] Materials { get; set; }
             public IRoofBuilder[] Builders { get; set; }
@@ -24,7 +30,7 @@ namespace Mercraft.Models.Buildings
             public int Floors { get; set; }
             public float Width { get; set; }
             public string Material { get; set; }
-            public string Colour { get; set; }
+            public Color32 Color { get; set; }
             public bool AllowSetColor { get; set; }
 
             public string[] Textures { get; set; }

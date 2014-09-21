@@ -51,38 +51,64 @@ namespace Mercraft.Explorer.Themes
             // TODO define additional data in BuildingStyle to improve matching
 
             var max = 0;
-            var index = 0;
+            var facadeIndex = 0;
             for (int i = 0; i < facadeStyles.Count; i++)
             {
-                var rating = Balance(building, facadeStyles[i]);
-                if (rating > max)
+                var rating = BalanceFacade(building, facadeStyles[i]);
+                // OR branch allows to avoid first-win strategy 
+                if (rating > max || (rating != 0 && rating == max && building.Id % 2 == 0))
                 {
                     max = rating;
-                    index = i;
-                }
-                else if (rating == max)
-                {
-                    // TODO should decide use new or keep old index to prevent "first win" strategy
+                    facadeIndex = i;
                 }
             }
+
+            max = 0;
+            var roofIndex = 0;
+            for (int i = 0; i < roofStyles.Count; i++)
+            {
+                var rating = BalanceRoof(building, roofStyles[i]);
+                // OR branch allows to avoid first-win strategy 
+                if (rating > max || (rating != 0 && rating == max && building.Id % 2 == 0))
+                {
+                    max = rating;
+                    roofIndex = i;
+                }
+            }
+
             return new BuildingStyle()
             {
-                Facade = facadeStyles[index],
-                Roof = roofStyles.First()
+                Facade = facadeStyles[facadeIndex],
+                Roof = roofStyles[roofIndex]
             };
         }
 
-        private static int Balance(Building building, BuildingStyle.FacadeStyle style)
+        private static int BalanceFacade(Building building, BuildingStyle.FacadeStyle style)
         {
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
             var rating = 0;
             if (style.Floors == building.Levels)
+                rating += 3;
+            if (style.Material == building.FacadeMaterial)
+                rating += 3;
+            if (style.Color.Equals(building.FacadeColor))
+                rating += 3;
+
+            return rating;
+        }
+
+        private static int BalanceRoof(Building building, BuildingStyle.RoofStyle style)
+        {
+            // NOTE different properties have different rating weight in range [1,5]
+            // TODO rebalance this to have better matches
+            var rating = 0;
+            if (style.Type == building.RoofType)
                 rating += 5;
             if (style.Material == building.FacadeMaterial)
-                rating += 2;
-
-            // Add color
+                rating += 3;
+            if (style.Color.Equals(building.FacadeColor))
+                rating += 3;
 
             return rating;
         }
