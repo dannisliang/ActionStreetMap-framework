@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using Mercraft.Core.MapCss.Domain;
+﻿using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Explorer.Helpers
 {
@@ -13,6 +12,11 @@ namespace Mercraft.Explorer.Helpers
         public static string GetBuildingType(this Rule rule)
         {
             return rule.Evaluate<string>("building-style");
+        }
+
+        public static string GetFacadeMaterial(this Rule rule, string @default = null)
+        {
+            return rule.EvaluateDefault<string>("building:material", @default);
         }
 
         public static int GetLevels(this Rule rule, int @default = 0)

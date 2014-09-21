@@ -46,6 +46,8 @@ area[building=apartments]								{ fill-color: #bca9a9;}*/
 area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
 area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 
+area[building:material]									{ facade-material: eval(tag('building:material'));} 
+
 /* flat areas */
 area[amenity],
 area[natural],
