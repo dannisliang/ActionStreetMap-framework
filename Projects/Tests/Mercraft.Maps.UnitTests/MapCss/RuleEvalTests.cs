@@ -145,6 +145,30 @@ namespace Mercraft.Maps.UnitTests.MapCss
         }
 
         [Test]
+        public void CanPerformSimpleOperationWithTags()
+        {
+            // ARRANGE
+            var model = new Area
+            {
+                Id = 1,
+                Tags = new Collection<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("building:height", "20"),
+                    new KeyValuePair<string, string>("roof:height", "5"),
+                }
+            };
+
+            var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n");
+            var rule = stylesheet.GetRule(model);
+
+            // ACT
+            var evalResult = rule.GetHeight();
+
+            // ASSERT
+            Assert.AreEqual(15, evalResult);
+        }
+
+        [Test]
         public void CanGetMissing()
         {
             // ARRANGE

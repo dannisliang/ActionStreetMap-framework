@@ -79,7 +79,9 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private void VisitBinary(CommonTree binaryTree)
         {
             VisitOperation(binaryTree.Children[0] as CommonTree);
+            var previousOperation = _opStack.Pop();
             VisitOperation(binaryTree.Children[1] as CommonTree);
+            _opStack.Push(previousOperation);
             _opStack.PushBinary(String.Intern(binaryTree.Text));
         }
 

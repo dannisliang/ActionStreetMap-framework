@@ -13,6 +13,8 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private readonly ParameterExpression _param;
         private readonly Stack<Expression> _expressions = new Stack<Expression>();
 
+        public bool DoNotWrapFirstTime { get; set; }
+
         public OperationStack(ParameterExpression param)
         {
             _param = param;
@@ -58,6 +60,12 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                 case "*":
                     PushMult(left, right);
                     break;
+                case "+":
+                    PushAdd(left, right);
+                    break;
+                case "OP_MINUS":
+                    PushSub(left, right);
+                    break;
                 default:
                     throw new NotSupportedException(String.Format("Binary operation {0} is not supported", opName));
             }
@@ -83,6 +91,18 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private void PushMult(Expression left, Expression right)
         {
             var binaryExpr = Expression.Multiply(left, right);
+            Push(binaryExpr);
+        }
+
+        private void PushSub(Expression left, Expression right)
+        {
+            var binaryExpr = Expression.Subtract(left, right);
+            Push(binaryExpr);
+        }
+
+        private void PushAdd(Expression left, Expression right)
+        {
+            var binaryExpr = Expression.Add(left, right);
             Push(binaryExpr);
         }
 
