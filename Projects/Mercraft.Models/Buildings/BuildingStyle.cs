@@ -15,6 +15,7 @@ namespace Mercraft.Models.Buildings
         public class RoofStyle
         {
             public string Type { get; set; }
+            public float Height { get; set; }
             public string Material { get; set; }
             public Color32 Color { get; set; }
             public bool AllowSetColor { get; set; }

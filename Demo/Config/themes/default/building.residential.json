@@ -51,7 +51,29 @@
 				"type":"", "material":"", "colour":"", "allowSetColor":"true"
 			},
 			"render":{
+				"builders":["flat","flat","flat","mansard"],
+				"textures":["Textures/Buildings/Soviet1"],
+				"materials": ["Materials/Buildings/Building"],
+				"uvs":{"main":1}
+			}
+		},
+		{
+			"desc":{
+				"type":"flat", "material":"", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
 				"builders":["flat"],
+				"textures":["Textures/Buildings/Soviet1"],
+				"materials": ["Materials/Buildings/Building"],
+				"uvs":{"main":1}
+			}
+		},
+		{
+			"desc":{
+				"type":"mansard", "material":"", "colour":"", "allowSetColor":"true"
+			},
+			"render":{
+				"builders":["mansard"],
 				"textures":["Textures/Buildings/Soviet1"],
 				"materials": ["Materials/Buildings/Building"],
 				"uvs":{"main":1}

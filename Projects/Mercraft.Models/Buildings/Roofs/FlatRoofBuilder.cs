@@ -11,6 +11,12 @@ namespace Mercraft.Models.Buildings.Roofs
     {
         public string Name { get { return "flat"; } }
 
+        public bool CanBuild(Building building)
+        {
+            // NOTE flat builder can be used for every type of building
+            return true;
+        }
+
         public MeshData Build(Building building, BuildingStyle style)
         {
             return new MeshData()

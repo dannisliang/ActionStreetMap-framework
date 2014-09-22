@@ -106,6 +106,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 Levels = rule.GetLevels(NoValue),
                 MinHeight = minHeight,
                 Type = rule.GetBuildingType(),
+                RoofType = rule.GetRoofType(),
                 FacadeColor = rule.GetFillColor(),
                 FacadeMaterial = rule.GetFacadeMaterial(),
                 Elevation = points[0].Elevation, // we set equal elevation for every point

@@ -16,7 +16,12 @@ namespace Mercraft.Explorer.Helpers
 
         public static string GetFacadeMaterial(this Rule rule, string @default = null)
         {
-            return rule.EvaluateDefault<string>("building:material", @default);
+            return rule.EvaluateDefault<string>("building-material", @default);
+        }
+
+        public static string GetRoofType(this Rule rule, string @default = null)
+        {
+            return rule.EvaluateDefault<string>("roof-type", @default);
         }
 
         public static int GetLevels(this Rule rule, int @default = 0)

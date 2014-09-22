@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -28,9 +30,8 @@ namespace Mercraft.Models.Buildings
                 .GetIndex(building.Id, style.Facade.Builders.Length)]
                 .Build(building, style);
 
-            var roofMeshData = style.Roof.Builders[RandomHelper
-                .GetIndex(building.Id, style.Roof.Builders.Length)]
-                .Build(building, style);
+            var roofMeshData = GetRoofBuilder(building, style.Roof.Builders)
+               .Build(building, style);
 
             var gameObject = building.GameObject.GetComponent<GameObject>();
 
@@ -61,6 +62,38 @@ namespace Mercraft.Models.Buildings
                 renderer.material.color = color;
 
             mf.mesh = mesh;
+        }
+
+        private IRoofBuilder GetRoofBuilder(Building building, IRoofBuilder[] roofBuildings)
+        {
+            // for most of buildings, roof type isn't defined, but we want to use different types
+            // however, we have to check whether we can build roof using random roof builder
+
+            // contains true for index of roof builder if it can build roof for given building
+            bool[] ids = new bool[roofBuildings.Length];
+
+            int count = 0;
+            for (int i = 0; i < roofBuildings.Length; i++)
+            {
+                if (roofBuildings[i].CanBuild(building))
+                {
+                    ids[i] = true;
+                    count++;
+                }
+            }
+
+            if (count == 0)
+                throw new InvalidOperationException("Cannot find roof builder which can build roof of given building - suspect wrong theme definition");
+
+            // however, we don't want to use first occurrence, use building Id as seed
+            int index = 0;
+            var seed = building.Id % count;
+            while (true)
+            {
+                if (ids[index] && index == seed)
+                    return roofBuildings[index];
+                index++;
+            }
         }
     }
 }

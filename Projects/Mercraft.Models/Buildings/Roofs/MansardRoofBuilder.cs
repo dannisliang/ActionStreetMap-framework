@@ -10,15 +10,26 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
 {
-    public class MansardRoofBuilder: IRoofBuilder
+    public class MansardRoofBuilder : IRoofBuilder
     {
         public string Name { get { return "mansard"; } }
+        public bool CanBuild(Building building)
+        {
+            // TODO improve checking of non standard buildings which 
+            // cannot be used with mansard roof building
+            return building.Footprint.Length < 8;
+        }
+
         public MeshData Build(Building building, BuildingStyle style)
         {
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
-            var roofHeight = 3f;
-            
+
+            var roofHeight = style.Roof.Height;
+
+            if (Math.Abs(roofHeight) < 0.01f)
+                roofHeight = UnityEngine.Random.Range(0.5f, 3);
+
             var verticies3D = GetVerticies3D(polygon, building.Height, offset, building.Elevation, roofHeight);
 
             return new MeshData()
@@ -31,11 +42,14 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset, 
+        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset,
             float elevation, float roofHeight)
         {
             var verticies = new List<Vector3>(polygon.Verticies.Length * 2);
             var topVerticies = new List<Vector3>(polygon.Verticies.Length);
+            var buildingTop = elevation + buildingHeight;
+            var roofTop = buildingTop + roofHeight;
+
             for (int i = 0; i < polygon.Segments.Length; i++)
             {
                 var previous = i == 0 ? polygon.Segments.Length - 1 : i - 1;
@@ -49,21 +63,18 @@ namespace Mercraft.Models.Buildings.Roofs
                 var parallel2 = SegmentUtils.GetParallel(segment2, offset);
                 var parallel3 = SegmentUtils.GetParallel(segment3, offset);
 
-                Vector2 ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
-                Vector2 ip2 = SegmentUtils.IntersectionPoint(parallel2, parallel3);
+                Vector3 ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
+                Vector3 ip2 = SegmentUtils.IntersectionPoint(parallel2, parallel3);
 
                 // TODO check whether offset is correct for intersection
 
-                // TODO check whether elevation is correct
-               // var top = polygon.Elevations[i] + buildingHeight;
+                verticies.Add(new Vector3(segment1.End.x, buildingTop, segment1.End.z));
+                verticies.Add(new Vector3(ip1.x, roofTop, ip1.z));
 
-                verticies.Add(new Vector3(segment1.End.x, elevation + buildingHeight, segment1.End.z));
-                verticies.Add(new Vector3(ip1.x, segment1.End.y + roofHeight, ip1.y));
+                verticies.Add(new Vector3(segment2.End.x, buildingTop, segment2.End.z));
+                verticies.Add(new Vector3(ip2.x, roofTop, ip2.z));
 
-                verticies.Add(new Vector3(segment2.End.x, elevation + buildingHeight, segment2.End.z));
-                verticies.Add(new Vector3(ip2.x, elevation + roofHeight, ip2.y));
-
-                topVerticies.Add(new Vector3(ip1.x, elevation + roofHeight, ip1.y));
+                topVerticies.Add(new Vector3(ip1.x, roofTop, ip1.z));
             }
             verticies.AddRange(topVerticies);
             return verticies.ToArray();
