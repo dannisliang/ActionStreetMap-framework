@@ -48,8 +48,9 @@ area[building:color]									{ fill-color:eval(color(tag('building:color')));}
 
 area[building:material]									{ facade-material: eval(tag('building:material'));} 
 
-/* support only mansard/flat so far*/
-area[roof:shape=mansard]								{ roof-type: eval(tag('roof:shape'));}
+/* support only mansard/flat so far, so don't eval */
+area[roof:shape=flat]									{ roof-type: flat;}
+area[roof:shape=mansard]								{ roof-type: mansard;}
 
 /* flat areas */
 area[amenity],

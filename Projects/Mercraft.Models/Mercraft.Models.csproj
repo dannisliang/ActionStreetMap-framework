@@ -48,6 +48,7 @@
     <Compile Include="Buildings\Roofs\MansardRoofBuilder.cs" />
     <Compile Include="Details\ModelDetail.cs" />
     <Compile Include="Details\TreeDetail.cs" />
+    <Compile Include="ErrorStrings.cs" />
     <Compile Include="Roads\RoadBehavior.cs" />
     <Compile Include="Roads\RoadFixBehavior.cs" />
     <Compile Include="Utils\Geometry\Polygon.cs" />

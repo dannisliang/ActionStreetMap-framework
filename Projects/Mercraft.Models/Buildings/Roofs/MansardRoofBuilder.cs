@@ -17,7 +17,10 @@ namespace Mercraft.Models.Buildings.Roofs
         {
             // TODO improve checking of non standard buildings which 
             // cannot be used with mansard roof building
-            return building.Footprint.Length < 8;
+            
+            // left condition: forced to use this builder from mapcss
+            // right condition: in random scenario, prevent mansard to be used for buildings with many points in footprint
+            return building.RoofType == Name ||  building.Footprint.Length < 8;
         }
 
         public MeshData Build(Building building, BuildingStyle style)
