@@ -4,9 +4,9 @@ namespace Mercraft.Core.Algorithms
 {
     public class Triangulator
     {
-        public static int[] Triangulate(MapPoint[] points)
+        public static int[] Triangulate(MapPoint[] points, bool reverse = true)
         {
-            var indices = new List<int>();
+            var indices = new List<int>((points.Length -2) * 3);
 
             int n = points.Length;
             if (n < 3)
@@ -58,7 +58,9 @@ namespace Mercraft.Core.Algorithms
                 }
             }
 
-            indices.Reverse();
+            if(reverse)
+                indices.Reverse();
+
             return indices.ToArray();
         }
 
