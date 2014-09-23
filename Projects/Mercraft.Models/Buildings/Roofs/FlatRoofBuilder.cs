@@ -23,7 +23,7 @@ namespace Mercraft.Models.Buildings.Roofs
             {
                 Vertices = GetVerticies3D(building.Footprint, building.Elevation + building.MinHeight, building.Height),
                 Triangles = Triangulator.Triangulate(building.Footprint),
-                UV = GetUV(building.Footprint),
+                UV = GetUV(building.Footprint, style),
                 TextureKey = style.Roof.Textures[RandomHelper.GetIndex(building.Id, style.Roof.Textures.Length)],
                 MaterialKey = style.Roof.Materials[RandomHelper.GetIndex(building.Id, style.Roof.Materials.Length)]
             };
@@ -43,13 +43,14 @@ namespace Mercraft.Models.Buildings.Roofs
             return vertices3D;
         }
 
-        private Vector2[] GetUV(MapPoint[] footprint)
+        private Vector2[] GetUV(MapPoint[] footprint, BuildingStyle style)
         {
+            // TODO find better way to define uv mapping
+            // TODO define constant in different place
             var uv = new Vector2[footprint.Length];
-
-            for (int i = 0; i< uv.Length; i++)
+            for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = new Vector2(0, 0);
+                uv[i] = new Vector2(footprint[i].X / style.Roof.UnitSize, footprint[i].Y / style.Roof.UnitSize);
             }
 
             return uv;

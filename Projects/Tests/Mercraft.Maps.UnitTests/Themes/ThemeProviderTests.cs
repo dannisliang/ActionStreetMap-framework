@@ -48,7 +48,7 @@ namespace Mercraft.Maps.UnitTests.Themes
             Assert.IsNotNull(style.Roof);
             Assert.AreEqual("Textures/Buildings/Soviet1", style.Roof.Textures[0]);
             Assert.AreEqual("Materials/Buildings/Building", style.Roof.Materials[0]);
-            Assert.AreEqual(4, style.Roof.UvMap.Length);
+            Assert.AreEqual(2, style.Roof.UnitSize);
             Assert.IsNotNull(style.Roof.Builders);
         }
 

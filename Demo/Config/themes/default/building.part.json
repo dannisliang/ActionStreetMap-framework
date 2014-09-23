@@ -52,7 +52,7 @@
 				"builders":["flat"],
 				"textures":["Textures/Buildings/Soviet1"],
 				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"main":1}
+				"unit_size": 2,
 			}
 		}, 
 		{
@@ -63,7 +63,7 @@
 				"builders":["mansard"],
 				"textures":["Textures/Buildings/Soviet1"],
 				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"main":1}
+				"unit_size": 2,
 			}
 		}],
 		

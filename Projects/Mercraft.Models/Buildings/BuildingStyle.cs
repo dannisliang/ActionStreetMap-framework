@@ -23,7 +23,7 @@ namespace Mercraft.Models.Buildings
             public string[] Textures { get; set; }
             public string[] Materials { get; set; }
             public IRoofBuilder[] Builders { get; set; }
-            public Vector2[] UvMap { get; set; }
+            public float UnitSize { get; set; }
         }
 
         public class FacadeStyle

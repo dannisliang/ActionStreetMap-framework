@@ -111,7 +111,6 @@ namespace Mercraft.Explorer.Themes
         private List<BuildingStyle.RoofStyle> GetRoofStyles(JSONNode json)
         {
             var roofStyles = new List<BuildingStyle.RoofStyle>();
-            var textureMap = LoadTextureMap(json);
             foreach (JSONNode node in json["roofs"].AsArray)
             {
                 var desc = node["desc"];
@@ -126,7 +125,7 @@ namespace Mercraft.Explorer.Themes
                     Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
                     Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
                     Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),
-                    UvMap = textureMap[render["uvs"]["main"].AsInt]
+                    UnitSize = render["unit_size"].AsFloat
                 });
             }
             return roofStyles;

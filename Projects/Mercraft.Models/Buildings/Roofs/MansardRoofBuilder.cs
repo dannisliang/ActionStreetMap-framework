@@ -30,8 +30,12 @@ namespace Mercraft.Models.Buildings.Roofs
 
             var roofHeight = style.Roof.Height;
 
+
             if (Math.Abs(roofHeight) < 0.01f)
-                roofHeight = UnityEngine.Random.Range(0.5f, 3);
+            {
+                var random = new System.Random((int)building.Id);
+                roofHeight = (float) random.NextDouble(0.5f, 3);
+            }
 
             var verticies3D = GetVerticies3D(polygon, building.Height, offset, building.Elevation, roofHeight);
 
@@ -39,7 +43,7 @@ namespace Mercraft.Models.Buildings.Roofs
             {
                 Vertices = verticies3D,
                 Triangles = GetTriangles(building.Footprint),
-                UV = GetUV(building.Footprint),
+                UV = GetUV(building.Footprint, style),
                 TextureKey = style.Roof.Textures[RandomHelper.GetIndex(building.Id, style.Roof.Textures.Length)],
                 MaterialKey = style.Roof.Materials[RandomHelper.GetIndex(building.Id, style.Roof.Materials.Length)]
             };
@@ -103,13 +107,15 @@ namespace Mercraft.Models.Buildings.Roofs
             return triangles.ToArray();
         }
 
-        private Vector2[] GetUV(MapPoint[] footprint)
+        private Vector2[] GetUV(MapPoint[] footprint, BuildingStyle style)
         {
-            var uv = new Vector2[footprint.Length * 5];
+            var count = footprint.Length;
+            var uv = new Vector2[count * 5];
 
             for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = new Vector2(0, 0);
+                uv[i] = new Vector2(footprint[i % count].X / style.Roof.UnitSize, 
+                    footprint[i % count].Y / style.Roof.UnitSize);
             }
 
             return uv;

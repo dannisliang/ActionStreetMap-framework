@@ -52,9 +52,17 @@
 			},
 			"render":{
 				"builders":["flat","flat","flat","mansard"],
-				"textures":["Textures/Buildings/Soviet1"],
+				"textures":[
+					"Textures/Buildings/roofs/scratch_texture_b",
+					"Textures/Buildings/roofs/black_asphalt",
+					"Textures/Buildings/roofs/concrete_tiles_1",
+					"Textures/Buildings/roofs/concrete_tiles_2",
+					"Textures/Buildings/roofs/concrete_tiles_3",
+					"Textures/Buildings/roofs/dark_red_asphalt",
+					"Textures/Buildings/roofs/roof_1",
+				],
 				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"main":1}
+				"unit_size": 2,
 			}
 		},
 		{
@@ -65,7 +73,7 @@
 				"builders":["flat"],
 				"textures":["Textures/Buildings/Soviet1"],
 				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"main":1}
+				"unit_size": 2,
 			}
 		},
 		{
@@ -74,9 +82,17 @@
 			},
 			"render":{
 				"builders":["mansard"],
-				"textures":["Textures/Buildings/Soviet1"],
+				"textures":[
+					"Textures/Buildings/roofs/scratch_texture_b",
+					"Textures/Buildings/roofs/black_asphalt",
+					"Textures/Buildings/roofs/concrete_tiles_1",
+					"Textures/Buildings/roofs/concrete_tiles_2",
+					"Textures/Buildings/roofs/concrete_tiles_3",
+					"Textures/Buildings/roofs/dark_red_asphalt",
+					"Textures/Buildings/roofs/roof_1",
+				],
 				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"main":1}
+				"unit_size": 2,
 			}
 		}],
 		
