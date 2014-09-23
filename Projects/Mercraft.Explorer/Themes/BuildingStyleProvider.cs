@@ -90,7 +90,7 @@ namespace Mercraft.Explorer.Themes
             var rating = 0;
             if (style.Floors == building.Levels)
                 rating += 3;
-            if (style.Material == building.FacadeMaterial)
+            if (building.FacadeMaterial != null && style.Material == building.FacadeMaterial)
                 rating += 3;
             if (style.Color.Equals(building.FacadeColor))
                 rating += 3;
@@ -103,11 +103,11 @@ namespace Mercraft.Explorer.Themes
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
             var rating = 0;
-            if (style.Type == building.RoofType)
+            if (building.RoofType != null && style.Type == building.RoofType)
                 rating += 5;
-            if (style.Material == building.FacadeMaterial)
+            if (building.RoofMaterial != null && style.Material == building.RoofMaterial)
                 rating += 3;
-            if (style.Color.Equals(building.FacadeColor))
+            if (style.Color.Equals(building.RoofColor))
                 rating += 3;
 
             return rating;

@@ -83,7 +83,7 @@ namespace Mercraft.Models.Buildings
             }
 
             if (count == 0)
-                throw new InvalidOperationException(String.Format(ErrorStrings.CannotFindRoofBuilder, building));
+                throw new InvalidOperationException(String.Format(ErrorStrings.CannotFindRoofBuilder, building.Address));
 
             // however, we don't want to use first occurrence, use building Id as seed
             int index = 0;
