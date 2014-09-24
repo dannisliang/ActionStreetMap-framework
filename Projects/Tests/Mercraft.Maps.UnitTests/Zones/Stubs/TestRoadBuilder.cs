@@ -1,7 +1,9 @@
-﻿using Mercraft.Core.World.Roads;
+﻿using System.Collections.Generic;
+using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Utils;
+using UnityEngine;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -13,9 +15,8 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
 
         }
 
-        protected override void CreateMesh(Road road, RoadStyle style)
+        protected override void CreateMesh(Road road, RoadStyle style, List<Vector3> points, List<int> triangles, List<Vector2> uv)
         {
-            // Do nothing
         }
     }
 }

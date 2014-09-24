@@ -1,14 +1,14 @@
-﻿using Mercraft.Models.Utils;
+﻿
 using Mercraft.Models.Utils.Geometry;
 
-namespace Mercraft.Models.Roads
+namespace Mercraft.Models.Utils.Lines
 {
-    public class RoadSegment
+    public class ThickLineSegment
     {
         public Segment Left;
         public Segment Right;
-        
-        public RoadSegment(Segment left, Segment right)
+
+        public ThickLineSegment(Segment left, Segment right)
         {
             Left = left;
             Right = right;

@@ -2,39 +2,36 @@
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
-using Mercraft.Core.World.Roads;
 
-namespace Mercraft.Models.Roads
+namespace Mercraft.Models.Utils.Lines
 {
-    public class RoadUtils
+    public class ThickLineUtils
     {
-
-        #region Road elements in tile
+        #region Line elements in tile
         /// <summary>
-        ///     Returns road elements which only consist of points in tile.
+        ///     Returns line elements which only consist of points in tile.
         ///     Required for non-flat maps.
         /// </summary>
-        public static List<RoadElement> GetRoadElementsInTile(HeightMap heightMap, List<RoadElement> roadElements)
+        public static List<LineElement<T>> GetLineElementsInTile<T>(HeightMap heightMap, IEnumerable<LineElement<T>> elements)
         {
-            // Current implementation can filter long roads accidentally. Actually, if line which connects two points 
+            // Current implementation can filter long lines accidentally. Actually, if line which connects two points 
             // crosses more than 1 tile border we can have problems
 
             var leftBottomCorner = heightMap.LeftBottomCorner;
             var rightUpperCorner = heightMap.RightUpperCorner;
-            var result = new List<RoadElement>(roadElements.Count);
+            var result = new List<LineElement<T>>(elements.Count());
             var points = new List<MapPoint>();
 
-
             var isNotContinuation = false;
-            foreach (var roadElement in roadElements)
+            foreach (var lineElement in elements)
             {
-                // process all points in this road element
-                roadElement.IsNotContinuation = isNotContinuation;
+                // process all points in this line element
+                lineElement.IsNotContinuation = isNotContinuation;
                 isNotContinuation = false;
                 var isIntersectionSet = false;
-                for (int i = 0; i < roadElement.Points.Length; i++)
+                for (int i = 0; i < lineElement.Points.Length; i++)
                 {
-                    var point = roadElement.Points[i];
+                    var point = lineElement.Points[i];
                     if (!IsPointInTile(point, leftBottomCorner, rightUpperCorner))
                     {
                         // Point is not in tile. There are two possible further actions:
@@ -52,11 +49,14 @@ namespace Mercraft.Models.Roads
                     {
                         // we left tile and, probably have more than one points which are out of tile
                         // now we back and should find new intersection point to follow direction
-                        // previous points should go to different roadElement as we don't want to connect them with current point
+                        // previous points should go to different lineElement as we don't want to connect them with current point
                         if (isIntersectionSet)
                         {
-                            // copy road element
-                            result.Add(CopyRoadElement(roadElement, points));
+                            // copy line element
+                            result.Add(new LineElement<T>(lineElement.Data, points.ToArray(), lineElement.Width)
+                            {
+                                IsNotContinuation = true,
+                            });
                             points.Clear();                            
                         }
 
@@ -64,7 +64,7 @@ namespace Mercraft.Models.Roads
                         // find intersection point with tile border to render this part
                         if ((isIntersectionSet || !points.Any()) && i != 0)
                         {
-                            points.Add(GetIntersectionPoint(point, roadElement.Points[i - 1], leftBottomCorner,
+                            points.Add(GetIntersectionPoint(point, lineElement.Points[i - 1], leftBottomCorner,
                                 rightUpperCorner));
                         }                
 
@@ -73,12 +73,12 @@ namespace Mercraft.Models.Roads
                     }
                 }
 
-                // if we find any points then we should keep this road element
+                // if we find any points then we should keep this line element
                 if (points.Any())
                 {
-                    roadElement.Points = points.ToArray(); // assume that we create a copy of this array
-                    roadElement.IsNotContinuation = isNotContinuation;
-                    result.Add(roadElement);
+                    lineElement.Points = points.ToArray(); // assume that we create a copy of this array
+                    lineElement.IsNotContinuation = isNotContinuation;
+                    result.Add(lineElement);
                 }
 
                 // reuse points array
@@ -86,19 +86,6 @@ namespace Mercraft.Models.Roads
             }
 
             return result;
-        }
-
-        private static RoadElement CopyRoadElement(RoadElement roadElement, List<MapPoint> points)
-        {
-            return new RoadElement()
-            {
-                Id = roadElement.Id,
-                Address = roadElement.Address,
-                Lanes = roadElement.Lanes,
-                IsNotContinuation = true, //?
-                Points = points.ToArray(),
-                Width = roadElement.Width
-            };
         }
 
         private static bool IsPointInTile(MapPoint point, MapPoint minPoint, MapPoint maxPoint)

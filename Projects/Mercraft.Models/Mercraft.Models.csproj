@@ -49,17 +49,19 @@
     <Compile Include="Details\ModelDetail.cs" />
     <Compile Include="Details\TreeDetail.cs" />
     <Compile Include="ErrorStrings.cs" />
+    <Compile Include="Roads\RoadBuilder.cs" />
+    <Compile Include="Utils\Lines\LineElement.cs" />
+    <Compile Include="Utils\Lines\ThickLineBuilder.cs" />
+    <Compile Include="Utils\Lines\ThickLineUtils.cs" />
+    <Compile Include="Utils\Lines\ThickLineSegment.cs" />
     <Compile Include="Roads\RoadBehavior.cs" />
     <Compile Include="Roads\RoadFixBehavior.cs" />
     <Compile Include="Utils\Geometry\Polygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roads\IRoadStyleProvider.cs" />
-    <Compile Include="Roads\RoadBuilder.cs" />
-    <Compile Include="Roads\RoadSegment.cs" />
     <Compile Include="Roads\RoadStyle.cs" />
     <Compile Include="Utils\Geometry\ScanLine.cs" />
     <Compile Include="Utils\Geometry\Segment.cs" />
-    <Compile Include="Roads\RoadUtils.cs" />
     <Compile Include="Terrain\TerrainElement.cs" />
     <Compile Include="Terrain\AreaBuilder.cs" />
     <Compile Include="Terrain\AreaSettings.cs" />
@@ -84,7 +86,6 @@
       <Name>Mercraft.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
