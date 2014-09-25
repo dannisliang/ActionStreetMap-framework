@@ -34,6 +34,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
             Container.Register(Component.For<IModelBuilder>().Use<TestDetailModelBuilder>().Named("detail"));
             Container.Register(Component.For<IModelBuilder>().Use<TestSphereModelBuilder>().Named("sphere"));
             Container.Register(Component.For<IModelBuilder>().Use<TestCylinderModelBuilder>().Named("cylinder"));
+            Container.Register(Component.For<IModelBuilder>().Use<TestBarrierModelBuilder>().Named("barrier"));
 
             Container.Register(Component.For<ITerrainBuilder>().Use<TestTerrainBuilder>());
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());

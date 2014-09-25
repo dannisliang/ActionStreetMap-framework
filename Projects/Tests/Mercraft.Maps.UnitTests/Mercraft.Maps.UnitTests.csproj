@@ -89,6 +89,7 @@
     <Compile Include="Themes\Buildings\BuildingTextureBalancerTests.cs" />
     <Compile Include="Themes\ThemeProviderTests.cs" />
     <Compile Include="World\RoadTests.cs" />
+    <Compile Include="Zones\Stubs\TestBarrierModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestDetailModelBuilder.cs" />
     <Compile Include="Zones\Stubs\TestModelBehaviour.cs" />
     <Compile Include="Zones\Stubs\TestBootstrapperPlugin.cs" />

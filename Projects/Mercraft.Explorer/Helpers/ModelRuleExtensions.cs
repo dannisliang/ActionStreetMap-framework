@@ -9,9 +9,14 @@ namespace Mercraft.Explorer.Helpers
     {
         public static Material GetMaterial(this Rule rule, IResourceProvider resourceProvider)
         {
-            // TODO use resource loader
             var path = rule.Evaluate<string>("material");
             return resourceProvider.GetMatertial(@"Materials/" + path);
+        }
+
+        public static Texture GetTexture(this Rule rule, IResourceProvider resourceProvider)
+        {
+            var path = rule.Evaluate<string>("material");
+            return resourceProvider.GetTexture(@"Textures/" + path);
         }
 
         public static Color32 GetFillUnityColor(this Rule rule)

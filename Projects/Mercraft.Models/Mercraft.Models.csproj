@@ -49,6 +49,7 @@
     <Compile Include="Details\ModelDetail.cs" />
     <Compile Include="Details\TreeDetail.cs" />
     <Compile Include="ErrorStrings.cs" />
+    <Compile Include="Utils\Lines\DimensionLineBuilder.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Utils\Lines\LineElement.cs" />
     <Compile Include="Utils\Lines\ThickLineBuilder.cs" />
