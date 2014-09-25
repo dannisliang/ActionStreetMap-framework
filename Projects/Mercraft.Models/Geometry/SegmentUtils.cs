@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Mercraft.Models.Utils.Geometry
+namespace Mercraft.Models.Geometry
 {
     public class SegmentUtils
     {

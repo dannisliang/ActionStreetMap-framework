@@ -4,8 +4,8 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Utils;
-using Mercraft.Models.Utils.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs

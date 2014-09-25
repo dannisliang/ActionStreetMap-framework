@@ -1,7 +1,5 @@
 ﻿
-using Mercraft.Models.Utils.Geometry;
-
-namespace Mercraft.Models.Utils.Lines
+namespace Mercraft.Models.Geometry.ThickLine
 {
     public class ThickLineSegment
     {

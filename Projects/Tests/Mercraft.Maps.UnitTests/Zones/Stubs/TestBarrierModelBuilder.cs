@@ -8,8 +8,8 @@ using Mercraft.Core.World;
 using Mercraft.Explorer.Scene;
 using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Geometry.ThickLine;
 using Mercraft.Models.Utils;
-using Mercraft.Models.Utils.Lines;
 
 namespace Mercraft.Maps.UnitTests.Zones.Stubs
 {
@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests.Zones.Stubs
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             var points = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points);
-            DimensionLineBuilder.Build(tile.HeightMap, new List<LineElement>()
+            DimenLineBuilder.Build(tile.HeightMap, new List<LineElement>()
             {
                 new LineElement(points, 0.2f)
             }, 

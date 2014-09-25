@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
-using Mercraft.Models.Utils.Geometry;
+using Mercraft.Models.Geometry;
 
 namespace Mercraft.Models.Utils
 {

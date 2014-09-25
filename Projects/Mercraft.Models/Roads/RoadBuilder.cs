@@ -4,8 +4,8 @@ using System.Linq;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Geometry.ThickLine;
 using Mercraft.Models.Utils;
-using Mercraft.Models.Utils.Lines;
 using UnityEngine;
 
 namespace Mercraft.Models.Roads

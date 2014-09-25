@@ -3,7 +3,7 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 
-namespace Mercraft.Models.Utils.Lines
+namespace Mercraft.Models.Geometry.ThickLine
 {
     public class ThickLineUtils
     {

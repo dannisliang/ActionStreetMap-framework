@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Utils.Geometry;
+using Mercraft.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Utils.Lines
+namespace Mercraft.Models.Geometry.ThickLine
 {
     public class ThickLineBuilder
     {
@@ -95,15 +95,15 @@ namespace Mercraft.Models.Utils.Lines
                 {
                     var s1 = lineSegments[i - 1];
                     var s2 = lineSegments[i];
-                    switch (GetManeuverType(s1, s2))
+                    switch (ThickLineHelper.GetDirection(s1, s2))
                     {
-                        case Maneuver.Straight:
+                        case ThickLineHelper.Direction.Straight:
                             StraightLineCase(s1, s2);
                             break;
-                        case Maneuver.LeftTurn:
+                        case ThickLineHelper.Direction.Left:
                             TurnLeftCase(s1, s2);
                             break;
-                        case Maneuver.RightTurn:
+                        case ThickLineHelper.Direction.Right:
                             TurnRightCase(s1, s2);
                             break;
                     }
@@ -138,20 +138,20 @@ namespace Mercraft.Models.Utils.Lines
                 var second = GetThickSegment(nextRoadElement.Points[0], secondPoint, width);
 
                 Vector3 nextIntersectionPoint;
-                switch (GetManeuverType(first, second))
+                switch (ThickLineHelper.GetDirection(first, second))
                 {
-                    case Maneuver.Straight:
+                    case ThickLineHelper.Direction.Straight:
                         AddTrapezoid(second.Right.Start, second.Left.Start, second.Left.End, second.Right.End);
                         _startPoints = new Tuple<Vector3, Vector3>(first.Right.End, first.Left.End);
                         break;
-                    case Maneuver.LeftTurn:
+                    case ThickLineHelper.Direction.Left:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
                         AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                             nextIntersectionPoint, first.Right.End);
                         AddTriangle(first.Right.End, nextIntersectionPoint, second.Right.Start, true);
                         _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
                         break;
-                    case Maneuver.RightTurn:
+                    case ThickLineHelper.Direction.Right:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
                         AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                             first.Left.End, nextIntersectionPoint);
@@ -295,32 +295,6 @@ namespace Mercraft.Models.Utils.Lines
 
             return new ThickLineSegment(leftSegment, rightSegment);
         }
-
-        private Maneuver GetManeuverType(ThickLineSegment first, ThickLineSegment second)
-        {
-            // just straight line with shared point
-            var area = first.Left.Start.x * (first.Left.End.z - second.Left.End.z) +
-                       first.Left.End.x * (second.Left.End.z - first.Left.Start.z) +
-                       second.Left.End.x * (first.Left.Start.z - first.Left.End.z);
-            if (area < 0.1)
-                return Maneuver.Straight;
-
-            if (SegmentUtils.Intersect(first.Left, second.Left))
-                return Maneuver.LeftTurn;
-
-            if (SegmentUtils.Intersect(first.Right, second.Right))
-                return Maneuver.RightTurn;
-
-            return Maneuver.Straight;
-        }
-
         #endregion
-
-        private enum Maneuver
-        {
-            Straight,
-            LeftTurn,
-            RightTurn
-        }
     }
 }

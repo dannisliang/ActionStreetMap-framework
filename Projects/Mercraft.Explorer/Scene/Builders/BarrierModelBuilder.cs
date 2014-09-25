@@ -8,8 +8,8 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Geometry.ThickLine;
 using Mercraft.Models.Utils;
-using Mercraft.Models.Utils.Lines;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -17,7 +17,7 @@ namespace Mercraft.Explorer.Scene.Builders
     public class BarrierModelBuilder: ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
-        protected readonly DimensionLineBuilder DimensionLineBuilder = new DimensionLineBuilder(2);
+        protected readonly DimenLineBuilder DimenLineBuilder = new DimenLineBuilder(2);
         private readonly List<LineElement> _lines = new List<LineElement>(1);
         public override string Name
         {
@@ -47,8 +47,8 @@ namespace Mercraft.Explorer.Scene.Builders
             _lines.Clear();
             _lines.Add(new LineElement(points, rule.GetWidth()));
 
-            DimensionLineBuilder.Height = rule.GetHeight();
-            DimensionLineBuilder.Build(tile.HeightMap, _lines, (p, t, u) =>
+            DimenLineBuilder.Height = rule.GetHeight();
+            DimenLineBuilder.Build(tile.HeightMap, _lines, (p, t, u) =>
             {
                 var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 
-namespace Mercraft.Models.Utils.Geometry
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     ///     Implements simple scan-line algorithm. Code ported from existing java code found in Internet

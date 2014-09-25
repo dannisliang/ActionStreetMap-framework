@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 
-namespace Mercraft.Models.Utils.Geometry
+namespace Mercraft.Models.Geometry
 {
     public class SimpleScanLine
     {

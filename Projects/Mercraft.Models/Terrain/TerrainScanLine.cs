@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Models.Utils.Geometry;
+using Mercraft.Models.Geometry;
 
 namespace Mercraft.Models.Terrain
 {

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using Mercraft.Core.Elevation;
 using UnityEngine;
 
-namespace Mercraft.Models.Utils.Lines
+namespace Mercraft.Models.Geometry.ThickLine
 {
-    public class DimensionLineBuilder : ThickLineBuilder
+    /// <summary>
+    /// Thick line with heigh/width in 3D
+    /// </summary>
+    public class DimenLineBuilder : ThickLineBuilder
     {
         public float Height { get; set; }
 
-        public DimensionLineBuilder(float height)
+        public DimenLineBuilder(float height)
         {
             Height = height;
         }
