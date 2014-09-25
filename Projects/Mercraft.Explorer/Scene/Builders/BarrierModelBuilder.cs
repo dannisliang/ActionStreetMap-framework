@@ -17,7 +17,7 @@ namespace Mercraft.Explorer.Scene.Builders
     public class BarrierModelBuilder: ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
-        private readonly DimensionLineBuilder _dimensionLineBuilder = new DimensionLineBuilder(2);
+        protected readonly DimensionLineBuilder DimensionLineBuilder = new DimensionLineBuilder(2);
         private readonly List<LineElement> _lines = new List<LineElement>(1);
         public override string Name
         {
@@ -33,6 +33,12 @@ namespace Mercraft.Explorer.Scene.Builders
 
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
+            if (way.Points.Length < 2)
+            {
+                Trace.Warn(ErrorStrings.InvalidPolyline);
+                return null;
+            }
+
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, way));
 
             var points = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points);
@@ -41,8 +47,8 @@ namespace Mercraft.Explorer.Scene.Builders
             _lines.Clear();
             _lines.Add(new LineElement(points, rule.GetWidth()));
 
-            _dimensionLineBuilder.Height = rule.GetHeight();
-            _dimensionLineBuilder.Build(tile.HeightMap, _lines, (p, t, u) =>
+            DimensionLineBuilder.Height = rule.GetHeight();
+            DimensionLineBuilder.Build(tile.HeightMap, _lines, (p, t, u) =>
             {
                 var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 

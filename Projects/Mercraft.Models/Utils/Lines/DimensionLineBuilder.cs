@@ -25,13 +25,17 @@ namespace Mercraft.Models.Utils.Lines
 
         private void ProcessLatestFace()
         {
-            // NOTE we have to add the latest face
-            // NOTE assume that top side is added the latest
-            var first = Points[Points.Count - 1];
-            var second = Points[Points.Count - 2];
-            base.AddTrapezoid(first, second,
-                new Vector3(second.x, second.y - Height, second.z),
-                new Vector3(first.x, first.y - Height, first.z));
+            if (Points.Count > 1)
+            {
+                // NOTE we have to add the latest face
+                // NOTE assume that top side is added the latest
+
+                var first = Points[Points.Count - 1];
+                var second = Points[Points.Count - 2];
+                base.AddTrapezoid(first, second,
+                    new Vector3(second.x, second.y - Height, second.z),
+                    new Vector3(first.x, first.y - Height, first.z));
+            }
         }
 
         protected override void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
