@@ -15,14 +15,14 @@ namespace Mercraft.Models.Utils.Lines
 
         private HeightMap _heightMap;
 
-        private List<Vector3> _points = new List<Vector3>();
-        private List<int> _triangles = new List<int>();
-        private List<Vector2> _uv = new List<Vector2>();
+        protected List<Vector3> Points = new List<Vector3>();
+        protected List<int> Triangles = new List<int>();
+        protected List<Vector2> Uv = new List<Vector2>();
+        protected int TrisIndex = 0;
 
         // TODO ration depends on texture
-        private float _ratio = 20;
+        protected float Ratio = 20;
 
-        private int _trisIndex = 0;
         private Tuple<Vector3, Vector3> _startPoints;
 
         private int _elementIndex;
@@ -30,7 +30,7 @@ namespace Mercraft.Models.Utils.Lines
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
-        public void Build<T>(HeightMap heightMap, IEnumerable<LineElement<T>> elements, 
+        public virtual void Build(HeightMap heightMap, IEnumerable<LineElement> elements,
             Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
             _heightMap = heightMap;
@@ -49,21 +49,21 @@ namespace Mercraft.Models.Utils.Lines
                 ProcessLine(lineElement, lineElements);
             }
 
-            builder(_points, _triangles, _uv);
+            builder(Points, Triangles, Uv);
 
             // reset state defaults
             _heightMap = null;
-            _trisIndex = 0;
+            TrisIndex = 0;
             _startPoints = null;
             _isLastElement = false;
-            _points.Clear();
-            _triangles.Clear();
-            _uv.Clear();
+            Points.Clear();
+            Triangles.Clear();
+            Uv.Clear();
         }
 
         #region Segment processing
 
-        protected void ProcessLine<T>(LineElement<T> lineElement, List<LineElement<T>> lineElements)
+        protected void ProcessLine(LineElement lineElement, List<LineElement> lineElements)
         {
             var lineSegments = GetThickSegments(lineElement);
 
@@ -114,7 +114,7 @@ namespace Mercraft.Models.Utils.Lines
         /// <summary>
         ///     Processes last road segment of current RoadElement
         /// </summary>
-        private void ProcessLastSegment<T>(List<LineElement<T>> lineElements, List<ThickLineSegment> lineSegments, float width)
+        private void ProcessLastSegment(List<LineElement> lineElements, List<ThickLineSegment> lineSegments, float width)
         {
             var segmentsCount = lineSegments.Count;
 
@@ -125,7 +125,7 @@ namespace Mercraft.Models.Utils.Lines
                 var nextRoadElement = lineElements[_elementIndex + 1];
 
                 // NOTE we couldn't connect last segment of current element with next cause it's marked as not continuation
-                if(nextRoadElement.IsNotContinuation)
+                if (nextRoadElement.IsNotContinuation)
                     return;
 
                 MapPoint secondPoint = _heightMap.IsFlat
@@ -134,7 +134,7 @@ namespace Mercraft.Models.Utils.Lines
                     : ThickLineUtils.GetNextIntermediatePoint(_heightMap,
                         nextRoadElement.Points[0],
                         nextRoadElement.Points[1], MaxPointDistance);
-                
+
                 var second = GetThickSegment(nextRoadElement.Points[0], secondPoint, width);
 
                 Vector3 nextIntersectionPoint;
@@ -146,14 +146,14 @@ namespace Mercraft.Models.Utils.Lines
                         break;
                     case Maneuver.LeftTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
-                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                             nextIntersectionPoint, first.Right.End);
                         AddTriangle(first.Right.End, nextIntersectionPoint, second.Right.Start, true);
                         _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
                         break;
                     case Maneuver.RightTurn:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
-                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                             first.Left.End, nextIntersectionPoint);
                         AddTriangle(first.Left.End, nextIntersectionPoint, second.Left.Start, false);
                         _startPoints = new Tuple<Vector3, Vector3>(nextIntersectionPoint, second.Left.Start);
@@ -164,7 +164,7 @@ namespace Mercraft.Models.Utils.Lines
             {
                 // TODO do I need this?
                 var lastSegment = lineSegments[segmentsCount - 1];
-                AddTrapezoid(_startPoints.Item1, _startPoints.Item2, 
+                AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
                     lastSegment.Left.End, lastSegment.Right.End);
             }
         }
@@ -186,7 +186,7 @@ namespace Mercraft.Models.Utils.Lines
             _startPoints = new Tuple<Vector3, Vector3>(intersectionPoint, second.Left.Start);
         }
 
-        private void TurnLeftCase( ThickLineSegment first, ThickLineSegment second)
+        private void TurnLeftCase(ThickLineSegment first, ThickLineSegment second)
         {
             var intersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
             AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
@@ -197,23 +197,23 @@ namespace Mercraft.Models.Utils.Lines
         #endregion
 
         #region Add shapes
-        private void AddTriangle(Vector3 first, Vector3 second, Vector3 third, bool invert)
+        protected virtual void AddTriangle(Vector3 first, Vector3 second, Vector3 third, bool invert)
         {
-            _points.Add(first);
-            _points.Add(second);
-            _points.Add(third);
+            Points.Add(first);
+            Points.Add(second);
+            Points.Add(third);
 
-            _triangles.AddRange(new int[]
+            Triangles.AddRange(new int[]
             {
-                _trisIndex + 0, _trisIndex + (invert? 1 : 2), _trisIndex + (invert? 2 : 1)
+                TrisIndex + 0, TrisIndex + (invert? 1 : 2), TrisIndex + (invert? 2 : 1)
             });
-            _uv.AddRange(new[]
+            Uv.AddRange(new[]
             {
                 new Vector2(0f, 0f),
                 new Vector2(1f, 0f),
                 new Vector2(0f, 1f),
             });
-            _trisIndex += 3;
+            TrisIndex += 3;
         }
 
         private void AddTrapezoid(Segment left, Segment right)
@@ -221,23 +221,23 @@ namespace Mercraft.Models.Utils.Lines
             AddTrapezoid(right.Start, left.Start, left.End, right.End);
         }
 
-        private void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
+        protected virtual void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
         {
-            _points.Add(rightStart);
-            _points.Add(leftStart);
-            _points.Add(leftEnd);
-            _points.Add(rightEnd);
+            Points.Add(rightStart);
+            Points.Add(leftStart);
+            Points.Add(leftEnd);
+            Points.Add(rightEnd);
 
-            _triangles.AddRange(new[]
+            Triangles.AddRange(new[]
             {
-                _trisIndex + 0, _trisIndex + 1, _trisIndex + 2,
-                _trisIndex + 2, _trisIndex + 3, _trisIndex + 0
+                TrisIndex + 0, TrisIndex + 1, TrisIndex + 2,
+                TrisIndex + 2, TrisIndex + 3, TrisIndex + 0
             });
-            _trisIndex += 4;
+            TrisIndex += 4;
 
             var distance = Vector3.Distance(rightStart, rightEnd);
-            float tiles = distance / _ratio;
-            _uv.AddRange(new[]
+            float tiles = distance / Ratio;
+            Uv.AddRange(new[]
             {
                 new Vector2(1f, 0f),
                 new Vector2(0f, 0f),
@@ -249,10 +249,10 @@ namespace Mercraft.Models.Utils.Lines
 
         #region Getting segments and turn types
 
-        private List<ThickLineSegment> GetThickSegments<T>(LineElement<T> lineElement)
+        private List<ThickLineSegment> GetThickSegments(LineElement lineElement)
         {
             var lineSegments = new List<ThickLineSegment>();
-            
+
             MapPoint[] points;
             if (_heightMap.IsFlat)
                 points = lineElement.Points;

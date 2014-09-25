@@ -12,14 +12,14 @@ namespace Mercraft.Models.Utils.Lines
         ///     Returns line elements which only consist of points in tile.
         ///     Required for non-flat maps.
         /// </summary>
-        public static List<LineElement<T>> GetLineElementsInTile<T>(HeightMap heightMap, IEnumerable<LineElement<T>> elements)
+        public static List<LineElement> GetLineElementsInTile(HeightMap heightMap, IEnumerable<LineElement> elements)
         {
             // Current implementation can filter long lines accidentally. Actually, if line which connects two points 
             // crosses more than 1 tile border we can have problems
 
             var leftBottomCorner = heightMap.LeftBottomCorner;
             var rightUpperCorner = heightMap.RightUpperCorner;
-            var result = new List<LineElement<T>>(elements.Count());
+            var result = new List<LineElement>(elements.Count());
             var points = new List<MapPoint>();
 
             var isNotContinuation = false;
@@ -53,7 +53,7 @@ namespace Mercraft.Models.Utils.Lines
                         if (isIntersectionSet)
                         {
                             // copy line element
-                            result.Add(new LineElement<T>(lineElement.Data, points.ToArray(), lineElement.Width)
+                            result.Add(new LineElement(points.ToArray(), lineElement.Width)
                             {
                                 IsNotContinuation = true,
                             });
