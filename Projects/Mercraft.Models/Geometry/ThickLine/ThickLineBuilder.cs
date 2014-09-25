@@ -135,7 +135,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                         nextRoadElement.Points[0],
                         nextRoadElement.Points[1], MaxPointDistance);
 
-                var second = GetThickSegment(nextRoadElement.Points[0], secondPoint, width);
+                var second = ThickLineHelper.GetThickSegment(nextRoadElement.Points[0], secondPoint, width);
 
                 Vector3 nextIntersectionPoint;
                 switch (ThickLineHelper.GetDirection(first, second))
@@ -146,15 +146,13 @@ namespace Mercraft.Models.Geometry.ThickLine
                         break;
                     case ThickLineHelper.Direction.Left:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
-                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
-                            nextIntersectionPoint, first.Right.End);
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, nextIntersectionPoint, first.Right.End);
                         AddTriangle(first.Right.End, nextIntersectionPoint, second.Right.Start, true);
                         _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, nextIntersectionPoint);
                         break;
                     case ThickLineHelper.Direction.Right:
                         nextIntersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
-                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
-                            first.Left.End, nextIntersectionPoint);
+                        AddTrapezoid(_startPoints.Item1, _startPoints.Item2, first.Left.End, nextIntersectionPoint);
                         AddTriangle(first.Left.End, nextIntersectionPoint, second.Left.Start, false);
                         _startPoints = new Tuple<Vector3, Vector3>(nextIntersectionPoint, second.Left.Start);
                         break;
@@ -180,8 +178,7 @@ namespace Mercraft.Models.Geometry.ThickLine
         private void TurnRightCase(ThickLineSegment first, ThickLineSegment second)
         {
             var intersectionPoint = SegmentUtils.IntersectionPoint(first.Right, second.Right);
-            AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
-                first.Left.End, intersectionPoint);
+            AddTrapezoid(_startPoints.Item1, _startPoints.Item2, first.Left.End, intersectionPoint);
             AddTriangle(first.Left.End, intersectionPoint, second.Left.Start, false);
             _startPoints = new Tuple<Vector3, Vector3>(intersectionPoint, second.Left.Start);
         }
@@ -189,8 +186,7 @@ namespace Mercraft.Models.Geometry.ThickLine
         private void TurnLeftCase(ThickLineSegment first, ThickLineSegment second)
         {
             var intersectionPoint = SegmentUtils.IntersectionPoint(first.Left, second.Left);
-            AddTrapezoid(_startPoints.Item1, _startPoints.Item2,
-                intersectionPoint, first.Right.End);
+            AddTrapezoid(_startPoints.Item1, _startPoints.Item2, intersectionPoint, first.Right.End);
             AddTriangle(first.Right.End, intersectionPoint, second.Right.Start, true);
             _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, intersectionPoint);
         }
@@ -266,35 +262,11 @@ namespace Mercraft.Models.Geometry.ThickLine
             }
 
             for (int i = 1; i < points.Length; i++)
-                lineSegments.Add(GetThickSegment(points[i - 1], points[i], lineElement.Width));
+                lineSegments.Add(ThickLineHelper.GetThickSegment(points[i - 1], points[i], lineElement.Width));
 
             return lineSegments;
         }
 
-        private ThickLineSegment GetThickSegment(MapPoint point1, MapPoint point2, float width)
-        {
-            float length = point1.DistanceTo(point2);
-
-            float dxLi = (point2.X - point1.X) / length * width;
-            float dyLi = (point2.Y - point1.Y) / length * width;
-
-            // segment moved to the left
-            float lX1 = point1.X - dyLi;
-            float lY1 = point1.Y + dxLi;
-            float lX2 = point2.X - dyLi;
-            float lY2 = point2.Y + dxLi;
-
-            // segment moved to the right
-            float rX1 = point1.X + dyLi;
-            float rY1 = point1.Y - dxLi;
-            float rX2 = point2.X + dyLi;
-            float rY2 = point2.Y - dxLi;
-
-            var leftSegment = new Segment(new Vector3(lX1, point1.Elevation, lY1), new Vector3(lX2, point2.Elevation, lY2));
-            var rightSegment = new Segment(new Vector3(rX1, point1.Elevation, rY1), new Vector3(rX2, point2.Elevation, rY2));
-
-            return new ThickLineSegment(leftSegment, rightSegment);
-        }
         #endregion
     }
 }

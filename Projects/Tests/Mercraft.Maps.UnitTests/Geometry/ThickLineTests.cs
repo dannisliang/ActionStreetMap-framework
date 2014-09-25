@@ -1,6 +1,7 @@
 ﻿using System;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.ThickLine;
 using Moq;
 using NUnit.Framework;
@@ -48,6 +49,23 @@ namespace Mercraft.Maps.UnitTests.Geometry
             // ASSERT
             Assert.IsTrue(Math.Abs(0.7f -  result.X) < 0.01);
             Assert.IsTrue(Math.Abs(0.7f - result.Y) < 0.01);
+        }
+
+        [Test]
+        public void CanDetectDirection()
+        {
+            // ARRANGE & ACT & ASSERT
+            Assert.AreEqual(ThickLineHelper.Direction.Left, ThickLineHelper.GetDirection(
+                ThickLineHelper.GetThickSegment(new MapPoint(0, 0, 0), new MapPoint(3, 0, 0), 2),
+                ThickLineHelper.GetThickSegment(new MapPoint(3, 0, 0), new MapPoint(6, 2, 0), 2)));
+
+            Assert.AreEqual(ThickLineHelper.Direction.Right, ThickLineHelper.GetDirection(
+                ThickLineHelper.GetThickSegment(new MapPoint(0, 0, 0), new MapPoint(3, 0, 0), 2),
+                ThickLineHelper.GetThickSegment(new MapPoint(3, 0, 0), new MapPoint(6, -2, 0), 2)));
+
+            Assert.AreEqual(ThickLineHelper.Direction.Straight, ThickLineHelper.GetDirection(
+                ThickLineHelper.GetThickSegment(new MapPoint(0, 0, 0), new MapPoint(3, 0, 0), 2),
+                ThickLineHelper.GetThickSegment(new MapPoint(3, 0, 0), new MapPoint(6, 0, 0), 2)));
         }
     }
 }

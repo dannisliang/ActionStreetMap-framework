@@ -70,7 +70,10 @@ namespace Mercraft.Models.Geometry.ThickLine
             var newThird = new Vector3(third.x, third.y + Height, third.z);
 
             // side
-            base.AddTrapezoid(first, newFirst, newSecond, second);
+            if (invert)
+                base.AddTrapezoid(first, newFirst, newThird, third);
+            else
+                base.AddTrapezoid(third, newThird, newFirst, first);
 
             // top
             base.AddTriangle(newFirst, newSecond, newThird, invert);
