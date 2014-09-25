@@ -53,7 +53,7 @@
     <Compile Include="Algorithms\TriangulationTests.cs" />
     <Compile Include="Core\BoundingBoxTests.cs" />
     <Compile Include="Explorer\BootstrapperTests.cs" />
-    <Compile Include="Geometry\LineTests.cs" />
+    <Compile Include="Geometry\ThickLineTests.cs" />
     <Compile Include="Infrastructure\ConfigMergerTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
     <Compile Include="Infrastructure\InterceptionTests.cs" />

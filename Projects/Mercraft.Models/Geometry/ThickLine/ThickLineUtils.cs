@@ -156,6 +156,11 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         public static MapPoint[] GetIntermediatePoints(HeightMap heightMap, MapPoint[] original, float maxDistance)
         {
+            return GetIntermediatePoints(heightMap, original, maxDistance, 5f);
+        }
+
+        public static MapPoint[] GetIntermediatePoints(HeightMap heightMap, MapPoint[] original, float maxDistance, float threshold)
+        {
             var result = new List<MapPoint>(original.Length);
             for (int i = 1; i < original.Length; i++)
             {
@@ -178,7 +183,7 @@ namespace Mercraft.Models.Geometry.ThickLine
 
                     distance = point1.DistanceTo(point2);
                     // we should prevent us to have small distances between points when we have turn
-                    if (distance < 5f)
+                    if (distance < threshold)
                         break;
 
                     result.Add(point1);

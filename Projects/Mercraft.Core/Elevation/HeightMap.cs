@@ -24,7 +24,7 @@ namespace Mercraft.Core.Elevation
         /// <summary>
         ///     Returns corresponding height for given point
         /// </summary>
-        public float LookupHeight(MapPoint mapPoint)
+        public virtual float LookupHeight(MapPoint mapPoint)
         {
             var i = (int)Math.Round((mapPoint.X - LeftBottomCorner.X) / AxisOffset);
             var j = (int)Math.Round((mapPoint.Y - LeftBottomCorner.Y) / AxisOffset);

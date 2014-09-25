@@ -1,16 +1,21 @@
 ﻿using System;
 using Mercraft.Core;
+using Mercraft.Core.Elevation;
+using Mercraft.Models.Geometry.ThickLine;
+using Moq;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Geometry
 {
     [TestFixture]
-    public class LineTests
+    public class ThickLineTests
     {
         [Test]
         public void CanGetIntermediatePoints()
         {
             // ARRANGE
+            var heightMapMock = new Mock<HeightMap>();
+            heightMapMock.Setup(h => h.LookupHeight(It.IsAny<MapPoint>())).Returns(0);
             var points = new MapPoint[]
             {
                 new MapPoint(0, 0, 1),
@@ -22,25 +27,27 @@ namespace Mercraft.Maps.UnitTests.Geometry
             };
 
             // ACT
-           /* var result = LineUtils.GetIntermediatePoints(points, 1f);
+            var result = ThickLineUtils.GetIntermediatePoints(heightMapMock.Object, points, 1f, 1f);
 
             //ARRANGE
             Assert.IsNotNull(result);
             Assert.IsNotEmpty(result);
             Assert.IsFalse(result.Length == points.Length);
-            Assert.AreEqual(21, result.Length);*/
+            Assert.AreEqual(16, result.Length); // TODO check corectness
         }
 
         [Test]
         public void CanGetNextIntermediatePoint()
         {
             // ARRANGE & ACT
-            /*var result = LineUtils.GetNextIntermediatePoint(new MapPoint(0, 0, 1), new MapPoint(2, 2, 2), 1);
+            var heightMapMock = new Mock<HeightMap>();
+            heightMapMock.Setup(h => h.LookupHeight(It.IsAny<MapPoint>())).Returns(0);
+            var result = ThickLineUtils.GetNextIntermediatePoint(heightMapMock.Object, 
+                new MapPoint(0, 0, 1), new MapPoint(2, 2, 2), 1);
 
             // ASSERT
             Assert.IsTrue(Math.Abs(0.7f -  result.X) < 0.01);
             Assert.IsTrue(Math.Abs(0.7f - result.Y) < 0.01);
-            Assert.IsTrue(Math.Abs(1 - result.Elevation) < 0.01);*/
         }
     }
 }
