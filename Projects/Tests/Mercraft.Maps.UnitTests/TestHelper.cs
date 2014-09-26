@@ -40,6 +40,11 @@ namespace Mercraft.Maps.UnitTests
 
         public static IGameRunner GetGameRunner(IContainer container)
         {
+            return new GameRunner(container, new MessageBus());
+        }
+
+        public static IGameRunner GetGameRunner(IContainer container, MessageBus messageBus)
+        {
             // these items are used during boot process
             var pathResolver = GetPathResolver();
             container.RegisterInstance<IPathResolver>(pathResolver);
@@ -55,7 +60,7 @@ namespace Mercraft.Maps.UnitTests
             container.Register(Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
             container.Register(Component.For<IBootstrapperPlugin>().Use<TestBootstrapperPlugin>().Named("test"));
 
-            return new GameRunner(container, new MessageBus());
+            return new GameRunner(container, messageBus);
         }
 
         public static IPathResolver GetPathResolver()
