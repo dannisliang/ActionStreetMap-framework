@@ -89,18 +89,18 @@
     <Compile Include="Explorer\Themes\BuildingTextureBalancerTests.cs" />
     <Compile Include="Explorer\Themes\ThemeProviderTests.cs" />
     <Compile Include="Core\World\RoadTests.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestBarrierModelBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestDetailModelBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestModelBehaviour.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestBarrierModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestDetailModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\Behaviours\TestModelBehaviour.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestBootstrapperPlugin.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestRoadBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestSphereModelBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestTerrainBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestBuildingBuilder.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestCylinderModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\Builders\TestRoadBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestSphereModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\Builders\TestTerrainBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\Builders\TestBuildingBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestCylinderModelBuilder.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestGameObject.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestGameObjectFactory.cs" />
-    <Compile Include="Explorer\Tiles\Stubs\TestWaterModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestWaterModelBuilder.cs" />
     <Compile Include="Explorer\Tiles\TileManagerTests.cs" />
     <Compile Include="Explorer\Tiles\RealTileManagerTests.cs" />
   </ItemGroup>

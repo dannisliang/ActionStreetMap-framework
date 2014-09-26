@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Mercraft.Core.Elevation;
+using Mercraft.Core.Unity;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Utils;
 using UnityEngine;
+using Color32 = UnityEngine.Color32;
 
 namespace Mercraft.Models.Buildings
 {
@@ -33,18 +35,18 @@ namespace Mercraft.Models.Buildings
             var roofMeshData = GetRoofBuilder(building, style.Roof.Builders)
                .Build(building, style);
 
-            var gameObject = building.GameObject.GetComponent<GameObject>();
-
             // NOTE use different gameObject only to support different materials
-            AttachChildGameObject(gameObject, "facade", facadeMeshData, 
-                style.Facade.AllowSetColor? UnityColorUtility.FromCore(building.FacadeColor): default(Color32));
-            AttachChildGameObject(gameObject, "roof", roofMeshData, default(Color32));
+            AttachChildGameObject(building.GameObject, "facade", facadeMeshData, style.Facade.AllowSetColor? 
+                UnityColorUtility.FromCore(building.FacadeColor): 
+                default(Color32));
+
+            AttachChildGameObject(building.GameObject, "roof", roofMeshData, default(Color32));
         }
 
-        private void AttachChildGameObject(GameObject parent, string name, MeshData meshData, Color32 color)
+        protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData, Color32 color)
         {
             var gameObject = new GameObject(name);
-            gameObject.transform.parent = parent.transform;
+            gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
 
             var mesh = new Mesh();
             mesh.vertices = meshData.Vertices;

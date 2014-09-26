@@ -48,25 +48,29 @@ namespace Mercraft.Explorer.Scene.Builders
             _lines.Add(new LineElement(points, rule.GetWidth()));
 
             DimenLineBuilder.Height = rule.GetHeight();
-            DimenLineBuilder.Build(tile.HeightMap, _lines, (p, t, u) =>
-            {
-                var gameObject = gameObjectWrapper.GetComponent<GameObject>();
-
-                Mesh mesh = new Mesh();
-                mesh.vertices = p.ToArray();
-                mesh.triangles = t.ToArray();
-                mesh.uv = u.ToArray();
-                mesh.RecalculateNormals();
-
-                var meshFilter = gameObject.AddComponent<MeshFilter>();
-                meshFilter.mesh = mesh;
-
-                var renderer = gameObject.AddComponent<MeshRenderer>();
-                renderer.material = rule.GetMaterial(_resourceProvider);
-                renderer.material.mainTexture = rule.GetTexture(_resourceProvider);
-            });
+            DimenLineBuilder.Build(tile.HeightMap, _lines, 
+                (p, t, u) => BuildObject(gameObjectWrapper, rule, p, t, u));
             _lines.Clear();
             return gameObjectWrapper;
+        }
+
+        protected virtual void BuildObject(IGameObject gameObjectWrapper, Rule rule,
+            List<Vector3> p, List<int> t, List<Vector2> u)
+        {
+            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
+
+            Mesh mesh = new Mesh();
+            mesh.vertices = p.ToArray();
+            mesh.triangles = t.ToArray();
+            mesh.uv = u.ToArray();
+            mesh.RecalculateNormals();
+
+            var meshFilter = gameObject.AddComponent<MeshFilter>();
+            meshFilter.mesh = mesh;
+
+            var renderer = gameObject.AddComponent<MeshRenderer>();
+            renderer.material = rule.GetMaterial(_resourceProvider);
+            renderer.material.mainTexture = rule.GetTexture(_resourceProvider);
         }
     }
 }

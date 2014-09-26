@@ -5,7 +5,7 @@ using Mercraft.Models.Roads;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
 {
     public class TestRoadBuilder: RoadBuilder
     {

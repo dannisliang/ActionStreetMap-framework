@@ -40,31 +40,13 @@ namespace Mercraft.Explorer.Scene.Builders
                 return null;
 
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
-            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
 
-            var floor = rule.GetZIndex();
-
-            var verticies = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
-            
-            var mesh = new Mesh();
-            mesh.vertices = GetOffsetPoints(verticies).GetVerticies(tile.HeightMap.MinElevation);
-            //mesh.uv = verticies.GetUV();
-            mesh.triangles = PolygonHelper.GetTriangles(verticies);
-
-            var meshFilter = gameObject.AddComponent<MeshFilter>();
-            meshFilter.mesh.Clear();
-            meshFilter.mesh = mesh;
-            meshFilter.mesh.RecalculateNormals();
-
-            gameObject.AddComponent<MeshRenderer>();
-            gameObject.renderer.material = rule.GetMaterial(_resourceProvider);
-            gameObject.renderer.material.color = rule.GetFillUnityColor();
-
-            var layerIndex = rule.GetLayerIndex(NoLayer);
-            if (layerIndex != NoLayer)
-                gameObject.layer = layerIndex;
-
+            var verticies2D = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
+            var offsetVerticies3D = GetOffsetPoints(verticies2D).GetVerticies(tile.HeightMap.MinElevation);
+            var triangles = PolygonHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
+
+            BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
 
             return gameObjectWrapper;
         }
@@ -90,6 +72,28 @@ namespace Mercraft.Explorer.Scene.Builders
             }
 
             return result;
+        }
+
+        protected virtual void BuildObject(IGameObject gameObjectWrapper, Rule rule, Vector3[] points, int[] triangles)
+        {
+            var gameObject = gameObjectWrapper.GetComponent<GameObject>();
+            var mesh = new Mesh();
+            mesh.vertices = points;
+            //mesh.uv = verticies.GetUV();
+            mesh.triangles = triangles;
+
+            var meshFilter = gameObject.AddComponent<MeshFilter>();
+            meshFilter.mesh.Clear();
+            meshFilter.mesh = mesh;
+            meshFilter.mesh.RecalculateNormals();
+
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.renderer.material = rule.GetMaterial(_resourceProvider);
+            gameObject.renderer.material.color = rule.GetFillUnityColor();
+
+            var layerIndex = rule.GetLayerIndex(NoLayer);
+            if (layerIndex != NoLayer)
+                gameObject.layer = layerIndex;
         }
     }
 }

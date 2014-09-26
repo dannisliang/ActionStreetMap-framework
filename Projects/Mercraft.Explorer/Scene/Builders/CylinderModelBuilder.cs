@@ -37,34 +37,34 @@ namespace Mercraft.Explorer.Scene.Builders
             if (WorldManager.Contains(area.Id))
                 return null;
 
-            return BuildCylinder(tile.RelativeNullPoint, area, area.Points, rule);
-        }
-
-        private IGameObject BuildCylinder(GeoCoordinate center, Model model, GeoCoordinate[] points, Rule rule)
-        {
-            var circle = CircleHelper.GetCircle(center, points);
+            var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, area.Points);
             var diameter = circle.Item1;
             var cylinderCenter = circle.Item2;
 
             var height = rule.GetHeight();
             var minHeight = rule.GetMinHeight();
 
-            var actualHeight = (height - minHeight)/2;
+            var actualHeight = (height - minHeight) / 2;
 
-            var gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Cylinder {0}", model),
+            var gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Cylinder {0}", area),
                 UnityPrimitiveType.Cylinder);
 
+            WorldManager.AddModel(area.Id);
+
+            return BuildCylinder(gameObjectWrapper, rule, area, cylinderCenter, diameter, actualHeight, minHeight);
+        }
+
+        protected virtual IGameObject BuildCylinder(IGameObject gameObjectWrapper, Rule rule, Model model,
+            MapPoint cylinderCenter, float diameter, float actualHeight, float minHeight)
+        {
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();
 
             cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);
             cylinder.transform.position = new Vector3(cylinderCenter.X, minHeight + actualHeight, cylinderCenter.Y);
 
-
             cylinder.AddComponent<MeshRenderer>();
             cylinder.renderer.material = rule.GetMaterial(_resourceProvider);
             cylinder.renderer.material.color = rule.GetFillUnityColor();
-
-            WorldManager.AddModel(model.Id);
 
             return gameObjectWrapper;
         }

@@ -39,7 +39,18 @@ namespace Mercraft.Models.Terrain
                 for (int j = 0; j < settings.Tile.HeightMap.Resolution; j++)
                     htmap[i, j] /= settings.Tile.HeightMap.MaxElevation;
 
-            return CreateTerrainGameObject(parent, settings, htmap);
+            var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
+            var layers = settings.SplatParams.Count;
+            var splatMap = new float[settings.Resolution, settings.Resolution, layers];
+            var detailMapList = new List<int[,]>(settings.DetailParams.Count);
+            // fill alphamap
+            var alphaMapElements = CreateElements(settings, settings.Areas,
+                settings.Resolution / size.x,
+                settings.Resolution / size.z,
+                t => t.SplatIndex);
+
+            _areaBuilder.Build(settings, alphaMapElements, splatMap, detailMapList);
+            return CreateTerrainGameObject(parent, settings, size, htmap, splatMap, detailMapList);
         }
 
         private void ProcessTerrainObjects(TerrainSettings settings)
@@ -67,11 +78,9 @@ namespace Mercraft.Models.Terrain
             }
         }
 
-        protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings, float[,] htmap)
+        protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings,
+            Vector3 size, float[,] htmap, float[, ,] splatMap, List<int[,]> detailMapList)
         {
-            // TODO makecode more readable
-
-            var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
             // create TerrainData
             var terrainData = new TerrainData();
             terrainData.heightmapResolution = settings.Tile.HeightMap.Resolution;
@@ -79,18 +88,6 @@ namespace Mercraft.Models.Terrain
             terrainData.size = size;
             terrainData.splatPrototypes = GetSplatPrototypes(settings.SplatParams);
             terrainData.detailPrototypes = GetDetailPrototype(settings.DetailParams);
-
-            var layers = settings.SplatParams.Count;
-            var splatMap = new float[settings.Resolution, settings.Resolution, layers];
-            var detailMapList = new List<int[,]>(settings.DetailParams.Count);
-            // fill alphamap
-            var alphaMapElements = CreateElements(settings, settings.Areas,
-                settings.Resolution / size.x,
-                settings.Resolution / size.z,
-                t => t.SplatIndex);
-
-
-            _areaBuilder.Build(settings, alphaMapElements, splatMap, detailMapList);
 
             // create Terrain using terrain data
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
