@@ -5,7 +5,7 @@ using Mercraft.Explorer.Bootstrappers;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.UnitTests.Zones.Stubs;
+using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs;
 
 namespace Mercraft.Maps.UnitTests
 {

@@ -48,25 +48,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elevation\HeightMapTests.cs" />
-    <Compile Include="Algorithms\ProjectionTests.cs" />
-    <Compile Include="Algorithms\TriangulationTests.cs" />
+    <Compile Include="Core\Elevation\HeightMapTests.cs" />
+    <Compile Include="Core\Algorithms\ProjectionTests.cs" />
+    <Compile Include="Core\Algorithms\TriangulationTests.cs" />
     <Compile Include="Core\BoundingBoxTests.cs" />
     <Compile Include="Explorer\BootstrapperTests.cs" />
-    <Compile Include="Geometry\ThickLineTests.cs" />
+    <Compile Include="Models\Geometry\ThickLineTests.cs" />
     <Compile Include="Infrastructure\ConfigMergerTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
     <Compile Include="Infrastructure\InterceptionTests.cs" />
     <Compile Include="Infrastructure\PrimitiveTypeTests.cs" />
     <Compile Include="Infrastructure\Stubs\TestStringBuilderTrace.cs" />
-    <Compile Include="MapCss\CanvasTests.cs" />
-    <Compile Include="MapCss\MapCssHelper.cs" />
-    <Compile Include="MapCss\SelectorsTests.cs" />
+    <Compile Include="Core\MapCss\CanvasTests.cs" />
+    <Compile Include="Core\MapCss\MapCssHelper.cs" />
+    <Compile Include="Core\MapCss\SelectorsTests.cs" />
     <Compile Include="Core\TypeHelperTests.cs" />
-    <Compile Include="MapCss\StylesheetTests.cs" />
-    <Compile Include="MapCss\RuleEvalTests.cs" />
+    <Compile Include="Core\MapCss\StylesheetTests.cs" />
+    <Compile Include="Core\MapCss\RuleEvalTests.cs" />
     <Compile Include="Models\BuildingMapCssTests.cs" />
-    <Compile Include="Models\Buildings\Roofs\MansardRoofTest.cs" />
+    <Compile Include="Models\Buildings\MansardRoofTest.cs" />
     <Compile Include="Osm\ElementManagerTests.cs" />
     <Compile Include="Osm\LocationInfoTests.cs" />
     <Compile Include="Osm\NodeTests.cs" />
@@ -86,23 +86,23 @@
     <Compile Include="SceneHelper.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="TestPathResolver.cs" />
-    <Compile Include="Themes\Buildings\BuildingTextureBalancerTests.cs" />
-    <Compile Include="Themes\ThemeProviderTests.cs" />
-    <Compile Include="World\RoadTests.cs" />
-    <Compile Include="Zones\Stubs\TestBarrierModelBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestDetailModelBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestModelBehaviour.cs" />
-    <Compile Include="Zones\Stubs\TestBootstrapperPlugin.cs" />
-    <Compile Include="Zones\Stubs\TestRoadBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestSphereModelBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestTerrainBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestBuildingBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestCylinderModelBuilder.cs" />
-    <Compile Include="Zones\Stubs\TestGameObject.cs" />
-    <Compile Include="Zones\Stubs\TestGameObjectFactory.cs" />
-    <Compile Include="Zones\Stubs\TestWaterModelBuilder.cs" />
-    <Compile Include="Zones\TileManagerTests.cs" />
-    <Compile Include="Zones\RealTileManagerTests.cs" />
+    <Compile Include="Explorer\Themes\BuildingTextureBalancerTests.cs" />
+    <Compile Include="Explorer\Themes\ThemeProviderTests.cs" />
+    <Compile Include="Core\World\RoadTests.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestBarrierModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestDetailModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestModelBehaviour.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestBootstrapperPlugin.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestRoadBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestSphereModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestTerrainBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestBuildingBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestCylinderModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestGameObject.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestGameObjectFactory.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestWaterModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\TileManagerTests.cs" />
+    <Compile Include="Explorer\Tiles\RealTileManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
