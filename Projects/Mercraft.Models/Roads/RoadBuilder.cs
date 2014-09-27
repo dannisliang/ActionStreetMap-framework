@@ -55,7 +55,7 @@ namespace Mercraft.Models.Roads
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
 
-            renderer.sharedMaterial = _resourceProvider.GetMatertial(style.Material);
+            renderer.sharedMaterial = _resourceProvider.GetMatertial(style.Path);
         }
     }
 }
