@@ -36,14 +36,11 @@ namespace Mercraft.Models.Buildings
                .Build(building, style);
 
             // NOTE use different gameObject only to support different materials
-            AttachChildGameObject(building.GameObject, "facade", facadeMeshData, style.Facade.AllowSetColor? 
-                UnityColorUtility.FromCore(building.FacadeColor): 
-                default(Color32));
-
-            AttachChildGameObject(building.GameObject, "roof", roofMeshData, default(Color32));
+            AttachChildGameObject(building.GameObject, "facade", facadeMeshData);
+            AttachChildGameObject(building.GameObject, "roof", roofMeshData);
         }
 
-        protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData, Color32 color)
+        protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData)
         {
             var gameObject = new GameObject(name);
             gameObject.isStatic = true;
@@ -58,11 +55,7 @@ namespace Mercraft.Models.Buildings
             var mf = gameObject.AddComponent<MeshFilter>();
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = _resourceProvider.GetMatertial(meshData.MaterialKey);
-            renderer.material.mainTexture =  _resourceProvider.GetTexture(meshData.TextureKey);
-
-            //if (!UnityColorUtility.IsDefault(color))
-            //    renderer.material.color = color;
+            renderer.sharedMaterial = _resourceProvider.GetMatertial(meshData.MaterialKey);
 
             mf.mesh = mesh;
         }

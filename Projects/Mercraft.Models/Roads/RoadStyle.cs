@@ -1,19 +1,20 @@
-﻿using UnityEngine;
+﻿using Color32 = Mercraft.Core.Unity.Color32;
+using Rect = Mercraft.Models.Geometry.Rect;
 
 namespace Mercraft.Models.Roads
 {
     public class RoadStyle
     {
-        public string[] Textures { get; set; }
-        public string[] Materials { get; set; }
+        public string Path { get; set; }
 
         // NOTE ignored so far by default RoadBuilder
-        public TextureUvMap UvMap { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
 
-        public class TextureUvMap
-        {
-            public Vector2[] Main { get; set; }
-            public Vector2[] Turn { get; set; }
-        }
+        public string Material { get; set; }
+        public Color32 Color { get; set; }
+
+        public Rect MainUvMap { get; set; }
+        public Rect TurnUvMap { get; set; }
     }
 }

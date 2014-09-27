@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Mercraft.Core.Unity
 {
     public struct Color32
@@ -14,6 +16,11 @@ namespace Mercraft.Core.Unity
             this.g = g;
             this.b = b;
             this.a = a;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("({0},{1},{2},{3})", r, g, b, a);
         }
     }
 }

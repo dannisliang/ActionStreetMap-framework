@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core.Utilities;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Themes;
@@ -33,19 +34,23 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
             Assert.IsNotNull(style);
             Assert.IsNotNull(style.Facade);
 
-            Assert.AreEqual(9, style.Facade.Floors);
-            
-            Assert.AreEqual("Textures/Buildings/Soviet1", style.Facade.Textures[0]);
-            Assert.AreEqual("Materials/Buildings/Building", style.Facade.Materials[0]);
-            Assert.AreEqual(4, style.Facade.FrontUvMap.Length);
-            Assert.AreEqual(4, style.Facade.BackUvMap.Length);
-            Assert.AreEqual(4, style.Facade.SideUvMap.Length);
+            Assert.AreEqual(9, style.Facade.Height);
+            Assert.AreEqual(6, style.Facade.Width);
+
+            Assert.AreEqual("Materials/Buildings/facades/residential_1", style.Facade.Path);
+            Assert.AreEqual("brick", style.Facade.Material);
+            Assert.AreEqual(ColorUtility.FromName("red"), style.Facade.Color);
+            Assert.IsNotNull(style.Facade.FrontUvMap);
+            Assert.IsNull(style.Facade.BackUvMap);
+            Assert.IsNull(style.Facade.SideUvMap);
             Assert.IsNotNull(style.Facade.Builders);
 
             Assert.IsNotNull(style.Roof);
-            Assert.AreEqual("Textures/Buildings/Soviet1", style.Roof.Textures[0]);
-            Assert.AreEqual("Materials/Buildings/Building", style.Roof.Materials[0]);
-            Assert.AreEqual(2, style.Roof.UnitSize);
+            Assert.AreEqual("Materials/Buildings/roofs/residential_1", style.Roof.Path);
+            Assert.AreEqual("brick", style.Roof.Material);
+            Assert.AreEqual(ColorUtility.FromName("red"), style.Roof.Color);
+            Assert.IsNotNull(style.Roof.FrontUvMap);
+            Assert.IsNull(style.Roof.SideUvMap);
             Assert.IsNotNull(style.Roof.Builders);
         }
 
@@ -72,11 +77,13 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
                     }
                 }
             });
-            Assert.AreEqual("Textures/Roads/Road", style.Textures[0]);
-            Assert.AreEqual("Materials/Roads/Road", style.Materials[0]);
-            Assert.IsNotNull(style.UvMap);
-            Assert.AreEqual(4, style.UvMap.Main.Length);
-            Assert.AreEqual(3, style.UvMap.Turn.Length);
+
+            Assert.AreEqual("Materials/Roads/default_1", style.Path);
+            Assert.AreEqual("asphalt", style.Material);
+            Assert.AreEqual(ColorUtility.FromName("gray"), style.Color);
+            Assert.IsNotNull(style.MainUvMap);
+            Assert.IsNull(style.TurnUvMap);
+
         }
 
         private ThemeProvider GetThemeProvider()

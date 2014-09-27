@@ -23,7 +23,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
                 Type = "residential",
                 Levels = -1,
                 FacadeMaterial = "glass",
-            }).Facade.Floors, "Cannot choose material");
+            }).Facade.Height, "Cannot choose material");
 
             Assert.AreEqual(0, provider.Get(new Building()
             {
@@ -31,20 +31,20 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
                 Levels = -1,
                 FacadeMaterial = "brick",
                 FacadeColor = ColorUtility.FromName("red"),
-            }).Facade.Floors, "Cannot choose colored material");
+            }).Facade.Height, "Cannot choose colored material");
             
             Assert.AreEqual(12, provider.Get(new Building()
             {
                 Type = "residential",
                 Levels = -1,
                 FacadeColor = ColorUtility.FromName("white"),
-            }).Facade.Floors, "Cannot choose color");
+            }).Facade.Height, "Cannot choose color");
 
             Assert.AreEqual(12, provider.Get(new Building()
             {
                 Type = "residential",
                 Levels = 12,
-            }).Facade.Floors, "Cannot choose floors");
+            }).Facade.Height, "Cannot choose floors");
         }
 
         [Test]
@@ -69,23 +69,23 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
             {
                 new BuildingStyle.FacadeStyle()
                 {
-                    Floors = 9,
+                    Height = 9,
                     Material = "brick",
                 },
                 new BuildingStyle.FacadeStyle()
                 {
-                    Floors = 5,
+                    Height = 5,
                     Material = "glass",
                 },
                 new BuildingStyle.FacadeStyle()
                 {
-                    Floors = 0,
+                    Height = 0,
                     Material = "brick",
                     Color = ColorUtility.FromName("red"),
                 },
                 new BuildingStyle.FacadeStyle()
                 {
-                    Floors = 12,
+                    Height = 12,
                     Material = "glass",
                     Color = ColorUtility.FromName("white"),
                 },

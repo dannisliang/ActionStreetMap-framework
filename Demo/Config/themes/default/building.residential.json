@@ -1,102 +1,19 @@
 {
 	"name":["residental","residential"],
-	
 	"facades":[
 		{
-			"desc":{
-				"floors":0,	"width": 0, "material":"", "colour":"", "allowSetColor":"true"
-			},
-			"render":{
-				"builders":["flat"],
-				"textures":[
-						"Textures/Buildings/Soviet1",
-						
-						"Textures/Buildings/1_etage/Block-3331",
-						"Textures/Buildings/1_etage/Block-3388",
-						"Textures/Buildings/1_etage/Block-3394",
-						"Textures/Buildings/1_etage/buildings_modern_3041_3749_Small",
-						"Textures/Buildings/1_etage/buildings_modern_3217_3990_Small",
-						"Textures/Buildings/1_etage/buildings_modern_3220_3993_Small",
-						"Textures/Buildings/1_etage/buildings_modern_6285_9014_Small",
-						
-						"Textures/Buildings/2_etage/Block-3332",
-						"Textures/Buildings/2_etage/Block-3401",
-						"Textures/Buildings/2_etage/buildings_modern_3042_3750_Small",
-						"Textures/Buildings/2_etage/buildings_modern_3052_3760_Small",
-						"Textures/Buildings/2_etage/buildings_modern_3059_3767_Small",
-						"Textures/Buildings/2_etage/buildings_modern_6265_8994_Small",
-						"Textures/Buildings/2_etage/buildings_modern_6267_8996_Small",
-						
-						"Textures/Buildings/3_etage/Block-3330",
-						"Textures/Buildings/3_etage/Block-3390",
-						"Textures/Buildings/3_etage/Block-3400",
-						"Textures/Buildings/3_etage/buildings_modern_3067_3775_Small",
-						"Textures/Buildings/3_etage/buildings_modern_3214_3987_Small",
-						"Textures/Buildings/3_etage/buildings_modern_4261_5612_Small",
-						"Textures/Buildings/3_etage/buildings_modern_6269_8998_Small",
-						"Textures/Buildings/3_etage/HighRiseResidential0099_9_thumblarge",
-						
-						"Textures/Buildings/4_etage/Block-3379",
-						"Textures/Buildings/4_etage/buildings_modern_3213_3986_Small",
-						"Textures/Buildings/4_etage/buildings_modern_4920_6849_Small",
-					],
-				"materials": ["Materials/Buildings/Building"],
-				"uvs":{"front":0,"back":0,"side":0}
-			}
+			"builders":["flat"],
+			"path": "Materials/Buildings/Building",
+			"textures":[
+				{"map":{"front":"0,0,1,1"}, "height":0, "width":0, "material": "", "color": ""}
+			]
 		}],
-		
 	"roofs":[
 		{
-			"desc":{
-				"type":"", "material":"", "colour":"", "allowSetColor":"true"
-			},
-			"render":{
-				"builders":["flat","flat","flat","mansard"],
-				"textures":[
-					"Textures/Buildings/roofs/scratch_texture_b",
-					"Textures/Buildings/roofs/black_asphalt",
-					"Textures/Buildings/roofs/concrete_tiles_1",
-					"Textures/Buildings/roofs/concrete_tiles_2",
-					"Textures/Buildings/roofs/concrete_tiles_3",
-					"Textures/Buildings/roofs/dark_red_asphalt",
-					"Textures/Buildings/roofs/roof_1",
-				],
-				"materials": ["Materials/Buildings/Building"],
-				"unit_size": 2,
-			}
-		},
-		{
-			"desc":{
-				"type":"flat", "material":"", "colour":"", "allowSetColor":"true"
-			},
-			"render":{
-				"builders":["flat"],
-				"textures":["Textures/Buildings/Soviet1"],
-				"materials": ["Materials/Buildings/Building"],
-				"unit_size": 2,
-			}
-		},
-		{
-			"desc":{
-				"type":"mansard", "material":"", "colour":"", "allowSetColor":"true"
-			},
-			"render":{
-				"builders":["mansard"],
-				"textures":[
-					"Textures/Buildings/roofs/scratch_texture_b",
-					"Textures/Buildings/roofs/black_asphalt",
-					"Textures/Buildings/roofs/concrete_tiles_1",
-					"Textures/Buildings/roofs/concrete_tiles_2",
-					"Textures/Buildings/roofs/concrete_tiles_3",
-					"Textures/Buildings/roofs/dark_red_asphalt",
-					"Textures/Buildings/roofs/roof_1",
-				],
-				"materials": ["Materials/Buildings/Building"],
-				"unit_size": 2,
-			}
-		}],
-		
-	"uvs": [
-		{"index":0, "data": [{"x":1, "y":0}, {"x":0, "y":0} {"x":0, "y":1} {"x":1, "y":1}]},
-		{"index":1, "data": [{"x":0, "y":0}, {"x":0, "y":0} {"x":0, "y":0} {"x":0, "y":0}]}]
+			"builders":["flat"],
+			"path": "Materials/Buildings/Building",
+			"textures":[
+				{"map":{"front":"0,0,1,1"}, "type":"flat", "material": "", "color": ""}
+			]
+		}]
 }

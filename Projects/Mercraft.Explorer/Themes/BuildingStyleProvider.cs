@@ -88,7 +88,7 @@ namespace Mercraft.Explorer.Themes
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
             var rating = 0;
-            if (style.Floors == building.Levels)
+            if (style.Height == building.Levels)
                 rating += 3;
             if (building.FacadeMaterial != null && style.Material == building.FacadeMaterial)
                 rating += 3;

@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
         {
         }
 
-        protected override void AttachChildGameObject(IGameObject parent, string name, MeshData meshData, Color32 color)
+        protected override void AttachChildGameObject(IGameObject parent, string name, MeshData meshData)
         {
             // Do nothing
         }

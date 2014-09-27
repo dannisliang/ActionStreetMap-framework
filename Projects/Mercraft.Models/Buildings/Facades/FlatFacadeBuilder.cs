@@ -20,8 +20,7 @@ namespace Mercraft.Models.Buildings.Facades
                 Vertices = GetVerticies3D(vertices2D, building.Elevation + building.MinHeight, building.Height),
                 Triangles = GetTriangles3D(vertices2D),
                 UV = GetUV(vertices2D),
-                TextureKey = style.Facade.Textures[RandomHelper.GetIndex(building.Id, style.Facade.Textures.Length)],
-                MaterialKey = style.Facade.Materials[RandomHelper.GetIndex(building.Id, style.Facade.Materials.Length)]
+                MaterialKey = style.Facade.Path
             };
 
             AttachFloor(building, meshData);

@@ -12,6 +12,8 @@ using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Roads;
 using UnityEngine;
 
+using Rect = Mercraft.Models.Geometry.Rect;
+
 namespace Mercraft.Explorer.Themes
 {
     public interface IThemeProvider
@@ -84,26 +86,27 @@ namespace Mercraft.Explorer.Themes
         private List<BuildingStyle.FacadeStyle> GetFacadeStyles(JSONNode json)
         {
             var facadeStyles = new List<BuildingStyle.FacadeStyle>();
-            var textureMap = LoadTextureMap(json);
             foreach (JSONNode node in json["facades"].AsArray)
             {
-                var desc = node["desc"];
-                var render = node["render"];
-                facadeStyles.Add(new BuildingStyle.FacadeStyle()
+                var builders = node["builders"].AsArray.Childs
+                    .Select(t => _facadeBuilders.Single(b => b.Name == t.Value)).ToArray();
+                var path = node["path"].Value;
+                foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
-                    Floors = desc["floors"].AsInt,
-                    Width = desc["width"].AsFloat,
-                    Material = desc["material"].Value,
-                    Color = ColorUtility.FromUnknown(desc["color"].Value),
-                    AllowSetColor = desc["allowSetColor"].AsBool,
-
-                    Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    Builders = render["builders"].AsArray.Childs.Select(t => _facadeBuilders.Single(b => b.Name == t.Value)).ToArray(),
-                    FrontUvMap = textureMap[render["uvs"]["front"].AsInt],
-                    BackUvMap = textureMap[render["uvs"]["back"].AsInt],
-                    SideUvMap = textureMap[render["uvs"]["side"].AsInt],
-                });
+                    var map = textureNode["map"];
+                    facadeStyles.Add(new BuildingStyle.FacadeStyle()
+                    {
+                        Height = textureNode["height"].AsInt,
+                        Width = textureNode["width"].AsInt,
+                        Material = textureNode["material"].Value,
+                        Color = ColorUtility.FromUnknown(textureNode["color"].Value),
+                        Builders = builders,
+                        Path = path,
+                        FrontUvMap = GetUvMap(map["front"]),
+                        BackUvMap = GetUvMap(map["back"]),
+                        SideUvMap = GetUvMap(map["side"])
+                    });
+                }
             }
             return facadeStyles;
         }
@@ -113,21 +116,26 @@ namespace Mercraft.Explorer.Themes
             var roofStyles = new List<BuildingStyle.RoofStyle>();
             foreach (JSONNode node in json["roofs"].AsArray)
             {
-                var desc = node["desc"];
-                var render = node["render"];
-                roofStyles.Add(new BuildingStyle.RoofStyle()
+                var builders = node["builders"].AsArray.Childs
+                    .Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray();
+                var path = node["path"].Value;
+                foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
-                    Type = desc["type"],
-                    Color = ColorUtility.FromUnknown(desc["color"].Value),
-                    Material = desc["material"],
-                    AllowSetColor = desc["allowSetColor"].AsBool,
-
-                    Textures = render["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    Materials = render["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    Builders = render["builders"].AsArray.Childs.Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray(),
-                    UnitSize = render["unit_size"].AsFloat
-                });
+                    var map = textureNode["map"];
+                    roofStyles.Add(new BuildingStyle.RoofStyle()
+                    {
+                        Type = textureNode["type"],
+                        Height = textureNode["height"].AsInt,
+                        Material = textureNode["material"].Value,
+                        Color = ColorUtility.FromUnknown(textureNode["color"].Value),
+                        Builders = builders,
+                        Path = path,
+                        FrontUvMap = GetUvMap(map["front"]),
+                        SideUvMap = GetUvMap(map["side"]),
+                    });
+                }
             }
+
             return roofStyles;
         }
 
@@ -157,41 +165,44 @@ namespace Mercraft.Explorer.Themes
 
         private List<RoadStyle> GetRoadStyles(JSONNode json)
         {
-            var buildingStyles = new List<RoadStyle>();
-            var uvs = LoadTextureMap(json);
-            foreach (JSONNode entry in json["entries"].AsArray)
+            var roadStyles = new List<RoadStyle>();
+            foreach (JSONNode node in json["roads"].AsArray)
             {
-                buildingStyles.Add(new RoadStyle()
+                var path = node["path"].Value;
+                foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
-                    Textures = entry["textures"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    Materials = entry["materials"].AsArray.Childs.Select(t => t.Value).ToArray(),
-                    UvMap = new RoadStyle.TextureUvMap()
+                    var map = textureNode["map"];
+                    roadStyles.Add(new RoadStyle()
                     {
-                        Main = uvs[entry["uvs"]["main"].AsInt],
-                        Turn = uvs[entry["uvs"]["turn"].AsInt]
-                    }
-                });
+                        Height = textureNode["height"].AsInt,
+                        Material = textureNode["material"].Value,
+                        Color = ColorUtility.FromUnknown(textureNode["color"].Value),
+                        
+                        Path = path,
+                        MainUvMap = GetUvMap(map["main"]),
+                        TurnUvMap = GetUvMap(map["turn"]),
+                    });
+                }
             }
-            return buildingStyles;
+
+            return roadStyles;
         }
 
         #endregion
 
-        private Dictionary<int, Vector2[]> LoadTextureMap(JSONNode json)
+        private Rect GetUvMap(string value)
         {
-            var textureMaps = new Dictionary<int, Vector2[]>();
-            foreach (JSONNode uvConfig in json["uvs"].AsArray)
-            {
-                var index = uvConfig["index"].AsInt;
-                textureMaps.Add(index, GetUv(uvConfig).ToArray());
-            }
-            return textureMaps;
-        }
+            if (value == null)
+                return null;
 
-        private IEnumerable<Vector2> GetUv(JSONNode uvsConfig)
-        {
-            foreach (JSONNode uvConfig in uvsConfig["data"].AsArray)
-                yield return new Vector2(uvConfig["x"].AsFloat, uvConfig["y"].AsFloat);
+            var values = value.Split(',');
+            if (values.Length != 4)
+                throw new InvalidOperationException(String.Format(ErrorStrings.InvalidUvMappingDefinition, value));
+
+            var leftBottom = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
+            var rightUpper = new Vector2(float.Parse(values[2]), float.Parse(values[3]));
+
+            return new Rect(leftBottom, rightUpper);
         }
     }
 }

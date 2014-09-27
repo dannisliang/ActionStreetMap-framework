@@ -40,7 +40,7 @@ namespace Mercraft.Maps.UnitTests
 
         public static IGameRunner GetGameRunner(IContainer container)
         {
-            return new GameRunner(container, new MessageBus());
+            return GetGameRunner(container, new MessageBus());
         }
 
         public static IGameRunner GetGameRunner(IContainer container, MessageBus messageBus)
