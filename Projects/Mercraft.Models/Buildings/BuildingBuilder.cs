@@ -46,6 +46,7 @@ namespace Mercraft.Models.Buildings
         protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData, Color32 color)
         {
             var gameObject = new GameObject(name);
+            gameObject.isStatic = true;
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
 
             var mesh = new Mesh();
@@ -60,8 +61,8 @@ namespace Mercraft.Models.Buildings
             renderer.material = _resourceProvider.GetMatertial(meshData.MaterialKey);
             renderer.material.mainTexture =  _resourceProvider.GetTexture(meshData.TextureKey);
 
-            if (!UnityColorUtility.IsDefault(color))
-                renderer.material.color = color;
+            //if (!UnityColorUtility.IsDefault(color))
+            //    renderer.material.color = color;
 
             mf.mesh = mesh;
         }

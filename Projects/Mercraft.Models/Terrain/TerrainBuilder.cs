@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ namespace Mercraft.Models.Terrain
         private readonly IResourceProvider _resourceProvider;
         private readonly AreaBuilder _areaBuilder = new AreaBuilder();
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
+
+        [Dependency]
+        private ITrace Trace { get; set; }
 
         [Dependency]
         public TerrainBuilder(IResourceProvider resourceProvider)
@@ -107,6 +111,8 @@ namespace Mercraft.Models.Terrain
             SetTrees(terrain, settings, size);
 
             SetDetails(terrain, settings, detailMapList);
+
+            parent.GetComponent<GameObject>().AddComponent<TerrainBehaviour>().Trace = Trace;
 
             return new GameObjectWrapper("terrain", gameObject);
         }

@@ -114,7 +114,6 @@ namespace Assets.Scripts.Character
         {
             // NOTE not sure that these classes won't be collected during GC
             new DemoTileListener(messageBus, trace);
-            new DemoZoneListener(messageBus, trace);
         }
 
         #endregion

@@ -45,6 +45,7 @@ namespace Mercraft.Models.Roads
             mesh.RecalculateNormals();
 
             var gameObject = road.GameObject.GetComponent<GameObject>();
+            gameObject.isStatic = true;
             var meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
 

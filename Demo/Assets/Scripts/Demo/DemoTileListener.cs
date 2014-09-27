@@ -21,7 +21,9 @@ namespace Assets.Scripts.Demo
 
             messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileLoadStarted(m.Tile.MapCenter)).Subscribe();
             messageBus.AsObservable<TileLoadFinishMessage>().Do(m => OnTileLoadFinished(m.Tile)).Subscribe();
-            messageBus.AsObservable<TileFoundMessage>().Do(m => OnTileFound(m.Tile, m.Position)).Subscribe();
+            //messageBus.AsObservable<TileFoundMessage>().Do(m => OnTileFound(m.Tile, m.Position)).Subscribe();
+            messageBus.AsObservable<TileBuildStartMessage>().Do(m => OnTileBuildStarted(m.TileCenter)).Subscribe();
+            messageBus.AsObservable<TileBuildFinishMessage>().Do(m => OnTileBuildFinished(m.Tile)).Subscribe();
         }
 
         public void OnTileLoadStarted(MapPoint center)
@@ -35,12 +37,28 @@ namespace Assets.Scripts.Demo
             _stopwatch.Stop();
             _trace.Normal(LogTag, String.Format("Tile of size {0} is loaded in {1} ms", 
                 tile.Size, _stopwatch.ElapsedMilliseconds));
-            System.GC.Collect();
+            GC.Collect();
+            _stopwatch.Reset();
         }
 
         public void OnTileFound(Tile tile, MapPoint position)
         {
             //_trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.MapCenter));
+        }
+
+        public void OnTileBuildStarted(MapPoint center)
+        {
+            _stopwatch.Start();
+            _trace.Normal(LogTag, String.Format("Tile build begin: center:{0}", center));
+        }
+
+        public void OnTileBuildFinished(Tile tile)
+        {
+            _stopwatch.Stop();
+            _trace.Normal(LogTag, String.Format("Tile of size {0} is built in {1} ms",
+                tile.Size, _stopwatch.ElapsedMilliseconds));
+            _stopwatch.Reset();
+
         }
     }
 }
