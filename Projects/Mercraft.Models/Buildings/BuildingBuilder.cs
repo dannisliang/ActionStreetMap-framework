@@ -52,12 +52,11 @@ namespace Mercraft.Models.Buildings
             mesh.uv = meshData.UV;
             mesh.RecalculateNormals();
 
-            var mf = gameObject.AddComponent<MeshFilter>();
+            gameObject.AddComponent<MeshFilter>().mesh = mesh;
+            gameObject.AddComponent<MeshCollider>();
 
-            var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.sharedMaterial = _resourceProvider.GetMatertial(meshData.MaterialKey);
-
-            mf.mesh = mesh;
+            gameObject.AddComponent<MeshRenderer>().sharedMaterial = _resourceProvider
+                .GetMatertial(meshData.MaterialKey);
         }
 
         private IRoofBuilder GetRoofBuilder(Building building, IRoofBuilder[] roofBuildings)
