@@ -6,9 +6,11 @@ using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Formats.Json;
+using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Roads;
 using UnityEngine;
 
@@ -91,6 +93,7 @@ namespace Mercraft.Explorer.Themes
                 var builders = node["builders"].AsArray.Childs
                     .Select(t => _facadeBuilders.Single(b => b.Name == t.Value)).ToArray();
                 var path = node["path"].Value;
+                var size = new Size(node["size"]["width"].AsInt, node["size"]["height"].AsInt);
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
@@ -102,9 +105,9 @@ namespace Mercraft.Explorer.Themes
                         Color = ColorUtility.FromUnknown(textureNode["color"].Value),
                         Builders = builders,
                         Path = path,
-                        FrontUvMap = GetUvMap(map["front"]),
-                        BackUvMap = GetUvMap(map["back"]),
-                        SideUvMap = GetUvMap(map["side"])
+                        FrontUvMap = GetUvMap(map["front"], size),
+                        BackUvMap = GetUvMap(map["back"], size),
+                        SideUvMap = GetUvMap(map["side"], size)
                     });
                 }
             }
@@ -119,6 +122,7 @@ namespace Mercraft.Explorer.Themes
                 var builders = node["builders"].AsArray.Childs
                     .Select(t => _roofBuilders.Single(b => b.Name == t.Value)).ToArray();
                 var path = node["path"].Value;
+                var size = new Size(node["size"]["width"].AsInt, node["size"]["height"].AsInt);
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
@@ -130,8 +134,8 @@ namespace Mercraft.Explorer.Themes
                         Color = ColorUtility.FromUnknown(textureNode["color"].Value),
                         Builders = builders,
                         Path = path,
-                        FrontUvMap = GetUvMap(map["front"]),
-                        SideUvMap = GetUvMap(map["side"]),
+                        FrontUvMap = GetUvMap(map["front"], size),
+                        SideUvMap = GetUvMap(map["side"], size),
                     });
                 }
             }
@@ -169,6 +173,7 @@ namespace Mercraft.Explorer.Themes
             foreach (JSONNode node in json["roads"].AsArray)
             {
                 var path = node["path"].Value;
+                var size = new Size(node["size"]["width"].AsInt, node["size"]["height"].AsInt);
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
@@ -179,8 +184,8 @@ namespace Mercraft.Explorer.Themes
                         Color = ColorUtility.FromUnknown(textureNode["color"].Value),
                         
                         Path = path,
-                        MainUvMap = GetUvMap(map["main"]),
-                        TurnUvMap = GetUvMap(map["turn"]),
+                        MainUvMap = GetUvMap(map["main"], size),
+                        TurnUvMap = GetUvMap(map["turn"], size),
                     });
                 }
             }
@@ -190,8 +195,9 @@ namespace Mercraft.Explorer.Themes
 
         #endregion
 
-        private Rect GetUvMap(string value)
+        private Rect GetUvMap(string value, Size size)
         {
+            // expect x,y,width,height and (0,0) is left bottom corner
             if (value == null)
                 return null;
 
@@ -199,8 +205,13 @@ namespace Mercraft.Explorer.Themes
             if (values.Length != 4)
                 throw new InvalidOperationException(String.Format(ErrorStrings.InvalidUvMappingDefinition, value));
 
-            var leftBottom = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
-            var rightUpper = new Vector2(float.Parse(values[2]), float.Parse(values[3]));
+            var x = float.Parse(values[0]);
+            var y = Math.Abs(float.Parse(values[1]) - size.Height);
+            var width = float.Parse(values[2]);
+            var height = float.Parse(values[3]);
+
+            var leftBottom = new Vector2(x / size.Width, y / size.Height);
+            var rightUpper = new Vector2((x + width) / size.Width, (y + height) / size.Height);
 
             return new Rect(leftBottom, rightUpper);
         }

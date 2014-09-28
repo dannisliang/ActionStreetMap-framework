@@ -19,7 +19,7 @@ namespace Mercraft.Models.Buildings.Facades
             {
                 Vertices = GetVerticies3D(vertices2D, building.Elevation + building.MinHeight, building.Height),
                 Triangles = GetTriangles3D(vertices2D),
-                UV = GetUV(vertices2D),
+                UV = GetUV(style, vertices2D),
                 MaterialKey = style.Facade.Path
             };
 
@@ -69,18 +69,21 @@ namespace Mercraft.Models.Buildings.Facades
             return triangles;
         }
 
-        private Vector2[] GetUV(MapPoint[] verticies2D)
+        private Vector2[] GetUV(BuildingStyle style, MapPoint[] verticies2D)
         {
+            var leftBottom = style.Facade.FrontUvMap.LeftBottom;
+            var rightUpper = style.Facade.FrontUvMap.RightUpper;
+
             var length = verticies2D.Length;
             var uv = new Vector2[length * 4 + length];
 
             for (int i = 0; i < length; i++)
             {
                 var vIndex = i * 4;
-                uv[vIndex] = new Vector2(1, 0);
-                uv[vIndex + 1] = new Vector2(0, 0);
-                uv[vIndex + 2] = new Vector2(0, 1);
-                uv[vIndex + 3] = new Vector2(1, 1);
+                uv[vIndex] = new Vector2(rightUpper.x, leftBottom.y);
+                uv[vIndex + 1] = leftBottom;
+                uv[vIndex + 2] = new Vector2(leftBottom.x, rightUpper.y);
+                uv[vIndex + 3] = rightUpper;
             }
 
             return uv;

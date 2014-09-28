@@ -3,14 +3,45 @@
 	"facades":[
 		{
 			"builders":["flat"],
+			"size": {"height":4392, "width":4185},
 			"path": "Materials/Buildings/Building",
 			"textures":[
-				{"map":{"front":"0,0,1,1"}, "height":0, "width":0, "material": "", "color": ""}
+				{"map":{"front":"2377,3578,800,800"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"2619,1113,640,640"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1713,1146,532,800"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,2256,550,383"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1216,1914,362,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,3685,550,287"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1216,1363,480,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1713,1947,525,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3019,1754,413,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,1869,550,386"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,0,550,502"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"2619,1754,399,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3349,2564,247,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,987,550,460"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,2640,550,372"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,3364,550,320"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3178,3578,312,550"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,3013,550,350"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,503,550,483"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"3635,1448,550,420"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"2619,0,1015,1112"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"0,0,770,1362"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"771,0,941,1320"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1232,2564,995,992"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"2228,2564,1120,909"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"0,3578,1211,814"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"0,1363,1215,1200"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"0,2564,1231,1013"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1713,0,905,1145"}, "height":0, "width":0, "material": "", "color": ""},
+				{"map":{"front":"1212,3578,1164,811"}, "height":0, "width":0, "material": "", "color": ""}				
 			]
 		}],
 	"roofs":[
 		{
-			"builders":["flat"],
+			"builders":["flat","mansard"],
+			"size": {"height":4392, "width":4185},
 			"path": "Materials/Buildings/Building",
 			"textures":[
 				{"map":{"front":"0,0,1,1"}, "type":"flat", "material": "", "color": ""}

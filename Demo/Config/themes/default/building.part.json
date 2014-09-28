@@ -3,6 +3,7 @@
 	"facades":[
 		{
 			"builders":["flat"],
+			"size": {"height":4392, "width":4185},
 			"path": "Materials/Buildings/Building",
 			"textures":[
 				{"map":{"front":"0,0,1,1"}, "height":9, "width":6, "material": "", "color": ""}

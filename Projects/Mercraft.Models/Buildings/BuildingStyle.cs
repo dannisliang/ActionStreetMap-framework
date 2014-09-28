@@ -1,6 +1,7 @@
-﻿using Mercraft.Models.Buildings.Facades;
+﻿using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
-
+using Mercraft.Models.Geometry;
 using Rect = Mercraft.Models.Geometry.Rect;
 using Color32 = Mercraft.Core.Unity.Color32;
 
@@ -15,18 +16,18 @@ namespace Mercraft.Models.Buildings
 
         public class RoofStyle
         {
-            public string Type { get; set; }
-            public float Height { get; set; }
-            public string Material { get; set; }
-            public Color32 Color { get; set; }
+            public string Type;
+            public float Height;
+            public string Material;
+            public Color32 Color;
 
-            public string Path { get; set; }
+            public string Path;
 
-            public IRoofBuilder[] Builders { get; set; }
-            public float UnitSize { get; set; }
+            public IRoofBuilder[] Builders;
+            public float UnitSize;
 
-            public Rect FrontUvMap { get; set; }
-            public Rect SideUvMap { get; set; }
+            public Rect FrontUvMap;
+            public Rect SideUvMap;
         }
 
         public class FacadeStyle
@@ -34,16 +35,17 @@ namespace Mercraft.Models.Buildings
             public int Height { get; set; }
             public int Width { get; set; }
 
-            public string Material { get; set; }
-            public Color32 Color { get; set; }
 
-            public string Path { get; set; }
+            public string Material;
+            public Color32 Color;
 
-            public IFacadeBuilder[] Builders { get; set; }
+            public string Path;
 
-            public Rect FrontUvMap { get; set; }
-            public Rect BackUvMap { get; set; }
-            public Rect SideUvMap { get; set; }
+            public IFacadeBuilder[] Builders;
+
+            public Rect FrontUvMap;
+            public Rect BackUvMap;
+            public Rect SideUvMap;
         }
 
         #endregion

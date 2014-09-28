@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Utils;
 
 namespace Mercraft.Explorer.Themes
 {
@@ -13,6 +14,8 @@ namespace Mercraft.Explorer.Themes
     {
         private readonly Dictionary<string, List<BuildingStyle.FacadeStyle>> _facadeStyleMapping;
         private readonly Dictionary<string, List<BuildingStyle.RoofStyle>> _roofStyleMapping;
+
+        private List<int> _matchedIndicies = new List<int>(16);
 
         public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
             Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
@@ -45,21 +48,25 @@ namespace Mercraft.Explorer.Themes
             return FindBestMatch(building, facadeStyle, roofStyle);
         }
 
-        private static BuildingStyle FindBestMatch(Building building, List<BuildingStyle.FacadeStyle> facadeStyles,
+        private BuildingStyle FindBestMatch(Building building, List<BuildingStyle.FacadeStyle> facadeStyles,
             List<BuildingStyle.RoofStyle> roofStyles)
         {
             // TODO define additional data in BuildingStyle to improve matching
 
-            var max = 0;
-            var facadeIndex = 0;
+            var max = -1;
             for (int i = 0; i < facadeStyles.Count; i++)
             {
                 var rating = BalanceFacade(building, facadeStyles[i]);
                 // OR branch allows to avoid first-win strategy 
-                if (rating > max || (rating != 0 && rating == max && building.Id % 2 == 0))
+                if (rating > max)
                 {
                     max = rating;
-                    facadeIndex = i;
+                    _matchedIndicies.Clear();
+                    _matchedIndicies.Add(i);
+                }
+                else if (rating == max)
+                {
+                    _matchedIndicies.Add(i);
                 }
             }
 
@@ -76,6 +83,8 @@ namespace Mercraft.Explorer.Themes
                 }
             }
 
+            var facadeIndex = _matchedIndicies[RandomHelper.GetIndex(building.Id, _matchedIndicies.Count)];
+
             return new BuildingStyle()
             {
                 Facade = facadeStyles[facadeIndex],
@@ -83,7 +92,7 @@ namespace Mercraft.Explorer.Themes
             };
         }
 
-        private static int BalanceFacade(Building building, BuildingStyle.FacadeStyle style)
+        private int BalanceFacade(Building building, BuildingStyle.FacadeStyle style)
         {
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches
@@ -98,7 +107,7 @@ namespace Mercraft.Explorer.Themes
             return rating;
         }
 
-        private static int BalanceRoof(Building building, BuildingStyle.RoofStyle style)
+        private int BalanceRoof(Building building, BuildingStyle.RoofStyle style)
         {
             // NOTE different properties have different rating weight in range [1,5]
             // TODO rebalance this to have better matches

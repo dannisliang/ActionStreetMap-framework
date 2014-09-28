@@ -1,4 +1,6 @@
-﻿using Color32 = Mercraft.Core.Unity.Color32;
+﻿using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Geometry;
+using Color32 = Mercraft.Core.Unity.Color32;
 using Rect = Mercraft.Models.Geometry.Rect;
 
 namespace Mercraft.Models.Roads
@@ -11,6 +13,7 @@ namespace Mercraft.Models.Roads
         public int Height { get; set; }
         public int Width { get; set; }
 
+        public Size MaterialSize;
         public string Material { get; set; }
         public Color32 Color { get; set; }
 
