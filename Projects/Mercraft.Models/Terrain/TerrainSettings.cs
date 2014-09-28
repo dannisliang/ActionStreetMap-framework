@@ -24,7 +24,7 @@ namespace Mercraft.Models.Terrain
         /// <summary>
         /// The distance at which the low res base map will be drawn. Decrease to increase performance
         /// </summary>
-        public float BaseMapDist = 200.0f;
+        public float BaseMapDist = 500.0f;
 
         public List<List<string>> SplatParams;
         public List<List<string>> DetailParams;

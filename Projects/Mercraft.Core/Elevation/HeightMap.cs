@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Mercraft.Core.Elevation
 {
-    public class HeightMap
+    public class HeightMap: IDisposable
     {
         public int Resolution { get; set; }
 
@@ -38,6 +38,11 @@ namespace Mercraft.Core.Elevation
             i = i < 0 ? 0 : i;
 
             return Data[j, i];
+        }
+
+        public void Dispose()
+        {
+            Data = null;
         }
     }
 }

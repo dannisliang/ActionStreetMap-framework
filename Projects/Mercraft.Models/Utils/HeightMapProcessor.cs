@@ -32,6 +32,12 @@ namespace Mercraft.Models.Utils
             _lastIndex = _size - 1;
         }
 
+        public void Clear()
+        {
+            _heightMap = null;
+            _data = null;
+        }
+
         public void AdjustLine(MapPoint start, MapPoint end, float width)
         {
             SetOffsetPoints(start, end, width);

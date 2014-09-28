@@ -81,6 +81,7 @@ namespace Mercraft.Explorer.Scene.Builders
             {
                 _heightMapProcessor.Recycle(heightMap);
                 _heightMapProcessor.AdjustPolygon(footPrint, elevation);
+                _heightMapProcessor.Clear();
             }
         }
 

@@ -23,6 +23,9 @@ namespace Mercraft.Models.Terrain
         private readonly AreaBuilder _areaBuilder = new AreaBuilder();
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
+        private SplatPrototype[] _splatPrototypes;
+        private DetailPrototype[] _detailPrototypes;
+
         [Dependency]
         private ITrace Trace { get; set; }
 
@@ -74,11 +77,10 @@ namespace Mercraft.Models.Terrain
             if (settings.Elevations.Any())
             {
                 var elevation = heightMap.MinElevation - 10;
+                _heightMapProcessor.Recycle(heightMap);
                 foreach (var elevationArea in settings.Elevations)
-                {
-                    _heightMapProcessor.Recycle(heightMap);
                     _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
-                }
+                _heightMapProcessor.Clear();
             }
         }
 
@@ -90,8 +92,17 @@ namespace Mercraft.Models.Terrain
             terrainData.heightmapResolution = settings.Tile.HeightMap.Resolution;
             terrainData.SetHeights(0, 0, htmap);
             terrainData.size = size;
-            terrainData.splatPrototypes = GetSplatPrototypes(settings.SplatParams);
-            terrainData.detailPrototypes = GetDetailPrototype(settings.DetailParams);
+            
+            // Assume that settings is the same all the time
+            // TODO do not parse it every time
+            if (_splatPrototypes == null)
+                _splatPrototypes = GetSplatPrototypes(settings.SplatParams);
+
+            if (_detailPrototypes == null)
+                _detailPrototypes = GetDetailPrototype(settings.DetailParams);
+
+            terrainData.splatPrototypes = _splatPrototypes;
+            terrainData.detailPrototypes = _detailPrototypes;
 
             // create Terrain using terrain data
             var gameObject = UnityEngine.Terrain.CreateTerrainGameObject(terrainData);
@@ -105,7 +116,7 @@ namespace Mercraft.Models.Terrain
 
             //disable this for better frame rate
             terrain.castShadows = false;
-
+            
             terrainData.SetAlphamaps(0, 0, splatMap);
 
             SetTrees(terrain, settings, size);

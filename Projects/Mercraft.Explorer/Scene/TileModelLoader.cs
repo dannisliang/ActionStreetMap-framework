@@ -79,6 +79,8 @@ namespace Mercraft.Explorer.Scene
             _elevations.Clear();
             _roadElements.Clear();
             _trees.Clear();
+            _tile.Scene.Dispose();
+            _tile.HeightMap = null;
         }
 
         #endregion

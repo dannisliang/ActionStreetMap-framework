@@ -259,6 +259,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                 points = ThickLineUtils.GetIntermediatePoints(_heightMap, lineElement.Points, MaxPointDistance);
                 for (int i = 0; i < points.Length - 1; i++)
                     _heightMapProcessor.AdjustLine(points[i], points[i + 1], lineElement.Width);
+                _heightMapProcessor.Clear();
             }
 
             for (int i = 1; i < points.Length; i++)
