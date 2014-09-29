@@ -37,6 +37,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
             Container.Register(Component.For<IModelBuilder>().Use<TestSphereModelBuilder>().Named("sphere"));
             Container.Register(Component.For<IModelBuilder>().Use<TestCylinderModelBuilder>().Named("cylinder"));
             Container.Register(Component.For<IModelBuilder>().Use<TestBarrierModelBuilder>().Named("barrier"));
+            Container.Register(Component.For<IModelBuilder>().Use<TestInfoModelBuilder>().Named("info"));
 
             Container.Register(Component.For<ITerrainBuilder>().Use<TestTerrainBuilder>());
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());

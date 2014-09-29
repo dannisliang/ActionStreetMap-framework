@@ -11,6 +11,11 @@ namespace Mercraft.Explorer.Helpers
     /// </summary>
     public static class CommonRuleExtensions
     {
+        public static string GetKey(this Rule rule)
+        {
+            return rule.Evaluate<string>("key");
+        }
+
         public static float GetHeight(this Rule rule, float defaultValue = 0)
         {
             return rule.EvaluateDefault<float>("height", defaultValue);
