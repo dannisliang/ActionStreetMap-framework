@@ -52,6 +52,8 @@
     <Compile Include="Geometry\Rect.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\ThickLine\DimenLineBuilder.cs" />
+    <Compile Include="Infos\InfoStyle.cs" />
+    <Compile Include="Infos\InfoStyleProvider.cs" />
     <Compile Include="Roads\RoadBuilder.cs" />
     <Compile Include="Geometry\ThickLine\LineElement.cs" />
     <Compile Include="Geometry\ThickLine\ThickLineHelper.cs" />

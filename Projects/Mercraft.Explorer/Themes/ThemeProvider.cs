@@ -6,11 +6,11 @@ using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Formats.Json;
-using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Infos;
 using Mercraft.Models.Roads;
 using UnityEngine;
 
@@ -28,6 +28,7 @@ namespace Mercraft.Explorer.Themes
         private readonly IPathResolver _pathResolver;
         private const string BuildingsThemeFile = @"buildings/include";
         private const string RoadsThemeFile = @"roads/include";
+        private const string InfosThemeFile = @"infos/include";
 
         private readonly IEnumerable<IFacadeBuilder> _facadeBuilders;
         private readonly IEnumerable<IRoofBuilder> _roofBuilders;
@@ -54,7 +55,8 @@ namespace Mercraft.Explorer.Themes
         {
             var buildingStyleProvider = GetBuildingStyleProvider(configSection);
             var roadStyleProvider = GetRoadStyleProvider(configSection);
-            _theme = new Theme(buildingStyleProvider, roadStyleProvider);
+            var infoStyleProvider = GetInfoStyleProvider(configSection);
+            _theme = new Theme(buildingStyleProvider, roadStyleProvider, infoStyleProvider);
         }
 
         #region Buildings
@@ -194,6 +196,41 @@ namespace Mercraft.Explorer.Themes
         }
 
         #endregion
+
+        private IInfoStyleProvider GetInfoStyleProvider(IConfigSection configSection)
+        {
+            // NOTE ignore name of style pack - just use one collection
+            var infoStyleMap = new Dictionary<string, InfoStyle>();
+            foreach (var infoThemeConfig in configSection.GetSections(InfosThemeFile))
+            {
+                var path = infoThemeConfig.GetString("@path");
+                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
+                {
+                    var jsonStr = reader.ReadToEnd();
+                    var json = JSON.Parse(jsonStr);
+                    FillInfoStyleList(json, infoStyleMap);
+                }
+            }
+            return new InfoStyleProvider(infoStyleMap);
+        }
+
+        private void FillInfoStyleList(JSONNode json, Dictionary<string, InfoStyle> infoStyleMap)
+        {
+            foreach (JSONNode node in json["infos"].AsArray)
+            {
+                var path = node["path"].Value;
+                var size = new Size(node["size"]["width"].AsInt, node["size"]["height"].AsInt);
+                foreach (JSONNode textureNode in node["textures"].AsArray)
+                {
+                    var map = textureNode["map"];
+                    infoStyleMap.Add(textureNode["key"].Value, new InfoStyle()
+                    {
+                        Path = path,
+                        UvMap = GetUvMap(map["main"], size),
+                    });
+                }
+            }
+        }
 
         private Rect GetUvMap(string value, Size size)
         {

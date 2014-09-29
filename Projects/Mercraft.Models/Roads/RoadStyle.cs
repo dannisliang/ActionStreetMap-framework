@@ -13,7 +13,6 @@ namespace Mercraft.Models.Roads
         public int Height { get; set; }
         public int Width { get; set; }
 
-        public Size MaterialSize;
         public string Material { get; set; }
         public Color32 Color { get; set; }
 

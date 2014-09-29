@@ -70,6 +70,7 @@
     <Compile Include="Unity\UnityPrimitiveType.cs" />
     <Compile Include="World\Buildings\Building.cs" />
     <Compile Include="World\Collection.cs" />
+    <Compile Include="World\Infos\Info.cs" />
     <Compile Include="World\Roads\Road.cs" />
     <Compile Include="World\Roads\RoadElement.cs" />
     <Compile Include="World\Roads\RoadElementComposer.cs" />

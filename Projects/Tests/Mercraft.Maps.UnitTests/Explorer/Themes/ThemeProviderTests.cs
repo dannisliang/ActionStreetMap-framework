@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Utilities;
 using Mercraft.Core.World.Buildings;
+using Mercraft.Core.World.Infos;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Config;
@@ -22,8 +23,6 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
 
             // ACT
             var theme = provider.Get();
-
-            // ASSERT
             Assert.IsNotNull(theme);
 
             var style = theme.GetBuildingStyle(new Building()
@@ -31,6 +30,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
                 Type = "residential"
             });
 
+            // ASSERT
             Assert.IsNotNull(style);
             Assert.IsNotNull(style.Facade);
 
@@ -63,8 +63,6 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
 
             // ACT
             var theme = provider.Get();
-
-            // ASSERT
             Assert.IsNotNull(theme);
 
             var style = theme.GetRoadStyle(new Road()
@@ -78,12 +76,34 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
                 }
             });
 
+            // ASSERT
             Assert.AreEqual("Materials/Roads/default_1", style.Path);
             Assert.AreEqual("asphalt", style.Material);
             Assert.AreEqual(ColorUtility.FromName("gray"), style.Color);
             Assert.IsNotNull(style.MainUvMap);
             Assert.IsNull(style.TurnUvMap);
 
+        }
+
+        [Test]
+        public void CanGetInfo()
+        {
+            // ARRANGE
+            var provider = GetThemeProvider();
+            provider.Configure(GetTestThemeConfig());
+
+            // ACT
+            var theme = provider.Get();
+            Assert.IsNotNull(theme);
+
+            var style = theme.GetInfoStyle(new Info()
+            {
+                Key = "accommodation_camping"
+            });
+
+            // ASSERT
+            Assert.AreEqual("Materials/Infos/default_1", style.Path);
+            Assert.IsNotNull(style.UvMap);
         }
 
         private ThemeProvider GetThemeProvider()
