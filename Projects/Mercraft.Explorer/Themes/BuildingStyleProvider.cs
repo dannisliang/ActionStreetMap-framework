@@ -102,7 +102,7 @@ namespace Mercraft.Explorer.Themes
             if (building.FacadeMaterial != null && style.Material == building.FacadeMaterial)
                 rating += 3;
             if (style.Color.Equals(building.FacadeColor))
-                rating += 3;
+                rating += 2;
 
             return rating;
         }
