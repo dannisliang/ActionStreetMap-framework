@@ -242,10 +242,12 @@ namespace Mercraft.Explorer.Themes
             if (values.Length != 4)
                 throw new InvalidOperationException(String.Format(ErrorStrings.InvalidUvMappingDefinition, value));
 
-            var x = float.Parse(values[0]);
-            var y = Math.Abs(float.Parse(values[1]) - size.Height);
-            var width = float.Parse(values[2]);
-            var height = float.Parse(values[3]);
+            var width = (float)int.Parse(values[2]);
+            var height = (float)int.Parse(values[3]);
+
+            var offset = int.Parse(values[1]);
+            var x = (float)int.Parse(values[0]);
+            var y = Math.Abs( (offset + height) - size.Height);
 
             var leftBottom = new Vector2(x / size.Width, y / size.Height);
             var rightUpper = new Vector2((x + width) / size.Width, (y + height) / size.Height);

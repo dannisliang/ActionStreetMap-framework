@@ -1,4 +1,6 @@
-﻿using Mercraft.Core.Unity;
+﻿using Mercraft.Core;
+using Mercraft.Core.Tiles;
+using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Core.World.Infos;
 using Mercraft.Explorer.Scene.Builders;
@@ -18,9 +20,10 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
         {
         }
 
-        protected override void BuildObject(IGameObject gameObjectWrapper, Info info, InfoStyle style)
+        protected override void BuildObject(Tile tile, IGameObject gameObjectWrapper, Info info, 
+            InfoStyle style, MapPoint mapPoint, float zIndex)
         {
-            // do nothing
+            
         }
     }
 }
