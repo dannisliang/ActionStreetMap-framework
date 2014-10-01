@@ -47,12 +47,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                     new GeoCoordinate(52.5209891, 13.4097538),
                     new GeoCoordinate(52.5209766, 13.4098037)
                 },
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "residential"),
-                    new KeyValuePair<string, string>("building:shape", "sphere"),
-                    new KeyValuePair<string, string>("min_height", "100"),
-                    new KeyValuePair<string, string>("building:levels", "5"),
+                    {"building", "residential"},
+                    {"building:shape", "sphere"},
+                    {"min_height", "100"},
+                    {"building:levels", "5"},
                 }
             };
 
@@ -84,23 +84,23 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
             var area1 = new Area
             {
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "tower"),
-                    new KeyValuePair<string, string>("building:material", "metal"),
-                    new KeyValuePair<string, string>("building:part", "yes"),
-                    new KeyValuePair<string, string>("height", "237"),
-                    new KeyValuePair<string, string>("min_height", "205"),
+                    {"building", "tower"},
+                    {"building:material", "metal"},
+                    {"building:part", "yes"},
+                    {"height", "237"},
+                    {"min_height", "205"},
                 },
                 Points = testPoints
             };
             var area2 = new Area
             {
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "roof"),
-                    new KeyValuePair<string, string>("building:part", "yes"),
-                    new KeyValuePair<string, string>("level", "1"),
+                    {"building", "roof"},
+                    {"building:part", "yes"},
+                    {"level", "1"},
                 },
                 Points = testPoints
             };
@@ -125,9 +125,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var model = new Area
             {
                 Id = 1,
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building:levels", "5")
+                    {"building:levels", "5"}
                 }
             };
 
@@ -149,10 +149,10 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var model = new Area
             {
                 Id = 1,
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building:height", "20"),
-                    new KeyValuePair<string, string>("roof:height", "5"),
+                    {"building:height", "20"},
+                    {"roof:height", "5"},
                 }
             };
 
@@ -174,12 +174,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var model = new Area
             {
                 Id = 1,
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building:part", "yes"),
-                    new KeyValuePair<string, string>("building:height", "20"),
-                    new KeyValuePair<string, string>("building:min_height", "3"),
-                    new KeyValuePair<string, string>("roof:height", "5"),
+                    {"building:part", "yes"},
+                    {"building:height", "20"},
+                    {"building:min_height", "3"},
+                    {"roof:height", "5"},
                 }
             };
 
@@ -211,9 +211,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "residential"),
+                    {"building", "residential"},
                 }
             };
 
@@ -231,9 +231,16 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("way[waterway][name],way[waterway] { z-index: 0.1}\n");
 
             // ACT
-            var way1 = MapCssHelper.GetWay(new KeyValuePair<string, string>("waterway", "river"),
-                new KeyValuePair<string, string>("name", "spree"));
-            var way2 = MapCssHelper.GetWay(new KeyValuePair<string, string>("name", "some name"));
+            var way1 = MapCssHelper.GetWay(
+                new Dictionary<string, string>()
+                {
+                    {"waterway", "river"},
+                    {"name", "spree"}
+                });
+            var way2 = MapCssHelper.GetWay(new Dictionary<string, string>()
+            {
+                {"name", "some name"}
+            });
 
             // ASSERT
             Assert.IsTrue(stylesheet.GetRule(way1).IsApplicable);
@@ -251,9 +258,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "commercial"),
+                    {"building", "commercial"},
                 }
             };
 
@@ -276,9 +283,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "yes"),
+                    {"building", "yes"},
                 }
             };
 
@@ -301,10 +308,10 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building", "commercial"),
-                    new KeyValuePair<string, string>("building:color", "#cfc6b5"),
+                    {"building", "commercial"},
+                    {"building:color", "#cfc6b5"}
                 }
             };
 

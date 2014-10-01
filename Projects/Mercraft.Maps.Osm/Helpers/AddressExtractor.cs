@@ -30,7 +30,7 @@ namespace Mercraft.Maps.Osm.Helpers
 
         #endregion
 
-        public static Address Extract(IList<KeyValuePair<string, string>> tags)
+        public static Address Extract(Dictionary<string, string> tags)
         {
             return new Address
             {
@@ -40,12 +40,12 @@ namespace Mercraft.Maps.Osm.Helpers
             };
         }
 
-        private static string GetValue(IEnumerable<string> keyList, IList<KeyValuePair<string, string>> tags)
+        private static string GetValue(IEnumerable<string> keyList, Dictionary<string, string> tags)
         {
             string value;
             foreach (var key in keyList)
             {
-                if (tags.TryGetValue(key, out value))
+                if (tags.ContainsKey(key) && tags.TryGetValue(key, out value))
                     return value;
             }
             return null;

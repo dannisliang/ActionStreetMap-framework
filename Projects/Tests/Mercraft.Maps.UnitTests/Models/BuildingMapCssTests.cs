@@ -22,9 +22,9 @@ namespace Mercraft.Maps.UnitTests.Models
             {
                 Id = 1,
                 Points = new GeoCoordinate[0],
-                Tags = new Collection<KeyValuePair<string, string>>()
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("building","residential"),
+                    {"building","residential"},
                 }
             };
 

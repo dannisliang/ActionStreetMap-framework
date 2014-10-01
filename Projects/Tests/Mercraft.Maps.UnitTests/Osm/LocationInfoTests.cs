@@ -12,11 +12,11 @@ namespace Mercraft.Maps.UnitTests.Osm
         public void CanExtractLocationInfo()
         {
             // ARRANGE
-            var tags = new Collection<KeyValuePair<string, string>>
+            var tags = new Dictionary<string, string>()
             {
-                new KeyValuePair<string, string>("addr:housenumber", "26"),
-                new KeyValuePair<string, string>("addr:postcode", "220088"),
-                new KeyValuePair<string, string>("addr:street", "Zacharova"),
+                {"addr:housenumber", "26"},
+                {"addr:postcode", "220088"},
+                {"addr:street", "Zacharova"},
             };
 
             // ACT

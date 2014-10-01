@@ -136,12 +136,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (node.keys.Any())
             {
-                elementNode.Tags = new List<KeyValuePair<string, string>>();
+                elementNode.Tags = new Dictionary<string, string>();
                 for (int tagIdx = 0; tagIdx < node.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.vals[tagIdx]]));
-                    elementNode.Tags.Add(new KeyValuePair<string, string>(key, value));
+                    elementNode.Tags.Add(key, value);
                 }
             }
             
@@ -152,8 +152,10 @@ namespace Mercraft.Maps.Osm.Data
                 // merge tags if element is present in collection
                 if (elementNode.Tags != null && elementNode.Tags.Count > 0)
                 {
+                    var tags = Elements[elementNode.Id].Tags;
                     foreach (var keyValuePair in elementNode.Tags)
-                        Elements[elementNode.Id].Tags.Add(keyValuePair);
+                        if (!tags.ContainsKey(keyValuePair.Key))
+                            tags.Add(keyValuePair.Key, keyValuePair.Value);
                 }
             }
 
@@ -191,12 +193,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (way.keys.Any())
             {
-                elementWay.Tags = new List<KeyValuePair<string, string>>();
+                elementWay.Tags = new Dictionary<string, string>();
                 for (int tagIdx = 0; tagIdx < way.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.vals[tagIdx]]));
-                    elementWay.Tags.Add(new KeyValuePair<string, string>(key, value));
+                    elementWay.Tags.Add(key, value);
                 }
             }
 
@@ -247,13 +249,13 @@ namespace Mercraft.Maps.Osm.Data
             }
             if (relation.keys.Count > 0)
             {
-                elementRelation.Tags = new List<KeyValuePair<string, string>>();
+                elementRelation.Tags = new Dictionary<string, string>();
                 for (int tagIdx = 0; tagIdx < relation.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.keys[tagIdx]]));
                     string value =
                         String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.vals[tagIdx]]));
-                    elementRelation.Tags.Add(new KeyValuePair<string, string>(key, value));
+                    elementRelation.Tags.Add(key, value);
                 }
             }
             // TODO this situation occurs rarely; need to investigate

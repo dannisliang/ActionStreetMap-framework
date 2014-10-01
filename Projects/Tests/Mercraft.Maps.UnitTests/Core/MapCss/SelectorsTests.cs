@@ -17,8 +17,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[landuse] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("building", "residential"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"building", "residential"}});
 
             // ASSERT
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
@@ -32,8 +32,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[!landuse] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("building", "residential"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "building", "residential" } });
 
             // ASSERT
             Assert.IsFalse(stylesheet.GetRule(area1).IsApplicable);
@@ -47,8 +47,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[landuse=forest] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "grass"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "landuse", "grass" } });
 
             // ASSERT
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
@@ -62,12 +62,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[landuse!=forest] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "forest"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("landuse", "grass"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() {{ "landuse", "forest" }});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "grass"}});
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsFalse(stylesheet.GetRule(area1).IsApplicable);
+            Assert.IsTrue(stylesheet.GetRule(area2).IsApplicable);
         }
 
         [Test]
@@ -77,8 +77,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[level<0] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "-1"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "1"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "-1"}});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "level", "1" } });
 
             // ASSERT
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
@@ -92,8 +92,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = MapCssHelper.GetStylesheet("area[level>0] { z-index: 0.1}\n");
 
             // ACT
-            var area1 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "1"));
-            var area2 = MapCssHelper.GetArea(new KeyValuePair<string, string>("level", "0"));
+            var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "1"}});
+            var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "0"}});
 
             // ASSERT
             Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
@@ -116,9 +116,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                     new GeoCoordinate(1, 0),
                     new GeoCoordinate(0, 0)
                 },
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("barrier", "yes")
+                    {"barrier", "yes"}
                 }
             };
 
@@ -131,9 +131,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                     new GeoCoordinate(1, 0),
                     new GeoCoordinate(0, 1)
                 },
-                Tags = new Collection<KeyValuePair<string, string>>
+                Tags = new Dictionary<string, string>()
                 {
-                    new KeyValuePair<string, string>("barrier", "yes")
+                    {"barrier", "yes"}
                 }
             };
 

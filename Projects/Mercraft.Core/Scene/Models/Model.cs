@@ -6,7 +6,7 @@ namespace Mercraft.Core.Scene.Models
     {
         public long Id { get; set; }
        
-        public IList<KeyValuePair<string, string>> Tags { get; set; }
+        public Dictionary<string, string> Tags { get; set; }
         public abstract bool IsClosed { get; }
 
         public abstract void Accept(IModelVisitor visitor);

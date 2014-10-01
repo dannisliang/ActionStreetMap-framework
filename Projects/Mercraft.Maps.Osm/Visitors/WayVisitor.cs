@@ -44,11 +44,11 @@ namespace Mercraft.Maps.Osm.Visitors
         /// Returns merged tags. We cannot do this in place as Way can be reused
         /// in case of cross tile processing logic is applied
         /// </summary>
-        private List<KeyValuePair<string,string>> GetMergedTags(Way way)
+        private Dictionary<string,string> GetMergedTags(Way way)
         {
             var tags = way.Tags == null ? 
-                new List<KeyValuePair<string, string>>() : 
-                new List<KeyValuePair<string, string>>(way.Tags);
+                new Dictionary<string, string>() : 
+                new Dictionary<string, string>(way.Tags);
             foreach (var node in way.Nodes)
             {
                 if (node.Tags == null)
@@ -57,7 +57,7 @@ namespace Mercraft.Maps.Osm.Visitors
                 {
                     if (IsMergeTag(tag) && tags.All(t => t.Key != tag.Key))
                     {
-                        tags.Add(new KeyValuePair<string, string>(tag.Key, tag.Value));
+                        tags.Add(tag.Key, tag.Value);
                     }
                 }
             }
@@ -69,7 +69,7 @@ namespace Mercraft.Maps.Osm.Visitors
             return tag.Key.StartsWith("addr:");
         }
 
-        private bool IsArea(IList<KeyValuePair<string, string>> tags)
+        private bool IsArea(Dictionary<string, string> tags)
         {
             return (tags != null) &&
                    ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||

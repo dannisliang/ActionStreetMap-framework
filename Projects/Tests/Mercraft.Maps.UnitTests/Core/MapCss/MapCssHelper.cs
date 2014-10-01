@@ -25,7 +25,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             return new Canvas();
         }
 
-        public static Area GetArea(params KeyValuePair<string, string>[] tags)
+        public static Area GetArea(Dictionary<string, string> tags)
         {
             return new Area
             {
@@ -40,7 +40,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
         }
 
-        public static Way GetWay(params KeyValuePair<string, string>[] tags)
+        public static Way GetWay(Dictionary<string, string> tags)
         {
             return new Way
             {

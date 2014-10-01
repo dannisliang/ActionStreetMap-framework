@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Mercraft.Core.Utilities
 {
@@ -10,61 +9,53 @@ namespace Mercraft.Core.Utilities
             return MathUtility.AreEqual(point1.X, point2.X) && MathUtility.AreEqual(point1.Y, point2.Y);
         }
 
-        public static bool ContainsKeyValue(this IList<KeyValuePair<string, string>> collection, string key,
+        public static bool ContainsKeyValue(this Dictionary<string, string> collection, string key,
             string value)
         {
-            return  collection != null && collection.Any(keyValuePair => keyValuePair.Key == key && keyValuePair.Value == value);
+            return collection != null && collection.ContainsKey(key) && collection[key] == value;
         }
 
-        public static bool ContainsKey(this IList<KeyValuePair<string, string>> collection, string key)
+        public static bool ContainsKey(this Dictionary<string, string> collection, string key)
         {
-            return collection != null && collection.Any(keyValuePair => keyValuePair.Key == key);
+            return collection != null && collection.ContainsKey(key);
         }
 
-        public static bool NotContainsKey(this IList<KeyValuePair<string, string>> collection, string key)
+        public static bool NotContainsKey(this Dictionary<string, string> collection, string key)
         {
             // NOTE should we consider null collection as valid case for this?
-            return collection != null && collection.All(keyValuePair => keyValuePair.Key != key);
+            return collection != null && !collection.ContainsKey(key);
         }
 
-        public static bool IsNotEqual(this IList<KeyValuePair<string, string>> collection, string key,
-            string value)
+        public static bool IsNotEqual(this Dictionary<string, string> collection, string key, string value)
         {
-            return collection != null && collection.All(keyValuePair => keyValuePair.Key != key || keyValuePair.Value == value);
+            return collection != null && collection.ContainsKey(key) && collection[key] != value;
         }
 
-        public static bool IsLess(this IList<KeyValuePair<string, string>> collection, string key,
+        public static bool IsLess(this Dictionary<string, string> collection, string key,
             string value)
         {
             return collection != null && CompareValues(collection, key, value, false);
         }
 
-        public static bool IsGreater(this IList<KeyValuePair<string, string>> collection, string key,
+        public static bool IsGreater(this Dictionary<string, string> collection, string key,
             string value)
         {
             return collection != null && CompareValues(collection, key, value, true);
         }
 
         /// <summary>
-        /// Compares value in collection
+        ///     Compares value in collection
         /// </summary>
-        private static bool CompareValues(IList<KeyValuePair<string, string>> collection, string key,
+        private static bool CompareValues(Dictionary<string, string> collection, string key,
             string value, bool isGreater)
         {
-            float target = float.Parse(value);
-            for (int i = 0; i < collection.Count; i++)
-            {
-                if (collection[i].Key != key)
-                    continue;
+            if (!collection.ContainsKey(key))
+                return false;
 
-                float fValue = 0;
-                if (float.TryParse(collection[i].Value, out fValue) &&
-                    (isGreater? fValue > target: fValue < target))
-                {
-                    return true;
-                }
-            }
-            return false;
+            float target = float.Parse(value);
+            var item = collection[key];
+            float fValue = 0;
+            return float.TryParse(item, out fValue) && (isGreater ? fValue > target : fValue < target);
         }
     }
 }
