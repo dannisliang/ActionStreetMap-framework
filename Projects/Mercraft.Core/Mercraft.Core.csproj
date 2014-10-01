@@ -54,6 +54,7 @@
     <Compile Include="Elevation\Srtm\SrtmElevationProvider.cs" />
     <Compile Include="Elevation\Srtm\SrtmDataCell.cs" />
     <Compile Include="GeoCoordinate.cs" />
+    <Compile Include="MapCss\Domain\StyleCollection.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="Scene\IModelVisitor.cs" />
     <Compile Include="Tiles\ITileLoader.cs" />

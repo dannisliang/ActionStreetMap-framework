@@ -133,7 +133,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
-            var evalDeclaration = stylesheet.Styles[3].Declarations[0];
+            var evalDeclaration = MapCssHelper.GetStyles(stylesheet)[3].Declarations[0];
 
             // ACT
             var evalResult = evalDeclaration.Evaluator.Walk<float>(model);

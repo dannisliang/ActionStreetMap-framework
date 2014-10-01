@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.MapCss.Domain;
@@ -18,6 +20,29 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             stream.Position = 0;
             var provider = new StylesheetProvider(stream);
             return provider.Get();
+        }
+
+        public static IList<Style> GetStyles(Stylesheet stylesheet)
+        {
+            // NOTE don't want to expose these fieds as public API, so use reflection in tests
+            Func<string, IList<Style>> getter = name =>
+            {
+                var sField = typeof(Stylesheet).GetField("_styles", BindingFlags.NonPublic |
+                    BindingFlags.Instance | BindingFlags.GetField);
+                var sFieldValue = (sField.GetValue(stylesheet) as StyleCollection);
+
+                var field = typeof(StyleCollection).GetField(name, BindingFlags.NonPublic |
+                   BindingFlags.Instance | BindingFlags.GetField);
+                return (field.GetValue(sFieldValue) as List<Style>);
+            };
+
+            var result = new List<Style>();
+            result.AddRange(getter("_canvasStyles"));
+            result.AddRange(getter("_areaStyles"));
+            result.AddRange(getter("_wayStyles"));
+            result.AddRange(getter("_nodeStyles"));
+
+            return result;
         }
 
         public static Canvas GetCanvas()

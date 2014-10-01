@@ -17,7 +17,7 @@ namespace Mercraft.Core.MapCss.Domain
         public Rule(Model model)
         {
             _model = model;
-            Declarations = new List<Declaration>();
+            Declarations = new List<Declaration>(4);
         }
 
         public bool IsApplicable

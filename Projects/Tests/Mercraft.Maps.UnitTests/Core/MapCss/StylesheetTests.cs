@@ -29,9 +29,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             // ACT & ASSERT
             var stylesheet = provider.Get();
 
-            Assert.AreEqual(9, stylesheet.Styles.Count);
+            Assert.AreEqual(9, stylesheet.Count);
 
-            var testStyle1 = stylesheet.Styles[1];
+            var testStyle1 = MapCssHelper.GetStyles(stylesheet)[1];
 
             Assert.AreEqual(2, testStyle1.Selectors.Count);
             Assert.AreEqual(7, testStyle1.Declarations.Count);
@@ -46,7 +46,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.AreEqual("building", testSelector2.Tag);
             Assert.AreEqual("OP_EXIST", testSelector2.Operation);
 
-            var lastStyle = stylesheet.Styles[7];
+            var lastStyle = MapCssHelper.GetStyles(stylesheet)[7];
             Assert.AreEqual(2, lastStyle.Selectors.Count);
             Assert.AreEqual(1, lastStyle.Declarations.Count);
         }

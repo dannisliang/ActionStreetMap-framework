@@ -465,6 +465,6 @@ node[waterway=weir]							                { z-index:16; builder:info; key:water_
 /* Shouldn't be shown */
 way[highway=footway],
 way[level<0],
-way[layer<0],
+way[layer<0], 											
 area[level<0],
 area[layer<0]											{ skip:true;}

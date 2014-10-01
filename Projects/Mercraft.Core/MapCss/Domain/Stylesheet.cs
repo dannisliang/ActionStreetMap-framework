@@ -1,28 +1,36 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.MapCss.Domain
 {
     public class Stylesheet
     {
-        // TODO make it private and introduce AddRule method
-        /// <summary>
-        /// Holds a list of all MapCSS rules.
-        /// </summary>
-        public IList<Style> Styles { get; set; }
+        private StyleCollection _styles;
 
         public Stylesheet()
         {
-            Styles = new List<Style>();
+            _styles = new StyleCollection();
+        }
+
+        public void AddStyle(Style style)
+        {
+            _styles.Add(style);
+        }
+
+        public int Count
+        {
+            get
+            {
+                return _styles.Count;
+            }
         }
 
         public Rule GetRule(Model model, bool mergeDeclarations = true)
         {
             if(mergeDeclarations)
-                return Styles.Aggregate(new Rule(model), (r, s) => MergeDeclarations(s, r, model));
+                return _styles.GetRule(model, (r, s) => MergeDeclarations(s, r, model));
 
-            return Styles.Aggregate(new Rule(model), (r, s) => CollectDeclarations(s, r, model));
+            return _styles.GetRule(model, (r, s) => CollectDeclarations(s, r, model));
         }
 
         private Rule MergeDeclarations(Style style, Rule rule, Model model)

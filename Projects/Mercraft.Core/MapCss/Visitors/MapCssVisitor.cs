@@ -31,8 +31,8 @@ namespace Mercraft.Core.MapCss.Visitors
             {
                 if (child.Text == "RULE")
                 {
-                    var rule = VisitStyle(child);
-                   stylesheet.Styles.Add(rule);
+                    var style = VisitStyle(child);
+                    stylesheet.AddStyle(style);
                 }
             }
 
