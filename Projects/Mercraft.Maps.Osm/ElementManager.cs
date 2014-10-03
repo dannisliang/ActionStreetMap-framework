@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
@@ -12,8 +10,11 @@ namespace Mercraft.Maps.Osm
     /// <summary>
     /// Manages elements in bbox. Stateful class (not thread safe!)
     /// </summary>
-    public class ElementManager
+    public class ElementManager: IElementVisitor
     {
+        private IElementSource _currentElementSource;
+        private BoundingBox _currentBoundingBox;
+
         private Dictionary<long, Node> _unresolvedNodes = new Dictionary<long, Node>();
 
         /// <summary>
@@ -28,34 +29,42 @@ namespace Mercraft.Maps.Osm
         /// </summary>
         public void VisitBoundingBox(BoundingBox bbox, IElementSource elementSource,  IElementVisitor visitor)
         {
+            // needed by IElementVisitor methods of this
+            _currentElementSource = elementSource;
+            _currentBoundingBox = bbox;
+
             // process elements from elements source
             IEnumerable<Element> elements = elementSource.Get(bbox);
             foreach (var element in elements)
             {
-                Populate(bbox, element, elementSource);
+                //Populate(bbox, element, elementSource);
+                element.Accept(this);
                 element.Accept(visitor);
             }
 
             ProcessLeftovers(bbox, visitor);
         }
 
-        /// <summary>
-        /// Populates the given OSM objects into corresponding geometries.
-        /// </summary>
-        private void Populate(BoundingBox bbox, Element element, IElementSource elementSource)
+
+        #region IElementVisitor implementation
+
+        public void VisitNode(Node node)
         {
-            element.Accept(new ActionElementVisitor(
-                node => PopulateNode(node),
-                way => PopulateWay(bbox, way, elementSource),
-                relation => PopulateRelation(relation, elementSource)));
+            // Do nothing
         }
+
+        public void VisitWay(Way way)
+        {
+            PopulateWay(_currentBoundingBox, way, _currentElementSource);
+        }
+
+        public void VisitRelation(Relation relation)
+        {
+            PopulateRelation(relation, _currentElementSource);
+        }
+        #endregion
 
         #region Populates given elements
-
-        private Node PopulateNode(Node node)
-        {
-            return node;
-        }
 
         private Way PopulateWay(BoundingBox bbox, Way way, IElementSource elementSource)
         {
@@ -83,7 +92,7 @@ namespace Mercraft.Maps.Osm
                         continue;
                     }
                 }
-                PopulateNode(node);
+                //PopulateNode(node);
                 way.Nodes.Add(node);
             }
 
@@ -204,6 +213,5 @@ namespace Mercraft.Maps.Osm
                 }
             }
         }
-
     }
 }

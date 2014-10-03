@@ -14,11 +14,12 @@ namespace Mercraft.Maps.Osm.Data
         private const string IndexFilePattern = "*.list";
         private const string OsmFilePattern = "{0}.osm.pbf";
 
+        private readonly string[] _splitTo = new string[] { "to" };
+
         private readonly Regex _geoCoordinateRegex =
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)");
 
-        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex =
-            new List<KeyValuePair<string, BoundingBox>>();
+        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>();
 
         public PbfIndexListElementSource(string indexListPath, IPathResolver pathResolver)
         {
@@ -65,10 +66,9 @@ namespace Mercraft.Maps.Osm.Data
                 while (reader.Peek() >= 0)
                 {
                     var fileName = Path.Combine(indexFileDirectory,
-                        String.Format(OsmFilePattern,
-                            reader.ReadLine().Split(':')[0]));
+                        String.Format(OsmFilePattern, reader.ReadLine().Split(':')[0]));
 
-                    var coordinateStrings = reader.ReadLine().Split(new[] {"to"}, StringSplitOptions.None);
+                    var coordinateStrings = reader.ReadLine().Split(_splitTo, StringSplitOptions.None);
                     var minPoint = GetCoordinateFromString(coordinateStrings[0]);
                     var maxPoint = GetCoordinateFromString(coordinateStrings[1]);
 
@@ -95,7 +95,7 @@ namespace Mercraft.Maps.Osm.Data
 
         public override IEnumerable<Element> Get(BoundingBox bbox)
         {
-            var indecies = new List<int>();
+            var indecies = new List<int>(2);
             for (int i = 0; i < _listIndex.Count; i++)
             {
                 if (bbox.Intersect(_listIndex[i].Value))

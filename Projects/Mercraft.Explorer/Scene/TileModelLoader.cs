@@ -26,8 +26,8 @@ namespace Mercraft.Explorer.Scene
         private readonly IHeightMapProvider _heighMapProvider;
         private readonly ITerrainBuilder _terrainBuilder;
         private readonly IRoadBuilder _roadBuilder;
-        private readonly IEnumerable<IModelBuilder> _builders;
-        private readonly IEnumerable<IModelBehaviour> _behaviours;
+        private readonly IModelBuilder[] _builders;
+        private readonly IModelBehaviour[] _behaviours;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly IThemeProvider _themeProvider;
         private readonly Stylesheet _stylesheet;

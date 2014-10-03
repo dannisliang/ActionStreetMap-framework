@@ -29,20 +29,28 @@ namespace Mercraft.Explorer.Helpers
             return builders.Where(mb => builderNames.Contains(mb.Name));
         }*/
 
-        public static IModelBuilder GetModelBuilder(this Rule rule, IEnumerable<IModelBuilder> builders)
+        public static IModelBuilder GetModelBuilder(this Rule rule, IModelBuilder[] builders)
         {
             var builderName = rule.EvaluateDefault<string>("builder", null);
             if (builderName == null)
                 return null;
-            return builders.Single(mb => mb.Name == builderName);
+            // NOTE use for to avoid allocations
+            for (int i = 0; i< builders.Length; i++)
+                if (builders[i].Name == builderName)
+                    return builders[i];
+            return null;
         }
 
-        public static IModelBehaviour GetModelBehaviour(this Rule rule, IEnumerable<IModelBehaviour> behaviours)
+        public static IModelBehaviour GetModelBehaviour(this Rule rule, IModelBehaviour[] behaviours)
         {
-            var builderName = rule.EvaluateDefault<string>("behaviour", null);
-            if (builderName == null)
+            var behaviorName = rule.EvaluateDefault<string>("behaviour", null);
+            if (behaviorName == null)
                 return null;
-            return behaviours.Single(mb => mb.Name == builderName);
+            // NOTE use for to avoid allocations
+            for (int i = 0; i < behaviours.Length; i++)
+                if (behaviours[i].Name == behaviorName)
+                    return behaviours[i];
+            return null;
         }
 
         /// <summary>
