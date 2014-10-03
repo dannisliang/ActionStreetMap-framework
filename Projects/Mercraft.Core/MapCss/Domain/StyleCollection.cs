@@ -7,12 +7,12 @@ namespace Mercraft.Core.MapCss.Domain
 {
     internal class StyleCollection
     {
-        private IList<Style> _canvasStyles = new List<Style>(1);
-        private IList<Style> _areaStyles = new List<Style>(16);
-        private IList<Style> _wayStyles = new List<Style>(16);
-        private IList<Style> _nodeStyles = new List<Style>(64);
+        private List<Style> _canvasStyles = new List<Style>(1);
+        private List<Style> _areaStyles = new List<Style>(16);
+        private List<Style> _wayStyles = new List<Style>(16);
+        private List<Style> _nodeStyles = new List<Style>(64);
 
-        private IList<Style>  _andStyles = new List<Style>(16);
+        private List<Style>  _combinedStyles = new List<Style>(16);
 
         private int _count = 0;
 
@@ -47,23 +47,42 @@ namespace Mercraft.Core.MapCss.Domain
             }
             else
             {
-                _andStyles.Add(style);
+                _combinedStyles.Add(style);
             }
 
             _count++;
         }
 
-        public Rule GetRule(Model model, Func<Rule,Style,Rule> action)
+        public Rule GetMergedRule(Model model)
         {
-            return GetModelStyles(model).Aggregate(
-                _andStyles.Aggregate(new Rule(model), action), 
-                action);
+            var styles = GetModelStyles(model);
+            var rule = new Rule(model);
+            for (int i = 0; i < styles.Count; i++)
+                MergeDeclarations(styles[i], rule, model);
+
+            for (int i = 0; i < _combinedStyles.Count; i++)
+                MergeDeclarations(_combinedStyles[i], rule, model);
+
+            return rule;
         }
 
-        private IEnumerable<Style> GetModelStyles(Model model)
+        public Rule GetCollectedRule(Model model)
+        {
+            var styles = GetModelStyles(model);
+            var rule = new Rule(model);
+            for (int i = 0; i < styles.Count; i++)
+                CollectDeclarations(styles[i], rule, model);
+
+            for (int i = 0; i < _combinedStyles.Count; i++)
+                CollectDeclarations(_combinedStyles[i], rule, model);
+
+            return rule;
+        }
+
+        public List<Style> GetModelStyles(Model model)
         {
             if (model is Node)
-                return _areaStyles;
+                return _nodeStyles;
 
             if (model is Area)
                 return _areaStyles;
@@ -73,5 +92,57 @@ namespace Mercraft.Core.MapCss.Domain
 
             return _canvasStyles;
         }
+
+        #region Declaration processing
+
+        private Rule MergeDeclarations(Style style, Rule rule, Model model)
+        {
+            if (!style.IsApplicable(model))
+                return rule;
+
+            foreach (var ruleDeclarations in style.Declarations)
+            {
+                var declaration = rule.Declarations.SingleOrDefault(d => d.Qualifier == ruleDeclarations.Qualifier);
+                if (declaration != null)
+                {
+                    declaration.Value = ruleDeclarations.Value;
+                    declaration.Evaluator = ruleDeclarations.Evaluator;
+                    declaration.IsEval = ruleDeclarations.IsEval;
+                }
+                else
+                {
+                    // Should copy Declaration
+                    rule.Declarations.Add(new Declaration()
+                    {
+                        Qualifier = ruleDeclarations.Qualifier,
+                        Value = ruleDeclarations.Value,
+                        Evaluator = ruleDeclarations.Evaluator,
+                        IsEval = ruleDeclarations.IsEval
+                    });
+                }
+            }
+            return rule;
+        }
+
+        private Rule CollectDeclarations(Style style, Rule rule, Model model)
+        {
+            if (!style.IsApplicable(model))
+                return rule;
+
+            foreach (var ruleDeclarations in style.Declarations)
+            {
+                // Should copy Declaration
+                rule.Declarations.Add(new Declaration()
+                {
+                    Qualifier = ruleDeclarations.Qualifier,
+                    Value = ruleDeclarations.Value,
+                    Evaluator = ruleDeclarations.Evaluator,
+                    IsEval = ruleDeclarations.IsEval
+                });
+            }
+            return rule;
+        }
+
+        #endregion
     }
 }

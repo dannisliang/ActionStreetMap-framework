@@ -864,7 +864,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     }
 
 
-      private Info _info;
+    /*  private Info _info;
     /// <summary>
     /// 
     /// </summary>
@@ -874,7 +874,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     {
       get { return _info; }
       set { _info = value; }
-    }
+    }*/
     private global::System.Collections.Generic.List<long> _refs;
     /// <summary>
     /// 

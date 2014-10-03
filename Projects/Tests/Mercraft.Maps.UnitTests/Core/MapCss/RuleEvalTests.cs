@@ -323,6 +323,22 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
+        [Test]
+        public void CanUseNode()
+        {
+            // ARRANGE
+            var stylesheet = MapCssHelper.GetStylesheet("node[test] { z-index: 0.1}\n");
+
+            // ACT
+            var node = MapCssHelper.GetNode(new Dictionary<string, string>()
+                {
+                    {"test", "yes"},
+                });
+
+            // ASSERT
+            Assert.IsTrue(stylesheet.GetRule(node).IsApplicable);
+        }
+
         private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)
         {
             return new Mercraft.Core.Unity.Color32(color.r, color.g, color.b, color.a);

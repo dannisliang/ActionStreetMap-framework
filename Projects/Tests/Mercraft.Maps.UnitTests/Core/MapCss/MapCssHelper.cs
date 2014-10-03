@@ -79,5 +79,14 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 Tags = tags
             };
         }
+
+        public static Node GetNode(Dictionary<string, string> tags)
+        {
+            return new Node
+            {
+                Point = new GeoCoordinate(0, 0),
+                Tags = tags
+            };
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.IO;
 using Ionic.Zlib;
 using ProtoBuf;
+using ProtoBuf.Meta;
 
 namespace Mercraft.Maps.Osm.Formats.Pbf
 {
@@ -13,13 +14,37 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         /// <summary>
         ///     The stream containing the PBF data.
         /// </summary>
-        private readonly Stream _stream;
+        private Stream _stream;
+
+        /// <summary>
+        ///     Runtime type model.
+        /// </summary>
+        private readonly RuntimeTypeModel _runtimeTypeModel;
+
+        // Types of the objects to be deserialized.
+        private readonly Type _blockHeaderType = typeof(BlockHeader);
+        private readonly Type _blobType = typeof(Blob);
+        private readonly Type _primitiveBlockType = typeof(PrimitiveBlock);
+        private readonly Type _headerBlockType = typeof(HeaderBlock);
+
+        /// <summary>
+        ///     A block object that can be reused.
+        /// </summary>
+        private readonly PrimitiveBlock _block = new PrimitiveBlock();
 
         /// <summary>
         ///     Creates a new PBF reader.
         /// </summary>
-        /// <param name="stream"></param>
-        public PbfReader(Stream stream)
+        public PbfReader()
+        {
+            _runtimeTypeModel = RuntimeTypeModel.Create();
+            _runtimeTypeModel.Add(_blockHeaderType, true);
+            _runtimeTypeModel.Add(_blobType, true);
+            _runtimeTypeModel.Add(_primitiveBlockType, true);
+            _runtimeTypeModel.Add(_headerBlockType, true);
+        }
+
+        public void SetStream(Stream stream)
         {
             _stream = stream;
         }
@@ -30,6 +55,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         public void Dispose()
         {
             _stream.Dispose();
+            _stream = null;
         }
 
         /// <summary>
@@ -38,6 +64,16 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         /// <returns></returns>
         public PrimitiveBlock MoveNext()
         {
+            // make sure previous block data is removed.
+            if (_block.primitivegroup != null)
+            {
+                _block.primitivegroup.Clear();
+            }
+            if (_block.stringtable != null)
+            {
+                _block.stringtable.s.Clear();
+            }
+
             PrimitiveBlock block = null;
             bool notFoundBut = true;
             while (notFoundBut)
@@ -62,12 +98,12 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     // limiting myself to v1 features
                     using (var tmp = new LimitedStream(_stream, length))
                     {
-                        header = Serializer.Deserialize<BlockHeader>(tmp);
+                        header = _runtimeTypeModel.Deserialize(tmp, null, _blockHeaderType) as BlockHeader;
                     }
                     Blob blob;
                     using (var tmp = new LimitedStream(_stream, header.datasize))
                     {
-                        blob = Serializer.Deserialize<Blob>(tmp);
+                        blob = _runtimeTypeModel.Deserialize(tmp, null, _blobType) as Blob;
                     }
 
                     // construct the source stream, compressed or not.
@@ -89,13 +125,13 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     {
                         if (header.type == "OSMHeader")
                         {
-                            Serializer.Deserialize<HeaderBlock>(sourceStream);
+                            _runtimeTypeModel.Deserialize(sourceStream, null, _headerBlockType);
                             notFoundBut = true;
                         }
 
                         if (header.type == "OSMData")
                         {
-                            block = Serializer.Deserialize<PrimitiveBlock>(sourceStream);
+                            block = _runtimeTypeModel.Deserialize(sourceStream, _block, _primitiveBlockType) as PrimitiveBlock;
                         }
                     }
                 }

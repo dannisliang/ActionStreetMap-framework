@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Formats.Pbf;
 
@@ -14,7 +15,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         ///     Holds the Pbf reader.
         /// </summary>
-        private PbfReader _reader;
+        private readonly PbfReader _reader;
 
         /// <summary>
         ///     Holds the source of the data.
@@ -31,6 +32,7 @@ namespace Mercraft.Maps.Osm.Data
 
         protected PbfElementSource()
         {
+            _reader = new PbfReader();
             Elements = new Dictionary<long, Element>();
         }
 
@@ -45,7 +47,7 @@ namespace Mercraft.Maps.Osm.Data
         protected void SetStream(Stream stream)
         {
             _stream = stream;
-            _reader = new PbfReader(_stream);
+            _reader.SetStream(stream);
             ResetPrivateState();
         }
 
@@ -53,6 +55,7 @@ namespace Mercraft.Maps.Osm.Data
         {
             FillElements(bbox);
             ResetPrivateState();
+            _reader.Dispose();
             return Elements.Values;
         }
 
@@ -179,19 +182,26 @@ namespace Mercraft.Maps.Osm.Data
             _nodeIds.Add(elementNode.Id);
         }
 
+        private static readonly ObjectListPool<long> LongListPool = new ObjectListPool<long>(2, 64);
         private void SearchWay(PrimitiveBlock block, Formats.Pbf.Way way)
         {
             long nodeId = 0;
-            var nodeIds = new List<long>(way.refs.Count);
+            var nodeIds = LongListPool.New();
+            var notFound = true;
             for (int nodeIdx = 0; nodeIdx < way.refs.Count; nodeIdx++)
             {
                 nodeId = nodeId + way.refs[nodeIdx];
                 nodeIds.Add(nodeId);
+                if (notFound)
+                    notFound = !_nodeIds.Contains(nodeId);
             }
 
             // Way is out of bbox
-            if (!nodeIds.Any(nid => _nodeIds.Contains(nid)))
+            if (notFound)
+            {
+                LongListPool.Store(nodeIds);
                 return;
+            }
 
             var elementWay = new Entities.Way {Id = way.id, NodeIds = nodeIds};
             // Push all unresolved node ids to scan later
