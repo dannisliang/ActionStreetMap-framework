@@ -30,18 +30,30 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsApplicable(Model model)
         {
+            // NOTE don't use LINQ here as it's performance critical code
+            // we want to decrease heap allocations
             if (MatchAll)
-                return Selectors.All(s => s.IsApplicable(model));
-
-            // NOTE closed selector should be checked in both cases
-            var closedSelector = Selectors.FirstOrDefault(s => s.IsClosed);
-            var isClosedPassed = true;
-            if (closedSelector != null)
             {
-                isClosedPassed = closedSelector.IsApplicable(model);
+                // Selectors.All(s => s.IsApplicable(model));
+                for (int i = 0; i < Selectors.Count; i++)
+                {
+                    if (!Selectors[i].IsApplicable(model))
+                        return false;
+                }
+                return true;
             }
 
-            return isClosedPassed && Selectors.Any(s => s.IsApplicable(model));
+            // any is applicable or closed as special case
+            for (int i = 0; i < Selectors.Count; i++)
+            {
+                var selector = Selectors[i];
+                if (selector.IsClosed && !selector.IsApplicable(model))
+                    return false;
+                if (selector.IsApplicable(model))
+                    return true;
+            }
+
+            return false;
         }
     }
 }

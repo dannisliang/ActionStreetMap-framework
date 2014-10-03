@@ -33,10 +33,11 @@ namespace Mercraft.Core.Elevation.Srtm
             if (longitude < 0)
                 cellLongitude *= -1;
 
-            SrtmDataCell dataCell = _dataCells
-                .FirstOrDefault(dc => dc.Latitude == cellLatitude && dc.Longitude == cellLongitude);
-            if (dataCell != null)
-                return dataCell.GetElevation(latitude, longitude);
+            for (int i = 0; i < _dataCells.Count; i++)
+            {
+                if (_dataCells[i].Latitude == cellLatitude && _dataCells[i].Longitude == cellLongitude)
+                    return _dataCells[i].GetElevation(latitude, longitude);
+            }
 
             string filename = string.Format("{0}{1:D2}{2}{3:D3}.hgt",
                 cellLatitude < 0 ? "S" : "N",
@@ -49,7 +50,7 @@ namespace Mercraft.Core.Elevation.Srtm
             if (!File.Exists(filePath))
                 throw new Exception("SRTM data cell not found: " + filePath);
 
-            dataCell = new SrtmDataCell(filePath);
+            var dataCell = new SrtmDataCell(filePath);
             _dataCells.Add(dataCell);
             return dataCell.GetElevation(latitude, longitude);
 	    }

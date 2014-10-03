@@ -571,7 +571,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     /// 
     /// </summary>
     public Node() {}
-    
+
     private long _id;
     /// <summary>
     /// 
@@ -582,7 +582,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _id; }
       set { _id = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _keys = new global::System.Collections.Generic.List<uint>();
+    private readonly global::System.Collections.Generic.List<uint> _keys = new global::System.Collections.Generic.List<uint>(1);
     /// <summary>
     /// 
     /// </summary>
@@ -591,28 +591,27 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     {
       get { return _keys; }
     }
-  
-    private readonly global::System.Collections.Generic.List<uint> _vals = new global::System.Collections.Generic.List<uint>();
+
+    private global::System.Collections.Generic.List<uint> _vals;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(3, Name=@"vals", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<uint> vals
     {
-      get { return _vals; }
+        get
+        {
+            if (_vals == null)
+                _vals = new global::System.Collections.Generic.List<uint>(_keys.Count);
+            return _vals;
+        }
     }
   
-
-    private Info _info = null;
-    /// <summary>
-    /// 
-    /// </summary>
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"info", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public Info info
     {
-      get { return _info; }
-      set { _info = value; }
+      set {}
     }
     private long _lat;
     /// <summary>

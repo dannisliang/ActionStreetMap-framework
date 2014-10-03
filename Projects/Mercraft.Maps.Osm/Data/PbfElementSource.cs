@@ -136,7 +136,7 @@ namespace Mercraft.Maps.Osm.Data
 
             if (node.keys.Any())
             {
-                elementNode.Tags = new Dictionary<string, string>();
+                elementNode.Tags = new Dictionary<string, string>(node.keys.Count);
                 for (int tagIdx = 0; tagIdx < node.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.keys[tagIdx]]));
@@ -193,7 +193,7 @@ namespace Mercraft.Maps.Osm.Data
 
             if (way.keys.Any())
             {
-                elementWay.Tags = new Dictionary<string, string>();
+                elementWay.Tags = new Dictionary<string, string>(way.keys.Count);
                 for (int tagIdx = 0; tagIdx < way.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.keys[tagIdx]]));
@@ -249,7 +249,7 @@ namespace Mercraft.Maps.Osm.Data
             }
             if (relation.keys.Count > 0)
             {
-                elementRelation.Tags = new Dictionary<string, string>();
+                elementRelation.Tags = new Dictionary<string, string>(relation.keys.Count);
                 for (int tagIdx = 0; tagIdx < relation.keys.Count; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.keys[tagIdx]]));
@@ -285,8 +285,8 @@ namespace Mercraft.Maps.Osm.Data
                         long currentLat = 0;
                         long currentLon = 0;
 
-                        var nodes = new List<Formats.Pbf.Node>();
                         var count = primitivegroup.dense.id.Count;
+                        var nodes = new List<Formats.Pbf.Node>(count);
                         for (int idx = 0; idx < count; idx++)
                         {
                             // do the delta decoding stuff.
