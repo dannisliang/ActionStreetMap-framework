@@ -16,9 +16,6 @@ namespace Mercraft.Models.Terrain
                 for (int y = 0; y < settings.Resolution; y++)
                     splatMap[x, y, 0] = 1;
 
-            for (int i = 0; i < settings.DetailParams.Count; i++)
-                detailMapList.Add(new int[settings.Resolution, settings.Resolution]);
-
             var polygons = elements.Select(e => new Polygon(e.Points)).ToArray();
             for (int i = 0; i < polygons.Length; i++)
             {
@@ -28,8 +25,8 @@ namespace Mercraft.Models.Terrain
             }
         }
 
-        private static void Fill(float[, ,] map, List<int[,]> detailMapList,
-            int line, int start, int end, int splatIndex, int detailIndex)
+        private static void Fill(float[, ,] map, List<int[,]> detailMapList, int line, int start, int end, 
+            int splatIndex, int detailIndex)
         {
             var detailMap = detailIndex != AreaSettings.DefaultIndex ? detailMapList[detailIndex] : null;
             for (int i = start; i <= end; i++)

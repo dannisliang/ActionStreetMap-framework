@@ -188,7 +188,8 @@ namespace Mercraft.Maps.Osm.Data
             long nodeId = 0;
             var nodeIds = LongListPool.New();
             var notFound = true;
-            for (int nodeIdx = 0; nodeIdx < way.refs.Count; nodeIdx++)
+            var refCount = way.refs.Count;
+            for (int nodeIdx = 0; nodeIdx < refCount; nodeIdx++)
             {
                 nodeId = nodeId + way.refs[nodeIdx];
                 nodeIds.Add(nodeId);
@@ -215,8 +216,9 @@ namespace Mercraft.Maps.Osm.Data
 
             if (way.keys.Any())
             {
-                elementWay.Tags = new Dictionary<string, string>(way.keys.Count);
-                for (int tagIdx = 0; tagIdx < way.keys.Count; tagIdx++)
+                var keyCount = way.keys.Count;
+                elementWay.Tags = new Dictionary<string, string>(keyCount);
+                for (int tagIdx = 0; tagIdx < keyCount; tagIdx++)
                 {
                     string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.keys[tagIdx]]));
                     string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.vals[tagIdx]]));

@@ -1,7 +1,6 @@
 ﻿using System;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Core.Elevation
 {
@@ -22,6 +21,7 @@ namespace Mercraft.Core.Elevation
         private readonly IElevationProvider _elevationProvider;
 
         private float[,] _map;
+        private float[,] _smoothNoiseBuffer;
 
         public bool DoSmooth { get; set; }
 
@@ -91,12 +91,12 @@ namespace Mercraft.Core.Elevation
 
         #region Smooth noise
 
-        public static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
+        private float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
         {
             int width = baseNoise.GetLength(0);
             int height = baseNoise.GetLength(1);
-
-            float[,] smoothNoise = new float[width, height];
+            if (_smoothNoiseBuffer == null)
+                _smoothNoiseBuffer = new float[width, height];       
 
             int samplePeriod = 1 << octave; // calculates 2 ^ k
             float sampleFrequency = 1.0f / samplePeriod;
@@ -124,11 +124,11 @@ namespace Mercraft.Core.Elevation
                         baseNoise[sampleI1, sampleJ1], horizontalBlend);
 
                     //final blend
-                    smoothNoise[i, j] = Interpolate(top, bottom, verticalBlend);
+                    _smoothNoiseBuffer[i, j] = Interpolate(top, bottom, verticalBlend);
                 }
             }
 
-            return smoothNoise;
+            return _smoothNoiseBuffer;
         }
 
         private static float Interpolate(float x0, float x1, float alpha)

@@ -29,10 +29,10 @@ namespace Mercraft.Models.Terrain
         public List<List<string>> SplatParams;
         public List<List<string>> DetailParams;
 
-        public IEnumerable<AreaSettings> Areas;
-        public IEnumerable<Road> Roads;
-        public IEnumerable<AreaSettings> Elevations;
-        public IEnumerable<TreeDetail> Trees;
+        public List<AreaSettings> Areas;
+        public List<Road> Roads;
+        public List<AreaSettings> Elevations;
+        public List<TreeDetail> Trees;
 
         public IRoadBuilder RoadBuilder;
         public IRoadStyleProvider RoadStyleProvider;

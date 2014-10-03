@@ -11,6 +11,8 @@ namespace Mercraft.Core.Elevation.Srtm
         private readonly byte[] _hgtData;
         private readonly int _pointsPerCell;
 
+        private int _limit;
+
         /// <summary>
         ///     Gets or sets the latitude of the srtm data file.
         /// </summary>
@@ -57,6 +59,8 @@ namespace Mercraft.Core.Elevation.Srtm
                 default:
                     throw new ArgumentException("Invalid file size.", filepath);
             }
+
+            _limit = _pointsPerCell*_pointsPerCell*2;
         }
 
         public float GetElevation(double latitude, double longitude)
@@ -65,7 +69,7 @@ namespace Mercraft.Core.Elevation.Srtm
             int localLon = (int) (((longitude - Longitude))*_pointsPerCell);
             int bytesPos = ((_pointsPerCell - localLat - 1)*_pointsPerCell*2) + localLon*2;
 
-            if (bytesPos < 0 || bytesPos > _pointsPerCell*_pointsPerCell*2)
+            if (bytesPos < 0 || bytesPos > _limit)
                 throw new ArgumentOutOfRangeException("latitude", "latitude or longitude is out of range.");
 
             // Motorola "big-endian" order with the most significant byte first

@@ -27,6 +27,7 @@ namespace Mercraft.Models.Terrain
         private DetailPrototype[] _detailPrototypes;
 
         private float[,,] _splatMapBuffer;
+        private List<int[,]> _detailListBuffer;
 
         [Dependency]
         private ITrace Trace { get; set; }
@@ -55,15 +56,21 @@ namespace Mercraft.Models.Terrain
             if (_splatMapBuffer == null)
                 _splatMapBuffer = new float[settings.Resolution, settings.Resolution, layers];
 
-            var detailMapList = new List<int[,]>(settings.DetailParams.Count);
+            if (_detailListBuffer == null)
+            {
+                _detailListBuffer = new List<int[,]>(settings.DetailParams.Count);
+                for (int i = 0; i < settings.DetailParams.Count; i++)
+                    _detailListBuffer.Add(new int[settings.Resolution, settings.Resolution]);
+            }
+
             // fill alphamap
             var alphaMapElements = CreateElements(settings, settings.Areas,
                 settings.Resolution / size.x,
                 settings.Resolution / size.z,
                 t => t.SplatIndex);
 
-            _areaBuilder.Build(settings, alphaMapElements, _splatMapBuffer, detailMapList);
-            return CreateTerrainGameObject(parent, settings, size, htmap, detailMapList);
+            _areaBuilder.Build(settings, alphaMapElements, _splatMapBuffer, _detailListBuffer);
+            return CreateTerrainGameObject(parent, settings, size, _detailListBuffer);
         }
 
         private void ProcessTerrainObjects(TerrainSettings settings)
@@ -84,6 +91,7 @@ namespace Mercraft.Models.Terrain
             {
                 var elevation = heightMap.MinElevation - 10;
                 _heightMapProcessor.Recycle(heightMap);
+
                 foreach (var elevationArea in settings.Elevations)
                     _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
                 _heightMapProcessor.Clear();
@@ -91,12 +99,12 @@ namespace Mercraft.Models.Terrain
         }
 
         protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings,
-            Vector3 size, float[,] htmap, List<int[,]> detailMapList)
+            Vector3 size, List<int[,]> detailMapList)
         {
             // create TerrainData
             var terrainData = new TerrainData();
             terrainData.heightmapResolution = settings.Tile.HeightMap.Resolution;
-            terrainData.SetHeights(0, 0, htmap);
+            terrainData.SetHeights(0, 0, settings.Tile.HeightMap.Data);
             terrainData.size = size;
             
             // Assume that settings is the same all the time
@@ -248,10 +256,11 @@ namespace Mercraft.Models.Terrain
         }
         #endregion
 
-
         private void ClearBuffers()
         {
-            Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
+            // this buffer is set to 1 in AreaBuilder
+            //Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
+            _detailListBuffer.ForEach(array => Array.Clear(array, 0, array.Length));
         }
 
         private TerrainElement[] CreateElements(TerrainSettings settings,

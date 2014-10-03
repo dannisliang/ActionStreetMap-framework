@@ -150,7 +150,7 @@ namespace Mercraft.Explorer.Scene
                 Elements = new List<RoadElement>() {re},
                 GameObject =
                     _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
-            }).ToArray();
+            }).ToList();
 
             if (_tile.HeightMap.IsFlat)
                 _tile.HeightMap.MaxElevation = rule.GetHeight();
