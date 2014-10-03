@@ -15,7 +15,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
         }
 
         protected override IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings, 
-            Vector3 size, float[,] htmap, float[,,] splatMap, List<int[,]> detailMapList)
+            Vector3 size, float[,] htmap, List<int[,]> detailMapList)
         {
             return new TestGameObject();
         }

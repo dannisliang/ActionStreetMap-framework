@@ -1,6 +1,7 @@
-﻿using Mercraft.Core.Algorithms;
+﻿using System;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Core.Elevation
 {
@@ -9,7 +10,9 @@ namespace Mercraft.Core.Elevation
         /// <summary>
         ///     Returns heightmap array for given center with given resolution
         /// </summary>
-        HeightMap GetHeightMap(Tile tile, int resolution);
+        HeightMap Get(Tile tile, int resolution);
+
+        void Store(HeightMap heightMap);
     }
 
     public class HeightMapProvider: IHeightMapProvider
@@ -17,6 +20,8 @@ namespace Mercraft.Core.Elevation
         private const int MaxHeight = 8000;
 
         private readonly IElevationProvider _elevationProvider;
+
+        private float[,] _map;
 
         public bool DoSmooth { get; set; }
 
@@ -27,9 +32,11 @@ namespace Mercraft.Core.Elevation
             DoSmooth = true;
         }
 
-        public HeightMap GetHeightMap(Tile tile, int resolution)
+        public HeightMap Get(Tile tile, int resolution)
         {
-            var map = new float[resolution, resolution];
+            // NOTE so far we do not expect resolution change without restarting app
+            if (_map == null)
+                _map = new float[resolution, resolution];
 
             var bbox = tile.BoundingBox;
 
@@ -52,7 +59,7 @@ namespace Mercraft.Core.Elevation
                     else if (elevation < minElevation)
                         minElevation = elevation;
 
-                    map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
+                    _map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
 
                     lon += lonStep;
                 }
@@ -61,7 +68,7 @@ namespace Mercraft.Core.Elevation
 
             // TODO which value to use?
             if (DoSmooth)
-                map = GenerateSmoothNoise(map, 8);
+                _map = GenerateSmoothNoise(_map, 8);
 
             return new HeightMap()
             {
@@ -70,11 +77,16 @@ namespace Mercraft.Core.Elevation
                 AxisOffset = tile.Size / resolution,
                 IsFlat = false,
                 Size = tile.Size,
-                Data = map,
+                Data = _map,
                 MinElevation = minElevation,
                 MaxElevation = maxElevation,
                 Resolution = resolution,
             };
+        }
+
+        public void Store(HeightMap heightMap)
+        {
+            Array.Clear(_map, 0, _map.Length);
         }
 
         #region Smooth noise

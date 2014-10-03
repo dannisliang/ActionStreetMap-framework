@@ -64,7 +64,7 @@ namespace Mercraft.Explorer.Scene
 
             var heightMapResolution = _stylesheet.GetRule(tile.Scene.Canvas, false).GetHeightMapSize();
             tile.GameObject = _gameObjectFactory.CreateNew("tile");
-            tile.HeightMap = _heighMapProvider.GetHeightMap(tile, heightMapResolution);
+            tile.HeightMap = _heighMapProvider.Get(tile, heightMapResolution);
 
             foreach (var area in tile.Scene.Areas)
                 area.Accept(this);
@@ -80,6 +80,8 @@ namespace Mercraft.Explorer.Scene
             _roadElements.Clear();
             _trees.Clear();
             _tile.Scene.Dispose();
+
+            _heighMapProvider.Store(_tile.HeightMap);
             _tile.HeightMap = null;
         }
 

@@ -26,6 +26,8 @@ namespace Mercraft.Models.Terrain
         private SplatPrototype[] _splatPrototypes;
         private DetailPrototype[] _detailPrototypes;
 
+        private float[,,] _splatMapBuffer;
+
         [Dependency]
         private ITrace Trace { get; set; }
 
@@ -48,7 +50,11 @@ namespace Mercraft.Models.Terrain
 
             var size = new Vector3(settings.Tile.Size, settings.Tile.HeightMap.MaxElevation, settings.Tile.Size);
             var layers = settings.SplatParams.Count;
-            var splatMap = new float[settings.Resolution, settings.Resolution, layers];
+
+            // NOTE we don't expect buffer size changes after engine is initialized
+            if (_splatMapBuffer == null)
+                _splatMapBuffer = new float[settings.Resolution, settings.Resolution, layers];
+
             var detailMapList = new List<int[,]>(settings.DetailParams.Count);
             // fill alphamap
             var alphaMapElements = CreateElements(settings, settings.Areas,
@@ -56,8 +62,8 @@ namespace Mercraft.Models.Terrain
                 settings.Resolution / size.z,
                 t => t.SplatIndex);
 
-            _areaBuilder.Build(settings, alphaMapElements, splatMap, detailMapList);
-            return CreateTerrainGameObject(parent, settings, size, htmap, splatMap, detailMapList);
+            _areaBuilder.Build(settings, alphaMapElements, _splatMapBuffer, detailMapList);
+            return CreateTerrainGameObject(parent, settings, size, htmap, detailMapList);
         }
 
         private void ProcessTerrainObjects(TerrainSettings settings)
@@ -85,7 +91,7 @@ namespace Mercraft.Models.Terrain
         }
 
         protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings,
-            Vector3 size, float[,] htmap, float[, ,] splatMap, List<int[,]> detailMapList)
+            Vector3 size, float[,] htmap, List<int[,]> detailMapList)
         {
             // create TerrainData
             var terrainData = new TerrainData();
@@ -116,14 +122,16 @@ namespace Mercraft.Models.Terrain
 
             //disable this for better frame rate
             terrain.castShadows = false;
-            
-            terrainData.SetAlphamaps(0, 0, splatMap);
+
+            terrainData.SetAlphamaps(0, 0, _splatMapBuffer);
 
             SetTrees(terrain, settings, size);
 
             SetDetails(terrain, settings, detailMapList);
 
             parent.GetComponent<GameObject>().AddComponent<TerrainBehaviour>().Trace = Trace;
+
+            ClearBuffers();
 
             return new GameObjectWrapper("terrain", gameObject);
         }
@@ -239,6 +247,12 @@ namespace Mercraft.Models.Terrain
             
         }
         #endregion
+
+
+        private void ClearBuffers()
+        {
+            Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
+        }
 
         private TerrainElement[] CreateElements(TerrainSettings settings,
             IEnumerable<AreaSettings> areas, float widthRatio, float heightRatio, Func<TerrainElement, float> orderBy)

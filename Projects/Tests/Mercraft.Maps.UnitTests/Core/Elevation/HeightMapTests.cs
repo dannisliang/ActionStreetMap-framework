@@ -34,7 +34,7 @@ namespace Mercraft.Maps.UnitTests.Core.Elevation
             provider.DoSmooth = false;
             
             // ACT
-            var heightMap = provider.GetHeightMap(new Tile(null, center, new MapPoint(), tileSize), resolution);
+            var heightMap = provider.Get(new Tile(null, center, new MapPoint(), tileSize), resolution);
                 
             // ASSERT
             Assert.IsNotNull(heightMap);
