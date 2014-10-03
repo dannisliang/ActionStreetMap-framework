@@ -71,7 +71,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                     }
 
                     // construct the source stream, compressed or not.
-                    Stream sourceStream = null;
+                    Stream sourceStream;
                     if (blob.zlib_data == null)
                     {
                         // use a regular uncompressed stream.
@@ -98,7 +98,6 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
                             block = Serializer.Deserialize<PrimitiveBlock>(sourceStream);
                         }
                     }
-                    sourceStream.Dispose();
                 }
             }
             return block;

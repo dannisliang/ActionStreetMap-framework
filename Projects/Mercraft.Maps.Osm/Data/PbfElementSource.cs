@@ -81,7 +81,7 @@ namespace Mercraft.Maps.Osm.Data
 
                 foreach (var primitiveGroup in block.primitivegroup)
                 {
-                    if (primitiveGroup.nodes != null)
+                    if (!primitiveGroup.IsNodeListEmpty)
                     {
                         foreach (var node in primitiveGroup.nodes)
                         {
@@ -91,7 +91,7 @@ namespace Mercraft.Maps.Osm.Data
                         }
                     }
 
-                    if (primitiveGroup.ways != null)
+                    if (!primitiveGroup.IsWayListEmpty)
                     {
                         foreach (var way in primitiveGroup.ways)
                         {
@@ -99,7 +99,7 @@ namespace Mercraft.Maps.Osm.Data
                         }
                     }
 
-                    if (primitiveGroup.relations != null)
+                    if (!primitiveGroup.IsRelationListEmpty)
                     {
                         foreach (var relation in primitiveGroup.relations)
                         {
@@ -125,9 +125,12 @@ namespace Mercraft.Maps.Osm.Data
                 ProcessPrimitiveBlock(block, null);
                 foreach (var primitiveGroup in block.primitivegroup)
                 {
-                    foreach (var node in primitiveGroup.nodes)
+                    if (primitiveGroup.nodes != null)
                     {
-                        SearchNode(block, node);
+                        foreach (var node in primitiveGroup.nodes)
+                        {
+                            SearchNode(block, node);
+                        }
                     }
                 }
                 block = _reader.MoveNext();
