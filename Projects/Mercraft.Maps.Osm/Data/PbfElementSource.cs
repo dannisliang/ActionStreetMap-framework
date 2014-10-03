@@ -81,21 +81,30 @@ namespace Mercraft.Maps.Osm.Data
 
                 foreach (var primitiveGroup in block.primitivegroup)
                 {
-                    foreach (var node in primitiveGroup.nodes)
+                    if (primitiveGroup.nodes != null)
                     {
-                        // check bbox
-                        //if (obbox.Contains(node.lat, node.lon))
-                        SearchNode(block, node);
+                        foreach (var node in primitiveGroup.nodes)
+                        {
+                            // check bbox
+                            //if (obbox.Contains(node.lat, node.lon))
+                            SearchNode(block, node);
+                        }
                     }
 
-                    foreach (var way in primitiveGroup.ways)
+                    if (primitiveGroup.ways != null)
                     {
-                        SearchWay(block, way);
+                        foreach (var way in primitiveGroup.ways)
+                        {
+                            SearchWay(block, way);
+                        }
                     }
 
-                    foreach (var relation in primitiveGroup.relations)
+                    if (primitiveGroup.relations != null)
                     {
-                        SearchRelation(block, relation);
+                        foreach (var relation in primitiveGroup.relations)
+                        {
+                            SearchRelation(block, relation);
+                        }
                     }
                 }
                 block = _reader.MoveNext();
@@ -286,7 +295,7 @@ namespace Mercraft.Maps.Osm.Data
                         long currentLon = 0;
 
                         var count = primitivegroup.dense.id.Count;
-                        var nodes = new List<Formats.Pbf.Node>(count);
+                        var nodes = new List<Formats.Pbf.Node>();
                         for (int idx = 0; idx < count; idx++)
                         {
                             // do the delta decoding stuff.
@@ -306,6 +315,7 @@ namespace Mercraft.Maps.Osm.Data
                             // get the keys/vals.
                             List<int> keysVals = primitivegroup.dense.keys_vals;
                             var keysValsCount = keysVals.Count;
+                            if (shouldAdd) node.Initialize();
                             while (keysValsCount > keyValsIdx && keysVals[keyValsIdx] != 0)
                             {
                                 if(shouldAdd)

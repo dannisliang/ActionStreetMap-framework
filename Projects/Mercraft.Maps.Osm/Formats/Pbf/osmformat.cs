@@ -233,14 +233,19 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     /// </summary>
     public PrimitiveGroup() {}
     
-    private global::System.Collections.Generic.List<Node> _nodes = new global::System.Collections.Generic.List<Node>();
+    private global::System.Collections.Generic.List<Node> _nodes;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(1, Name=@"nodes", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<Node> nodes
     {
-      get { return _nodes; }
+        get
+        {
+            if (_nodes == null)
+                _nodes = new global::System.Collections.Generic.List<Node>();
+            return _nodes;
+        }
       set { _nodes = value; }
     }
   
@@ -256,34 +261,50 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _dense; }
       set { _dense = value; }
     }
-    private readonly global::System.Collections.Generic.List<Way> _ways = new global::System.Collections.Generic.List<Way>();
+
+      private global::System.Collections.Generic.List<Way> _ways;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(3, Name=@"ways", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<Way> ways
     {
-      get { return _ways; }
+        get
+        {
+            if (_ways == null)
+                _ways = new global::System.Collections.Generic.List<Way>();
+            return _ways;
+        }
     }
-  
-    private readonly global::System.Collections.Generic.List<Relation> _relations = new global::System.Collections.Generic.List<Relation>();
+
+      private global::System.Collections.Generic.List<Relation> _relations;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(4, Name=@"relations", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<Relation> relations
     {
-      get { return _relations; }
+        get
+        {
+            if (_relations == null)
+                _relations = new global::System.Collections.Generic.List<Relation>();
+            return _relations;
+        }
     }
-  
-    private readonly global::System.Collections.Generic.List<ChangeSet> _changesets = new global::System.Collections.Generic.List<ChangeSet>();
+
+      private global::System.Collections.Generic.List<ChangeSet> _changesets;// = new global::System.Collections.Generic.List<ChangeSet>();
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(5, Name=@"changesets", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<ChangeSet> changesets
     {
-      get { return _changesets; }
+        get
+        {
+            if (_changesets == null)
+                _changesets = new global::System.Collections.Generic.List<ChangeSet>();
+            return _changesets;
+        }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -565,12 +586,13 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
   /// 
   /// </summary>
   [global::ProtoBuf.ProtoContract(Name=@"Node")]
-  public partial class Node : global::ProtoBuf.IExtensible
+  public struct Node : global::ProtoBuf.IExtensible
   {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Node() {}
+      public void Initialize()
+      {
+          _keys = new global::System.Collections.Generic.List<uint>(1);
+          _vals = new global::System.Collections.Generic.List<uint>(1);
+      }
 
     private long _id;
     /// <summary>
@@ -582,7 +604,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _id; }
       set { _id = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _keys = new global::System.Collections.Generic.List<uint>(1);
+    private global::System.Collections.Generic.List<uint> _keys;
     /// <summary>
     /// 
     /// </summary>
@@ -601,8 +623,6 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     {
         get
         {
-            if (_vals == null)
-                _vals = new global::System.Collections.Generic.List<uint>(_keys.Count);
             return _vals;
         }
     }
@@ -712,11 +732,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
   [global::ProtoBuf.ProtoContract(Name=@"Way")]
   public partial class Way : global::ProtoBuf.IExtensible
   {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Way() {}
-    
+   
     private long _id;
     /// <summary>
     /// 
@@ -727,28 +743,38 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _id; }
       set { _id = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _keys = new global::System.Collections.Generic.List<uint>();
+    private global::System.Collections.Generic.List<uint> _keys;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(2, Name=@"keys", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<uint> keys
     {
-      get { return _keys; }
+        get
+        {
+            if (_keys == null)
+                _keys = new global::System.Collections.Generic.List<uint>();
+            return _keys;
+        }
     }
   
-    private readonly global::System.Collections.Generic.List<uint> _vals = new global::System.Collections.Generic.List<uint>();
+    private global::System.Collections.Generic.List<uint> _vals;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(3, Name=@"vals", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<uint> vals
     {
-      get { return _vals; }
+        get
+        {
+            if (_vals == null)
+                _vals = new global::System.Collections.Generic.List<uint>();
+            return _vals;
+        }
     }
-  
 
-    private Info _info = null;
+
+      private Info _info;
     /// <summary>
     /// 
     /// </summary>
@@ -759,14 +785,19 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _info; }
       set { _info = value; }
     }
-    private readonly global::System.Collections.Generic.List<long> _refs = new global::System.Collections.Generic.List<long>();
+    private global::System.Collections.Generic.List<long> _refs;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(8, Name=@"refs", DataFormat = global::ProtoBuf.DataFormat.ZigZag, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<long> refs
     {
-      get { return _refs; }
+        get
+        {
+            if (_refs == null)
+                _refs = new global::System.Collections.Generic.List<long>();
+            return _refs;
+        }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -795,24 +826,34 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _id; }
       set { _id = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _keys = new global::System.Collections.Generic.List<uint>();
+    private global::System.Collections.Generic.List<uint> _keys;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(2, Name=@"keys", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<uint> keys
     {
-      get { return _keys; }
+        get
+        {
+            if (_keys == null)
+                _keys = new global::System.Collections.Generic.List<uint>();
+            return _keys;
+        }
     }
   
-    private readonly global::System.Collections.Generic.List<uint> _vals = new global::System.Collections.Generic.List<uint>();
+    private global::System.Collections.Generic.List<uint> _vals;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(3, Name=@"vals", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<uint> vals
     {
-      get { return _vals; }
+        get
+        {
+            if (_vals == null)
+                _vals = new global::System.Collections.Generic.List<uint>();
+            return _vals;
+        }
     }
   
 
@@ -827,34 +868,49 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
       get { return _info; }
       set { _info = value; }
     }
-    private readonly global::System.Collections.Generic.List<int> _roles_sid = new global::System.Collections.Generic.List<int>();
+    private global::System.Collections.Generic.List<int> _roles_sid;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(8, Name=@"roles_sid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<int> roles_sid
     {
-      get { return _roles_sid; }
+        get
+        {
+            if (_roles_sid == null)
+                _roles_sid = new global::System.Collections.Generic.List<int>();
+            return _roles_sid;
+        }
     }
   
-    private readonly global::System.Collections.Generic.List<long> _memids = new global::System.Collections.Generic.List<long>();
+    private global::System.Collections.Generic.List<long> _memids;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(9, Name=@"memids", DataFormat = global::ProtoBuf.DataFormat.ZigZag, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<long> memids
     {
-      get { return _memids; }
+        get
+        {
+            if (_memids == null)
+                _memids = new global::System.Collections.Generic.List<long>();
+            return _memids;
+        }
     }
   
-    private readonly global::System.Collections.Generic.List<Relation.MemberType> _types = new global::System.Collections.Generic.List<Relation.MemberType>();
+    private global::System.Collections.Generic.List<Relation.MemberType> _types;
     /// <summary>
     /// 
     /// </summary>
     [global::ProtoBuf.ProtoMember(10, Name=@"types", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<Relation.MemberType> types
     {
-      get { return _types; }
+        get
+        {
+            if (_types == null)
+                _types = new global::System.Collections.Generic.List<Relation.MemberType>();
+            return _types;
+        }
     }
   
     /// <summary>
