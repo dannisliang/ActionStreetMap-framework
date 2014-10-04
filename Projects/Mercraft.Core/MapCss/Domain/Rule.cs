@@ -7,17 +7,24 @@ namespace Mercraft.Core.MapCss.Domain
 {
     public class Rule
     {
-        private readonly Model _model;
+        private Model _model;
+        internal Model Model
+        {
+            set
+            {
+                _model = value;
+            }
+        }
 
         /// <summary>
         /// List of declarations.
         /// </summary>
-        public IList<Declaration> Declarations { get; set; }
+        public Dictionary<string, Declaration> Declarations { get; set; }
 
         public Rule(Model model)
         {
             _model = model;
-            Declarations = new List<Declaration>(4);
+            Declarations = new Dictionary<string, Declaration>(4);
         }
 
         public bool IsApplicable
@@ -31,10 +38,11 @@ namespace Mercraft.Core.MapCss.Domain
         public T EvaluateDefault<T>(string qualifier, T @default)
         {
             Assert();
-            var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
 
-            if (declaration == null)
+            if (!Declarations.ContainsKey(qualifier))
                 return @default;
+
+            var declaration = Declarations[qualifier];
 
             if (declaration.IsEval)
                 return declaration.Evaluator.Walk<T>(_model);
@@ -54,9 +62,9 @@ namespace Mercraft.Core.MapCss.Domain
 
         public List<T> EvaluateList<T>(string qualifier, Func<string, T> converter)
         {
-            var declarations = Declarations.Where(d => d.Qualifier == qualifier);
+            var listDeclaration = (ListDeclaration) Declarations[qualifier];
             var values = new List<T>();
-            foreach (var declaration in declarations)
+            foreach (var declaration in listDeclaration.Items)
             {
                 values.Add(declaration.IsEval ? 
                     declaration.Evaluator.Walk<T>(_model) :
@@ -64,16 +72,18 @@ namespace Mercraft.Core.MapCss.Domain
             }
 
             return values;
+            return null;
         }
 
         public T Evaluate<T>(string qualifier, Func<string, T> converter)
         {
             Assert();
-            var declaration = Declarations.SingleOrDefault(d => d.Qualifier == qualifier);
 
-            if (declaration == null)
-                throw new ArgumentException(String.Format("Declaration '{0}' not found for '{1}'",
+            if (!Declarations.ContainsKey(qualifier))
+                throw new ArgumentException(String.Format(ErrorStrings.StyleDeclarationNotFound,
                     qualifier, _model), qualifier);
+
+            var declaration = Declarations[qualifier];
 
             if (declaration.IsEval)
             {
@@ -86,7 +96,7 @@ namespace Mercraft.Core.MapCss.Domain
         private void Assert()
         {
             if (!IsApplicable)
-                throw new InvalidOperationException("Rule isn't applicable!");
+                throw new InvalidOperationException(ErrorStrings.RuleNotApplicable);
         }
     }
 }

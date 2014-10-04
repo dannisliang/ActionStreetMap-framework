@@ -16,7 +16,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var canvas = MapCssHelper.GetCanvas();
 
             // ACT
-            var rule = stylesheet.GetRule(canvas, false);
+            var rule = stylesheet.GetCanvasRule(canvas);
             var textureDeclarations = rule.EvaluateList<List<string>>("texture");
 
             // ASSERT

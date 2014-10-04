@@ -1,16 +1,10 @@
-﻿using System.Linq;
-using Mercraft.Core.Scene.Models;
+﻿using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.MapCss.Domain
 {
     public class Stylesheet
     {
-        private StyleCollection _styles;
-
-        public Stylesheet()
-        {
-            _styles = new StyleCollection();
-        }
+        private readonly StyleCollection _styles = new StyleCollection();
 
         public void AddStyle(Style style)
         {
@@ -25,12 +19,19 @@ namespace Mercraft.Core.MapCss.Domain
             }
         }
 
-        public Rule GetRule(Model model, bool mergeDeclarations = true)
+        public Rule GetModelRule(Model model)
         {
-            if (mergeDeclarations)
-                return _styles.GetMergedRule(model);
+            return _styles.GetMergedRule(model);
+        }
 
-            return _styles.GetCollectedRule(model);
+        public Rule GetCanvasRule(Canvas canvas)
+        {
+            return _styles.GetCollectedRule(canvas);
+        }
+
+        public void StoreRule(Rule rule)
+        {
+            _styles.StoreRule(rule);
         }
     }
 }

@@ -19,13 +19,12 @@ namespace Mercraft.Core.MapCss.Domain
         /// <summary>
         ///     List of declarations.
         /// </summary>
-        public IList<Declaration> Declarations { get; set; }
-
+        public Dictionary<string, Declaration> Declarations { get; set; }
 
         public Style()
         {
             Selectors = new List<Selector>();
-            Declarations = new List<Declaration>();
+            Declarations = new Dictionary<string, Declaration>();
         }
 
         public bool IsApplicable(Model model)

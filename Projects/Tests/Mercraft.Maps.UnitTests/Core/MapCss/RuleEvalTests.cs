@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene.Models;
@@ -23,7 +24,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var canvas = new Canvas();
 
             // ACT
-            var rule = stylesheet.GetRule(canvas);
+            var rule = stylesheet.GetModelRule(canvas);
             var material = rule.Evaluate<string>("material");
 
             // ASSERT
@@ -57,7 +58,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT
-            var rule = stylesheet.GetRule(area);
+            var rule = stylesheet.GetModelRule(area);
 
 
             // ASSERT
@@ -110,8 +111,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var stylesheet = container.Resolve<IStylesheetProvider>().Get();
 
             // ACT
-            var rule1 = stylesheet.GetRule(area1);
-            var rule2 = stylesheet.GetRule(area2);
+            var rule1 = stylesheet.GetModelRule(area1);
+            var rule2 = stylesheet.GetModelRule(area2);
 
             // ASSERT
             Assert.AreEqual(237, rule1.GetHeight());
@@ -133,10 +134,10 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
             var stylesheet = provider.Get();
-            var evalDeclaration = MapCssHelper.GetStyles(stylesheet)[3].Declarations[0];
+            var evalDeclaration = MapCssHelper.GetStyles(stylesheet)[3].Declarations.First();
 
             // ACT
-            var evalResult = evalDeclaration.Evaluator.Walk<float>(model);
+            var evalResult = evalDeclaration.Value.Evaluator.Walk<float>(model);
 
             // ASSERT
             Assert.AreEqual(15, evalResult);
@@ -157,7 +158,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n");
-            var rule = stylesheet.GetRule(model);
+            var rule = stylesheet.GetModelRule(model);
 
             // ACT
             var evalResult = rule.GetHeight();
@@ -185,12 +186,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n"+
                                                         "area[building:part][building:height][building:min_height] { height: eval(num(tag('building:height')) - num(tag('building:min_height')));}");
-            var rule = stylesheet.GetRule(model);
+            var rule = stylesheet.GetModelRule(model);
 
 
             foreach (var declaration in rule.Declarations)
             {
-                var height = declaration.Evaluator.Walk<float>(model);
+                var height = declaration.Value.Evaluator.Walk<float>(model);
             }
 
             // ACT
@@ -218,7 +219,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT
-            var rule = stylesheet.GetRule(area);
+            var rule = stylesheet.GetModelRule(area);
 
             // ASSERT
             Assert.AreEqual(0, rule.GetLevels());
@@ -243,8 +244,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             });
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(way1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(way2).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(way1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(way2).IsApplicable);
         }
 
         [Test]
@@ -265,7 +266,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT
-            var rule = stylesheet.GetRule(buildingWithColorCode);
+            var rule = stylesheet.GetModelRule(buildingWithColorCode);
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromName("red"),
@@ -290,7 +291,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT
-            var rule = stylesheet.GetRule(buildingWithColorName);
+            var rule = stylesheet.GetModelRule(buildingWithColorName);
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromName("salmon"),
@@ -316,7 +317,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT
-            var rule = stylesheet.GetRule(buildingWithColorCode);
+            var rule = stylesheet.GetModelRule(buildingWithColorCode);
 
             // ASSERT
             Assert.AreEqual(ColorUtility.FromUnknown("#cfc6b5"),
@@ -336,7 +337,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 });
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(node).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(node).IsApplicable);
         }
 
         private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)

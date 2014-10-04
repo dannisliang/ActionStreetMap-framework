@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Antlr.Runtime.Tree;
@@ -81,8 +82,24 @@ namespace Mercraft.Core.MapCss.Visitors
                         while (tree.ChildCount > declarationSelectorIdx && tree.Children[declarationSelectorIdx].Text == "DECLARATION")
                         {
                             var declarationTree = tree.Children[declarationSelectorIdx] as CommonTree;
-
-                            style.Declarations.Add(VisitDeclaration(declarationTree));
+                            var declaration = VisitDeclaration(declarationTree);
+                            if (declaration.Value == "VALUE_LIST")
+                            {
+                                ListDeclaration listDeclaration = null;
+                                if (style.Declarations.ContainsKey(declaration.Qualifier))
+                                    // NOTE we don't expect duplications of list declaration without VALUE_LIST
+                                    listDeclaration = (ListDeclaration) style.Declarations[declaration.Qualifier];
+                                else
+                                {
+                                    listDeclaration = new ListDeclaration();
+                                    style.Declarations.Add(declaration.Qualifier, listDeclaration);
+                                }
+                                listDeclaration.Items.Add(declaration);
+                            }
+                            else
+                            {
+                                style.Declarations.Add(declaration.Qualifier, declaration);
+                            }
                             declarationSelectorIdx++;
                         }
                     }

@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests.Models
             };
 
             // ACT
-            var rule = stylesheet.GetRule(building);
+            var rule = stylesheet.GetModelRule(building);
             var style = rule.GetBuildingType();
 
             // ASSERT

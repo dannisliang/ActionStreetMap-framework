@@ -21,8 +21,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"building", "residential"}});
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -36,8 +36,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "building", "residential" } });
 
             // ASSERT
-            Assert.IsFalse(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsTrue(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "landuse", "grass" } });
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "grass"}});
 
             // ASSERT
-            Assert.IsFalse(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsTrue(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -81,8 +81,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { { "level", "1" } });
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -96,8 +96,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area2 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "0"}});
 
             // ASSERT
-            Assert.IsTrue(stylesheet.GetRule(area1).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(area2).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(area1).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(area2).IsApplicable);
         }
 
         [Test]
@@ -138,8 +138,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             };
 
             // ACT & ASSERT
-            Assert.IsTrue(stylesheet.GetRule(closedWay).IsApplicable);
-            Assert.IsFalse(stylesheet.GetRule(openWay).IsApplicable);
+            Assert.IsTrue(stylesheet.GetModelRule(closedWay).IsApplicable);
+            Assert.IsFalse(stylesheet.GetModelRule(openWay).IsApplicable);
         }
     }
 }

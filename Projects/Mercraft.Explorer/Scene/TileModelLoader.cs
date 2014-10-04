@@ -62,7 +62,7 @@ namespace Mercraft.Explorer.Scene
         {
             _tile = tile;
 
-            var heightMapResolution = _stylesheet.GetRule(tile.Scene.Canvas, false).GetHeightMapSize();
+            var heightMapResolution = _stylesheet.GetCanvasRule(tile.Scene.Canvas).GetHeightMapSize();
             tile.GameObject = _gameObjectFactory.CreateNew("tile");
             tile.HeightMap = _heighMapProvider.Get(tile, heightMapResolution);
 
@@ -91,7 +91,7 @@ namespace Mercraft.Explorer.Scene
 
         public void VisitArea(Area area)
         {
-            var rule = _stylesheet.GetRule(area);
+            var rule = _stylesheet.GetModelRule(area);
             if (ShouldUseBuilder(rule, area))
             {
                 // NOTE this is work-around as we cannot register instance in our container multiply time
@@ -105,11 +105,12 @@ namespace Mercraft.Explorer.Scene
                     AttachExtras(gameObject, rule, area);
                 }
             }
+            _stylesheet.StoreRule(rule);
         }
 
         public void VisitWay(Way way)
         {
-            var rule = _stylesheet.GetRule(way);
+            var rule = _stylesheet.GetModelRule(way);
             if (ShouldUseBuilder(rule, way))
             {
                 // NOTE this is work-around as we cannot register instance in our container multiply time
@@ -123,11 +124,12 @@ namespace Mercraft.Explorer.Scene
                     AttachExtras(gameObject, rule, way);
                 }
             }
+            _stylesheet.StoreRule(rule);
         }
 
         public void VisitNode(Node node)
         {
-            var rule = _stylesheet.GetRule(node);
+            var rule = _stylesheet.GetModelRule(node);
             if (ShouldUseBuilder(rule, node))
             {
                 BuildNode(_tile, rule, node);
@@ -138,11 +140,12 @@ namespace Mercraft.Explorer.Scene
                     AttachExtras(gameObject, rule, node);
                 }
             }
+            _stylesheet.StoreRule(rule);
         }
 
         public void VisitCanvas(Canvas canvas)
         {
-            var rule = _stylesheet.GetRule(_tile.Scene.Canvas, false);
+            var rule = _stylesheet.GetCanvasRule(_tile.Scene.Canvas);
 
             // TODO this should be done by road composer
             var roads = _roadElements.Select(re => new Road()
