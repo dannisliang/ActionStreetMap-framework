@@ -17,7 +17,7 @@ namespace Mercraft.Models.Geometry.ThickLine
             Height = height;
         }
 
-        public override void Build(HeightMap heightMap, IEnumerable<LineElement> elements, Action<List<Vector3>, List<int>, List<Vector2>> builder)
+        public override void Build(HeightMap heightMap, List<LineElement> elements, Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
             base.Build(heightMap, elements, (p, t, u) =>
             {

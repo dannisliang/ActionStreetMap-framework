@@ -30,7 +30,7 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
-        public virtual void Build(HeightMap heightMap, IEnumerable<LineElement> elements,
+        public virtual void Build(HeightMap heightMap, List<LineElement> elements,
             Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
             _heightMap = heightMap;

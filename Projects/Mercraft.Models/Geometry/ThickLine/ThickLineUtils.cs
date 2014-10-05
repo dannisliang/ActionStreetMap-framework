@@ -7,25 +7,26 @@ namespace Mercraft.Models.Geometry.ThickLine
 {
     public class ThickLineUtils
     {
+        private static List<MapPoint> _pointsBuffer = new List<MapPoint>(64);
+
         #region Line elements in tile
         /// <summary>
-        ///     Returns line elements which only consist of points in tile.
+        ///     Returns line elements which only consist of _points in tile.
         ///     Required for non-flat maps.
         /// </summary>
-        public static List<LineElement> GetLineElementsInTile(HeightMap heightMap, IEnumerable<LineElement> elements)
+        public static List<LineElement> GetLineElementsInTile(HeightMap heightMap, List<LineElement> elements)
         {
-            // Current implementation can filter long lines accidentally. Actually, if line which connects two points 
+            // Current implementation can filter long lines accidentally. Actually, if line which connects two _points 
             // crosses more than 1 tile border we can have problems
 
             var leftBottomCorner = heightMap.LeftBottomCorner;
             var rightUpperCorner = heightMap.RightUpperCorner;
             var result = new List<LineElement>(elements.Count());
-            var points = new List<MapPoint>();
 
             var isNotContinuation = false;
             foreach (var lineElement in elements)
             {
-                // process all points in this line element
+                // process all _points in this line element
                 lineElement.IsNotContinuation = isNotContinuation;
                 isNotContinuation = false;
                 var isIntersectionSet = false;
@@ -36,53 +37,53 @@ namespace Mercraft.Models.Geometry.ThickLine
                     {
                         // Point is not in tile. There are two possible further actions:
                         // 1. we have points which are in tile - we should find intersection point with tile border
-                        if (points.Any() && !isIntersectionSet)
+                        if (_pointsBuffer.Any() && !isIntersectionSet)
                         {
-                            points.Add(GetIntersectionPoint(points[points.Count - 1], point, leftBottomCorner,
+                            _pointsBuffer.Add(GetIntersectionPoint(_pointsBuffer[_pointsBuffer.Count - 1], point, leftBottomCorner,
                                 rightUpperCorner));
                             isIntersectionSet = true;
                         }
-                        // 2. points array is empty - we started from point which isn't part of tile - just skip it
+                        // 2. _points array is empty - we started from point which isn't part of tile - just skip it
                         isNotContinuation = true;
                     }
                     else
                     {
-                        // we left tile and, probably have more than one points which are out of tile
+                        // we left tile and, probably have more than one _points which are out of tile
                         // now we back and should find new intersection point to follow direction
                         // previous points should go to different lineElement as we don't want to connect them with current point
                         if (isIntersectionSet)
                         {
                             // copy line element
-                            result.Add(new LineElement(points.ToList(), lineElement.Width)
+                            result.Add(new LineElement(_pointsBuffer.ToList(), lineElement.Width)
                             {
                                 IsNotContinuation = true,
                             });
-                            points.Clear();                            
+                            _pointsBuffer.Clear();                            
                         }
 
-                        // (!points.Any()) we filtred out points which are located in different tile, so we should 
+                        // (!_points.Any()) we filtred out _points which are located in different tile, so we should 
                         // find intersection point with tile border to render this part
-                        if ((isIntersectionSet || !points.Any()) && i != 0)
+                        if ((isIntersectionSet || !_pointsBuffer.Any()) && i != 0)
                         {
-                            points.Add(GetIntersectionPoint(point, lineElement.Points[i - 1], leftBottomCorner,
+                            _pointsBuffer.Add(GetIntersectionPoint(point, lineElement.Points[i - 1], leftBottomCorner,
                                 rightUpperCorner));
                         }                
 
-                        points.Add(point);
+                        _pointsBuffer.Add(point);
                         isIntersectionSet = false;
                     }
                 }
 
                 // if we find any points then we should keep this line element
-                if (points.Any())
+                if (_pointsBuffer.Any())
                 {
-                    lineElement.Points = points.ToList(); // assume that we create a copy of this array
+                    lineElement.Points = _pointsBuffer.ToList(); // assume that we create a copy of this array
                     lineElement.IsNotContinuation = isNotContinuation;
                     result.Add(lineElement);
                 }
 
-                // reuse points array
-                points.Clear();
+                // reuse _points array
+                _pointsBuffer.Clear();
             }
 
             return result;
@@ -100,7 +101,7 @@ namespace Mercraft.Models.Geometry.ThickLine
         private static MapPoint GetIntersectionPoint(MapPoint tilePoint, MapPoint nonTilePoint, MapPoint minPoint,
             MapPoint maxPoint)
         {
-            // detect the side of tile which intersects with line between points and find its projectionon this side,
+            // detect the side of tile which intersects with line between points and find its projection on this side,
             // and tangens of side 
             MapPoint sideProjectionPoint;
             MapPoint axisProjectionPoint;
@@ -152,7 +153,7 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         #endregion
 
-        #region Intermediate points
+        #region Intermediate _points
 
         public static List<MapPoint> GetIntermediatePoints(HeightMap heightMap, List<MapPoint> original, float maxDistance)
         {

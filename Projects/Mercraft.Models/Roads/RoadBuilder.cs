@@ -31,7 +31,7 @@ namespace Mercraft.Models.Roads
 
         public void Build(HeightMap heightMap, Road road, RoadStyle style)
         {
-            var lineElements = road.Elements.Select(e => new LineElement(e.Points, e.Width)).ToArray();
+            var lineElements = road.Elements.Select(e => new LineElement(e.Points, e.Width)).ToList();
             _lineBuilder.Build(heightMap, lineElements, (p, t, u) => CreateMesh(road, style, p, t, u));
         }
 

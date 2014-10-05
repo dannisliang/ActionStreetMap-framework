@@ -133,8 +133,7 @@ namespace Mercraft.Explorer.Scene
             var roads = _roadElements.Select(re => new Road()
             {
                 Elements = new List<RoadElement>() {re},
-                GameObject =
-                    _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
+                GameObject = _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
             }).ToList();
 
             if (_tile.HeightMap.IsFlat)
@@ -164,8 +163,12 @@ namespace Mercraft.Explorer.Scene
                 _objectPool.Store(area.Points);
             foreach (var elevation in _elevations)
                 _objectPool.Store(elevation.Points);
-            foreach (var road in _roadElements)
-                _objectPool.Store(road.Points);
+            foreach (var roadElement in _roadElements)
+            {
+                _objectPool.Store(roadElement.Points);
+                // set to null as points are returned to pool
+                roadElement.Points = null;
+            }
 
             // clear collections to reuse
             _areas.Clear();
