@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Mercraft.Core;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;

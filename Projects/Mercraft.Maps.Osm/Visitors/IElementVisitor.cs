@@ -20,12 +20,12 @@ namespace Mercraft.Maps.Osm.Visitors
     /// </summary>
     public class ElementVisitor : IElementVisitor
     {
-        protected readonly IScene Scene;
+        protected readonly IModelVisitor ModelVisitor;
 
         [Dependency]
-        public ElementVisitor(IScene scene)
+        public ElementVisitor(IModelVisitor modelVisitor)
         {
-            Scene = scene;
+            ModelVisitor = modelVisitor;
         }
 
         public virtual void VisitNode(Node node)

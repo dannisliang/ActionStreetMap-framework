@@ -13,38 +13,35 @@ namespace Mercraft.Maps.Osm
     {
         private readonly IElementSourceProvider _elementSourceProvider;
         private readonly ElementManager _elementManager;
+        private readonly IModelVisitor _modelVisitor;
 
         [Dependency]
-        public OsmSceneBuilder(IElementSourceProvider elementSourceProvider, ElementManager elementManager)
+        public OsmSceneBuilder(IElementSourceProvider elementSourceProvider, ElementManager elementManager, 
+            IModelVisitor modelVisitor)
         {
             _elementSourceProvider = elementSourceProvider;
             _elementManager = elementManager;
+            _modelVisitor = modelVisitor;
         }
 
         /// <summary>
         /// Builds scene using bounding box
         /// </summary>
+        /// <param name="tile"></param>
         /// <param name="bbox">Bounding box</param>
-        public IScene Build(BoundingBox bbox)
+        public void Build(Tile tile, BoundingBox bbox)
         {
-            var scene = new MapScene();
             var visitor = new CompositeVisitor(new List<IElementVisitor>
             {
-                new WayVisitor(scene),
-                new NodeVisitor(scene),
-                new RelationVisitor(scene)
+                new WayVisitor(_modelVisitor),
+                new NodeVisitor(_modelVisitor),
+                new RelationVisitor(_modelVisitor)
             });
 
             var elementSource = _elementSourceProvider.Get(bbox);
-
+            tile.Accept(_modelVisitor);
             _elementManager.VisitBoundingBox(bbox, elementSource, visitor);
-
-            scene.Canvas = new Canvas()
-            {
-                Id = 1
-            };
-
-            return scene;
+            (new Canvas()).Accept(_modelVisitor);
         }
     }
 }

@@ -5,7 +5,8 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class NodeVisitor: ElementVisitor
     {
-        public NodeVisitor(IScene scene) : base(scene)
+        public NodeVisitor(IModelVisitor modelVisitor)
+            : base(modelVisitor)
         {
         }
 
@@ -13,7 +14,7 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             if (node.Tags != null)
             {
-                Scene.AddNode(new Core.Scene.Models.Node()
+                ModelVisitor.VisitNode(new Core.Scene.Models.Node()
                 {
                     Id = node.Id,
                     Point = node.Coordinate,

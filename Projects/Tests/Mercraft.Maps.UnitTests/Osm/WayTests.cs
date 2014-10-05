@@ -20,15 +20,15 @@ namespace Mercraft.Maps.UnitTests.Osm
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 
-            var scene = new MapScene();
+            var testModelVisitor = new TestModelVisitor();
 
             var elementManager = new ElementManager();
 
             // ACT
-            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
+            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(testModelVisitor));
 
             // ASSERT
-            Assert.AreEqual(1820, scene.Ways.Count());
+            Assert.AreEqual(1820, testModelVisitor.Ways.Count());
         }
     }
 }

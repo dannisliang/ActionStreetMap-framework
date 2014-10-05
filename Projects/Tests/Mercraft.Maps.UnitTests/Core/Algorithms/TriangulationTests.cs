@@ -5,6 +5,7 @@ using Mercraft.Core.Scene;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
+using Mercraft.Maps.UnitTests.Osm;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core.Algorithms
@@ -43,7 +44,7 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 
-            var scene = new MapScene();
+            var scene = new TestModelVisitor();
 
             var elementManager = new ElementManager();
 

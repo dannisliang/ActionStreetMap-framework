@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
@@ -129,19 +130,14 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
         private TileManager GetManager()
         {
             var sceneBuilderMock = new Mock<ISceneBuilder>();
-            sceneBuilderMock
-                .Setup(s => s.Build(It.IsAny<BoundingBox>())).Returns(new MapScene
-                {
-                    Canvas = new Canvas()
-                });
-
-            var tileLoader = new Mock<ITileLoader>();
+            var tileLoader = new Mock<IModelVisitor>();
+            var heightMapProvider = new HeightMapProvider(new Mock<IElevationProvider>().Object);
 
             var configMock = new Mock<IConfigSection>();
             configMock.Setup(c => c.GetFloat("@size")).Returns(Size);
             configMock.Setup(c => c.GetFloat("@offset")).Returns(Offset);
 
-            var provider = new TileManager(sceneBuilderMock.Object, tileLoader.Object, new MessageBus());
+            var provider = new TileManager(sceneBuilderMock.Object, tileLoader.Object, heightMapProvider, new MessageBus());
             provider.Configure(configMock.Object);
 
             return provider;

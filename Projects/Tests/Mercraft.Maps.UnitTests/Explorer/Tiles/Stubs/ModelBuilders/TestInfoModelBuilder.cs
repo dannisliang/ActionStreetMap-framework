@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;

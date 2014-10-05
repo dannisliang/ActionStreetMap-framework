@@ -107,7 +107,7 @@ namespace Assets.Scripts.Character
             var consoleGameObject = new GameObject("_DebugConsole_");
             _console = consoleGameObject.AddComponent<DebugConsole>();
             container.RegisterInstance(_console);
-            _console.CommandManager.Register("scene", new SceneCommand(container));
+            //_console.CommandManager.Register("scene", new SceneCommand(container));
         }
 
         private void InitializeMessageBusListeners(IMessageBus messageBus, ITrace trace)

@@ -2,7 +2,6 @@
 using System.Linq;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Utilities;
 using Mercraft.Maps.Osm.Extensions;
 using Way = Mercraft.Maps.Osm.Entities.Way;
 
@@ -10,7 +9,8 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class WayVisitor : ElementVisitor
     {
-        public WayVisitor(IScene scene) : base(scene)
+        public WayVisitor(IModelVisitor modelVisitor)
+            : base(modelVisitor)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             if (!IsArea(way.Tags))
             {
-                Scene.AddWay(new Core.Scene.Models.Way
+                ModelVisitor.VisitWay(new Core.Scene.Models.Way
                 {
                     Id = way.Id,
                     Points = way.GetPoints(),
@@ -31,13 +31,12 @@ namespace Mercraft.Maps.Osm.Visitors
             if (!way.IsPolygon)
                 return;
 
-            var area = new Area
+            ModelVisitor.VisitArea(new Area
             {
                 Id = way.Id,
                 Points = way.GetPoints(),
                 Tags = GetMergedTags(way)
-            };
-            Scene.AddArea(area);
+            });
         }
 
         /// <summary>

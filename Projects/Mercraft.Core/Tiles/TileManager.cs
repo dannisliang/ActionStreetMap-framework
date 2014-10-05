@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
@@ -17,10 +19,12 @@ namespace Mercraft.Core.Tiles
     {
         private float _tileSize;
         private float _offset;
+        private int _heightmapsize;
 
         private readonly ISceneBuilder _sceneBuilder;
-        private readonly ITileLoader _tileLoader;
+        private readonly IModelVisitor _modelVisitor;
         private readonly IMessageBus _messageBus;
+        private readonly IHeightMapProvider _heightMapProvider;
 
         public GeoCoordinate RelativeNullPoint { get; private set; }
         public MapPoint CurrentPosition { get; private set; }
@@ -41,11 +45,13 @@ namespace Mercraft.Core.Tiles
         }
 
         [Dependency]
-        public TileManager(ISceneBuilder sceneBuilder, ITileLoader tileLoader, IMessageBus messageBus)
+        public TileManager(ISceneBuilder sceneBuilder, IModelVisitor modelVisitor, 
+            IHeightMapProvider heightMapProvider, IMessageBus messageBus)
         {
             _sceneBuilder = sceneBuilder;
-            _tileLoader = tileLoader;
+            _modelVisitor = modelVisitor;
             _messageBus = messageBus;
+            _heightMapProvider = heightMapProvider;
 
             Tiles = new HashSet<Tile>();
         }
@@ -61,10 +67,7 @@ namespace Mercraft.Core.Tiles
             if (Tiles.Contains(tile))
                 return;
 
-            _messageBus.Send(new TileLoadStartMessage(tile));
-            _tileLoader.Load(tile);
             Tiles.Add(tile);
-            _messageBus.Send(new TileLoadFinishMessage(tile));
         }
 
         public virtual void OnGeoPositionChanged(GeoCoordinate position)
@@ -109,10 +112,12 @@ namespace Mercraft.Core.Tiles
             _messageBus.Send(new TileBuildStartMessage(nextTileCenter));
 
             var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
-            var scene = _sceneBuilder.Build(bbox);
 
-            tile = new Tile(scene, relativeNullPoint, nextTileCenter, _tileSize);
-            scene.Canvas.Tile = tile;
+            tile = new Tile(relativeNullPoint, nextTileCenter, _tileSize);
+            tile.HeightMap = _heightMapProvider.Get(tile, _heightmapsize);
+            
+            _sceneBuilder.Build(tile, bbox);
+            
             _messageBus.Send(new TileBuildFinishMessage(tile));
             return tile;
         }
@@ -164,6 +169,7 @@ namespace Mercraft.Core.Tiles
         {
             _tileSize = configSection.GetFloat("@size");
             _offset = configSection.GetFloat("@offset");
+            _heightmapsize = configSection.GetInt("@heightmap");
 
             RelativeNullPoint = new GeoCoordinate(
               configSection.GetFloat("@latitude"),

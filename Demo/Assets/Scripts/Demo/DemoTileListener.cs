@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reactive.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Diagnostic;
 

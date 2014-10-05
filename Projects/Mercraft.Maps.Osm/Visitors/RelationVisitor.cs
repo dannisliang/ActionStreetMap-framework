@@ -13,10 +13,9 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class RelationVisitor : ElementVisitor
     {
-        private readonly IScene _scene;
-        public RelationVisitor(IScene scene) : base(scene)
+        public RelationVisitor(IModelVisitor modelVisitor)
+            : base(modelVisitor)
         {
-            _scene = scene;
         }
 
         public override void VisitRelation(Relation relation)
@@ -49,14 +48,12 @@ namespace Mercraft.Maps.Osm.Visitors
                 }              
 
                 // TODO process inner points!
-
-                var area = new Area
+                ModelVisitor.VisitArea(new Area
                 {
                     Id = relation.Id,
                     Points = points.ToArray(),
                     Tags = relation.Tags
-                };
-                _scene.AddArea(area);
+                });
             }
         }
     }

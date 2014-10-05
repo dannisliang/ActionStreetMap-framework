@@ -7,7 +7,6 @@ using Mercraft.Core.MapCss;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
@@ -21,7 +20,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene
 {
-    public class TileModelLoader : ITileLoader, IModelVisitor, IModelBuilder
+    public class TileModelLoader : IModelVisitor, IModelBuilder
     {
         private readonly IHeightMapProvider _heighMapProvider;
         private readonly ITerrainBuilder _terrainBuilder;
@@ -56,38 +55,13 @@ namespace Mercraft.Explorer.Scene
             _stylesheet = stylesheetProvider.Get();
         }
 
-        #region ITileLoader
+        #region IModelVisitor
 
-        public void Load(Tile tile)
+        public void VisitTile(Tile tile)
         {
             _tile = tile;
-
-            var heightMapResolution = _stylesheet.GetCanvasRule(tile.Scene.Canvas).GetHeightMapSize();
-            tile.GameObject = _gameObjectFactory.CreateNew("tile");
-            tile.HeightMap = _heighMapProvider.Get(tile, heightMapResolution);
-
-            foreach (var area in tile.Scene.Areas)
-                area.Accept(this);
-            foreach (var way in tile.Scene.Ways)
-                way.Accept(this);
-            foreach (var node in tile.Scene.Nodes)
-                node.Accept(this);
-            tile.Scene.Canvas.Accept(this);
-
-            // clear collections to reuse
-            _areas.Clear();
-            _elevations.Clear();
-            _roadElements.Clear();
-            _trees.Clear();
-            _tile.Scene.Dispose();
-
-            _heighMapProvider.Store(_tile.HeightMap);
-            _tile.HeightMap = null;
+            _tile.GameObject = _gameObjectFactory.CreateNew("tile");
         }
-
-        #endregion
-
-        #region IModelVisitor
 
         public void VisitArea(Area area)
         {
@@ -145,7 +119,7 @@ namespace Mercraft.Explorer.Scene
 
         public void VisitCanvas(Canvas canvas)
         {
-            var rule = _stylesheet.GetCanvasRule(_tile.Scene.Canvas);
+            var rule = _stylesheet.GetCanvasRule(canvas);
 
             // TODO this should be done by road composer
             var roads = _roadElements.Select(re => new Road()
@@ -175,6 +149,14 @@ namespace Mercraft.Explorer.Scene
                 RoadBuilder = _roadBuilder,
                 RoadStyleProvider = _themeProvider.Get().GetStyleProvider<IRoadStyleProvider>()
             });
+
+            // clear collections to reuse
+            _areas.Clear();
+            _elevations.Clear();
+            _roadElements.Clear();
+            _trees.Clear();
+            _heighMapProvider.Store(_tile.HeightMap);
+            _tile.HeightMap = null;
         }
 
         private bool ShouldUseBuilder(Rule rule, Model model)

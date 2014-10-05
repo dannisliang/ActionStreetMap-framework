@@ -1,4 +1,6 @@
 ﻿
+using Mercraft.Core.Scene.Models;
+
 namespace Mercraft.Core.Tiles
 {
     public sealed class TileFoundMessage
@@ -28,26 +30,6 @@ namespace Mercraft.Core.Tiles
         public Tile Tile { get; private set; }
 
         public TileBuildFinishMessage(Tile tile)
-        {
-            Tile = tile;
-        }
-    }
-
-    public sealed class TileLoadStartMessage
-    {
-        public Tile Tile { get; private set; }
-
-        public TileLoadStartMessage(Tile tile)
-        {
-            Tile = tile;
-        }
-    }
-
-    public sealed class TileLoadFinishMessage
-    {
-        public Tile Tile { get; private set; }
-
-        public TileLoadFinishMessage(Tile tile)
         {
             Tile = tile;
         }

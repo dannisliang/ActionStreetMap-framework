@@ -8,7 +8,7 @@ namespace Mercraft.Core.Scene.Models
 
         public override bool IsClosed
         {
-            get { return true; }
+            get { throw new System.NotImplementedException(); }
         }
 
         public override void Accept(IModelVisitor visitor)

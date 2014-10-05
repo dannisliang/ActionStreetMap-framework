@@ -22,7 +22,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 200);
 
-                var scene = new MapScene();
+                var scene = new TestModelVisitor();
 
                 var elementManager = new ElementManager();
 
@@ -45,7 +45,7 @@ namespace Mercraft.Maps.UnitTests.Osm
 
                 var bbox = BoundingBox.CreateBoundingBox(new GeoCoordinate(51.26371, 4.7854), 1000);
 
-                var scene = new MapScene();
+                var scene = new TestModelVisitor();
 
                 var elementManager = new ElementManager();
 

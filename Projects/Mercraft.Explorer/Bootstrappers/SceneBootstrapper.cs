@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core.MapCss;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Tiles;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Scene;
@@ -29,7 +30,7 @@ namespace Mercraft.Explorer.Bootstrappers
 
             Container.Register(Component.For<IResourceProvider>().Use<UnityResourceProvider>().Singleton());
 
-            Container.Register(Component.For<ITileLoader>().Use<TileModelLoader>().Singleton());
+            Container.Register(Component.For<IModelVisitor>().Use<TileModelLoader>().Singleton());
 
             var themeConfigPath = GlobalConfigSection.GetString(ThemeKey);
             var themeConfig = new ConfigSection(PathResolver.Resolve(themeConfigPath));

@@ -1,14 +1,13 @@
 ﻿using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Unity;
 
-namespace Mercraft.Core.Tiles
+namespace Mercraft.Core.Scene.Models
 {
     /// <summary>
     ///     Represents map tile (zone)
     /// </summary>
-    public class Tile
+    public class Tile : Model
     {
         /// <summary>
         ///     Stores map center coordinate in lat/lon
@@ -40,19 +39,13 @@ namespace Mercraft.Core.Tiles
         /// </summary>
         public HeightMap HeightMap { get; set; }
 
-        /// <summary>
-        ///     Stores scene
-        /// </summary>
-        public IScene Scene { get; private set; }
-
         public MapPoint TopLeft { get; set; }
         public MapPoint TopRight { get; set; }
         public MapPoint BottomLeft { get; set; }
         public MapPoint BottomRight { get; set; }
 
-        public Tile(IScene scene, GeoCoordinate relativeNullPoint, MapPoint mapCenter, float size)
+        public Tile(GeoCoordinate relativeNullPoint, MapPoint mapCenter, float size)
         {
-            Scene = scene;
             RelativeNullPoint = relativeNullPoint;
             MapCenter = mapCenter;
             Size = size;
@@ -76,6 +69,16 @@ namespace Mercraft.Core.Tiles
         {
             return (position.X > TopLeft.X + offset) && (position.Y < TopLeft.Y - offset) &&
                          (position.X < BottomRight.X - offset) && (position.Y > BottomRight.Y + offset);
+        }
+
+        public override bool IsClosed
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        public override void Accept(IModelVisitor visitor)
+        {
+            visitor.VisitTile(this);
         }
     }
 }
