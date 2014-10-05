@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mercraft.Infrastructure.Utilities
 {
@@ -18,16 +17,16 @@ namespace Mercraft.Infrastructure.Utilities
         {
             if (_objectStack.Count > 0)
             {
-                var t = _objectStack.Pop();
-                t.Clear();
-                return t;
+                var list = _objectStack.Pop();
+                list.Clear();
+                return list;
             }
             return new List<T>(_listSize);
         }
 
-        public void Store(List<T> obj)
+        public void Store(List<T> list)
         {
-            _objectStack.Push(obj);
+            _objectStack.Push(list);
         }
     }
 }

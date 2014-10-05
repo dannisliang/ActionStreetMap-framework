@@ -43,10 +43,10 @@ namespace Mercraft.Maps.Osm
                 element.Accept(visitor);
                 _keysToDelete.Clear();
             }
+            elementSource.Reset();
 
             ProcessLeftovers(bbox, visitor);
         }
-
 
         #region IElementVisitor implementation
 

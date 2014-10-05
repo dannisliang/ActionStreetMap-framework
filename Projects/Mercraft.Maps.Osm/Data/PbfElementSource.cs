@@ -62,7 +62,7 @@ namespace Mercraft.Maps.Osm.Data
         private void ResetPrivateState()
         {
             _stream.Seek(0, SeekOrigin.Begin);
-
+            
             _nodeIds = new HashSet<long>();
             _wayIds = new HashSet<long>();
             _relationIds = new HashSet<long>();
@@ -386,6 +386,11 @@ namespace Mercraft.Maps.Osm.Data
         public Entities.Way GetWay(long id)
         {
             return GetElement<Entities.Way>(id);
+        }
+
+        public void Reset()
+        {
+            Elements.Clear();
         }
 
         public Entities.Relation GetRelation(long id)

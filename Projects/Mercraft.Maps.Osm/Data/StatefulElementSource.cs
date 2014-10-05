@@ -254,6 +254,11 @@ namespace Mercraft.Maps.Osm.Data
             return way;
         }
 
+        public void Reset()
+        {
+            
+        }
+
         /// <summary>
         /// Returns all the way(s) with the given id(s).
         /// </summary>

@@ -15,9 +15,9 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         private HeightMap _heightMap;
 
-        protected List<Vector3> Points = new List<Vector3>();
-        protected List<int> Triangles = new List<int>();
-        protected List<Vector2> Uv = new List<Vector2>();
+        protected List<Vector3> Points = new List<Vector3>(1024);
+        protected List<int> Triangles = new List<int>(2048);
+        protected List<Vector2> Uv = new List<Vector2>(1024);
         protected int TrisIndex = 0;
 
         // TODO ration depends on texture
@@ -29,7 +29,7 @@ namespace Mercraft.Models.Geometry.ThickLine
         private bool _isLastElement;
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
-
+        
         public virtual void Build(HeightMap heightMap, List<LineElement> elements,
             Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
@@ -199,16 +199,14 @@ namespace Mercraft.Models.Geometry.ThickLine
             Points.Add(second);
             Points.Add(third);
 
-            Triangles.AddRange(new int[]
-            {
-                TrisIndex + 0, TrisIndex + (invert? 1 : 2), TrisIndex + (invert? 2 : 1)
-            });
-            Uv.AddRange(new[]
-            {
-                new Vector2(0f, 0f),
-                new Vector2(1f, 0f),
-                new Vector2(0f, 1f),
-            });
+            Triangles.Add(TrisIndex + 0);
+            Triangles.Add(TrisIndex + (invert ? 1 : 2));
+            Triangles.Add(TrisIndex + (invert ? 2 : 1));
+
+            Uv.Add(new Vector2(0f, 0f));
+            Uv.Add(new Vector2(1f, 0f));
+            Uv.Add(new Vector2(0f, 1f));
+           
             TrisIndex += 3;
         }
 
@@ -224,22 +222,21 @@ namespace Mercraft.Models.Geometry.ThickLine
             Points.Add(leftEnd);
             Points.Add(rightEnd);
 
-            Triangles.AddRange(new[]
-            {
-                TrisIndex + 0, TrisIndex + 1, TrisIndex + 2,
-                TrisIndex + 2, TrisIndex + 3, TrisIndex + 0
-            });
+            Triangles.Add(TrisIndex + 0);
+            Triangles.Add(TrisIndex + 1);
+            Triangles.Add(TrisIndex + 2);
+            Triangles.Add(TrisIndex + 2);
+            Triangles.Add(TrisIndex + 3);
+            Triangles.Add(TrisIndex + 0);
             TrisIndex += 4;
 
             var distance = Vector3.Distance(rightStart, rightEnd);
             float tiles = distance / Ratio;
-            Uv.AddRange(new[]
-            {
-                new Vector2(1f, 0f),
-                new Vector2(0f, 0f),
-                new Vector2(0f, tiles),
-                new Vector2(1, tiles),
-            });
+
+            Uv.Add(new Vector2(1f, 0f));
+            Uv.Add(new Vector2(0f, 0f));
+            Uv.Add(new Vector2(0f, tiles));
+            Uv.Add(new Vector2(1, tiles));
         }
         #endregion
 
