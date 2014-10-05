@@ -7,7 +7,7 @@ namespace Mercraft.Models.Geometry.ThickLine
 {
     public class ThickLineUtils
     {
-        private static List<MapPoint> _pointsBuffer = new List<MapPoint>(64);
+        private static List<MapPoint> _pointBuffer = new List<MapPoint>(64);
 
         #region Line elements in tile
         /// <summary>
@@ -37,9 +37,9 @@ namespace Mercraft.Models.Geometry.ThickLine
                     {
                         // Point is not in tile. There are two possible further actions:
                         // 1. we have points which are in tile - we should find intersection point with tile border
-                        if (_pointsBuffer.Any() && !isIntersectionSet)
+                        if (_pointBuffer.Any() && !isIntersectionSet)
                         {
-                            _pointsBuffer.Add(GetIntersectionPoint(_pointsBuffer[_pointsBuffer.Count - 1], point, leftBottomCorner,
+                            _pointBuffer.Add(GetIntersectionPoint(_pointBuffer[_pointBuffer.Count - 1], point, leftBottomCorner,
                                 rightUpperCorner));
                             isIntersectionSet = true;
                         }
@@ -54,36 +54,36 @@ namespace Mercraft.Models.Geometry.ThickLine
                         if (isIntersectionSet)
                         {
                             // copy line element
-                            result.Add(new LineElement(_pointsBuffer.ToList(), lineElement.Width)
+                            result.Add(new LineElement(_pointBuffer.ToList(), lineElement.Width)
                             {
                                 IsNotContinuation = true,
                             });
-                            _pointsBuffer.Clear();                            
+                            _pointBuffer.Clear();                            
                         }
 
                         // (!_points.Any()) we filtred out _points which are located in different tile, so we should 
                         // find intersection point with tile border to render this part
-                        if ((isIntersectionSet || !_pointsBuffer.Any()) && i != 0)
+                        if ((isIntersectionSet || !_pointBuffer.Any()) && i != 0)
                         {
-                            _pointsBuffer.Add(GetIntersectionPoint(point, lineElement.Points[i - 1], leftBottomCorner,
+                            _pointBuffer.Add(GetIntersectionPoint(point, lineElement.Points[i - 1], leftBottomCorner,
                                 rightUpperCorner));
                         }                
 
-                        _pointsBuffer.Add(point);
+                        _pointBuffer.Add(point);
                         isIntersectionSet = false;
                     }
                 }
 
                 // if we find any points then we should keep this line element
-                if (_pointsBuffer.Any())
+                if (_pointBuffer.Any())
                 {
-                    lineElement.Points = _pointsBuffer.ToList(); // assume that we create a copy of this array
+                    lineElement.Points = _pointBuffer.ToList(); // assume that we create a copy of this array
                     lineElement.IsNotContinuation = isNotContinuation;
                     result.Add(lineElement);
                 }
 
                 // reuse _points array
-                _pointsBuffer.Clear();
+                _pointBuffer.Clear();
             }
 
             return result;

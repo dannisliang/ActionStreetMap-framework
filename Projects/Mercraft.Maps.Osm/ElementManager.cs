@@ -24,6 +24,8 @@ namespace Mercraft.Maps.Osm
         /// </summary>
         private Dictionary<long, Tuple<Way, bool>> _crossTileWays = new Dictionary<long, Tuple<Way, bool>>();
 
+        private List<long> _keysToDelete = new List<long>(64);
+
         /// <summary>
         /// Visits all elements in datasource which are located in bbox
         /// </summary>
@@ -37,9 +39,9 @@ namespace Mercraft.Maps.Osm
             IEnumerable<Element> elements = elementSource.Get(bbox);
             foreach (var element in elements)
             {
-                //Populate(bbox, element, elementSource);
                 element.Accept(this);
                 element.Accept(visitor);
+                _keysToDelete.Clear();
             }
 
             ProcessLeftovers(bbox, visitor);
@@ -66,7 +68,7 @@ namespace Mercraft.Maps.Osm
 
         #region Populates given elements
 
-        private Way PopulateWay(BoundingBox bbox, Way way, IElementSource elementSource)
+        private void PopulateWay(BoundingBox bbox, Way way, IElementSource elementSource)
         {
             int nodeCount = way.NodeIds.Count;
             way.Nodes = new List<Node>(nodeCount);
@@ -110,14 +112,12 @@ namespace Mercraft.Maps.Osm
                             _crossTileWays.Add(way.Id, new Tuple<Way, bool>(way, true));
                     }
                 }
-                return null;
-            }
-
-            CheckOutOfBoxNodes(bbox, way);
-            return way;
+            } 
+            else
+                CheckOutOfBoxNodes(bbox, way);
         }
 
-        private Relation PopulateRelation(Relation relation, IElementSource elementSource)
+        private void PopulateRelation(Relation relation, IElementSource elementSource)
         {
             var members = new List<RelationMember>(relation.Members.Count);
 
@@ -138,7 +138,6 @@ namespace Mercraft.Maps.Osm
                 members.Add(member);
             }
             relation.Members = members;
-            return relation;
         }
 
         #endregion
@@ -146,7 +145,6 @@ namespace Mercraft.Maps.Osm
 
         private void ProcessLeftovers(BoundingBox bbox, IElementVisitor visitor)
         {
-            List<long> keysToDelete = new List<long>();
             // process elements (ways) which cross tile borders
             foreach (var crossTileWay in _crossTileWays)
             {
@@ -189,13 +187,13 @@ namespace Mercraft.Maps.Osm
                 {
                     way.Accept(visitor);
                     if (!hasOutOfBoxNotProcessed)
-                        keysToDelete.Add(crossTileWay.Key);
+                        _keysToDelete.Add(crossTileWay.Key);
                 }
                 else
-                    keysToDelete.Add(crossTileWay.Key);
+                    _keysToDelete.Add(crossTileWay.Key);
             }
             // we should cleanup way which has no nodes with IsOutOfBox = true;
-            keysToDelete.ForEach(k => _crossTileWays.Remove(k));
+            _keysToDelete.ForEach(k => _crossTileWays.Remove(k));
         }
 
         private void CheckOutOfBoxNodes(BoundingBox bbox, Way way)

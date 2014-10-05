@@ -10,6 +10,8 @@ namespace Mercraft.Models.Geometry
     public sealed class ScanLine
     {
         private static List<Edge> _edgeBuffer = new List<Edge>(16);
+        // Holds all cutpoints from current scanline with the polygon
+        private static List<int> _list = new List<int>(32);
         
         public static void FillPolygon(List<MapPoint> points, Action<int, int, int> fillAction)
         {
@@ -23,7 +25,7 @@ namespace Mercraft.Models.Geometry
             for (int i = 0; i < _edgeBuffer.Count - 1; i++)
                 for (int j = 0; j < _edgeBuffer.Count - 1; j++)
                 {
-                    if (_edgeBuffer[j].Start.Y > _edgeBuffer[j + 1].Start.Y)
+                    if (_edgeBuffer[j].StartY > _edgeBuffer[j + 1].StartY)
                     {
                         // swap both edges
                         tmp = _edgeBuffer[j];
@@ -36,30 +38,27 @@ namespace Mercraft.Models.Geometry
             int scanlineEnd = 0;
             for (int i = 0; i < _edgeBuffer.Count; i++)
             {
-                if (scanlineEnd < _edgeBuffer[i].End.Y)
-                    scanlineEnd = (int)_edgeBuffer[i].End.Y;
-            }
-
-            // Holds all cutpoints from current scanline with the polygon
-            List<int> list = new List<int>();
+                if (scanlineEnd < _edgeBuffer[i].EndY)
+                    scanlineEnd = (int)_edgeBuffer[i].EndY;
+            }          
 
             // scanline starts at smallest Y coordinate
             // move scanline step by step down to biggest one
-            for (int scanline = (int)_edgeBuffer[0].Start.Y; scanline <= scanlineEnd; scanline++)
+            for (int scanline = (int)_edgeBuffer[0].StartY; scanline <= scanlineEnd; scanline++)
             {
-                list.Clear();
+                _list.Clear();
 
                 // loop all edges to see which are cut by the scanline
                 for (int i = 0; i < _edgeBuffer.Count; i++)
                 {
                     // here the scanline intersects the smaller vertice
-                    if (scanline == _edgeBuffer[i].Start.Y)
+                    if (scanline == _edgeBuffer[i].StartY)
                     {
-                        if (scanline == _edgeBuffer[i].End.Y)
+                        if (scanline == _edgeBuffer[i].EndY)
                         {
                             // the current edge is horizontal, so we add both vertices
                             _edgeBuffer[i].Deactivate();
-                            list.Add((int)_edgeBuffer[i].CurrentX);
+                            _list.Add((int)_edgeBuffer[i].CurrentX);
                         }
                         else
                         {
@@ -70,38 +69,38 @@ namespace Mercraft.Models.Geometry
                     }
 
                     // here the scanline intersects the bigger vertice
-                    if (scanline == _edgeBuffer[i].End.Y)
+                    if (scanline == _edgeBuffer[i].EndY)
                     {
                         _edgeBuffer[i].Deactivate();
-                        list.Add((int)_edgeBuffer[i].CurrentX);
+                        _list.Add((int)_edgeBuffer[i].CurrentX);
                     }
 
                     // here the scanline intersects the edge, so calc intersection point
-                    if (scanline > _edgeBuffer[i].Start.Y && scanline < _edgeBuffer[i].End.Y)
+                    if (scanline > _edgeBuffer[i].StartY && scanline < _edgeBuffer[i].EndY)
                     {
                         _edgeBuffer[i].Update();
-                        list.Add((int)_edgeBuffer[i].CurrentX);
+                        _list.Add((int)_edgeBuffer[i].CurrentX);
                     }
                 }
 
                 // now we have to sort our _reusableBuffer with our X-coordinates, ascendend
-                for (int i = 0; i < list.Count; i++)
-                    for (int j = 0; j < list.Count - 1; j++)
+                for (int i = 0; i < _list.Count; i++)
+                    for (int j = 0; j < _list.Count - 1; j++)
                     {
-                        if (list[j] > list[j + 1])
+                        if (_list[j] > _list[j + 1])
                         {
-                            int swaptmp = list[j];
-                            list[j] = list[j + 1];
-                            list[j + 1] = swaptmp;
+                            int swaptmp = _list[j];
+                            _list[j] = _list[j + 1];
+                            _list[j + 1] = swaptmp;
                         }
                     }
 
-                if (list.Count < 2 || list.Count % 2 != 0)
+                if (_list.Count < 2 || _list.Count % 2 != 0)
                     continue;
 
                 // so fill all line segments on current scanline
-                for (int i = 0; i < list.Count; i += 2)
-                    fillAction(scanline, list[i], list[i + 1]);
+                for (int i = 0; i < _list.Count; i += 2)
+                    fillAction(scanline, _list[i], _list[i + 1]);
             }
 
             _edgeBuffer.Clear();
@@ -134,12 +133,14 @@ namespace Mercraft.Models.Geometry
             /// <summary>
             ///     Start vertice
             /// </summary>
-            public MapPoint Start;
+            public int StartX;
+            public int StartY;
 
             /// <summary>
             ///     End vertice
             /// </summary>
-            public MapPoint End;
+            public int EndX;
+            public int EndY;
 
             /// <summary>
             ///     Slope
@@ -153,11 +154,14 @@ namespace Mercraft.Models.Geometry
 
             public Edge(MapPoint a, MapPoint b)
             {
-                Start = new MapPoint(a.X, a.Y);
-                End = new MapPoint(b.X, b.Y);
+                StartX = (int) Math.Round(a.X);
+                StartY = (int) Math.Round(a.Y);
+
+                EndX = (int)Math.Round(b.X);
+                EndY = (int)Math.Round(b.Y);
 
                 // M = dy / dx
-                M = (Start.Y - End.Y) / (float)(Start.X - End.X);
+                M = (StartY - EndY) / (float)(StartX - EndX);
             }
 
             /// <summary>
@@ -166,7 +170,7 @@ namespace Mercraft.Models.Geometry
             /// </summary>
             public void Activate()
             {
-                CurrentX = Start.X;
+                CurrentX = StartX;
             }
 
             /// <summary>
@@ -187,7 +191,7 @@ namespace Mercraft.Models.Geometry
             /// </summary>
             public void Deactivate()
             {
-                CurrentX = End.X;
+                CurrentX = EndX;
             }
         }
 

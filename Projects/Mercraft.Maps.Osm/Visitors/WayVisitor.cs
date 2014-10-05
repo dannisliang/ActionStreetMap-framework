@@ -61,10 +61,8 @@ namespace Mercraft.Maps.Osm.Visitors
                     continue;
                 foreach (var tag in node.Tags)
                 {
-                    if (IsMergeTag(tag) && tags.All(t => t.Key != tag.Key))
-                    {
+                    if (IsMergeTag(tag) && !tags.ContainsKey(tag.Key))
                         tags.Add(tag.Key, tag.Value);
-                    }
                 }
             }
             return tags;

@@ -12,7 +12,8 @@ namespace Mercraft.Core.Utilities
         public static bool ContainsKeyValue(this Dictionary<string, string> collection, string key,
             string value)
         {
-            return collection != null && collection.ContainsKey(key) && collection[key] == value;
+            string actualValue;
+            return collection != null && collection.TryGetValue(key, out actualValue) && actualValue == value;
         }
 
         public static bool ContainsKey(this Dictionary<string, string> collection, string key)
@@ -28,7 +29,8 @@ namespace Mercraft.Core.Utilities
 
         public static bool IsNotEqual(this Dictionary<string, string> collection, string key, string value)
         {
-            return collection != null && collection.ContainsKey(key) && collection[key] != value;
+            string actualValue;
+            return collection != null && collection.TryGetValue(key, out actualValue) && actualValue != value;
         }
 
         public static bool IsLess(this Dictionary<string, string> collection, string key,
@@ -49,13 +51,13 @@ namespace Mercraft.Core.Utilities
         private static bool CompareValues(Dictionary<string, string> collection, string key,
             string value, bool isGreater)
         {
-            if (!collection.ContainsKey(key))
+            string actualValue;
+            if (!collection.TryGetValue(key, out actualValue))
                 return false;
 
             float target = float.Parse(value);
-            var item = collection[key];
             float fValue = 0;
-            return float.TryParse(item, out fValue) && (isGreater ? fValue > target : fValue < target);
+            return float.TryParse(actualValue, out fValue) && (isGreater ? fValue > target : fValue < target);
         }
     }
 }
