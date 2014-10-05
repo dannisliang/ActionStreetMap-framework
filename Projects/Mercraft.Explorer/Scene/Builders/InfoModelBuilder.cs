@@ -3,13 +3,13 @@ using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Core.World.Infos;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Infos;
 using Mercraft.Models.Utils;
 using UnityEngine;
@@ -28,9 +28,8 @@ namespace Mercraft.Explorer.Scene.Builders
 
         [Dependency]
         public InfoModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IThemeProvider themeProvider,
-            IResourceProvider resourceProvider) :
-                base(worldManager, gameObjectFactory)
+            IThemeProvider themeProvider, IResourceProvider resourceProvider, IObjectPool objectPool) :
+                base(worldManager, gameObjectFactory, objectPool)
         {
             _themeProvider = themeProvider;
             _resourceProvider = resourceProvider;

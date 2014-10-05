@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Roofs;
@@ -18,7 +19,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
             // ACT
             var meshData = builder.Build(new Building()
             {
-                Footprint = new[]
+                Footprint = new List<MapPoint>()
                 {
                     new MapPoint(0, 0),
                     new MapPoint(0, 5),

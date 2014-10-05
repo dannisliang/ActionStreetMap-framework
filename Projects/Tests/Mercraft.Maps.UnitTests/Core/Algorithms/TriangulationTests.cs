@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene;
+using Mercraft.Explorer.Infrastructure;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -20,7 +22,7 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
         public void CanTriangulateNonStandard()
         {
             // ARRANGE
-            var verticies = new[]
+            var verticies = new List<MapPoint>()
             {
                 new MapPoint(669.0f, -181.5f),
                 new MapPoint(671.2f, -188.2f),
@@ -48,18 +50,20 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
 
             var elementManager = new ElementManager();
 
-            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene));
+            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(scene, new ObjectPool()));
 
             // ACT & ARRANGE
             foreach (var area in scene.Areas)
             {
-                var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points.ToList());
-                var triangles = PolygonHelper.GetTriangles3D(verticies);
+                var verticies = new List<MapPoint>();
+                PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, area.Points, verticies);
+                PolygonHelper.GetTriangles3D(verticies);
             }
 
             foreach (var way in scene.Ways)
             {
-                var verticies = PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points.ToList());
+                var verticies = new List<MapPoint>();
+                PolygonHelper.GetVerticies2D(TestHelper.BerlinGeoCenter, way.Points, verticies);
                 var triangles = PolygonHelper.GetTriangles3D(verticies);
             }
         }

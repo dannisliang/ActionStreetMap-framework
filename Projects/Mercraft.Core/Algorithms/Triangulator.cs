@@ -4,13 +4,15 @@ namespace Mercraft.Core.Algorithms
 {
     public class Triangulator
     {
-        public static int[] Triangulate(MapPoint[] points, bool reverse = true)
+        private static List<int> _indices = new List<int>(256);
+        public static int[] Triangulate(List<MapPoint> points, bool reverse = true)
         {
-            var indices = new List<int>((points.Length -2) * 3);
+            //var indices = new List<int>((points.Count -2) * 3);
+            _indices.Clear();
 
-            int n = points.Length;
+            int n = points.Count;
             if (n < 3)
-                return indices.ToArray();
+                return _indices.ToArray();
 
             int[] V = new int[n];
             if (Area(points) > 0)
@@ -29,7 +31,7 @@ namespace Mercraft.Core.Algorithms
             for (int m = 0, v = nv - 1; nv > 2; )
             {
                 if ((count--) <= 0)
-                    return indices.ToArray();
+                    return _indices.ToArray();
 
                 int u = v;
                 if (nv <= u)
@@ -47,9 +49,9 @@ namespace Mercraft.Core.Algorithms
                     a = V[u];
                     b = V[v];
                     c = V[w];
-                    indices.Add(a);
-                    indices.Add(b);
-                    indices.Add(c);
+                    _indices.Add(a);
+                    _indices.Add(b);
+                    _indices.Add(c);
                     m++;
                     for (s = v, t = v + 1; t < nv; s++, t++)
                         V[s] = V[t];
@@ -59,14 +61,14 @@ namespace Mercraft.Core.Algorithms
             }
 
             if(reverse)
-                indices.Reverse();
+                _indices.Reverse();
 
-            return indices.ToArray();
+            return _indices.ToArray();
         }
 
-        private static float Area(MapPoint[] points)
+        private static float Area(List<MapPoint> points)
         {
-            int n = points.Length;
+            int n = points.Count;
             float a = 0.0f;
             for (int p = n - 1, q = 0; q < n; p = q++)
             {
@@ -77,7 +79,7 @@ namespace Mercraft.Core.Algorithms
             return (a * 0.5f);
         }
 
-        private static bool Snip(int u, int v, int w, int n, int[] V, MapPoint[] points)
+        private static bool Snip(int u, int v, int w, int n, int[] V, List<MapPoint> points)
         {
             int p;
             MapPoint A = points[V[u]];

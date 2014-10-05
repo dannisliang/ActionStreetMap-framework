@@ -7,6 +7,7 @@ using Mercraft.Core.World.Infos;
 using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Infos;
 using Mercraft.Models.Utils;
 
@@ -16,8 +17,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
     {
         [Dependency]
         public TestInfoModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IThemeProvider themeProvider, IResourceProvider resourceProvider) :
-                base(worldManager, gameObjectFactory, themeProvider, resourceProvider)
+            IThemeProvider themeProvider, IResourceProvider resourceProvider, IObjectPool objectPool) :
+            base(worldManager, gameObjectFactory, themeProvider, resourceProvider, objectPool)
         {
         }
 

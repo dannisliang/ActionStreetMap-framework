@@ -249,7 +249,7 @@ namespace Mercraft.Models.Geometry.ThickLine
         {
             var lineSegments = new List<ThickLineSegment>();
 
-            MapPoint[] points;
+            List<MapPoint> points;
             if (_heightMap.IsFlat)
                 points = lineElement.Points;
             else
@@ -257,12 +257,12 @@ namespace Mercraft.Models.Geometry.ThickLine
                 _heightMapProcessor.Recycle(_heightMap);
                 // we should add intermediate points between given to follow elevation changes more smooth 
                 points = ThickLineUtils.GetIntermediatePoints(_heightMap, lineElement.Points, MaxPointDistance);
-                for (int i = 0; i < points.Length - 1; i++)
+                for (int i = 0; i < points.Count - 1; i++)
                     _heightMapProcessor.AdjustLine(points[i], points[i + 1], lineElement.Width);
                 _heightMapProcessor.Clear();
             }
 
-            for (int i = 1; i < points.Length; i++)
+            for (int i = 1; i < points.Count; i++)
                 lineSegments.Add(ThickLineHelper.GetThickSegment(points[i - 1], points[i], lineElement.Width));
 
             return lineSegments;

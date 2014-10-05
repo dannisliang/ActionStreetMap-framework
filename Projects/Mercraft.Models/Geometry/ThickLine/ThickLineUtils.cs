@@ -29,7 +29,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                 lineElement.IsNotContinuation = isNotContinuation;
                 isNotContinuation = false;
                 var isIntersectionSet = false;
-                for (int i = 0; i < lineElement.Points.Length; i++)
+                for (int i = 0; i < lineElement.Points.Count; i++)
                 {
                     var point = lineElement.Points[i];
                     if (!IsPointInTile(point, leftBottomCorner, rightUpperCorner))
@@ -53,7 +53,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                         if (isIntersectionSet)
                         {
                             // copy line element
-                            result.Add(new LineElement(points.ToArray(), lineElement.Width)
+                            result.Add(new LineElement(points.ToList(), lineElement.Width)
                             {
                                 IsNotContinuation = true,
                             });
@@ -76,7 +76,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                 // if we find any points then we should keep this line element
                 if (points.Any())
                 {
-                    lineElement.Points = points.ToArray(); // assume that we create a copy of this array
+                    lineElement.Points = points.ToList(); // assume that we create a copy of this array
                     lineElement.IsNotContinuation = isNotContinuation;
                     result.Add(lineElement);
                 }
@@ -154,15 +154,15 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         #region Intermediate points
 
-        public static MapPoint[] GetIntermediatePoints(HeightMap heightMap, MapPoint[] original, float maxDistance)
+        public static List<MapPoint> GetIntermediatePoints(HeightMap heightMap, List<MapPoint> original, float maxDistance)
         {
             return GetIntermediatePoints(heightMap, original, maxDistance, 5f);
         }
 
-        public static MapPoint[] GetIntermediatePoints(HeightMap heightMap, MapPoint[] original, float maxDistance, float threshold)
+        public static List<MapPoint> GetIntermediatePoints(HeightMap heightMap, List<MapPoint> original, float maxDistance, float threshold)
         {
-            var result = new List<MapPoint>(original.Length);
-            for (int i = 1; i < original.Length; i++)
+            var result = new List<MapPoint>(original.Count);
+            for (int i = 1; i < original.Count; i++)
             {
                 var point1 = original[i - 1];
                 var point2 = original[i];
@@ -191,10 +191,10 @@ namespace Mercraft.Models.Geometry.ThickLine
 
             }
             // add last as we checked previous item in cycle
-            var last = original[original.Length - 1];
+            var last = original[original.Count - 1];
             last.Elevation = heightMap.LookupHeight(last);
             result.Add(last);
-            return result.ToArray();
+            return result;
         }
 
         public static MapPoint GetNextIntermediatePoint(HeightMap heightMap, MapPoint point1, MapPoint point2, float maxDistance)

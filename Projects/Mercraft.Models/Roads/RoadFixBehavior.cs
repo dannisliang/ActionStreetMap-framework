@@ -61,7 +61,7 @@ namespace Mercraft.Models.Roads
             for (int j = 0; j < road.Elements.Count; j++)
             {
                 var points = road.Elements[j].Points;
-                for (int i = 0; i < points.Length; i++)
+                for (int i = 0; i < points.Count; i++)
                 {
                     var point = points[i];
                     var distance = point.DistanceTo(collisionPoint.x, collisionPoint.z);
@@ -86,7 +86,7 @@ namespace Mercraft.Models.Roads
             var roadElement = road.Elements[roadElementIndex];
 
             var mapPointA = roadElement.Points[pointIndex];
-            var mapPointB = pointIndex != roadElement.Points.Length - 1
+            var mapPointB = pointIndex != roadElement.Points.Count - 1
                 ? roadElement.Points[pointIndex + 1]
                 : roadElement.Points[pointIndex - 1];
 

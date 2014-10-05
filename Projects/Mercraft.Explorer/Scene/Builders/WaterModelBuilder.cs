@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry;
 using Mercraft.Models.Utils;
 using UnityEngine;
@@ -25,9 +26,9 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
-            IResourceProvider resourceProvider)
-            : base(worldManager ,gameObjectFactory)
+        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
+            IResourceProvider resourceProvider, IObjectPool objectPool)
+            : base(worldManager ,gameObjectFactory, objectPool)
         {
             _resourceProvider = resourceProvider;
         }
@@ -41,21 +42,25 @@ namespace Mercraft.Explorer.Scene.Builders
 
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
 
-            var verticies2D = PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points);
+            var verticies2D = ObjectPool.NewList<MapPoint>();
+
+            PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, verticies2D);
             var offsetVerticies3D = GetOffsetPoints(verticies2D).GetVerticies(tile.HeightMap.MinElevation);
             var triangles = PolygonHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
+
+            ObjectPool.Store(verticies2D);
 
             BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
 
             return gameObjectWrapper;
         }
 
-        private MapPoint[] GetOffsetPoints(MapPoint[] verticies)
+        private MapPoint[] GetOffsetPoints(List<MapPoint> verticies)
         {
             var offset = -2f;
             var polygon = new Polygon(verticies);
-            var result = new MapPoint[verticies.Length];
+            var result = new MapPoint[verticies.Count];
             for (int i = 0; i < polygon.Segments.Length; i++)
             {
                 var previous = i == 0 ? polygon.Segments.Length - 1 : i - 1;

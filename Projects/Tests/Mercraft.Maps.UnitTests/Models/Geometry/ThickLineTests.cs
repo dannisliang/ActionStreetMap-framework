@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Models.Geometry.ThickLine;
@@ -16,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Models.Geometry
             // ARRANGE
             var heightMapMock = new Mock<HeightMap>();
             heightMapMock.Setup(h => h.LookupHeight(It.IsAny<MapPoint>())).Returns(0);
-            var points = new MapPoint[]
+            var points = new List<MapPoint>()
             {
                 new MapPoint(0, 0, 1),
                 new MapPoint(2, 2, 2),
@@ -32,8 +33,8 @@ namespace Mercraft.Maps.UnitTests.Models.Geometry
             //ARRANGE
             Assert.IsNotNull(result);
             Assert.IsNotEmpty(result);
-            Assert.IsFalse(result.Length == points.Length);
-            Assert.AreEqual(16, result.Length); // TODO check corectness
+            Assert.IsFalse(result.Count == points.Count);
+            Assert.AreEqual(16, result.Count); // TODO check corectness
         }
 
         [Test]

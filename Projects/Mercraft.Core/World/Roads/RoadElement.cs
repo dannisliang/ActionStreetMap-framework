@@ -1,4 +1,6 @@
-﻿namespace Mercraft.Core.World.Roads
+﻿using System.Collections.Generic;
+
+namespace Mercraft.Core.World.Roads
 {
     /// <summary>
     ///     Represents certain part of road
@@ -23,7 +25,7 @@
         /// </summary>
         public string Type { get; set; }
 
-        public MapPoint[] Points { get; set; }
+        public List<MapPoint> Points { get; set; }
 
         public float ZIndex { get; set; }
     }

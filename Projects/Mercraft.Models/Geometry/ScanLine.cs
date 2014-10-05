@@ -9,33 +9,35 @@ namespace Mercraft.Models.Geometry
     /// </summary>
     public sealed class ScanLine
     {
-        public static void FillPolygon(MapPoint[] points, Action<int, int, int> fillAction)
+        private static List<Edge> _edgeBuffer = new List<Edge>(16);
+        
+        public static void FillPolygon(List<MapPoint> points, Action<int, int, int> fillAction)
         {
             // create edges array from polygon vertice vector
             // make sure that first vertice of an edge is the smaller one
-            Edge[] sortedEdges = CreateEdges(points);
+            CreateEdges(points);
 
             // sort all edges by Y coordinate, smallest one first, lousy bubblesort
             Edge tmp;
 
-            for (int i = 0; i < sortedEdges.Length - 1; i++)
-                for (int j = 0; j < sortedEdges.Length - 1; j++)
+            for (int i = 0; i < _edgeBuffer.Count - 1; i++)
+                for (int j = 0; j < _edgeBuffer.Count - 1; j++)
                 {
-                    if (sortedEdges[j].Start.Y > sortedEdges[j + 1].Start.Y)
+                    if (_edgeBuffer[j].Start.Y > _edgeBuffer[j + 1].Start.Y)
                     {
                         // swap both edges
-                        tmp = sortedEdges[j];
-                        sortedEdges[j] = sortedEdges[j + 1];
-                        sortedEdges[j + 1] = tmp;
+                        tmp = _edgeBuffer[j];
+                        _edgeBuffer[j] = _edgeBuffer[j + 1];
+                        _edgeBuffer[j + 1] = tmp;
                     }
                 }
 
             // find biggest Y-coord of all vertices
             int scanlineEnd = 0;
-            for (int i = 0; i < sortedEdges.Length; i++)
+            for (int i = 0; i < _edgeBuffer.Count; i++)
             {
-                if (scanlineEnd < sortedEdges[i].End.Y)
-                    scanlineEnd = (int) sortedEdges[i].End.Y;
+                if (scanlineEnd < _edgeBuffer[i].End.Y)
+                    scanlineEnd = (int)_edgeBuffer[i].End.Y;
             }
 
             // Holds all cutpoints from current scanline with the polygon
@@ -43,42 +45,42 @@ namespace Mercraft.Models.Geometry
 
             // scanline starts at smallest Y coordinate
             // move scanline step by step down to biggest one
-            for (int scanline = (int) sortedEdges[0].Start.Y; scanline <= scanlineEnd; scanline++)
+            for (int scanline = (int)_edgeBuffer[0].Start.Y; scanline <= scanlineEnd; scanline++)
             {
                 list.Clear();
 
                 // loop all edges to see which are cut by the scanline
-                for (int i = 0; i < sortedEdges.Length; i++)
+                for (int i = 0; i < _edgeBuffer.Count; i++)
                 {
                     // here the scanline intersects the smaller vertice
-                    if (scanline == sortedEdges[i].Start.Y)
+                    if (scanline == _edgeBuffer[i].Start.Y)
                     {
-                        if (scanline == sortedEdges[i].End.Y)
+                        if (scanline == _edgeBuffer[i].End.Y)
                         {
                             // the current edge is horizontal, so we add both vertices
-                            sortedEdges[i].Deactivate();
-                            list.Add((int)sortedEdges[i].CurrentX);
+                            _edgeBuffer[i].Deactivate();
+                            list.Add((int)_edgeBuffer[i].CurrentX);
                         }
                         else
                         {
-                            sortedEdges[i].Activate();
+                            _edgeBuffer[i].Activate();
                             // we don't insert it in the _reusableBuffer cause this vertice is also
                             // the (bigger) vertice of another edge and already handled
                         }
                     }
 
                     // here the scanline intersects the bigger vertice
-                    if (scanline == sortedEdges[i].End.Y)
+                    if (scanline == _edgeBuffer[i].End.Y)
                     {
-                        sortedEdges[i].Deactivate();
-                        list.Add((int)sortedEdges[i].CurrentX);
+                        _edgeBuffer[i].Deactivate();
+                        list.Add((int)_edgeBuffer[i].CurrentX);
                     }
 
                     // here the scanline intersects the edge, so calc intersection point
-                    if (scanline > sortedEdges[i].Start.Y && scanline < sortedEdges[i].End.Y)
+                    if (scanline > _edgeBuffer[i].Start.Y && scanline < _edgeBuffer[i].End.Y)
                     {
-                        sortedEdges[i].Update();
-                        list.Add((int)sortedEdges[i].CurrentX);
+                        _edgeBuffer[i].Update();
+                        list.Add((int)_edgeBuffer[i].CurrentX);
                     }
                 }
 
@@ -101,24 +103,25 @@ namespace Mercraft.Models.Geometry
                 for (int i = 0; i < list.Count; i += 2)
                     fillAction(scanline, list[i], list[i + 1]);
             }
+
+            _edgeBuffer.Clear();
         }
 
         /// <summary>
         ///     Create from the polygon vertices an array of edges.
         ///     Note that the first vertice of an edge is always the one with the smaller Y coordinate one of both
         /// </summary>
-        private static Edge[] CreateEdges(MapPoint[] polygon)
+        private static void CreateEdges(List<MapPoint> polygon)
         {
-            var sortedEdges = new Edge[polygon.Length];
-            for (int i = 0; i < polygon.Length; i++)
+           //new Edge[polygon.Count];
+            for (int i = 0; i < polygon.Count; i++)
             {
-                var nextIndex = i == polygon.Length - 1 ? 0 : i + 1;
+                var nextIndex = i == polygon.Count - 1 ? 0 : i + 1;
                 if (polygon[i].Y < polygon[nextIndex].Y)
-                    sortedEdges[i] = new Edge(polygon[i], polygon[nextIndex]);
+                    _edgeBuffer.Add(new Edge(polygon[i], polygon[nextIndex]));
                 else
-                    sortedEdges[i] = new Edge(polygon[nextIndex], polygon[i]);
+                    _edgeBuffer.Add(new Edge(polygon[nextIndex], polygon[i]));
             }
-            return sortedEdges;
         }
 
         #region Helper types

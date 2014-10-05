@@ -1,6 +1,7 @@
 ﻿using System;
 using Mercraft.Core.Scene;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
@@ -21,11 +22,13 @@ namespace Mercraft.Maps.Osm.Visitors
     public class ElementVisitor : IElementVisitor
     {
         protected readonly IModelVisitor ModelVisitor;
+        protected readonly IObjectPool ObjectPool;
 
         [Dependency]
-        public ElementVisitor(IModelVisitor modelVisitor)
+        public ElementVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
         {
             ModelVisitor = modelVisitor;
+            ObjectPool = objectPool;
         }
 
         public virtual void VisitNode(Node node)

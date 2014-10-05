@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
@@ -28,9 +29,9 @@ namespace Mercraft.Models.Buildings.Facades
             return meshData;
         }
 
-        private Vector3[] GetVerticies3D(MapPoint[] mapPoints, float elevation, float height)
+        private Vector3[] GetVerticies3D(List<MapPoint> mapPoints, float elevation, float height)
         {
-            var length = mapPoints.Length;
+            var length = mapPoints.Count;
             var verticies3D = new Vector3[length * 4 + length];
             for (int i = 0; i < length; i++)
             {
@@ -48,9 +49,9 @@ namespace Mercraft.Models.Buildings.Facades
             return verticies3D;
         }
 
-        private int[] GetTriangles3D(MapPoint[] verticies2D)
+        private int[] GetTriangles3D(List<MapPoint> verticies2D)
         {
-            var length = verticies2D.Count();
+            var length = verticies2D.Count;
             var triangles = new int[(length) * 2 * 3 + (length - 2) * 3];
 
             for (int i = 0; i < length; i++)
@@ -69,12 +70,12 @@ namespace Mercraft.Models.Buildings.Facades
             return triangles;
         }
 
-        private Vector2[] GetUV(BuildingStyle style, MapPoint[] verticies2D)
+        private Vector2[] GetUV(BuildingStyle style, List<MapPoint> verticies2D)
         {
             var leftBottom = style.Facade.FrontUvMap.LeftBottom;
             var rightUpper = style.Facade.FrontUvMap.RightUpper;
 
-            var length = verticies2D.Length;
+            var length = verticies2D.Count;
             var uv = new Vector2[length * 4 + length];
 
             for (int i = 0; i < length; i++)
@@ -92,7 +93,7 @@ namespace Mercraft.Models.Buildings.Facades
         private void AttachFloor(Building building, MeshData meshData)
         {
             var points = building.Footprint;
-            var length = points.Length;
+            var length = points.Count;
             var elevation = meshData.Vertices[0].y;
             var startVertexIndex = length * 4;
 

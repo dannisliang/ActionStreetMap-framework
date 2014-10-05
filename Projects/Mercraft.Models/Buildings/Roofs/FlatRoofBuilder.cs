@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
@@ -28,9 +29,9 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(MapPoint[] footprint, float elevation, float height)
+        private Vector3[] GetVerticies3D(List<MapPoint> footprint, float elevation, float height)
         {
-            var length = footprint.Length;
+            var length = footprint.Count;
             var vertices3D = new Vector3[length];
             
             var top = elevation + height;
@@ -42,11 +43,11 @@ namespace Mercraft.Models.Buildings.Roofs
             return vertices3D;
         }
 
-        private Vector2[] GetUV(MapPoint[] footprint, BuildingStyle style)
+        private Vector2[] GetUV(List<MapPoint> footprint, BuildingStyle style)
         {
             // TODO find better way to define uv mapping
             // TODO define constant in different place
-            var uv = new Vector2[footprint.Length];
+            var uv = new Vector2[footprint.Count];
             for (int i = 0; i < uv.Length; i++)
             {
                 uv[i] = new Vector2(footprint[i].X / style.Roof.UnitSize, footprint[i].Y / style.Roof.UnitSize);

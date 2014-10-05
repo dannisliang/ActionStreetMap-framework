@@ -23,6 +23,8 @@ namespace Mercraft.Models.Utils
         // reusable buffer for lines
         private MapPoint[] _mapPointBuffer = new MapPoint[4];
 
+        private List<MapPoint> _polygonMapPointBuffer = new List<MapPoint>(256);
+
         public void Recycle(HeightMap heightMap)
         {
             _heightMap = heightMap;
@@ -49,17 +51,17 @@ namespace Mercraft.Models.Utils
                Fill(scanline, s, e, elevation));
         }
 
-        public void AdjustPolygon(MapPoint[] points, float elevation)
+        public void AdjustPolygon(List<MapPoint> points, float elevation)
         {
-            var mapPointBuffer = new MapPoint[points.Length];
+            _polygonMapPointBuffer.Clear();
 
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 var point = points[i];
-                mapPointBuffer[i] = GetHeightMapPoint(point.X, point.Y);
+                _polygonMapPointBuffer.Add(GetHeightMapPoint(point.X, point.Y));
             }
 
-            ScanLine.FillPolygon(mapPointBuffer, (scanline, s, e) => 
+            ScanLine.FillPolygon(_polygonMapPointBuffer, (scanline, s, e) => 
                Fill(scanline, s, e, elevation));
         }
 

@@ -20,7 +20,7 @@ namespace Mercraft.Models.Buildings.Roofs
             
             // left condition: forced to use this builder from mapcss
             // right condition: in random scenario, prevent mansard to be used for buildings with many points in footprint
-            return building.RoofType == Name ||  building.Footprint.Length < 8;
+            return building.RoofType == Name ||  building.Footprint.Count < 8;
         }
 
         public MeshData Build(Building building, BuildingStyle style)
@@ -86,10 +86,10 @@ namespace Mercraft.Models.Buildings.Roofs
             return verticies.ToArray();
         }
 
-        private int[] GetTriangles(MapPoint[] footprint)
+        private int[] GetTriangles(List<MapPoint> footprint)
         {
             var triangles = new List<int>();
-            for (int i = 0; i < footprint.Length; i++)
+            for (int i = 0; i < footprint.Count; i++)
             {
                 var offset = i * 4;
                 triangles.AddRange(new int[]
@@ -100,15 +100,15 @@ namespace Mercraft.Models.Buildings.Roofs
             }
 
             var topPartIndecies = Triangulator.Triangulate(footprint);
-            var vertCount = footprint.Length * 4;
+            var vertCount = footprint.Count * 4;
             triangles.AddRange(topPartIndecies.Select(i => i + vertCount));
 
             return triangles.ToArray();
         }
 
-        private Vector2[] GetUV(MapPoint[] footprint, BuildingStyle style)
+        private Vector2[] GetUV(List<MapPoint> footprint, BuildingStyle style)
         {
-            var count = footprint.Length;
+            var count = footprint.Count;
             var uv = new Vector2[count * 5];
 
             for (int i = 0; i < uv.Length; i++)

@@ -6,13 +6,13 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Utils;
@@ -35,8 +35,9 @@ namespace Mercraft.Explorer.Scene.Builders
         public BuildingModelBuilder(WorldManager worldManager,
             IGameObjectFactory gameObjectFactory, 
             IThemeProvider themeProvider,
-            IBuildingBuilder builder) :
-            base(worldManager, gameObjectFactory)
+            IBuildingBuilder builder,
+            IObjectPool objectPool) :
+            base(worldManager, gameObjectFactory, objectPool)
         {
             _themeProvider = themeProvider;
             _builder = builder;
@@ -58,25 +59,30 @@ namespace Mercraft.Explorer.Scene.Builders
 
         private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, List<GeoCoordinate> footPrint)
         {
-            var points = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint);
+            var points = ObjectPool.NewList<MapPoint>();
+            PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint, points);
 
             AdjustHeightMap(tile.HeightMap, points);
 
             if (WorldManager.Contains(model.Id))
                 return null;
                 
-            return BuildGameObject(tile, rule, model, points);
+            var gameObject = BuildGameObject(tile, rule, model, points);
+
+            ObjectPool.Store(points);
+
+            return gameObject;
         }
 
-        private void AdjustHeightMap(HeightMap heightMap, MapPoint[] footPrint)
+        private void AdjustHeightMap(HeightMap heightMap, List<MapPoint> footPrint)
         {
             // TODO if we have added building to WorldManager then
             // we should use elevation from existing building
 
             var elevation = footPrint.Average(p => p.Elevation);
 
-            for (int i = 0; i < footPrint.Length; i++)
-                footPrint[i].Elevation = elevation;
+            for (int i = 0; i < footPrint.Count; i++)
+                footPrint[i].SetElevation(elevation);
 
             if (!heightMap.IsFlat)
             {
@@ -86,7 +92,7 @@ namespace Mercraft.Explorer.Scene.Builders
             }
         }
 
-        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, MapPoint[] points)
+        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, List<MapPoint> points)
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
 

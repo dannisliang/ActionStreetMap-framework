@@ -9,7 +9,7 @@ namespace Mercraft.Core.Scene.Models
     {
         public List<GeoCoordinate> Points { get; set; }
 
-        public GeoCoordinate[] Holes { get; set; }
+        public List<GeoCoordinate> Holes { get; set; }
 
         public override bool IsClosed
         {

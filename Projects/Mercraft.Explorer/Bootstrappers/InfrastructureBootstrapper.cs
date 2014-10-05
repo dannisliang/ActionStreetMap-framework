@@ -1,9 +1,9 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Unity;
+﻿using Mercraft.Core.Unity;
 using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
@@ -15,7 +15,7 @@ namespace Mercraft.Explorer.Bootstrappers
         {
             Container.Register(Component.For<ITrace>().Use<UnityConsoleTrace>().Singleton());
             Container.Register(Component.For<IGameObjectFactory>().Use<GameObjectFactory>().Singleton());
-
+            Container.Register(Component.For<IObjectPool>().Use<ObjectPool>().Singleton());
             return true;
         }
     }

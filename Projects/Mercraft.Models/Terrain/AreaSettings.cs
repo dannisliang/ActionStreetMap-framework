@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System.Collections.Generic;
+using Mercraft.Core;
 
 namespace Mercraft.Models.Terrain
 {
@@ -9,6 +10,6 @@ namespace Mercraft.Models.Terrain
         public float ZIndex;
         public int SplatIndex;
         public int DetailIndex = DefaultIndex;
-        public MapPoint[] Points;
+        public List<MapPoint> Points;
     }
 }

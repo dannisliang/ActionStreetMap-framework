@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry.ThickLine;
 using Mercraft.Models.Utils;
 using UnityEngine;
@@ -25,8 +26,9 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public BarrierModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IResourceProvider resourceProvider) : 
-            base(worldManager, gameObjectFactory)
+        public BarrierModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
+            IResourceProvider resourceProvider, IObjectPool objectPool) :
+            base(worldManager, gameObjectFactory, objectPool)
         {
             _resourceProvider = resourceProvider;
         }
@@ -41,7 +43,8 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, way));
 
-            var points = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points);
+            var points = ObjectPool.NewList<MapPoint>();
+            PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points, points);
             
             // reuse lines
             _lines.Clear();
@@ -51,6 +54,9 @@ namespace Mercraft.Explorer.Scene.Builders
             DimenLineBuilder.Build(tile.HeightMap, _lines, 
                 (p, t, u) => BuildObject(gameObjectWrapper, rule, p, t, u));
             _lines.Clear();
+
+            ObjectPool.Store(points);
+
             return gameObjectWrapper;
         }
 

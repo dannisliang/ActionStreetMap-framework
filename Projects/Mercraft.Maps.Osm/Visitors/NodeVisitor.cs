@@ -1,12 +1,13 @@
 ﻿using Mercraft.Core.Scene;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
     public class NodeVisitor: ElementVisitor
     {
-        public NodeVisitor(IModelVisitor modelVisitor)
-            : base(modelVisitor)
+        public NodeVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
+            : base(modelVisitor, objectPool)
         {
         }
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Entities;
 using Way = Mercraft.Maps.Osm.Entities.Way;
 
@@ -13,8 +13,8 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class RelationVisitor : ElementVisitor
     {
-        public RelationVisitor(IModelVisitor modelVisitor)
-            : base(modelVisitor)
+        public RelationVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
+            : base(modelVisitor, objectPool)
         {
         }
 
@@ -40,12 +40,10 @@ namespace Mercraft.Maps.Osm.Visitors
 
                 if (!outerWays.Any())
                     return;
-                
-                var points = new List<GeoCoordinate>();
+
+                var points = ObjectPool.NewList<GeoCoordinate>();
                 foreach (var outerWay in outerWays)
-                {
-                    points.AddRange(outerWay.GetPoints());
-                }              
+                    outerWay.FillPoints(points);
 
                 // TODO process inner points!
                 ModelVisitor.VisitArea(new Area

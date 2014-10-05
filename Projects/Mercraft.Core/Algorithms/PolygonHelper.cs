@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core.Elevation;
 
 namespace Mercraft.Core.Algorithms
@@ -15,11 +14,11 @@ namespace Mercraft.Core.Algorithms
         /// </summary>
         /// <param name="center">Map center</param>
         /// <param name="geoCoordinates">Geo coordinates</param>
-        /// <returns></returns>
-        public static MapPoint[] GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates)
+        /// <param name="verticies">output points</param>
+        public static void GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates, 
+            List<MapPoint> verticies)
         {
             var length = geoCoordinates.Count;
-
 
             for (int i = 0; i < length - 1; i++)
             {
@@ -33,18 +32,19 @@ namespace Mercraft.Core.Algorithms
             //if (geoCoordinates[0] == geoCoordinates[length - 1])
             //    length--;
 
-            var verticies = geoCoordinates
-                .Select(g => GeoProjection.ToMapCoordinate(center, g))
-                .Take(length).ToArray();
+            for (int i = 0; i < length; i++)
+            {
+                var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
+                verticies.Add(point);
+            }
 
-            return SortVertices(verticies);
+            SortVertices(verticies);
         }
 
-        public static MapPoint[] GetVerticies3D(GeoCoordinate center, HeightMap heightMap, 
-            IList<GeoCoordinate> geoCoordinates)
+        public static void GetVerticies3D(GeoCoordinate center, HeightMap heightMap,
+            List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies)
         {
             var length = geoCoordinates.Count;
-
 
             for (int i = 0; i < length - 1; i++)
             {
@@ -58,42 +58,46 @@ namespace Mercraft.Core.Algorithms
             //if (geoCoordinates[0] == geoCoordinates[length - 1])
             //    length--;
 
-            var verticies = geoCoordinates
-                .Select(g =>
-                {
-                    var point = GeoProjection.ToMapCoordinate(center, g);
-                    point.Elevation = heightMap.LookupHeight(point);
-                    return point;
-                })
-                .Take(length).ToArray();
+            FillHeight(center, heightMap, geoCoordinates, verticies, length);
 
-            return SortVertices(verticies);
+            SortVertices(verticies);
+        }
+
+        public static void FillHeight(GeoCoordinate center, HeightMap heightMap, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> verticies, int length)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
+                point.Elevation = heightMap.LookupHeight(point);
+                verticies.Add(point);
+            }
         }
 
         /// <summary>
         /// Sorts verticies in clockwise order
         /// </summary>
-        private static MapPoint[] SortVertices(MapPoint[] verticies)
+        private static void SortVertices(List<MapPoint> verticies)
         {
             var direction = PointsDirection(verticies);
 
             switch (direction)
             {
                 case PolygonDirection.Clockwise:
-                    return verticies.Reverse().ToArray();
+                    verticies.Reverse();
+                    break;
                 case PolygonDirection.CountClockwise:
-                    return verticies;
                 default:
                     // TODO need to understand what to do
-                    return verticies;
                     //throw new NotImplementedException("Need to sort vertices!");
+                    break;
             }
         }
 
-        private static PolygonDirection PointsDirection(MapPoint[] points)
+        private static PolygonDirection PointsDirection(List<MapPoint> points)
         {
             int nCount = 0, j = 0, k = 0;
-            int nPoints = points.Length;
+            int nPoints = points.Count;
 
             if (nPoints < 3)
                 return PolygonDirection.Unknown;
@@ -123,15 +127,15 @@ namespace Mercraft.Core.Algorithms
         }
 
 
-        public static int[] GetTriangles(MapPoint[] verticies2D)
+        public static int[] GetTriangles(List<MapPoint> verticies2D)
         {
             return Triangulator.Triangulate(verticies2D);
         }
 
         // TODO optimization: we needn't triangles for floor in case of building!
-        public static int[] GetTriangles3D(MapPoint[] verticies2D)
+        public static int[] GetTriangles3D(List<MapPoint> verticies2D)
         {
-            var verticiesLength = verticies2D.Length;
+            var verticiesLength = verticies2D.Count;
             
             var indecies = Triangulator.Triangulate(verticies2D);
             

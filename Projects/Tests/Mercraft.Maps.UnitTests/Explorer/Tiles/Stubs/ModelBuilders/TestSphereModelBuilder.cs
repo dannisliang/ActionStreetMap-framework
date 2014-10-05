@@ -5,6 +5,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Utils;
 
 namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
@@ -12,8 +13,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
     class TestSphereModelBuilder: SphereModelBuilder
     {
         [Dependency]
-        public TestSphereModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IResourceProvider resourceProvider) :
-            base(worldManager, gameObjectFactory, resourceProvider)
+        public TestSphereModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IResourceProvider resourceProvider, IObjectPool objectPool) :
+            base(worldManager, gameObjectFactory, resourceProvider, objectPool)
         {
         }
 

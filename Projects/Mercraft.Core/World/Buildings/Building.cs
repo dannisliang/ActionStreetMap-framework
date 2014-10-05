@@ -1,4 +1,5 @@
-﻿using Mercraft.Core.Unity;
+﻿using System.Collections.Generic;
+using Mercraft.Core.Unity;
 
 namespace Mercraft.Core.World.Buildings
 {
@@ -9,7 +10,7 @@ namespace Mercraft.Core.World.Buildings
         public Address Address { get; set; }
         public IGameObject GameObject { get; set; }
         public float Elevation { get; set; }
-        public MapPoint[] Footprint { get; set; }
+        public List<MapPoint> Footprint { get; set; }
 
         // NOTE OSM-available info (see details http://wiki.openstreetmap.org/wiki/Buildings)
 

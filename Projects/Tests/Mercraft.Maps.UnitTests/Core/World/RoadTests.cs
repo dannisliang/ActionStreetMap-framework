@@ -17,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
             {
                 new RoadElement()
                 {
-                    Points = new []
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.1f, 52.1f), 
                         new MapPoint(13.2f, 52.1f),
@@ -28,7 +28,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 },
                 new RoadElement()
                 {
-                    Points = new []
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.5f, 52.1f),
                         new MapPoint(13.2f, 52.2f),
@@ -39,7 +39,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 },
                 new RoadElement()
                 {
-                    Points = new []
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.5f, 52.2f),
                         new MapPoint(13.2f, 52.3f),
@@ -67,7 +67,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 #region Should be joined
                 new RoadElement()
                 {
-                    Points = new[]
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.1f, 52.1f),
                         new MapPoint(13.5f, 52.1f),
@@ -75,7 +75,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 },
                 new RoadElement()
                 {
-                    Points = new[]
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.5f, 52.1f),
                         new MapPoint(13.5f, 52.2f),
@@ -85,7 +85,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 #region Random one
                  new RoadElement()
                 {
-                    Points = new[]
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(13.1f, 52.1f),
                         new MapPoint(13.5f, 52.1f),
@@ -96,7 +96,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 #region Should be joined
                 new RoadElement()
                 {
-                    Points = new[]
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(14.1f, 52.1f),
                         new MapPoint(14.5f, 52.1f),
@@ -104,7 +104,7 @@ namespace Mercraft.Maps.UnitTests.Core.World
                 },
                 new RoadElement()
                 {
-                    Points = new[]
+                    Points = new List<MapPoint>()
                     {
                         new MapPoint(14.5f, 52.1f),
                         new MapPoint(14.5f, 52.2f),

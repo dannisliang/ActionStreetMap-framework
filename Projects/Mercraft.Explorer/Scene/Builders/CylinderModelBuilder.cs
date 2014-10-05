@@ -3,11 +3,11 @@ using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -23,9 +23,9 @@ namespace Mercraft.Explorer.Scene.Builders
         }
 
         [Dependency]
-        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
-            IResourceProvider resourceProvider)
-            : base(worldManager, gameObjectFactory)
+        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
+            IResourceProvider resourceProvider, IObjectPool objectPool)
+            : base(worldManager, gameObjectFactory, objectPool)
         {
             _resourceProvider = resourceProvider;
         }

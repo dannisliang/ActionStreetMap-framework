@@ -1,11 +1,11 @@
 ﻿using System;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Explorer.Scene
 {
@@ -24,14 +24,16 @@ namespace Mercraft.Explorer.Scene
         [Dependency]
         protected ITrace Trace { get; set; }
 
-        protected readonly IGameObjectFactory GameObjectFactory;
         protected readonly WorldManager WorldManager;
+        protected readonly IGameObjectFactory GameObjectFactory;
+        protected readonly IObjectPool ObjectPool;
 
         [Dependency]
-        protected ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory)
+        protected ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IObjectPool objectPool)
         {
             WorldManager = worldManager;
             GameObjectFactory = gameObjectFactory;
+            ObjectPool = objectPool;
         }
 
         public virtual IGameObject BuildArea(Tile tile, Rule rule, Area area)

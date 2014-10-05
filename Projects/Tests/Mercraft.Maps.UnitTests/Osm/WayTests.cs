@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
+using Mercraft.Explorer.Infrastructure;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -25,7 +26,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             var elementManager = new ElementManager();
 
             // ACT
-            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(testModelVisitor));
+            elementManager.VisitBoundingBox(bbox, dataSource, new WayVisitor(testModelVisitor, new ObjectPool()));
 
             // ASSERT
             Assert.AreEqual(1820, testModelVisitor.Ways.Count());

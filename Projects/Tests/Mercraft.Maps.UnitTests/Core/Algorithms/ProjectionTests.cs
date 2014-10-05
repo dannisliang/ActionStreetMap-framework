@@ -71,12 +71,14 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
             var originalOrder = geoCoordinates.Select(g => GeoProjection.ToMapCoordinate(center, g)).ToArray();
 
             // direct order
-            var points = PolygonHelper.GetVerticies2D(center, geoCoordinates);
+            var points = new List<MapPoint>();
+            PolygonHelper.GetVerticies2D(center, geoCoordinates, points);
             Assert.IsTrue(points.SequenceEqual(originalOrder));
 
             // reversed
             geoCoordinates.Reverse();
-            points = PolygonHelper.GetVerticies2D(center, geoCoordinates);
+            points.Clear();
+            PolygonHelper.GetVerticies2D(center, geoCoordinates, points);
 
             Assert.IsTrue(points.SequenceEqual(originalOrder));
         }

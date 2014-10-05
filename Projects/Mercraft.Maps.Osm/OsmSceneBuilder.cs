@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Core;
@@ -14,14 +15,16 @@ namespace Mercraft.Maps.Osm
         private readonly IElementSourceProvider _elementSourceProvider;
         private readonly ElementManager _elementManager;
         private readonly IModelVisitor _modelVisitor;
+        private readonly IObjectPool _objectPool;
 
         [Dependency]
         public OsmSceneBuilder(IElementSourceProvider elementSourceProvider, ElementManager elementManager, 
-            IModelVisitor modelVisitor)
+            IModelVisitor modelVisitor, IObjectPool objectPool)
         {
             _elementSourceProvider = elementSourceProvider;
             _elementManager = elementManager;
             _modelVisitor = modelVisitor;
+            _objectPool = objectPool;
         }
 
         /// <summary>
@@ -33,9 +36,9 @@ namespace Mercraft.Maps.Osm
         {
             var visitor = new CompositeVisitor(new List<IElementVisitor>
             {
-                new WayVisitor(_modelVisitor),
-                new NodeVisitor(_modelVisitor),
-                new RelationVisitor(_modelVisitor)
+                new WayVisitor(_modelVisitor, _objectPool),
+                new NodeVisitor(_modelVisitor, _objectPool),
+                new RelationVisitor(_modelVisitor, _objectPool)
             });
 
             var elementSource = _elementSourceProvider.Get(bbox);
