@@ -22,7 +22,6 @@ namespace Mercraft.Core.Tiles
         private int _heightmapsize;
 
         private readonly ISceneBuilder _sceneBuilder;
-        private readonly IModelVisitor _modelVisitor;
         private readonly IMessageBus _messageBus;
         private readonly IHeightMapProvider _heightMapProvider;
 
@@ -45,11 +44,9 @@ namespace Mercraft.Core.Tiles
         }
 
         [Dependency]
-        public TileManager(ISceneBuilder sceneBuilder, IModelVisitor modelVisitor, 
-            IHeightMapProvider heightMapProvider, IMessageBus messageBus)
+        public TileManager(ISceneBuilder sceneBuilder, IHeightMapProvider heightMapProvider, IMessageBus messageBus)
         {
             _sceneBuilder = sceneBuilder;
-            _modelVisitor = modelVisitor;
             _messageBus = messageBus;
             _heightMapProvider = heightMapProvider;
 
