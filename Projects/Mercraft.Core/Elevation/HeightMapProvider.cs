@@ -1,6 +1,5 @@
 ﻿using System;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Core.Elevation

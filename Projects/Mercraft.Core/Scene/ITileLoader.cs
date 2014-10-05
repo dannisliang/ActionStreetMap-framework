@@ -2,8 +2,8 @@
 
 namespace Mercraft.Core.Scene
 {
-    public interface ISceneBuilder
+    public interface ITileLoader
     {
-        void Build(Tile tile, BoundingBox bbox);
+        void Load(Tile tile);
     }
 }

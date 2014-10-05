@@ -1,6 +1,5 @@
 ﻿using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
-using Mercraft.Core.Tiles;
 using Mercraft.Core.World;
 using Mercraft.Explorer.Scene;
 using Mercraft.Explorer.Scene.Builders;

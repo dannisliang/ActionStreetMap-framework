@@ -1,7 +1,7 @@
 ﻿
 using Mercraft.Core.Scene.Models;
 
-namespace Mercraft.Core.Tiles
+namespace Mercraft.Core.Scene
 {
     public sealed class TileFoundMessage
     {
@@ -15,21 +15,21 @@ namespace Mercraft.Core.Tiles
         }
     }
 
-    public sealed class TileBuildStartMessage
+    public sealed class TileLoadStartMessage
     {
         public MapPoint TileCenter { get; private set; }
 
-        public TileBuildStartMessage(MapPoint tileCenter)
+        public TileLoadStartMessage(MapPoint tileCenter)
         {
             TileCenter = tileCenter;
         }
     }
 
-    public sealed class TileBuildFinishMessage
+    public sealed class TileLoadFinishMessage
     {
         public Tile Tile { get; private set; }
 
-        public TileBuildFinishMessage(Tile tile)
+        public TileLoadFinishMessage(Tile tile)
         {
             Tile = tile;
         }

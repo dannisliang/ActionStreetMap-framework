@@ -2,7 +2,6 @@
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Config;
 using Moq;
 using NUnit.Framework;
@@ -129,7 +128,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
 
         private TileManager GetManager()
         {
-            var sceneBuilderMock = new Mock<ISceneBuilder>();
+            var sceneBuilderMock = new Mock<ITileLoader>();
             var heightMapProvider = new HeightMapProvider(new Mock<IElevationProvider>().Object);
 
             var configMock = new Mock<IConfigSection>();

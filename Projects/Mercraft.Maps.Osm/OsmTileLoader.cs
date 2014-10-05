@@ -5,12 +5,11 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Core;
 using Mercraft.Core.Scene;
 
 namespace Mercraft.Maps.Osm
 {
-    public class OsmSceneBuilder: ISceneBuilder
+    public class OsmTileLoader: ITileLoader
     {
         private readonly IElementSourceProvider _elementSourceProvider;
         private readonly ElementManager _elementManager;
@@ -18,7 +17,7 @@ namespace Mercraft.Maps.Osm
         private readonly IObjectPool _objectPool;
 
         [Dependency]
-        public OsmSceneBuilder(IElementSourceProvider elementSourceProvider, ElementManager elementManager, 
+        public OsmTileLoader(IElementSourceProvider elementSourceProvider, ElementManager elementManager, 
             IModelVisitor modelVisitor, IObjectPool objectPool)
         {
             _elementSourceProvider = elementSourceProvider;
@@ -28,11 +27,9 @@ namespace Mercraft.Maps.Osm
         }
 
         /// <summary>
-        /// Builds scene using bounding box
+        ///     Loads tile
         /// </summary>
-        /// <param name="tile"></param>
-        /// <param name="bbox">Bounding box</param>
-        public void Build(Tile tile, BoundingBox bbox)
+        public void Load(Tile tile)
         {
             var visitor = new CompositeVisitor(new List<IElementVisitor>
             {
@@ -41,9 +38,9 @@ namespace Mercraft.Maps.Osm
                 new RelationVisitor(_modelVisitor, _objectPool)
             });
 
-            var elementSource = _elementSourceProvider.Get(bbox);
+            var elementSource = _elementSourceProvider.Get(tile.BoundingBox);
             tile.Accept(_modelVisitor);
-            _elementManager.VisitBoundingBox(bbox, elementSource, visitor);
+            _elementManager.VisitBoundingBox(tile.BoundingBox, elementSource, visitor);
             (new Canvas()).Accept(_modelVisitor);
         }
     }

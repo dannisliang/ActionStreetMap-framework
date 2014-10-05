@@ -5,7 +5,7 @@ using Mercraft.Core.Unity;
 namespace Mercraft.Core.Scene.Models
 {
     /// <summary>
-    ///     Represents map tile (zone)
+    ///     Represents map tile
     /// </summary>
     public class Tile : Model
     {

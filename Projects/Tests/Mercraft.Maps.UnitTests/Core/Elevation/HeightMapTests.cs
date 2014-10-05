@@ -2,7 +2,6 @@
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Moq;
 using NUnit.Framework;
 

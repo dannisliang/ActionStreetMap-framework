@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
-namespace Mercraft.Core.Tiles
+namespace Mercraft.Core.Scene
 {
     /// <summary>
     ///     This class loads and holds tiles which contain scene with models for given position
@@ -21,7 +20,7 @@ namespace Mercraft.Core.Tiles
         private float _offset;
         private int _heightmapsize;
 
-        private readonly ISceneBuilder _sceneBuilder;
+        private readonly ITileLoader _tileLoader;
         private readonly IMessageBus _messageBus;
         private readonly IHeightMapProvider _heightMapProvider;
 
@@ -44,9 +43,9 @@ namespace Mercraft.Core.Tiles
         }
 
         [Dependency]
-        public TileManager(ISceneBuilder sceneBuilder, IHeightMapProvider heightMapProvider, IMessageBus messageBus)
+        public TileManager(ITileLoader tileLoader, IHeightMapProvider heightMapProvider, IMessageBus messageBus)
         {
-            _sceneBuilder = sceneBuilder;
+            _tileLoader = tileLoader;
             _messageBus = messageBus;
             _heightMapProvider = heightMapProvider;
 
@@ -103,19 +102,14 @@ namespace Mercraft.Core.Tiles
                 return tile;
             }
 
-            // calculate geo center
-            var geoCoordinate = GeoProjection.ToGeoCoordinate(relativeNullPoint, nextTileCenter);
-
-            _messageBus.Send(new TileBuildStartMessage(nextTileCenter));
-
-            var bbox = BoundingBox.CreateBoundingBox(geoCoordinate, _tileSize/2);
+            _messageBus.Send(new TileLoadStartMessage(nextTileCenter));
 
             tile = new Tile(relativeNullPoint, nextTileCenter, _tileSize);
             tile.HeightMap = _heightMapProvider.Get(tile, _heightmapsize);
             
-            _sceneBuilder.Build(tile, bbox);
+            _tileLoader.Load(tile);
             
-            _messageBus.Send(new TileBuildFinishMessage(tile));
+            _messageBus.Send(new TileLoadFinishMessage(tile));
             return tile;
         }
 
