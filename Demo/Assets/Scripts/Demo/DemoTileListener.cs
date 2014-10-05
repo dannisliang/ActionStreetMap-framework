@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Reactive.Linq;
 using Mercraft.Core;
+using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Tiles;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Demo
@@ -21,8 +21,8 @@ namespace Assets.Scripts.Demo
             _trace = trace;
 
             //messageBus.AsObservable<TileFoundMessage>().Do(m => OnTileFound(m.Tile, m.Position)).Subscribe();
-            messageBus.AsObservable<TileBuildStartMessage>().Do(m => OnTileBuildStarted(m.TileCenter)).Subscribe();
-            messageBus.AsObservable<TileBuildFinishMessage>().Do(m => OnTileBuildFinished(m.Tile)).Subscribe();
+            messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileBuildStarted(m.TileCenter)).Subscribe();
+            messageBus.AsObservable<TileLoadFinishMessage>().Do(m => OnTileBuildFinished(m.Tile)).Subscribe();
         }
 
         public void OnTileFound(Tile tile, MapPoint position)

@@ -39,12 +39,12 @@ namespace Mercraft.Models.Geometry
             for (int i = 0; i < _edgeBuffer.Count; i++)
             {
                 if (scanlineEnd < _edgeBuffer[i].EndY)
-                    scanlineEnd = (int)_edgeBuffer[i].EndY;
+                    scanlineEnd = _edgeBuffer[i].EndY;
             }          
 
             // scanline starts at smallest Y coordinate
             // move scanline step by step down to biggest one
-            for (int scanline = (int)_edgeBuffer[0].StartY; scanline <= scanlineEnd; scanline++)
+            for (int scanline = _edgeBuffer[0].StartY; scanline <= scanlineEnd; scanline++)
             {
                 _list.Clear();
 
