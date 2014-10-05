@@ -109,7 +109,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var closedWay = new Way
             {
-                Points = new[]
+                Points = new List<GeoCoordinate>()
                 {
                     new GeoCoordinate(0, 0),
                     new GeoCoordinate(1, 0),
@@ -124,7 +124,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var openWay = new Way
             {
-                Points = new[]
+                Points = new List<GeoCoordinate>()
                 {
                     new GeoCoordinate(0, 0),
                     new GeoCoordinate(1, 0),

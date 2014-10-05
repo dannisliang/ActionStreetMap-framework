@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Infrastructure.Primitives;
 
@@ -8,7 +9,7 @@ namespace Mercraft.Core.Algorithms
     {
         private const double ConvertionCoefficient = (6378137 * Math.PI) / 180;
 
-        public static Tuple<float, MapPoint> GetCircle(GeoCoordinate relativeNullPoint, GeoCoordinate[] points)
+        public static Tuple<float, MapPoint> GetCircle(GeoCoordinate relativeNullPoint, List<GeoCoordinate> points)
         {
             var minLat = points.Min(a => a.Latitude);
             var maxLat = points.Max(a => a.Latitude);

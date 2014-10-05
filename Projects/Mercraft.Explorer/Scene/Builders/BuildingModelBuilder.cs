@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
@@ -55,7 +56,7 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildBuilding(tile, rule, way, way.Points);
         }
 
-        private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, GeoCoordinate[] footPrint)
+        private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, List<GeoCoordinate> footPrint)
         {
             var points = PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint);
 

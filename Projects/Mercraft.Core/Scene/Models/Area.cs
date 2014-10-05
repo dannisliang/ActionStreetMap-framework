@@ -1,11 +1,13 @@
-﻿namespace Mercraft.Core.Scene.Models
+﻿using System.Collections.Generic;
+
+namespace Mercraft.Core.Scene.Models
 {
     /// <summary>
     ///     Represents connected polygon. Used for buildings, parks
     /// </summary>
     public class Area : Model
     {
-        public GeoCoordinate[] Points { get; set; }
+        public List<GeoCoordinate> Points { get; set; }
 
         public GeoCoordinate[] Holes { get; set; }
 
@@ -14,8 +16,8 @@
             get
             {
                 return
-                    Points.Length > 2 &&
-                    Points[0] == Points[Points.Length - 1];
+                    Points.Count > 2 &&
+                    Points[0] == Points[Points.Count - 1];
             }
         }
 

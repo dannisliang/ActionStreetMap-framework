@@ -33,7 +33,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
-            if (way.Points.Length < 2)
+            if (way.Points.Count < 2)
             {
                 Trace.Warn(ErrorStrings.InvalidPolyline);
                 return null;

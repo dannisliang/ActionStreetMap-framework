@@ -27,7 +27,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// Returns all the ponts in this way in the same order as the nodes.
         /// </summary>
         /// <returns></returns>
-        public GeoCoordinate[] GetPoints()
+        public List<GeoCoordinate> GetPoints()
         {
             var coordinates = new List<GeoCoordinate>();
 
@@ -40,7 +40,7 @@ namespace Mercraft.Maps.Osm.Entities
                 coordinates.Add(this.Nodes[idx].Coordinate);
             }
 
-            return coordinates.ToArray();
+            return coordinates;
         }
 
         public bool IsPolygon

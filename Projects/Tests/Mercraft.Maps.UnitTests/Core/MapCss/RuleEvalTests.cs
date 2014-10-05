@@ -41,7 +41,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area = new Area
             {
                 Id = 1,
-                Points = new[]
+                Points = new List<GeoCoordinate>()
                 {
                     new GeoCoordinate(52.5212186, 13.4096926),
                     new GeoCoordinate(52.5210184, 13.4097473),
@@ -77,7 +77,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanProcessSequence()
         {
             // ARRANGE
-            var testPoints = new[]
+            var testPoints = new List<GeoCoordinate>()
             {
                 new GeoCoordinate(0, 0),
                 new GeoCoordinate(0, 0),
@@ -211,7 +211,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var area = new Area
             {
                 Id = 1,
-                Points = new GeoCoordinate[0],
+                Points = new List<GeoCoordinate>(),
                 Tags = new Dictionary<string, string>()
                 {
                     {"building", "residential"},
@@ -258,7 +258,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var buildingWithColorCode = new Area
             {
                 Id = 1,
-                Points = new GeoCoordinate[0],
+                Points = new List<GeoCoordinate>(),
                 Tags = new Dictionary<string, string>()
                 {
                     {"building", "commercial"},
@@ -283,7 +283,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var buildingWithColorName = new Area
             {
                 Id = 1,
-                Points = new GeoCoordinate[0],
+                Points = new List<GeoCoordinate>(),
                 Tags = new Dictionary<string, string>()
                 {
                     {"building", "yes"},
@@ -308,7 +308,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             var buildingWithColorCode = new Area
             {
                 Id = 1,
-                Points = new GeoCoordinate[0],
+                Points = new List<GeoCoordinate>(),
                 Tags = new Dictionary<string, string>()
                 {
                     {"building", "commercial"},

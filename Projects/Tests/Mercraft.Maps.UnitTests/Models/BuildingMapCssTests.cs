@@ -21,7 +21,7 @@ namespace Mercraft.Maps.UnitTests.Models
             var building = new Area()
             {
                 Id = 1,
-                Points = new GeoCoordinate[0],
+                Points = new List<GeoCoordinate>(),
                 Tags = new Dictionary<string, string>()
                 {
                     {"building","residential"},

@@ -16,7 +16,7 @@ namespace Mercraft.Core.Algorithms
         /// <param name="center">Map center</param>
         /// <param name="geoCoordinates">Geo coordinates</param>
         /// <returns></returns>
-        public static MapPoint[] GetVerticies2D(GeoCoordinate center, IList<GeoCoordinate> geoCoordinates)
+        public static MapPoint[] GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates)
         {
             var length = geoCoordinates.Count;
 

@@ -51,7 +51,7 @@ namespace Mercraft.Maps.Osm.Visitors
                 ModelVisitor.VisitArea(new Area
                 {
                     Id = relation.Id,
-                    Points = points.ToArray(),
+                    Points = points,
                     Tags = relation.Tags
                 });
             }
