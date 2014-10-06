@@ -22,18 +22,18 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private Stream _stream;
 
-        private HashSet<long> _nodeIds;
-        private HashSet<long> _wayIds;
-        private HashSet<long> _relationIds;
+        private HashSet<long> _nodeIds = new HashSet<long>();
+        private HashSet<long> _wayIds = new HashSet<long>();
+        private HashSet<long> _relationIds = new HashSet<long>();
 
-        private HashSet<long> _unresolvedNodes;
+        private HashSet<long> _unresolvedNodes = new HashSet<long>();
 
         protected Dictionary<long, Element> Elements;
 
         protected PbfElementSource()
         {
             _reader = new PbfReader();
-            Elements = new Dictionary<long, Element>();
+            Elements = new Dictionary<long, Element>(4096);
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace Mercraft.Maps.Osm.Data
         {
             _stream.Seek(0, SeekOrigin.Begin);
             
-            _nodeIds = new HashSet<long>();
-            _wayIds = new HashSet<long>();
-            _relationIds = new HashSet<long>();
-            _unresolvedNodes = new HashSet<long>();
+            _nodeIds.Clear();
+            _wayIds.Clear();
+            _relationIds.Clear();
+            _unresolvedNodes.Clear();
         }
 
         #region Fill elements collection from pbf stream logic
@@ -350,7 +350,6 @@ namespace Mercraft.Maps.Osm.Data
             }
         }
 
-        //  in order to avoid unnecessary calculations for every node
         /// <summary>
         ///     Converts geocoordinates of bbox to block-specific offsets
         /// </summary>
