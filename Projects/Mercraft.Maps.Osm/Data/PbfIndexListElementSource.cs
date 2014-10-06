@@ -19,7 +19,7 @@ namespace Mercraft.Maps.Osm.Data
         private readonly Regex _geoCoordinateRegex =
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)");
 
-        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>();
+        private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>(32);
 
         private readonly List<Element> _resultElements = new List<Element>(4096);
 

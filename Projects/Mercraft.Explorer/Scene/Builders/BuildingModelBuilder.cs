@@ -62,19 +62,19 @@ namespace Mercraft.Explorer.Scene.Builders
             var points = ObjectPool.NewList<MapPoint>();
             PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint, points);
 
-            AdjustHeightMap(tile.HeightMap, points);
+            var elevation = AdjustHeightMap(tile.HeightMap, points);
 
             if (WorldManager.Contains(model.Id))
                 return null;
-                
-            var gameObject = BuildGameObject(tile, rule, model, points);
+
+            var gameObject = BuildGameObject(tile, rule, model, points, elevation);
 
             ObjectPool.Store(points);
 
             return gameObject;
         }
 
-        private void AdjustHeightMap(HeightMap heightMap, List<MapPoint> footPrint)
+        private float AdjustHeightMap(HeightMap heightMap, List<MapPoint> footPrint)
         {
             // TODO if we have added building to WorldManager then
             // we should use elevation from existing building
@@ -90,9 +90,10 @@ namespace Mercraft.Explorer.Scene.Builders
                 _heightMapProcessor.AdjustPolygon(footPrint, elevation);
                 _heightMapProcessor.Clear();
             }
+            return elevation;
         }
 
-        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, List<MapPoint> points)
+        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, List<MapPoint> points, float elevation)
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
 
@@ -117,7 +118,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 RoofType = rule.GetRoofType(),
                 FacadeColor = rule.GetFillColor(),
                 FacadeMaterial = rule.GetFacadeMaterial(),
-                Elevation = points[0].Elevation, // we set equal elevation for every point
+                Elevation = elevation, // we set equal elevation for every point
                 Footprint = points,
             };
 
