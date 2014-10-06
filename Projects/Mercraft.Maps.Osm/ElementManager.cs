@@ -41,7 +41,6 @@ namespace Mercraft.Maps.Osm
             {
                 element.Accept(this);
                 element.Accept(visitor);
-                _keysToDelete.Clear();
             }
             elementSource.Reset();
 
@@ -194,6 +193,7 @@ namespace Mercraft.Maps.Osm
             }
             // we should cleanup way which has no nodes with IsOutOfBox = true;
             _keysToDelete.ForEach(k => _crossTileWays.Remove(k));
+            _keysToDelete.Clear();
         }
 
         private void CheckOutOfBoxNodes(BoundingBox bbox, Way way)
