@@ -21,6 +21,8 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>();
 
+        private readonly List<Element> _resultElements = new List<Element>(4096);
+
         public PbfIndexListElementSource(string indexListPath, IPathResolver pathResolver)
         {
             SearchAndReadIndexListFiles(pathResolver.Resolve(indexListPath));
@@ -104,18 +106,23 @@ namespace Mercraft.Maps.Osm.Data
                 }
             }
 
-            var resultElements = new List<Element>();
             foreach (var index in indecies)
             {
                 using (Stream fileStream = new FileStream(_listIndex[index].Key, FileMode.Open))
                 {
                     base.SetStream(fileStream);
                     var elements = base.Get(bbox);
-                    resultElements.AddRange(elements);
+                    _resultElements.AddRange(elements);
                 }
             }
 
-            return resultElements;
+            return _resultElements;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _resultElements.Clear();
         }
 
         #endregion

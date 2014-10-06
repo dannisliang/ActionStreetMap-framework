@@ -387,7 +387,7 @@ namespace Mercraft.Maps.Osm.Data
             return GetElement<Entities.Way>(id);
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             Elements.Clear();
         }
