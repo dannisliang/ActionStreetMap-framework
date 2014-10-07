@@ -166,12 +166,14 @@ namespace Mercraft.Maps.UnitTests.Core.Tiles
         {
             var sceneBuilderMock = new Mock<ITileLoader>();
             var heightMapProvider = new HeightMapProvider(new Mock<IElevationProvider>().Object);
+            var activatorMock = new Mock<ITileActivator>();
 
             var configMock = new Mock<IConfigSection>();
             configMock.Setup(c => c.GetFloat("@size")).Returns(Size);
             configMock.Setup(c => c.GetFloat("@offset")).Returns(Offset);
 
-            var provider = new TileManager(sceneBuilderMock.Object, heightMapProvider, new MessageBus());
+            var provider = new TileManager(sceneBuilderMock.Object, heightMapProvider, 
+                activatorMock.Object, new MessageBus());
             provider.Configure(configMock.Object);
 
             return provider;

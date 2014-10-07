@@ -19,6 +19,7 @@ namespace Mercraft.Core.Scene
         private readonly ITileLoader _tileLoader;
         private readonly IMessageBus _messageBus;
         private readonly IHeightMapProvider _heightMapProvider;
+        private readonly ITileActivator _tileActivator;
 
         private readonly DoubleKeyDictionary<int, int, Tile> _allTiles = new DoubleKeyDictionary<int, int, Tile>();
         private readonly DoubleKeyDictionary<int, int, Tile> _activeTiles = new DoubleKeyDictionary<int, int, Tile>();
@@ -36,11 +37,13 @@ namespace Mercraft.Core.Scene
         }
 
         [Dependency]
-        public TileManager(ITileLoader tileLoader, IHeightMapProvider heightMapProvider, IMessageBus messageBus)
+        public TileManager(ITileLoader tileLoader, IHeightMapProvider heightMapProvider, 
+            ITileActivator tileActivator, IMessageBus messageBus)
         {
             _tileLoader = tileLoader;
             _messageBus = messageBus;
             _heightMapProvider = heightMapProvider;
+            _tileActivator = tileActivator;
         }
 
         public void OnMapPositionChanged(MapPoint position)
@@ -79,8 +82,9 @@ namespace Mercraft.Core.Scene
                 return;
 
             var tile = _allTiles[i, j];
-            _messageBus.Send(new TileActivateMessage(tile));
+            _tileActivator.Activate(tile);
             _activeTiles.Add(i, j, tile);
+            _messageBus.Send(new TileActivateMessage(tile));
         }
 
         private void Deactivate(int i, int j)
@@ -89,8 +93,9 @@ namespace Mercraft.Core.Scene
                 return;
 
             var tile = _activeTiles[i, j];
-            _messageBus.Send(new TileDeactivateMessage(tile));
+            _tileActivator.Deactivate(tile);
             _activeTiles.Remove(i, j);
+            _messageBus.Send(new TileDeactivateMessage(tile));
         }
 
         #endregion

@@ -58,6 +58,7 @@
     <Compile Include="MapCss\Domain\StyleCollection.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="Scene\IModelVisitor.cs" />
+    <Compile Include="Scene\ITileActivator.cs" />
     <Compile Include="Scene\TileMessages.cs" />
     <Compile Include="Utilities\GeometryUtils.cs" />
     <Compile Include="Scene\TileManager.cs" />

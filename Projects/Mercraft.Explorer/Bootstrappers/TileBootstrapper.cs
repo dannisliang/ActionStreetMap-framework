@@ -2,6 +2,7 @@
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Elevation.Srtm;
 using Mercraft.Core.Scene;
+using Mercraft.Explorer.Scene;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm;
@@ -18,6 +19,9 @@ namespace Mercraft.Explorer.Bootstrappers
         public override bool Run()
         {
             Container.Register(Component.For<ITileLoader>().Use<OsmTileLoader>().Singleton());
+
+            // activates/deactivates tiles during the game based on distance to player
+            Container.Register(Component.For<ITileActivator>().Use<TileActivator>().Singleton());
 
             Container.Register(Component.For<IHeightMapProvider>().Use<HeightMapProvider>().Singleton());
             Container.Register(Component.For<IElevationProvider>().Use<SrtmElevationProvider>().Singleton()
