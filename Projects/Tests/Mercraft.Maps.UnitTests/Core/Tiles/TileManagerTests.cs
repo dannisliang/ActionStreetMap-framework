@@ -6,7 +6,7 @@ using Mercraft.Infrastructure.Config;
 using Moq;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles
+namespace Mercraft.Maps.UnitTests.Core.Tiles
 {
     [TestFixture]
     internal class TileManagerTests
@@ -26,7 +26,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             provider.OnMapPositionChanged(center);
 
             // left tile
-            var tile = CanLoadTile(provider, provider.CurrentTile,
+            var tile = CanLoadTile(provider, provider.Current,
                 new MapPoint(-(Half - Offset - 1), 0),
                 new MapPoint(-(Half - Offset), 0),
                 new MapPoint(-(Half * 2 - Offset - 1), 0), 0);
@@ -45,7 +45,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             provider.OnMapPositionChanged(center);
 
             // right tile
-            var tile = CanLoadTile(provider, provider.CurrentTile,
+            var tile = CanLoadTile(provider, provider.Current,
                 new MapPoint(Half - Offset - 1, 0),
                 new MapPoint(Half - Offset, 0),
                 new MapPoint(Half * 2 - Offset - 1, 0), 0);
@@ -64,7 +64,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             provider.OnMapPositionChanged(center);
 
             // top tile
-            var tile = CanLoadTile(provider, provider.CurrentTile,
+            var tile = CanLoadTile(provider, provider.Current,
                 new MapPoint(0, Half - Offset - 1),
                 new MapPoint(0, Half - Offset),
                 new MapPoint(0, Half * 2 - Offset - 1), 0);
@@ -83,7 +83,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             provider.OnMapPositionChanged(center);
 
             // bottom tile
-            var tile = CanLoadTile(provider, provider.CurrentTile,
+            var tile = CanLoadTile(provider, provider.Current,
                 new MapPoint(0, -(Half - Offset - 1)),
                 new MapPoint(0, -(Half - Offset)),
                 new MapPoint(0, -(Half * 2 - Offset - 1)), 0);
@@ -91,8 +91,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             Assert.AreEqual(tile.MapCenter, new MapPoint(0, -Size));
         }
 
-       /* [Test]
-        public void CanMoveArround()
+        [Test]
+        public void CanMoveAround()
         {
             // ARRANGE
             var provider = GetManager();
@@ -101,30 +101,66 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             // ACT & ASSERT
             provider.OnMapPositionChanged(center);
 
+            var tileCenter = provider.Current;
             // left tile
-            CanLoadTile(provider, provider.CurrentTile,
+            CanLoadTile(provider, tileCenter,
                 new MapPoint(-(Half - Offset - 1), 0),
                 new MapPoint(-(Half - Offset), 0),
                 new MapPoint(-(Half*2 - Offset - 1), 0), 0);
 
             // right tile
-            CanLoadTile(provider, provider.CurrentTile,
+            CanLoadTile(provider, tileCenter,
                 new MapPoint(Half - Offset - 1, 0),
                 new MapPoint(Half - Offset, 0),
                 new MapPoint(Half*2 - Offset - 1, 0), 1);
 
             // top tile
-            CanLoadTile(provider, provider.CurrentTile,
+            CanLoadTile(provider, tileCenter,
                 new MapPoint(0, Half - Offset - 1),
                 new MapPoint(0, Half - Offset),
                 new MapPoint(0, Half*2 - Offset - 1), 2);
 
             // bottom tile
-            CanLoadTile(provider, provider.CurrentTile,
+            CanLoadTile(provider, tileCenter,
                 new MapPoint(0, -(Half - Offset - 1)),
                 new MapPoint(0, -(Half - Offset)),
                 new MapPoint(0, -(Half*2 - Offset - 1)), 3);
-        }*/
+        }
+
+        [Test]
+        public void CanMoveIntoDirection()
+        {
+            // ARRANGE
+            var provider = GetManager();
+            var center = new MapPoint(0, 0);
+            
+            provider.OnMapPositionChanged(center);
+
+            // ACT & ASSERT
+            for (int i = 0; i < 10; i++)
+            {
+                provider.OnMapPositionChanged(new MapPoint(i* Size + Half - Offset, 0));
+                Assert.AreEqual(i+2, provider.Count);
+            }
+        }
+
+        [Test]
+        public void CanMoveInTileWithoutPreload()
+        {
+            // ARRANGE
+            var provider = GetManager();
+            var center = new MapPoint(0, 0);
+
+            // ACT & ASSERT
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    provider.OnMapPositionChanged(new MapPoint(i, j));
+                    Assert.AreEqual(1, provider.Count);
+                }
+            }
+        }
 
         private TileManager GetManager()
         {
@@ -146,22 +182,23 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
         {
             // this shouldn't load new tile
             manager.OnMapPositionChanged(first);
-            Assert.AreSame(tileCenter, manager.CurrentTile);
+            Assert.AreSame(tileCenter, manager.Current);
 
             ++tileCount;
 
-            // this force to load new tile
+            // this force to load new tile but we still in first
             manager.OnMapPositionChanged(second);
-            var tileNext = manager.CurrentTile;
-            Assert.AreNotSame(tileCenter, tileNext);
-            Assert.AreEqual(++tileCount, manager.TileCount);
+            
+            Assert.AreSame(tileCenter, manager.Current);
+            Assert.AreEqual(++tileCount, manager.Count);
 
-            // this shouldn't load new tile
+            var previous = manager.Current;
+            // this shouldn't load new tile but we're in next now
             manager.OnMapPositionChanged(third);
-            Assert.AreSame(tileNext, manager.CurrentTile);
-            Assert.AreEqual(tileCount, manager.TileCount);
+            Assert.AreNotSame(previous, manager.Current);
+            Assert.AreEqual(tileCount, manager.Count);
 
-            return tileNext;
+            return manager.Current;
         }
     }
 }

@@ -82,6 +82,7 @@
     <Compile Include="Diagnostic\RecordType.cs" />
     <Compile Include="Extenstions\LinqExtenstions.cs" />
     <Compile Include="Formats\Json\SimpleJSON.cs" />
+    <Compile Include="Primitives\DoubleKeyDictionary.cs" />
     <Compile Include="Primitives\Graph.cs" />
     <Compile Include="Primitives\Range.cs" />
     <Compile Include="Utilities\ConfigKeys.cs" />

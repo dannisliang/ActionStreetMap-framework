@@ -102,7 +102,7 @@
     <Compile Include="Explorer\Tiles\Stubs\TestGameObject.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestGameObjectFactory.cs" />
     <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestWaterModelBuilder.cs" />
-    <Compile Include="Explorer\Tiles\TileManagerTests.cs" />
+    <Compile Include="Core\Tiles\TileManagerTests.cs" />
     <Compile Include="Explorer\Tiles\RealTileManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.Scene
 {
+    #region Lookup
     public sealed class TileFoundMessage
     {
         public Tile Tile { get; private set; }
@@ -14,7 +15,9 @@ namespace Mercraft.Core.Scene
             Position = position;
         }
     }
+    #endregion
 
+    #region Loading
     public sealed class TileLoadStartMessage
     {
         public MapPoint TileCenter { get; private set; }
@@ -34,4 +37,27 @@ namespace Mercraft.Core.Scene
             Tile = tile;
         }
     }
+    #endregion
+
+    #region Activation
+    public sealed class TileActivateMessage
+    {
+        public Tile Tile { get; private set; }
+
+        public TileActivateMessage(Tile tile)
+        {
+            Tile = tile;
+        }
+    }
+
+    public sealed class TileDeactivateMessage
+    {
+        public Tile Tile { get; private set; }
+
+        public TileDeactivateMessage(Tile tile)
+        {
+            Tile = tile;
+        }
+    }
+    #endregion
 }

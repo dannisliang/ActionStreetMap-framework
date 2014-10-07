@@ -30,7 +30,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
 
             // ASSERT
             Assert.IsNotNull(tileLoader);
-            Assert.AreEqual(1, GetTiles(tileLoader).Count());
+            Assert.AreEqual(1, tileLoader.Count);
 
             Assert.Less(logger.Seconds, 3, "Loading took to long");
             // NOTE However, we only check memory which is used after GC
@@ -56,13 +56,6 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             // ASSERT
             Assert.IsNotNull(tileLoader);
             Assert.IsTrue(tileLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
-        }
-
-        private IEnumerable<Tile> GetTiles(TileManager tileManager)
-        {
-            var property = typeof(TileManager).GetProperty("Tiles", BindingFlags.NonPublic |
-                BindingFlags.Instance | BindingFlags.GetProperty);
-            return (property.GetValue(tileManager, null) as HashSet<Tile>).AsEnumerable();
         }
     }
 }

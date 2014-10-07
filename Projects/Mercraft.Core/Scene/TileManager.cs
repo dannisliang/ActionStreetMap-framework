@@ -1,45 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Core.Scene
 {
-    /// <summary>
-    ///     This class loads and holds tiles which contain scene with models for given position
-    /// </summary>
     public class TileManager : IPositionListener, IConfigurable
     {
         private float _tileSize;
         private float _offset;
         private int _heightmapsize;
+        private Tuple<int, int> _currentTileIndex = new Tuple<int, int>(0, 0);
 
         private readonly ITileLoader _tileLoader;
         private readonly IMessageBus _messageBus;
         private readonly IHeightMapProvider _heightMapProvider;
 
+        private readonly DoubleKeyDictionary<int, int, Tile> _allTiles = new DoubleKeyDictionary<int, int, Tile>();
+        private readonly DoubleKeyDictionary<int, int, Tile> _activeTiles = new DoubleKeyDictionary<int, int, Tile>();
+
         public GeoCoordinate RelativeNullPoint { get; private set; }
-        public MapPoint CurrentPosition { get; private set; }
-        public Tile CurrentTile { get; private set; }
 
-        // NOTE use 2d index?
-        protected HashSet<Tile> Tiles { get; set; }
-
-        [Dependency]
-        private ITrace Trace { get; set; }
-
-        /// <summary>
-        ///     Returns loaded tile count
-        /// </summary>
-        public int TileCount
+        public Tile Current
         {
-            get { return Tiles.Count; }
+            get { return _allTiles[_currentTileIndex.Item1, _currentTileIndex.Item2]; }
+        }
+
+        public int Count
+        {
+            get { return _allTiles.Count(); }
         }
 
         [Dependency]
@@ -48,111 +41,131 @@ namespace Mercraft.Core.Scene
             _tileLoader = tileLoader;
             _messageBus = messageBus;
             _heightMapProvider = heightMapProvider;
-
-            Tiles = new HashSet<Tile>();
         }
 
-        #region IPositionListener
-
-        public virtual void OnMapPositionChanged(MapPoint position)
+        public void OnMapPositionChanged(MapPoint position)
         {
-            CurrentPosition = position;
-            var tile = GetTile(position, RelativeNullPoint);
-            CurrentTile = tile;
+            int i = Convert.ToInt32(position.X /_tileSize);
+            int j = Convert.ToInt32(position.Y /_tileSize);
 
-            if (Tiles.Contains(tile))
-                return;
+            // TODO support setting of neighbors for Unity Terrain
 
-            Tiles.Add(tile);
+            // NOTE it should be happened only once on start with (0,0)
+            // however it's possible if we skip offset detection zone somehow
+            if (!_allTiles.ContainsKey(i, j))
+                CreateTile(i, j);
+           
+            var tile = _allTiles[i, j];
+
+            if (ShouldPreload(tile, position))
+                PreloadNextTile(tile, position, i, j);
+
+            _currentTileIndex.Item1 = i;
+            _currentTileIndex.Item2 = j;
         }
 
-        public virtual void OnGeoPositionChanged(GeoCoordinate position)
+        public void OnGeoPositionChanged(GeoCoordinate position)
         {
             RelativeNullPoint = position;
+            // TODO destroy everything
+            // NOTE we don't expect geo position changes without restart scene
+        }
 
-            // TODO need think about this
-            // TODO Destroy existing!
-            Tiles.Clear();
+        #region Activation
+
+        private void Activate(int i, int j)
+        {
+            if (_activeTiles.ContainsKey(i, j))
+                return;
+
+            var tile = _allTiles[i, j];
+            _messageBus.Send(new TileActivateMessage(tile));
+            _activeTiles.Add(i, j, tile);
+        }
+
+        private void Deactivate(int i, int j)
+        {
+            if (!_activeTiles.ContainsKey(i, j))
+                return;
+
+            var tile = _activeTiles[i, j];
+            _messageBus.Send(new TileDeactivateMessage(tile));
+            _activeTiles.Remove(i, j);
         }
 
         #endregion
 
-        #region Tile provider logic
+        #region Create tile
+
+        private void CreateTile(int i, int j)
+        {
+            var tileCenter = new MapPoint(i*_tileSize, j*_tileSize);
+
+            _messageBus.Send(new TileLoadStartMessage(tileCenter));
+
+            var tile = new Tile(RelativeNullPoint, tileCenter, _tileSize);
+            tile.HeightMap = _heightMapProvider.Get(tile, _heightmapsize);
+            _tileLoader.Load(tile);
+
+            _messageBus.Send(new TileLoadFinishMessage(tile));
+
+            _allTiles.Add(i, j, tile);
+
+            Activate(i, j);
+        }
+
+        #endregion
+
+        #region Preload
+
+        private bool ShouldPreload(Tile tile, MapPoint position)
+        {
+            return !tile.Contains(position, _offset);
+        }
+
+        private void PreloadNextTile(Tile tile, MapPoint position, int i, int j)
+        {
+            var index = GetNextTileIndex(tile, position, i, j);
+            if (!_allTiles.ContainsKey(index.Item1, index.Item2))
+                CreateTile(index.Item1, index.Item2);
+
+            Activate(i, j);
+        }
 
         /// <summary>
-        ///     Gets tile for given map position and relative null point
+        ///     Gets next tile index. Also calls deactivate for tile which is adjusted from opposite site
         /// </summary>
-        private Tile GetTile(MapPoint position, GeoCoordinate relativeNullPoint)
+        private Tuple<int, int> GetNextTileIndex(Tile tile, MapPoint position, int i, int j)
         {
-            // check whether we're in tile with offset - no need to preload tile
-            Tile tile = GetTile(position, _offset);
-            if (tile != null)
-            {
-                _messageBus.Send(new TileFoundMessage(tile, position));
-                return tile;
-            }
-
-            var nextTileCenter = GetNextTileCenter(position);
-
-            // try to find existing tile
-            tile = GetTile(nextTileCenter);
-            if (tile != null)
-            {
-                _messageBus.Send(new TileFoundMessage(tile, position));
-                return tile;
-            }
-
-            _messageBus.Send(new TileLoadStartMessage(nextTileCenter));
-
-            tile = new Tile(relativeNullPoint, nextTileCenter, _tileSize);
-            tile.HeightMap = _heightMapProvider.Get(tile, _heightmapsize);
-            
-            _tileLoader.Load(tile);
-            
-            _messageBus.Send(new TileLoadFinishMessage(tile));
-            return tile;
-        }
-
-        private Tile GetTile(MapPoint position, float offset)
-        {
-            return Tiles.FirstOrDefault(t => t.Contains(position, offset));
-        }
-
-        private Tile GetTile(MapPoint tileCenter)
-        {
-            return Tiles.SingleOrDefault(t => tileCenter.AreSame(t.MapCenter));
-        }
-
-        private MapPoint GetNextTileCenter(MapPoint position)
-        {
-            // No tiles so far, create default using current position as center
-            if (!Tiles.Any())
-                return position;
-
-            // NOTE we assume that there are no instant position changing
-            // so the call with 0 offset will give us current tile
-            var tile = GetTile(position, 0);
-            if (tile == null)
-                throw new InvalidOperationException("Instant position changing detected!");
-
             // top
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.TopRight))
-                return new MapPoint(tile.MapCenter.X, tile.MapCenter.Y + _tileSize);
+            {
+                Deactivate(i, j - 1);
+                return new Tuple<int, int>(i, j + 1);
+            }
 
             // left
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.BottomLeft))
-                return new MapPoint(tile.MapCenter.X - _tileSize, tile.MapCenter.Y);
+            {
+                Deactivate(i + 1, j);
+                return new Tuple<int, int>(i - 1, j);
+            }
 
             // right
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopRight, tile.BottomRight))
-                return new MapPoint(tile.MapCenter.X + _tileSize, tile.MapCenter.Y);
+            {
+                Deactivate(i - 1, j);
+                return new Tuple<int, int>(i + 1, j);
+            }
 
             // bottom
-            return new MapPoint(tile.MapCenter.X, tile.MapCenter.Y - _tileSize);
-        }    
+            Deactivate(i, j + 1);
+            return new Tuple<int, int>(i, j - 1);
+        }
 
         #endregion
 
+        #region IConfigurable
         /// <summary>
         ///     Configures class
         /// </summary>
@@ -166,5 +179,6 @@ namespace Mercraft.Core.Scene
               configSection.GetFloat("@latitude"),
               configSection.GetFloat("@longitude"));
         }
+        #endregion
     }
 }
