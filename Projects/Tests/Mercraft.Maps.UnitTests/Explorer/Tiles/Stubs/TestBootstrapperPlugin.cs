@@ -32,6 +32,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
 
             Container.Register(Component.For<IGameObjectFactory>().Use<TestGameObjectFactory>());
 
+            Container.Register(Component.For<ITileActivator>().Use<TestTileActivator>());
+
             Container.Register(Component.For<IModelBuilder>().Use<TestWaterModelBuilder>().Named("water"));
             Container.Register(Component.For<IModelBuilder>().Use<TestDetailModelBuilder>().Named("detail"));
             Container.Register(Component.For<IModelBuilder>().Use<TestSphereModelBuilder>().Named("sphere"));

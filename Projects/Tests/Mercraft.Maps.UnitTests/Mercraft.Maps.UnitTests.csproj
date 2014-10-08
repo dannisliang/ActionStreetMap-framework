@@ -54,6 +54,7 @@
     <Compile Include="Core\BoundingBoxTests.cs" />
     <Compile Include="Explorer\BootstrapperTests.cs" />
     <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestInfoModelBuilder.cs" />
+    <Compile Include="Explorer\Tiles\Stubs\TestTileActivator.cs" />
     <Compile Include="Models\Geometry\ThickLineTests.cs" />
     <Compile Include="Infrastructure\ConfigMergerTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
