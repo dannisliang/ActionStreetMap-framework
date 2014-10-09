@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.MapCss.Domain
@@ -8,16 +7,14 @@ namespace Mercraft.Core.MapCss.Domain
     public class Rule
     {
         private Model _model;
+
         internal Model Model
         {
-            set
-            {
-                _model = value;
-            }
+            set { _model = value; }
         }
 
         /// <summary>
-        /// List of declarations.
+        ///     List of declarations.
         /// </summary>
         public Dictionary<string, Declaration> Declarations { get; set; }
 
@@ -29,10 +26,7 @@ namespace Mercraft.Core.MapCss.Domain
 
         public bool IsApplicable
         {
-            get
-            {
-                return Declarations.Count > 0;
-            }
+            get { return Declarations.Count > 0; }
         }
 
         public T EvaluateDefault<T>(string qualifier, T @default)
@@ -47,17 +41,17 @@ namespace Mercraft.Core.MapCss.Domain
             if (declaration.IsEval)
                 return declaration.Evaluator.Walk<T>(_model);
 
-            return (T)Convert.ChangeType(declaration.Value, typeof(T));
+            return (T) Convert.ChangeType(declaration.Value, typeof (T));
         }
 
         public T Evaluate<T>(string qualifier)
         {
-            return Evaluate(qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
+            return Evaluate(qualifier, v => (T) Convert.ChangeType(v, typeof (T)));
         }
 
         public List<T> EvaluateList<T>(string qualifier)
         {
-            return EvaluateList(qualifier, v => (T)Convert.ChangeType(v, typeof(T)));
+            return EvaluateList(qualifier, v => (T) Convert.ChangeType(v, typeof (T)));
         }
 
         public List<T> EvaluateList<T>(string qualifier, Func<string, T> converter)
@@ -66,13 +60,12 @@ namespace Mercraft.Core.MapCss.Domain
             var values = new List<T>();
             foreach (var declaration in listDeclaration.Items)
             {
-                values.Add(declaration.IsEval ? 
-                    declaration.Evaluator.Walk<T>(_model) :
-                    converter(declaration.Value));
+                values.Add(declaration.IsEval
+                    ? declaration.Evaluator.Walk<T>(_model)
+                    : converter(declaration.Value));
             }
 
             return values;
-            return null;
         }
 
         public T Evaluate<T>(string qualifier, Func<string, T> converter)
