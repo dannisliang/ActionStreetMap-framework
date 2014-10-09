@@ -15,7 +15,7 @@ namespace Mercraft.Core.Scene
         /// <summary>
         ///     Maximum of loaded tiles including non-active
         /// </summary>
-        private const int TileCacheSize = 8;
+        private const int TileCacheSize = 4;
 
         /// <summary>
         ///     Max index distance in 2d space
