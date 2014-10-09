@@ -61,10 +61,10 @@ namespace Assets.Scripts.Character
             var container = new Container();
             var messageBus = new MessageBus();
             var pathResolver = new DemoPathResolver();
-            _trace = new DebugConsoleTrace();
+
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
             container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config/app.config", pathResolver).GetRoot());
-            container.RegisterInstance<ITrace>(_trace);
+
 
             // actual boot service
             container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
@@ -107,6 +107,8 @@ namespace Assets.Scripts.Character
             var consoleGameObject = new GameObject("_DebugConsole_");
             _console = consoleGameObject.AddComponent<DebugConsole>();
             container.RegisterInstance(_console);
+            _trace = new DebugConsoleTrace(_console);
+            container.RegisterInstance<ITrace>(_trace);
             //_console.CommandManager.Register("scene", new SceneCommand(container));
         }
 

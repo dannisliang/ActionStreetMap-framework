@@ -60,7 +60,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             }
         }
 
-        [Test]
+        /*[Test]
         public void CanUseRegisterTypeWithName()
         {
             const string instance1 = "instance1", instance2 = "instance2";
@@ -74,7 +74,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
                 Assert.AreNotSame(container.Resolve(instance1), container.Resolve(instance2));
                 Assert.AreSame(instance, container.Resolve(instance2));
             }
-        }
+        }*/
 
         [Test]
         public void CanAutoRegisterEnumerable()
@@ -144,7 +144,43 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             var result = container.Resolve<IClassA>();
 
             // ASSERT
-            Assert.IsInstanceOf<ClassA2>(result);
+            Assert.IsInstanceOf<ClassA3>(result);
+        }
+
+        [Test]
+        public void CanUsePropertyInjectionWithRegister()
+        {
+            // ARRANGE
+            var container = new Container();
+            container.Register(Component.For<ITestInterface>().Use<TestInterface>());
+            container.Register(Component.For<IPropertyClass>().Use<PropertyClass>());
+
+            // ACT
+            var result = container.Resolve<IPropertyClass>() as PropertyClass;
+
+            // ASSERT
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Test);
+        }
+
+        [Test]
+        public void CanUsePropertyInjectionWithRegisterInstance()
+        {
+            // ARRANGE
+            var container = new Container();
+            ITestInterface property = new TestInterface();
+            IPropertyClass instance = new PropertyClass();
+            container.RegisterInstance(property);
+            container.RegisterInstance(instance);
+
+            // ACT
+            var result = container.Resolve<IPropertyClass>() as PropertyClass;
+
+            // ASSERT
+            Assert.IsNotNull(result);
+            Assert.AreSame(instance, result);
+            Assert.IsNotNull(result.Test);
+            Assert.AreSame(property, result.Test);
         }
     }
 }

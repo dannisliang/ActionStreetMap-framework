@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Text;
 using Assets.Scripts.Console.Utils;
-using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Console
 {
     public class DebugConsoleTrace: DefaultTrace
     {
-        [Dependency]
-        public DebugConsole Console { get; set; }
+        private readonly DebugConsole _console;
+
+        public DebugConsoleTrace(DebugConsole console)
+        {
+            _console = console;
+        }
 
         protected override void WriteRecord(RecordType type, string category, string message, Exception exception)
         {
             var logMessage = ToLogMessage(type, category, message, exception);
-            Console.LogMessage(logMessage);
+            _console.LogMessage(logMessage);
             UnityEngine.Debug.Log(logMessage.Text);
         }
 

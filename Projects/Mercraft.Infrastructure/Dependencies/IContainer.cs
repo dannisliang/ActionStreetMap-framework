@@ -33,7 +33,7 @@ namespace Mercraft.Infrastructure.Dependencies
 
         object Resolve(Type type);
         object Resolve(Type type, string name);
-        object Resolve(string name);
+        //object Resolve(string name);
         T Resolve<T>();
         T Resolve<T>(string name);
 

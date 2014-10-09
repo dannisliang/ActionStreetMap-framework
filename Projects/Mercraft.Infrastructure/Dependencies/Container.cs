@@ -6,8 +6,6 @@ using System.Reflection;
 using Mercraft.Infrastructure.Dependencies.Interception;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Dependencies.Lifetime;
-using Mercraft.Infrastructure.Extenstions;
-using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Infrastructure.Dependencies
 {
@@ -39,8 +37,9 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public object Resolve(string name)
         {
-            var key = _typeMapping.Keys.Single(t => t.Item1 == name);
-            return ResolveDependencies(ResolveLifetime( _typeMapping[key]).GetInstance(name));
+            //var key = _typeMapping.Keys.Single(t => t.Item1 == name);
+            //return ResolveDependencies(ResolveLifetime( _typeMapping[key]).GetInstance(name));
+            throw new NotImplementedException();
         }
 
         public object Resolve(Type type)
@@ -53,16 +52,14 @@ namespace Mercraft.Infrastructure.Dependencies
             try
             {
                 //try to find value using full key
-                var index = _typeMapping.Contains(name, type);
-                if (index != int.MinValue)
-                    return ResolveDependencies(ResolveLifetime(_typeMapping.Get(index)).GetInstance());
+                if(_typeMapping.Contains(name, type))
+                    return ResolveDependencies(ResolveLifetime(_typeMapping.Get(name, type)).GetInstance());
 
                 //try to find using only type and delegate resolving of instance by name to LifetimeManager that
                 //can be useful in custom lifetime managers
-                var altKey = _typeMapping.Keys.FirstOrDefault(k => k.Item2 == type);
 
                 // auto resolving of IEnumerable<T> feature
-                if (altKey == null || (altKey.Item1 == null && altKey.Item2 == null) && IsEnumerable(type))
+                if (!_typeMapping.Contains(name, type) && IsEnumerable(type))
                 {
                     var generticType = type.GetGenericArguments()[0];
                     var result = ResolveAll(generticType);
@@ -73,9 +70,8 @@ namespace Mercraft.Infrastructure.Dependencies
                     return castResult;
                 }
 
-                var lifetimeManager = _typeMapping.Keys.Count(k => k.Item2 == type) > 1 ? 
-                    _typeMapping.GetLast(altKey.Item1, altKey.Item2) :
-                    _typeMapping[altKey];
+                var ltms = _typeMapping.Get(type);
+                var lifetimeManager = ltms.Count > 1 ? ltms.Last() : ltms.First();
 
                 //inject container dependency here if attribute is specified
                 return ResolveDependencies(ResolveLifetime(lifetimeManager).GetInstance(name));
@@ -93,15 +89,11 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public IEnumerable<object> ResolveAll(Type type)
         {
-            var closure = type;
-            var keys = _typeMapping.Keys.Where(k => k.Item2 == closure).DistinctByLast(k => k.Item1);
-            return keys.Select(key =>
+            var ltms = _typeMapping.Get(type);
+            foreach (var keyValue in _typeMapping.GetDict(type))
             {
-                var lifetimeManager = _typeMapping.Keys.Count(k => k.Item2 == type) > 1 ?
-                   _typeMapping.GetLast(key.Item1, key.Item2) :
-                   _typeMapping[key];
-                return ResolveDependencies(ResolveLifetime(lifetimeManager).GetInstance(key.Item1));
-            });
+                yield return ResolveDependencies(ResolveLifetime(keyValue.Value).GetInstance(keyValue.Key));
+            }
         }
 
         private ILifetimeManager ResolveLifetime(ILifetimeManager lifetimeManager)
@@ -214,7 +206,7 @@ namespace Mercraft.Infrastructure.Dependencies
             return RegisterType(
                 component.InterfaceType, 
                 component.TargetType, 
-                component.Name,
+                component.Name??_defaultKey,
                 lifetimeManager,
                 component.Args ?? _emptyArguments);
         }
@@ -277,7 +269,7 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public void Dispose()
         {
-            _typeMapping.Keys.ToList().ForEach(key => _typeMapping[key].Dispose());
+            _typeMapping.Dispose();
         }
 
         #endregion
@@ -286,73 +278,47 @@ namespace Mercraft.Infrastructure.Dependencies
 
         private class TypeMapping
         {
-            private List<Tuple<string, Type>> _keys = new List<Tuple<string, Type>>();
-            private List<ILifetimeManager> _values = new List<ILifetimeManager>();
+            private Dictionary<Type, Dictionary<string, ILifetimeManager>> _map = new Dictionary<Type, Dictionary<string, ILifetimeManager>>();
 
-            public IList<Tuple<string, Type>> Keys
+            public void Add(string name, Type type, ILifetimeManager ltm)
             {
-                get
-                {
-                    return _keys;
-                }
-            }
-
-            public ILifetimeManager this[Tuple<string, Type> index] 
-            {
-                get
-                {
-                    return Get(index.Item1, index.Item2);
-                }
-            }
-
-            public ILifetimeManager GetLast(string name, Type type)
-            {
-                ILifetimeManager result = null;
-                for (int i = 0; i < _keys.Count; i++)
-                {
-                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
-                    {
-                        result = _values[i];
-                    }
-                }
-                if (result != null)
-                    return result;
-                throw new KeyNotFoundException(String.Format("Unable to find {0}:{1}", name, type));
+                if (!_map.ContainsKey(type))
+                    _map.Add(type, new Dictionary<string, ILifetimeManager>());
+                if (_map[type].ContainsKey(name))
+                    _map[type][name] = ltm;
+                else
+                    _map[type].Add(name, ltm);
             }
 
             public ILifetimeManager Get(string name, Type type)
             {
-                for (int i = 0; i < _keys.Count; i++)
+                return _map[type][name];
+            }
+
+            public Dictionary<string, ILifetimeManager> GetDict(Type type)
+            {
+                return _map[type];
+            }
+
+            public Dictionary<string, ILifetimeManager>.ValueCollection Get(Type type)
+            {
+                return _map[type].Values;
+            }
+
+            public bool Contains(string name, Type type)
+            {
+                return _map.ContainsKey(type) && _map[type].ContainsKey(name);
+            }
+
+            public void Dispose()
+            {
+                foreach (var dict in _map)
                 {
-                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
+                    foreach (var keyValue in dict.Value)
                     {
-                        return _values[i];
+                        keyValue.Value.Dispose();
                     }
                 }
-                throw new KeyNotFoundException(String.Format("Unable to find {0}:{1}", name, type));
-            }
-
-            public ILifetimeManager Get(int index)
-            {
-                return _values[index];
-            }
-
-            public void Add(string name, Type type, ILifetimeManager ltm)
-            {
-                _keys.Add(new Tuple<string, Type>(name, type));
-                _values.Add(ltm);
-            }
-
-            public int Contains(string name, Type type)
-            {
-                for (int i = 0; i < _keys.Count; i++)
-                {
-                    if (_keys[i].Item1 == name && _keys[i].Item2 == type)
-                    {
-                        return i;
-                    }
-                }
-                return int.MinValue;
             }
         }
 
