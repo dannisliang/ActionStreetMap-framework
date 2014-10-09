@@ -6,14 +6,26 @@ using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
+using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Core.Scene
 {
     public class TileManager : IPositionListener, IConfigurable
     {
+        /// <summary>
+        ///     Maximum of loaded tiles including non-active
+        /// </summary>
+        private const int TileCacheSize = 8;
+
+        /// <summary>
+        ///     Max index distance in 2d space
+        /// </summary>
+        private const int ThresholdIndex = 4;
+
         private float _tileSize;
         private float _offset;
         private int _heightmapsize;
+        private bool _allowAutoRemoval;
         private Tuple<int, int> _currentTileIndex = new Tuple<int, int>(0, 0);
 
         private readonly ITileLoader _tileLoader;
@@ -100,7 +112,7 @@ namespace Mercraft.Core.Scene
 
         #endregion
 
-        #region Create tile
+        #region Create/Destroy tile
 
         private void CreateTile(int i, int j)
         {
@@ -116,7 +128,17 @@ namespace Mercraft.Core.Scene
 
             _allTiles.Add(i, j, tile);
 
-            Activate(i, j);
+            Activate(i, j);          
+        }
+
+        private void Destroy(int i, int j)
+        {
+            var tile = _allTiles[i, j];
+            _tileActivator.Destroy(tile);
+            _allTiles.Remove(i, j);
+            _messageBus.Send(new TileDestroyMessage(tile));
+            if (_activeTiles.ContainsKey(i, j))
+                throw new AlgorithmException(ErrorStrings.TileDeactivationBug);
         }
 
         #endregion
@@ -135,6 +157,17 @@ namespace Mercraft.Core.Scene
                 CreateTile(index.Item1, index.Item2);
 
             Activate(i, j);
+
+            // NOTE We destroy tiles which are far away from us
+            if (_allowAutoRemoval && _allTiles.Count() > TileCacheSize)
+            {
+                foreach (var doubleKeyPairValue in _allTiles.ToList())
+                {
+                    if(Math.Abs(doubleKeyPairValue.Key1 - i) + 
+                        Math.Abs(doubleKeyPairValue.Key2 - j) > ThresholdIndex)
+                        Destroy(doubleKeyPairValue.Key1, doubleKeyPairValue.Key2);
+                }
+            }
         }
 
         /// <summary>
@@ -191,6 +224,8 @@ namespace Mercraft.Core.Scene
             RelativeNullPoint = new GeoCoordinate(
               configSection.GetFloat("@latitude"),
               configSection.GetFloat("@longitude"));
+
+            _allowAutoRemoval = configSection.GetBool("@autoclean", true);
         }
         #endregion
     }

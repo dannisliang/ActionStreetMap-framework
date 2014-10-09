@@ -171,11 +171,12 @@ namespace Mercraft.Maps.UnitTests.Core.Tiles
             var configMock = new Mock<IConfigSection>();
             configMock.Setup(c => c.GetFloat("@size")).Returns(Size);
             configMock.Setup(c => c.GetFloat("@offset")).Returns(Offset);
+            configMock.Setup(c => c.GetBool("@autoclean", true)).Returns(false);
 
             var provider = new TileManager(sceneBuilderMock.Object, heightMapProvider, 
                 activatorMock.Object, new MessageBus());
             provider.Configure(configMock.Object);
-
+            
             return provider;
         }
 

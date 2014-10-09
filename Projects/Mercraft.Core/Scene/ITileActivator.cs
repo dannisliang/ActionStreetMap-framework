@@ -6,5 +6,6 @@ namespace Mercraft.Core.Scene
     {
         void Activate(Tile tile);
         void Deactivate(Tile tile);
+        void Destroy(Tile tile);
     }
 }

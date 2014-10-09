@@ -59,5 +59,16 @@ namespace Mercraft.Core.Scene
             Tile = tile;
         }
     }
+
+    public sealed class TileDestroyMessage
+    {
+        public Tile Tile { get; private set; }
+
+        public TileDestroyMessage(Tile tile)
+        {
+            Tile = tile;
+        }
+    }
+
     #endregion
 }

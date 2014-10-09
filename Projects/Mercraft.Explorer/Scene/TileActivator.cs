@@ -16,14 +16,25 @@ namespace Mercraft.Explorer.Scene
 
         public void Activate(Tile tile)
         {
-            Trace.Output(Category, String.Format("Tile activate: {0}", tile.MapCenter));
+            Trace.Output(Category, String.Format("Activate tile: {0}", tile.MapCenter));
             ProcessWithChildren(tile, true);
         }
 
         public void Deactivate(Tile tile)
         {
-            Trace.Output(Category, String.Format("Tile deactivate: {0}", tile.MapCenter));
+            Trace.Output(Category, String.Format("Deactivate tile: {0}", tile.MapCenter));
             ProcessWithChildren(tile, false);
+        }
+
+        public void Destroy(Tile tile)
+        {
+            Trace.Output(Category, String.Format("Destroy tile: {0}", tile.MapCenter));
+            DestroyWithChildren(tile);
+        }
+
+        protected virtual void DestroyWithChildren(Tile tile)
+        {
+            UnityEngine.Object.Destroy(tile.GameObject.GetComponent<GameObject>());
         }
 
         protected virtual void ProcessWithChildren(Tile tile, bool active)
