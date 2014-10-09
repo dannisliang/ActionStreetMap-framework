@@ -146,6 +146,8 @@ namespace Mercraft.Core.Scene
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.TopRight))
             {
                 Deactivate(i, j - 1);
+                Deactivate(i - 1, j - 1);
+                Deactivate(i + 1, j - 1);
                 return new Tuple<int, int>(i, j + 1);
             }
 
@@ -153,6 +155,8 @@ namespace Mercraft.Core.Scene
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopLeft, tile.BottomLeft))
             {
                 Deactivate(i + 1, j);
+                Deactivate(i + 1, j + 1);
+                Deactivate(i + 1, j - 1);
                 return new Tuple<int, int>(i - 1, j);
             }
 
@@ -160,11 +164,15 @@ namespace Mercraft.Core.Scene
             if (GeometryUtils.IsPointInTreangle(position, tile.MapCenter, tile.TopRight, tile.BottomRight))
             {
                 Deactivate(i - 1, j);
+                Deactivate(i - 1, j + 1);
+                Deactivate(i - 1, j - 1);
                 return new Tuple<int, int>(i + 1, j);
             }
 
             // bottom
             Deactivate(i, j + 1);
+            Deactivate(i - 1, j + 1);
+            Deactivate(i + 1, j + 1);
             return new Tuple<int, int>(i, j - 1);
         }
 
