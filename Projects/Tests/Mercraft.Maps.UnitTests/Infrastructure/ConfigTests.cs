@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mercraft.Infrastructure.Config;
 using NUnit.Framework;
 
@@ -12,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
         [TestFixtureSetUp]
         public void Initialize()
         {
-            var config = new ConfigSettings(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
+            var config = new ConfigSection(TestHelper.ConfigTestRootFile, TestHelper.GetPathResolver());
             _stubSection = config.GetSection("stubs");
         }
 
@@ -26,24 +27,10 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
         }
 
         [Test]
-        public void CanReadStringAttr()
-        {
-            var value = _stubSection.GetString("string/@attr");
-            Assert.AreEqual("string_attr", value);
-        }
-
-        [Test]
         public void CanReadIntValue()
         {
             var value = _stubSection.GetInt("int");
             Assert.AreEqual(55, value);
-        }
-
-        [Test]
-        public void CanReadIntAttr()
-        {
-            var value = _stubSection.GetInt("int/@attr");
-            Assert.AreEqual(5, value);
         }
 
         [Test]
@@ -54,10 +41,30 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
         }
 
         [Test]
-        public void CanReadFloatAttr()
+        public void CanReadArray()
         {
-            var value = _stubSection.GetFloat("float/@attr");
-            Assert.IsTrue(Compare(5.1f, value));
+            // ARRANGE
+            var config = new ConfigSection("{\"array\":[{\"k\":1},{\"k\":2},{\"k\":3}]}");
+
+            // ACT
+            var array = config.GetSections("array").ToList();
+
+            // ASSERT
+            Assert.AreEqual(3, array.Count);
+        }
+
+        [Test]
+        public void CanReadNode()
+        {
+            // ARRANGE
+            var config = new ConfigSection("{\"node\":{\"k\":1}}");
+
+            // ACT
+            var node = config.GetSection("node");
+
+            // ASSERT
+            Assert.IsNotNull(node);
+            Assert.AreEqual(1, node.GetInt("k"));
         }
 
         #endregion

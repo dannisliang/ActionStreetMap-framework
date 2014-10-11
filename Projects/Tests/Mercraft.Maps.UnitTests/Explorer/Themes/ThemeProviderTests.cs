@@ -122,7 +122,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
 
         private IConfigSection GetTestThemeConfig()
         {
-            return new ConfigSection(TestHelper.TestThemeFile);
+            return new ConfigSection(TestHelper.TestThemeFile, TestHelper.GetPathResolver());
         }
     }
 }

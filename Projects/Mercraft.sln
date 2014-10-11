@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B7524B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Multiplayer", "Mercraft.Multiplayer\Mercraft.Multiplayer.csproj", "{6F2FC91C-0FB1-4C62-9FC2-676ED4A7D3CD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1E7621BF-3B30-4DA3-8204-AFC07AAFC5A4}"
 EndProject
 Global
@@ -56,10 +54,6 @@ Global
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F2FC91C-0FB1-4C62-9FC2-676ED4A7D3CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F2FC91C-0FB1-4C62-9FC2-676ED4A7D3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F2FC91C-0FB1-4C62-9FC2-676ED4A7D3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F2FC91C-0FB1-4C62-9FC2-676ED4A7D3CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

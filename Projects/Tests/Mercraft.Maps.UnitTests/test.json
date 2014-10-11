@@ -1,0 +1,7 @@
+﻿{
+  "stubs": {
+      "string":"string_value",
+      "int":55,
+      "float":5.12
+    }
+}

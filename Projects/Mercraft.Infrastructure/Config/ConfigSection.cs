@@ -1,9 +1,11 @@
-﻿namespace Mercraft.Infrastructure.Config
+﻿using System.IO;
+using Mercraft.Infrastructure.Formats.Json;
+
+namespace Mercraft.Infrastructure.Config
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml.Linq;
 
     /// <summary>
     /// Represens a config entry
@@ -16,9 +18,19 @@
             _element = element;
         }
 
-        public ConfigSection(string path)
+        public ConfigSection(string appConfigFileName, IPathResolver pathResolver)
         {
-            _element = new ConfigElement(XDocument.Load(path).Root);
+            using (var reader = new StreamReader(pathResolver.Resolve(appConfigFileName)))
+            {
+                var jsonStr = reader.ReadToEnd();
+                var json = JSON.Parse(jsonStr);
+                _element = new ConfigElement(json);
+            }
+        }
+
+        public ConfigSection(string content)
+        {
+            _element = new ConfigElement(JSON.Parse(content));
         }
 
         /// <summary>
@@ -134,6 +146,5 @@
         {
             return (T)Activator.CreateInstance(this.GetType(xpath), args);
         }
-
     }
 }

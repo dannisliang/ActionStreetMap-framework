@@ -1,0 +1,11 @@
+{
+	"buildings":[
+		{"path":"./../../../TestAssets/Themes/building.residential.json"}
+	],
+	"roads":[
+		{"path":"./../../../TestAssets/Themes/road.default.json"}
+	],
+	"infos":[
+		{"path":"./../../../TestAssets/Themes/info.default.json"}
+	]
+}

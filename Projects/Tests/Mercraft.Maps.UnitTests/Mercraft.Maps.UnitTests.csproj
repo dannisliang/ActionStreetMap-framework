@@ -41,8 +41,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\packages\UnityEngine.dll</HintPath>
     </Reference>
@@ -57,7 +55,6 @@
     <Compile Include="Explorer\Tiles\Stubs\TestTileActivator.cs" />
     <Compile Include="Infrastructure\Stubs\PropertyClass.cs" />
     <Compile Include="Models\Geometry\ThickLineTests.cs" />
-    <Compile Include="Infrastructure\ConfigMergerTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
     <Compile Include="Infrastructure\InterceptionTests.cs" />
     <Compile Include="Infrastructure\PrimitiveTypeTests.cs" />
@@ -109,10 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="test.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="test.stubs.config">
+    <None Include="test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

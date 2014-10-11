@@ -17,8 +17,8 @@ namespace Mercraft.Maps.UnitTests
         public static readonly GeoCoordinate BerlinTiergarten = new GeoCoordinate(52.516809, 13.367598);
         public static readonly GeoCoordinate BerlinVolksPark = new GeoCoordinate(52.526437, 13.432122);
 
-        public const string ConfigTestRootFile = "test.config";
-        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Config\app.config";
+        public const string ConfigTestRootFile = "test.json";
+        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Config\settings.json";
 
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 
@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests
 
         public const string TestBigPbfIndexListPath = @"..\..\..\..\..\Demo\Maps";
 
-        public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.config";
+        public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.json";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\themes\default\default.mapcss";
 
@@ -48,7 +48,7 @@ namespace Mercraft.Maps.UnitTests
             // these items are used during boot process
             var pathResolver = GetPathResolver();
             container.RegisterInstance<IPathResolver>(pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSettings(ConfigAppRootFile, pathResolver).GetRoot());
+            container.RegisterInstance<IConfigSection>(new ConfigSection(ConfigAppRootFile, pathResolver));
 
             // actual boot service
             container.Register(Component.For<IBootstrapperService>().Use<BootstrapperService>());

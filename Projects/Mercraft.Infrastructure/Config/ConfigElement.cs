@@ -1,9 +1,10 @@
-﻿namespace Mercraft.Infrastructure.Config
+﻿using Mercraft.Infrastructure.Formats.Json;
+
+namespace Mercraft.Infrastructure.Config
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml.Linq;
 
     /// <summary>
     /// Represens a single element of xml
@@ -11,17 +12,18 @@
     public class ConfigElement
     {
         private readonly string _xpath;
-        private XElement _node;
-        private XAttribute _attribute;
+        private JSONNode _node;
+        private string _attribute;
 
-        public ConfigElement(XElement root)
+        public ConfigElement(JSONNode node)
         {
-            this._node = root;
+            this._node = node;
+
         }
 
-        public ConfigElement(XElement root, string xpath)
+        public ConfigElement(JSONNode node, string xpath)
         {
-            this._node = root;
+            this._node = node;
             this._xpath = xpath;
 
             this.Initialize();
@@ -33,21 +35,22 @@
             {
                 string[] paths = this._xpath.Split('/');
 
-                XElement current = this._node;
+                JSONNode current = this._node;
 
                 if (_xpath == "")
                     return;
 
                 for (int i = 0; i < paths.Length; i++)
                 {
-                    if (paths[i].StartsWith("@"))
+                   /* if (paths[i].StartsWith("@"))
                     {
-                        this._attribute = current.Attribute(paths[i].Substring(1));
+                        this._attribute = current[(paths[i].Substring(1))].Value;
                         this._node = null;
                         return;
-                    }
+                    }*/
 
-                    current = current.Element(paths[i]);
+
+                    current = current[(paths[i])];
                     if (current == null)
                         break;
                 }
@@ -70,16 +73,18 @@
 
             string[] paths = xpath.Split('/');
             int last = paths.Length - 1;
-            XElement current = this.Node;
+            JSONNode current = this.Node;
             for (int i = 0; i < last; i++)
             {
-                current = current.Element(paths[i]);
+                current = current[paths[i]];
                 //xpath isn't valid
                 if (current == null)
                     return Enumerable.Empty<ConfigElement>();
             }
 
-            return current.Elements(paths[last]).Select(x => new ConfigElement(x));
+            return 
+                from JSONNode node in current[paths[last]].AsArray 
+                select new ConfigElement(node);
         }
 
         /// <summary>
@@ -87,7 +92,7 @@
         /// </summary>
         public string GetString()
         {
-            if (this.IsAttribute) return this._attribute.Value;
+            if (this.IsAttribute) return this._attribute;
             if (this.IsNode) return this._node.Value;
 
             return null;
@@ -129,7 +134,7 @@
         /// <summary>
         /// Returns current XElement
         /// </summary>
-        public XElement Node
+        public JSONNode Node
         {
             get { return this._node; }
         }
@@ -137,7 +142,7 @@
         /// <summary>
         /// Returns current XAttribute
         /// </summary>
-        public XAttribute Attribute
+        public string Attribute
         {
             get { return this._attribute; }
         }

@@ -217,15 +217,15 @@ namespace Mercraft.Core.Scene
         /// </summary>
         public void Configure(IConfigSection configSection)
         {
-            _tileSize = configSection.GetFloat("@size");
-            _offset = configSection.GetFloat("@offset");
-            _heightmapsize = configSection.GetInt("@heightmap");
+            _tileSize = configSection.GetFloat("size");
+            _offset = configSection.GetFloat("offset");
+            _heightmapsize = configSection.GetInt("heightmap");
 
             RelativeNullPoint = new GeoCoordinate(
-              configSection.GetFloat("@latitude"),
-              configSection.GetFloat("@longitude"));
+              configSection.GetFloat(@"position/latitude"),
+              configSection.GetFloat(@"position/longitude"));
 
-            _allowAutoRemoval = configSection.GetBool("@autoclean", true);
+            _allowAutoRemoval = configSection.GetBool("autoclean", true);
         }
         #endregion
     }

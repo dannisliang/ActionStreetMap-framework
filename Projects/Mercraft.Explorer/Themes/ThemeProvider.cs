@@ -26,9 +26,9 @@ namespace Mercraft.Explorer.Themes
     public class ThemeProvider : IThemeProvider, IConfigurable
     {
         private readonly IPathResolver _pathResolver;
-        private const string BuildingsThemeFile = @"buildings/include";
-        private const string RoadsThemeFile = @"roads/include";
-        private const string InfosThemeFile = @"infos/include";
+        private const string BuildingsThemeFile = @"buildings";
+        private const string RoadsThemeFile = @"roads";
+        private const string InfosThemeFile = @"infos";
 
         private readonly IEnumerable<IFacadeBuilder> _facadeBuilders;
         private readonly IEnumerable<IRoofBuilder> _roofBuilders;
@@ -67,7 +67,7 @@ namespace Mercraft.Explorer.Themes
             var roofStyleMapping = new Dictionary<string, List<BuildingStyle.RoofStyle>>();
             foreach (var buildThemeConfig in configSection.GetSections(BuildingsThemeFile))
             {
-                var path = buildThemeConfig.GetString("@path");
+                var path = buildThemeConfig.GetString("path");
                 using (var reader = new StreamReader(_pathResolver.Resolve(path)))
                 {
                     var jsonStr = reader.ReadToEnd();
@@ -154,7 +154,7 @@ namespace Mercraft.Explorer.Themes
             var roadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
             foreach (var roadThemeConfig in configSection.GetSections(RoadsThemeFile))
             {
-                var path = roadThemeConfig.GetString("@path");
+                var path = roadThemeConfig.GetString("path");
                 using (var reader = new StreamReader(_pathResolver.Resolve(path)))
                 {
                     var jsonStr = reader.ReadToEnd();
@@ -203,7 +203,7 @@ namespace Mercraft.Explorer.Themes
             var infoStyleMap = new Dictionary<string, InfoStyle>();
             foreach (var infoThemeConfig in configSection.GetSections(InfosThemeFile))
             {
-                var path = infoThemeConfig.GetString("@path");
+                var path = infoThemeConfig.GetString("path");
                 using (var reader = new StreamReader(_pathResolver.Resolve(path)))
                 {
                     var jsonStr = reader.ReadToEnd();
