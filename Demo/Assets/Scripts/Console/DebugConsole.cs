@@ -167,7 +167,7 @@ namespace Assets.Scripts.Console
                     if (value.StartsWith(enabledStr))
                     {
                         var regexStr = value.Substring(enabledStr.Length);
-                        _regex = new Regex(regexStr, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        _regex = new Regex(regexStr, RegexOptions.IgnoreCase);
                         return "filter enabled";
                     }
                     if (value.StartsWith(disabledStr))

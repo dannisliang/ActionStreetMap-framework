@@ -11,8 +11,8 @@ namespace Assets.Scripts.Console.Grep
         public Arguments(string[] args)
         {
             _parameters = new HybridDictionary();
-            Regex spliter = new Regex(@"^-{1,2}|^/|=|:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Regex remover = new Regex(@"^['""]?(.*?)['""]?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex spliter = new Regex(@"^-{1,2}|^/|=|:", RegexOptions.IgnoreCase /*| RegexOptions.Compiled*/);
+            Regex remover = new Regex(@"^['""]?(.*?)['""]?$", RegexOptions.IgnoreCase /*| RegexOptions.Compiled*/);
             string parameter = null;
 
             // Valid parameters forms:

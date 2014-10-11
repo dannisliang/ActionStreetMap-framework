@@ -63,7 +63,7 @@ namespace Assets.Scripts.Character
             var pathResolver = new DemoPathResolver();
 
             container.RegisterInstance(typeof(IPathResolver), pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSettings(@"Config/app.config", pathResolver).GetRoot());
+            container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", pathResolver));
 
 
             // actual boot service
