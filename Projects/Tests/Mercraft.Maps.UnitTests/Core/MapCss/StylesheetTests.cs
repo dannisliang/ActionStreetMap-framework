@@ -11,7 +11,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanCreate()
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
 
             // ACT
             var stylesheet = provider.Get();
@@ -24,7 +24,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanParse()
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetPathResolver());
+            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
 
             // ACT & ASSERT
             var stylesheet = provider.Get();

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mercraft.Core;
-using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.IO;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Data
@@ -19,13 +19,16 @@ namespace Mercraft.Maps.Osm.Data
         private readonly Regex _geoCoordinateRegex =
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)");
 
+        private readonly IFileSystemService _fileSystemService;
+
         private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>(32);
 
         private readonly List<Element> _resultElements = new List<Element>(4096);
 
-        public PbfIndexListElementSource(string indexListPath, IPathResolver pathResolver)
+        public PbfIndexListElementSource(string indexListPath, IFileSystemService fileSystemService)
         {
-            SearchAndReadIndexListFiles(pathResolver.Resolve(indexListPath));
+            _fileSystemService = fileSystemService;
+            SearchAndReadIndexListFiles(indexListPath);
         }
 
         /// <summary>
@@ -33,10 +36,10 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private void SearchAndReadIndexListFiles(string folder)
         {
-            Directory.GetFiles(folder, IndexFilePattern).ToList()
+            _fileSystemService.GetFiles(folder, IndexFilePattern).ToList()
                 .ForEach(ReadIndex);
 
-            Directory.GetDirectories(folder).ToList()
+            _fileSystemService.GetDirectories(folder, "*").ToList()
                 .ForEach(SearchAndReadIndexListFiles);
         }
 
@@ -58,7 +61,7 @@ namespace Mercraft.Maps.Osm.Data
             // This is just rough implementation to check idea
             // TODO improve it
             var indexFileDirectory = Path.GetDirectoryName(indexListPath);
-            using (var reader = new StreamReader(indexListPath))
+            using (var reader = new StreamReader(_fileSystemService.ReadStream(indexListPath)))
             {
                 // Skip three first lines
                 reader.ReadLine();
@@ -108,7 +111,7 @@ namespace Mercraft.Maps.Osm.Data
 
             foreach (var index in indecies)
             {
-                using (Stream fileStream = new FileStream(_listIndex[index].Key, FileMode.Open))
+                using (Stream fileStream = _fileSystemService.ReadStream(_listIndex[index].Key))
                 {
                     base.SetStream(fileStream);
                     var elements = base.Get(bbox);

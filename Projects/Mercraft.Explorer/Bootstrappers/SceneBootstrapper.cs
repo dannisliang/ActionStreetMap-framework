@@ -32,7 +32,7 @@ namespace Mercraft.Explorer.Bootstrappers
             Container.Register(Component.For<IModelVisitor>().Use<TileModelLoader>().Singleton());
 
             var themeConfigPath = GlobalConfigSection.GetString(ThemeKey);
-            var themeConfig = new ConfigSection(themeConfigPath, PathResolver);
+            var themeConfig = new ConfigSection(themeConfigPath, FileSystemService);
             // register theme provider
             Container.Register(Component
                 .For<IThemeProvider>()

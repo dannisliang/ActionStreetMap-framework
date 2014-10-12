@@ -1,5 +1,5 @@
 ﻿using System;
-using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.IO;
 
 namespace Assets.Scripts.Demo
 {

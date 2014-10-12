@@ -14,6 +14,7 @@ using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Diagnostic;
+using Mercraft.Infrastructure.IO;
 using UnityEngine;
 
 namespace Assets.Scripts.Character
@@ -61,31 +62,32 @@ namespace Assets.Scripts.Character
             var container = new Container();
             var messageBus = new MessageBus();
             var pathResolver = new DemoPathResolver();
-
-            container.RegisterInstance(typeof(IPathResolver), pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", pathResolver));
-
-
-            // actual boot service
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
-
-            // boot plugins
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
-            container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
-
             InitializeConsole(container);
-            InitializeMessageBusListeners(messageBus, _trace);
-
-            // interception
-            //container.AllowProxy = true;
-            //container.AutoGenerateProxy = true;
-            //container.AddGlobalBehavior(new TraceBehavior(_trace));
-
             try
             {
+                var fileSystemService = new FileSystemService(pathResolver);
+                container.RegisterInstance(typeof(IPathResolver), pathResolver);
+                container.RegisterInstance(typeof (IFileSystemService), fileSystemService);
+                container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", fileSystemService));
+
+                // actual boot service
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
+
+                // boot plugins
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
+                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
+
+
+                InitializeMessageBusListeners(messageBus, _trace);
+
+                // interception
+                //container.AllowProxy = true;
+                //container.AutoGenerateProxy = true;
+                //container.AddGlobalBehavior(new TraceBehavior(_trace));
+
                 _gameRunner = new GameRunner(container, messageBus);
                 _gameRunner.RunGame();
             }

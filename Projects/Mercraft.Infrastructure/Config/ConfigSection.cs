@@ -1,31 +1,28 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Infrastructure.Formats.Json;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Infrastructure.Config
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
-    /// Represens a config entry
+    ///     Represens a config entry
     /// </summary>
     public class ConfigSection : IConfigSection
     {
         private readonly ConfigElement _element;
+
         public ConfigSection(ConfigElement element)
         {
             _element = element;
         }
 
-        public ConfigSection(string appConfigFileName, IPathResolver pathResolver)
+        public ConfigSection(string appConfigFileName, IFileSystemService fileSystemService)
         {
-            using (var reader = new StreamReader(pathResolver.Resolve(appConfigFileName)))
-            {
-                var jsonStr = reader.ReadToEnd();
-                var json = JSON.Parse(jsonStr);
-                _element = new ConfigElement(json);
-            }
+            var jsonStr = fileSystemService.ReadText(appConfigFileName);
+            var json = JSON.Parse(jsonStr);
+            _element = new ConfigElement(json);
         }
 
         public ConfigSection(string content)
@@ -34,50 +31,50 @@ namespace Mercraft.Infrastructure.Config
         }
 
         /// <summary>
-        /// Returns the set of ConfigSections
+        ///     Returns the set of ConfigSections
         /// </summary>
         public IEnumerable<IConfigSection> GetSections(string xpath)
         {
-            return this._element.GetElements(xpath).Select(e => (new ConfigSection(e)) as IConfigSection);
+            return _element.GetElements(xpath).Select(e => (new ConfigSection(e)) as IConfigSection);
         }
 
         /// <summary>
-        /// Returns ConfigSection
+        ///     Returns ConfigSection
         /// </summary>
         public IConfigSection GetSection(string xpath)
         {
-            return new ConfigSection(new ConfigElement(this._element.Node, xpath));
+            return new ConfigSection(new ConfigElement(_element.Node, xpath));
         }
 
         public bool IsEmpty
         {
-            get { return this._element.IsEmpty; }
+            get { return _element.IsEmpty; }
         }
 
         /// <summary>
-        /// Returns string
+        ///     Returns string
         /// </summary>
         public string GetString(string xpath)
         {
-            return new ConfigElement(this._element.Node, xpath).GetString();
+            return new ConfigElement(_element.Node, xpath).GetString();
         }
 
         /// <summary>
-        /// Returns int
+        ///     Returns int
         /// </summary>
         public int GetInt(string xpath)
         {
-            return new ConfigElement(this._element.Node, xpath).GetInt();
+            return new ConfigElement(_element.Node, xpath).GetInt();
         }
 
         /// <summary>
-        /// Returns int
+        ///     Returns int
         /// </summary>
         public int GetInt(string xpath, int defaultValue)
         {
             try
             {
-                return this.GetInt(xpath);
+                return GetInt(xpath);
             }
             catch
             {
@@ -87,14 +84,14 @@ namespace Mercraft.Infrastructure.Config
 
         public float GetFloat(string xpath)
         {
-            return new ConfigElement(this._element.Node, xpath).GetFloat();
+            return new ConfigElement(_element.Node, xpath).GetFloat();
         }
 
         public float GetFloat(string xpath, float defaultValue)
         {
             try
             {
-                return this.GetFloat(xpath);
+                return GetFloat(xpath);
             }
             catch
             {
@@ -103,48 +100,48 @@ namespace Mercraft.Infrastructure.Config
         }
 
         /// <summary>
-        /// Returns bool
+        ///     Returns bool
         /// </summary>
         public bool GetBool(string xpath)
         {
-            return new ConfigElement(this._element.Node, xpath).GetBool();
+            return new ConfigElement(_element.Node, xpath).GetBool();
         }
 
         public bool GetBool(string xpath, bool defaultValue)
         {
             try
             {
-                return this.GetBool(xpath);
+                return GetBool(xpath);
             }
             catch
             {
                 return defaultValue;
             }
         }
-       
+
         /// <summary>
-        /// Returns type object
+        ///     Returns type object
         /// </summary>
         public Type GetType(string xpath)
         {
-            return (new ConfigElement(this._element.Node, xpath)).GetType();
+            return (new ConfigElement(_element.Node, xpath)).GetType();
         }
 
 
         /// <summary>
-        /// Returns the instance of T
+        ///     Returns the instance of T
         /// </summary>
         public T GetInstance<T>(string xpath)
         {
-            return (T)Activator.CreateInstance(this.GetType(xpath));
+            return (T) Activator.CreateInstance(GetType(xpath));
         }
 
         /// <summary>
-        /// Returns the instance of T
+        ///     Returns the instance of T
         /// </summary>
         public T GetInstance<T>(string xpath, params object[] args)
         {
-            return (T)Activator.CreateInstance(this.GetType(xpath), args);
+            return (T) Activator.CreateInstance(GetType(xpath), args);
         }
     }
 }

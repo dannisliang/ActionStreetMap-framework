@@ -5,6 +5,7 @@ using Mercraft.Explorer.Bootstrappers;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.IO;
 using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs;
 
 namespace Mercraft.Maps.UnitTests
@@ -46,9 +47,9 @@ namespace Mercraft.Maps.UnitTests
         public static IGameRunner GetGameRunner(IContainer container, MessageBus messageBus)
         {
             // these items are used during boot process
-            var pathResolver = GetPathResolver();
-            container.RegisterInstance<IPathResolver>(pathResolver);
-            container.RegisterInstance<IConfigSection>(new ConfigSection(ConfigAppRootFile, pathResolver));
+            var fileSystemService = GetFileSystemService();
+            container.RegisterInstance<IFileSystemService>(GetFileSystemService());
+            container.RegisterInstance<IConfigSection>(new ConfigSection(ConfigAppRootFile, fileSystemService));
 
             // actual boot service
             container.Register(Component.For<IBootstrapperService>().Use<BootstrapperService>());
@@ -63,9 +64,9 @@ namespace Mercraft.Maps.UnitTests
             return new GameRunner(container, messageBus);
         }
 
-        public static IPathResolver GetPathResolver()
+        public static IFileSystemService GetFileSystemService()
         {
-            return new TestPathResolver();
+            return new FileSystemService(new TestPathResolver());
         }
     }
 }

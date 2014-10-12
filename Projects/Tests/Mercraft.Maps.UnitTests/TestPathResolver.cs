@@ -1,4 +1,5 @@
 ﻿using Mercraft.Infrastructure.Config;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Maps.UnitTests
 {

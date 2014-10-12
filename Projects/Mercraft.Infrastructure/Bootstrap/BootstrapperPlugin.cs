@@ -1,5 +1,6 @@
 ﻿using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Infrastructure.Bootstrap
 {
@@ -15,7 +16,7 @@ namespace Mercraft.Infrastructure.Bootstrap
         public IConfigSection GlobalConfigSection { get; set; }
 
         [Dependency]
-        public IPathResolver PathResolver { get; set; }
+        public IFileSystemService FileSystemService { get; set; }
 
         public abstract string Name { get; }
 

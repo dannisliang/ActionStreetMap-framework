@@ -4,6 +4,7 @@ using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.MapCss.Visitors;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.MapCss
 {
@@ -17,22 +18,23 @@ namespace Mercraft.Core.MapCss
     /// </summary>
     public class StylesheetProvider : IStylesheetProvider, IConfigurable
     {
+        private readonly IFileSystemService _fileSystemService;
         private const string PathKey = "";
 
         private string _path;
-        private readonly IPathResolver _pathResolver;
+        
         private Stylesheet _stylesheet;
 
         #region Constructors
 
         [Dependency]
-        public StylesheetProvider(IPathResolver pathResolver)
+        public StylesheetProvider(IFileSystemService fileSystemService)
         {
-            _pathResolver = pathResolver;
+            _fileSystemService = fileSystemService;
         }
 
-        public StylesheetProvider(string path, IPathResolver pathResolver)
-            : this(pathResolver)
+        public StylesheetProvider(string path, IFileSystemService fileSystemService)
+            : this(fileSystemService)
         {
             _path = path;
         }
@@ -59,7 +61,7 @@ namespace Mercraft.Core.MapCss
 
         private Stylesheet Create()
         {
-            using (Stream inputStream = File.Open(_pathResolver.Resolve(_path), FileMode.Open))
+            using (Stream inputStream = _fileSystemService.ReadStream(_path))
             {
                 return Create(inputStream);
             }

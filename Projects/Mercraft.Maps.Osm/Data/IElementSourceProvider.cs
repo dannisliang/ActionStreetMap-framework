@@ -3,6 +3,7 @@ using System.IO;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Maps.Osm.Data
 {
@@ -24,12 +25,12 @@ namespace Mercraft.Maps.Osm.Data
     public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable
     {
         private IElementSource _dataSource;
-        private readonly IPathResolver _pathResolver;
+        private readonly IFileSystemService _fileSystemService;
 
         [Dependency]
-        public DefaultElementSourceProvider(IPathResolver pathResolver)
+        public DefaultElementSourceProvider(IFileSystemService fileSystemService)
         {
-            _pathResolver = pathResolver;
+            _fileSystemService = fileSystemService;
         }
 
         public IElementSource Get(BoundingBox bbox)
@@ -44,12 +45,12 @@ namespace Mercraft.Maps.Osm.Data
 
             if (String.IsNullOrEmpty(fileExtension))
             {
-                _dataSource = new PbfIndexListElementSource(filePath, _pathResolver);
+                _dataSource = new PbfIndexListElementSource(filePath, _fileSystemService);
             }
             else
             {
                 // TODO dispose opened stream
-                Stream stream = new FileInfo(_pathResolver.Resolve(filePath)).OpenRead();
+                Stream stream = _fileSystemService.ReadStream(filePath);
                 _dataSource = fileExtension == ".xml"
                     ? (IElementSource) new XmlElementSource(stream)
                     : (IElementSource) new PbfElementSource(stream);

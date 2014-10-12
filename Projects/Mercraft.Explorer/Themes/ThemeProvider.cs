@@ -6,6 +6,7 @@ using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Formats.Json;
+using Mercraft.Infrastructure.IO;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
@@ -25,23 +26,22 @@ namespace Mercraft.Explorer.Themes
 
     public class ThemeProvider : IThemeProvider, IConfigurable
     {
-        private readonly IPathResolver _pathResolver;
         private const string BuildingsThemeFile = @"buildings";
         private const string RoadsThemeFile = @"roads";
         private const string InfosThemeFile = @"infos";
 
+        private readonly IFileSystemService _fileSystemService;
         private readonly IEnumerable<IFacadeBuilder> _facadeBuilders;
         private readonly IEnumerable<IRoofBuilder> _roofBuilders;
 
         private Theme _theme;
 
-
         [Dependency]
-        public ThemeProvider(IPathResolver pathResolver,
+        public ThemeProvider(IFileSystemService fileSystemService,
             IEnumerable<IFacadeBuilder> facadeBuilders,
             IEnumerable<IRoofBuilder> roofBuilders)
         {
-            _pathResolver = pathResolver;
+            _fileSystemService = fileSystemService;
             _facadeBuilders = facadeBuilders.ToArray();
             _roofBuilders = roofBuilders.ToArray();
         }
@@ -68,21 +68,20 @@ namespace Mercraft.Explorer.Themes
             foreach (var buildThemeConfig in configSection.GetSections(BuildingsThemeFile))
             {
                 var path = buildThemeConfig.GetString("path");
-                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
+
+                var jsonStr = _fileSystemService.ReadText(path);
+                var json = JSON.Parse(jsonStr);
+
+                var facadeStyles = GetFacadeStyles(json);
+                var roofStyles = GetRoofStyles(json);
+
+                var types = json["name"].AsArray.Childs.Select(t => t.Value);
+                foreach (var type in types)
                 {
-                    var jsonStr = reader.ReadToEnd();
-                    var json = JSON.Parse(jsonStr);
-
-                    var facadeStyles = GetFacadeStyles(json);
-                    var roofStyles = GetRoofStyles(json);
-
-                    var types = json["name"].AsArray.Childs.Select(t => t.Value);
-                    foreach (var type in types)
-                    {
-                        facadeStyleMapping.Add(type, facadeStyles);
-                        roofStyleMapping.Add(type, roofStyles);
-                    }
+                    facadeStyleMapping.Add(type, facadeStyles);
+                    roofStyleMapping.Add(type, roofStyles);
                 }
+
             }
             return new BuildingStyleProvider(facadeStyleMapping, roofStyleMapping);
         }
@@ -155,16 +154,15 @@ namespace Mercraft.Explorer.Themes
             foreach (var roadThemeConfig in configSection.GetSections(RoadsThemeFile))
             {
                 var path = roadThemeConfig.GetString("path");
-                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
-                {
-                    var jsonStr = reader.ReadToEnd();
-                    var json = JSON.Parse(jsonStr);
-                    var roadStyles = GetRoadStyles(json);
 
-                    var types = json["name"].AsArray.Childs.Select(t => t.Value);
-                    foreach (var type in types)
-                        roadTypeStyleMapping.Add(type, roadStyles);
-                }
+                var jsonStr = _fileSystemService.ReadText(path);
+                var json = JSON.Parse(jsonStr);
+                var roadStyles = GetRoadStyles(json);
+
+                var types = json["name"].AsArray.Childs.Select(t => t.Value);
+                foreach (var type in types)
+                    roadTypeStyleMapping.Add(type, roadStyles);
+
             }
             return new RoadStyleProvider(roadTypeStyleMapping);
         }
@@ -204,12 +202,10 @@ namespace Mercraft.Explorer.Themes
             foreach (var infoThemeConfig in configSection.GetSections(InfosThemeFile))
             {
                 var path = infoThemeConfig.GetString("path");
-                using (var reader = new StreamReader(_pathResolver.Resolve(path)))
-                {
-                    var jsonStr = reader.ReadToEnd();
-                    var json = JSON.Parse(jsonStr);
-                    FillInfoStyleList(json, infoStyleMap);
-                }
+
+                var jsonStr = _fileSystemService.ReadText(path);
+                var json = JSON.Parse(jsonStr);
+                FillInfoStyleList(json, infoStyleMap);
             }
             return new InfoStyleProvider(infoStyleMap);
         }

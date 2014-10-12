@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.Elevation.Srtm
 {
@@ -23,7 +24,7 @@ namespace Mercraft.Core.Elevation.Srtm
         /// </summary>
         public int Longitude { get; private set; }
 
-        public SrtmDataCell(string filepath)
+        public SrtmDataCell(string filepath, IFileSystemService fileSystemService)
         {
             if (!File.Exists(filepath))
                 throw new FileNotFoundException("File not found.", filepath);
@@ -46,7 +47,7 @@ namespace Mercraft.Core.Elevation.Srtm
             if (filename.Contains("w"))
                 Longitude *= -1;
 
-            _hgtData = File.ReadAllBytes(filepath);
+            _hgtData = fileSystemService.ReadBytes(filepath);
 
             switch (_hgtData.Length)
             {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.Elevation.Srtm
 {
@@ -11,17 +12,17 @@ namespace Mercraft.Core.Elevation.Srtm
 	{
         private const string PathKey = "";
 
+        private readonly IFileSystemService _fileSystemService;
+
         private string _dataDirectory;
 	    private List<SrtmDataCell> _dataCells;
 
-        private readonly IPathResolver _pathResolver;
-
         [Dependency]
-        public SrtmElevationProvider(IPathResolver pathResolver)
+        public SrtmElevationProvider(IFileSystemService fileSystemService)
         {
-            _pathResolver = pathResolver;
-			_dataCells = new List<SrtmDataCell> ();
-		}
+            _fileSystemService = fileSystemService;
+            _dataCells = new List<SrtmDataCell> ();
+        }
 
         public float GetElevation(double latitude, double longitude)
 	    {
@@ -50,7 +51,7 @@ namespace Mercraft.Core.Elevation.Srtm
             if (!File.Exists(filePath))
                 throw new Exception("SRTM data cell not found: " + filePath);
 
-            var dataCell = new SrtmDataCell(filePath);
+            var dataCell = new SrtmDataCell(filePath, _fileSystemService);
             _dataCells.Add(dataCell);
             return dataCell.GetElevation(latitude, longitude);
 	    }
@@ -63,7 +64,7 @@ namespace Mercraft.Core.Elevation.Srtm
 	    public void Configure(IConfigSection configSection)
 	    {
             var path = configSection.GetString(PathKey);
-	        _dataDirectory = _pathResolver.Resolve(path);
+	        _dataDirectory = path;
 	    }
 	}
 }

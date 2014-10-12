@@ -13,7 +13,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             // ARRANGE
             var elementSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
-                new TestPathResolver());
+                TestHelper.GetFileSystemService());
 
             // ACT
             var elements = elementSource.Get(

@@ -15,7 +15,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             perfLogger.Start();
 
             var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
-                new TestPathResolver());
+                TestHelper.GetFileSystemService());
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 

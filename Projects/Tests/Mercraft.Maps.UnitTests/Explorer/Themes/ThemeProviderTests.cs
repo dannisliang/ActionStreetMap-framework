@@ -109,7 +109,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
         private ThemeProvider GetThemeProvider()
         {
             return new ThemeProvider(
-                new TestPathResolver(), 
+                TestHelper.GetFileSystemService(), 
                 new List<IFacadeBuilder>()
                 {
                    new FlatFacadeBuilder()
@@ -122,7 +122,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Themes
 
         private IConfigSection GetTestThemeConfig()
         {
-            return new ConfigSection(TestHelper.TestThemeFile, TestHelper.GetPathResolver());
+            return new ConfigSection(TestHelper.TestThemeFile, TestHelper.GetFileSystemService());
         }
     }
 }

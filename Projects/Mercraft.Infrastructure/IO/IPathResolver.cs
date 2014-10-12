@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Config
+﻿namespace Mercraft.Infrastructure.IO
 {
     public interface IPathResolver
     {
