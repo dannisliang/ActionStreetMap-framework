@@ -19,20 +19,18 @@ namespace Mercraft.Maps.UnitTests
         public static readonly GeoCoordinate BerlinVolksPark = new GeoCoordinate(52.526437, 13.432122);
 
         public const string ConfigTestRootFile = "test.json";
-        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Config\settings.json";
+        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Assets\Resources\Config\settings.json";
 
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 
         //52.53057 13.38687 52.52940 13.39022
         public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin_house.osm.xml";
 
-        public const string TestBigPbfFilePath = @"..\..\..\..\..\Demo\Maps\berlin-latest.osm.pbf";
-
-        public const string TestBigPbfIndexListPath = @"..\..\..\..\..\Demo\Maps";
+        public const string TestBigPbfIndexListPath = @"Maps";
 
         public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.json";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
-        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Config\themes\default\default.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Resources\Config\themes\default\default.mapcss";
 
         public static IGameRunner GetGameRunner()
         {
@@ -66,7 +64,7 @@ namespace Mercraft.Maps.UnitTests
 
         public static IFileSystemService GetFileSystemService()
         {
-            return new FileSystemService(new TestPathResolver());
+            return new TestFileSystemService(new TestPathResolver());
         }
     }
 }

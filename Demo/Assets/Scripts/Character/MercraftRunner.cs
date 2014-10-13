@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Reactive.Linq;
 using Assets.Scripts.Console;
-using Assets.Scripts.Console.Commands;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Demo;
 using Mercraft.Core;
 using Mercraft.Explorer;
 using Mercraft.Explorer.Bootstrappers;
-using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.IO;
 using UnityEngine;
@@ -65,7 +62,7 @@ namespace Assets.Scripts.Character
             InitializeConsole(container);
             try
             {
-                var fileSystemService = new FileSystemService(pathResolver);
+                var fileSystemService = new DemoWebFileSystemService(pathResolver);
                 container.RegisterInstance(typeof(IPathResolver), pathResolver);
                 container.RegisterInstance(typeof (IFileSystemService), fileSystemService);
                 container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", fileSystemService));

@@ -30,9 +30,6 @@ namespace Mercraft.Models.Terrain
         private List<int[,]> _detailListBuffer;
 
         [Dependency]
-        private ITrace Trace { get; set; }
-
-        [Dependency]
         public TerrainBuilder(IResourceProvider resourceProvider)
         {
             _resourceProvider = resourceProvider;
@@ -136,8 +133,6 @@ namespace Mercraft.Models.Terrain
             SetTrees(terrain, settings, size);
 
             SetDetails(terrain, settings, detailMapList);
-
-            parent.GetComponent<GameObject>().AddComponent<TerrainBehaviour>().Trace = Trace;
 
             ClearBuffers();
 

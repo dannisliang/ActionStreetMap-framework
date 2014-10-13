@@ -1,6 +1,6 @@
 {
-	"mapdata":"f:/Downloads/",
-	"elevationdata":"f:/___elevation/TestData",
+	"mapdata":"Maps/osm",
+	"elevationdata":"Maps/elevation",
 	"theme":"Config/themes/default/theme.json",
 	"mapcss":"Config/themes/default/default.mapcss",
 	"tile": {

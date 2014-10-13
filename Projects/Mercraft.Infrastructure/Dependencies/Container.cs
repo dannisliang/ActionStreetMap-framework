@@ -37,8 +37,6 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public object Resolve(string name)
         {
-            //var key = _typeMapping.Keys.Single(t => t.Item1 == name);
-            //return ResolveDependencies(ResolveLifetime( _typeMapping[key]).GetInstance(name));
             throw new NotImplementedException();
         }
 
@@ -89,7 +87,6 @@ namespace Mercraft.Infrastructure.Dependencies
 
         public IEnumerable<object> ResolveAll(Type type)
         {
-            var ltms = _typeMapping.Get(type);
             foreach (var keyValue in _typeMapping.GetDict(type))
             {
                 yield return ResolveDependencies(ResolveLifetime(keyValue.Value).GetInstance(keyValue.Key));

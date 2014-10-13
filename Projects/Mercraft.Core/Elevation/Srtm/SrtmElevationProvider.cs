@@ -48,7 +48,7 @@ namespace Mercraft.Core.Elevation.Srtm
 
             string filePath = Path.Combine(_dataDirectory, filename);
 
-            if (!File.Exists(filePath))
+            if (!_fileSystemService.Exists(filePath))
                 throw new Exception("SRTM data cell not found: " + filePath);
 
             var dataCell = new SrtmDataCell(filePath, _fileSystemService);

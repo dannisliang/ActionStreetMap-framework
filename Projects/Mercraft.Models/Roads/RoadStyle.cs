@@ -1,6 +1,4 @@
-﻿using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Geometry;
-using Color32 = Mercraft.Core.Unity.Color32;
+﻿using Color32 = Mercraft.Core.Unity.Color32;
 using Rect = Mercraft.Models.Geometry.Rect;
 
 namespace Mercraft.Models.Roads

@@ -22,13 +22,12 @@ namespace Mercraft.Explorer.Scene
         public abstract string Name { get; }
 
         [Dependency]
-        protected ITrace Trace { get; set; }
+        public ITrace Trace { get; set; }
 
         protected readonly WorldManager WorldManager;
         protected readonly IGameObjectFactory GameObjectFactory;
         protected readonly IObjectPool ObjectPool;
 
-        [Dependency]
         protected ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IObjectPool objectPool)
         {
             WorldManager = worldManager;

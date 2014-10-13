@@ -26,9 +26,6 @@ namespace Mercraft.Core.Elevation.Srtm
 
         public SrtmDataCell(string filepath, IFileSystemService fileSystemService)
         {
-            if (!File.Exists(filepath))
-                throw new FileNotFoundException("File not found.", filepath);
-
             if (string.Compare(".hgt", Path.GetExtension(filepath), StringComparison.CurrentCultureIgnoreCase) != 0)
                 throw new ArgumentException("Invalid extension.", filepath);
 

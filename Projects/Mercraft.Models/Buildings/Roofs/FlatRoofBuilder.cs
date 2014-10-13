@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs

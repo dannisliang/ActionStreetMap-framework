@@ -30,14 +30,19 @@ namespace Mercraft.Infrastructure.IO
             return File.ReadAllBytes(_pathResolver.Resolve(path));
         }
 
+        public bool Exists(string path)
+        {
+            return File.Exists(_pathResolver.Resolve(path));
+        }
+
         public string[] GetFiles(string path, string searchPattern)
         {
-            return Directory.GetFiles(path, searchPattern);
+            return Directory.GetFiles(_pathResolver.Resolve(path), searchPattern);
         }
 
         public string[] GetDirectories(string path, string searchPattern)
         {
-            return Directory.GetDirectories(path, searchPattern);
+            return Directory.GetDirectories(_pathResolver.Resolve(path), searchPattern);
         }
     }
 }

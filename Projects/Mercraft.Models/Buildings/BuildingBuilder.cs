@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World.Buildings;
@@ -7,7 +6,6 @@ using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Utils;
 using UnityEngine;
-using Color32 = UnityEngine.Color32;
 
 namespace Mercraft.Models.Buildings
 {

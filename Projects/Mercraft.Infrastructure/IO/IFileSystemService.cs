@@ -8,6 +8,7 @@ namespace Mercraft.Infrastructure.IO
         string ReadText(string path);
         byte[] ReadBytes(string path);
 
+        bool Exists(string path);
         string[] GetFiles(string path, string searchPattern);
         string[] GetDirectories(string path, string searchPattern);
     }

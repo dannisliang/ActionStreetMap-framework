@@ -1,7 +1,5 @@
-﻿using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Buildings.Facades;
+﻿using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Geometry;
 using Rect = Mercraft.Models.Geometry.Rect;
 using Color32 = Mercraft.Core.Unity.Color32;
 
@@ -34,7 +32,6 @@ namespace Mercraft.Models.Buildings
         {
             public int Height { get; set; }
             public int Width { get; set; }
-
 
             public string Material;
             public Color32 Color;
