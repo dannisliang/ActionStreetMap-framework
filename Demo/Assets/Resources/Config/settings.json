@@ -2,7 +2,7 @@
 	"mapdata":"Maps/osm",
 	"elevationdata":"Maps/elevation",
 	"theme":"Config/themes/default/theme.json",
-	"mapcss":"Config/themes/default/default.mapcss",
+	"mapcss":"Config/themes/default/default_limited.mapcss",
 	"tile": {
 		"size":500,
 		"offset":"50",

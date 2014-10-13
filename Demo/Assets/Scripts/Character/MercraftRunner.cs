@@ -77,8 +77,9 @@ namespace Assets.Scripts.Character
                 container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
                 container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
 
+                container.RegisterInstance(_trace);
 
-                InitializeMessageBusListeners(messageBus, _trace);
+                InitializeMessageBusListeners(messageBus);
 
                 // interception
                 //container.AllowProxy = true;
@@ -107,14 +108,14 @@ namespace Assets.Scripts.Character
             _console = consoleGameObject.AddComponent<DebugConsole>();
             container.RegisterInstance(_console);
             _trace = new DebugConsoleTrace(_console);
-            container.RegisterInstance<ITrace>(_trace);
+
             //_console.CommandManager.Register("scene", new SceneCommand(container));
         }
 
-        private void InitializeMessageBusListeners(IMessageBus messageBus, ITrace trace)
+        private void InitializeMessageBusListeners(IMessageBus messageBus)
         {
             // NOTE not sure that these classes won't be collected during GC
-            new DemoTileListener(messageBus, trace);
+            new DemoTileListener(messageBus, _trace);
         }
 
         #endregion

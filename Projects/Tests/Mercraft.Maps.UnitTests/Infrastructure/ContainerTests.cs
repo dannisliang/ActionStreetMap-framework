@@ -182,5 +182,23 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             Assert.IsNotNull(result.Test);
             Assert.AreSame(property, result.Test);
         }
+
+        [Test]
+        public void CanOverrideRegisterWithRegisterInstance()
+        {
+            // ARRANGE
+            var container = new Container();
+            container.Register(Component.For<IClassA>().Use<ClassA1>().Singleton());
+            IClassA instance = new ClassA2();
+            container.RegisterInstance<IClassA>(instance);
+
+
+            // ACT
+            var result = container.Resolve<IClassA>();
+
+            // ASSERT
+            Assert.IsInstanceOf<ClassA2>(result);
+            Assert.AreEqual(instance, result);
+        }
     }
 }
