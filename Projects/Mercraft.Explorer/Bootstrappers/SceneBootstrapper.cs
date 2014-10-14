@@ -19,7 +19,6 @@ namespace Mercraft.Explorer.Bootstrappers
     public class SceneBootstrapper: BootstrapperPlugin
     {
         private const string ThemeKey = "theme";
-        private const string StylesheetKey = "mapcss";
 
         public override string Name { get { return "scene"; } }
 
@@ -45,7 +44,7 @@ namespace Mercraft.Explorer.Bootstrappers
                 .For<IStylesheetProvider>()
                 .Use<StylesheetProvider>()
                 .Singleton()
-                .SetConfig(GlobalConfigSection.GetSection(StylesheetKey)));
+                .SetConfig(GlobalConfigSection));
 
             // register model builders
             Container.Register(Component.For<IModelBuilder>().Use<BuildingModelBuilder>().Named("building").Singleton());

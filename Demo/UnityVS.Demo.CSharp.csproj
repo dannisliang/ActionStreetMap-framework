@@ -133,7 +133,6 @@
     <Compile Include="Assets\Scripts\TouchKit\TouchKit.cs" />
     <Compile Include="Assets\Scripts\TouchKit\TouchKitEditorSupport.cs" />
     <None Include="Assets\Resources\Config\themes\default\default.mapcss.txt" />
-    <None Include="Assets\Resources\Config\themes\default\default_limited.mapcss.txt" />
     <None Include="Assets\Resources\Maps\osm\berlin\areas.list.txt" />
     <None Include="Assets\Resources\Models\ParticleEffects\Shaders\Add_Layer.shader" />
     <None Include="Assets\Shaders\Diffuse_RoadOffset.shader" />

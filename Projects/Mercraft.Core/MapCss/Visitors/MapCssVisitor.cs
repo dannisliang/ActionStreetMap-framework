@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Antlr.Runtime.Tree;
 using Mercraft.Core.MapCss.Domain;
 
@@ -11,12 +10,12 @@ namespace Mercraft.Core.MapCss.Visitors
     {
         private readonly List<IMapCssVisitor> _visitors;
 
-        public MapCssVisitor()
+        public MapCssVisitor(bool canUseExprTree)
         {
             _visitors = new List<IMapCssVisitor>()
             {
                 new SelectorMapCssVisitor(),
-                new DeclarationMapCssVisitor()
+                new DeclarationMapCssVisitor(canUseExprTree)
             };
         }
 

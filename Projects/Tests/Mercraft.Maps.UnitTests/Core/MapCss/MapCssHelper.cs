@@ -6,19 +6,31 @@ using Mercraft.Core;
 using Mercraft.Core.MapCss;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Infrastructure.Config;
+using Moq;
 
 namespace Mercraft.Maps.UnitTests.Core.MapCss
 {
     public static class MapCssHelper
     {
-        public static Stylesheet GetStylesheet(string content)
+        public static Stylesheet GetStylesheetFromContent(string content, bool canUseExprTree = true)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
             writer.Write(content);
             writer.Flush();
             stream.Position = 0;
-            var provider = new StylesheetProvider(stream);
+            var provider = new StylesheetProvider(stream, canUseExprTree);
+            return provider.Get();
+        }
+
+        public static Stylesheet GetStylesheetFromFile(string file, bool canUseExprTree = true)
+        {
+            var provider = new StylesheetProvider(file, TestHelper.GetFileSystemService());
+            var config = new Mock<IConfigSection>();
+            config.Setup(c => c.GetBool(It.IsAny<string>())).Returns(canUseExprTree);
+            config.Setup(c => c.GetString(It.IsAny<string>())).Returns(file);
+            provider.Configure(config.Object);
             return provider.Get();
         }
 

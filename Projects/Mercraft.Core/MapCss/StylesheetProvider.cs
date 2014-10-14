@@ -19,9 +19,11 @@ namespace Mercraft.Core.MapCss
     public class StylesheetProvider : IStylesheetProvider, IConfigurable
     {
         private readonly IFileSystemService _fileSystemService;
-        private const string PathKey = "";
+        private const string PathKey = "mapcss";
+        private const string SandboxKey = "sandbox";
 
         private string _path;
+        private bool _isSandbox;
         
         private Stylesheet _stylesheet;
 
@@ -39,9 +41,9 @@ namespace Mercraft.Core.MapCss
             _path = path;
         }
 
-        public StylesheetProvider(Stream stream)
+        public StylesheetProvider(Stream stream, bool canUseExprTree)
         {
-            _stylesheet = Create(stream);
+            _stylesheet = Create(stream, canUseExprTree);
         }
 
         #endregion
@@ -57,17 +59,19 @@ namespace Mercraft.Core.MapCss
         public void Configure(IConfigSection configSection)
         {
             _path = configSection.GetString(PathKey);
+            _isSandbox = configSection.GetBool(SandboxKey);
+            _stylesheet = null;
         }
 
         private Stylesheet Create()
         {
             using (Stream inputStream = _fileSystemService.ReadStream(_path))
             {
-                return Create(inputStream);
+                return Create(inputStream, _isSandbox);
             }
         }
 
-        private static Stylesheet Create(Stream stream)
+        private static Stylesheet Create(Stream stream, bool isSandbox)
         {
             var input = new ANTLRInputStream(stream);
             var lexer = new MapCssLexer(input);
@@ -76,8 +80,9 @@ namespace Mercraft.Core.MapCss
 
             var styleSheet = parser.stylesheet();
             var tree = styleSheet.Tree as Antlr.Runtime.Tree.CommonTree;
-
-            var visitor = new MapCssVisitor();
+            // NOTE we cannot use expression trees in sandbox (e.g. web player)
+            bool canUseExprTree = !isSandbox;
+            var visitor = new MapCssVisitor(canUseExprTree);
             return visitor.Visit(tree);
         }
     }

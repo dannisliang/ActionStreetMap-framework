@@ -16,5 +16,12 @@ namespace Mercraft.Core.Utilities
 
             return v.Groups["number"].Value;
         }
+
+        public static float ParseFloat(object obj)
+        {
+            if (obj is float)
+                return (float)obj;
+            return float.Parse(obj as string);
+        }
     }
 }

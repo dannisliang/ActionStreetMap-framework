@@ -7,6 +7,13 @@ namespace Mercraft.Core.MapCss.Visitors
 {
     public class DeclarationMapCssVisitor: MapCssVisitorBase
     {
+        private readonly bool _canUseExprTree;
+
+        public DeclarationMapCssVisitor(bool canUseExprTree)
+        {
+            _canUseExprTree = canUseExprTree;
+        }
+
         public override Declaration VisitDeclaration(CommonTree declarationTree)
         {
             var declaration = new Declaration();
@@ -21,7 +28,9 @@ namespace Mercraft.Core.MapCss.Visitors
             if (declaration.Value == "EVAL_CALL")
             {
                 declaration.IsEval = true;
-                declaration.Evaluator = new EvalTreeWalker(declarationTree.Children[1] as CommonTree);
+                declaration.Evaluator =_canUseExprTree ?
+                     (ITreeWalker) new ExpressionEvalTreeWalker(declarationTree.Children[1] as CommonTree) :
+                     (ITreeWalker) new StringEvalTreeWalker(declarationTree.Children[1] as CommonTree);
             }
 
             if (declaration.Value == "VALUE_RGB")

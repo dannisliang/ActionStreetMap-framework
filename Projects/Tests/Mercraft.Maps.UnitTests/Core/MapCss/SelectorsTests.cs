@@ -14,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseExist()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[landuse] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[landuse] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
@@ -29,7 +29,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseNotExist()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[!landuse] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[!landuse] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
@@ -44,7 +44,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseEqual()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[landuse=forest] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[landuse=forest] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>(){{"landuse", "forest"}});
@@ -59,7 +59,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseNotEqual()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[landuse!=forest] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[landuse!=forest] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() {{ "landuse", "forest" }});
@@ -74,7 +74,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseLess()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[level<0] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[level<0] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "-1"}});
@@ -89,7 +89,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         public void CanUseGreater()
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("area[level>0] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[level>0] { z-index: 0.1}\n");
 
             // ACT
             var area1 = MapCssHelper.GetArea(new Dictionary<string, string>() { {"level", "1"}});

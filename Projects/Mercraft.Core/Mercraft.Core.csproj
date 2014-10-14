@@ -56,6 +56,7 @@
     <Compile Include="ErrorStrings.cs" />
     <Compile Include="GeoCoordinate.cs" />
     <Compile Include="MapCss\Domain\StyleCollection.cs" />
+    <Compile Include="MapCss\Visitors\Eval\StringEvalTreeWalker.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="Scene\IModelVisitor.cs" />
     <Compile Include="Scene\ITileActivator.cs" />
@@ -90,9 +91,8 @@
     <Compile Include="MapCss\Parser\MapCssParser.cs" />
     <Compile Include="MapCss\Visitors\DeclarationMapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\Eval\ColorTreeWalker.cs" />
-    <Compile Include="MapCss\Visitors\Eval\EvalTreeWalker.cs" />
+    <Compile Include="MapCss\Visitors\Eval\ExpressionEvalTreeWalker.cs" />
     <Compile Include="MapCss\Visitors\Eval\ITreeWalker.cs" />
-    <Compile Include="MapCss\Visitors\Eval\OperationStack.cs" />
     <Compile Include="MapCss\Visitors\IMapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitor.cs" />
     <Compile Include="MapCss\Visitors\MapCssVisitorBase.cs" />

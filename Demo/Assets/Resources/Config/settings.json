@@ -2,11 +2,12 @@
 	"mapdata":"Maps/osm",
 	"elevationdata":"Maps/elevation",
 	"theme":"Config/themes/default/theme.json",
-	"mapcss":"Config/themes/default/default_limited.mapcss",
+	"mapcss":"Config/themes/default/default.mapcss",
 	"tile": {
 		"size":500,
 		"offset":"50",
 		"heightmap":513,
 		"position": {"latitude":52.52985, "longitude":13.38825}
-	}
+	},
+	"sandbox": true
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.MapCss;
@@ -15,12 +14,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
     [TestFixture]
     internal class RuleEvalTests
     {
-        [Test]
-        public void CanUseCanvas()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanUseCanvas(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
             var canvas = new Canvas();
 
             // ACT
@@ -31,12 +30,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.AreEqual("Terrain", material);
         }
 
-        [Test]
-        public void CanMergeDeclarations()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanMergeDeclarations(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
 
             var area = new Area
             {
@@ -73,8 +72,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         }
 
 
-        [Test]
-        public void CanProcessSequence()
+        [TestCase(TestHelper.DefaultMapcssFile, true)]
+        [TestCase(TestHelper.DefaultMapcssFile, false)]
+        public void CanProcessSequenceWithApp(string path, bool canUseExprTree)
         {
             // ARRANGE
             var testPoints = new List<GeoCoordinate>()
@@ -108,7 +108,8 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             var container = new Container();
             var componentRoot = TestHelper.GetGameRunner(container);
-            var stylesheet = container.Resolve<IStylesheetProvider>().Get();
+            var provider = container.Resolve<IStylesheetProvider>() as StylesheetProvider;
+            var stylesheet = provider.Get();
 
             // ACT
             var rule1 = stylesheet.GetModelRule(area1);
@@ -119,8 +120,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.AreEqual(12f, rule2.GetHeight());
         }
 
-        [Test]
-        public void CanUseSimpleEvaluate()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanUseSimpleEvaluate(string path, bool canUseExprTree)
         {
             // ARRANGE
             var model = new Area
@@ -132,8 +134,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 }
             };
 
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
             var evalDeclaration = MapCssHelper.GetStyles(stylesheet)[3].Declarations.First();
 
             // ACT
@@ -143,8 +144,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.AreEqual(15, evalResult);
         }
 
-        [Test]
-        public void CanPerformSimpleOperationWithTags()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CanPerformSimpleOperationWithTags(bool canUseExprTree)
         {
             // ARRANGE
             var model = new Area
@@ -157,7 +159,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 }
             };
 
-            var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n", canUseExprTree);
             var rule = stylesheet.GetModelRule(model);
 
             // ACT
@@ -168,7 +170,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         }
 
 
-        [Test]
+       /* [Test]
         public void CanPerformTwoEvalOperationSequence()
         {
             // ARRANGE
@@ -184,7 +186,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 }
             };
 
-            var stylesheet = MapCssHelper.GetStylesheet("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n"+
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[building:height][roof:height] { height: eval(num(tag('building:height')) - num(tag('roof:height')));}\n"+
                                                         "area[building:part][building:height][building:min_height] { height: eval(num(tag('building:height')) - num(tag('building:min_height')));}");
             var rule = stylesheet.GetModelRule(model);
 
@@ -199,14 +201,14 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
 
             // ASSERT
            // Assert.AreEqual(12, evalResult);
-        }
+        }*/
 
-        [Test]
-        public void CanGetMissing()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanGetMissing(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
 
             var area = new Area
             {
@@ -225,11 +227,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.AreEqual(0, rule.GetLevels());
         }
 
-        [Test]
-        public void CanUseAndSelectors()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CanUseAndSelectors(bool canUseExprTree)
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("way[waterway][name],way[waterway] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("way[waterway][name],way[waterway] { z-index: 0.1}\n", canUseExprTree);
 
             // ACT
             var way1 = MapCssHelper.GetWay(
@@ -248,12 +251,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.IsFalse(stylesheet.GetModelRule(way2).IsApplicable);
         }
 
-        [Test]
-        public void CanGetColorByRGB()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanGetColorByRGB(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
 
             var buildingWithColorCode = new Area
             {
@@ -273,12 +276,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
-        [Test]
-        public void CanGetColorByName()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanGetColorByName(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.TestBaseMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromFile(path, canUseExprTree);
 
             var buildingWithColorName = new Area
             {
@@ -298,12 +301,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
-        [Test]
-        public void CanApplyColorByRGB()
+        [TestCase(TestHelper.TestBaseMapcssFile, true)]
+        [TestCase(TestHelper.TestBaseMapcssFile, false)]
+        public void CanApplyColorByRGB(string path, bool canUseExprTree)
         {
             // ARRANGE
-            var provider = new StylesheetProvider(TestHelper.DefaultMapcssFile, TestHelper.GetFileSystemService());
-            var stylesheet = provider.Get();
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("area[building:color] { fill-color:eval(color(tag('building:color')));}", canUseExprTree);
 
             var buildingWithColorCode = new Area
             {
@@ -324,11 +327,12 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
                 GetOriginalColorTypeObject(rule.GetFillUnityColor()));
         }
 
-        [Test]
-        public void CanUseNode()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CanUseNode(bool canUseExprTree)
         {
             // ARRANGE
-            var stylesheet = MapCssHelper.GetStylesheet("node[test] { z-index: 0.1}\n");
+            var stylesheet = MapCssHelper.GetStylesheetFromContent("node[test] { z-index: 0.1}\n", canUseExprTree);
 
             // ACT
             var node = MapCssHelper.GetNode(new Dictionary<string, string>()

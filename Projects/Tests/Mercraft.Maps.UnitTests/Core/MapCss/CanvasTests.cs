@@ -11,8 +11,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
         {
             // ARRANGE
             var stylesheet =
-                MapCssHelper.GetStylesheet(
-                    "canvas { z-index: 0.1; texture: 0, MyTexture0, 10, 10; texture: 1, MyTexture1, 20, 20}\n");
+                MapCssHelper.GetStylesheetFromContent("canvas { z-index: 0.1; texture: 0, MyTexture0, 10, 10; texture: 1, MyTexture1, 20, 20}\n");
             var canvas = MapCssHelper.GetCanvas();
 
             // ACT
