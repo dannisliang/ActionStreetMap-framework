@@ -13,8 +13,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         ///     Returns elements which are located in the corresponding bbox
         /// </summary>
-        /// <param name="bbox"></param>
-        /// <returns></returns>
         IEnumerable<Element> Get(BoundingBox bbox);
 
         /// <summary>

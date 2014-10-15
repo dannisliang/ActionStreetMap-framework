@@ -2,7 +2,7 @@
 
 namespace Mercraft.Core.Elevation
 {
-    public sealed class HeightMap: IDisposable
+    public class HeightMap: IDisposable
     {
         public int Resolution { get; set; }
 
@@ -23,7 +23,7 @@ namespace Mercraft.Core.Elevation
         /// <summary>
         ///     Returns corresponding height for given point
         /// </summary>
-        public float LookupHeight(MapPoint mapPoint)
+        public virtual float LookupHeight(MapPoint mapPoint)
         {
             var i = (int)Math.Round((mapPoint.X - LeftBottomCorner.X) / AxisOffset);
             var j = (int)Math.Round((mapPoint.Y - LeftBottomCorner.Y) / AxisOffset);
@@ -41,7 +41,15 @@ namespace Mercraft.Core.Elevation
 
         public void Dispose()
         {
-            Data = null;
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Data = null;
+            }
         }
     }
 }

@@ -11,6 +11,16 @@ namespace Mercraft.Maps.Osm.Visitors
 {
     public class WayVisitor : ElementVisitor
     {
+        /// <summary>
+        ///     Contains keys of osm tags which are markers of closed polygons ("area")
+        /// </summary>
+        private static readonly HashSet<string> AreaKeys = new HashSet<string>()
+        {
+            "building","building:part","landuse","amenity","harbour","historic","leisure","man_made",
+            "military","natural","office","place","power","public_transport","shop","sport","tourism","waterway",
+            "wetland","water","aeroway","addr:housenumber","addr:housename"
+        };
+
         public WayVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
             : base(modelVisitor, objectPool)
         {
@@ -75,31 +85,7 @@ namespace Mercraft.Maps.Osm.Visitors
 
         private bool IsArea(Dictionary<string, string> tags)
         {
-            return (tags != null) &&
-                   ((tags.ContainsKey("building") && !tags.IsFalse("building")) ||
-                   (tags.ContainsKey("building:part") && !tags.IsFalse("building:part")) ||
-                    (tags.ContainsKey("landuse") && !tags.IsFalse("landuse")) ||
-                    (tags.ContainsKey("amenity") && !tags.IsFalse("amenity")) ||
-                    (tags.ContainsKey("harbour") && !tags.IsFalse("harbour")) ||
-                    (tags.ContainsKey("historic") && !tags.IsFalse("historic")) ||
-                    (tags.ContainsKey("leisure") && !tags.IsFalse("leisure")) ||
-                    (tags.ContainsKey("man_made") && !tags.IsFalse("man_made")) ||
-                    (tags.ContainsKey("military") && !tags.IsFalse("military")) ||
-                    (tags.ContainsKey("natural") && !tags.IsFalse("natural")) ||
-                    (tags.ContainsKey("office") && !tags.IsFalse("office")) ||
-                    (tags.ContainsKey("place") && !tags.IsFalse("place")) ||
-                    (tags.ContainsKey("power") && !tags.IsFalse("power")) ||
-                    (tags.ContainsKey("public_transport") && !tags.IsFalse("public_transport")) ||
-                    (tags.ContainsKey("shop") && !tags.IsFalse("shop")) ||
-                    (tags.ContainsKey("sport") && !tags.IsFalse("sport")) ||
-                    (tags.ContainsKey("tourism") && !tags.IsFalse("tourism")) ||
-                    (tags.ContainsKey("waterway") && !tags.IsFalse("waterway")) ||
-                    (tags.ContainsKey("wetland") && !tags.IsFalse("wetland")) ||
-                    (tags.ContainsKey("water") && !tags.IsFalse("water")) ||
-                    (tags.ContainsKey("aeroway") && !tags.IsFalse("aeroway")) ||
-                    (tags.ContainsKey("addr:housenumber") && !tags.IsFalse("addr:housenumber")) ||
-                    (tags.ContainsKey("addr:housename") && !tags.IsFalse("addr:housename"))
-                    );
+            return tags != null && tags.Any(tag => AreaKeys.Contains(tag.Key) && !tags.IsFalse(tag.Key));
         }
     }
 }
