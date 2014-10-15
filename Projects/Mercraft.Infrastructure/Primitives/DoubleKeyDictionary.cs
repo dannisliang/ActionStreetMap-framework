@@ -129,7 +129,8 @@ namespace Mercraft.Infrastructure.Primitives
         /// </summary>
         public bool Equals(DoubleKeyDictionary<K, T, V> other)
         {
-            throw new NotImplementedException();
+            // NOTE we don't care about this logic so far
+            return false;
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly bool _gzip;
 
-        private const bool DisposeStream = false;
+        private bool _disposeStream = false;
 
         /// <summary>
         /// Creates a new OSM Xml processor source.
@@ -168,7 +168,7 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && DisposeStream)
+            if (disposing && _disposeStream)
             {
                 _stream.Dispose();
             }
