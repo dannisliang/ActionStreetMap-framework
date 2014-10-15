@@ -21,7 +21,7 @@ namespace Mercraft.Core.Utilities
         {
             if (obj is float)
                 return (float)obj;
-            return float.Parse(obj as string);
+            return float.Parse(SanitizeFloat(obj as string));
         }
     }
 }
