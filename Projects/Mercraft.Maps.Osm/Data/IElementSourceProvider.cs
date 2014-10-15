@@ -22,7 +22,7 @@ namespace Mercraft.Maps.Osm.Data
     /// Default implementation of IElementSourceProvider
     /// to return different dataSources by geo coordinates
     /// </summary>
-    public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable
+    public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable, IDisposable
     {
         private IElementSource _dataSource;
         private readonly IFileSystemService _fileSystemService;
@@ -54,6 +54,19 @@ namespace Mercraft.Maps.Osm.Data
                 _dataSource = fileExtension == ".xml"
                     ? (IElementSource) new XmlElementSource(stream)
                     : (IElementSource) new PbfElementSource(stream);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataSource.Dispose();
             }
         }
     }

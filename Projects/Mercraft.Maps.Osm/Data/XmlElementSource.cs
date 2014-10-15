@@ -164,15 +164,14 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Returns the current object.
         /// </summary>
-        /// <returns></returns>
         public Element Current { get { return _next; }}
         
         /// <summary>
         /// Disposes all resources associated with this stream.
         /// </summary>
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (_disposeStream)
+            if (disposing && _disposeStream)
             {
                 _stream.Dispose();
             }

@@ -809,7 +809,7 @@ namespace Mercraft.Infrastructure.Formats.Json
             }
         }
     } // End of JSONClass
- 
+
     public class JSONData : JSONNode
     {
         private string m_Data;
@@ -822,18 +822,22 @@ namespace Mercraft.Infrastructure.Formats.Json
         {
             m_Data = aData;
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public JSONData(float aData)
         {
             AsFloat = aData;
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public JSONData(double aData)
         {
             AsDouble = aData;
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public JSONData(bool aData)
         {
             AsBool = aData;
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public JSONData(int aData)
         {
             AsInt = aData;

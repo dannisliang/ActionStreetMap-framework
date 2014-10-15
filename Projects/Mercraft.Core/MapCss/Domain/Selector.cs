@@ -44,7 +44,7 @@ namespace Mercraft.Core.MapCss.Domain
                 case MapCssStrings.OperationGreater:
                     return model.Tags.IsGreater(Tag, Value);
                 default:
-                    throw new MapCssFormatException(model, String.Format("Unsupported selector operation: {0}", Operation));
+                    throw new MapCssFormatException(null, String.Format("Unsupported selector operation: {0}", Operation));
             }
         }
     }

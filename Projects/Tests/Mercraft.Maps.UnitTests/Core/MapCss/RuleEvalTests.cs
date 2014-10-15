@@ -118,6 +118,7 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             // ASSERT
             Assert.AreEqual(237, rule1.GetHeight());
             Assert.AreEqual(12f, rule2.GetHeight());
+            componentRoot = null;
         }
 
         [TestCase(TestHelper.TestBaseMapcssFile, true)]

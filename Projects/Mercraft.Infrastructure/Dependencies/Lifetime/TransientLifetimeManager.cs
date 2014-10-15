@@ -6,34 +6,30 @@ using Mercraft.Infrastructure.Dependencies.Interception;
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
-    /// Every time build a new instance
+    ///     Every time build a new instance
     /// </summary>
-    public class TransientLifetimeManager: ILifetimeManager
+    public class TransientLifetimeManager : ILifetimeManager
     {
         public Type InterfaceType { get; set; }
         public Type TargetType { get; set; }
         public bool NeedResolveCstorArgs { get; set; }
         public IConfigSection ConfigSection { get; set; }
         public object[] CstorArgs { get; set; }
-        public System.Reflection.ConstructorInfo Constructor { get; set; }
-
-        public TransientLifetimeManager()
-        {
-            
-        }
+        public ConstructorInfo Constructor { get; set; }
 
         private ConstructorInfo _constructor;
+
         private ConstructorInfo ConstructorInstance
         {
             get
             {
-                return _constructor = _constructor ?? (Constructor?? TypeHelper.GetConstructor(TargetType, CstorArgs) ); }
+                return _constructor = _constructor ?? (Constructor ?? TypeHelper.GetConstructor(TargetType, CstorArgs));
+            }
         }
- 
+
         /// <summary>
-        /// returns new instance of the target type
+        ///     Returns new instance of the target type
         /// </summary>
-        /// <returns></returns>
         public object GetInstance()
         {
             var instance = ConstructorInstance.Invoke(CstorArgs);
@@ -50,10 +46,8 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         }
 
         /// <summary>
-        /// returns new instance of the target type. The name parameters isn't used
+        ///     Returns new instance of the target type. The name parameters isn't used
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
         public object GetInstance(string name)
         {
             return GetInstance();
@@ -61,7 +55,11 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
 
         public void Dispose()
         {
-            //nothing to do
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
         }
     }
 }

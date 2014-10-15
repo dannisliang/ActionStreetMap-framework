@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 
 namespace Mercraft.Core.Elevation
 {
-    public class HeightMap: IDisposable
+    public sealed class HeightMap: IDisposable
     {
         public int Resolution { get; set; }
 
@@ -24,7 +23,7 @@ namespace Mercraft.Core.Elevation
         /// <summary>
         ///     Returns corresponding height for given point
         /// </summary>
-        public virtual float LookupHeight(MapPoint mapPoint)
+        public float LookupHeight(MapPoint mapPoint)
         {
             var i = (int)Math.Round((mapPoint.X - LeftBottomCorner.X) / AxisOffset);
             var j = (int)Math.Round((mapPoint.Y - LeftBottomCorner.Y) / AxisOffset);

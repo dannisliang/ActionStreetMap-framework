@@ -127,56 +127,9 @@ namespace Mercraft.Infrastructure.Primitives
         /// <summary>
         ///     Equalses the specified other.
         /// </summary>
-        /// <param name="other">
-        ///     The other.
-        /// </param>
-        /// <returns>
-        ///     The equals.
-        /// </returns>
         public bool Equals(DoubleKeyDictionary<K, T, V> other)
         {
-            if (OuterDictionary.Keys.Count != other.OuterDictionary.Keys.Count)
-            {
-                return false;
-            }
-
-            bool isEqual = true;
-
-            foreach (var innerItems in OuterDictionary)
-            {
-                if (!other.OuterDictionary.ContainsKey(innerItems.Key))
-                {
-                    isEqual = false;
-                }
-
-                if (!isEqual)
-                {
-                    break;
-                }
-
-                // here we can be sure that the key is in both lists,
-                // but we need to check the contents of the inner dictionary
-                Dictionary<T, V> otherInnerDictionary = other.OuterDictionary[innerItems.Key];
-                foreach (var innerValue in innerItems.Value)
-                {
-                    if (!otherInnerDictionary.ContainsValue(innerValue.Value))
-                    {
-                        isEqual = false;
-                    }
-
-                    if (!otherInnerDictionary.ContainsKey(innerValue.Key))
-                    {
-                        isEqual = false;
-                    }
-                }
-
-                if (!isEqual)
-                {
-                    break;
-                }
-            }
-
-            return isEqual;
+            throw new NotImplementedException();
         }
 
         /// <summary>

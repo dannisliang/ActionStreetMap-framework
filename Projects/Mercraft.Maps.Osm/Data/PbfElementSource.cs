@@ -403,5 +403,19 @@ namespace Mercraft.Maps.Osm.Data
                 return null;
             return Elements[id] as T;
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _reader.Dispose();
+                _stream.Dispose();
+            }
+        }
     }
 }

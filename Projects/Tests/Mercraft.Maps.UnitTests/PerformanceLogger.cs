@@ -21,6 +21,7 @@ namespace Mercraft.Maps.UnitTests
         /// <summary>
         ///     Reports the start of the process/time period to measure.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         public void Start()
         {
             GC.Collect();
@@ -31,6 +32,7 @@ namespace Mercraft.Maps.UnitTests
             Console.WriteLine("Started at {0}.", new DateTime(_ticks.Value).ToLongTimeString());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         public void Report(string message)
         {
             Seconds = new TimeSpan(DateTime.Now.Ticks - _ticks.Value).TotalMilliseconds/1000.0;
@@ -44,6 +46,7 @@ namespace Mercraft.Maps.UnitTests
         /// <summary>
         ///     Reports the end of the process/time period to measure.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         public void Stop()
         {
             if (!_ticks.HasValue)

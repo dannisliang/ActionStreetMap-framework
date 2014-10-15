@@ -65,8 +65,8 @@
     <Compile Include="Visitors\WayVisitor.cs" />
     <Compile Include="Visitors\CompositeVisitor.cs" />
     <Compile Include="Visitors\IElementVisitor.cs" />
-    <Compile Include="Formats\Pbf\fileformat.cs" />
-    <Compile Include="Formats\Pbf\osmformat.cs" />
+    <Compile Include="Formats\Pbf\fileformat.generated.cs" />
+    <Compile Include="Formats\Pbf\osmformat.generated.cs" />
     <Compile Include="Formats\Pbf\PbfReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Relation.cs" />

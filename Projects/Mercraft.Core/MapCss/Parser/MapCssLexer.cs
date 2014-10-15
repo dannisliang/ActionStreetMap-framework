@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using Antlr.Runtime;
 using Antlr.Runtime.Misc;
 
+[System.Diagnostics.DebuggerNonUserCodeAttribute]
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.5.0.2")]
 public partial class MapCssLexer : Antlr.Runtime.Lexer
 {

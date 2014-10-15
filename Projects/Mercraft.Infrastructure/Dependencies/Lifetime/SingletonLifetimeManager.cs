@@ -22,17 +22,14 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
         /// <summary>
         ///     Returns singleton instance
         /// </summary>
-        /// <returns></returns>
         public object GetInstance()
         {
             return GetInstance(String.Empty);
         }
 
         /// <summary>
-        ///     returns new instance of the target type. The name parameters isn't used
+        ///     Returns new instance of the target type. The name parameters isn't used
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
         public object GetInstance(string name)
         {
             object target = _proxy ?? _instance;
@@ -41,7 +38,7 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
                 _instance = (Constructor ?? TypeHelper.GetConstructor(TargetType, CstorArgs))
                     .Invoke(CstorArgs);
                 _proxy = InterceptionContext.CreateProxy(InterfaceType, _instance);
-                
+
                 var configurable = _instance as IConfigurable;
                 if (configurable != null && ConfigSection != null)
                 {
@@ -56,9 +53,17 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
 
         public void Dispose()
         {
-            if (_instance is IDisposable)
-                (_instance as IDisposable).Dispose();
-            _instance = null;
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_instance is IDisposable)
+                    (_instance as IDisposable).Dispose();
+                _instance = null;
+            }
         }
     }
 }

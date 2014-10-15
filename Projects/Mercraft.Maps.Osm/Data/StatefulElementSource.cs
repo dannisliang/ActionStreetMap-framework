@@ -437,5 +437,15 @@ namespace Mercraft.Maps.Osm.Data
                 element.Accept(elementVisitor);
             IsInitialized = true;
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+
+        }
     }
 }

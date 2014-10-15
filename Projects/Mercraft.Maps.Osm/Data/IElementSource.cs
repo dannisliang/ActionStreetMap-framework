@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Maps.Osm.Entities;
 
@@ -7,7 +8,7 @@ namespace Mercraft.Maps.Osm.Data
     /// <summary>
     ///     Represents an abstract source of Element objects.
     /// </summary>
-    public interface IElementSource
+    public interface IElementSource : IDisposable
     {
         /// <summary>
         ///     Returns elements which are located in the corresponding bbox

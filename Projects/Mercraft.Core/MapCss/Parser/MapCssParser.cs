@@ -31,6 +31,7 @@ using Antlr.Runtime.Misc;
 using Antlr.Runtime.Tree;
 using RewriteRuleITokenStream = Antlr.Runtime.Tree.RewriteRuleTokenStream;
 
+[System.Diagnostics.DebuggerNonUserCodeAttribute]
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.5.0.2")]
 public partial class MapCssParser : Antlr.Runtime.Parser
 {

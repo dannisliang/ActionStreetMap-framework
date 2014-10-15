@@ -10,7 +10,7 @@ namespace Mercraft.Core
         IObservable<T> AsObservable<T>();
     }
 
-    public class MessageBus: IMessageBus
+    public sealed class MessageBus: IMessageBus, IDisposable
     {
         private readonly Subject<object> _messageSubject = new Subject<object>();
 
@@ -22,6 +22,11 @@ namespace Mercraft.Core
         public IObservable<T> AsObservable<T>()
         {
             return _messageSubject.OfType<T>();
+        }
+
+        public void Dispose()
+        {
+            _messageSubject.Dispose();
         }
     }
 }
