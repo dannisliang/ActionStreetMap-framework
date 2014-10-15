@@ -76,8 +76,6 @@
     <Compile Include="Diagnostic\RecordType.cs" />
     <Compile Include="Formats\Json\SimpleJSON.cs" />
     <Compile Include="Primitives\DoubleKeyDictionary.cs" />
-    <Compile Include="Primitives\Graph.cs" />
-    <Compile Include="Primitives\Range.cs" />
     <Compile Include="Utilities\AlgorithmException.cs" />
     <Compile Include="Utilities\Guard.cs" />
     <Compile Include="Primitives\Tuple.cs" />

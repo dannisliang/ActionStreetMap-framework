@@ -45,6 +45,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -113,7 +114,7 @@ namespace Mercraft.Infrastructure.Formats.Json
             }
             set
             {
-                Value = value.ToString();
+                Value = value.ToString(CultureInfo.InvariantCulture);
             }
         }
         public virtual float AsFloat
@@ -127,7 +128,7 @@ namespace Mercraft.Infrastructure.Formats.Json
             }
             set
             {
-                Value = value.ToString();
+                Value = value.ToString(CultureInfo.InvariantCulture);
             }
         }
         public virtual double AsDouble
@@ -141,7 +142,7 @@ namespace Mercraft.Infrastructure.Formats.Json
             }
             set
             {
-                Value = value.ToString();
+                Value = value.ToString(CultureInfo.InvariantCulture);
             }
         }
         public virtual bool AsBool
@@ -204,7 +205,6 @@ namespace Mercraft.Infrastructure.Formats.Json
         {
             return base.GetHashCode();
         }
- 
  
         #endregion operators
  
@@ -582,66 +582,66 @@ namespace Mercraft.Infrastructure.Formats.Json
  
     public class JSONArray : JSONNode, IEnumerable
     {
-        private List<JSONNode> m_List = new List<JSONNode>();
+        private readonly List<JSONNode> _list = new List<JSONNode>();
         public override JSONNode this[int aIndex]
         {
             get
             {
-                if (aIndex<0 || aIndex >= m_List.Count)
+                if (aIndex<0 || aIndex >= _list.Count)
                     return new JSONLazyCreator(this);
-                return m_List[aIndex];
+                return _list[aIndex];
             }
             set
             {
-                if (aIndex<0 || aIndex >= m_List.Count)
-                    m_List.Add(value);
+                if (aIndex<0 || aIndex >= _list.Count)
+                    _list.Add(value);
                 else
-                    m_List[aIndex] = value;
+                    _list[aIndex] = value;
             }
         }
         public override JSONNode this[string aKey]
         {
             get{ return new JSONLazyCreator(this);}
-            set{ m_List.Add(value); }
+            set{ _list.Add(value); }
         }
         public override int Count
         {
-            get { return m_List.Count; }
+            get { return _list.Count; }
         }
         public override void Add(string aKey, JSONNode aItem)
         {
-            m_List.Add(aItem);
+            _list.Add(aItem);
         }
         public override JSONNode Remove(int aIndex)
         {
-            if (aIndex < 0 || aIndex >= m_List.Count)
+            if (aIndex < 0 || aIndex >= _list.Count)
                 return null;
-            JSONNode tmp = m_List[aIndex];
-            m_List.RemoveAt(aIndex);
+            JSONNode tmp = _list[aIndex];
+            _list.RemoveAt(aIndex);
             return tmp;
         }
         public override JSONNode Remove(JSONNode aNode)
         {
-            m_List.Remove(aNode);
+            _list.Remove(aNode);
             return aNode;
         }
         public override IEnumerable<JSONNode> Childs
         {
             get
             {
-                foreach(JSONNode N in m_List)
+                foreach(JSONNode N in _list)
                     yield return N;
             }
         }
         public IEnumerator GetEnumerator()
         {
-            foreach(JSONNode N in m_List)
+            foreach(JSONNode N in _list)
                 yield return N;
         }
         public override string ToString()
         {
             string result = "[ ";
-            foreach (JSONNode N in m_List)
+            foreach (JSONNode N in _list)
             {
                 if (result.Length > 2)
                     result += ", ";
@@ -653,7 +653,7 @@ namespace Mercraft.Infrastructure.Formats.Json
         public override string ToString(string aPrefix)
         {
             string result = "[ ";
-            foreach (JSONNode N in m_List)
+            foreach (JSONNode N in _list)
             {
                 if (result.Length > 3)
                     result += ", ";
@@ -666,53 +666,53 @@ namespace Mercraft.Infrastructure.Formats.Json
         public override void Serialize (System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONBinaryTag.Array);
-            aWriter.Write(m_List.Count);
-            for(int i = 0; i < m_List.Count; i++)
+            aWriter.Write(_list.Count);
+            for(int i = 0; i < _list.Count; i++)
             {
-                m_List[i].Serialize(aWriter);
+                _list[i].Serialize(aWriter);
             }
         }
     } // End of JSONArray
  
     public class JSONClass : JSONNode, IEnumerable
     {
-        private Dictionary<string,JSONNode> m_Dict = new Dictionary<string,JSONNode>();
+        private readonly Dictionary<string,JSONNode> _dict = new Dictionary<string,JSONNode>();
         public override JSONNode this[string aKey]
         {
             get
             {
-                if (m_Dict.ContainsKey(aKey))
-                    return m_Dict[aKey];
+                if (_dict.ContainsKey(aKey))
+                    return _dict[aKey];
                 else
                     return new JSONLazyCreator(this, aKey);
             }
             set
             {
-                if (m_Dict.ContainsKey(aKey))
-                    m_Dict[aKey] = value;
+                if (_dict.ContainsKey(aKey))
+                    _dict[aKey] = value;
                 else
-                    m_Dict.Add(aKey,value);
+                    _dict.Add(aKey,value);
             }
         }
         public override JSONNode this[int aIndex]
         {
             get
             {
-                if (aIndex < 0 || aIndex >= m_Dict.Count)
+                if (aIndex < 0 || aIndex >= _dict.Count)
                     return null;
-                return m_Dict.ElementAt(aIndex).Value;
+                return _dict.ElementAt(aIndex).Value;
             }
             set
             {
-                if (aIndex < 0 || aIndex >= m_Dict.Count)
+                if (aIndex < 0 || aIndex >= _dict.Count)
                     return;
-                string key = m_Dict.ElementAt(aIndex).Key;
-                m_Dict[key] = value;
+                string key = _dict.ElementAt(aIndex).Key;
+                _dict[key] = value;
             }
         }
         public override int Count
         {
-            get { return m_Dict.Count; }
+            get { return _dict.Count; }
         }
  
  
@@ -720,37 +720,37 @@ namespace Mercraft.Infrastructure.Formats.Json
         {
             if (!string.IsNullOrEmpty(aKey))
             {
-                if (m_Dict.ContainsKey(aKey))
-                    m_Dict[aKey] = aItem;
+                if (_dict.ContainsKey(aKey))
+                    _dict[aKey] = aItem;
                 else
-                    m_Dict.Add(aKey, aItem);
+                    _dict.Add(aKey, aItem);
             }
             else
-                m_Dict.Add(Guid.NewGuid().ToString(), aItem);
+                _dict.Add(Guid.NewGuid().ToString(), aItem);
         }
  
         public override JSONNode Remove(string aKey)
         {
-            if (!m_Dict.ContainsKey(aKey))
+            if (!_dict.ContainsKey(aKey))
                 return null;
-            JSONNode tmp = m_Dict[aKey];
-            m_Dict.Remove(aKey);
+            JSONNode tmp = _dict[aKey];
+            _dict.Remove(aKey);
             return tmp;        
         }
         public override JSONNode Remove(int aIndex)
         {
-            if (aIndex < 0 || aIndex >= m_Dict.Count)
+            if (aIndex < 0 || aIndex >= _dict.Count)
                 return null;
-            var item = m_Dict.ElementAt(aIndex);
-            m_Dict.Remove(item.Key);
+            var item = _dict.ElementAt(aIndex);
+            _dict.Remove(item.Key);
             return item.Value;
         }
         public override JSONNode Remove(JSONNode aNode)
         {
             try
             {
-                var item = m_Dict.Where(k => k.Value == aNode).First();
-                m_Dict.Remove(item.Key);
+                var item = _dict.First(k => k.Value == aNode);
+                _dict.Remove(item.Key);
                 return aNode;
             }
             catch
@@ -763,20 +763,20 @@ namespace Mercraft.Infrastructure.Formats.Json
         {
             get
             {
-                foreach(KeyValuePair<string,JSONNode> N in m_Dict)
+                foreach(KeyValuePair<string,JSONNode> N in _dict)
                     yield return N.Value;
             }
         }
  
         public IEnumerator GetEnumerator()
         {
-            foreach(KeyValuePair<string, JSONNode> N in m_Dict)
+            foreach(KeyValuePair<string, JSONNode> N in _dict)
                 yield return N;
         }
         public override string ToString()
         {
             string result = "{";
-            foreach (KeyValuePair<string, JSONNode> N in m_Dict)
+            foreach (KeyValuePair<string, JSONNode> N in _dict)
             {
                 if (result.Length > 2)
                     result += ", ";
@@ -788,7 +788,7 @@ namespace Mercraft.Infrastructure.Formats.Json
         public override string ToString(string aPrefix)
         {
             string result = "{ ";
-            foreach (KeyValuePair<string, JSONNode> N in m_Dict)
+            foreach (KeyValuePair<string, JSONNode> N in _dict)
             {
                 if (result.Length > 3)
                     result += ", ";
@@ -801,11 +801,11 @@ namespace Mercraft.Infrastructure.Formats.Json
         public override void Serialize (System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONBinaryTag.Class);
-            aWriter.Write(m_Dict.Count);
-            foreach(string K in m_Dict.Keys)
+            aWriter.Write(_dict.Count);
+            foreach(string K in _dict.Keys)
             {
                 aWriter.Write(K);
-                m_Dict[K].Serialize(aWriter);
+                _dict[K].Serialize(aWriter);
             }
         }
     } // End of JSONClass
@@ -891,31 +891,31 @@ namespace Mercraft.Infrastructure.Formats.Json
  
     internal class JSONLazyCreator : JSONNode
     {
-        private JSONNode m_Node = null;
-        private string m_Key = null;
+        private JSONNode _node;
+        private readonly string _key;
  
         public JSONLazyCreator(JSONNode aNode)
         {
-            m_Node = aNode;
-            m_Key  = null;
+            _node = aNode;
+            _key  = null;
         }
         public JSONLazyCreator(JSONNode aNode, string aKey)
         {
-            m_Node = aNode;
-            m_Key = aKey;
+            _node = aNode;
+            _key = aKey;
         }
  
         private void Set(JSONNode aVal)
         {
-            if (m_Key == null)
+            if (_key == null)
             {
-                m_Node.Add(aVal);
+                _node.Add(aVal);
             }
             else
             {
-                m_Node.Add(m_Key, aVal);
+                _node.Add(_key, aVal);
             }
-            m_Node = null; // Be GC friendly.
+            _node = null; // Be GC friendly.
         }
  
         public override JSONNode this[int aIndex]

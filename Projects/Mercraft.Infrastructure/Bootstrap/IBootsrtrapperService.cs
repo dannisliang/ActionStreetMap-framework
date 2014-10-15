@@ -1,28 +1,23 @@
-﻿using System;
-
-namespace Mercraft.Infrastructure.Bootstrap
+﻿namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    /// Provides the functionality to manage startup plugins
+    ///     Provides the functionality to manage startup plugins
     /// </summary>
     public interface IBootstrapperService
     {
         /// <summary>
-        /// Runs startup plugins
+        ///     Runs startup plugins
         /// </summary>
-        /// <returns></returns>
         bool Run();
 
         /// <summary>
-        /// Updates startup plugins
+        ///     Updates startup plugins
         /// </summary>
-        /// <returns></returns>
         bool Update();
 
         /// <summary>
-        /// Unloads plugins
+        ///     Unloads plugins
         /// </summary>
-        /// <returns></returns>
         bool Stop();
     }
 }

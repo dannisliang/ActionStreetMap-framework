@@ -21,9 +21,9 @@ namespace Mercraft.Models.Utils
         private float _ratio;
 
         // reusable buffer for lines
-        private MapPoint[] _mapPointBuffer = new MapPoint[4];
+        private readonly MapPoint[] _mapPointBuffer = new MapPoint[4];
 
-        private List<MapPoint> _polygonMapPointBuffer = new List<MapPoint>(256);
+        private readonly List<MapPoint> _polygonMapPointBuffer = new List<MapPoint>(256);
 
         public void Recycle(HeightMap heightMap)
         {
@@ -84,7 +84,7 @@ namespace Mercraft.Models.Utils
 
         private MapPoint GetHeightMapPoint(float x, float y)
         {
-            return new MapPoint()
+            return new MapPoint
             {
                 X = (int)Math.Ceiling((x - _heightMap.LeftBottomCorner.X) / _ratio),
                 Y = (int)Math.Ceiling(((y - _heightMap.LeftBottomCorner.Y) / _ratio))

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
     /// <summary>
-    /// Holds list of visitors
+    ///     Holds list of visitors
     /// </summary>
-    public class CompositeVisitor: IElementVisitor
+    public class CompositeVisitor : IElementVisitor
     {
         private readonly List<IElementVisitor> _visitors = new List<IElementVisitor>();
 

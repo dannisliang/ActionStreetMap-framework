@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
 using Mercraft.Core.World;
-using Mercraft.Maps.Osm.Extensions;
 
 namespace Mercraft.Maps.Osm.Helpers
 {

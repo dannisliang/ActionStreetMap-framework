@@ -6,7 +6,7 @@ namespace Mercraft.Models.Geometry
 {
     public class SimpleScanLine
     {
-        private static List<int> _scanListBuffer = new List<int>(2);
+        private static readonly List<int> ScanListBuffer = new List<int>(2);
         /// <summary>
         ///     This is optimized version for particular case of algorithm for road segments
         /// </summary>
@@ -68,16 +68,16 @@ namespace Mercraft.Models.Geometry
                     if (x >= size) x = size - 1;
                     if (x < 0) x = 0;
 
-                    _scanListBuffer.Add(x);
+                    ScanListBuffer.Add(x);
                 }
 
-                if (_scanListBuffer.Count > 1)
+                if (ScanListBuffer.Count > 1)
                 {
-                    _scanListBuffer.Sort();
-                    fillAction(z, _scanListBuffer[0], _scanListBuffer[_scanListBuffer.Count - 1]);
+                    ScanListBuffer.Sort();
+                    fillAction(z, ScanListBuffer[0], ScanListBuffer[ScanListBuffer.Count - 1]);
                 }
 
-                _scanListBuffer.Clear();
+                ScanListBuffer.Clear();
             }
         }
     }

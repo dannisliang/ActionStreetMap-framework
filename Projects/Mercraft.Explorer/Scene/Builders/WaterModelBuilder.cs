@@ -58,7 +58,8 @@ namespace Mercraft.Explorer.Scene.Builders
 
         private MapPoint[] GetOffsetPoints(List<MapPoint> verticies)
         {
-            var offset = -2f;
+            // TODO determine value
+            const float offset = -2f;
             var polygon = new Polygon(verticies);
             var result = new MapPoint[verticies.Count];
             for (int i = 0; i < polygon.Segments.Length; i++)

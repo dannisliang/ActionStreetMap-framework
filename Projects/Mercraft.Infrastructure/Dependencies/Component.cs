@@ -102,7 +102,6 @@ namespace Mercraft.Infrastructure.Dependencies
         /// <summary>
         /// Links component to usage of implementation by t
         /// </summary>
-        /// <param name="args">types of constructor args to resolve</param>
         public Component Use(Type t, params  Type[] args)
         {
             Guard.IsAssignableFrom(InterfaceType, t);

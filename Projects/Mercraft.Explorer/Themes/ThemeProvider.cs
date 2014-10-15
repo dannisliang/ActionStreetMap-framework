@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
@@ -98,7 +97,7 @@ namespace Mercraft.Explorer.Themes
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
-                    facadeStyles.Add(new BuildingStyle.FacadeStyle()
+                    facadeStyles.Add(new BuildingStyle.FacadeStyle
                     {
                         Height = textureNode["height"].AsInt,
                         Width = textureNode["width"].AsInt,
@@ -127,7 +126,7 @@ namespace Mercraft.Explorer.Themes
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
-                    roofStyles.Add(new BuildingStyle.RoofStyle()
+                    roofStyles.Add(new BuildingStyle.RoofStyle
                     {
                         Type = textureNode["type"],
                         Height = textureNode["height"].AsInt,
@@ -177,7 +176,7 @@ namespace Mercraft.Explorer.Themes
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
-                    roadStyles.Add(new RoadStyle()
+                    roadStyles.Add(new RoadStyle
                     {
                         Height = textureNode["height"].AsInt,
                         Material = textureNode["material"].Value,
@@ -219,7 +218,7 @@ namespace Mercraft.Explorer.Themes
                 foreach (JSONNode textureNode in node["textures"].AsArray)
                 {
                     var map = textureNode["map"];
-                    infoStyleMap.Add(textureNode["key"].Value, new InfoStyle()
+                    infoStyleMap.Add(textureNode["key"].Value, new InfoStyle
                     {
                         Path = path,
                         UvMap = GetUvMap(map["main"], size),

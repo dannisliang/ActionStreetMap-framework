@@ -19,7 +19,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private OperationStack _opStack;
         private ParameterExpression _param = Expression.Parameter(typeof(Model), "model");
         private CommonTree _tree;
-        private object _compiledLambda = null;
+        private object _compiledLambda;
 
         public ExpressionEvalTreeWalker(CommonTree tree)
         {
@@ -39,7 +39,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
             var expression = _opStack.Pop();
 
             Expression<Func<Model, T>> lambda = Expression.Lambda<Func<Model, T>>(
-                    expression, new ParameterExpression[] { _param });
+                    expression, new[] { _param });
 
             var compiledLambda = lambda.Compile();
             
@@ -177,7 +177,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                 return _expressions.Pop();
             }
 
-            public int Count()
+            private int Count()
             {
                 return _expressions.Count;
             }

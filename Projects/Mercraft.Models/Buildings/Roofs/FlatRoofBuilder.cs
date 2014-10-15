@@ -18,7 +18,7 @@ namespace Mercraft.Models.Buildings.Roofs
 
         public MeshData Build(Building building, BuildingStyle style)
         {
-            return new MeshData()
+            return new MeshData
             {
                 Vertices = GetVerticies3D(building.Footprint, building.Elevation + building.MinHeight, building.Height),
                 Triangles = Triangulator.Triangulate(building.Footprint),

@@ -24,7 +24,7 @@ namespace Mercraft.Explorer.Themes
             _buildingStyleProvider = buildingStyleProvider;
             _roadStyleProvider = roadStyleProvider;
             _infoStyleProvider = infoStyleProvider;
-            _providers = new Dictionary<Type, object>()
+            _providers = new Dictionary<Type, object>
             {
                 {typeof (IBuildingStyleProvider), _buildingStyleProvider},
                 {typeof (IRoadStyleProvider), _roadStyleProvider},

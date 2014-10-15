@@ -18,8 +18,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
     /// </summary>
     public class TestBootstrapperPlugin: BootstrapperPlugin
     {
-        private TestModelBehaviour _solidModelBehaviour = new TestModelBehaviour("solid");
-        private TestModelBehaviour _waterModelBehaviour = new TestModelBehaviour("water");
+        private readonly TestModelBehaviour _solidModelBehaviour = new TestModelBehaviour("solid");
+        private readonly TestModelBehaviour _waterModelBehaviour = new TestModelBehaviour("water");
 
         public override string Name
         {

@@ -37,7 +37,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         /// </summary>
         public PbfReader()
         {
-            _runtimeTypeModel = RuntimeTypeModel.Create();
+            _runtimeTypeModel = TypeModel.Create();
             _runtimeTypeModel.Add(_blockHeaderType, true);
             _runtimeTypeModel.Add(_blobType, true);
             _runtimeTypeModel.Add(_primitiveBlockType, true);

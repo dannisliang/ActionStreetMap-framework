@@ -19,7 +19,7 @@ namespace Mercraft.Core.MapCss.Visitors
             var declaration = new Declaration();
             if (declarationTree == null)
             {
-                throw new MapCssFormatException(declarationTree, "Declaration tree not valid!");
+                throw new MapCssFormatException("Declaration tree not valid!");
             }
 
             declaration.Qualifier = String.Intern(declarationTree.Children[0].Text);
@@ -29,7 +29,7 @@ namespace Mercraft.Core.MapCss.Visitors
             {
                 declaration.IsEval = true;
                 declaration.Evaluator =_canUseExprTree ?
-                     (ITreeWalker) new ExpressionEvalTreeWalker(declarationTree.Children[1] as CommonTree) :
+                     new ExpressionEvalTreeWalker(declarationTree.Children[1] as CommonTree) :
                      (ITreeWalker) new StringEvalTreeWalker(declarationTree.Children[1] as CommonTree);
             }
 

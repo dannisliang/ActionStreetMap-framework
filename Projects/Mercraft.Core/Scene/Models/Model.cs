@@ -17,7 +17,7 @@ namespace Mercraft.Core.Scene.Models
         public override string ToString()
         {
             string tags = "{no tags}";
-            if (this.Tags != null && this.Tags.Count > 0)
+            if (Tags != null && Tags.Count > 0)
             {
                 tags = "tags:{";
                 foreach (var tag in Tags)

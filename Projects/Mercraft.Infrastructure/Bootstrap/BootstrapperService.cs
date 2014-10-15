@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    /// Provides default functionality to execute startup plugins
+    ///     Provides default functionality to execute startup plugins
     /// </summary>
-    public class BootstrapperService: IBootstrapperService
+    public class BootstrapperService : IBootstrapperService
     {
         private readonly IEnumerable<IBootstrapperPlugin> _plugins;
 
@@ -16,7 +15,9 @@ namespace Mercraft.Infrastructure.Bootstrap
         public IContainer Container { get; set; }
 
         [Dependency]
-        public BootstrapperService() { }
+        public BootstrapperService()
+        {
+        }
 
         public BootstrapperService(Container container, IEnumerable<IBootstrapperPlugin> plugins)
         {
@@ -27,9 +28,8 @@ namespace Mercraft.Infrastructure.Bootstrap
         #region IBootstrapperService members
 
         /// <summary>
-        /// Run all registred bootstrappers
+        ///     Run all registred bootstrappers
         /// </summary>
-        /// <returns></returns>
         public bool Run()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();
@@ -38,9 +38,8 @@ namespace Mercraft.Infrastructure.Bootstrap
         }
 
         /// <summary>
-        /// Updates all registred bootstrappers
+        ///     Updates all registred bootstrappers
         /// </summary>
-        /// <returns></returns>
         public bool Update()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();
@@ -49,9 +48,8 @@ namespace Mercraft.Infrastructure.Bootstrap
         }
 
         /// <summary>
-        /// Updates all registred bootstrappers
+        ///     Updates all registred bootstrappers
         /// </summary>
-        /// <returns></returns>
         public bool Stop()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();

@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace Mercraft.Core.Scene.Models
 {
     public class Node: Model

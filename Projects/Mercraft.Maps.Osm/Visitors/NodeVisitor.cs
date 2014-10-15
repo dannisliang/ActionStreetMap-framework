@@ -15,7 +15,7 @@ namespace Mercraft.Maps.Osm.Visitors
         {
             if (node.Tags != null)
             {
-                ModelVisitor.VisitNode(new Core.Scene.Models.Node()
+                ModelVisitor.VisitNode(new Core.Scene.Models.Node
                 {
                     Id = node.Id,
                     Point = node.Coordinate,

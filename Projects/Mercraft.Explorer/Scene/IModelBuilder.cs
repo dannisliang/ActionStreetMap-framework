@@ -1,5 +1,4 @@
-﻿using System;
-using Mercraft.Core.MapCss.Domain;
+﻿using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;

@@ -22,11 +22,11 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private Stream _stream;
 
-        private HashSet<long> _nodeIds = new HashSet<long>();
-        private HashSet<long> _wayIds = new HashSet<long>();
-        private HashSet<long> _relationIds = new HashSet<long>();
+        private readonly HashSet<long> _nodeIds = new HashSet<long>();
+        private readonly HashSet<long> _wayIds = new HashSet<long>();
+        private readonly HashSet<long> _relationIds = new HashSet<long>();
 
-        private HashSet<long> _unresolvedNodes = new HashSet<long>();
+        private readonly HashSet<long> _unresolvedNodes = new HashSet<long>();
 
         protected Dictionary<long, Element> Elements;
 

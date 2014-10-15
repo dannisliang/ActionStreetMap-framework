@@ -11,14 +11,14 @@ namespace Mercraft.Core.MapCss.Domain
     {
         private readonly RuleObjectPool _ruleObjectPool = new RuleObjectPool();
 
-        private List<Style> _canvasStyles = new List<Style>(1);
-        private List<Style> _areaStyles = new List<Style>(16);
-        private List<Style> _wayStyles = new List<Style>(16);
-        private List<Style> _nodeStyles = new List<Style>(64);
+        private readonly List<Style> _canvasStyles = new List<Style>(1);
+        private readonly List<Style> _areaStyles = new List<Style>(16);
+        private readonly List<Style> _wayStyles = new List<Style>(16);
+        private readonly List<Style> _nodeStyles = new List<Style>(64);
 
-        private List<Style>  _combinedStyles = new List<Style>(16);
+        private readonly List<Style>  _combinedStyles = new List<Style>(16);
 
-        private int _count = 0;
+        private int _count;
 
         public int Count
         {
@@ -116,7 +116,7 @@ namespace Mercraft.Core.MapCss.Domain
                 else
                 {
                     // Should copy Declaration
-                    rule.Declarations.Add(key, new Declaration()
+                    rule.Declarations.Add(key, new Declaration
                     {
                         Qualifier = styleDeclaration.Qualifier,
                         Value = styleDeclaration.Value,

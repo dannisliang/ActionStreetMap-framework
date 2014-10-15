@@ -9,7 +9,7 @@ namespace Mercraft.Models.Terrain
     /// </summary>
     public class TerrainScanLine
     {
-        static readonly List<int> _pointsBuffer = new List<int>(8);
+        private static readonly List<int> PointsBuffer = new List<int>(8);
         public static void ScanAndFill(Polygon polygon, int size, Action<int, int, int> fillAction)
         {
             for (int z = 0; z < size; z++)
@@ -47,42 +47,42 @@ namespace Mercraft.Models.Terrain
                     if (x >= size) x = size - 1;
                     if (x < 0) x = 0;
 
-                    _pointsBuffer.Add(x);
+                    PointsBuffer.Add(x);
                 }
 
-                if (_pointsBuffer.Count > 1)
+                if (PointsBuffer.Count > 1)
                 {
                     // TODO use optimized data structure
-                    _pointsBuffer.Sort();
+                    PointsBuffer.Sort();
                     //_pointsBuffer = _pointsBuffer.Distinct().ToList();
 
                     // merge connected ranges
-                    for (int i = _pointsBuffer.Count - 1; i > 0; i--)
+                    for (int i = PointsBuffer.Count - 1; i > 0; i--)
                     {
-                        if (i != 0 && _pointsBuffer[i] == _pointsBuffer[i - 1])
+                        if (i != 0 && PointsBuffer[i] == PointsBuffer[i - 1])
                         {
-                            _pointsBuffer.RemoveAt(i);
-                            if (_pointsBuffer.Count % 2 != 0)
-                                _pointsBuffer.RemoveAt(--i);
+                            PointsBuffer.RemoveAt(i);
+                            if (PointsBuffer.Count % 2 != 0)
+                                PointsBuffer.RemoveAt(--i);
                         }
                     }
                 }
 
                 // ignore single point
-                if (_pointsBuffer.Count == 1)
+                if (PointsBuffer.Count == 1)
                     continue;
 
 
-                if (_pointsBuffer.Count % 2 != 0)
+                if (PointsBuffer.Count % 2 != 0)
                 {
                     throw new InvalidOperationException(
                         "Bug in algorithm! We're expecting to have even number of intersection _pointsBuffer: (_pointsBuffer.Count % 2 != 0)");
                 }
 
-                for (int i = 0; i < _pointsBuffer.Count; i += 2)
-                    fillAction(z, _pointsBuffer[i], _pointsBuffer[i + 1]);
+                for (int i = 0; i < PointsBuffer.Count; i += 2)
+                    fillAction(z, PointsBuffer[i], PointsBuffer[i + 1]);
 
-                _pointsBuffer.Clear();
+                PointsBuffer.Clear();
             }
         }
     }

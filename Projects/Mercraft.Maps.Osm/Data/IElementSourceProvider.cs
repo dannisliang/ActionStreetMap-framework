@@ -52,7 +52,7 @@ namespace Mercraft.Maps.Osm.Data
                 // TODO dispose opened stream
                 Stream stream = _fileSystemService.ReadStream(filePath);
                 _dataSource = fileExtension == ".xml"
-                    ? (IElementSource) new XmlElementSource(stream)
+                    ? new XmlElementSource(stream)
                     : (IElementSource) new PbfElementSource(stream);
             }
         }

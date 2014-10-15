@@ -15,7 +15,7 @@ namespace Mercraft.Explorer.Themes
         private readonly Dictionary<string, List<BuildingStyle.FacadeStyle>> _facadeStyleMapping;
         private readonly Dictionary<string, List<BuildingStyle.RoofStyle>> _roofStyleMapping;
 
-        private List<int> _matchedIndicies = new List<int>(16);
+        private readonly List<int> _matchedIndicies = new List<int>(16);
 
         public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
             Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
@@ -39,7 +39,7 @@ namespace Mercraft.Explorer.Themes
             var roofStyle = _roofStyleMapping[building.Type];
 
             if (facadeStyle.Count == 1 && roofStyle.Count == 1)
-                return new BuildingStyle()
+                return new BuildingStyle
                 {
                     Facade = facadeStyle.First(),
                     Roof = roofStyle.First()
@@ -85,7 +85,7 @@ namespace Mercraft.Explorer.Themes
 
             var facadeIndex = _matchedIndicies[RandomHelper.GetIndex(building.Id, _matchedIndicies.Count)];
 
-            return new BuildingStyle()
+            return new BuildingStyle
             {
                 Facade = facadeStyles[facadeIndex],
                 Roof = roofStyles[roofIndex]

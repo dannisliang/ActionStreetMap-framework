@@ -30,7 +30,6 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         /// </summary>
         /// <param name="methodBase"></param>
         /// <param name="args"></param>
-        /// <returns></returns>
         protected MethodInvocation BuildMethodInvocation(MethodBase methodBase, params object[] args)
         {
             MethodInvocation methodInvocation = new MethodInvocation() { MethodBase = methodBase, Target = Instance };

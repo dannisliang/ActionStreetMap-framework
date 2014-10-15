@@ -14,11 +14,31 @@ namespace Mercraft.Maps.Osm.Visitors
         /// <summary>
         ///     Contains keys of osm tags which are markers of closed polygons ("area")
         /// </summary>
-        private static readonly HashSet<string> AreaKeys = new HashSet<string>()
+        private static readonly HashSet<string> AreaKeys = new HashSet<string>
         {
-            "building","building:part","landuse","amenity","harbour","historic","leisure","man_made",
-            "military","natural","office","place","power","public_transport","shop","sport","tourism","waterway",
-            "wetland","water","aeroway","addr:housenumber","addr:housename"
+            "building",
+            "building:part",
+            "landuse",
+            "amenity",
+            "harbour",
+            "historic",
+            "leisure",
+            "man_made",
+            "military",
+            "natural",
+            "office",
+            "place",
+            "power",
+            "public_transport",
+            "shop",
+            "sport",
+            "tourism",
+            "waterway",
+            "wetland",
+            "water",
+            "aeroway",
+            "addr:housenumber",
+            "addr:housename"
         };
 
         public WayVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
@@ -57,14 +77,14 @@ namespace Mercraft.Maps.Osm.Visitors
         }
 
         /// <summary>
-        /// Returns merged tags. We cannot do this in place as Way can be reused
-        /// in case of cross tile processing logic is applied
+        ///     Returns merged tags. We cannot do this in place as Way can be reused
+        ///     in case of cross tile processing logic is applied
         /// </summary>
-        private Dictionary<string,string> GetMergedTags(Way way)
+        private Dictionary<string, string> GetMergedTags(Way way)
         {
-            var tags = way.Tags == null ? 
-                new Dictionary<string, string>() : 
-                new Dictionary<string, string>(way.Tags);
+            var tags = way.Tags == null
+                ? new Dictionary<string, string>()
+                : new Dictionary<string, string>(way.Tags);
             foreach (var node in way.Nodes)
             {
                 if (node.Tags == null)

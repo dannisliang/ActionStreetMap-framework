@@ -15,16 +15,16 @@ namespace Mercraft.Maps.Osm
         private IElementSource _currentElementSource;
         private BoundingBox _currentBoundingBox;
 
-        private Dictionary<long, Node> _unresolvedNodes = new Dictionary<long, Node>();
+        private readonly Dictionary<long, Node> _unresolvedNodes = new Dictionary<long, Node>();
 
         /// <summary>
         /// Stores ways which crosses border between tiles
         /// Key: way id
         /// Value: Tuple of way instance and boolean flag which true if we added way in current request
         /// </summary>
-        private Dictionary<long, Tuple<Way, bool>> _crossTileWays = new Dictionary<long, Tuple<Way, bool>>();
+        private readonly Dictionary<long, Tuple<Way, bool>> _crossTileWays = new Dictionary<long, Tuple<Way, bool>>();
 
-        private List<long> _keysToDelete = new List<long>(64);
+        private readonly List<long> _keysToDelete = new List<long>(64);
 
         /// <summary>
         /// Visits all elements in datasource which are located in bbox

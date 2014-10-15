@@ -22,7 +22,7 @@ namespace Mercraft.Explorer.Helpers
         public static Color32 GetFillUnityColor(this Rule rule)
         {
             var coreColor = rule.Evaluate<Core.Unity.Color32>("fill-color", ColorUtility.FromUnknown);
-            return new Color32(coreColor.r, coreColor.g, coreColor.b, coreColor.a);
+            return new Color32(coreColor.R, coreColor.G, coreColor.B, coreColor.A);
         }
 
         public static Core.Unity.Color32 GetFillColor(this Rule rule)

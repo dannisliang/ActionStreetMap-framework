@@ -6,7 +6,7 @@ namespace Mercraft.Maps.UnitTests.Osm.Stubs
 {
     public class CountableElementVisitor: IElementVisitor
     {
-        private List<Element> _elements = new List<Element>();
+        private readonly List<Element> _elements = new List<Element>();
 
         public void VisitNode(Node node)
         {

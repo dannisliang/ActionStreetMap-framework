@@ -50,7 +50,7 @@ namespace Mercraft.Explorer.Scene.Builders
             float zIndex, string detail)
         {
             var prefab = _resourceProvider.GetGameObject(detail);
-            var gameObject = (GameObject)GameObject.Instantiate(prefab);
+            var gameObject = (GameObject)Object.Instantiate(prefab);
             if (rule.IsRoadFix())
             {
                 gameObject.AddComponent<RoadFixBehavior>().RotationOffset = rule.GetDetailRotation();

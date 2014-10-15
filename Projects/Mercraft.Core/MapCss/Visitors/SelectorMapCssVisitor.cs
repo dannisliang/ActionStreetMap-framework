@@ -8,7 +8,7 @@ namespace Mercraft.Core.MapCss.Visitors
     {
         public override Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
-            Selector selector = null;
+            Selector selector;
             switch (selectorType)
             {
                 case "node":

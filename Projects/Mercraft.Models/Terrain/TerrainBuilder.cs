@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -261,7 +260,7 @@ namespace Mercraft.Models.Terrain
         private TerrainElement[] CreateElements(TerrainSettings settings,
             IEnumerable<AreaSettings> areas, float widthRatio, float heightRatio, Func<TerrainElement, float> orderBy)
         {
-            return areas.Select(a => new TerrainElement()
+            return areas.Select(a => new TerrainElement
             {
                 ZIndex = a.ZIndex,
                 SplatIndex = a.SplatIndex,

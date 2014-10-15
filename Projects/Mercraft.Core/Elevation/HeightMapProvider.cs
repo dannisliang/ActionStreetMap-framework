@@ -70,7 +70,7 @@ namespace Mercraft.Core.Elevation
             if (DoSmooth)
                 _map = GenerateSmoothNoise(_map, 8);
 
-            return new HeightMap()
+            return new HeightMap
             {
                 LeftBottomCorner = tile.BottomLeft,
                 RightUpperCorner = tile.TopRight,

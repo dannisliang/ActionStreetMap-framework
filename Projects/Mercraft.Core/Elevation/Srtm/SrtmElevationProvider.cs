@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.IO;
@@ -12,10 +11,10 @@ namespace Mercraft.Core.Elevation.Srtm
 	{
         private const string PathKey = "";
 
+        private readonly List<SrtmDataCell> _dataCells;
         private readonly IFileSystemService _fileSystemService;
 
         private string _dataDirectory;
-	    private List<SrtmDataCell> _dataCells;
 
         [Dependency]
         public SrtmElevationProvider(IFileSystemService fileSystemService)

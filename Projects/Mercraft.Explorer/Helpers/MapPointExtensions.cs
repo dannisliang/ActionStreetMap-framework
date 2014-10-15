@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers

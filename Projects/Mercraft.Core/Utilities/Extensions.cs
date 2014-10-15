@@ -56,7 +56,7 @@ namespace Mercraft.Core.Utilities
                 return false;
 
             float target = float.Parse(value);
-            float fValue = 0;
+            float fValue;
             return float.TryParse(actualValue, out fValue) && (isGreater ? fValue > target : fValue < target);
         }
     }

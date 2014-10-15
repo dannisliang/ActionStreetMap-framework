@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mercraft.Core.MapCss.Domain;
+﻿using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene;
 using Mercraft.Explorer.Scene;
 
 namespace Mercraft.Explorer.Helpers
 {
     /// <summary>
-    /// Provides methods for basic mapcss properties receiving
+    ///     Provides methods for basic mapcss properties receiving
     /// </summary>
     public static class CommonRuleExtensions
     {
@@ -18,7 +16,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static float GetHeight(this Rule rule, float defaultValue = 0)
         {
-            return rule.EvaluateDefault<float>("height", defaultValue);
+            return rule.EvaluateDefault("height", defaultValue);
         }
 
         /*public static IEnumerable<IModelBuilder> GetModelBuilders(this Rule rule, IEnumerable<IModelBuilder> builders)
@@ -35,7 +33,7 @@ namespace Mercraft.Explorer.Helpers
             if (builderName == null)
                 return null;
             // NOTE use for to avoid allocations
-            for (int i = 0; i< builders.Length; i++)
+            for (int i = 0; i < builders.Length; i++)
                 if (builders[i].Name == builderName)
                     return builders[i];
             return null;
@@ -54,15 +52,15 @@ namespace Mercraft.Explorer.Helpers
         }
 
         /// <summary>
-        /// Z-index is just the lowest y coordinate
+        ///     Z-index is just the lowest y coordinate
         /// </summary>
         public static float GetZIndex(this Rule rule)
         {
-            return rule.Evaluate<float>("z-index");      
+            return rule.Evaluate<float>("z-index");
         }
 
         /// <summary>
-        /// Gets width
+        ///     Gets width
         /// </summary>
         public static float GetWidth(this Rule rule)
         {

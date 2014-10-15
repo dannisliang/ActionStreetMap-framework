@@ -4,15 +4,15 @@ namespace Mercraft.Core.Algorithms
 {
     public class Triangulator
     {
-        private static List<int> _indices = new List<int>(256);
+        private static readonly List<int> Indices = new List<int>(256);
         public static int[] Triangulate(List<MapPoint> points, bool reverse = true)
         {
             //var indices = new List<int>((points.Count -2) * 3);
-            _indices.Clear();
+            Indices.Clear();
 
             int n = points.Count;
             if (n < 3)
-                return _indices.ToArray();
+                return Indices.ToArray();
 
             int[] V = new int[n];
             if (Area(points) > 0)
@@ -28,10 +28,10 @@ namespace Mercraft.Core.Algorithms
 
             int nv = n;
             int count = 2 * nv;
-            for (int m = 0, v = nv - 1; nv > 2; )
+            for (int v = nv - 1; nv > 2; )
             {
                 if ((count--) <= 0)
-                    return _indices.ToArray();
+                    return Indices.ToArray();
 
                 int u = v;
                 if (nv <= u)
@@ -45,14 +45,14 @@ namespace Mercraft.Core.Algorithms
 
                 if (Snip(u, v, w, nv, V, points))
                 {
-                    int a, b, c, s, t;
-                    a = V[u];
-                    b = V[v];
-                    c = V[w];
-                    _indices.Add(a);
-                    _indices.Add(b);
-                    _indices.Add(c);
-                    m++;
+                    int s, t;
+                    int a = V[u];
+                    int b = V[v];
+                    int c = V[w];
+                    Indices.Add(a);
+                    Indices.Add(b);
+                    Indices.Add(c);
+
                     for (s = v, t = v + 1; t < nv; s++, t++)
                         V[s] = V[t];
                     nv--;
@@ -61,9 +61,9 @@ namespace Mercraft.Core.Algorithms
             }
 
             if(reverse)
-                _indices.Reverse();
+                Indices.Reverse();
 
-            return _indices.ToArray();
+            return Indices.ToArray();
         }
 
         private static float Area(List<MapPoint> points)
@@ -100,25 +100,22 @@ namespace Mercraft.Core.Algorithms
 
         private static bool InsideTriangle(MapPoint a, MapPoint b, MapPoint c, MapPoint p)
         {
-            float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
-            float cCROSSap, bCROSScp, aCROSSbp;
+            float ax = c.X - b.X;
+            float ay = c.Y - b.Y;
+            float bx = a.X - c.X;
+            float @by = a.Y - c.Y;
+            float cx = b.X - a.X;
+            float cy = b.Y - a.Y;
+            float apx = p.X - a.X;
+            float apy = p.Y - a.Y;
+            float bpx = p.X - b.X;
+            float bpy = p.Y - b.Y;
+            float cpx = p.X - c.X;
+            float cpy = p.Y - c.Y;
 
-            ax = c.X - b.X;
-            ay = c.Y - b.Y;
-            bx = a.X - c.X;
-            by = a.Y - c.Y;
-            cx = b.X - a.X;
-            cy = b.Y - a.Y;
-            apx = p.X - a.X;
-            apy = p.Y - a.Y;
-            bpx = p.X - b.X;
-            bpy = p.Y - b.Y;
-            cpx = p.X - c.X;
-            cpy = p.Y - c.Y;
-
-            aCROSSbp = ax * bpy - ay * bpx;
-            cCROSSap = cx * apy - cy * apx;
-            bCROSScp = bx * cpy - by * cpx;
+            float aCROSSbp = ax * bpy - ay * bpx;
+            float cCROSSap = cx * apy - cy * apx;
+            float bCROSScp = bx * cpy - @by * cpx;
 
             return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
         }

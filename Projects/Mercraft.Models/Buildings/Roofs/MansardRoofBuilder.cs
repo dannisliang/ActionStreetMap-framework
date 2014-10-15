@@ -39,7 +39,7 @@ namespace Mercraft.Models.Buildings.Roofs
 
             var verticies3D = GetVerticies3D(polygon, building.Height, offset, building.Elevation, roofHeight);
 
-            return new MeshData()
+            return new MeshData
             {
                 Vertices = verticies3D,
                 Triangles = GetTriangles(building.Footprint),

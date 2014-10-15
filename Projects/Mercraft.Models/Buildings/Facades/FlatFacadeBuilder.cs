@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Facades
@@ -16,7 +14,7 @@ namespace Mercraft.Models.Buildings.Facades
         {
             var vertices2D = building.Footprint;
 
-            var meshData = new MeshData()
+            var meshData = new MeshData
             {
                 Vertices = GetVerticies3D(vertices2D, building.Elevation + building.MinHeight, building.Height),
                 Triangles = GetTriangles3D(vertices2D),

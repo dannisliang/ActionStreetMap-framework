@@ -9,9 +9,9 @@ namespace Mercraft.Models.Geometry
     /// </summary>
     public sealed class ScanLine
     {
-        private static List<Edge> _edgeBuffer = new List<Edge>(16);
+        private static readonly List<Edge> EdgeBuffer = new List<Edge>(16);
         // Holds all cutpoints from current scanline with the polygon
-        private static List<int> _list = new List<int>(32);
+        private static readonly List<int> List = new List<int>(32);
         
         public static void FillPolygon(List<MapPoint> points, Action<int, int, int> fillAction)
         {
@@ -22,88 +22,88 @@ namespace Mercraft.Models.Geometry
             // sort all edges by Y coordinate, smallest one first, lousy bubblesort
             Edge tmp;
 
-            for (int i = 0; i < _edgeBuffer.Count - 1; i++)
-                for (int j = 0; j < _edgeBuffer.Count - 1; j++)
+            for (int i = 0; i < EdgeBuffer.Count - 1; i++)
+                for (int j = 0; j < EdgeBuffer.Count - 1; j++)
                 {
-                    if (_edgeBuffer[j].StartY > _edgeBuffer[j + 1].StartY)
+                    if (EdgeBuffer[j].StartY > EdgeBuffer[j + 1].StartY)
                     {
                         // swap both edges
-                        tmp = _edgeBuffer[j];
-                        _edgeBuffer[j] = _edgeBuffer[j + 1];
-                        _edgeBuffer[j + 1] = tmp;
+                        tmp = EdgeBuffer[j];
+                        EdgeBuffer[j] = EdgeBuffer[j + 1];
+                        EdgeBuffer[j + 1] = tmp;
                     }
                 }
 
             // find biggest Y-coord of all vertices
             int scanlineEnd = 0;
-            for (int i = 0; i < _edgeBuffer.Count; i++)
+            for (int i = 0; i < EdgeBuffer.Count; i++)
             {
-                if (scanlineEnd < _edgeBuffer[i].EndY)
-                    scanlineEnd = _edgeBuffer[i].EndY;
+                if (scanlineEnd < EdgeBuffer[i].EndY)
+                    scanlineEnd = EdgeBuffer[i].EndY;
             }          
 
             // scanline starts at smallest Y coordinate
             // move scanline step by step down to biggest one
-            for (int scanline = _edgeBuffer[0].StartY; scanline <= scanlineEnd; scanline++)
+            for (int scanline = EdgeBuffer[0].StartY; scanline <= scanlineEnd; scanline++)
             {
-                _list.Clear();
+                List.Clear();
 
                 // loop all edges to see which are cut by the scanline
-                for (int i = 0; i < _edgeBuffer.Count; i++)
+                for (int i = 0; i < EdgeBuffer.Count; i++)
                 {
                     // here the scanline intersects the smaller vertice
-                    if (scanline == _edgeBuffer[i].StartY)
+                    if (scanline == EdgeBuffer[i].StartY)
                     {
-                        if (scanline == _edgeBuffer[i].EndY)
+                        if (scanline == EdgeBuffer[i].EndY)
                         {
                             // the current edge is horizontal, so we add both vertices
-                            _edgeBuffer[i].Deactivate();
-                            _list.Add((int)_edgeBuffer[i].CurrentX);
+                            EdgeBuffer[i].Deactivate();
+                            List.Add((int)EdgeBuffer[i].CurrentX);
                         }
                         else
                         {
-                            _edgeBuffer[i].Activate();
+                            EdgeBuffer[i].Activate();
                             // we don't insert it in the _reusableBuffer cause this vertice is also
                             // the (bigger) vertice of another edge and already handled
                         }
                     }
 
                     // here the scanline intersects the bigger vertice
-                    if (scanline == _edgeBuffer[i].EndY)
+                    if (scanline == EdgeBuffer[i].EndY)
                     {
-                        _edgeBuffer[i].Deactivate();
-                        _list.Add((int)_edgeBuffer[i].CurrentX);
+                        EdgeBuffer[i].Deactivate();
+                        List.Add((int)EdgeBuffer[i].CurrentX);
                     }
 
                     // here the scanline intersects the edge, so calc intersection point
-                    if (scanline > _edgeBuffer[i].StartY && scanline < _edgeBuffer[i].EndY)
+                    if (scanline > EdgeBuffer[i].StartY && scanline < EdgeBuffer[i].EndY)
                     {
-                        _edgeBuffer[i].Update();
-                        _list.Add((int)_edgeBuffer[i].CurrentX);
+                        EdgeBuffer[i].Update();
+                        List.Add((int)EdgeBuffer[i].CurrentX);
                     }
                 }
 
                 // now we have to sort our _reusableBuffer with our X-coordinates, ascendend
-                for (int i = 0; i < _list.Count; i++)
-                    for (int j = 0; j < _list.Count - 1; j++)
+                for (int i = 0; i < List.Count; i++)
+                    for (int j = 0; j < List.Count - 1; j++)
                     {
-                        if (_list[j] > _list[j + 1])
+                        if (List[j] > List[j + 1])
                         {
-                            int swaptmp = _list[j];
-                            _list[j] = _list[j + 1];
-                            _list[j + 1] = swaptmp;
+                            int swaptmp = List[j];
+                            List[j] = List[j + 1];
+                            List[j + 1] = swaptmp;
                         }
                     }
 
-                if (_list.Count < 2 || _list.Count % 2 != 0)
+                if (List.Count < 2 || List.Count % 2 != 0)
                     continue;
 
                 // so fill all line segments on current scanline
-                for (int i = 0; i < _list.Count; i += 2)
-                    fillAction(scanline, _list[i], _list[i + 1]);
+                for (int i = 0; i < List.Count; i += 2)
+                    fillAction(scanline, List[i], List[i + 1]);
             }
 
-            _edgeBuffer.Clear();
+            EdgeBuffer.Clear();
         }
 
         /// <summary>
@@ -116,10 +116,9 @@ namespace Mercraft.Models.Geometry
             for (int i = 0; i < polygon.Count; i++)
             {
                 var nextIndex = i == polygon.Count - 1 ? 0 : i + 1;
-                if (polygon[i].Y < polygon[nextIndex].Y)
-                    _edgeBuffer.Add(new Edge(polygon[i], polygon[nextIndex]));
-                else
-                    _edgeBuffer.Add(new Edge(polygon[nextIndex], polygon[i]));
+                EdgeBuffer.Add(polygon[i].Y < polygon[nextIndex].Y
+                    ? new Edge(polygon[i], polygon[nextIndex])
+                    : new Edge(polygon[nextIndex], polygon[i]));
             }
         }
 

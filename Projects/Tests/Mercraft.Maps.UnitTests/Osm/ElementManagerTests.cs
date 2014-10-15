@@ -109,8 +109,9 @@ namespace Mercraft.Maps.UnitTests.Osm
                 node1, node2, node3, node4, node5, node6
             };
 
+            List<Node> list = nodeList;
             elementSource.Setup(s => s.GetNode(It.IsAny<long>()))
-                .Returns<long>(l => nodeList.Single(n => n.Id == l));
+                .Returns<long>(l => list.Single(n => n.Id == l));
 
             var elementVisitor = new Mock<IElementVisitor>();
             var visitedWays = new List<Way>();

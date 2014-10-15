@@ -42,7 +42,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 return null;
 
             var key = rule.GetKey();
-            var info = new Info()
+            var info = new Info
             {
                 Key = key,
                 Coordinate = node.Point,
@@ -88,7 +88,7 @@ namespace Mercraft.Explorer.Scene.Builders
             //   23   21   20   22   Right
             //    4    5    8    9   Top
             //   15   13   12   14   Bottom
-            mesh.uv = new Vector2[]
+            mesh.uv = new[]
             {
                 p0, p1, p2, p3,
                 p2, p3, p2, p3,

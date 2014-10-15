@@ -148,11 +148,6 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
                 return _expressions.Pop();
             }
 
-            public int Count()
-            {
-                return _expressions.Count;
-            }
-
             #region Supported Operations
 
             private void PushMult(object left, object right)
@@ -175,7 +170,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
 
             private void PushTagSelector()
             {
-                var tagKey = _expressions.Pop();
+                var tagKey = (string) _expressions.Pop();
                 _expressions.Push(_model.Tags.First(t => t.Key == tagKey).Value);
             }
 

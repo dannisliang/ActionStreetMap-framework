@@ -50,10 +50,7 @@ namespace Mercraft.Core.MapCss
 
         public Stylesheet Get()
         {
-            if (_stylesheet == null)
-                _stylesheet = Create();
-
-            return _stylesheet;
+            return _stylesheet ?? (_stylesheet = Create());
         }
 
         public void Configure(IConfigSection configSection)

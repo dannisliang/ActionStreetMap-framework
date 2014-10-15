@@ -26,7 +26,7 @@ namespace Mercraft.Core.Scene
         private float _offset;
         private int _heightmapsize;
         private bool _allowAutoRemoval;
-        private Tuple<int, int> _currentTileIndex = new Tuple<int, int>(0, 0);
+        private readonly Tuple<int, int> _currentTileIndex = new Tuple<int, int>(0, 0);
 
         private readonly ITileLoader _tileLoader;
         private readonly IMessageBus _messageBus;

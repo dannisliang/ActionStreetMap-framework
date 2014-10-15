@@ -11,8 +11,7 @@ namespace Mercraft.Core.Elevation.Srtm
     {
         private readonly byte[] _hgtData;
         private readonly int _pointsPerCell;
-
-        private int _limit;
+        private readonly int _limit;
 
         /// <summary>
         ///     Gets or sets the latitude of the srtm data file.

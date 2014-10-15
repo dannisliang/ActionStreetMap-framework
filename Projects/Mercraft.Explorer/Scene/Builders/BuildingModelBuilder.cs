@@ -106,7 +106,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 height -= minHeight;
 
             // TODO should we save this object in WorldManager?
-            var building = new Building()
+            var building = new Building
             {
                 Id = model.Id,
                 Address = AddressExtractor.Extract(model.Tags),

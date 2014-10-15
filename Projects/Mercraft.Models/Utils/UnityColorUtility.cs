@@ -6,7 +6,7 @@ namespace Mercraft.Models.Utils
     {
         public static UnityEngine.Color32 FromCore(Core.Unity.Color32 color)
         {
-            return new Color32(color.r, color.g, color.b, color.a);
+            return new Color32(color.R, color.G, color.B, color.A);
         }
 
         public static bool IsDefault(UnityEngine.Color32 color)

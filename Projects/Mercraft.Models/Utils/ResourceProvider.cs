@@ -13,10 +13,10 @@ namespace Mercraft.Models.Utils
 
     public class UnityResourceProvider : IResourceProvider
     {
-        private Dictionary<string, GameObject> _gameObjects = new Dictionary<string, GameObject>();
-        private Dictionary<string, Material> _materials = new Dictionary<string, Material>();
-        private Dictionary<string, Texture> _textures = new Dictionary<string, Texture>();
-        private Dictionary<string, Texture2D> _textures2D = new Dictionary<string, Texture2D>();
+        private readonly Dictionary<string, GameObject> _gameObjects = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>();
+        private readonly Dictionary<string, Texture> _textures = new Dictionary<string, Texture>();
+        private readonly Dictionary<string, Texture2D> _textures2D = new Dictionary<string, Texture2D>();
 
         public GameObject GetGameObject(string key)
         {

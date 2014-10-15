@@ -7,10 +7,10 @@ namespace Mercraft.Core.Utilities
     public static class ColorUtility
     {
         // TODO replace before release with different color
-        private static string defaultColor = "red";
+        private const string DefaultColor = "red";
 
         #region Known color mapping
-        private static Dictionary<string, Color32> knownColors = new Dictionary<string, Color32>()
+        private static readonly Dictionary<string, Color32> KnownColors = new Dictionary<string, Color32>
         {
             // from system.drawing known colors set
             {"activeborder", new Color32(180, 180, 180, 255)},
@@ -196,9 +196,9 @@ namespace Mercraft.Core.Utilities
         public static Color32 FromName(string name)
         {
             var lowerCaseName = name.ToLowerInvariant();
-            return knownColors.ContainsKey(lowerCaseName) ? 
-                knownColors[lowerCaseName] : 
-                knownColors[defaultColor];
+            return KnownColors.ContainsKey(lowerCaseName) ? 
+                KnownColors[lowerCaseName] : 
+                KnownColors[DefaultColor];
         }
 
         public static Color32 FromHex(string color)
@@ -206,7 +206,7 @@ namespace Mercraft.Core.Utilities
             byte red = (byte) (HexToInt(color[1]) + HexToInt(color[0]) * 16.000);
             byte green = (byte)(HexToInt(color[3]) + HexToInt(color[2]) * 16.000);
             byte blue = (byte)(HexToInt(color[5]) + HexToInt(color[4]) * 16.000);
-            var finalColor = new Color32 {r = red, g = green, b = blue, a = 1};
+            var finalColor = new Color32 {R = red, G = green, B = blue, A = 1};
             return finalColor;
         }
 

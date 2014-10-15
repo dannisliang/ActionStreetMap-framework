@@ -19,16 +19,5 @@ namespace Mercraft.Maps.UnitTests.Infrastructure
             Assert.AreEqual(7, tuple1.Item2);
             Assert.AreEqual(tuple1, tuple2);
         }
-
-        [Test]
-        public void CanUseRange()
-        {
-            // ARRANGE & ACT
-            var range = new Range<int>(1,10);
-
-            // ASSERT
-            Assert.AreEqual(1, range.Min);
-            Assert.AreEqual(10, range.Max);
-        }
     }
 }

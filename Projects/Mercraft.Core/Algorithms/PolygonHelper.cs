@@ -96,7 +96,7 @@ namespace Mercraft.Core.Algorithms
 
         private static PolygonDirection PointsDirection(List<MapPoint> points)
         {
-            int nCount = 0, j = 0, k = 0;
+            int nCount = 0;
             int nPoints = points.Count;
 
             if (nPoints < 3)
@@ -104,8 +104,8 @@ namespace Mercraft.Core.Algorithms
 
             for (int i = 0; i < nPoints; i++)
             {
-                j = (i + 1) % nPoints; //j:=i+1;
-                k = (i + 2) % nPoints; //k:=i+2;
+                int j = (i + 1) % nPoints;
+                int k = (i + 2) % nPoints;
 
                 double crossProduct = (points[j].X - points[i].X)
                     * (points[k].Y - points[j].Y);
@@ -120,10 +120,9 @@ namespace Mercraft.Core.Algorithms
 
             if (nCount < 0)
                 return PolygonDirection.CountClockwise;
-            else if (nCount > 0)
+            if (nCount > 0)
                 return PolygonDirection.Clockwise;
-            else
-                return PolygonDirection.Unknown;
+            return PolygonDirection.Unknown;
         }
 
 

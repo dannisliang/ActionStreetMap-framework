@@ -102,15 +102,15 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 for (int idx = 0; idx < re.member.Length; idx++)
                 {
                     Mercraft.Maps.Osm.Format.Xml.v0_6.member mem = re.member[idx];
-                    RelationMember relation_member = new RelationMember();
+                    RelationMember relationMember = new RelationMember();
                     // set memberid
                     if (mem.refSpecified)
                     {
-                        relation_member.MemberId = mem.@ref;
+                        relationMember.MemberId = mem.@ref;
                     }
 
                     // set role.
-                    relation_member.Role = mem.role;
+                    relationMember.Role = mem.role;
 
                     // set type.
                     if (mem.typeSpecified)
@@ -118,18 +118,18 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                         switch (mem.type)
                         {
                             case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.node:
-                                relation_member.Member = new Node();
+                                relationMember.Member = new Node();
                                 break;
                             case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.way:
-                                relation_member.Member = new Way();
+                                relationMember.Member = new Way();
                                 break;
                             case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.relation:
-                                relation_member.Member = new Way();
+                                relationMember.Member = new Way();
                                 break;
                         }
                     }
 
-                    relation.Members.Add(relation_member);
+                    relation.Members.Add(relationMember);
                 }
             }
 

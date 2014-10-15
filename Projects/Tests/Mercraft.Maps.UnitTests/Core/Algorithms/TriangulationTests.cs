@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.Scene;
 using Mercraft.Explorer.Infrastructure;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;

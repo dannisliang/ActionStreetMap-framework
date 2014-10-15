@@ -130,16 +130,16 @@ namespace Mercraft.Explorer.Scene
             var rule = _stylesheet.GetCanvasRule(canvas);
 
             // TODO this should be done by road composer
-            var roads = _roadElements.Select(re => new Road()
+            var roads = _roadElements.Select(re => new Road
             {
-                Elements = new List<RoadElement>() {re},
+                Elements = new List<RoadElement> {re},
                 GameObject = _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), _tile.GameObject),
             }).ToList();
 
             if (_tile.HeightMap.IsFlat)
                 _tile.HeightMap.MaxElevation = rule.GetHeight();
 
-            _terrainBuilder.Build(_tile.GameObject, new TerrainSettings()
+            _terrainBuilder.Build(_tile.GameObject, new TerrainSettings
             {
                 Tile = _tile,
                 Resolution = rule.GetResolution(),
@@ -229,7 +229,7 @@ namespace Mercraft.Explorer.Scene
             {
                 var points = _objectPool.NewList<MapPoint>();
                 PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
-                _areas.Add(new AreaSettings()
+                _areas.Add(new AreaSettings
                 {
                     ZIndex = rule.GetZIndex(),
                     SplatIndex = rule.GetSplatIndex(),
@@ -242,7 +242,7 @@ namespace Mercraft.Explorer.Scene
             {
                 var points = _objectPool.NewList<MapPoint>();
                 PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
-                _elevations.Add(new AreaSettings()
+                _elevations.Add(new AreaSettings
                 {
                     ZIndex = rule.GetZIndex(),
                     Points = points
@@ -259,7 +259,7 @@ namespace Mercraft.Explorer.Scene
                 // roads and create connected road network
                 var points = _objectPool.NewList<MapPoint>();
                 PolygonHelper.FillHeight(tile.RelativeNullPoint, tile.HeightMap, way.Points, points, way.Points.Count);
-                _roadElements.Add(new RoadElement()
+                _roadElements.Add(new RoadElement
                 {
                     Id = way.Id,
                     Address = AddressExtractor.Extract(way.Tags),
@@ -281,7 +281,7 @@ namespace Mercraft.Explorer.Scene
                 var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
                 mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
 
-                _trees.Add(new TreeDetail()
+                _trees.Add(new TreeDetail
                 {
                     Id = node.Id,
                     Point = mapPoint

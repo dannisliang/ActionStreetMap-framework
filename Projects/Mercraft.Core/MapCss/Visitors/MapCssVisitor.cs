@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Antlr.Runtime.Tree;
 using Mercraft.Core.MapCss.Domain;
@@ -12,7 +11,7 @@ namespace Mercraft.Core.MapCss.Visitors
 
         public MapCssVisitor(bool canUseExprTree)
         {
-            _visitors = new List<IMapCssVisitor>()
+            _visitors = new List<IMapCssVisitor>
             {
                 new SelectorMapCssVisitor(),
                 new DeclarationMapCssVisitor(canUseExprTree)
@@ -45,6 +44,9 @@ namespace Mercraft.Core.MapCss.Visitors
             for (int i = 0; i < ruleTree.Children.Count; i++)
             {
                 var tree = ruleTree.Children[i] as CommonTree;
+                if (tree == null)
+                    throw new MapCssFormatException(ErrorStrings.StyleVisitNullTree);
+
                 if (tree.Text == "SIMPLE_SELECTOR")
                 {
                     var selectorType = (tree.Children[0] as CommonTree).Text;
@@ -75,7 +77,7 @@ namespace Mercraft.Core.MapCss.Visitors
                     style.MatchAll = i == 1;
                     
                     // declarations
-                    if (tree != null && tree.Text == "{")
+                    if (tree.Text == "{")
                     {
                         int declarationSelectorIdx = 0;
                         while (tree.ChildCount > declarationSelectorIdx && tree.Children[declarationSelectorIdx].Text == "DECLARATION")
@@ -84,7 +86,7 @@ namespace Mercraft.Core.MapCss.Visitors
                             var declaration = VisitDeclaration(declarationTree);
                             if (declaration.Value == "VALUE_LIST")
                             {
-                                ListDeclaration listDeclaration = null;
+                                ListDeclaration listDeclaration;
                                 if (style.Declarations.ContainsKey(declaration.Qualifier))
                                     // NOTE we don't expect duplications of list declaration without VALUE_LIST
                                     listDeclaration = (ListDeclaration) style.Declarations[declaration.Qualifier];

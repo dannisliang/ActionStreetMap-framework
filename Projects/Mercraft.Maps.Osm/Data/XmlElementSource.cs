@@ -29,12 +29,11 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly bool _gzip;
 
-        private readonly bool _disposeStream = false;
+        private const bool DisposeStream = false;
 
         /// <summary>
         /// Creates a new OSM Xml processor source.
         /// </summary>
-        /// <param name="stream"></param>
         public XmlElementSource(Stream stream) :
             this(stream, false)
         {
@@ -44,8 +43,6 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         /// Creates a new OSM XML processor source.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="gzip"></param>
         public XmlElementSource(Stream stream, bool gzip)
         {
             _stream = stream;
@@ -62,14 +59,14 @@ namespace Mercraft.Maps.Osm.Data
             _serWay = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.way));
             _serRelation = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
 
-            this.Reset();
+            Reset();
             Initialize(this);
         }
         
         /// <summary>
         /// Resets this source.
         /// </summary>
-        public void Reset()
+        public override void Reset()
         {
             // create the xml reader settings.
             var settings = new XmlReaderSettings();
@@ -125,7 +122,7 @@ namespace Mercraft.Maps.Osm.Data
                     string name = _reader.Name;
                     string nextElement = _reader.ReadOuterXml();
                     XmlReader reader = XmlReader.Create(new MemoryStream(Encoding.UTF8.GetBytes(nextElement)));
-                    object osmObj = null;
+                    object osmObj;
 
                     // select type of element.
                     switch (name)
@@ -171,7 +168,7 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _disposeStream)
+            if (disposing && DisposeStream)
             {
                 _stream.Dispose();
             }
