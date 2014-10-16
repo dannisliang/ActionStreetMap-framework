@@ -20,10 +20,9 @@ namespace Mercraft.Models.Utils
         private float[,] _data;
         private float _ratio;
 
-        // reusable buffer for lines
-        private readonly MapPoint[] _mapPointBuffer = new MapPoint[4];
-
-        private readonly List<MapPoint> _polygonMapPointBuffer = new List<MapPoint>(256);
+        // NOTE reusable buffers: they are made static to prevent allocations in multiply instances
+        private static readonly MapPoint[] MapPointBuffer = new MapPoint[4];
+        private static readonly List<MapPoint> PolygonMapPointBuffer = new List<MapPoint>(256);
 
         public void Recycle(HeightMap heightMap)
         {
@@ -47,21 +46,21 @@ namespace Mercraft.Models.Utils
             var elevation = start.Elevation < end.Elevation ? start.Elevation : end.Elevation;
 
             // TODO this is not good  idea to create instance of anonymous class for every small road chunk
-            SimpleScanLine.Fill(_mapPointBuffer, _size, (scanline, s, e) =>
+            SimpleScanLine.Fill(MapPointBuffer, _size, (scanline, s, e) =>
                Fill(scanline, s, e, elevation));
         }
 
         public void AdjustPolygon(List<MapPoint> points, float elevation)
         {
-            _polygonMapPointBuffer.Clear();
+            PolygonMapPointBuffer.Clear();
 
             for (int i = 0; i < points.Count; i++)
             {
                 var point = points[i];
-                _polygonMapPointBuffer.Add(GetHeightMapPoint(point.X, point.Y));
+                PolygonMapPointBuffer.Add(GetHeightMapPoint(point.X, point.Y));
             }
 
-            ScanLine.FillPolygon(_polygonMapPointBuffer, (scanline, s, e) => 
+            ScanLine.FillPolygon(PolygonMapPointBuffer, (scanline, s, e) => 
                Fill(scanline, s, e, elevation));
         }
 
@@ -99,11 +98,11 @@ namespace Mercraft.Models.Utils
             var zOffset = (z2 - z1) / l;
             var xOffset = (x1 - x2) / l;
 
-            _mapPointBuffer[3] = GetHeightMapPoint(x1 + offset * zOffset, z1 + offset * xOffset);
-            _mapPointBuffer[2] = GetHeightMapPoint(x2 + offset * zOffset, z2 + offset * xOffset);
+            MapPointBuffer[3] = GetHeightMapPoint(x1 + offset * zOffset, z1 + offset * xOffset);
+            MapPointBuffer[2] = GetHeightMapPoint(x2 + offset * zOffset, z2 + offset * xOffset);
 
-            _mapPointBuffer[1] = GetHeightMapPoint(x2 - offset * zOffset, z2 - offset * xOffset);
-            _mapPointBuffer[0] = GetHeightMapPoint(x1 - offset * zOffset, z1 - offset * xOffset);
+            MapPointBuffer[1] = GetHeightMapPoint(x2 - offset * zOffset, z2 - offset * xOffset);
+            MapPointBuffer[0] = GetHeightMapPoint(x1 - offset * zOffset, z1 - offset * xOffset);
         }
     }
 }
