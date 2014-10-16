@@ -1,11 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-
-namespace Mercraft.Infrastructure.Dependencies.Interception
+﻿namespace Mercraft.Infrastructure.Dependencies.Interception
 {
+#if SANDBOX
+    using System;
+    public static class ProxyGen
+    {
+        public static Type Generate(Type interfaceType)
+        {
+            throw new System.NotSupportedException("This code cannot be used with defined build symbols");
+        }
+    }
+#else
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Reflection.Emit;
+
     /// <summary>
     ///     Generates proxy class which is derived from ProxyBase and uses it's methods to
     ///     run attached behaviors.
@@ -23,11 +33,6 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
             var appDomain = System.Threading.Thread.GetDomain();
             var assemblyBuilder = appDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
             ModuleBuilder = assemblyBuilder.DefineDynamicModule(aName.Name);
-        }
-
-        public static Type Generate<T>()
-        {
-            return Generate(typeof (T));
         }
 
         public static Type Generate(Type interfaceType)
@@ -242,4 +247,5 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
             }
         }
     }
+#endif
 }

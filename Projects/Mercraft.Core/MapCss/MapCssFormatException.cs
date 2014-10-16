@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 namespace Mercraft.Core.MapCss
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly")]
     [Serializable]
     public class MapCssFormatException: Exception
     {
@@ -19,13 +18,6 @@ namespace Mercraft.Core.MapCss
             : base(message)
         {
             Tree = tree;
-        }
-
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            // TODO serialize tree if necessary
-            base.GetObjectData(info, context);
         }
     }
 }

@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Console.Commands;
@@ -563,7 +564,7 @@ namespace Assets.Scripts.Console
             var input =
                 new List<string>(inputString.Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries));
 
-            input = input.ConvertAll<string>(low => low.ToLower());
+            input = input.Select(low => low.ToLower()).ToList();
             var cmd = input[0];
 
             if (CommandManager.Contains(cmd))

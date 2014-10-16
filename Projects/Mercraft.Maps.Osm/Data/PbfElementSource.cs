@@ -154,8 +154,10 @@ namespace Mercraft.Maps.Osm.Data
                 elementNode.Tags = new Dictionary<string, string>(node.keys.Count);
                 for (int tagIdx = 0; tagIdx < node.keys.Count; tagIdx++)
                 {
-                    string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.keys[tagIdx]]));
-                    string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) node.vals[tagIdx]]));
+                    var keyBytes = block.stringtable.s[(int) node.keys[tagIdx]];
+                    string key = String.Intern(Encoding.UTF8.GetString(keyBytes, 0, keyBytes.Length));
+                    var valueBytes = block.stringtable.s[(int) node.vals[tagIdx]];
+                    string value = String.Intern(Encoding.UTF8.GetString(valueBytes, 0, valueBytes.Length));
                     elementNode.Tags.Add(key, value);
                 }
             }
@@ -220,8 +222,10 @@ namespace Mercraft.Maps.Osm.Data
                 elementWay.Tags = new Dictionary<string, string>(keyCount);
                 for (int tagIdx = 0; tagIdx < keyCount; tagIdx++)
                 {
-                    string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.keys[tagIdx]]));
-                    string value = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) way.vals[tagIdx]]));
+                    var keyBytes = block.stringtable.s[(int) way.keys[tagIdx]];
+                    string key = String.Intern(Encoding.UTF8.GetString(keyBytes, 0, keyBytes.Length));
+                    var valueBytes = block.stringtable.s[(int) way.vals[tagIdx]];
+                    string value = String.Intern(Encoding.UTF8.GetString(valueBytes, 0, valueBytes.Length));
                     elementWay.Tags.Add(key, value);
                 }
             }
@@ -247,8 +251,8 @@ namespace Mercraft.Maps.Osm.Data
 
                     if (_nodeIds.Contains(memberId) || _wayIds.Contains(memberId) || _relationIds.Contains(memberId))
                     {
-                        string role =
-                            String.Intern(Encoding.UTF8.GetString(block.stringtable.s[relation.roles_sid[memberIdx]]));
+                        var roleBytes = block.stringtable.s[relation.roles_sid[memberIdx]];
+                        string role = String.Intern(Encoding.UTF8.GetString(roleBytes, 0, roleBytes.Length));
                         var member = new RelationMember();
                         member.MemberId = memberId;
                         member.Role = role;
@@ -276,9 +280,10 @@ namespace Mercraft.Maps.Osm.Data
                 elementRelation.Tags = new Dictionary<string, string>(relation.keys.Count);
                 for (int tagIdx = 0; tagIdx < relation.keys.Count; tagIdx++)
                 {
-                    string key = String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.keys[tagIdx]]));
-                    string value =
-                        String.Intern(Encoding.UTF8.GetString(block.stringtable.s[(int) relation.vals[tagIdx]]));
+                    var keyBytes = block.stringtable.s[(int) relation.keys[tagIdx]];
+                    string key = String.Intern(Encoding.UTF8.GetString(keyBytes, 0, keyBytes.Length));
+                    var valueBytes = block.stringtable.s[(int) relation.vals[tagIdx]];
+                    string value = String.Intern(Encoding.UTF8.GetString(valueBytes, 0, valueBytes.Length));
                     elementRelation.Tags.Add(key, value);
                 }
             }

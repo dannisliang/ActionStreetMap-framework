@@ -1,5 +1,4 @@
-﻿
-using System.IO;
+﻿using System.IO;
 
 namespace Mercraft.Infrastructure.IO
 {
@@ -27,7 +26,11 @@ namespace Mercraft.Infrastructure.IO
 
         public byte[] ReadBytes(string path)
         {
+#if SANDBOX
+            throw new System.NotSupportedException("This code cannot be used with defined build symbols");
+#else
             return File.ReadAllBytes(_pathResolver.Resolve(path));
+#endif
         }
 
         public bool Exists(string path)

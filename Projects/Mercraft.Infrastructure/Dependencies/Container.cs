@@ -275,7 +275,7 @@ namespace Mercraft.Infrastructure.Dependencies
 
         private class TypeMapping
         {
-            private Dictionary<Type, Dictionary<string, ILifetimeManager>> _map = new Dictionary<Type, Dictionary<string, ILifetimeManager>>();
+            private readonly Dictionary<Type, Dictionary<string, ILifetimeManager>> _map = new Dictionary<Type, Dictionary<string, ILifetimeManager>>();
 
             public void Add(string name, Type type, ILifetimeManager ltm)
             {
