@@ -35,7 +35,7 @@ namespace Mercraft.Maps.UnitTests
 
         public string[] GetFiles(string path, string searchPattern)
         {
-            if (searchPattern == "*.list")
+            if (path[1] != ':' && searchPattern == "*.list")
                 return _impl.GetFiles(path, searchPattern + "*.txt");
            
             return _impl.GetFiles(path, searchPattern);

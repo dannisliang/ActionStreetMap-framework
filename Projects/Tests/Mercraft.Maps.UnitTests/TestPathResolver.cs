@@ -11,7 +11,7 @@ namespace Mercraft.Maps.UnitTests
     {
         public string Resolve(string path)
         {
-            if (path.StartsWith("test") || path.StartsWith("f:"))
+            if (path.StartsWith("test") || path[1] == ':') // absolute path pointing to disk
                 return path;
 
             if (path.StartsWith("Config") || path.StartsWith("Maps") || path.StartsWith("Elevation"))
