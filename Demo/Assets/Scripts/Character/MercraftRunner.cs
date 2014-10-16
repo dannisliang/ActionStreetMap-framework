@@ -62,7 +62,7 @@ namespace Assets.Scripts.Character
             InitializeConsole(container);
             try
             {
-                var fileSystemService = new DemoWebFileSystemService(pathResolver);
+                var fileSystemService = new FileSystemService(pathResolver);
                 container.RegisterInstance(typeof(IPathResolver), pathResolver);
                 container.RegisterInstance(typeof (IFileSystemService), fileSystemService);
                 container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", fileSystemService));
