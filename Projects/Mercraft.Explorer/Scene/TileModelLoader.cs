@@ -163,12 +163,7 @@ namespace Mercraft.Explorer.Scene
                 _objectPool.Store(area.Points);
             foreach (var elevation in _elevations)
                 _objectPool.Store(elevation.Points);
-            foreach (var roadElement in _roadElements)
-            {
-                _objectPool.Store(roadElement.Points);
-                // set to null as points are returned to pool
-                roadElement.Points = null;
-            }
+            // NOTE do not return road element's points back to store as they will be used in future
 
             // clear collections to reuse
             _areas.Clear();
