@@ -51,6 +51,8 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildBuilding(tile, rule, area, area.Points);
         }
 
+        // NOTE Why way is used to build building?
+        // TODO remove and check
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             base.BuildWay(tile, rule, way);
@@ -61,20 +63,21 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             var points = ObjectPool.NewList<MapPoint>();
             PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint, points);
+            var minHeight = rule.GetMinHeight();
 
-            var elevation = AdjustHeightMap(tile.HeightMap, points);
+            var elevation = AdjustHeightMap(tile.HeightMap, points, minHeight);
 
             if (WorldManager.Contains(model.Id))
                 return null;
 
-            var gameObject = BuildGameObject(tile, rule, model, points, elevation);
+            var gameObject = BuildGameObject(tile, rule, model, points, elevation, minHeight);
 
             ObjectPool.Store(points);
 
             return gameObject;
         }
 
-        private float AdjustHeightMap(HeightMap heightMap, List<MapPoint> footPrint)
+        private float AdjustHeightMap(HeightMap heightMap, List<MapPoint> footPrint, float minHeight)
         {
             // TODO if we have added building to WorldManager then
             // we should use elevation from existing building
@@ -83,8 +86,8 @@ namespace Mercraft.Explorer.Scene.Builders
 
             for (int i = 0; i < footPrint.Count; i++)
                 footPrint[i].SetElevation(elevation);
-
-            if (!heightMap.IsFlat)
+            // NOTE do not adjust height map in case of positive minHeight
+            if (!heightMap.IsFlat && Math.Abs(minHeight) < 0.5f)
             {
                 _heightMapProcessor.Recycle(heightMap);
                 _heightMapProcessor.AdjustPolygon(footPrint, elevation);
@@ -93,14 +96,15 @@ namespace Mercraft.Explorer.Scene.Builders
             return elevation;
         }
 
-        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, List<MapPoint> points, float elevation)
+        private IGameObject BuildGameObject(Tile tile, Rule rule, Model model, List<MapPoint> points,
+            float elevation, float minHeight)
         {
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("Building {0}", model));
 
             // NOTE observed that min_height should be subracted from height for building:part
             // TODO this should be done in mapcss, but stylesheet doesn't support multiply eval operations
             // on the same tag
-            var minHeight = rule.GetMinHeight();
+
             var height = rule.GetHeight(NoValue);
             if (rule.IsPart())
                 height -= minHeight;
