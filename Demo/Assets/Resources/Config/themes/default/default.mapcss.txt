@@ -20,16 +20,22 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; fill-color:#000000; building-style:residential; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; fill-color:gray; building-style:residential; facade-material:concrete; }
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
-area[building:levels]									{ height: eval(num(tag('building:levels')) * num(3));}
+
+/* some of the buildings have set layer=1 instead of min_height*/
+/*area[building=yes][layer>0]								{ min_height: eval(num(tag('layer')) * num(3));}*/
+
+area[building:levels]									{ height: eval(num(tag('building:levels')) * num(5));}
 area[height]											{ height: eval(num(tag('height')));}
 area[building:height]									{ height: eval(num(tag('building:height')));}
 area[building:height][roof:height]						{ height: eval(num(tag('building:height')) - num(tag('roof:height')));}
 
 area[building:min_height]								{ min_height: eval(num(tag('building:min_height')));}
 area[min_height]										{ min_height: eval(num(tag('min_height')));}
+
+
 
 area[building:shape=sphere]								{ builder: sphere; material: Buildings/Building;}
 area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}					
@@ -51,6 +57,8 @@ area[building:material]									{ facade-material: eval(tag('building:material')
 /* support only mansard/flat so far, so don't eval */
 area[roof:shape=flat]									{ roof-type: flat;}
 area[roof:shape=mansard]								{ roof-type: mansard;}
+
+area[man_made=bridge]									{ z-index: 9;  builder: building; behaviour: solid; height:0.5; min_height: 0; fill-color:#000000; building-style:bridge;}
 
 /* flat areas */
 area[amenity],
@@ -126,6 +134,8 @@ area[natural=water],
 area[waterway=riverbank], 
 area[waterway=dock]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 
+
+/************************************************** WAYS ********************************************/
 way[waterway],
 way[waterway][name]										{ z-index: 9; elevation:true; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 														
@@ -164,7 +174,8 @@ way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
 way[barrier]											{ builder: barrier; material: Roads/Road; texture:Roads/Road; height:2; width:0.2;  }
 
-/* Nodes */
+
+/************************************************** NODES ********************************************/
 
 node[natural=tree]										{ tree:true; }
 node[highway=traffic_signals]							{ z-index: 2.6; builder:detail; detail:Prefabs/Details/Traffic_light_1; roadFix:true; rotation:180;}
@@ -173,8 +184,6 @@ node[railway=tram_stop]									{ z-index: 1.1; builder:detail; detail:Prefabs/D
 node[amenity=recycling]									{ z-index: 0.45; builder:detail; detail:Prefabs/Details/trashbox_1; roadFix:true;}
 node[amenity=telephone]									{ z-index: 1; builder:detail; detail:Prefabs/Details/Phone_1; roadFix:true;}
 node[amenity=atm]										{ z-index: 0.3; builder:detail; detail:Prefabs/Details/atm_1; roadFix:true;}
-
-
 
 
 /* Info */
@@ -213,7 +222,7 @@ node[amenity=townhall]							                { z-index:16; builder:info; key:ame
 
 node[waste],node[amenity=waste_basket]							                { z-index:16; builder:info; key:amenity_waste_bin; collider:false; }
 node[barrier=block]							                { z-index:16; builder:info; key:barrier_blocks; collider:false; }
-node[barrier=bollard]							                { z-index:16; builder:info; key:barrier_bollard; collider:false; }
+node[barrier=bollard]							                { z-index:1; builder:info; key:barrier_bollard; collider:false; }
 node[barrier=cattle_grid]							                { z-index:16; builder:info; key:barrier_cattle_grid; collider:false; }
 node[barrier=cycle_barrier]							                { z-index:16; builder:info; key:barrier_cycle_barrier; collider:false; }
 node[barrier=entrance]							                { z-index:16; builder:info; key:barrier_entrance; collider:false; }
@@ -467,4 +476,4 @@ way[highway=footway],
 way[level<0],
 way[layer<0], 											
 area[level<0],
-area[layer<0]											{ skip:true;}
+area[man_made!=bridge][layer<0]											{ skip:true;}

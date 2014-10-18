@@ -4,6 +4,8 @@ using System.Linq;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Utils;
+using UnityEngine;
+using Color32 = Mercraft.Core.Unity.Color32;
 
 namespace Mercraft.Explorer.Themes
 {
@@ -14,8 +16,6 @@ namespace Mercraft.Explorer.Themes
     {
         private readonly Dictionary<string, List<BuildingStyle.FacadeStyle>> _facadeStyleMapping;
         private readonly Dictionary<string, List<BuildingStyle.RoofStyle>> _roofStyleMapping;
-
-        private readonly List<int> _matchedIndicies = new List<int>(16);
 
         public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
             Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
@@ -51,39 +51,38 @@ namespace Mercraft.Explorer.Themes
         private BuildingStyle FindBestMatch(Building building, List<BuildingStyle.FacadeStyle> facadeStyles,
             List<BuildingStyle.RoofStyle> roofStyles)
         {
-            // TODO define additional data in BuildingStyle to improve matching
+            // NOTE So far, this matcher uses only color to find the best style
+            // as default implementation assumes that we're using only RAL colored textures
+            // no real brick material, facades, etc
+            const int threshold = 5;
 
-            var max = -1;
+            // facade
+            var facadeIndex = 0;
+            var currentDiff = int.MaxValue;
             for (int i = 0; i < facadeStyles.Count; i++)
             {
-                var rating = BalanceFacade(building, facadeStyles[i]);
-                // OR branch allows to avoid first-win strategy 
-                if (rating > max)
+                var difference = CalcColorDifference(building.FacadeColor, facadeStyles[i].Color);
+                if (difference < currentDiff)
                 {
-                    max = rating;
-                    _matchedIndicies.Clear();
-                    _matchedIndicies.Add(i);
-                }
-                else if (rating == max)
-                {
-                    _matchedIndicies.Add(i);
+                    currentDiff = difference;
+                    facadeIndex = i;
+                    if (currentDiff <= threshold) break;
                 }
             }
 
-            max = 0;
+            // roof
             var roofIndex = 0;
+            currentDiff = int.MaxValue;
             for (int i = 0; i < roofStyles.Count; i++)
             {
-                var rating = BalanceRoof(building, roofStyles[i]);
-                // OR branch allows to avoid first-win strategy 
-                if (rating > max || (rating != 0 && rating == max && building.Id % 2 == 0))
+                var difference = CalcColorDifference(building.RoofColor, roofStyles[i].Color);
+                if (difference < currentDiff)
                 {
-                    max = rating;
+                    currentDiff = difference;
                     roofIndex = i;
+                    if (currentDiff <= threshold) break;
                 }
             }
-
-            var facadeIndex = _matchedIndicies[RandomHelper.GetIndex(building.Id, _matchedIndicies.Count)];
 
             return new BuildingStyle
             {
@@ -92,34 +91,11 @@ namespace Mercraft.Explorer.Themes
             };
         }
 
-        private int BalanceFacade(Building building, BuildingStyle.FacadeStyle style)
+        private int CalcColorDifference(Color32 first, Color32 second)
         {
-            // NOTE different properties have different rating weight in range [1,5]
-            // TODO rebalance this to have better matches
-            var rating = 0;
-            if (style.Height == building.Levels)
-                rating += 3;
-            if (building.FacadeMaterial != null && style.Material == building.FacadeMaterial)
-                rating += 3;
-            if (style.Color.Equals(building.FacadeColor))
-                rating += 2;
-
-            return rating;
-        }
-
-        private int BalanceRoof(Building building, BuildingStyle.RoofStyle style)
-        {
-            // NOTE different properties have different rating weight in range [1,5]
-            // TODO rebalance this to have better matches
-            var rating = 0;
-            if (building.RoofType != null && style.Type == building.RoofType)
-                rating += 5;
-            if (building.RoofMaterial != null && style.Material == building.RoofMaterial)
-                rating += 3;
-            if (style.Color.Equals(building.RoofColor))
-                rating += 3;
-
-            return rating;
+            return Math.Abs(first.R - second.R) +
+                   Math.Abs(first.G - second.G) +
+                   Math.Abs(first.B - second.B);
         }
     }
 }

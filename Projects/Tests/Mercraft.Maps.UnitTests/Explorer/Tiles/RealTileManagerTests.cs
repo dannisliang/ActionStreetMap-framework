@@ -1,6 +1,5 @@
 ﻿using Mercraft.Core;
 using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
 using NUnit.Framework;
@@ -18,7 +17,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles
             logger.Start();
             var container = new Container();
             var componentRoot = TestHelper.GetGameRunner(container);
-            componentRoot.RunGame(new GeoCoordinate(52.5219497, 13.3688725));
+            componentRoot.RunGame(new GeoCoordinate(52.5280173, 13.3739963));
 
             // ACT
             var tileLoader = container.Resolve<IPositionListener>() as TileManager;

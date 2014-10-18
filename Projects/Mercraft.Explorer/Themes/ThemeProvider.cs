@@ -101,7 +101,7 @@ namespace Mercraft.Explorer.Themes
                     {
                         Height = textureNode["height"].AsInt,
                         Width = textureNode["width"].AsInt,
-                        Material = textureNode["material"].Value,
+                        Material = String.Intern(textureNode["material"].Value),
                         Color = ColorUtility.FromUnknown(textureNode["color"].Value),
                         Builders = builders,
                         Path = path,
@@ -128,9 +128,9 @@ namespace Mercraft.Explorer.Themes
                     var map = textureNode["map"];
                     roofStyles.Add(new BuildingStyle.RoofStyle
                     {
-                        Type = textureNode["type"],
+                        Type = String.Intern(textureNode["type"].Value),
                         Height = textureNode["height"].AsInt,
-                        Material = textureNode["material"].Value,
+                        Material = String.Intern(textureNode["material"].Value),
                         Color = ColorUtility.FromUnknown(textureNode["color"].Value),
                         Builders = builders,
                         Path = path,

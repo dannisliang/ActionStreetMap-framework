@@ -1,7 +1,6 @@
 {
 	"buildings":[
-		{"path":"Config/themes/default/building.residential.json"},
-		{"path":"Config/themes/default/building.part.json"}
+		{"path":"Config/themes/default/building.default.json"},
 	],
 	"roads":[
 		{"path":"Config/themes/default/road.default.json"}
