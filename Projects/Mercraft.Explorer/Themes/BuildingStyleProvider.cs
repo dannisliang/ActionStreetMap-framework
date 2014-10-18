@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Buildings;
-using Mercraft.Models.Utils;
-using UnityEngine;
 using Color32 = Mercraft.Core.Unity.Color32;
 
 namespace Mercraft.Explorer.Themes

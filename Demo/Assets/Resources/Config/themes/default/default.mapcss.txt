@@ -20,7 +20,7 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; fill-color:gray; building-style:residential; facade-material:concrete; }
+area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; building-style:residential; fill-color:#f4f4f4; roof-color:#fdf4e3;}
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 
@@ -49,16 +49,122 @@ area[building=commercial] 								{ fill-color: #efc8c8;}
 area[building=garage] 									{ fill-color: #bca9a9;}
 area[building=apartments]								{ fill-color: #bca9a9;}*/
 
-area[building:colour]									{ fill-color:eval(color(tag('building:colour')));}
-area[building:color]									{ fill-color:eval(color(tag('building:color')));}
+/* Color mapping*/
+/*area[building:material]									{ facade-material: eval(tag('building:material'));} */
 
-area[building:material]									{ facade-material: eval(tag('building:material'));} 
+area[building:material=brick],
+area[building:facade:material=brick],
+area[building:cladding=brick],
+area[building:roof:material=brick],
+area[roof:material=brick]												{fill-color:#cc7755}
+
+area[building:material=bronze],
+area[building:facade:material=bronze],
+area[building:cladding=bronze],
+area[building:roof:material=bronze],
+area[roof:material=bronze]												{fill-color:#ffeecc}
+
+area[building:material=canvas],
+area[building:facade:material=canvas],
+area[building:cladding=canvas],
+area[building:roof:material=canvas],
+area[roof:material=canvas]												{fill-color:#fff8f0}
+
+area[building:material=concrete],
+area[building:facade:material=concrete],
+area[building:cladding=concrete],
+area[building:roof:material=concrete],
+area[roof:material=concrete]												{fill-color:#999999}
+
+area[building:material=copper],
+area[building:facade:material=copper],
+area[building:cladding=copper],
+area[building:roof:material=copper],
+area[roof:material=copper]												{fill-color:#a0e0d0}
+
+area[building:material=glass],
+area[building:facade:material=glass],
+area[building:cladding=glass],
+area[building:roof:material=glass],
+area[roof:material=glass]												{fill-color:#e8f8f8}
+
+area[building:material=gold],
+area[building:facade:material=gold],
+area[building:cladding=gold],
+area[building:roof:material=gold],
+area[roof:material=gold]													{fill-color:#ffcc00}
+
+area[building:material=plants],
+area[building:facade:material=plants],
+area[building:cladding=plants],
+area[building:roof:material=plants],
+area[roof:material=plants]												{fill-color:#009933}
+
+area[building:material=metal],
+area[building:facade:material=metal],
+area[building:cladding=metal],
+area[building:roof:material=metal],
+area[roof:material=metal]												{fill-color:#aaaaaa}
+
+area[building:material=panel],
+area[building:facade:material=panel],
+area[building:cladding=panel],
+area[building:roof:material=panel],
+area[roof:material=panel]												{fill-color:#fff8f0}
+
+area[building:material=plaster],
+area[building:facade:material=plaster],
+area[building:cladding=plaster],
+area[building:roof:material=plaster],
+area[roof:material=plaster]												{fill-color:#999999}
+
+area[building:material=roof_tiles],
+area[building:facade:material=roof_tiles],
+area[building:cladding=roof_tiles],
+area[building:roof:material=roof_tiles],
+area[roof:material=roof_tiles]											{fill-color:#f08060}
+
+area[building:material=silver],
+area[building:facade:material=silver],
+area[building:cladding=silver],
+area[building:roof:material=silver],
+area[roof:material=silver]												{fill-color:#cccccc}
+
+area[building:material=slate],
+area[building:facade:material=slate],
+area[building:cladding=slate],
+area[building:roof:material=slate],
+area[roof:material=slate]												{fill-color:#666666}
+
+area[building:material=stone],
+area[building:facade:material=stone],
+area[building:cladding=stone],
+area[building:roof:material=stone],
+area[roof:material=stone]												{fill-color:#996666}
+
+area[building:material=tar_paper],
+area[building:facade:material=tar_paper],
+area[building:cladding=tar_paper],
+area[building:roof:material=tar_paper],
+area[roof:material=tar_paper]											{fill-color:#333333}
+
+area[building:material=wood],
+area[building:facade:material=wood],
+area[building:cladding=wood],
+area[building:roof:material=wood],
+area[roof:material=wood]													{fill-color:#deb887}
+
+area[building:colour]													{ fill-color:eval(color(tag('building:colour')));}
+area[building:color]														{ fill-color:eval(color(tag('building:color')));}
+
+
 
 /* support only mansard/flat so far, so don't eval */
 area[roof:shape=flat]									{ roof-type: flat;}
 area[roof:shape=mansard]								{ roof-type: mansard;}
 
-area[man_made=bridge]									{ z-index: 9;  builder: building; behaviour: solid; height:0.5; min_height: 0; fill-color:#000000; building-style:bridge;}
+area[man_made=bridge]									{ z-index: 9;  builder: building; behaviour: solid; height:0.5; min_height: 0; fill-color:#000000; roof-color:#000000; building-style:bridge;}
+
 
 /* flat areas */
 area[amenity],

@@ -122,6 +122,8 @@ namespace Mercraft.Explorer.Scene.Builders
                 RoofType = rule.GetRoofType(),
                 FacadeColor = rule.GetFillColor(),
                 FacadeMaterial = rule.GetFacadeMaterial(),
+                RoofColor = rule.GetRoofColor(),
+                RoofMaterial = rule.GetRoofMaterial(),
                 Elevation = elevation, // we set equal elevation for every point
                 Footprint = points,
             };
