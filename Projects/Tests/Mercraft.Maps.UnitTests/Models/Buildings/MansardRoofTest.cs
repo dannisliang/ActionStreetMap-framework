@@ -4,6 +4,8 @@ using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Roofs;
 using NUnit.Framework;
+using UnityEngine;
+using Rect = Mercraft.Models.Geometry.Rect;
 
 namespace Mercraft.Maps.UnitTests.Models.Buildings
 {
@@ -33,6 +35,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
                 Roof = new BuildingStyle.RoofStyle()
                 {
                     Builders = new IRoofBuilder[] { new FlatRoofBuilder(), },
+                    FrontUvMap = new Rect(new Vector2(), new Vector2()),
                     Material = "",
                 },
                 Facade = new BuildingStyle.FacadeStyle()
