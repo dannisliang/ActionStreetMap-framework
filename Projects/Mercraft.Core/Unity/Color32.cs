@@ -18,6 +18,15 @@ namespace Mercraft.Core.Unity
             A = a;
         }
 
+        public int ToInt()
+        {
+            int rgb = R;
+            rgb = (rgb << 8) + G;
+            rgb = (rgb << 8) + B;
+
+            return rgb;
+        }
+
         public override string ToString()
         {
             return String.Format("({0},{1},{2},{3})", R, G, B, A);

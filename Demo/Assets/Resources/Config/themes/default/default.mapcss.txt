@@ -20,14 +20,14 @@ area[man_made=tower],
 area[building:levels],
 area[building:shape],
 area[building:part],
-area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; building-style:residential; fill-color:#f4f4f4; roof-color:#fdf4e3;}
+area[building]											{ z-index: 10; builder: building; behaviour: solid; height:12; min_height: 0; building-style:residential; fill-color:#f4f4f4; roof-color:#a5a5a5;}
 
 /* TODO: Dangerous rules! Sometimes builder is missed but this rule is applied */
 
 /* some of the buildings have set layer=1 instead of min_height*/
 /*area[building=yes][layer>0]								{ min_height: eval(num(tag('layer')) * num(3));}*/
 
-area[building:levels]									{ height: eval(num(tag('building:levels')) * num(5));}
+/*area[building:levels]									{ height: eval(num(tag('building:levels')) * num(5));}*/
 area[height]											{ height: eval(num(tag('height')));}
 area[building:height]									{ height: eval(num(tag('building:height')));}
 area[building:height][roof:height]						{ height: eval(num(tag('building:height')) - num(tag('roof:height')));}
@@ -161,7 +161,7 @@ area[building:color]														{ fill-color:eval(color(tag('building:color'))
 
 /* support only mansard/flat so far, so don't eval */
 area[roof:shape=flat]									{ roof-type: flat;}
-area[roof:shape=mansard]								{ roof-type: mansard;}
+area[roof:shape=mansard]									{ roof-type: mansard;}
 
 area[man_made=bridge]									{ z-index: 9;  builder: building; behaviour: solid; height:0.5; min_height: 0; fill-color:#000000; roof-color:#000000; building-style:bridge;}
 

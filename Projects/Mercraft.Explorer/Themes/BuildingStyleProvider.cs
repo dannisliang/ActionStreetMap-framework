@@ -1,25 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Unity;
 using Mercraft.Core.World.Buildings;
+using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Buildings;
-using Color32 = Mercraft.Core.Unity.Color32;
 
 namespace Mercraft.Explorer.Themes
 {
     /// <summary>
     ///     Provides the way to get BuildingStyle using Building
+    ///     This implementation uses color as key to find style
     /// </summary>
     public class BuildingStyleProvider : IBuildingStyleProvider
     {
         private readonly Dictionary<string, List<BuildingStyle.FacadeStyle>> _facadeStyleMapping;
         private readonly Dictionary<string, List<BuildingStyle.RoofStyle>> _roofStyleMapping;
 
+        // Cache which used to increase speed of lookup
+        private readonly DoubleKeyDictionary<string, Color32, BuildingStyle.FacadeStyle> _facadeStyleCache;
+        private readonly DoubleKeyDictionary<string, Color32, BuildingStyle.RoofStyle> _roofStyleCache;
+
         public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
             Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
         {
             _facadeStyleMapping = facadeStyleMapping;
             _roofStyleMapping = roofStyleMapping;
+
+            _facadeStyleCache = new DoubleKeyDictionary<string, Color32, BuildingStyle.FacadeStyle>();
+            _roofStyleCache = new DoubleKeyDictionary<string, Color32, BuildingStyle.RoofStyle>();
         }
 
         /// <summary>
@@ -55,45 +64,58 @@ namespace Mercraft.Explorer.Themes
             const int threshold = 5;
 
             // facade
-            var facadeIndex = 0;
-            var currentDiff = int.MaxValue;
-            for (int i = 0; i < facadeStyles.Count; i++)
+            BuildingStyle.FacadeStyle facadeStyle;
+            if (!_facadeStyleCache.ContainsKey(building.Type, building.FacadeColor))
             {
-                var difference = CalcColorDifference(building.FacadeColor, facadeStyles[i].Color);
-                if (difference < currentDiff)
+                var facadeIndex = 0;
+                var currentDiff = int.MaxValue;
+                for (int i = 0; i < facadeStyles.Count; i++)
                 {
-                    currentDiff = difference;
-                    facadeIndex = i;
-                    if (currentDiff <= threshold) break;
+                    var difference = Math.Abs(building.FacadeColor.ToInt() - facadeStyles[i].Color.ToInt());
+                    if (difference < currentDiff)
+                    {
+                        currentDiff = difference;
+                        facadeIndex = i;
+                        if (currentDiff <= threshold) break;
+                    }
                 }
+                facadeStyle = facadeStyles[facadeIndex];
+                _facadeStyleCache.Add(building.Type, building.FacadeColor, facadeStyle);
+            }
+            else
+            {
+                facadeStyle = _facadeStyleCache[building.Type, building.FacadeColor];
             }
 
             // roof
-            var roofIndex = 0;
-            currentDiff = int.MaxValue;
-            for (int i = 0; i < roofStyles.Count; i++)
+            BuildingStyle.RoofStyle roofStyle;
+            if (!_roofStyleCache.ContainsKey(building.Type, building.RoofColor))
             {
-                var difference = CalcColorDifference(building.RoofColor, roofStyles[i].Color);
-                if (difference < currentDiff)
+                var roofIndex = 0;
+                var currentDiff = int.MaxValue;
+                for (int i = 0; i < roofStyles.Count; i++)
                 {
-                    currentDiff = difference;
-                    roofIndex = i;
-                    if (currentDiff <= threshold) break;
+                    var difference = Math.Abs(building.RoofColor.ToInt() - roofStyles[i].Color.ToInt());
+                    if (difference < currentDiff)
+                    {
+                        currentDiff = difference;
+                        roofIndex = i;
+                        if (currentDiff <= threshold) break;
+                    }
                 }
+                roofStyle = roofStyles[roofIndex];
+                _roofStyleCache.Add(building.Type, building.RoofColor, roofStyle);
+            }
+            else
+            {
+                roofStyle = _roofStyleCache[building.Type, building.RoofColor];
             }
 
             return new BuildingStyle
             {
-                Facade = facadeStyles[facadeIndex],
-                Roof = roofStyles[roofIndex]
+                Facade = facadeStyle,
+                Roof = roofStyle
             };
-        }
-
-        private int CalcColorDifference(Color32 first, Color32 second)
-        {
-            return Math.Abs(first.R - second.R) +
-                   Math.Abs(first.G - second.G) +
-                   Math.Abs(first.B - second.B);
         }
     }
 }

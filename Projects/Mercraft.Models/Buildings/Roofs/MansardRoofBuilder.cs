@@ -113,8 +113,7 @@ namespace Mercraft.Models.Buildings.Roofs
 
             for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = new Vector2(footprint[i % count].X / style.Roof.UnitSize, 
-                    footprint[i % count].Y / style.Roof.UnitSize);
+                uv[i] = style.Roof.FrontUvMap.LeftBottom;
             }
 
             return uv;

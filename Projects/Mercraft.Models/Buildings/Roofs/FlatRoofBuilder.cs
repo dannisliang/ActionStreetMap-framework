@@ -43,12 +43,10 @@ namespace Mercraft.Models.Buildings.Roofs
 
         private Vector2[] GetUV(List<MapPoint> footprint, BuildingStyle style)
         {
-            // TODO find better way to define uv mapping
-            // TODO define constant in different place
             var uv = new Vector2[footprint.Count];
             for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = new Vector2(footprint[i].X / style.Roof.UnitSize, footprint[i].Y / style.Roof.UnitSize);
+                uv[i] = style.Roof.FrontUvMap.LeftBottom;
             }
 
             return uv;

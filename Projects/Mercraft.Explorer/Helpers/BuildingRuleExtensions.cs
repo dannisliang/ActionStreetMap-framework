@@ -25,7 +25,7 @@ namespace Mercraft.Explorer.Helpers
             return rule.EvaluateDefault<string>("roof-type", @default);
         }
 
-        public static Core.Unity.Color32 GetRoofColor(this Rule rule, string @default = null)
+        public static Core.Unity.Color32 GetRoofColor(this Rule rule)
         {
             return rule.Evaluate<Core.Unity.Color32>("roof-color", ColorUtility.FromUnknown);
         }
