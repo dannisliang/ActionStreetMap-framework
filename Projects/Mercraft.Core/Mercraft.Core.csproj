@@ -45,6 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoBase.cs">
+      <Link>Properties\AssemblyInfoBase.cs</Link>
+    </Compile>
     <Compile Include="Algorithms\CyrcleHelper.cs" />
     <Compile Include="Algorithms\Triangulator.cs" />
     <Compile Include="Algorithms\GeoProjection.cs" />

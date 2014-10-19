@@ -46,6 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoBase.cs">
+      <Link>Properties\AssemblyInfoBase.cs</Link>
+    </Compile>
     <Compile Include="Data\IElementSourceProvider.cs" />
     <Compile Include="Data\PbfElementSource.cs" />
     <Compile Include="Data\PbfIndexListElementSource.cs" />
