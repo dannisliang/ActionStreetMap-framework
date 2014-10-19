@@ -29,11 +29,10 @@ Vocabulary:
 	
 	Application specific:
 		* Mercraft - project name
-		* Scene - container of map data objects: Node/Way/Area/Relation
-		* Tile - object contains Scene of the certain area (bbox) with relation to game and geo coordinates 
-		* Zone - object contains Tile and the corresponding loaded game objects (buildings, roads, etc)
+		* Tile - contains loaded game objects (buildings, roads, etc). Has predefined in configuration size
 		* MapCss - a CSS-like language for map stylesheets (http://wiki.openstreetmap.org/wiki/MapCSS. 
 			App implementation uses custom syntax in some places, but the general idea is the same
+			
 		* DebugConsole - debugger console which is available in game. Provides the way to see log messages 
 			and perform custom commands like get information about current loaded zone/tile, etc.
 

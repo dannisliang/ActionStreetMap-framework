@@ -73,8 +73,6 @@ namespace Mercraft.Explorer.Scene
             var rule = _stylesheet.GetModelRule(area);
             if (ShouldUseBuilder(rule, area))
             {
-                // NOTE this is work-around as we cannot register instance in our container multiply time
-                // with default RegisterComponent
                 BuildArea(_tile, rule, area);
 
                 var modelBuilder = rule.GetModelBuilder(_builders);
@@ -94,8 +92,6 @@ namespace Mercraft.Explorer.Scene
             var rule = _stylesheet.GetModelRule(way);
             if (ShouldUseBuilder(rule, way))
             {
-                // NOTE this is work-around as we cannot register instance in our container multiply time
-                // with default RegisterComponent
                 BuildWay(_tile, rule, way);
 
                 var modelBuilder = rule.GetModelBuilder(_builders);
