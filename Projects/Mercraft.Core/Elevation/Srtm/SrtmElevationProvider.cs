@@ -7,6 +7,9 @@ using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.Elevation.Srtm
 {
+    /// <summary>
+    ///     This class provides elevation from SRTM data which can be found here: http://dds.cr.usgs.gov/srtm/
+    /// </summary>
     public class SrtmElevationProvider : IElevationProvider, IConfigurable
 	{
         private const string PathKey = "";
@@ -16,6 +19,10 @@ namespace Mercraft.Core.Elevation.Srtm
 
         private string _dataDirectory;
 
+        /// <summary>
+        ///     Creates SrtmElevationProvider/
+        /// </summary>
+        /// <param name="fileSystemService">File system service.</param>
         [Dependency]
         public SrtmElevationProvider(IFileSystemService fileSystemService)
         {
@@ -23,6 +30,7 @@ namespace Mercraft.Core.Elevation.Srtm
             _dataCells = new List<SrtmDataCell> ();
         }
 
+        /// <inheritdoc />
         public float GetElevation(double latitude, double longitude)
 	    {
             int cellLatitude = (int)Math.Floor(Math.Abs(latitude));
@@ -55,11 +63,13 @@ namespace Mercraft.Core.Elevation.Srtm
             return dataCell.GetElevation(latitude, longitude);
 	    }
 
+        /// <inheritdoc />
 	    public float GetElevation(GeoCoordinate geoCoordinate)
 	    {
 	        return GetElevation(geoCoordinate.Latitude, geoCoordinate.Longitude);
 	    }
 
+        /// <inheritdoc />
 	    public void Configure(IConfigSection configSection)
 	    {
             var path = configSection.GetString(PathKey);

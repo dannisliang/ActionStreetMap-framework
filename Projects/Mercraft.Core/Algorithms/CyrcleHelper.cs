@@ -5,10 +5,19 @@ using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Core.Algorithms
 {
+    /// <summary>
+    ///     Provides circle helper methods.
+    /// </summary>
     public static class CircleHelper
     {
         private const double ConvertionCoefficient = (6378137 * Math.PI) / 180;
 
+        /// <summary>
+        ///     Gets circle.
+        /// </summary>
+        /// <param name="relativeNullPoint">Relative null point.</param>
+        /// <param name="points">Geo coordinates.</param>
+        /// <returns>Tuple which represents circle: Item1 is diameter, Item2 is shpere center</returns>
         public static Tuple<float, MapPoint> GetCircle(GeoCoordinate relativeNullPoint, List<GeoCoordinate> points)
         {
             var minLat = points.Min(a => a.Latitude);

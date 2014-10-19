@@ -219,7 +219,7 @@ namespace Mercraft.Explorer.Scene
             if (rule.IsTerrain())
             {
                 var points = _objectPool.NewList<MapPoint>();
-                PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
+                PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
                 _areas.Add(new AreaSettings
                 {
                     ZIndex = rule.GetZIndex(),
@@ -232,7 +232,7 @@ namespace Mercraft.Explorer.Scene
             if (rule.IsElevation())
             {
                 var points = _objectPool.NewList<MapPoint>();
-                PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
+                PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
                 _elevations.Add(new AreaSettings
                 {
                     ZIndex = rule.GetZIndex(),
@@ -249,7 +249,7 @@ namespace Mercraft.Explorer.Scene
                 // road should be processed in one place: it's better to collect all 
                 // roads and create connected road network
                 var points = _objectPool.NewList<MapPoint>();
-                PolygonHelper.FillHeight(tile.RelativeNullPoint, tile.HeightMap, way.Points, points, way.Points.Count);
+                PointHelper.FillHeight(tile.RelativeNullPoint, tile.HeightMap, way.Points, points, way.Points.Count);
                 _roadElements.Add(new RoadElement
                 {
                     Id = way.Id,

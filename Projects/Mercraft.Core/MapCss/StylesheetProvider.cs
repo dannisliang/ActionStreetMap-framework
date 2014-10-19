@@ -8,8 +8,15 @@ using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.MapCss
 {
+    /// <summary>
+    ///     Defines provider which returns stylesheet
+    /// </summary>
     public interface IStylesheetProvider
     {
+        /// <summary>
+        ///  Gets stylesheet.
+        /// </summary>
+        /// <returns>Stylesheet.</returns>
         Stylesheet Get();
     }
 
@@ -29,30 +36,36 @@ namespace Mercraft.Core.MapCss
 
         #region Constructors
 
+        /// <summary>
+        ///     Creates stylesheet provider using file system service.
+        /// </summary>
+        /// <param name="fileSystemService">File system service.</param>
         [Dependency]
         public StylesheetProvider(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
         }
 
-        public StylesheetProvider(string path, IFileSystemService fileSystemService)
+        internal StylesheetProvider(string path, IFileSystemService fileSystemService)
             : this(fileSystemService)
         {
             _path = path;
         }
 
-        public StylesheetProvider(Stream stream, bool canUseExprTree)
+        internal StylesheetProvider(Stream stream, bool canUseExprTree)
         {
             _stylesheet = Create(stream, canUseExprTree);
         }
 
         #endregion
 
+        /// <inheritdoc />
         public Stylesheet Get()
         {
             return _stylesheet ?? (_stylesheet = Create());
         }
 
+        /// <inheritdoc />
         public void Configure(IConfigSection configSection)
         {
             _path = configSection.GetString(PathKey);

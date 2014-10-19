@@ -3,23 +3,30 @@ using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
+    /// <summary>
+    ///     Provides null realization of IMapCssVisitor
+    /// </summary>
     public class MapCssVisitorBase: IMapCssVisitor
     {
+        /// <inheritdoc />
         public virtual Stylesheet Visit(CommonTree tree)
         {
             return null;
         }
 
+        /// <inheritdoc />
         public virtual Style VisitStyle(CommonTree ruleTree)
         {
             return null;
         }
 
+        /// <inheritdoc />
         public virtual Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
             return null;
         }
 
+        /// <inheritdoc />
         public virtual Declaration VisitDeclaration(CommonTree declarationTree)
         {
             return null;

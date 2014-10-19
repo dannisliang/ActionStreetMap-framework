@@ -23,6 +23,11 @@ namespace Mercraft.Core.Elevation.Srtm
         /// </summary>
         public int Longitude { get; private set; }
 
+        /// <summary>
+        ///     Creates SrtmDataCell.
+        /// </summary>
+        /// <param name="filepath">File path.</param>
+        /// <param name="fileSystemService">File system service.</param>
         public SrtmDataCell(string filepath, IFileSystemService fileSystemService)
         {
             if (string.Compare(".hgt", Path.GetExtension(filepath), StringComparison.CurrentCultureIgnoreCase) != 0)
@@ -60,6 +65,12 @@ namespace Mercraft.Core.Elevation.Srtm
             _limit = _pointsPerCell*_pointsPerCell*2;
         }
 
+        /// <summary>
+        ///     Gets elevation for given latitude and longitude.
+        /// </summary>
+        /// <param name="latitude">Latitude.</param>
+        /// <param name="longitude">Longitude.</param>
+        /// <returns>Elevation.</returns>
         public float GetElevation(double latitude, double longitude)
         {
             int localLat = (int) ((latitude - Latitude)*_pointsPerCell);

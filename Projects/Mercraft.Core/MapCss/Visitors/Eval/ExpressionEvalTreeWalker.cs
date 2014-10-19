@@ -10,7 +10,7 @@ using Mercraft.Core.Utilities;
 namespace Mercraft.Core.MapCss.Visitors.Eval
 {
     /// <summary>
-    /// Naive implementation of Eval expression builder
+    ///     Naive implementation of Eval expression builder
     /// Internally, builds expression from common tree which represents operations in prefix notation
     /// Unfortunately, it can be used only on platform which support such features
     /// </summary>
@@ -21,12 +21,17 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private CommonTree _tree;
         private object _compiledLambda;
 
+        /// <summary>
+        ///     Creates ExpressionEvalTreeWalker
+        /// </summary>
+        /// <param name="tree">Parse tree.</param>
         public ExpressionEvalTreeWalker(CommonTree tree)
         {
             _tree = tree;
             _opStack = new OperationStack(_param);
         }
 
+        /// <inheritdoc />
         public T Walk<T>(Model model)
         {
             if (_compiledLambda != null)

@@ -14,6 +14,10 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
         private readonly byte _g;
         private readonly byte _b;
 
+        /// <summary>
+        ///     Parse tree.
+        /// </summary>
+        /// <param name="tree"></param>
         public ColorTreeWalker(CommonTree tree)
         {
             _r = byte.Parse(String.Intern(tree.Children[0].Text));
@@ -21,6 +25,7 @@ namespace Mercraft.Core.MapCss.Visitors.Eval
             _b = byte.Parse(String.Intern(tree.Children[2].Text));
         }
 
+        /// <inheritdoc />
         public T Walk<T>(Model model)
         {
             // TODO this looks ugly

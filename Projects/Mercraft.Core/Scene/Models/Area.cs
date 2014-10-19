@@ -3,14 +3,21 @@
 namespace Mercraft.Core.Scene.Models
 {
     /// <summary>
-    ///     Represents connected polygon. Used for buildings, parks
+    ///     Represents connected polygon. Used for buildings, park areas, etc.
     /// </summary>
     public class Area : Model
     {
+        /// <summary>
+        ///     Gets or sets geo coordinates for this model.
+        /// </summary>
         public List<GeoCoordinate> Points { get; set; }
 
+        /// <summary>
+        ///     Gets or sets points for holes inside this polygon.
+        /// </summary>
         public List<GeoCoordinate> Holes { get; set; }
 
+        /// <inheritdoc />
         public override bool IsClosed
         {
             get
@@ -21,6 +28,7 @@ namespace Mercraft.Core.Scene.Models
             }
         }
 
+        /// <inheritdoc />
         public override void Accept(IModelVisitor visitor)
         {
             visitor.VisitArea(this);

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Mercraft.Core.Utilities
 {
-    public static class SanitizeHelper
+    internal static class SanitizeHelper
     {
         private static readonly Regex RegexFloat = new Regex(@"(?<number>[0-9\.]*).*");
         

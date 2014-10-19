@@ -2,26 +2,58 @@
 
 namespace Mercraft.Core.Elevation
 {
+    /// <summary>
+    ///     Represents heightmap - object which provides information about elevation in given point.
+    /// </summary>
     public class HeightMap: IDisposable
     {
+        /// <summary>
+        ///     Gets or sets heightmap resolution.
+        /// </summary>
         public int Resolution { get; set; }
 
+        /// <summary>
+        ///     Gets or sets point of left bottom corner.
+        /// </summary>
         public MapPoint LeftBottomCorner { get; set; }
+
+        /// <summary>
+        ///     Gets or sets point of right upper corner.
+        /// </summary>
         public MapPoint RightUpperCorner { get; set; }
+
+        /// <summary>
+        ///     Gets or sets axis offset.
+        /// </summary>
         public float AxisOffset { get; set; }
 
+        /// <summary>
+        ///     Gets or sets min elevation of given heightmap.
+        /// </summary>
         public float MinElevation { get; set; }
+
+        /// <summary>
+        ///     Gets or sets max elevation of given heightmap.
+        /// </summary>
         public float MaxElevation { get; set; }
 
+        /// <summary>
+        ///    True if heightmap is flat.
+        /// </summary>
         public bool IsFlat { get; set; }
-        public bool IsNormalized { get; set; }
 
+        /// <summary>
+        ///     Gets or sets actual heightmap data.
+        /// </summary>
         public float[,] Data { get; set; }
 
+        /// <summary>
+        ///     Gets or sets heightmap size (in meters).
+        /// </summary>
         public float Size { get; set; }
 
         /// <summary>
-        ///     Returns corresponding height for given point
+        ///     Returns corresponding height for given point.
         /// </summary>
         public virtual float LookupHeight(MapPoint mapPoint)
         {
@@ -39,11 +71,13 @@ namespace Mercraft.Core.Elevation
             return Data[j, i];
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

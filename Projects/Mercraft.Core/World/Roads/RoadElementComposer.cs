@@ -4,10 +4,13 @@ using Mercraft.Infrastructure.Primitives;
 
 namespace Mercraft.Core.World.Roads
 {
+    /// <summary>
+    ///     This class handles road element processing.
+    /// </summary>
     public static class RoadElementComposer
     {
         /// <summary>
-        ///     Composes RoadElement collection which consist of list of joined road elements 
+        ///     Composes RoadElement list which consist of list of joined road elements 
         /// </summary>
         public static IEnumerable<List<RoadElement>> Compose(List<RoadElement> roadElements)
         {

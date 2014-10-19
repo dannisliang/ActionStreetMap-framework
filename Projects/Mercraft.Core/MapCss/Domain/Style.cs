@@ -3,6 +3,9 @@ using Mercraft.Core.Scene.Models;
 
 namespace Mercraft.Core.MapCss.Domain
 {
+    /// <summary>
+    ///     Represents MapCSS. style
+    /// </summary>
     public class Style
     {
         /// <summary>
@@ -20,12 +23,20 @@ namespace Mercraft.Core.MapCss.Domain
         /// </summary>
         public Dictionary<string, Declaration> Declarations { get; set; }
 
+        /// <summary>
+        ///     Creates empty Style
+        /// </summary>
         public Style()
         {
             Selectors = new List<Selector>();
             Declarations = new Dictionary<string, Declaration>();
         }
 
+        /// <summary>
+        ///     Checks whether model is defined in style.
+        /// </summary>
+        /// <param name="model">Model.</param>
+        /// <returns>True if model is applicable.</returns>
         public bool IsApplicable(Model model)
         {
             // NOTE don't use LINQ here as it's performance critical code

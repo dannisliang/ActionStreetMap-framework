@@ -2,12 +2,21 @@
 
 namespace Mercraft.Core.Algorithms
 {
+    /// <summary>
+    ///     Provides logic to do triangulation.
+    /// </summary>
     public class Triangulator
     {
         private static readonly List<int> Indices = new List<int>(256);
+
+        /// <summary>
+        ///     Triangulates given polygon.
+        /// </summary>
+        /// <param name="points">Points which represents polygon.</param>
+        /// <param name="reverse">Reverse points.</param>
+        /// <returns>Triangles.</returns>
         public static int[] Triangulate(List<MapPoint> points, bool reverse = true)
         {
-            //var indices = new List<int>((points.Count -2) * 3);
             Indices.Clear();
 
             int n = points.Count;

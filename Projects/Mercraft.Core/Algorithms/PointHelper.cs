@@ -5,16 +5,16 @@ using Mercraft.Core.Elevation;
 namespace Mercraft.Core.Algorithms
 {
     /// <summary>
-    /// TODO rename class
+    ///     Provids some helper methods for points
     /// </summary>
-    public static class PolygonHelper
+    public static class PointHelper
     {
         /// <summary>
-        /// Converts geo coordinates to map coordinates
+        ///     Converts geo coordinates to map coordinates.
         /// </summary>
-        /// <param name="center">Map center</param>
-        /// <param name="geoCoordinates">Geo coordinates</param>
-        /// <param name="verticies">output points</param>
+        /// <param name="center">Map center.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="verticies">Output points.</param>
         public static void GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates, 
             List<MapPoint> verticies)
         {
@@ -41,6 +41,13 @@ namespace Mercraft.Core.Algorithms
             SortVertices(verticies);
         }
 
+        /// <summary>
+        ///     Fills verticies
+        /// </summary>
+        /// <param name="center">Center.</param>
+        /// <param name="heightMap">Heightmap.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="verticies">Verticies.</param>
         public static void GetVerticies3D(GeoCoordinate center, HeightMap heightMap,
             List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies)
         {
@@ -63,6 +70,14 @@ namespace Mercraft.Core.Algorithms
             SortVertices(verticies);
         }
 
+        /// <summary>
+        ///     Fills heighmap.
+        /// </summary>
+        /// <param name="center">Center.</param>
+        /// <param name="heightMap">Heightmap.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="verticies">Verticies.</param>
+        /// <param name="length">Length.</param>
         public static void FillHeight(GeoCoordinate center, HeightMap heightMap, List<GeoCoordinate> geoCoordinates,
             List<MapPoint> verticies, int length)
         {
@@ -75,7 +90,7 @@ namespace Mercraft.Core.Algorithms
         }
 
         /// <summary>
-        /// Sorts verticies in clockwise order
+        ///     Sorts verticies in clockwise order.
         /// </summary>
         private static void SortVertices(List<MapPoint> verticies)
         {
@@ -125,13 +140,22 @@ namespace Mercraft.Core.Algorithms
             return PolygonDirection.Unknown;
         }
 
-
+        /// <summary>
+        ///     Gets triangles.
+        /// </summary>
+        /// <param name="verticies2D">Verticies.</param>
+        /// <returns>Triangles.</returns>
         public static int[] GetTriangles(List<MapPoint> verticies2D)
         {
             return Triangulator.Triangulate(verticies2D);
         }
 
         // TODO optimization: we needn't triangles for floor in case of building!
+        /// <summary>
+        ///     Gets triangles for 3D building.
+        /// </summary>
+        /// <param name="verticies2D">Verticies.</param>
+        /// <returns>Triangles.</returns>
         public static int[] GetTriangles3D(List<MapPoint> verticies2D)
         {
             var verticiesLength = verticies2D.Count;

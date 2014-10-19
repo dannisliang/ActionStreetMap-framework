@@ -2,7 +2,7 @@
 
 namespace Mercraft.Core.Utilities
 {
-    public static class MathUtility
+    internal static class MathUtility
     {
         /// <summary>
         ///     Converts degrees to radians
@@ -20,6 +20,13 @@ namespace Mercraft.Core.Utilities
             return 180.0*radians/Math.PI;
         }
 
+        /// <summary>
+        ///     Compares equality of two double using epsilon
+        /// </summary>
+        /// <param name="a">First double.</param>
+        /// <param name="b">Second double.</param>
+        /// <param name="epsilon">Epsilon</param>
+        /// <returns>True if equal</returns>
         public static bool AreEqual(double a, double b, double epsilon = double.Epsilon)
         {
             return Math.Abs(a - b) < epsilon;

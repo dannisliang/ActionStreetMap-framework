@@ -5,15 +5,23 @@ using Mercraft.Core.MapCss.Visitors.Eval;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
+    /// <summary>
+    ///     Provides logic to parse declarations.
+    /// </summary>
     public class DeclarationMapCssVisitor: MapCssVisitorBase
     {
         private readonly bool _canUseExprTree;
 
+        /// <summary>
+        ///     Creates DeclarationMapCssVisitor
+        /// </summary>
+        /// <param name="canUseExprTree">True if platform supports expression trees.</param>
         public DeclarationMapCssVisitor(bool canUseExprTree)
         {
             _canUseExprTree = canUseExprTree;
         }
 
+        /// <inheritdoc />
         public override Declaration VisitDeclaration(CommonTree declarationTree)
         {
             var declaration = new Declaration();

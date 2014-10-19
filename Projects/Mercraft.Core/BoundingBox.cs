@@ -1,39 +1,66 @@
-﻿
-using System;
+﻿using System;
 using Mercraft.Core.Utilities;
 
 namespace Mercraft.Core
 {
     /// <summary>
-    /// Represents bounding box
-    /// See details: http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
+    ///     Represents bounding box. See details:
+    ///     http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
     /// </summary>
     public class BoundingBox
     {
+        /// <summary>
+        ///     Gets or sets point with minimal latitude and longitude
+        /// </summary>
         public GeoCoordinate MinPoint { get; set; }
+
+        /// <summary>
+        ///     Gets or sets point with maximum latitude and longitude
+        /// </summary>
         public GeoCoordinate MaxPoint { get; set; }
-        
+
         // Semi-axes of WGS-84 geoidal reference
         private const double WGS84_a = 6378137.0; // Major semiaxis [m]
         private const double WGS84_b = 6356752.3; // Minor semiaxis [m]
 
+        /// <summary>
+        ///     Creates bounding box from given min and max points
+        /// </summary>
+        /// <param name="minPoint">Point with minimal latitude and longitude</param>
+        /// <param name="maxPoint">Point with maximum latitude and longitude</param>
         public BoundingBox(GeoCoordinate minPoint, GeoCoordinate maxPoint)
         {
             MinPoint = minPoint;
             MaxPoint = maxPoint;
         }
 
+        /// <summary>
+        ///     Checks whether point with given latitude and longitude is in bounding box
+        /// </summary>
+        /// <param name="latitude">Latitude</param>
+        /// <param name="longitude">Longitude</param>
+        /// <returns>True if point in bounding box</returns>
         public bool Contains(double latitude, double longitude)
         {
             return (MaxPoint.Latitude > latitude && latitude >= MinPoint.Latitude) &&
-                 (MaxPoint.Longitude > longitude && longitude >= MinPoint.Longitude);
+                   (MaxPoint.Longitude > longitude && longitude >= MinPoint.Longitude);
         }
 
+        /// <summary>
+        ///     Checks whether given geo coordinate is in bounding box
+        /// </summary>
+        /// <param name="point">Geocoordinate</param>
+        /// <returns>True if point in bounding box</returns>
         public bool Contains(GeoCoordinate point)
         {
             return Contains(point.Latitude, point.Longitude);
         }
 
+        /// <summary>
+        ///     Checks whether given bounding box and current are intersecting
+        /// </summary>
+        /// <param name="bbox">Bounding box</param>
+        /// <returns>True if intersect</returns>
         public bool Intersect(BoundingBox bbox)
         {
             //return this.MaxPoint
@@ -43,7 +70,7 @@ namespace Mercraft.Core
         }
 
         /// <summary>
-        /// Gets size of bbox's side
+        ///     Gets size of bbox's side
         /// </summary>
         public double Size()
         {
@@ -53,20 +80,20 @@ namespace Mercraft.Core
             var lat1 = MathUtility.Deg2Rad(MaxPoint.Latitude);
             var lat2 = MathUtility.Deg2Rad(MinPoint.Latitude);
 
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                 Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+            var a = Math.Sin(dLat/2)*Math.Sin(dLat/2) +
+                    Math.Sin(dLon/2)*Math.Sin(dLon/2)*Math.Cos(lat1)*Math.Cos(lat2);
 
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var c = 2*Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
             var radius = WGS84EarthRadius(dLat);
 
-            return (radius * c) / Math.Sqrt(2);
+            return (radius*c)/Math.Sqrt(2);
         }
 
         #region Operations
 
         /// <summary>
-        /// Adds point to bounding boxes together yielding as result the smallest box that surrounds both.
+        ///     Adds point to bounding boxes together yielding as result the smallest box that surrounds both.
         /// </summary>
         public static BoundingBox operator +(BoundingBox a, GeoCoordinate b)
         {
@@ -81,6 +108,9 @@ namespace Mercraft.Core
             return new BoundingBox(minPoint, maxPoint);
         }
 
+        /// <summary>
+        ///     Adds bounding box to current
+        /// </summary>
         public static BoundingBox operator +(BoundingBox a, BoundingBox b)
         {
             var minLat = a.MinPoint.Latitude < b.MinPoint.Latitude ? a.MinPoint.Latitude : b.MinPoint.Latitude;
@@ -97,7 +127,7 @@ namespace Mercraft.Core
         # region Creation
 
         /// <summary>
-        /// Creates bounding box
+        ///     Creates bounding box
         /// </summary>
         /// <param name="point">Center</param>
         /// <param name="halfSideInM">Half length of the bounding box</param>
@@ -112,12 +142,12 @@ namespace Mercraft.Core
             // Radius of Earth at given latitude
             var radius = WGS84EarthRadius(lat);
             // Radius of the parallel at given latitude
-            var pradius = radius* Math.Cos(lat);
+            var pradius = radius*Math.Cos(lat);
 
-            var latMin = lat - halfSideInM / radius;
-            var latMax = lat + halfSideInM / radius;
-            var lonMin = lon - halfSideInM / pradius;
-            var lonMax = lon + halfSideInM / pradius;
+            var latMin = lat - halfSideInM/radius;
+            var latMax = lat + halfSideInM/radius;
+            var lonMin = lon - halfSideInM/pradius;
+            var lonMax = lon + halfSideInM/pradius;
 
             return new BoundingBox(
                 new GeoCoordinate(MathUtility.Rad2Deg(latMin), MathUtility.Rad2Deg(lonMin)),
@@ -126,7 +156,7 @@ namespace Mercraft.Core
 
 
         /// <summary>
-        /// Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]
+        ///     Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]
         /// </summary>
         private static double WGS84EarthRadius(double lat)
         {

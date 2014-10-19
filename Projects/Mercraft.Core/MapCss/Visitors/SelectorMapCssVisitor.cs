@@ -4,8 +4,12 @@ using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
+    /// <summary>
+    ///     Selector visitor.
+    /// </summary>
     public class SelectorMapCssVisitor : MapCssVisitorBase
     {
+        /// <inheritdoc />
         public override Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
             Selector selector;
@@ -36,7 +40,7 @@ namespace Mercraft.Core.MapCss.Visitors
         }
 
         /// <summary>
-        ///     Processes selector definition
+        ///     Processes selector definition.
         /// </summary>
         private void ParseOperation(CommonTree selectorTree, Selector selector, string operation)
         {

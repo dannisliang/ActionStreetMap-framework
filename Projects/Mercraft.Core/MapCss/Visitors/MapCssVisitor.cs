@@ -5,10 +5,17 @@ using Mercraft.Core.MapCss.Domain;
 
 namespace Mercraft.Core.MapCss.Visitors
 {
+    /// <summary>
+    ///     Defines defaul mapcss visitor.
+    /// </summary>
     public class MapCssVisitor : IMapCssVisitor
     {
         private readonly List<IMapCssVisitor> _visitors;
 
+        /// <summary>
+        ///     Creates mapcss visitor.
+        /// </summary>
+        /// <param name="canUseExprTree">True if current API supports expression trees.</param>
         public MapCssVisitor(bool canUseExprTree)
         {
             _visitors = new List<IMapCssVisitor>
@@ -18,11 +25,7 @@ namespace Mercraft.Core.MapCss.Visitors
             };
         }
 
-        public MapCssVisitor(List<IMapCssVisitor> visitors)
-        {
-            _visitors = visitors;
-        }
-
+        /// <inheritdoc />
         public Stylesheet Visit(CommonTree tree)
         {
             var stylesheet = new Stylesheet();
@@ -38,6 +41,7 @@ namespace Mercraft.Core.MapCss.Visitors
             return stylesheet;
         }
 
+        /// <inheritdoc />
         public Style VisitStyle(CommonTree ruleTree)
         {
             var style = new Style();
@@ -109,13 +113,14 @@ namespace Mercraft.Core.MapCss.Visitors
             return style;
         }
 
-
+        /// <inheritdoc />
         public Selector VisitSelector(CommonTree selectorTree, string selectorType)
         {
             return _visitors.Select(visitor => visitor.VisitSelector(selectorTree, selectorType))
                             .FirstOrDefault(declaration => declaration != null);
         }
 
+        /// <inheritdoc />
         public Declaration VisitDeclaration(CommonTree declarationTree)
         {
             return _visitors.Select(visitor => visitor.VisitDeclaration(declarationTree))

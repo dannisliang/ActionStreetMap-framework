@@ -4,6 +4,9 @@ using Mercraft.Core.Unity;
 
 namespace Mercraft.Core.Utilities
 {
+    /// <summary>
+    ///     Provides helper method to work with colors.
+    /// </summary>
     public static class ColorUtility
     {
         // TODO replace before release with different color
@@ -193,6 +196,11 @@ namespace Mercraft.Core.Utilities
         };
         #endregion
 
+        /// <summary>
+        ///     Gets color from given name.
+        /// </summary>
+        /// <param name="name">Name.</param>
+        /// <returns>Color.</returns>
         public static Color32 FromName(string name)
         {
             var lowerCaseName = name.ToLowerInvariant();
@@ -201,6 +209,11 @@ namespace Mercraft.Core.Utilities
                 KnownColors[DefaultColor];
         }
 
+        /// <summary>
+        ///     Gets color from its hex representation.
+        /// </summary>
+        /// <param name="color">Hex color string.</param>
+        /// <returns>Color.</returns>
         public static Color32 FromHex(string color)
         {
             byte red = (byte) (HexToInt(color[1]) + HexToInt(color[0]) * 16.000);
@@ -210,6 +223,11 @@ namespace Mercraft.Core.Utilities
             return finalColor;
         }
 
+        /// <summary>
+        ///     Gets color from its unknown representation. Supports name or hex
+        /// </summary>
+        /// <param name="colorString">Color string.</param>
+        /// <returns>Color.</returns>
         public static Color32 FromUnknown(string colorString)
         {
             var lowercase = colorString.ToLowerInvariant();

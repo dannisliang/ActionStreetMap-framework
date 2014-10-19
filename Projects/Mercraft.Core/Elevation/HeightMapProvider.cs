@@ -4,16 +4,26 @@ using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Core.Elevation
 {
+    /// <summary>
+    ///     Defines behavior of heightmap provider.
+    /// </summary>
     public interface IHeightMapProvider
     {
         /// <summary>
-        ///     Returns heightmap array for given center with given resolution
+        ///     Returns heightmap array for given center with given resolution/
         /// </summary>
         HeightMap Get(Tile tile, int resolution);
 
+        /// <summary>
+        ///     Store heightmap in object pool to reuse in next call.
+        /// </summary>
+        /// <param name="heightMap">Heightmap.</param>
         void Store(HeightMap heightMap);
     }
 
+    /// <summary>
+    ///     Default realization of heightmap provider.
+    /// </summary>
     public class HeightMapProvider: IHeightMapProvider
     {
         private const int MaxHeight = 8000;
@@ -23,8 +33,12 @@ namespace Mercraft.Core.Elevation
         private float[,] _map;
         private float[,] _smoothNoiseBuffer;
 
-        public bool DoSmooth { get; set; }
+        internal bool DoSmooth { get; set; }
 
+        /// <summary>
+        ///     Creates HeightMapProvider.
+        /// </summary>
+        /// <param name="elevationProvider">Elevation provider.</param>
         [Dependency]
         public HeightMapProvider(IElevationProvider elevationProvider)
         {
@@ -32,6 +46,7 @@ namespace Mercraft.Core.Elevation
             DoSmooth = true;
         }
 
+        /// <inheritdoc />
         public HeightMap Get(Tile tile, int resolution)
         {
             // NOTE so far we do not expect resolution change without restarting app
@@ -84,6 +99,7 @@ namespace Mercraft.Core.Elevation
             };
         }
 
+        /// <inheritdoc />
         public void Store(HeightMap heightMap)
         {
             Array.Clear(_map, 0, _map.Length);

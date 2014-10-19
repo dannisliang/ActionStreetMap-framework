@@ -44,7 +44,7 @@ namespace Mercraft.Explorer.Scene.Builders
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, way));
 
             var points = ObjectPool.NewList<MapPoint>();
-            PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points, points);
+            PointHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, way.Points, points);
             
             // reuse lines
             _lines.Clear();

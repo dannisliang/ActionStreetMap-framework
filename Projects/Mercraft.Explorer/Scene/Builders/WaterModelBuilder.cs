@@ -44,9 +44,9 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
-            PolygonHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, verticies2D);
+            PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, verticies2D);
             var offsetVerticies3D = GetOffsetPoints(verticies2D).GetVerticies(tile.HeightMap.MinElevation);
-            var triangles = PolygonHelper.GetTriangles(verticies2D);
+            var triangles = PointHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
 
             ObjectPool.Store(verticies2D);

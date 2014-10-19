@@ -1,7 +1,7 @@
 ﻿
 namespace Mercraft.Core.Utilities
 {
-    public class GeometryUtils
+    internal class GeometryUtils
     {
         /// <summary>
         ///     Checks whether point is located in triangle

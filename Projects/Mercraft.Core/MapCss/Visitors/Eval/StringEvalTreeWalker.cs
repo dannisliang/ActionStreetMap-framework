@@ -8,19 +8,23 @@ using Mercraft.Core.Utilities;
 namespace Mercraft.Core.MapCss.Visitors.Eval
 {
     /// <summary>
-    ///     Provides workaround to process eval expressions for platforms
-    ///     which doesn't support expression trees (e.g. web player)
+    ///     Provides workaround to process eval expressions for platforms which doesn't support expression trees (e.g. web player).
     /// </summary>
     public class StringEvalTreeWalker: ITreeWalker
     {
         private readonly CommonTree _tree;
         private OperationStack _opStack;
 
+        /// <summary>
+        ///     Creates StringEvalTreeWalker
+        /// </summary>
+        /// <param name="tree">Parse tree.</param>
         public StringEvalTreeWalker(CommonTree tree)
         {
             _tree = tree;
         }
 
+        /// <inheritdoc />
         public T Walk<T>(Model model)
         {
             _opStack = new OperationStack(model);

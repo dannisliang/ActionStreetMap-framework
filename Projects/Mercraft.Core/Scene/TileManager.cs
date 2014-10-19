@@ -10,6 +10,9 @@ using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Core.Scene
 {
+    /// <summary>
+    ///     This class listens to position changes and manages tile processing
+    /// </summary>
     public class TileManager : IPositionListener, IConfigurable
     {
         /// <summary>
@@ -36,18 +39,34 @@ namespace Mercraft.Core.Scene
         private readonly DoubleKeyDictionary<int, int, Tile> _allTiles = new DoubleKeyDictionary<int, int, Tile>();
         private readonly DoubleKeyDictionary<int, int, Tile> _activeTiles = new DoubleKeyDictionary<int, int, Tile>();
 
+        /// <summary>
+        ///     Gets relative null point
+        /// </summary>
         public GeoCoordinate RelativeNullPoint { get; private set; }
 
+        /// <summary>
+        ///     Gets current tile.
+        /// </summary>
         public Tile Current
         {
             get { return _allTiles[_currentTileIndex.Item1, _currentTileIndex.Item2]; }
         }
 
+        /// <summary>
+        ///     Gets all tile count.
+        /// </summary>
         public int Count
         {
             get { return _allTiles.Count(); }
         }
 
+        /// <summary>
+        ///     Creats TileManager.
+        /// </summary>
+        /// <param name="tileLoader">Tile loeader.</param>
+        /// <param name="heightMapProvider">Heightmap provider.</param>
+        /// <param name="tileActivator">Tile activator.</param>
+        /// <param name="messageBus">Message bus.</param>
         [Dependency]
         public TileManager(ITileLoader tileLoader, IHeightMapProvider heightMapProvider, 
             ITileActivator tileActivator, IMessageBus messageBus)
@@ -58,6 +77,7 @@ namespace Mercraft.Core.Scene
             _tileActivator = tileActivator;
         }
 
+        /// <inheritdoc />
         public void OnMapPositionChanged(MapPoint position)
         {
             int i = Convert.ToInt32(position.X /_tileSize);
@@ -79,6 +99,7 @@ namespace Mercraft.Core.Scene
             _currentTileIndex.Item2 = j;
         }
 
+        /// <inheritdoc />
         public void OnGeoPositionChanged(GeoCoordinate position)
         {
             RelativeNullPoint = position;

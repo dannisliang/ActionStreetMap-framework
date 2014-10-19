@@ -4,7 +4,7 @@ namespace Mercraft.Core.MapCss
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly")]
     [Serializable]
-    public class MapCssFormatException: Exception
+    internal class MapCssFormatException: Exception
     {
         public object Tree { get; private set; }
 

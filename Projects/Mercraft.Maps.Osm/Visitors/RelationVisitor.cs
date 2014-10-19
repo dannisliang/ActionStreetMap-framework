@@ -3,7 +3,6 @@ using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Entities;
 using Way = Mercraft.Maps.Osm.Entities.Way;
@@ -20,8 +19,10 @@ namespace Mercraft.Maps.Osm.Visitors
         public override void VisitRelation(Relation relation)
         {
             // see http://wiki.openstreetmap.org/wiki/Relation:multipolygon
-
-            if (relation.Tags.ContainsKeyValue("type", "multipolygon"))
+            string actualValue;
+            if (relation.Tags != null && 
+                relation.Tags.TryGetValue("type", out actualValue) && 
+                actualValue == "multipolygon")
             {
                 var innerWays = new List<Way>();
                 var outerWays = new List<Way>();

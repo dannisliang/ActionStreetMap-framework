@@ -22,8 +22,9 @@ namespace Mercraft.Core.World
         /// </summary>
         public string Code { get; set; }
 
-        // TODO add other valuable information
-
+        /// <summary>
+        ///     Converts to string
+        /// </summary>
         public override string ToString()
         {
             return String.Format("{0} {1} {2}", Name, Street, Code);

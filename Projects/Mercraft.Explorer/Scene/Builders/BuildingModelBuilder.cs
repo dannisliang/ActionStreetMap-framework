@@ -62,7 +62,7 @@ namespace Mercraft.Explorer.Scene.Builders
         private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, List<GeoCoordinate> footPrint)
         {
             var points = ObjectPool.NewList<MapPoint>();
-            PolygonHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint, points);
+            PointHelper.GetVerticies3D(tile.RelativeNullPoint, tile.HeightMap, footPrint, points);
             var minHeight = rule.GetMinHeight();
 
             var elevation = AdjustHeightMap(tile.HeightMap, points, minHeight);
