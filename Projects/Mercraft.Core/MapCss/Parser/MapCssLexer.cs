@@ -4368,13 +4368,13 @@ public partial class MapCssLexer : Antlr.Runtime.Lexer
 					DebugLocation(540, 10);
 					if (state.backtracking == 0)
 					{
-
-							           if (s == null) {
+                            // SUPPRESS WARNING
+							          /* if (s == null) {
 							              _type = (d == null ? POSITIVE_INT : POSITIVE_FLOAT);
 							           } else {
 							              _type = (d == null ? NEGATIVE_INT : NEGATIVE_FLOAT);
-							           }
-						   	        
+							           }*/
+					    _type = NEGATIVE_FLOAT;
 					}
 
 					}
