@@ -17,6 +17,9 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private BoundingBox _box;
 
+        /// <summary>
+        ///     True if ready to use.
+        /// </summary>
         protected bool IsInitialized { get; set; }
 
         /// <summary>
@@ -257,6 +260,7 @@ namespace Mercraft.Maps.Osm.Data
             return way;
         }
 
+        /// <inheritdoc />
         public virtual void Reset()
         {
         }
@@ -423,6 +427,7 @@ namespace Mercraft.Maps.Osm.Data
             return res;
         }
 
+        /// <inheritdoc />
         public virtual void Initialize()
         {
             if (!IsInitialized)
@@ -430,6 +435,7 @@ namespace Mercraft.Maps.Osm.Data
                     "You should call other Initialize(IEnumerable<Element>) method before this one");
         }
 
+        /// <inheritdoc />
         public void Initialize(IEnumerable<Element> sourceStream)
         {
             var elementVisitor = new ActionElementVisitor(
@@ -442,11 +448,13 @@ namespace Mercraft.Maps.Osm.Data
             IsInitialized = true;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
         }

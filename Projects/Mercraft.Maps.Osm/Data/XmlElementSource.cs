@@ -11,7 +11,7 @@ using Mercraft.Maps.Osm.Formats.Xml;
 namespace Mercraft.Maps.Osm.Data
 {
     /// <summary>
-    /// A stream reader that reads from OSM Xml.
+    ///     A stream reader that reads from OSM Xml.
     /// </summary>
     public class XmlElementSource : StatefulElementSource, IEnumerator<Element>, IEnumerable<Element>
     {
@@ -32,16 +32,15 @@ namespace Mercraft.Maps.Osm.Data
         private bool _disposeStream = false;
 
         /// <summary>
-        /// Creates a new OSM Xml processor source.
+        ///     Creates a new OSM Xml processor source.
         /// </summary>
         public XmlElementSource(Stream stream) :
             this(stream, false)
         {
-
         }
 
         /// <summary>
-        /// Creates a new OSM XML processor source.
+        ///     Creates a new OSM XML processor source.
         /// </summary>
         public XmlElementSource(Stream stream, bool gzip)
         {
@@ -50,21 +49,21 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Initializes this source.
+        ///     Initializes this source.
         /// </summary>
         public override void Initialize()
         {
             _next = null;
-            _serNode = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.node));
-            _serWay = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.way));
-            _serRelation = new XmlSerializer(typeof(Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
+            _serNode = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.node));
+            _serWay = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.way));
+            _serRelation = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
 
             Reset();
             Initialize(this);
         }
-        
+
         /// <summary>
-        /// Resets this source.
+        ///     Resets this source.
         /// </summary>
         public override void Reset()
         {
@@ -78,7 +77,8 @@ namespace Mercraft.Maps.Osm.Data
 
             // seek to the beginning of the stream.
             if (_stream.CanSeek)
-            { // if a non-seekable stream is given resetting is disabled.
+            {
+                // if a non-seekable stream is given resetting is disabled.
                 _stream.Seek(0, SeekOrigin.Begin);
             }
 
@@ -98,25 +98,23 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Returns true if this source can be reset.
+        ///     Returns true if this source can be reset.
         /// </summary>
         public bool CanReset
         {
-            get
-            {
-                return _stream.CanSeek;
-            }
+            get { return _stream.CanSeek; }
         }
 
         /// <summary>
-        /// Moves this source to the next object.
+        ///     Moves this source to the next object.
         /// </summary>
         /// <returns></returns>
         public bool MoveNext()
         {
             while (_reader.Read())
             {
-                if (_reader.NodeType == XmlNodeType.Element && (_reader.Name == "node" || _reader.Name == "way" || _reader.Name == "relation"))
+                if (_reader.NodeType == XmlNodeType.Element &&
+                    (_reader.Name == "node" || _reader.Name == "way" || _reader.Name == "relation"))
                 {
                     // create a stream for only this element.
                     string name = _reader.Name;
@@ -127,30 +125,34 @@ namespace Mercraft.Maps.Osm.Data
                     // select type of element.
                     switch (name)
                     {
-                         case "node":
-                             osmObj = _serNode.Deserialize(reader);
-                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.node)
-                             {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.node);
-                                 return true;
-                             }
-                             break;
-                         case "way":
-                             osmObj = _serWay.Deserialize(reader);
-                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.way)
-                             {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.way);
-                                 return true;
-                             }
-                             break;
-                         case "relation":
-                             osmObj = _serRelation.Deserialize(reader);
-                             if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.relation)
-                             {
-                                 _next = XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.relation);
-                                 return true;
-                             }
-                             break;
+                        case "node":
+                            osmObj = _serNode.Deserialize(reader);
+                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.node)
+                            {
+                                _next =
+                                    XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.node);
+                                return true;
+                            }
+                            break;
+                        case "way":
+                            osmObj = _serWay.Deserialize(reader);
+                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.way)
+                            {
+                                _next =
+                                    XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.way);
+                                return true;
+                            }
+                            break;
+                        case "relation":
+                            osmObj = _serRelation.Deserialize(reader);
+                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.relation)
+                            {
+                                _next =
+                                    XmlSimpleConverter.ConvertToSimple(
+                                        osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.relation);
+                                return true;
+                            }
+                            break;
                     }
                 }
             }
@@ -159,12 +161,15 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        /// Returns the current object.
+        ///     Returns the current object.
         /// </summary>
-        public Element Current { get { return _next; }}
-        
+        public Element Current
+        {
+            get { return _next; }
+        }
+
         /// <summary>
-        /// Disposes all resources associated with this stream.
+        ///     Disposes all resources associated with this stream.
         /// </summary>
         protected override void Dispose(bool disposing)
         {
@@ -174,11 +179,13 @@ namespace Mercraft.Maps.Osm.Data
             }
         }
 
+        /// <inheritdoc />
         public IEnumerator<Element> GetEnumerator()
         {
             return this;
         }
 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

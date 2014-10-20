@@ -1,25 +1,23 @@
-﻿
-namespace Mercraft.Maps.Osm.Entities
+﻿namespace Mercraft.Maps.Osm.Entities
 {
     /// <summary>
-    /// Represents simple relation member.
+    ///     Represents simple relation member.
     /// </summary>
     public class RelationMember
     {
         /// <summary>
-        /// Member
+        ///     Member.
         /// </summary>
         public Element Member { get; set; }
 
         /// <summary>
-        /// The member id.
+        ///     Member id.
         /// </summary>
         public long MemberId { get; set; }
 
         /// <summary>
-        /// The member role.
+        ///     Member role.
         /// </summary>
         public string Role { get; set; }
-
     }
 }

@@ -9,6 +9,9 @@ using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Data
 {
+    /// <summary>
+    ///     Creates pbf element source which support index list files which are result of osm splitter processing.
+    /// </summary>
     public class PbfIndexListElementSource : PbfElementSource
     {
         private const string IndexFilePattern = "*.list";
@@ -25,6 +28,11 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly List<Element> _resultElements = new List<Element>(4096);
 
+        /// <summary>
+        ///     Creates PbfIndexListElementSource.
+        /// </summary>
+        /// <param name="indexListPath">Index list path.</param>
+        /// <param name="fileSystemService">File system service.</param>
         public PbfIndexListElementSource(string indexListPath, IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
@@ -44,7 +52,7 @@ namespace Mercraft.Maps.Osm.Data
         }
 
         /// <summary>
-        ///     Reads index from list file
+        ///     Reads index from list file.
         /// </summary>
         private void ReadIndex(string indexListPath)
         {
@@ -98,6 +106,7 @@ namespace Mercraft.Maps.Osm.Data
 
         #region IElementSource implementation
 
+        /// <inheritdoc />
         public override IEnumerable<Element> Get(BoundingBox bbox)
         {
             var indecies = new List<int>(2);
@@ -122,6 +131,7 @@ namespace Mercraft.Maps.Osm.Data
             return _resultElements;
         }
 
+        /// <inheritdoc />
         public override void Reset()
         {
             base.Reset();

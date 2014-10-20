@@ -4,13 +4,18 @@ using Mercraft.Maps.Osm.Entities;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
+    /// <summary>
+    ///     Node visitor.
+    /// </summary>
     public class NodeVisitor: ElementVisitor
     {
+        /// <inheritdoc />
         public NodeVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
             : base(modelVisitor, objectPool)
         {
         }
 
+        /// <inheritdoc />
         public override void VisitNode(Node node)
         {
             if (node.Tags != null)

@@ -9,6 +9,7 @@ using Way = Mercraft.Maps.Osm.Entities.Way;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
+    /// <inheritdoc />
     public class WayVisitor : ElementVisitor
     {
         /// <summary>
@@ -41,11 +42,13 @@ namespace Mercraft.Maps.Osm.Visitors
             "addr:housename"
         };
 
+        /// <inheritdoc />
         public WayVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
             : base(modelVisitor, objectPool)
         {
         }
 
+        /// <inheritdoc />
         public override void VisitWay(Way way)
         {
             if (!IsArea(way.Tags))

@@ -5,9 +5,9 @@ using Mercraft.Maps.Osm.Entities;
 namespace Mercraft.Maps.Osm.Visitors
 {
     /// <summary>
-    ///     Holds list of visitors
+    ///     Holds list of visitors.
     /// </summary>
-    public class CompositeVisitor : IElementVisitor
+    internal class CompositeVisitor : IElementVisitor
     {
         private readonly List<IElementVisitor> _visitors = new List<IElementVisitor>();
 

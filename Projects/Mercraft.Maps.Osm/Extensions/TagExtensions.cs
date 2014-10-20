@@ -11,7 +11,6 @@ namespace Mercraft.Maps.Osm.Extensions
         private static readonly string[] BooleanTrueValues = {"yes", "true", "1"};
         private static readonly string[] BooleanFalseValues = {"no", "false", "0"};
 
-
         /// <summary>
         ///     Returns true if the given tags key has an associated value that can be interpreted as true.
         /// </summary>
@@ -39,7 +38,11 @@ namespace Mercraft.Maps.Osm.Extensions
                    BooleanFalseValues.Contains(tagValue.ToLowerInvariant());
         }
 
-        public static bool IsNullOrWhiteSpace(string str)
+        /// <summary>
+        ///     Checks given string whether it's null or empty (incl. triming)
+        /// </summary>
+        /// <param name="str">Source string.</param>
+        internal static bool IsNullOrWhiteSpace(string str)
         {
             return str == null || str.Trim() == "";
         }

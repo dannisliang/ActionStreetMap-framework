@@ -4,7 +4,7 @@ using Mercraft.Core.World;
 namespace Mercraft.Maps.Osm.Helpers
 {
     /// <summary>
-    ///     Extracts Address from OSM tag collection
+    ///     Extracts Address from OSM tag collection.
     /// </summary>
     public class AddressExtractor
     {
@@ -29,6 +29,11 @@ namespace Mercraft.Maps.Osm.Helpers
 
         #endregion
 
+        /// <summary>
+        ///     Extracts address from tags.
+        /// </summary>
+        /// <param name="tags">Tags collection.</param>
+        /// <returns>Address.</returns>
         public static Address Extract(Dictionary<string, string> tags)
         {
             return new Address

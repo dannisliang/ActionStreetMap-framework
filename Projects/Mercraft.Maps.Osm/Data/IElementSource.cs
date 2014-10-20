@@ -11,7 +11,7 @@ namespace Mercraft.Maps.Osm.Data
     public interface IElementSource : IDisposable
     {
         /// <summary>
-        ///     Returns elements which are located in the corresponding bbox
+        ///     Returns elements which are located in the corresponding bbox.
         /// </summary>
         IEnumerable<Element> Get(BoundingBox bbox);
 
@@ -31,7 +31,7 @@ namespace Mercraft.Maps.Osm.Data
         Way GetWay(long id);
 
         /// <summary>
-        ///     Resets internal state
+        ///     Resets internal state.
         /// </summary>
         void Reset();
     }

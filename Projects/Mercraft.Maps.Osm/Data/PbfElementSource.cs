@@ -10,6 +10,9 @@ using Mercraft.Maps.Osm.Formats.Pbf;
 
 namespace Mercraft.Maps.Osm.Data
 {
+    /// <summary>
+    ///     Pbf element source.
+    /// </summary>
     public class PbfElementSource : IElementSource
     {
         /// <summary>
@@ -28,8 +31,14 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly HashSet<long> _unresolvedNodes = new HashSet<long>();
 
+        /// <summary>
+        ///     Elements dictionary.
+        /// </summary>
         protected Dictionary<long, Element> Elements;
 
+        /// <summary>
+        ///     Creates PbfElementSource.
+        /// </summary>
         protected PbfElementSource()
         {
             _reader = new PbfReader();
@@ -44,6 +53,10 @@ namespace Mercraft.Maps.Osm.Data
             SetStream(stream);
         }
 
+        /// <summary>
+        ///     Sets inner stream.
+        /// </summary>
+        /// <param name="stream">Stream.</param>
         protected void SetStream(Stream stream)
         {
             _stream = stream;
@@ -51,6 +64,7 @@ namespace Mercraft.Maps.Osm.Data
             ResetPrivateState();
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<Element> Get(BoundingBox bbox)
         {
             FillElements(bbox);
@@ -72,7 +86,7 @@ namespace Mercraft.Maps.Osm.Data
         #region Fill elements collection from pbf stream logic
 
         /// <summary>
-        ///     Fills Elements collection with elements located in bounding box, but with undersolved references
+        ///     Fills Elements collection with elements located in bounding box, but with undersolved references.
         /// </summary>
         private void FillElements(BoundingBox bbox)
         {
@@ -382,21 +396,25 @@ namespace Mercraft.Maps.Osm.Data
 
         #endregion
 
+        /// <inheritdoc />
         public Entities.Node GetNode(long id)
         {
             return GetElement<Entities.Node>(id);
         }
 
+        /// <inheritdoc />
         public Entities.Way GetWay(long id)
         {
             return GetElement<Entities.Way>(id);
         }
 
+        /// <inheritdoc />
         public virtual void Reset()
         {
             Elements.Clear();
         }
 
+        /// <inheritdoc />
         public Entities.Relation GetRelation(long id)
         {
             return GetElement<Entities.Relation>(id);
@@ -409,11 +427,13 @@ namespace Mercraft.Maps.Osm.Data
             return Elements[id] as T;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

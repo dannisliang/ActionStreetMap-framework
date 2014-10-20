@@ -18,11 +18,13 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public Dictionary<string, string> Tags { get; set; }
 
+        /// <summary>
+        ///     Accepts visitor.
+        /// </summary>
+        /// <param name="elementVisitor">Element visitor.</param>
         public abstract void Accept(IElementVisitor elementVisitor);
 
-        /// <summary>
-        ///     Returns a description of this object.
-        /// </summary>
+        /// <inheritdoc />
         public override string ToString()
         {
             string tags = "{no tags}";

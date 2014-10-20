@@ -8,36 +8,41 @@ using Mercraft.Infrastructure.IO;
 namespace Mercraft.Maps.Osm.Data
 {
     /// <summary>
-    /// Provides the way to get OSM datasource by geocoordinate
+    ///     Provides the way to get OSM datasource by geocoordinate.
     /// </summary>
     public interface IElementSourceProvider
     {
         /// <summary>
-        /// Returns OSM datasource by geocoordinate
+        ///     Returns OSM datasource by bounding box..
         /// </summary>
         IElementSource Get(BoundingBox bbox);
     }
 
     /// <summary>
-    /// Default implementation of IElementSourceProvider
-    /// to return different dataSources by geo coordinates
+    ///     Default implementation of IElementSourceProvider to return different dataSources depends on configuration.
     /// </summary>
     public class DefaultElementSourceProvider : IElementSourceProvider, IConfigurable, IDisposable
     {
         private IElementSource _dataSource;
         private readonly IFileSystemService _fileSystemService;
 
+        /// <summary>
+        ///     Creates DefaultElementSourceProvider
+        /// </summary>
+        /// <param name="fileSystemService">File system service.</param>
         [Dependency]
         public DefaultElementSourceProvider(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
         }
 
+        /// <inheritdoc />
         public IElementSource Get(BoundingBox bbox)
         {
             return _dataSource;
         }
 
+        /// <inheritdoc />
         public void Configure(IConfigSection configSection)
         {
             string filePath = configSection.GetString("");
@@ -57,11 +62,13 @@ namespace Mercraft.Maps.Osm.Data
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -70,5 +77,4 @@ namespace Mercraft.Maps.Osm.Data
             }
         }
     }
-
 }

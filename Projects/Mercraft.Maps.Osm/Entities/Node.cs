@@ -19,6 +19,7 @@ namespace Mercraft.Maps.Osm.Entities
         /// </summary>
         public bool IsOutOfBox { get; set; }
 
+        /// <inheritdoc />
         public override void Accept(IElementVisitor elementVisitor)
         {
             elementVisitor.VisitNode(this);

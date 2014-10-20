@@ -9,6 +9,9 @@ using Mercraft.Core.Scene;
 
 namespace Mercraft.Maps.Osm
 {
+    /// <summary>
+    ///     Loads tile from OSM element source.
+    /// </summary>
     public class OsmTileLoader: ITileLoader
     {
         private readonly IElementSourceProvider _elementSourceProvider;
@@ -16,6 +19,13 @@ namespace Mercraft.Maps.Osm
         private readonly IModelVisitor _modelVisitor;
         private readonly IObjectPool _objectPool;
 
+        /// <summary>
+        ///     Creates OsmTileLoader.
+        /// </summary>
+        /// <param name="elementSourceProvider">Element source provider.</param>
+        /// <param name="elementManager">Element manager.</param>
+        /// <param name="modelVisitor">model visitor.</param>
+        /// <param name="objectPool">Object pool.</param>
         [Dependency]
         public OsmTileLoader(IElementSourceProvider elementSourceProvider, ElementManager elementManager, 
             IModelVisitor modelVisitor, IObjectPool objectPool)
@@ -26,9 +36,7 @@ namespace Mercraft.Maps.Osm
             _objectPool = objectPool;
         }
 
-        /// <summary>
-        ///     Loads tile
-        /// </summary>
+        /// <inheritdoc />
         public void Load(Tile tile)
         {
             var visitor = new CompositeVisitor(new List<IElementVisitor>

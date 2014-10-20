@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;
 using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Core;
 
 namespace Mercraft.Maps.Osm
 {
     /// <summary>
-    /// Manages elements in bbox. Stateful class (not thread safe!)
+    ///     Manages elements in bbox. Stateful class (not thread safe!)
     /// </summary>
-    public class ElementManager: IElementVisitor
+    public class ElementManager : IElementVisitor
     {
         private IElementSource _currentElementSource;
         private BoundingBox _currentBoundingBox;
@@ -18,18 +18,18 @@ namespace Mercraft.Maps.Osm
         private readonly Dictionary<long, Node> _unresolvedNodes = new Dictionary<long, Node>();
 
         /// <summary>
-        /// Stores ways which crosses border between tiles
-        /// Key: way id
-        /// Value: Tuple of way instance and boolean flag which true if we added way in current request
+        ///     Stores ways which crosses border between tiles
+        ///     Key: way id
+        ///     Value: Tuple of way instance and boolean flag which true if we added way in current request
         /// </summary>
         private readonly Dictionary<long, Tuple<Way, bool>> _crossTileWays = new Dictionary<long, Tuple<Way, bool>>();
 
         private readonly List<long> _keysToDelete = new List<long>(64);
 
         /// <summary>
-        /// Visits all elements in datasource which are located in bbox
+        ///     Visits all elements in datasource which are located in bbox.
         /// </summary>
-        public void VisitBoundingBox(BoundingBox bbox, IElementSource elementSource,  IElementVisitor visitor)
+        public void VisitBoundingBox(BoundingBox bbox, IElementSource elementSource, IElementVisitor visitor)
         {
             // needed by IElementVisitor methods of this
             _currentElementSource = elementSource;
@@ -49,20 +49,24 @@ namespace Mercraft.Maps.Osm
 
         #region IElementVisitor implementation
 
+        /// <inheritdoc />
         public void VisitNode(Node node)
         {
             // Do nothing
         }
 
+        /// <inheritdoc />
         public void VisitWay(Way way)
         {
             PopulateWay(_currentBoundingBox, way, _currentElementSource);
         }
 
+        /// <inheritdoc />
         public void VisitRelation(Relation relation)
         {
             PopulateRelation(relation, _currentElementSource);
         }
+
         #endregion
 
         #region Populates given elements
@@ -111,7 +115,7 @@ namespace Mercraft.Maps.Osm
                             _crossTileWays.Add(way.Id, new Tuple<Way, bool>(way, true));
                     }
                 }
-            } 
+            }
             else
                 CheckOutOfBoxNodes(bbox, way);
         }
@@ -140,7 +144,6 @@ namespace Mercraft.Maps.Osm
         }
 
         #endregion
-
 
         private void ProcessLeftovers(BoundingBox bbox, IElementVisitor visitor)
         {
@@ -180,7 +183,6 @@ namespace Mercraft.Maps.Osm
                             hasOutOfBoxNotProcessed = true;
                         }
                     }
-
                 }
                 if (isInBbox)
                 {

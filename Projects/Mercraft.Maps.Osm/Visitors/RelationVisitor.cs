@@ -9,13 +9,18 @@ using Way = Mercraft.Maps.Osm.Entities.Way;
 
 namespace Mercraft.Maps.Osm.Visitors
 {
+    /// <summary>
+    ///     Relation visitor.
+    /// </summary>
     public class RelationVisitor : ElementVisitor
     {
+        /// <inheritdoc />
         public RelationVisitor(IModelVisitor modelVisitor, IObjectPool objectPool)
             : base(modelVisitor, objectPool)
         {
         }
 
+        /// <inheritdoc />
         public override void VisitRelation(Relation relation)
         {
             // see http://wiki.openstreetmap.org/wiki/Relation:multipolygon
