@@ -5,20 +5,31 @@ using Mercraft.Infrastructure.Dependencies;
 namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    ///     Provides default functionality to execute startup plugins
+    ///     Provides default functionality to execute startup plugins.
     /// </summary>
     public class BootstrapperService : IBootstrapperService
     {
         private readonly IEnumerable<IBootstrapperPlugin> _plugins;
 
+        /// <summary>
+        ///     Gets or sets DI container.
+        /// </summary>
         [Dependency]
         public IContainer Container { get; set; }
 
+        /// <summary>
+        ///     Creates BootstrapperService.
+        /// </summary>
         [Dependency]
         public BootstrapperService()
         {
         }
 
+        /// <summary>
+        ///     Creates BootstrapperService from plugin list.
+        /// </summary>
+        /// <param name="container">Container.</param>
+        /// <param name="plugins">Plugin list.</param>
         public BootstrapperService(Container container, IEnumerable<IBootstrapperPlugin> plugins)
         {
             Container = container;
@@ -27,9 +38,7 @@ namespace Mercraft.Infrastructure.Bootstrap
 
         #region IBootstrapperService members
 
-        /// <summary>
-        ///     Run all registred bootstrappers
-        /// </summary>
+        /// <inheritdoc />
         public bool Run()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();
@@ -37,9 +46,7 @@ namespace Mercraft.Infrastructure.Bootstrap
                 .ToList().Aggregate(true, (current, task) => current & task.Run());
         }
 
-        /// <summary>
-        ///     Updates all registred bootstrappers
-        /// </summary>
+        /// <inheritdoc />
         public bool Update()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();
@@ -47,9 +54,7 @@ namespace Mercraft.Infrastructure.Bootstrap
                 .ToList().Aggregate(true, (current, task) => current & task.Update());
         }
 
-        /// <summary>
-        ///     Updates all registred bootstrappers
-        /// </summary>
+        /// <inheritdoc />
         public bool Stop()
         {
             var plugins = _plugins ?? Container.ResolveAll<IBootstrapperPlugin>();

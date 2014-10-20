@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
-using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Core.Scene
 {

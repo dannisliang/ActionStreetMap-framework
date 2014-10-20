@@ -2,7 +2,7 @@
 
 namespace Mercraft.Infrastructure.Utilities
 {
-    public static class Guard
+    internal static class Guard
     {
         public static void IsNotNull(object o, string name, string message)
         {

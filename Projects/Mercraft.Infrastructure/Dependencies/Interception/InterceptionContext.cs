@@ -5,18 +5,19 @@ using System.Linq;
 namespace Mercraft.Infrastructure.Dependencies.Interception
 {
     /// <summary>
-    /// Represents interception context which provide the way create proxy objects and interact with interceptors
+    ///     Represents interception context which provide the way create proxy objects and interact with interceptors.
     /// </summary>
     internal static class InterceptionContext
     {
-        static readonly List<IInterceptor> Interceptors = new List<IInterceptor>();
+        private static readonly List<IInterceptor> Interceptors = new List<IInterceptor>();
+
         static InterceptionContext()
         {
             Interceptors.Add(new InterfaceInterceptor());
         }
 
         /// <summary>
-        /// Creates proxy from interface type and instance
+        ///     Creates proxy from interface type and instance
         /// </summary>
         /// <param name="type">interface type</param>
         /// <param name="instance">instance of implementation type</param>
@@ -27,7 +28,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         }
 
         /// <summary>
-        /// Gets first interceptor which can intercept type
+        ///     Gets first interceptor which can intercept type
         /// </summary>
         public static IInterceptor GetInterceptor(Type type)
         {
@@ -35,7 +36,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         }
 
         /// <summary>
-        /// Gets component for type from interceptor
+        ///     Gets component for type from interceptor
         /// </summary>
         public static Component GetComponent(Type type)
         {
@@ -44,7 +45,7 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         }
 
         /// <summary>
-        /// Gets default interceptor
+        ///     Gets default interceptor
         /// </summary>
         public static IInterceptor GetInterceptor()
         {

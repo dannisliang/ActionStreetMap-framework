@@ -3,20 +3,22 @@
 namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
 {
     /// <summary>
-    /// Executes method
+    ///     Executes method source method.
     /// </summary>
-    public class ExecuteBehavior: IBehavior
+    public class ExecuteBehavior : IBehavior
     {
+        /// <summary>
+        ///     Creates ExecuteBehavior.
+        /// </summary>
         public ExecuteBehavior()
         {
             Name = "execute";
         }
 
+        /// <inheritdoc />
         public string Name { get; protected set; }
 
-        /// <summary>
-        /// Executes method
-        /// </summary>
+        /// <inheritdoc />
         public virtual IMethodReturn Invoke(MethodInvocation methodInvocation)
         {
             if (!methodInvocation.IsInvoked)

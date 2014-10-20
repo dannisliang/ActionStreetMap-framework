@@ -5,31 +5,33 @@ using Mercraft.Infrastructure.Dependencies.Interception;
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
-    ///     Creates singleton instance for wrapped type
+    ///     Creates singleton instance for wrapped type.
     /// </summary>
-    public class SingletonLifetimeManager : ILifetimeManager
+    internal class SingletonLifetimeManager : ILifetimeManager
     {
+        /// <inheritdoc />
         public Type InterfaceType { get; set; }
+        /// <inheritdoc />
         public Type TargetType { get; set; }
+        /// <inheritdoc />
         public bool NeedResolveCstorArgs { get; set; }
+        /// <inheritdoc />
         public IConfigSection ConfigSection { get; set; }
+        /// <inheritdoc />
         public object[] CstorArgs { get; set; }
+        /// <inheritdoc />
         public System.Reflection.ConstructorInfo Constructor { get; set; }
 
         private object _instance;
         private IProxy _proxy;
 
-        /// <summary>
-        ///     Returns singleton instance
-        /// </summary>
+        /// <inheritdoc />
         public object GetInstance()
         {
             return GetInstance(String.Empty);
         }
 
-        /// <summary>
-        ///     Returns new instance of the target type. The name parameters isn't used
-        /// </summary>
+        /// <inheritdoc />
         public object GetInstance(string name)
         {
             object target = _proxy ?? _instance;
@@ -51,11 +53,13 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
             return target;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

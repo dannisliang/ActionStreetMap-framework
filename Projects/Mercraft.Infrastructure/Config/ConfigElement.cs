@@ -6,18 +6,27 @@ using Mercraft.Infrastructure.Formats.Json;
 namespace Mercraft.Infrastructure.Config
 {
     /// <summary>
-    ///     Represens a single element of xml
+    ///     Represens a single element of xml.
     /// </summary>
     public class ConfigElement
     {
         private readonly string _xpath;
         private JSONNode _node;
 
+        /// <summary>
+        ///     Creates ConfigElement.
+        /// </summary>
+        /// <param name="node">Node.</param>
         public ConfigElement(JSONNode node)
         {
             _node = node;
         }
 
+        /// <summary>
+        ///     Creates ConfigElement.
+        /// </summary>
+        /// <param name="node">Node.</param>
+        /// <param name="xpath">XPath</param>
         public ConfigElement(JSONNode node, string xpath)
         {
             _node = node;
@@ -134,6 +143,9 @@ namespace Mercraft.Infrastructure.Config
             get { return _node != null; }
         }
 
+        /// <summary>
+        ///  Trues if is empty.
+        /// </summary>
         public bool IsEmpty
         {
             get { return !IsNode; }

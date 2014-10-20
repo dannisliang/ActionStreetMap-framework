@@ -1,22 +1,22 @@
 ﻿namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    ///     Provides the functionality to manage startup plugins
+    ///     Provides the functionality to manage startup plugins.
     /// </summary>
     public interface IBootstrapperService
     {
         /// <summary>
-        ///     Runs startup plugins
+        ///     Run all registred bootstrappers
         /// </summary>
         bool Run();
 
         /// <summary>
-        ///     Updates startup plugins
+        ///      Updates all registred bootstrappers
         /// </summary>
         bool Update();
 
         /// <summary>
-        ///     Unloads plugins
+        ///     Stops all registred bootstrappers
         /// </summary>
         bool Stop();
     }

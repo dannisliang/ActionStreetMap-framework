@@ -3,18 +3,23 @@
 namespace Mercraft.Infrastructure.Dependencies.Interception
 {
     /// <summary>
-    /// Represents a result of method invocation
+    ///     Represents a result of method invocation.
     /// </summary>
-    public class MethodReturn: IMethodReturn
+    public class MethodReturn : IMethodReturn
     {
         private readonly object _returnValue;
+
+        /// <summary>
+        ///     Creates MethodReturn.
+        /// </summary>
+        /// <param name="returnValue">Return value.</param>
         public MethodReturn(object returnValue)
         {
             _returnValue = returnValue;
         }
 
         /// <summary>
-        /// Returns return value of method
+        ///     Returns return value of method.
         /// </summary>
         public object GetReturnValue()
         {
@@ -22,9 +27,8 @@ namespace Mercraft.Infrastructure.Dependencies.Interception
         }
 
         /// <summary>
-        /// Exception which occured during method invocation
+        ///     Exception which occured during method invocation.
         /// </summary>
         public Exception Exception { get; set; }
-        
     }
 }

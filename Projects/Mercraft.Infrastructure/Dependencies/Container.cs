@@ -10,7 +10,7 @@ using Mercraft.Infrastructure.Dependencies.Lifetime;
 namespace Mercraft.Infrastructure.Dependencies
 {
     /// <summary>
-    /// Represents dependency injection container
+    ///     Represents dependency injection container.
     /// </summary>
     public sealed class Container : IContainer
     {
@@ -24,9 +24,17 @@ namespace Mercraft.Infrastructure.Dependencies
 
         #region IContainer implementation
 
+        /// <summary>
+        ///     Allow proxy behavior.
+        /// </summary>
         public bool AllowProxy { get; set; }
+
+        /// <summary>
+        ///     Autogenerate proxies.
+        /// </summary>
         public bool AutoGenerateProxy { get; set; }
 
+        /// <inheritdoc />
         public IContainer AddGlobalBehavior(IBehavior behavior)
         {
             _globalBehaviors.Add(behavior);
@@ -35,16 +43,19 @@ namespace Mercraft.Infrastructure.Dependencies
 
         #region Resolve
 
+        /// <inheritdoc />
         public object Resolve(string name)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public object Resolve(Type type)
         {
             return Resolve(type, _defaultKey);
         }
 
+        /// <inheritdoc />
         public object Resolve(Type type, string name)
         {
             try
@@ -80,11 +91,13 @@ namespace Mercraft.Infrastructure.Dependencies
             }
         }
 
+        /// <inheritdoc />
         public IEnumerable<T> ResolveAll<T>()
         {
             return ResolveAll(typeof (T)).Select(t => (T)t);
         }
 
+        /// <inheritdoc />
         public IEnumerable<object> ResolveAll(Type type)
         {
             foreach (var keyValue in _typeMapping.GetDict(type))
@@ -176,11 +189,13 @@ namespace Mercraft.Infrastructure.Dependencies
             return proxy ?? instance;
         }
 
+        /// <inheritdoc />
         public T Resolve<T>()
         {
             return (T) Resolve(typeof (T));
         }
 
+        /// <inheritdoc />
         public T Resolve<T>(string name)
         {
             return (T) Resolve(typeof(T), name);
@@ -192,8 +207,9 @@ namespace Mercraft.Infrastructure.Dependencies
         #region Register component
 
         /// <summary>
-        /// Registers Component
+        ///     Registers Component.
         /// </summary>
+        /// <inheritdoc />
         public IContainer Register(Component component)
         {
             var lifetimeManager =  component.LifetimeManager ?? Activator.CreateInstance(_lifetimeManager) as ILifetimeManager;
@@ -229,27 +245,25 @@ namespace Mercraft.Infrastructure.Dependencies
 
         #region Register instance
 
-        /// <summary>
-        /// Registers existing instance of type T
-        /// </summary>
+        /// <inheritdoc />
         public IContainer RegisterInstance<T>(T instance)
         {
             return RegisterInstance(typeof(T), instance);
         }
 
+        /// <inheritdoc />
         public IContainer RegisterInstance<T>(T instance, string name)
         {
             return RegisterInstance(typeof(T), instance as object, name as string);
         }
 
-        /// <summary>
-        /// Registers existing instance of type t
-        /// </summary>
+        /// <inheritdoc />
         public IContainer RegisterInstance(Type t, object instance)
         {
             return RegisterInstance(t, instance, _defaultKey);
         }
 
+        /// <inheritdoc />
         public IContainer RegisterInstance(Type t, object instance, string name)
         {
             //TODO: check whether the type is already registred
@@ -264,6 +278,7 @@ namespace Mercraft.Infrastructure.Dependencies
 
         #region IDisposable implementation
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _typeMapping.Dispose();

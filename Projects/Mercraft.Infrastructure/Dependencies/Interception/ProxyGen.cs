@@ -21,7 +21,7 @@
     ///     run attached behaviors.
     ///     NOTE This feature isn't supported by all platforms (e.g. IOS due to AOT)
     /// </summary>
-    public static class ProxyGen
+    internal static class ProxyGen
     {
         private const string AssemblyName = "Mercraft.Dynamics";
         private static readonly ModuleBuilder ModuleBuilder;

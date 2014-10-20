@@ -8,7 +8,7 @@ namespace Mercraft.Infrastructure.Dependencies.Lifetime
     /// <summary>
     ///     Every time build a new instance
     /// </summary>
-    public class TransientLifetimeManager : ILifetimeManager
+    internal class TransientLifetimeManager : ILifetimeManager
     {
         public Type InterfaceType { get; set; }
         public Type TargetType { get; set; }

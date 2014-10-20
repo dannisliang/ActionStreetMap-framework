@@ -5,47 +5,47 @@ using Mercraft.Infrastructure.Config;
 namespace Mercraft.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
-    /// Manages lifetime of object creation
+    ///     Manages lifetime of object creation.
     /// </summary>
-    public interface ILifetimeManager: IDisposable
+    public interface ILifetimeManager : IDisposable
     {
         /// <summary>
-        /// Interface type
+        ///     Interface type.
         /// </summary>
         Type InterfaceType { get; set; }
 
         /// <summary>
-        /// Target type
+        ///     Target type.
         /// </summary>
         Type TargetType { get; set; }
 
         /// <summary>
-        /// Constructor's signature
+        ///     Constructor's signature.
         /// </summary>
         ConstructorInfo Constructor { get; set; }
 
         /// <summary>
-        /// True if cstor args are types which should be resolved
+        ///     True if cstor args are types which should be resolved.
         /// </summary>
         bool NeedResolveCstorArgs { get; set; }
 
         /// <summary>
-        /// Config section of object
+        ///     Config section of object.
         /// </summary>
         IConfigSection ConfigSection { get; set; }
 
         /// <summary>
-        /// Constructor's parameters
+        ///     Constructor's parameters.
         /// </summary>
         object[] CstorArgs { get; set; }
 
         /// <summary>
-        /// Returns instance of the target type
+        ///     Returns instance of the target type.
         /// </summary>
         object GetInstance();
 
         /// <summary>
-        /// Returns instance of the target type using name provided
+        ///     Returns instance of the target type using name provided.
         /// </summary>
         object GetInstance(string name);
     }

@@ -5,17 +5,27 @@ using Mercraft.Infrastructure.Diagnostic;
 
 namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
 {
+    /// <summary>
+    ///     Defines behavior for profiling.
+    /// </summary>
     public class ProfileBehavior: IBehavior
     {
         private readonly ITrace _trace;
+
+        /// <inheritdoc />
         public string Name { get; private set; }
 
+        /// <summary>
+        ///     Creates ProfileBehavior.
+        /// </summary>
+        /// <param name="trace">Output trace.</param>
         public ProfileBehavior(ITrace trace)
         {
             _trace = trace;
             Name = "profile";
         }
 
+        /// <inheritdoc />
         public IMethodReturn Invoke(MethodInvocation methodInvocation)
         {
             var methodName = String.Format("{0}.{1}({2})",

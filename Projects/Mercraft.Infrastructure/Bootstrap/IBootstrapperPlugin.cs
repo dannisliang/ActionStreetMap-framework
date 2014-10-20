@@ -1,19 +1,33 @@
 ﻿namespace Mercraft.Infrastructure.Bootstrap
 {
     /// <summary>
-    /// Represents a startup plugin
+    ///     Represents a startup plugin.
     /// </summary>
     public interface IBootstrapperPlugin
     {
         /// <summary>
-        /// The name of plugin
+        ///     The name of plugin.
         /// </summary>
         string Name { get; }
 
         #region Component root events
 
+        /// <summary>
+        ///     Runs registrations
+        /// </summary>
+        /// <returns>True if no errors.</returns>
         bool Run();
+
+        /// <summary>
+        ///     Called when we need to update registered services
+        /// </summary>
+        /// <returns>True if no errors.</returns>
         bool Update();
+
+        /// <summary>
+        ///     Called when we need to stop registered services
+        /// </summary>
+        /// <returns>True if no errors.</returns>
         bool Stop();
 
         #endregion

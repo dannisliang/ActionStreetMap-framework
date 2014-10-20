@@ -49,6 +49,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
+#pragma warning disable 1591
+
 namespace Mercraft.Infrastructure.Formats.Json
 {
     public enum JSONBinaryTag
