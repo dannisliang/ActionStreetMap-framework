@@ -6,10 +6,15 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Facades
 {
+    /// <summary>
+    ///     Builds flat facade.
+    /// </summary>
     public class FlatFacadeBuilder : IFacadeBuilder
     {
+        /// <inheritdoc />
         public string Name { get { return "flat"; } }
 
+        /// <inheritdoc />
         public MeshData Build(Building building, BuildingStyle style)
         {
             var vertices2D = building.Footprint;

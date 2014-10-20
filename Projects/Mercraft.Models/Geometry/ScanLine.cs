@@ -5,7 +5,7 @@ using Mercraft.Core;
 namespace Mercraft.Models.Geometry
 {
     /// <summary>
-    ///     Implements simple scan-line algorithm. Code ported from existing java code found in Internet
+    ///     Implements simple scan-line algorithm. Code ported from existing java code found in Internet.
     /// </summary>
     public sealed class ScanLine
     {
@@ -13,6 +13,11 @@ namespace Mercraft.Models.Geometry
         // Holds all cutpoints from current scanline with the polygon
         private static readonly List<int> List = new List<int>(32);
         
+        /// <summary>
+        ///     Fills polygon using points.
+        /// </summary>
+        /// <param name="points">Polygon points.</param>
+        /// <param name="fillAction">Fille action.</param>
         public static void FillPolygon(List<MapPoint> points, Action<int, int, int> fillAction)
         {
             // create edges array from polygon vertice vector
@@ -125,12 +130,12 @@ namespace Mercraft.Models.Geometry
         #region Helper types
 
         /// <summary>
-        ///     Represents an edge of polygon
+        ///     Represents an edge of polygon.
         /// </summary>
         private class Edge
         {
             /// <summary>
-            ///     Start vertice
+            ///     Start vertice.
             /// </summary>
             public int StartX;
             public int StartY;

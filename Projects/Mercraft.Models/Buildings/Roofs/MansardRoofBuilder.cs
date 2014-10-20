@@ -10,9 +10,15 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
 {
+    /// <summary>
+    ///     Builds mansard roof.
+    /// </summary>
     public class MansardRoofBuilder : IRoofBuilder
     {
+        /// <inheritdoc />
         public string Name { get { return "mansard"; } }
+
+        /// <inheritdoc />
         public bool CanBuild(Building building)
         {
             // TODO improve checking of non standard buildings which 
@@ -23,6 +29,7 @@ namespace Mercraft.Models.Buildings.Roofs
             return building.RoofType == Name ||  building.Footprint.Count < 8;
         }
 
+        /// <inheritdoc />
         public MeshData Build(Building building, BuildingStyle style)
         {
             var polygon = new Polygon(building.Footprint);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mercraft.Models.Utils
 {
-    public class GameObjectWrapper : IGameObject
+    internal class GameObjectWrapper : IGameObject
     {
         private readonly GameObject _gameObject;
 

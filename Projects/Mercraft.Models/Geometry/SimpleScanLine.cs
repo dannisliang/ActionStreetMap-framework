@@ -4,11 +4,16 @@ using Mercraft.Core;
 
 namespace Mercraft.Models.Geometry
 {
+    /// <summary>
+    ///     Provides implementation of simplified scan line algorithm to process polygons.
+    ///     This is optimized version for particular case of algorithm for road segments
+    /// </summary>
     public class SimpleScanLine
     {
         private static readonly List<int> ScanListBuffer = new List<int>(2);
+
         /// <summary>
-        ///     This is optimized version for particular case of algorithm for road segments
+        ///     Fills polygon using fill action provided.
         /// </summary>
         public static void Fill(MapPoint[] mapPointBuffer, int size, Action<int,int,int> fillAction)
         {

@@ -8,13 +8,22 @@ using UnityEngine;
 
 namespace Mercraft.Models.Terrain
 {
+    /// <summary>
+    ///     Defines terrain builder.
+    /// </summary>
     public interface ITerrainBuilder
     {
+        /// <summary>
+        ///     Builds terrain.
+        /// </summary>
+        /// <param name="parent">Parent game object, usually Tile.</param>
+        /// <param name="settings">Terrain settings.</param>
+        /// <returns>Terrain game object.</returns>
         IGameObject Build(IGameObject parent, TerrainSettings settings);
     }
 
     /// <summary>
-    ///     Creates Terrain object using given settings
+    ///     Creates Unity Terrain object using given settings.
     /// </summary>
     public class TerrainBuilder : ITerrainBuilder
     {
@@ -28,12 +37,17 @@ namespace Mercraft.Models.Terrain
         private float[,,] _splatMapBuffer;
         private List<int[,]> _detailListBuffer;
 
+        /// <summary>
+        ///     Creates TerrainBuilder.
+        /// </summary>
+        /// <param name="resourceProvider">Resource provider.</param>
         [Dependency]
         public TerrainBuilder(IResourceProvider resourceProvider)
         {
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
         {
             ProcessTerrainObjects(settings);
@@ -94,6 +108,9 @@ namespace Mercraft.Models.Terrain
             }
         }
 
+        /// <summary>
+        ///     Creates real game object
+        /// </summary>
         protected virtual IGameObject CreateTerrainGameObject(IGameObject parent, TerrainSettings settings,
             Vector3 size, List<int[,]> detailMapList)
         {
@@ -139,7 +156,8 @@ namespace Mercraft.Models.Terrain
         }
 
         #region Alpha map splats
-        protected SplatPrototype[] GetSplatPrototypes(List<List<string>> splatParams)
+
+        private SplatPrototype[] GetSplatPrototypes(List<List<string>> splatParams)
         {
             var splatPrototypes = new SplatPrototype[splatParams.Count];
             for (int i = 0; i < splatParams.Count; i++)
@@ -158,7 +176,7 @@ namespace Mercraft.Models.Terrain
         #endregion
 
         #region Trees
-        protected TreePrototype[] GetTreePrototypes()
+        private TreePrototype[] GetTreePrototypes()
         {
             // TODO make this configurable
             var treeProtoTypes = new TreePrototype[3];
@@ -175,7 +193,7 @@ namespace Mercraft.Models.Terrain
             return treeProtoTypes;
         }
 
-        protected void SetTrees(UnityEngine.Terrain terrain, TerrainSettings settings, Vector3 size)
+        private void SetTrees(UnityEngine.Terrain terrain, TerrainSettings settings, Vector3 size)
         {
             terrain.terrainData.treePrototypes = GetTreePrototypes();
             foreach (var treeDetail in settings.Trees)
@@ -202,7 +220,7 @@ namespace Mercraft.Models.Terrain
         #endregion
 
         #region Details
-        protected DetailPrototype[] GetDetailPrototype(List<List<string>> detailParams)
+        private DetailPrototype[] GetDetailPrototype(List<List<string>> detailParams)
         {
             // TODO make this configurable
             DetailRenderMode detailMode = DetailRenderMode.GrassBillboard;
@@ -224,7 +242,7 @@ namespace Mercraft.Models.Terrain
             return detailProtoTypes;
         }
 
-        protected void SetDetails(UnityEngine.Terrain terrain, TerrainSettings settings, List<int[,]> detailMapList)
+        private void SetDetails(UnityEngine.Terrain terrain, TerrainSettings settings, List<int[,]> detailMapList)
         {
             // TODO make this configurable
             int detailMapSize = settings.Resolution; //Resolutions of detail (Grass) layers

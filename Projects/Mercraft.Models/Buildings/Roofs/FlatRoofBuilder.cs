@@ -6,16 +6,22 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
 {
+    /// <summary>
+    ///     Builds flat roof.
+    /// </summary>
     public class FlatRoofBuilder: IRoofBuilder
     {
+        /// <inheritdoc />
         public string Name { get { return "flat"; } }
 
+        /// <inheritdoc />
         public bool CanBuild(Building building)
         {
             // NOTE flat builder can be used for every type of building
             return true;
         }
 
+        /// <inheritdoc />
         public MeshData Build(Building building, BuildingStyle style)
         {
             return new MeshData

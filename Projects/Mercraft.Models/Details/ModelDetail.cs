@@ -3,14 +3,23 @@
 namespace Mercraft.Models.Details
 {
     /// <summary>
-    ///     Represents detail model
+    ///     Represents detail model.
     /// </summary>
     public class ModelDetail
     {
-        public Vector3 Position { get; set; }
-        public Vector3 Scale { get; set; }
-        public Vector3 Rotation { get; set; }
+        /// <summary>
+        ///    Detail position.
+        /// </summary>
+        public Vector3 Position;
 
-        public string Path { get; set; }
+        /// <summary>
+        ///     Detail scale.
+        /// </summary>
+        public Vector3 Scale;
+
+        /// <summary>
+        ///     Detail rotation.
+        /// </summary>
+        public Vector3 Rotation;
     }
 }

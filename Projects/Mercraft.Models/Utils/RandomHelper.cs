@@ -3,7 +3,7 @@ using System;
 
 namespace Mercraft.Models.Utils
 {
-    public static class RandomHelper
+    internal static class RandomHelper
     {
         public static int GetIndex(long seed, int count)
         {

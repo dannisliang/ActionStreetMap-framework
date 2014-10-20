@@ -9,21 +9,38 @@ using UnityEngine;
 
 namespace Mercraft.Models.Buildings
 {
+    /// <summary>
+    ///     Defines building builder logic.
+    /// </summary>
     public interface IBuildingBuilder
     {
+        /// <summary>
+        ///     Builds building.
+        /// </summary>
+        /// <param name="heightMap">Heightmap.</param>
+        /// <param name="building">Building.</param>
+        /// <param name="style">Style.</param>
         void Build(HeightMap heightMap, Building building, BuildingStyle style);
     }
 
+    /// <summary>
+    ///     Default building builder.
+    /// </summary>
     public class BuildingBuilder : IBuildingBuilder
     {
         private readonly IResourceProvider _resourceProvider;
 
+        /// <summary>
+        ///     Creates BuildingBuilder.
+        /// </summary>
+        /// <param name="resourceProvider">Resource provider.</param>
         [Dependency]
         public BuildingBuilder(IResourceProvider resourceProvider)
         {
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public void Build(HeightMap heightMap, Building building, BuildingStyle style)
         {
             var facadeMeshData = style.Facade.Builders[RandomHelper
@@ -38,6 +55,9 @@ namespace Mercraft.Models.Buildings
             AttachChildGameObject(building.GameObject, "roof", roofMeshData);
         }
 
+        /// <summary>
+        ///     Process unity's game object
+        /// </summary>
         protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData)
         {
             var gameObject = new GameObject(name);

@@ -24,6 +24,10 @@ namespace Mercraft.Models.Utils
         private static readonly MapPoint[] MapPointBuffer = new MapPoint[4];
         private static readonly List<MapPoint> PolygonMapPointBuffer = new List<MapPoint>(256);
 
+        /// <summary>
+        ///     Recycles heightmap instance to decrease memory allocation count.
+        /// </summary>
+        /// <param name="heightMap">Heightmap</param>
         public void Recycle(HeightMap heightMap)
         {
             _heightMap = heightMap;
@@ -33,12 +37,21 @@ namespace Mercraft.Models.Utils
             _lastIndex = _size - 1;
         }
 
+        /// <summary>
+        ///     Clear state.
+        /// </summary>
         public void Clear()
         {
             _heightMap = null;
             _data = null;
         }
 
+        /// <summary>
+        ///     Adjust height of line
+        /// </summary>
+        /// <param name="start">Start point.</param>
+        /// <param name="end">End point.</param>
+        /// <param name="width">Width.</param>
         public void AdjustLine(MapPoint start, MapPoint end, float width)
         {
             SetOffsetPoints(start, end, width);
@@ -50,6 +63,11 @@ namespace Mercraft.Models.Utils
                Fill(scanline, s, e, elevation));
         }
 
+        /// <summary>
+        ///     Adjusts height of polygon
+        /// </summary>
+        /// <param name="points">Polygon points.</param>
+        /// <param name="elevation">Elevation.</param>
         public void AdjustPolygon(List<MapPoint> points, float elevation)
         {
             PolygonMapPointBuffer.Clear();

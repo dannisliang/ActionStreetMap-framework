@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Mercraft.Models.Geometry.ThickLine
 {
+    /// <summary>
+    ///     Builds thick 2D line in 3D space.
+    /// </summary>
     public class ThickLineBuilder
     {
         // TODO this value depends on heightmap accuracy
@@ -15,12 +18,29 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         private HeightMap _heightMap;
 
+        /// <summary>
+        ///     Points.
+        /// </summary>
         protected List<Vector3> Points = new List<Vector3>(1024);
+
+        /// <summary>
+        ///     Triangles.
+        /// </summary>
         protected List<int> Triangles = new List<int>(2048);
+
+        /// <summary>
+        ///     Uv map.
+        /// </summary>
         protected List<Vector2> Uv = new List<Vector2>(1024);
+
+        /// <summary>
+        ///     Current Triangle index.
+        /// </summary>
         protected int TrisIndex = 0;
 
-        // TODO ration depends on texture
+        /// <summary>
+        ///     UV ratio. TODO ratio depends on texture
+        /// </summary>
         protected float Ratio = 20;
 
         private Tuple<Vector3, Vector3> _startPoints;
@@ -29,7 +49,13 @@ namespace Mercraft.Models.Geometry.ThickLine
         private bool _isLastElement;
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
-        
+
+        /// <summary>
+        ///     Builds line.
+        /// </summary>
+        /// <param name="heightMap">Heightmap.</param>
+        /// <param name="elements">Line elements.</param>
+        /// <param name="builder">Builds unity objects.</param>
         public virtual void Build(HeightMap heightMap, List<LineElement> elements,
             Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
@@ -63,6 +89,11 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         #region Segment processing
 
+        /// <summary>
+        ///     Process line segment.
+        /// </summary>
+        /// <param name="lineElement">Line element.</param>
+        /// <param name="lineElements">Line elements.</param>
         protected void ProcessLine(LineElement lineElement, List<LineElement> lineElements)
         {
             var lineSegments = GetThickSegments(lineElement);
@@ -166,9 +197,11 @@ namespace Mercraft.Models.Geometry.ThickLine
                     lastSegment.Left.End, lastSegment.Right.End);
             }
         }
+
         #endregion
 
         #region Turn/Straight cases
+
         private void StraightLineCase(ThickLineSegment first, ThickLineSegment second)
         {
             AddTrapezoid(_startPoints.Item1, _startPoints.Item2, first.Left.End, first.Right.End);
@@ -190,9 +223,14 @@ namespace Mercraft.Models.Geometry.ThickLine
             AddTriangle(first.Right.End, intersectionPoint, second.Right.Start, true);
             _startPoints = new Tuple<Vector3, Vector3>(second.Right.Start, intersectionPoint);
         }
+
         #endregion
 
         #region Add shapes
+
+        /// <summary>
+        ///     Adds triangle.
+        /// </summary>
         protected virtual void AddTriangle(Vector3 first, Vector3 second, Vector3 third, bool invert)
         {
             Points.Add(first);
@@ -206,7 +244,7 @@ namespace Mercraft.Models.Geometry.ThickLine
             Uv.Add(new Vector2(0f, 0f));
             Uv.Add(new Vector2(1f, 0f));
             Uv.Add(new Vector2(0f, 1f));
-           
+
             TrisIndex += 3;
         }
 
@@ -215,6 +253,9 @@ namespace Mercraft.Models.Geometry.ThickLine
             AddTrapezoid(right.Start, left.Start, left.End, right.End);
         }
 
+        /// <summary>
+        ///     Adds trapezoid.
+        /// </summary>
         protected virtual void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
         {
             Points.Add(rightStart);
@@ -231,13 +272,14 @@ namespace Mercraft.Models.Geometry.ThickLine
             TrisIndex += 4;
 
             var distance = Vector3.Distance(rightStart, rightEnd);
-            float tiles = distance / Ratio;
+            float tiles = distance/Ratio;
 
             Uv.Add(new Vector2(1f, 0f));
             Uv.Add(new Vector2(0f, 0f));
             Uv.Add(new Vector2(0f, tiles));
             Uv.Add(new Vector2(1, tiles));
         }
+
         #endregion
 
         #region Getting segments and turn types

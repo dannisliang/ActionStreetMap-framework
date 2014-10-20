@@ -2,11 +2,26 @@
 
 namespace Mercraft.Models.Geometry
 {
+    /// <summary>
+    ///     Represent rectangle.
+    /// </summary>
     public class Rect
     {
-        public Vector2 LeftBottom { get; private set; }
-        public Vector2 RightUpper { get; private set; }
+        /// <summary>
+        ///     Left bottom corner.
+        /// </summary>
+        public Vector2 LeftBottom;
 
+        /// <summary>
+        ///     Right upper corner.
+        /// </summary>
+        public Vector2 RightUpper;
+
+        /// <summary>
+        ///     Creates Rect.
+        /// </summary>
+        /// <param name="leftBottom">Left bottom corner.</param>
+        /// <param name="rightUpper">Right upper corner.</param>
         public Rect(Vector2 leftBottom, Vector2 rightUpper)
         {
             LeftBottom = leftBottom;

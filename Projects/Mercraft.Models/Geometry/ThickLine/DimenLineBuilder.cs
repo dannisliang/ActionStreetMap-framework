@@ -6,17 +6,25 @@ using UnityEngine;
 namespace Mercraft.Models.Geometry.ThickLine
 {
     /// <summary>
-    /// Thick line with heigh/width in 3D
+    ///     Thick line with height and width in 3D space. Can be used to represent barriers.
     /// </summary>
     public class DimenLineBuilder : ThickLineBuilder
     {
+        /// <summary>
+        ///     Gets or sets height.
+        /// </summary>
         public float Height { get; set; }
 
+        /// <summary>
+        ///     Creates DimenLineBuilder.
+        /// </summary>
+        /// <param name="height">Line height.</param>
         public DimenLineBuilder(float height)
         {
             Height = height;
         }
 
+        /// <inheritdoc />
         public override void Build(HeightMap heightMap, List<LineElement> elements, Action<List<Vector3>, List<int>, List<Vector2>> builder)
         {
             base.Build(heightMap, elements, (p, t, u) =>
@@ -41,6 +49,7 @@ namespace Mercraft.Models.Geometry.ThickLine
             }
         }
 
+        /// <inheritdoc />
         protected override void AddTrapezoid(Vector3 rightStart, Vector3 leftStart, Vector3 leftEnd, Vector3 rightEnd)
         {
             // move up original points
@@ -63,6 +72,7 @@ namespace Mercraft.Models.Geometry.ThickLine
             base.AddTrapezoid(newRightStart, newLeftStart, newLeftEnd, newRightEnd);
         }
 
+        /// <inheritdoc />
         protected override void AddTriangle(Vector3 first, Vector3 second, Vector3 third, bool invert)
         {
             var newFirst = new Vector3(first.x, first.y + Height, first.z);

@@ -5,9 +5,9 @@ using Mercraft.Models.Geometry;
 namespace Mercraft.Models.Terrain
 {
     /// <summary>
-    ///     Custom version of Scanline algorithm to process terrain alphamap/heightmap
+    ///     Custom version of Scanline algorithm to process terrain data
     /// </summary>
-    public class TerrainScanLine
+    internal class TerrainScanLine
     {
         private static readonly List<int> PointsBuffer = new List<int>(8);
         public static void ScanAndFill(Polygon polygon, int size, Action<int, int, int> fillAction)

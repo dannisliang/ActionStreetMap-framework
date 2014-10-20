@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Mercraft.Models.Roads
 {
     /// <summary>
-    ///     This class tries to remove Object from roads in right direction
+    ///     This class tries to remove Detial from road in right direction.
     ///     Actually, algortihm can be improved
     /// </summary>
     public class RoadFixBehavior : MonoBehaviour
@@ -18,6 +18,9 @@ namespace Mercraft.Models.Roads
         private const float IncrementStep = 5f;
         private const int MaxCollisionCount = 50;
 
+        /// <summary>
+        ///     Gets or sets rotation offset of given model
+        /// </summary>
         public float RotationOffset { get; set; }
 
         private int _collisionCount;

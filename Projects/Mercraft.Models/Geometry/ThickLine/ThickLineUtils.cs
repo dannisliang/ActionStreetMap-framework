@@ -5,7 +5,10 @@ using Mercraft.Core.Elevation;
 
 namespace Mercraft.Models.Geometry.ThickLine
 {
-    public class ThickLineUtils
+    /// <summary>
+    ///     Defines thick line util methods.
+    /// </summary>
+    internal class ThickLineUtils
     {
         private static readonly List<MapPoint> PointBuffer = new List<MapPoint>(64);
 

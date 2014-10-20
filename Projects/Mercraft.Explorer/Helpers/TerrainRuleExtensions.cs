@@ -38,7 +38,7 @@ namespace Mercraft.Explorer.Helpers
 
         public static int GetTerrainDetailIndex(this Rule rule)
         {
-            return rule.EvaluateDefault<int>("terrainDetail", AreaSettings.DefaultIndex);
+            return rule.EvaluateDefault<int>("terrainDetail", AreaSettings.DefaultDetailIndex);
         }
     }
 }
