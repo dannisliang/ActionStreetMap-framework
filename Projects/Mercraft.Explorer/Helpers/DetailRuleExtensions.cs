@@ -2,7 +2,7 @@
 
 namespace Mercraft.Explorer.Helpers
 {
-    public static class DetailRuleExtensions
+    internal static class DetailRuleExtensions
     {
         public static string GetDetail(this Rule rule)
         {

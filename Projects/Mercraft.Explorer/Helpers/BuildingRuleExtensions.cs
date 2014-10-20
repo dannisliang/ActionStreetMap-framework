@@ -3,7 +3,7 @@ using Mercraft.Core.Utilities;
 
 namespace Mercraft.Explorer.Helpers
 {
-    public static class BuildingRuleExtensions
+    internal static class BuildingRuleExtensions
     {
         public static float GetMinHeight(this Rule rule, float defaultValue = 0)
         {

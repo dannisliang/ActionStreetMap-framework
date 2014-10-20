@@ -4,13 +4,18 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
 {
+    /// <summary>
+    ///     Represents default GameObject factory.
+    /// </summary>
     public class GameObjectFactory : IGameObjectFactory
     {
+        /// <inheritdoc />
         public virtual IGameObject CreateNew(string name)
         {
             return new UnityGameObject(name);
         }
 
+        /// <inheritdoc />
         public IGameObject CreateNew(string name, IGameObject parent)
         {
             var go = CreateNew(name);
@@ -18,11 +23,13 @@ namespace Mercraft.Explorer.Infrastructure
             return go;
         }
 
+        /// <inheritdoc />
         public virtual IGameObject CreatePrimitive(string name, UnityPrimitiveType type)
         {
             return new UnityGameObject(name, GetPrimitive(type));
         }
 
+        /// <inheritdoc />
         public IGameObject Wrap(string name, object gameObject)
         {
             var instance = gameObject as GameObject;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers
 {
-    public static class ModelRuleExtensions
+    internal static class ModelRuleExtensions
     {
         public static Material GetMaterial(this Rule rule, IResourceProvider resourceProvider)
         {

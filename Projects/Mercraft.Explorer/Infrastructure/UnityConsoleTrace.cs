@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Infrastructure
 {
+    /// <summary>
+    ///     UnityConsole trace
+    /// </summary>
     public class UnityConsoleTrace: DefaultTrace
     {
+        /// <inheritdoc />
         protected override void WriteRecord(RecordType type, string category, string message, Exception exception)
         {
             switch (type)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers
 {
-    public static class MapPointExtensions
+    internal static class MapPointExtensions
     {
         public static Vector3[] GetVerticies(this MapPoint[] verticies2D, float floor)
         {

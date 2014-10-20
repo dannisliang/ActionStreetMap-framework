@@ -22,6 +22,9 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene
 {
+    /// <summary>
+    ///     Represents class responsible to process all models for tile.
+    /// </summary>
     public class TileModelLoader : IModelVisitor, IModelBuilder
     {
         private readonly IHeightMapProvider _heighMapProvider;
@@ -42,6 +45,9 @@ namespace Mercraft.Explorer.Scene
         private readonly List<RoadElement> _roadElements = new List<RoadElement>();
         private readonly List<TreeDetail> _trees = new List<TreeDetail>();
 
+        /// <summary>
+        ///     Creates TileModelLoader.
+        /// </summary>
         [Dependency]
         public TileModelLoader(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
             IHeightMapProvider heighMapProvider, ITerrainBuilder terrainBuilder,
@@ -62,12 +68,14 @@ namespace Mercraft.Explorer.Scene
 
         #region IModelVisitor
 
+        /// <inheritdoc />
         public void VisitTile(Tile tile)
         {
             _tile = tile;
             _tile.GameObject = _gameObjectFactory.CreateNew("tile");
         }
 
+        /// <inheritdoc />
         public void VisitArea(Area area)
         {
             var rule = _stylesheet.GetModelRule(area);
@@ -87,6 +95,7 @@ namespace Mercraft.Explorer.Scene
             _stylesheet.StoreRule(rule);
         }
 
+        /// <inheritdoc />
         public void VisitWay(Way way)
         {
             var rule = _stylesheet.GetModelRule(way);
@@ -105,6 +114,7 @@ namespace Mercraft.Explorer.Scene
             _stylesheet.StoreRule(rule);
         }
 
+        /// <inheritdoc />
         public void VisitNode(Node node)
         {
             var rule = _stylesheet.GetModelRule(node);
@@ -121,6 +131,7 @@ namespace Mercraft.Explorer.Scene
             _stylesheet.StoreRule(rule);
         }
 
+        /// <inheritdoc />
         public void VisitCanvas(Canvas canvas)
         {
             var rule = _stylesheet.GetCanvasRule(canvas);
@@ -209,11 +220,13 @@ namespace Mercraft.Explorer.Scene
 
         #region IModelBuilder 
 
+        /// <inheritdoc />
         public string Name
         {
             get { return "tile"; }
         }
 
+        /// <inheritdoc />
         public IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             if (rule.IsTerrain())
@@ -242,6 +255,7 @@ namespace Mercraft.Explorer.Scene
             return null;
         }
 
+        /// <inheritdoc />
         public IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             if (rule.IsRoad())
@@ -264,6 +278,7 @@ namespace Mercraft.Explorer.Scene
             return null;
         }
 
+        /// <inheritdoc />
         public IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
             if (rule.IsTree())

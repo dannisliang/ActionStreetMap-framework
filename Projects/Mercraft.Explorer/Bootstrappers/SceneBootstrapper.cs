@@ -16,12 +16,17 @@ using Mercraft.Models.Utils;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
+    /// <summary>
+    ///     Register scene specific classes.
+    /// </summary>
     public class SceneBootstrapper: BootstrapperPlugin
     {
         private const string ThemeKey = "theme";
 
+        /// <inheritdoc />
         public override string Name { get { return "scene"; } }
 
+        /// <inheritdoc />
         public override bool Run()
         {
             Container.Register(Component.For<WorldManager>().Use<WorldManager>().Singleton());

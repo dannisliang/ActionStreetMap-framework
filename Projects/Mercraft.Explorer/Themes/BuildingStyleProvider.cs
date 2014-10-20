@@ -9,8 +9,7 @@ using Mercraft.Models.Buildings;
 namespace Mercraft.Explorer.Themes
 {
     /// <summary>
-    ///     Provides the way to get BuildingStyle using Building
-    ///     This implementation uses color as key to find style
+    ///     Provides the way to get BuildingStyle using Building. This implementation uses color as key to find style.
     /// </summary>
     public class BuildingStyleProvider : IBuildingStyleProvider
     {
@@ -21,6 +20,11 @@ namespace Mercraft.Explorer.Themes
         private readonly DoubleKeyDictionary<string, Color32, BuildingStyle.FacadeStyle> _facadeStyleCache;
         private readonly DoubleKeyDictionary<string, Color32, BuildingStyle.RoofStyle> _roofStyleCache;
 
+        /// <summary>
+        ///     Creates BuildingStyleProvider.
+        /// </summary>
+        /// <param name="facadeStyleMapping"></param>
+        /// <param name="roofStyleMapping"></param>
         public BuildingStyleProvider(Dictionary<string, List<BuildingStyle.FacadeStyle>> facadeStyleMapping,
             Dictionary<string, List<BuildingStyle.RoofStyle>> roofStyleMapping)
         {
@@ -31,9 +35,7 @@ namespace Mercraft.Explorer.Themes
             _roofStyleCache = new DoubleKeyDictionary<string, Color32, BuildingStyle.RoofStyle>();
         }
 
-        /// <summary>
-        ///     Returns building style corresponding to given building 
-        /// </summary>
+        /// <inheritdoc />
         public BuildingStyle Get(Building building)
         {
             // NOTE we don't want to have osm specific logic in code outside osm project.

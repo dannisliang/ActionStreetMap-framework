@@ -16,16 +16,23 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build info models.
+    /// </summary>
     public class InfoModelBuilder: ModelBuilder
     {
         private readonly IThemeProvider _themeProvider;
         private readonly IResourceProvider _resourceProvider;
 
+        /// <inheritdoc />
         public override string Name
         {
             get { return "info"; }
         }
 
+        /// <summary>
+        ///     Creates infoModelBuilder.
+        /// </summary>
         [Dependency]
         public InfoModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IThemeProvider themeProvider, IResourceProvider resourceProvider, IObjectPool objectPool) :
@@ -35,6 +42,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
             var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
@@ -60,6 +68,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return gameObjectWrapper;
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual void BuildObject(Tile tile, IGameObject gameObjectWrapper, Info info, 
             InfoStyle style, MapPoint mapPoint, float zIndex)
         {

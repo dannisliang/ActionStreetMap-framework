@@ -13,15 +13,22 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build spheres.
+    /// </summary>
     public class SphereModelBuilder : ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
 
+        /// <inheritdoc />
         public override string Name
         {
             get { return "sphere"; }
         }
 
+        /// <summary>
+        ///     Creates SphereModelBuilder.
+        /// </summary>
         [Dependency]
         public SphereModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IResourceProvider resourceProvider, IObjectPool objectPool)
@@ -30,6 +37,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
@@ -50,6 +58,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildSphere(gameObjectWrapper, rule, area, sphereCenter, diameter, minHeight);
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual IGameObject BuildSphere(IGameObject gameObjectWrapper, Rule rule, Model model, 
             MapPoint sphereCenter, float diameter, float minHeight)
         {

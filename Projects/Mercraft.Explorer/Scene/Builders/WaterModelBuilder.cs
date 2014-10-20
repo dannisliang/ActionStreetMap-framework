@@ -15,16 +15,23 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
-    // NOTE this class has some duplicated in flat builder functionality
+    /// <summary>
+    ///     Provides logic to build water.
+    /// </summary>
     public class WaterModelBuilder : ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
         private const int NoLayer = -1;
+
+        /// <inheritdoc />
         public override string Name
         {
             get { return "water"; }
         }
 
+        /// <summary>
+        ///     Creates WaterModelBuilder.
+        /// </summary>
         [Dependency]
         public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IResourceProvider resourceProvider, IObjectPool objectPool)
@@ -33,6 +40,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
@@ -80,6 +88,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return result;
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual void BuildObject(IGameObject gameObjectWrapper, Rule rule, Vector3[] points, int[] triangles)
         {
             var gameObject = gameObjectWrapper.GetComponent<GameObject>();

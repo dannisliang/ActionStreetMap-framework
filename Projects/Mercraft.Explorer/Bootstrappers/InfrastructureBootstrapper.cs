@@ -7,10 +7,15 @@ using Mercraft.Infrastructure.Utilities;
 
 namespace Mercraft.Explorer.Bootstrappers
 {
+    /// <summary>
+    ///     Register infrastructure classes.
+    /// </summary>
     public class InfrastructureBootstrapper: BootstrapperPlugin
     {
+        /// <inheritdoc />
         public override string Name { get { return "infrastructure"; } }
 
+        /// <inheritdoc />
         public override bool Run()
         {
             Container.Register(Component.For<ITrace>().Use<UnityConsoleTrace>().Singleton());

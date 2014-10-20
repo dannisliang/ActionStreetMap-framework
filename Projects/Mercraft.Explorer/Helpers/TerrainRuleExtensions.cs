@@ -4,7 +4,7 @@ using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Helpers
 {
-    public static class TerrainRuleExtensions
+    internal static class TerrainRuleExtensions
     {
         public static List<List<string>> GetSplatParams(this Rule rule)
         {

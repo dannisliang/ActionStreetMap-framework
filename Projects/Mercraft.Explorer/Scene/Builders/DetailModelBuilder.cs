@@ -13,15 +13,22 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build details.
+    /// </summary>
     public class DetailModelBuilder: ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
 
+        /// <inheritdoc />
         public override string Name
         {
             get { return "detail"; }
         }
 
+        /// <summary>
+        ///     Creates DetailModelBuilder.
+        /// </summary>
         [Dependency]
         public DetailModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IResourceProvider resourceProvider, IObjectPool objectPool) :
@@ -30,6 +37,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
             var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
@@ -46,6 +54,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildObject(tile, rule, node, mapPoint, zIndex, detail);
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual IGameObject BuildObject(Tile tile, Rule rule, Node node, MapPoint mapPoint, 
             float zIndex, string detail)
         {

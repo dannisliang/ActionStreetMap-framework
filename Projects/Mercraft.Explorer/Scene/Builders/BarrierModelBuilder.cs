@@ -15,16 +15,24 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build various barriers.
+    /// </summary>
     public class BarrierModelBuilder: ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
-        protected readonly DimenLineBuilder DimenLineBuilder = new DimenLineBuilder(2);
+        private readonly DimenLineBuilder _dimenLineBuilder = new DimenLineBuilder(2);
         private readonly List<LineElement> _lines = new List<LineElement>(1);
+
+        /// <inheritdoc />
         public override string Name
         {
             get { return "barrier"; }
         }
 
+        /// <summary>
+        ///     Creates BarrierModelBuilder.
+        /// </summary>
         [Dependency]
         public BarrierModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
             IResourceProvider resourceProvider, IObjectPool objectPool) :
@@ -33,6 +41,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             if (way.Points.Count < 2)
@@ -50,8 +59,8 @@ namespace Mercraft.Explorer.Scene.Builders
             _lines.Clear();
             _lines.Add(new LineElement(points, rule.GetWidth()));
 
-            DimenLineBuilder.Height = rule.GetHeight();
-            DimenLineBuilder.Build(tile.HeightMap, _lines, 
+            _dimenLineBuilder.Height = rule.GetHeight();
+            _dimenLineBuilder.Build(tile.HeightMap, _lines, 
                 (p, t, u) => BuildObject(gameObjectWrapper, rule, p, t, u));
             _lines.Clear();
 
@@ -60,6 +69,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return gameObjectWrapper;
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual void BuildObject(IGameObject gameObjectWrapper, Rule rule,
             List<Vector3> p, List<int> t, List<Vector2> u)
         {

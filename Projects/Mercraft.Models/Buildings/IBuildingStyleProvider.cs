@@ -8,7 +8,7 @@ namespace Mercraft.Models.Buildings
     public interface IBuildingStyleProvider
     {
         /// <summary>
-        ///     Gets building style fpr given building.
+        ///     Gets building style for given building.
         /// </summary>
         /// <param name="building">Building.</param>
         /// <returns>Style.</returns>

@@ -5,22 +5,22 @@ using Mercraft.Infrastructure.Dependencies;
 namespace Mercraft.Explorer
 {
     /// <summary>
-    ///     Represents application component root
+    ///     Represents application component root.
     /// </summary>
     public class GameRunner : IGameRunner, IPositionListener
     {
         /// <summary>
-        ///     DI container
+        ///     DI container.
         /// </summary>
         private readonly IContainer _container;
 
         /// <summary>
-        ///     Message bus
+        ///     Message bus.
         /// </summary>
         private readonly IMessageBus _messageBus;
 
         /// <summary>
-        ///     Actual zone loader
+        ///     Actual zone loader.
         /// </summary>
         private IPositionListener _positionListener;
 
@@ -32,6 +32,11 @@ namespace Mercraft.Explorer
             get { return _positionListener.RelativeNullPoint; }
         }
 
+        /// <summary>
+        ///     Creates GameRunner
+        /// </summary>
+        /// <param name="container">DI container.</param>
+        /// <param name="messageBus">Message bus.</param>
         public GameRunner(IContainer container, IMessageBus messageBus)
         {
             _container = container;
@@ -46,12 +51,7 @@ namespace Mercraft.Explorer
             _container.Resolve<IBootstrapperService>().Run();
         }
 
-        public void RunGame()
-        {
-            _positionListener = _container.Resolve<IPositionListener>();
-            OnMapPositionChanged(new MapPoint(0, 0));
-        }
-
+        /// <inheritdoc />
         public void RunGame(GeoCoordinate coordinate)
         {
             _positionListener = _container.Resolve<IPositionListener>();
@@ -60,11 +60,13 @@ namespace Mercraft.Explorer
             OnMapPositionChanged(new MapPoint(0, 0));
         }
 
+        /// <inheritdoc />
         public void OnMapPositionChanged(MapPoint position)
         {
             _positionListener.OnMapPositionChanged(position);
         }
 
+        /// <inheritdoc />
         public void OnGeoPositionChanged(GeoCoordinate position)
         {
             _positionListener.OnGeoPositionChanged(position);

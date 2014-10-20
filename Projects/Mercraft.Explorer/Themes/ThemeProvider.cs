@@ -18,11 +18,21 @@ using Rect = Mercraft.Models.Geometry.Rect;
 
 namespace Mercraft.Explorer.Themes
 {
+    /// <summary>
+    ///     Defines theme provider logic
+    /// </summary>
     public interface IThemeProvider
     {
+        /// <summary>
+        ///     Gets theme.
+        /// </summary>
+        /// <returns>Theme.</returns>
         Theme Get();
     }
 
+    /// <summary>
+    ///     Default theme provider which uses json files with style definitions.
+    /// </summary>
     public class ThemeProvider : IThemeProvider, IConfigurable
     {
         private const string BuildingsThemeFile = @"buildings";
@@ -35,6 +45,12 @@ namespace Mercraft.Explorer.Themes
 
         private Theme _theme;
 
+        /// <summary>
+        ///     Creates ThemeProvider.
+        /// </summary>
+        /// <param name="fileSystemService">File system service.</param>
+        /// <param name="facadeBuilders">Facade builders.</param>
+        /// <param name="roofBuilders">Roof builders.</param>
         [Dependency]
         public ThemeProvider(IFileSystemService fileSystemService,
             IEnumerable<IFacadeBuilder> facadeBuilders,
@@ -45,11 +61,13 @@ namespace Mercraft.Explorer.Themes
             _roofBuilders = roofBuilders.ToArray();
         }
 
+        /// <inheritdoc />
         public Theme Get()
         {
             return _theme;
         }
 
+        /// <inheritdoc />
         public void Configure(IConfigSection configSection)
         {
             var buildingStyleProvider = GetBuildingStyleProvider(configSection);
@@ -60,7 +78,7 @@ namespace Mercraft.Explorer.Themes
 
         #region Buildings
 
-        public IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection configSection)
+        private IBuildingStyleProvider GetBuildingStyleProvider(IConfigSection configSection)
         {
             var facadeStyleMapping = new Dictionary<string, List<BuildingStyle.FacadeStyle>>();
             var roofStyleMapping = new Dictionary<string, List<BuildingStyle.RoofStyle>>();
@@ -147,7 +165,7 @@ namespace Mercraft.Explorer.Themes
 
         #region Roads
 
-        public IRoadStyleProvider GetRoadStyleProvider(IConfigSection configSection)
+        private IRoadStyleProvider GetRoadStyleProvider(IConfigSection configSection)
         {
             var roadTypeStyleMapping = new Dictionary<string, List<RoadStyle>>();
             foreach (var roadThemeConfig in configSection.GetSections(RoadsThemeFile))

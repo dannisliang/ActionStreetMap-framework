@@ -19,6 +19,9 @@ using Mercraft.Models.Utils;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build buildings.
+    /// </summary>
     public class BuildingModelBuilder : ModelBuilder
     {
         private readonly IThemeProvider _themeProvider;
@@ -26,11 +29,15 @@ namespace Mercraft.Explorer.Scene.Builders
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
+        /// <inheritdoc />
         public override string Name
         {
             get { return "building"; }
         }
 
+        /// <summary>
+        ///     Creates BuildingModelBuilder.
+        /// </summary>
         [Dependency]
         public BuildingModelBuilder(WorldManager worldManager,
             IGameObjectFactory gameObjectFactory, 
@@ -45,6 +52,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
         private const int NoValue = 0;
 
+        /// <inheritdoc />
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
@@ -53,6 +61,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
         // NOTE Why way is used to build building?
         // TODO remove and check
+        /// <inheritdoc />
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             base.BuildWay(tile, rule, way);

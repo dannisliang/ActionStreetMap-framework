@@ -7,7 +7,7 @@ namespace Mercraft.Explorer.Helpers
     /// <summary>
     ///     Provides methods for basic mapcss properties receiving
     /// </summary>
-    public static class CommonRuleExtensions
+    internal static class CommonRuleExtensions
     {
         public static string GetKey(this Rule rule)
         {

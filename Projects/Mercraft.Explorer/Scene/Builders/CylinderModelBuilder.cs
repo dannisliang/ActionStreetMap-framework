@@ -13,15 +13,22 @@ using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
 {
+    /// <summary>
+    ///     Provides logic to build cylinders.
+    /// </summary>
     public class CylinderModelBuilder : ModelBuilder
     {
         private readonly IResourceProvider _resourceProvider;
 
+        /// <inheritdoc />
         public override string Name
         {
             get { return "cylinder"; }
         }
 
+        /// <summary>
+        ///     Creates CylinderModelBuilder.
+        /// </summary>
         [Dependency]
         public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IResourceProvider resourceProvider, IObjectPool objectPool)
@@ -30,6 +37,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _resourceProvider = resourceProvider;
         }
 
+        /// <inheritdoc />
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             base.BuildArea(tile, rule, area);
@@ -54,6 +62,9 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildCylinder(gameObjectWrapper, rule, area, cylinderCenter, diameter, actualHeight, minHeight);
         }
 
+        /// <summary>
+        ///     Process unity specific data.
+        /// </summary>
         protected virtual IGameObject BuildCylinder(IGameObject gameObjectWrapper, Rule rule, Model model,
             MapPoint cylinderCenter, float diameter, float actualHeight, float minHeight)
         {

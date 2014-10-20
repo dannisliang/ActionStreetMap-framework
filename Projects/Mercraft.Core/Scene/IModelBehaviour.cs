@@ -14,7 +14,8 @@ namespace Mercraft.Core.Scene
         string Name { get; }
 
         /// <summary>
-        ///     This method is called once model behavior is created in order to attach the behavior to given game object and model.
+        ///     This method is called once model behavior is created in order to attach the behavior to given game object and
+        ///     model.
         /// </summary>
         /// <param name="gameObject">GameObject wrapper.</param>
         /// <param name="model">model.</param>
