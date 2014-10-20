@@ -42,13 +42,20 @@ namespace Mercraft.Explorer
             _container = container;
             _messageBus = messageBus;
             Initialize();
-        }
+        } 
 
         private void Initialize()
         {
             // run bootstrappers
             _container.RegisterInstance(_messageBus);
             _container.Resolve<IBootstrapperService>().Run();
+        }
+
+        /// <inheritdoc />
+        public void RunGame()
+        {
+            _positionListener = _container.Resolve<IPositionListener>();
+            OnMapPositionChanged(new MapPoint(0, 0));
         }
 
         /// <inheritdoc />
