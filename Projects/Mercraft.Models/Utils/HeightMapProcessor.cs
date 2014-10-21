@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core;
+using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Models.Geometry;
 
@@ -21,7 +22,7 @@ namespace Mercraft.Models.Utils
         private float _ratio;
 
         // NOTE reusable buffers: they are made static to prevent allocations in multiply instances
-        private static readonly MapPoint[] MapPointBuffer = new MapPoint[4];
+        private static readonly List<MapPoint> MapPointBuffer = new List<MapPoint>(4);
         private static readonly List<MapPoint> PolygonMapPointBuffer = new List<MapPoint>(256);
 
         /// <summary>
@@ -78,8 +79,18 @@ namespace Mercraft.Models.Utils
                 PolygonMapPointBuffer.Add(GetHeightMapPoint(point.X, point.Y));
             }
 
-            ScanLine.FillPolygon(PolygonMapPointBuffer, (scanline, s, e) => 
-               Fill(scanline, s, e, elevation));
+            // NOTE: this is experimental - simple scan line is faster, but it was designed
+            // to work with short road elements which are just rectangles
+            if (PointHelper.IsConvex(PolygonMapPointBuffer))
+            {
+                SimpleScanLine.Fill(PolygonMapPointBuffer, _size, (scanline, s, e) =>
+                    Fill(scanline, s, e, elevation));
+            }
+            else
+            {
+                ScanLine.FillPolygon(PolygonMapPointBuffer, (scanline, s, e) =>
+                    Fill(scanline, s, e, elevation));
+            }
         }
 
         private void Fill(int line, int start, int end, float elevation)
@@ -115,12 +126,13 @@ namespace Mercraft.Models.Utils
 
             var zOffset = (z2 - z1) / l;
             var xOffset = (x1 - x2) / l;
+            
+            MapPointBuffer.Clear();
 
-            MapPointBuffer[3] = GetHeightMapPoint(x1 + offset * zOffset, z1 + offset * xOffset);
-            MapPointBuffer[2] = GetHeightMapPoint(x2 + offset * zOffset, z2 + offset * xOffset);
-
-            MapPointBuffer[1] = GetHeightMapPoint(x2 - offset * zOffset, z2 - offset * xOffset);
-            MapPointBuffer[0] = GetHeightMapPoint(x1 - offset * zOffset, z1 - offset * xOffset);
+            MapPointBuffer.Add(GetHeightMapPoint(x1 - offset * zOffset, z1 - offset * xOffset));
+            MapPointBuffer.Add(GetHeightMapPoint(x2 - offset * zOffset, z2 - offset * xOffset));
+            MapPointBuffer.Add(GetHeightMapPoint(x2 + offset * zOffset, z2 + offset * xOffset));
+            MapPointBuffer.Add(GetHeightMapPoint(x1 + offset * zOffset, z1 + offset * xOffset));           
         }
     }
 }

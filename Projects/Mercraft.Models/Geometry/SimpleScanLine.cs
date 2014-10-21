@@ -15,13 +15,16 @@ namespace Mercraft.Models.Geometry
         /// <summary>
         ///     Fills polygon using fill action provided.
         /// </summary>
-        public static void Fill(MapPoint[] mapPointBuffer, int size, Action<int,int,int> fillAction)
+        /// <param name="mapPointBuffer">Polygon points.</param>
+        /// <param name="size"></param>
+        /// <param name="fillAction">Fill action.</param>
+        public static void Fill(List<MapPoint> mapPointBuffer, int size, Action<int,int,int> fillAction)
         {
             var scanLineStart = int.MaxValue;
             var scanLineEnd = int.MinValue;
 
             // search start and end values
-            for (int i = 0; i < mapPointBuffer.Length; i++)
+            for (int i = 0; i < mapPointBuffer.Count; i++)
             {
                 var point = mapPointBuffer[i];
 
@@ -36,10 +39,10 @@ namespace Mercraft.Models.Geometry
 
             for (int z = scanLineStart; z <= scanLineEnd; z++)
             {
-                for (int i = 0; i < mapPointBuffer.Length; i++)
+                for (int i = 0; i < mapPointBuffer.Count; i++)
                 {
                     var currentIndex = i;
-                    var nextIndex = i == mapPointBuffer.Length - 1 ? 0 : i + 1;
+                    var nextIndex = i == mapPointBuffer.Count - 1 ? 0 : i + 1;
 
                     if ((mapPointBuffer[currentIndex].Y > z && mapPointBuffer[nextIndex].Y > z) || // above
                       (mapPointBuffer[currentIndex].Y < z && mapPointBuffer[nextIndex].Y < z)) // below
