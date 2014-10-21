@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{2135E3
 		AssemblyInfoBase.cs = AssemblyInfoBase.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercraft.Console", "Tests\Mercraft.Console\Mercraft.Console.csproj", "{16776C3A-8BC6-4035-AC37-09B1391C6E49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,11 +61,16 @@ Global
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427274F0-276E-401B-960C-D78DDAF24B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16776C3A-8BC6-4035-AC37-09B1391C6E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16776C3A-8BC6-4035-AC37-09B1391C6E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16776C3A-8BC6-4035-AC37-09B1391C6E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16776C3A-8BC6-4035-AC37-09B1391C6E49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{427274F0-276E-401B-960C-D78DDAF24B5B} = {1E7621BF-3B30-4DA3-8204-AFC07AAFC5A4}
+		{16776C3A-8BC6-4035-AC37-09B1391C6E49} = {1E7621BF-3B30-4DA3-8204-AFC07AAFC5A4}
 	EndGlobalSection
 EndGlobal
