@@ -20,17 +20,17 @@ namespace Mercraft.Core.Algorithms
         {
             var length = geoCoordinates.Count;
 
-            for (int i = 0; i < length - 1; i++)
+            /*for (int i = 0; i < length - 1; i++)
             {
                 if (geoCoordinates[i] == geoCoordinates[length - 1])
                 {
                     length--;
                     break;
                 }
-            }
+            }*/
 
-            //if (geoCoordinates[0] == geoCoordinates[length - 1])
-            //    length--;
+            if (geoCoordinates[0] == geoCoordinates[length - 1])
+                length--;
 
             for (int i = 0; i < length; i++)
             {
@@ -53,17 +53,18 @@ namespace Mercraft.Core.Algorithms
         {
             var length = geoCoordinates.Count;
 
-            for (int i = 0; i < length - 1; i++)
+            /*for (int i = 0; i < length - 1; i++)
             {
                 if (geoCoordinates[i] == geoCoordinates[length - 1])
                 {
                     length--;
                     break;
                 }
-            }
+            }*/
 
-            //if (geoCoordinates[0] == geoCoordinates[length - 1])
-            //    length--;
+
+            if (geoCoordinates[0] == geoCoordinates[length - 1])
+                length--;
 
             FillHeight(center, heightMap, geoCoordinates, verticies, length);
 
