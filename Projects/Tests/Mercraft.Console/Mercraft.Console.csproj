@@ -60,6 +60,10 @@
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
       <Name>Mercraft.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Mercraft.Models\Mercraft.Models.csproj">
+      <Project>{960505D9-47C8-4123-AD1F-7EB663C33990}</Project>
+      <Name>Mercraft.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mercraft.Maps.UnitTests\Mercraft.Maps.UnitTests.csproj">
       <Project>{427274f0-276e-401b-960c-d78ddaf24b5b}</Project>
       <Name>Mercraft.Maps.UnitTests</Name>
