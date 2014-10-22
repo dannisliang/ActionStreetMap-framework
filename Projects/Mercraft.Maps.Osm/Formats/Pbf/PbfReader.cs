@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Ionic.Zlib;
 using ProtoBuf;
@@ -9,16 +11,13 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
     /// <summary>
     ///     Reads PBF files.
     /// </summary>
-    internal class PbfReader
+    internal class PbfReader : IEnumerator<PrimitiveBlock>
     {
         /// <summary>
         ///     The stream containing the PBF data.
         /// </summary>
         private Stream _stream;
 
-        /// <summary>
-        ///     Runtime type model.
-        /// </summary>
         private readonly RuntimeTypeModel _runtimeTypeModel;
 
         // Types of the objects to be deserialized.
@@ -27,10 +26,9 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         private readonly Type _primitiveBlockType = typeof(PrimitiveBlock);
         private readonly Type _headerBlockType = typeof(HeaderBlock);
 
-        /// <summary>
-        ///     A block object that can be reused.
-        /// </summary>
-        private readonly PrimitiveBlock _block = new PrimitiveBlock();
+        private readonly List<PrimitiveBlock> _blocks = new List<PrimitiveBlock>(16);
+
+        private int _currentIndex = 0;
 
         /// <summary>
         ///     Creates a new PBF reader.
@@ -44,36 +42,60 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
             _runtimeTypeModel.Add(_headerBlockType, true);
         }
 
+        /// <summary>
+        ///     Sets stream. This have side effect: cached data will be erased.
+        /// </summary>
         public void SetStream(Stream stream)
         {
             _stream = stream;
+            _blocks.Clear();
+            Reset();
         }
 
+        #region IEnumerable implementation
+
         /// <summary>
-        ///     Closes this reader.
+        ///     Processes next element in sequence. Supports caching of deserialized data.
         /// </summary>
-        public void Dispose()
+        public bool MoveNext()
         {
-            _stream.Dispose();
-            _stream = null;
+            if (_blocks.Count == 0)
+            {
+                PrimitiveBlock block = null;
+                while ((block = ProcessBlock()) != null)
+                    _blocks.Add(block);
+            }
+
+            return _currentIndex++ != _blocks.Count;
         }
 
-        /// <summary>
-        ///     Moves to the next primitive block, returns null at the end.
-        /// </summary>
-        /// <returns></returns>
-        public PrimitiveBlock MoveNext()
+        public void Reset()
         {
-            // make sure previous block data is removed.
-            if (_block.primitivegroup != null)
-            {
-                _block.primitivegroup.Clear();
-            }
-            if (_block.stringtable != null)
-            {
-                _block.stringtable.s.Clear();
-            }
+            if (_stream.CanSeek)
+                _stream.Seek(0, SeekOrigin.Begin);
+            _currentIndex = 0;
+        }
 
+        public PrimitiveBlock Current
+        {
+            get
+            {
+                return _blocks[_currentIndex - 1];
+            }
+        }
+
+        object IEnumerator.Current
+        {
+            get { return Current; }
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     Read next block. Use this API if you don't want to cache content.
+        /// </summary>
+        public PrimitiveBlock ProcessBlock()
+        {
             PrimitiveBlock block = null;
             bool notFoundBut = true;
             while (notFoundBut)
@@ -131,12 +153,20 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
 
                         if (header.type == "OSMData")
                         {
-                            block = _runtimeTypeModel.Deserialize(sourceStream, _block, _primitiveBlockType) as PrimitiveBlock;
+                            block = _runtimeTypeModel.Deserialize(sourceStream, block, _primitiveBlockType) as PrimitiveBlock;
                         }
                     }
                 }
             }
             return block;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            _stream.Dispose();
+            _stream = null;
+            _blocks.Clear();
         }
 
         // 4-byte number
@@ -145,6 +175,8 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
             return (int) (((i & 0xff) << 24) + ((i & 0xff00) << 8) + ((i & 0xff0000) >> 8) + ((i >> 24) & 0xff));
         }
     }
+
+    #region Stream classes
 
     internal abstract class InputStream : Stream
     {
@@ -250,4 +282,6 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
             return bytesRead;
         }
     }
+    
+    #endregion
 }

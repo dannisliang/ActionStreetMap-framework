@@ -69,13 +69,12 @@ namespace Mercraft.Maps.Osm.Data
         {
             FillElements(bbox);
             ResetPrivateState();
-            _reader.Dispose();
             return Elements.Values;
         }
 
         private void ResetPrivateState()
         {
-            _stream.Seek(0, SeekOrigin.Begin);
+            //_stream.Seek(0, SeekOrigin.Begin);
             
             _nodeIds.Clear();
             _wayIds.Clear();
@@ -90,9 +89,9 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         private void FillElements(BoundingBox bbox)
         {
-            PrimitiveBlock block = _reader.MoveNext();
-            while (block != null)
+            while (_reader.MoveNext())
             {
+                var block = _reader.Current;
                 var obbox = new OffsetBoundingBox(bbox, block);
                 ProcessPrimitiveBlock(block, obbox);
 
@@ -124,21 +123,17 @@ namespace Mercraft.Maps.Osm.Data
                         }
                     }
                 }
-                block = _reader.MoveNext();
             }
 
             // Resolve unresolved nodes
-            // NOTE this code increases time consumption almost in two times
-            // due to IO/parsing/unzipping staff. We can't cache PrimitiveBlock
-            // cause it leads to increasing memory consumption
-            // TODO need to thing about how to improve it keeping corresponding logic
-            // so far it's done by splitting pbf file to multiply smaller with single
-            // index file
-            _stream.Seek(0, SeekOrigin.Begin);
+            // NOTE We assume that we slit large pbf files to multiply smaller ones with single
+            // index file and PbfReader cached deserialized blocks as we use its caching methods
+            
+            _reader.Reset();
 
-            block = _reader.MoveNext();
-            while (block != null)
+            while (_reader.MoveNext())
             {
+                var block = _reader.Current;
                 ProcessPrimitiveBlock(block, null);
                 foreach (var primitiveGroup in block.primitivegroup)
                 {
@@ -150,8 +145,8 @@ namespace Mercraft.Maps.Osm.Data
                         }
                     }
                 }
-                block = _reader.MoveNext();
             }
+            _reader.Reset();
         }
 
         private void SearchNode(PrimitiveBlock block, Formats.Pbf.Node node)

@@ -28,6 +28,8 @@ namespace Mercraft.Maps.Osm.Data
 
         private readonly List<Element> _resultElements = new List<Element>(4096);
 
+        private string _currentFile = "";
+
         /// <summary>
         ///     Creates PbfIndexListElementSource.
         /// </summary>
@@ -109,22 +111,36 @@ namespace Mercraft.Maps.Osm.Data
         /// <inheritdoc />
         public override IEnumerable<Element> Get(BoundingBox bbox)
         {
-            var indecies = new List<int>(2);
+            var indices = new List<int>(2);
             for (int i = 0; i < _listIndex.Count; i++)
             {
                 if (bbox.Intersect(_listIndex[i].Value))
-                {
-                    indecies.Add(i);
-                }
+                    indices.Add(i);
             }
 
-            foreach (var index in indecies)
+            foreach (var index in indices)
             {
-                using (Stream fileStream = _fileSystemService.ReadStream(_listIndex[index].Key))
+                var filePath = _listIndex[index].Key;
+
+                Stream fileStream = null;
+                try
                 {
-                    base.SetStream(fileStream);
+                    // NOTE allow to cache pbf deserialization results
+                    // set stream will erase cache
+                    if (_currentFile != filePath)
+                    {
+                        fileStream = _fileSystemService.ReadStream(filePath);
+                        base.SetStream(fileStream);
+                        _currentFile = filePath;
+                    }
+
                     var elements = base.Get(bbox);
                     _resultElements.AddRange(elements);
+                }
+                finally
+                {
+                    if (fileStream != null)
+                        fileStream.Dispose();
                 }
             }
 
