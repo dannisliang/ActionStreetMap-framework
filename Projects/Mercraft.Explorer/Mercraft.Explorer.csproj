@@ -57,6 +57,9 @@
     <Compile Include="Scene\Builders\BuildingModelBuilder.cs" />
     <Compile Include="Scene\Builders\DetailModelBuilder.cs" />
     <Compile Include="Scene\Builders\InfoModelBuilder.cs" />
+    <Compile Include="Scene\Builders\RoadModelBuilder.cs" />
+    <Compile Include="Scene\Builders\SplatModelBuilder.cs" />
+    <Compile Include="Scene\Builders\TreeModelBuilder.cs" />
     <Compile Include="Scene\IModelBuilder.cs" />
     <Compile Include="Scene\Builders\CylinderModelBuilder.cs" />
     <Compile Include="Scene\Builders\SphereModelBuilder.cs" />

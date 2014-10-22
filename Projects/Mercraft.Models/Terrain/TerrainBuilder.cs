@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core.Unity;
+using Mercraft.Core.World.Roads;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Utilities;
+using Mercraft.Models.Details;
+using Mercraft.Models.Roads;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -20,6 +24,30 @@ namespace Mercraft.Models.Terrain
         /// <param name="settings">Terrain settings.</param>
         /// <returns>Terrain game object.</returns>
         IGameObject Build(IGameObject parent, TerrainSettings settings);
+
+        /// <summary>
+        ///     Adds road element to terrain.
+        /// </summary>
+        /// <param name="roadElement">Road element</param>
+        void AddRoadElement(RoadElement roadElement);
+
+        /// <summary>
+        ///     Adds area which should be drawn using different splat index.
+        /// </summary>
+        /// <param name="areaSettings">Area settings.</param>
+        void AddArea(AreaSettings areaSettings);
+
+        /// <summary>
+        ///     Adds area which should be adjuested by height. Processed last.
+        /// </summary>
+        /// <param name="areaSettings">Area settings.</param>
+        void AddElevation(AreaSettings areaSettings);
+
+        /// <summary>
+        ///     Adds tree.
+        /// </summary>
+        /// <param name="tree">Tree.</param>
+        void AddTree(TreeDetail tree);
     }
 
     /// <summary>
@@ -27,7 +55,10 @@ namespace Mercraft.Models.Terrain
     /// </summary>
     public class TerrainBuilder : ITerrainBuilder
     {
+        private readonly IGameObjectFactory _gameObjectFactory;
         private readonly IResourceProvider _resourceProvider;
+        private readonly IRoadBuilder _roadBuilder;
+        private readonly IObjectPool _objectPool;
         private readonly AreaBuilder _areaBuilder = new AreaBuilder();
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
 
@@ -37,15 +68,29 @@ namespace Mercraft.Models.Terrain
         private float[,,] _splatMapBuffer;
         private List<int[,]> _detailListBuffer;
 
+        private readonly List<AreaSettings> _areas = new List<AreaSettings>();
+        private readonly List<AreaSettings> _elevations = new List<AreaSettings>();
+        private readonly List<RoadElement> _roadElements = new List<RoadElement>();
+        private readonly List<TreeDetail> _trees = new List<TreeDetail>();
+
         /// <summary>
         ///     Creates TerrainBuilder.
         /// </summary>
+        /// <param name="gameObjectFactory">Game object factory.</param>
         /// <param name="resourceProvider">Resource provider.</param>
+        /// <param name="roadBuilder">Road builder.</param>
+        /// <param name="objectPool">Object pool.</param>
         [Dependency]
-        public TerrainBuilder(IResourceProvider resourceProvider)
+        public TerrainBuilder(IGameObjectFactory gameObjectFactory, IResourceProvider resourceProvider, 
+            IRoadBuilder roadBuilder, IObjectPool objectPool)
         {
+            _gameObjectFactory = gameObjectFactory;
             _resourceProvider = resourceProvider;
+            _roadBuilder = roadBuilder;
+            _objectPool = objectPool;
         }
+
+        #region ITerrainBuilder implementation
 
         /// <inheritdoc />
         public IGameObject Build(IGameObject parent, TerrainSettings settings)
@@ -74,7 +119,7 @@ namespace Mercraft.Models.Terrain
             }
 
             // fill alphamap
-            var alphaMapElements = CreateElements(settings, settings.Areas,
+            var alphaMapElements = CreateElements(settings, _areas,
                 settings.Resolution / size.x,
                 settings.Resolution / size.z,
                 t => t.SplatIndex);
@@ -83,26 +128,61 @@ namespace Mercraft.Models.Terrain
             return CreateTerrainGameObject(parent, settings, size, _detailListBuffer);
         }
 
+        /// <inheritdoc />
+        public void AddRoadElement(RoadElement roadElement)
+        {
+            _roadElements.Add(roadElement);
+        }
+
+        /// <inheritdoc />
+        public void AddArea(AreaSettings areaSettings)
+        {
+            _areas.Add(areaSettings);
+        }
+
+        /// <inheritdoc />
+        public void AddElevation(AreaSettings areaSettings)
+        {
+           _elevations.Add(areaSettings);
+        }
+
+        /// <inheritdoc />
+        public void AddTree(TreeDetail tree)
+        {
+            _trees.Add(tree);
+        }
+
+        #endregion
+
         private void ProcessTerrainObjects(TerrainSettings settings)
         {
             var heightMap = settings.Tile.HeightMap;
             var roadStyleProvider = settings.RoadStyleProvider;
-            var roadBuilder = settings.RoadBuilder;
+
+            // TODO this should be done by road composer
+             var roads = _roadElements.Select(re => new Road
+             {
+                 Elements = new List<RoadElement> {re},
+                 GameObject = _gameObjectFactory.CreateNew(String.Format("road [{0}] {1}/ ", re.Id, re.Address), 
+                                                    settings.Tile.GameObject),
+             }).ToList();
 
             // process roads
-            foreach (var road in settings.Roads)
+             foreach (var road in roads)
             {
                 var style = roadStyleProvider.Get(road);
-                roadBuilder.Build(heightMap, road, style);
+                _roadBuilder.Build(heightMap, road, style);
             }
 
             // process elevations
-            if (settings.Elevations.Any())
+            // NOTE We have to do this in the last order. Otherwise, new height
+            // value can affect other models (e.g. water vs road)
+            if (_elevations.Any())
             {
                 var elevation = heightMap.MinElevation - 10;
                 _heightMapProcessor.Recycle(heightMap);
 
-                foreach (var elevationArea in settings.Elevations)
+                foreach (var elevationArea in _elevations)
                     _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
                 _heightMapProcessor.Clear();
             }
@@ -196,7 +276,7 @@ namespace Mercraft.Models.Terrain
         private void SetTrees(UnityEngine.Terrain terrain, TerrainSettings settings, Vector3 size)
         {
             terrain.terrainData.treePrototypes = GetTreePrototypes();
-            foreach (var treeDetail in settings.Trees)
+            foreach (var treeDetail in _trees)
             {
                 var position = new Vector3((treeDetail.Point.X - settings.CornerPosition.x) / size.x, 1,
                     (treeDetail.Point.Y - settings.CornerPosition.y) / size.z);
@@ -273,6 +353,21 @@ namespace Mercraft.Models.Terrain
             // this buffer is set to 1 in AreaBuilder
             //Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
             _detailListBuffer.ForEach(array => Array.Clear(array, 0, array.Length));
+
+            //Return lists to object pool
+            foreach (var area in _areas)
+                _objectPool.Store(area.Points);
+            foreach (var elevation in _elevations)
+                _objectPool.Store(elevation.Points);
+
+            // NOTE do not return road element's points back to store as they will be used in future
+            // for unit behavior modeling
+
+            // clear collections to reuse
+            _areas.Clear();
+            //_elevations.Clear();
+            _roadElements.Clear();
+            _trees.Clear();
         }
 
         private TerrainElement[] CreateElements(TerrainSettings settings,

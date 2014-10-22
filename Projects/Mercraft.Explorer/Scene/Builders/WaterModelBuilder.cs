@@ -10,6 +10,7 @@ using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Terrain;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace Mercraft.Explorer.Scene.Builders
     /// </summary>
     public class WaterModelBuilder : ModelBuilder
     {
+        private readonly ITerrainBuilder _terrainBuilder;
         private readonly IResourceProvider _resourceProvider;
         private const int NoLayer = -1;
 
@@ -33,10 +35,12 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates WaterModelBuilder.
         /// </summary>
         [Dependency]
-        public WaterModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
+        public WaterModelBuilder(ITerrainBuilder terrainBuilder,
+            WorldManager worldManager, IGameObjectFactory gameObjectFactory,
             IResourceProvider resourceProvider, IObjectPool objectPool)
             : base(worldManager ,gameObjectFactory, objectPool)
         {
+            _terrainBuilder = terrainBuilder;
             _resourceProvider = resourceProvider;
         }
 
@@ -53,10 +57,19 @@ namespace Mercraft.Explorer.Scene.Builders
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
             PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, verticies2D);
-            var offsetVerticies3D = GetOffsetPoints(verticies2D).GetVerticies(tile.HeightMap.MinElevation);
+            var offsetPoints = GetOffsetPoints(verticies2D);
+           
+            _terrainBuilder.AddElevation(new AreaSettings
+            {
+                ZIndex = rule.GetZIndex(),
+                Points = offsetPoints
+            });
+
+            var offsetVerticies3D = offsetPoints.GetVerticies(tile.HeightMap.MinElevation);
             var triangles = PointHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
 
+            
             ObjectPool.Store(verticies2D);
 
             BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
@@ -64,12 +77,12 @@ namespace Mercraft.Explorer.Scene.Builders
             return gameObjectWrapper;
         }
 
-        private MapPoint[] GetOffsetPoints(List<MapPoint> verticies)
+        private List<MapPoint> GetOffsetPoints(List<MapPoint> verticies)
         {
-            // TODO determine value
+            // TODO determine the best value
             const float offset = -2f;
             var polygon = new Polygon(verticies);
-            var result = new MapPoint[verticies.Count];
+            var result = ObjectPool.NewList<MapPoint>(verticies.Count);
             for (int i = 0; i < polygon.Segments.Length; i++)
             {
                 var previous = i == 0 ? polygon.Segments.Length - 1 : i - 1;
@@ -82,7 +95,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
                 var ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
 
-                result[i] = new MapPoint(ip1.x, ip1.z);
+                result.Add(new MapPoint(ip1.x, ip1.z));
             }
 
             return result;

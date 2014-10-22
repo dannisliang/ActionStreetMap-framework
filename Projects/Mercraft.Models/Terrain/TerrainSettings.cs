@@ -43,31 +43,6 @@ namespace Mercraft.Models.Terrain
         public List<List<string>> DetailParams { get; set; }
 
         /// <summary>
-        ///     Areas.
-        /// </summary>
-        public List<AreaSettings> Areas { get; set; }
-
-        /// <summary>
-        ///     Roads.
-        /// </summary>
-        public List<Road> Roads { get; set; }
-
-        /// <summary>
-        ///     Elevations.
-        /// </summary>
-        public List<AreaSettings> Elevations { get; set; }
-
-        /// <summary>
-        ///     Trees.
-        /// </summary>
-        public List<TreeDetail> Trees { get; set; }
-
-        /// <summary>
-        ///     Road builder.
-        /// </summary>
-        public IRoadBuilder RoadBuilder { get; set; }
-
-        /// <summary>
         ///     Road style provider.
         /// </summary>
         public IRoadStyleProvider RoadStyleProvider { get; set; }

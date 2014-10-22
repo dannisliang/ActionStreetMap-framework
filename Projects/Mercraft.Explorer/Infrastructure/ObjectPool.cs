@@ -40,7 +40,8 @@ namespace Mercraft.Explorer.Infrastructure
         /// <inheritdoc />
         public List<T> NewList<T>(int capacity)
         {
-            throw new NotImplementedException();
+            // TODO choose the best list from pool based on provided capacity
+            return NewList<T>();
         }
 
         /// <inheritdoc />

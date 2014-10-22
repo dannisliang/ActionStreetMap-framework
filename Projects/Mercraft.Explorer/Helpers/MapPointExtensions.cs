@@ -1,19 +1,24 @@
-﻿using Mercraft.Core;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Mercraft.Core;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Helpers
 {
     internal static class MapPointExtensions
     {
-        public static Vector3[] GetVerticies(this MapPoint[] verticies2D, float floor)
+        public static Vector3[] GetVerticies(this IEnumerable<MapPoint> verticies2D, float floor)
         {
-            var length = verticies2D.Length;
+            var length = verticies2D.Count();
             var verticies3D = new Vector3[length];
-            for (int i = 0; i < length; i++)
-            {
-                verticies3D[i] = new Vector3(verticies2D[i].X, floor, verticies2D[i].Y);
-            }
 
+            int i = 0;
+            foreach (var mapPoint in verticies2D)
+            {
+                verticies3D[i++] = new Vector3(mapPoint.X, floor, mapPoint.Y);
+            }
+            
             return verticies3D;
         }
 
