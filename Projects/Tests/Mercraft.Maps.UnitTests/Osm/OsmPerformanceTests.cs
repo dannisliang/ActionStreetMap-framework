@@ -1,4 +1,5 @@
 ﻿using Mercraft.Core;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Maps.Osm.Data;
 using NUnit.Framework;
 
@@ -15,7 +16,7 @@ namespace Mercraft.Maps.UnitTests.Osm
             perfLogger.Start();
 
             var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
-                TestHelper.GetFileSystemService());
+                TestHelper.GetFileSystemService(), new DefaultTrace());
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 

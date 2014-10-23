@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Maps.Osm.Data;
 using NUnit.Framework;
 
@@ -13,7 +14,7 @@ namespace Mercraft.Maps.UnitTests.Osm
         {
             // ARRANGE
             var elementSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
-                TestHelper.GetFileSystemService());
+                TestHelper.GetFileSystemService(), new DefaultTrace());
 
             // ACT
             var elements = elementSource.Get(

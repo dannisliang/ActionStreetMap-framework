@@ -2,6 +2,7 @@
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Explorer.Infrastructure;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
@@ -40,7 +41,7 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
         {
             // ARRANGE
             var dataSource = new PbfIndexListElementSource(TestHelper.TestBigPbfIndexListPath,
-                TestHelper.GetFileSystemService());
+                TestHelper.GetFileSystemService(), new DefaultTrace());
 
             var bbox = BoundingBox.CreateBoundingBox(TestHelper.BerlinGeoCenter, 1000);
 

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Maps.Osm.Data
@@ -25,15 +27,18 @@ namespace Mercraft.Maps.Osm.Data
     {
         private IElementSource _dataSource;
         private readonly IFileSystemService _fileSystemService;
+        private readonly ITrace _trace;
 
         /// <summary>
         ///     Creates DefaultElementSourceProvider
         /// </summary>
         /// <param name="fileSystemService">File system service.</param>
+        /// <param name="trace"></param>
         [Dependency]
-        public DefaultElementSourceProvider(IFileSystemService fileSystemService)
+        public DefaultElementSourceProvider(IFileSystemService fileSystemService, ITrace trace)
         {
             _fileSystemService = fileSystemService;
+            _trace = trace;
         }
 
         /// <inheritdoc />
@@ -50,7 +55,7 @@ namespace Mercraft.Maps.Osm.Data
 
             if (String.IsNullOrEmpty(fileExtension))
             {
-                _dataSource = new PbfIndexListElementSource(filePath, _fileSystemService);
+                _dataSource = new PbfIndexListElementSource(filePath, _fileSystemService, _trace);
             }
             else
             {

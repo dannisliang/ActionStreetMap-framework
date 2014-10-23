@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.IO;
 using Mercraft.Maps.Osm.Entities;
 
@@ -23,6 +24,7 @@ namespace Mercraft.Maps.Osm.Data
             new Regex(@"([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)");
 
         private readonly IFileSystemService _fileSystemService;
+        private readonly ITrace _trace;
 
         private readonly List<KeyValuePair<string, BoundingBox>> _listIndex = new List<KeyValuePair<string, BoundingBox>>(32);
 
@@ -35,9 +37,11 @@ namespace Mercraft.Maps.Osm.Data
         /// </summary>
         /// <param name="indexListPath">Index list path.</param>
         /// <param name="fileSystemService">File system service.</param>
-        public PbfIndexListElementSource(string indexListPath, IFileSystemService fileSystemService)
+        /// <param name="trace">Trace.</param>
+        public PbfIndexListElementSource(string indexListPath, IFileSystemService fileSystemService, ITrace trace)
         {
             _fileSystemService = fileSystemService;
+            _trace = trace;
             SearchAndReadIndexListFiles(indexListPath);
         }
 
@@ -129,6 +133,7 @@ namespace Mercraft.Maps.Osm.Data
                     // set stream will erase cache
                     if (_currentFile != filePath)
                     {
+                        _trace.Warn(String.Format("Reading pbf {0}", filePath));
                         fileStream = _fileSystemService.ReadStream(filePath);
                         base.SetStream(fileStream);
                         _currentFile = filePath;
