@@ -24,8 +24,13 @@ namespace Mercraft.Models.Geometry
 
             // Get delta and check if the lines are parallel
             float delta = a1*b2 - a2*b1;
-            if (Math.Abs(delta) < float.MinValue)
+            if (Math.Abs(delta) < float.Epsilon)
+            {
+                // should share the same point - we will use it
+                if (first.End == second.Start)
+                    return first.End;
                 throw new ArgumentException("Segments are parallel");
+            }
 
             return new Vector3(
                 (b2*c1 - b1*c2)/delta,
