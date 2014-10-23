@@ -42,7 +42,7 @@ namespace Mercraft.Explorer.Themes
             // Tags mapping this should be done in mapcss file. So, we will throw exception 
             // here if type isn't mapped to existing style
             if (!_facadeStyleMapping.ContainsKey(building.Type))
-                throw new ArgumentException(String.Format(ErrorStrings.CannotGetBuildingStyle, building.Type));
+                throw new ArgumentException(String.Format(Strings.CannotGetBuildingStyle, building.Type));
 
             var facadeStyle = _facadeStyleMapping[building.Type];
             var roofStyle = _roofStyleMapping[building.Type];

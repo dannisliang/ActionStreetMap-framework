@@ -116,7 +116,7 @@ namespace Mercraft.Core.MapCss.Domain
             Assert();
 
             if (!Declarations.ContainsKey(qualifier))
-                throw new ArgumentException(String.Format(ErrorStrings.StyleDeclarationNotFound,
+                throw new ArgumentException(String.Format(Strings.StyleDeclarationNotFound,
                     qualifier, _model), qualifier);
 
             var declaration = Declarations[qualifier];
@@ -132,7 +132,7 @@ namespace Mercraft.Core.MapCss.Domain
         private void Assert()
         {
             if (!IsApplicable)
-                throw new InvalidOperationException(ErrorStrings.RuleNotApplicable);
+                throw new InvalidOperationException(Strings.RuleNotApplicable);
         }
     }
 }

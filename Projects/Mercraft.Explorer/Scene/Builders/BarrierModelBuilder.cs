@@ -46,7 +46,7 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             if (way.Points.Count < 2)
             {
-                Trace.Warn(ErrorStrings.InvalidPolyline);
+                Trace.Warn(Strings.InvalidPolyline);
                 return null;
             }
 

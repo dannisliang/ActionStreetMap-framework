@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.IO;
 
 namespace Mercraft.Core.Elevation.Srtm
@@ -18,6 +19,11 @@ namespace Mercraft.Core.Elevation.Srtm
         private readonly IFileSystemService _fileSystemService;
 
         private string _dataDirectory;
+
+        /// <summary>
+        ///     Trace.
+        /// </summary>
+        public ITrace Trace { get; set; }
 
         /// <summary>
         ///     Creates SrtmElevationProvider/
@@ -55,8 +61,10 @@ namespace Mercraft.Core.Elevation.Srtm
 
             string filePath = Path.Combine(_dataDirectory, filename);
 
+            Trace.Warn(String.Format(Strings.LoadElevationFrom, filePath));
+
             if (!_fileSystemService.Exists(filePath))
-                throw new Exception("SRTM data cell not found: " + filePath);
+                throw new Exception(String.Format(Strings.CannotFindSrtmData, filePath));
 
             var dataCell = new SrtmDataCell(filePath, _fileSystemService);
             _dataCells.Add(dataCell);

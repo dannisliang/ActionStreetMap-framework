@@ -253,7 +253,7 @@ namespace Mercraft.Explorer.Themes
 
             var values = value.Split(',');
             if (values.Length != 4)
-                throw new InvalidOperationException(String.Format(ErrorStrings.InvalidUvMappingDefinition, value));
+                throw new InvalidOperationException(String.Format(Strings.InvalidUvMappingDefinition, value));
 
             var width = (float)int.Parse(values[2]);
             var height = (float)int.Parse(values[3]);

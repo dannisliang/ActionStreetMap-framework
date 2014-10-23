@@ -159,7 +159,7 @@ namespace Mercraft.Core.Scene
             _allTiles.Remove(i, j);
             _messageBus.Send(new TileDestroyMessage(tile));
             if (_activeTiles.ContainsKey(i, j))
-                throw new AlgorithmException(ErrorStrings.TileDeactivationBug);
+                throw new AlgorithmException(Strings.TileDeactivationBug);
         }
 
         #endregion

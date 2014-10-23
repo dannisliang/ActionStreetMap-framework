@@ -55,7 +55,7 @@
     <Compile Include="Buildings\Roofs\MansardRoofBuilder.cs" />
     <Compile Include="Details\ModelDetail.cs" />
     <Compile Include="Details\TreeDetail.cs" />
-    <Compile Include="ErrorStrings.cs" />
+    <Compile Include="Strings.cs" />
     <Compile Include="Geometry\Rect.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\ThickLine\DimenLineBuilder.cs" />

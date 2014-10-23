@@ -49,7 +49,7 @@ namespace Mercraft.Core.MapCss.Visitors
             {
                 var tree = ruleTree.Children[i] as CommonTree;
                 if (tree == null)
-                    throw new MapCssFormatException(ErrorStrings.StyleVisitNullTree);
+                    throw new MapCssFormatException(Strings.StyleVisitNullTree);
 
                 if (tree.Text == "SIMPLE_SELECTOR")
                 {
