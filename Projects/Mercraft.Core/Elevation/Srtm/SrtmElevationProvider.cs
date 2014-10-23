@@ -62,7 +62,7 @@ namespace Mercraft.Core.Elevation.Srtm
 
             string filePath = Path.Combine(_dataDirectory, filename);
 
-            Trace.Warn(String.Format(Strings.LoadElevationFrom, filePath));
+            Trace.Output(String.Format(Strings.LoadElevationFrom, filePath));
 
             if (!_fileSystemService.Exists(filePath))
                 throw new Exception(String.Format(Strings.CannotFindSrtmData, filePath));

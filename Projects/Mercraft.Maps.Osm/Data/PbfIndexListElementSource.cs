@@ -15,6 +15,8 @@ namespace Mercraft.Maps.Osm.Data
     /// </summary>
     public class PbfIndexListElementSource : PbfElementSource
     {
+        private const string LogCategory = "OSM.pbf.index";
+
         private const string IndexFilePattern = "*.list";
         private const string OsmFilePattern = "{0}.osm.pbf";
 
@@ -75,6 +77,7 @@ namespace Mercraft.Maps.Osm.Data
             // This is just rough implementation to check idea
             // TODO improve it
             var indexFileDirectory = Path.GetDirectoryName(indexListPath);
+            _trace.Output(LogCategory, String.Format("Reading index {0}..", indexFileDirectory));
             using (var reader = new StreamReader(_fileSystemService.ReadStream(indexListPath)))
             {
                 // Skip three first lines
@@ -94,7 +97,7 @@ namespace Mercraft.Maps.Osm.Data
                     var boundingBox = new BoundingBox(minPoint, maxPoint);
 
                     _listIndex.Add(new KeyValuePair<string, BoundingBox>(fileName, boundingBox));
-
+                    _trace.Output(LogCategory, String.Format("Found [{0} ; {1}] in {2}..", minPoint, maxPoint, fileName));
                     reader.ReadLine();
                 }
             }
@@ -133,7 +136,7 @@ namespace Mercraft.Maps.Osm.Data
                     // set stream will erase cache
                     if (_currentFile != filePath)
                     {
-                        _trace.Warn(String.Format("Reading pbf {0}", filePath));
+                        _trace.Output(LogCategory, String.Format("Reading pbf {0}", filePath));
                         fileStream = _fileSystemService.ReadStream(filePath);
                         base.SetStream(fileStream);
                         _currentFile = filePath;
