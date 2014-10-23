@@ -177,7 +177,7 @@ namespace Mercraft.Models.Terrain
             // process elevations
             // NOTE We have to do this in the last order. Otherwise, new height
             // value can affect other models (e.g. water vs road)
-            if (_elevations.Any())
+             if (!heightMap.IsFlat && _elevations.Any())
             {
                 var elevation = heightMap.MinElevation - 10;
                 _heightMapProcessor.Recycle(heightMap);

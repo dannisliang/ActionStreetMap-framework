@@ -28,7 +28,12 @@ namespace Mercraft.Explorer.Bootstrappers
             // activates/deactivates tiles during the game based on distance to player
             Container.Register(Component.For<ITileActivator>().Use<TileActivator>().Singleton());
 
-            Container.Register(Component.For<IHeightMapProvider>().Use<HeightMapProvider>().Singleton());
+            Container.Register(Component
+                .For<IHeightMapProvider>()
+                .Use<HeightMapProvider>()
+                .Singleton()
+                .SetConfig(GlobalConfigSection.GetSection(TileKey)));
+
             Container.Register(Component.For<IElevationProvider>().Use<SrtmElevationProvider>().Singleton()
                 .SetConfig(GlobalConfigSection.GetSection(ElevationKey)));
             

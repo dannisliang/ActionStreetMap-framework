@@ -1,5 +1,6 @@
 ﻿using System;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Infrastructure.Config;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Core.Elevation
@@ -24,12 +25,13 @@ namespace Mercraft.Core.Elevation
     /// <summary>
     ///     Default realization of heightmap provider.
     /// </summary>
-    public class HeightMapProvider: IHeightMapProvider
+    public class HeightMapProvider: IHeightMapProvider, IConfigurable
     {
         private const int MaxHeight = 8000;
 
         private readonly IElevationProvider _elevationProvider;
 
+        private bool _isFlat = false;
         private float[,] _map;
         private float[,] _smoothNoiseBuffer;
 
@@ -55,35 +57,40 @@ namespace Mercraft.Core.Elevation
 
             var bbox = tile.BoundingBox;
 
-            var latStep = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution;
-            var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
-
             float maxElevation = 0;
-            float minElevation = MaxHeight;
-            // NOTE Assume that [0,0] is bottom left corner
-            var lat = bbox.MinPoint.Latitude + latStep/2;
-            for (int j = 0; j < resolution; j++)
+            float minElevation = 0;
+
+            // resolve height
+            if (!_isFlat)
             {
-                var lon = bbox.MinPoint.Longitude + lonStep / 2;
-                for (int i = 0; i < resolution; i++)
+                minElevation = MaxHeight;
+                var latStep = (bbox.MaxPoint.Latitude - bbox.MinPoint.Latitude) / resolution;
+                var lonStep = (bbox.MaxPoint.Longitude - bbox.MinPoint.Longitude) / resolution;
+
+                // NOTE Assume that [0,0] is bottom left corner
+                var lat = bbox.MinPoint.Latitude + latStep/2;
+                for (int j = 0; j < resolution; j++)
                 {
-                    var elevation = _elevationProvider.GetElevation(lat, lon);
+                    var lon = bbox.MinPoint.Longitude + lonStep/2;
+                    for (int i = 0; i < resolution; i++)
+                    {
+                        var elevation = _elevationProvider.GetElevation(lat, lon);
 
-                    if (elevation > maxElevation && elevation < MaxHeight)
-                        maxElevation = elevation;
-                    else if (elevation < minElevation)
-                        minElevation = elevation;
+                        if (elevation > maxElevation && elevation < MaxHeight)
+                            maxElevation = elevation;
+                        else if (elevation < minElevation)
+                            minElevation = elevation;
 
-                    _map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
+                        _map[j, i] = elevation > MaxHeight ? maxElevation : elevation;
 
-                    lon += lonStep;
+                        lon += lonStep;
+                    }
+                    lat += latStep;
                 }
-                lat += latStep;
+                // TODO which value to use?
+                if (DoSmooth)
+                    _map = GenerateSmoothNoise(_map, 8);
             }
-
-            // TODO which value to use?
-            if (DoSmooth)
-                _map = GenerateSmoothNoise(_map, 8);
 
             return new HeightMap
             {
@@ -105,7 +112,15 @@ namespace Mercraft.Core.Elevation
             Array.Clear(_map, 0, _map.Length);
         }
 
+        /// <inheritdoc />
+        public void Configure(IConfigSection configSection)
+        {
+            _isFlat = configSection.GetBool("flat", false);
+        }
+
         #region Smooth noise
+
+        // TODO I don't like current smooth algorithm
 
         private float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
         {
