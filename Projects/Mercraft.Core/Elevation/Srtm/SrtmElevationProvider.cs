@@ -23,6 +23,7 @@ namespace Mercraft.Core.Elevation.Srtm
         /// <summary>
         ///     Trace.
         /// </summary>
+        [Dependency]
         public ITrace Trace { get; set; }
 
         /// <summary>

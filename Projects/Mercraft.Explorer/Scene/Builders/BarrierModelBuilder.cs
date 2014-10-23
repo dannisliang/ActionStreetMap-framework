@@ -5,12 +5,8 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry.ThickLine;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -20,7 +16,6 @@ namespace Mercraft.Explorer.Scene.Builders
     /// </summary>
     public class BarrierModelBuilder: ModelBuilder
     {
-        private readonly IResourceProvider _resourceProvider;
         private readonly DimenLineBuilder _dimenLineBuilder = new DimenLineBuilder(2);
         private readonly List<LineElement> _lines = new List<LineElement>(1);
 
@@ -28,17 +23,6 @@ namespace Mercraft.Explorer.Scene.Builders
         public override string Name
         {
             get { return "barrier"; }
-        }
-
-        /// <summary>
-        ///     Creates BarrierModelBuilder.
-        /// </summary>
-        [Dependency]
-        public BarrierModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, 
-            IResourceProvider resourceProvider, IObjectPool objectPool) :
-            base(worldManager, gameObjectFactory, objectPool)
-        {
-            _resourceProvider = resourceProvider;
         }
 
         /// <inheritdoc />
@@ -87,8 +71,8 @@ namespace Mercraft.Explorer.Scene.Builders
             meshFilter.mesh = mesh;
 
             var renderer = gameObject.AddComponent<MeshRenderer>();
-            renderer.material = rule.GetMaterial(_resourceProvider);
-            renderer.material.mainTexture = rule.GetTexture(_resourceProvider);
+            renderer.material = rule.GetMaterial(ResourceProvider);
+            renderer.material.mainTexture = rule.GetTexture(ResourceProvider);
         }
     }
 }

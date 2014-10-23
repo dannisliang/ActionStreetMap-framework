@@ -2,9 +2,7 @@
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Details;
 using Mercraft.Models.Terrain;
 
@@ -27,9 +25,7 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates TreeModelBuilder.
         /// </summary>
         [Dependency]
-        public TreeModelBuilder(ITerrainBuilder terrainBuilder, WorldManager worldManager,
-            IGameObjectFactory gameObjectFactory, IObjectPool objectPool)
-            : base(worldManager, gameObjectFactory, objectPool)
+        public TreeModelBuilder(ITerrainBuilder terrainBuilder)
         {
             _terrainBuilder = terrainBuilder;
         }

@@ -1,13 +1,10 @@
-﻿
-using Mercraft.Core;
+﻿using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -29,9 +26,7 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates TreeModelBuilder.
         /// </summary>
         [Dependency]
-        public SplatModelBuilder(ITerrainBuilder terrainBuilder, WorldManager worldManager,
-            IGameObjectFactory gameObjectFactory, IObjectPool objectPool)
-            : base(worldManager, gameObjectFactory, objectPool)
+        public SplatModelBuilder(ITerrainBuilder terrainBuilder)
         {
             _terrainBuilder = terrainBuilder;
         }

@@ -4,11 +4,9 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Core.World.Roads;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Terrain;
 
@@ -31,8 +29,7 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates RoadModelBuilder.
         /// </summary>
         [Dependency]
-        public RoadModelBuilder(ITerrainBuilder terrainBuilder, WorldManager worldManager, IGameObjectFactory gameObjectFactory, IObjectPool objectPool) 
-            : base(worldManager, gameObjectFactory, objectPool)
+        public RoadModelBuilder(ITerrainBuilder terrainBuilder)
         {
             _terrainBuilder = terrainBuilder;
         }

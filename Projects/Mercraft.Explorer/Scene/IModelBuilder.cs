@@ -2,9 +2,11 @@
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Core.World;
+using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Infrastructure.Utilities;
+using Mercraft.Models.Utils;
 
 namespace Mercraft.Explorer.Scene
 {
@@ -54,6 +56,8 @@ namespace Mercraft.Explorer.Scene
         /// <inheritdoc />
         public abstract string Name { get; }
 
+        #region Properties. These properties are public due to Reflection limitations on some platform
+
         /// <summary>
         ///     Trace.
         /// </summary>
@@ -63,30 +67,34 @@ namespace Mercraft.Explorer.Scene
         /// <summary>
         ///     World manager.
         /// </summary>
-        protected readonly WorldManager WorldManager;
+        [Dependency]
+        public WorldManager WorldManager { get; set; }
 
         /// <summary>
         ///     Game object factory.
         /// </summary>
-        protected readonly IGameObjectFactory GameObjectFactory;
+        [Dependency]
+        public IGameObjectFactory GameObjectFactory { get; set; }
+
+        /// <summary>
+        ///     Theme provider.
+        /// </summary>
+        [Dependency]
+        public IThemeProvider ThemeProvider { get; set; }
+
+        /// <summary>
+        ///     Resource provider.
+        /// </summary>
+        [Dependency]
+        public IResourceProvider ResourceProvider { get; set; }
 
         /// <summary>
         ///     Object pool.
         /// </summary>
-        protected readonly IObjectPool ObjectPool;
+        [Dependency]
+        public IObjectPool ObjectPool { get; set; }
 
-        /// <summary>
-        ///     Creates ModelBuilder.
-        /// </summary>
-        /// <param name="worldManager">World manager.</param>
-        /// <param name="gameObjectFactory">Game object factory.</param>
-        /// <param name="objectPool">Object pool.</param>
-        protected ModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory, IObjectPool objectPool)
-        {
-            WorldManager = worldManager;
-            GameObjectFactory = gameObjectFactory;
-            ObjectPool = objectPool;
-        }
+        #endregion
 
         /// <inheritdoc />
         public virtual IGameObject BuildArea(Tile tile, Rule rule, Area area)

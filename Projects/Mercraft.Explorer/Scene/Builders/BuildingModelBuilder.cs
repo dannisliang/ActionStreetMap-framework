@@ -7,12 +7,9 @@ using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Utils;
@@ -24,7 +21,6 @@ namespace Mercraft.Explorer.Scene.Builders
     /// </summary>
     public class BuildingModelBuilder : ModelBuilder
     {
-        private readonly IThemeProvider _themeProvider;
         private readonly IBuildingBuilder _builder;
 
         private readonly HeightMapProcessor _heightMapProcessor = new HeightMapProcessor();
@@ -39,14 +35,8 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates BuildingModelBuilder.
         /// </summary>
         [Dependency]
-        public BuildingModelBuilder(WorldManager worldManager,
-            IGameObjectFactory gameObjectFactory, 
-            IThemeProvider themeProvider,
-            IBuildingBuilder builder,
-            IObjectPool objectPool) :
-            base(worldManager, gameObjectFactory, objectPool)
+        public BuildingModelBuilder(IBuildingBuilder builder)
         {
-            _themeProvider = themeProvider;
             _builder = builder;
         }
 
@@ -137,7 +127,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 Footprint = points,
             };
 
-            var theme = _themeProvider.Get();
+            var theme = ThemeProvider.Get();
             BuildingStyle style = theme.GetBuildingStyle(building);
 
             _builder.Build(tile.HeightMap, building, style);

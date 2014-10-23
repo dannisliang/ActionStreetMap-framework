@@ -4,11 +4,7 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -18,23 +14,10 @@ namespace Mercraft.Explorer.Scene.Builders
     /// </summary>
     public class CylinderModelBuilder : ModelBuilder
     {
-        private readonly IResourceProvider _resourceProvider;
-
         /// <inheritdoc />
         public override string Name
         {
             get { return "cylinder"; }
-        }
-
-        /// <summary>
-        ///     Creates CylinderModelBuilder.
-        /// </summary>
-        [Dependency]
-        public CylinderModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IResourceProvider resourceProvider, IObjectPool objectPool)
-            : base(worldManager, gameObjectFactory, objectPool)
-        {
-            _resourceProvider = resourceProvider;
         }
 
         /// <inheritdoc />
@@ -74,7 +57,7 @@ namespace Mercraft.Explorer.Scene.Builders
             cylinder.transform.position = new Vector3(cylinderCenter.X, minHeight + actualHeight, cylinderCenter.Y);
 
             cylinder.AddComponent<MeshRenderer>();
-            cylinder.renderer.material = rule.GetMaterial(_resourceProvider);
+            cylinder.renderer.material = rule.GetMaterial(ResourceProvider);
             cylinder.renderer.material.color = rule.GetFillUnityColor();
 
             return gameObjectWrapper;

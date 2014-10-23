@@ -5,13 +5,10 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry;
 using Mercraft.Models.Terrain;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -22,7 +19,6 @@ namespace Mercraft.Explorer.Scene.Builders
     public class WaterModelBuilder : ModelBuilder
     {
         private readonly ITerrainBuilder _terrainBuilder;
-        private readonly IResourceProvider _resourceProvider;
         private const int NoLayer = -1;
 
         /// <inheritdoc />
@@ -35,13 +31,9 @@ namespace Mercraft.Explorer.Scene.Builders
         ///     Creates WaterModelBuilder.
         /// </summary>
         [Dependency]
-        public WaterModelBuilder(ITerrainBuilder terrainBuilder,
-            WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IResourceProvider resourceProvider, IObjectPool objectPool)
-            : base(worldManager ,gameObjectFactory, objectPool)
+        public WaterModelBuilder(ITerrainBuilder terrainBuilder)
         {
             _terrainBuilder = terrainBuilder;
-            _resourceProvider = resourceProvider;
         }
 
         /// <inheritdoc />
@@ -118,7 +110,7 @@ namespace Mercraft.Explorer.Scene.Builders
             meshFilter.mesh.RecalculateNormals();
 
             gameObject.AddComponent<MeshRenderer>();
-            gameObject.renderer.material = rule.GetMaterial(_resourceProvider);
+            gameObject.renderer.material = rule.GetMaterial(ResourceProvider);
             gameObject.renderer.material.color = rule.GetFillUnityColor();
 
             var layerIndex = rule.GetLayerIndex(NoLayer);

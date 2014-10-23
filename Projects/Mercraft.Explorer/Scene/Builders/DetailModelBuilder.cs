@@ -3,12 +3,8 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Roads;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -18,23 +14,10 @@ namespace Mercraft.Explorer.Scene.Builders
     /// </summary>
     public class DetailModelBuilder: ModelBuilder
     {
-        private readonly IResourceProvider _resourceProvider;
-
         /// <inheritdoc />
         public override string Name
         {
             get { return "detail"; }
-        }
-
-        /// <summary>
-        ///     Creates DetailModelBuilder.
-        /// </summary>
-        [Dependency]
-        public DetailModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IResourceProvider resourceProvider, IObjectPool objectPool) :
-            base(worldManager, gameObjectFactory, objectPool)
-        {
-            _resourceProvider = resourceProvider;
         }
 
         /// <inheritdoc />
@@ -60,7 +43,7 @@ namespace Mercraft.Explorer.Scene.Builders
         protected virtual IGameObject BuildObject(Tile tile, Rule rule, Node node, MapPoint mapPoint, 
             float zIndex, string detail)
         {
-            var prefab = _resourceProvider.GetGameObject(detail);
+            var prefab = ResourceProvider.GetGameObject(detail);
             var gameObject = (GameObject)Object.Instantiate(prefab);
             if (rule.IsRoadFix())
             {

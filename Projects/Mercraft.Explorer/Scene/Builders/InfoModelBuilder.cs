@@ -4,14 +4,9 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Core.World.Infos;
 using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Infos;
-using Mercraft.Models.Utils;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -20,26 +15,11 @@ namespace Mercraft.Explorer.Scene.Builders
     ///     Provides logic to build info models.
     /// </summary>
     public class InfoModelBuilder: ModelBuilder
-    {
-        private readonly IThemeProvider _themeProvider;
-        private readonly IResourceProvider _resourceProvider;
-
+    {       
         /// <inheritdoc />
         public override string Name
         {
             get { return "info"; }
-        }
-
-        /// <summary>
-        ///     Creates infoModelBuilder.
-        /// </summary>
-        [Dependency]
-        public InfoModelBuilder(WorldManager worldManager, IGameObjectFactory gameObjectFactory,
-            IThemeProvider themeProvider, IResourceProvider resourceProvider, IObjectPool objectPool) :
-                base(worldManager, gameObjectFactory, objectPool)
-        {
-            _themeProvider = themeProvider;
-            _resourceProvider = resourceProvider;
         }
 
         /// <inheritdoc />
@@ -55,7 +35,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 Key = key,
                 Coordinate = node.Point,
             };
-            var style = _themeProvider.Get().GetInfoStyle(info);
+            var style = ThemeProvider.Get().GetInfoStyle(info);
 
             var gameObjectWrapper = GameObjectFactory
               .CreatePrimitive(String.Format("info {0}", node), UnityPrimitiveType.Cube);
@@ -109,8 +89,7 @@ namespace Mercraft.Explorer.Scene.Builders
                 p0, p3, p1, p2
             };
 
-            gameObject.GetComponent<MeshRenderer>().sharedMaterial = _resourceProvider
-                .GetMatertial(style.Path);
+            gameObject.GetComponent<MeshRenderer>().sharedMaterial = ResourceProvider.GetMatertial(style.Path);
             
             gameObjectWrapper.Parent = tile.GameObject;
         }
