@@ -17,7 +17,7 @@ namespace Mercraft.Maps.Osm
         private readonly IElementSourceProvider _elementSourceProvider;
         private readonly ElementManager _elementManager;
         private readonly IModelVisitor _modelVisitor;
-        private readonly IObjectPool _objectPool;
+        private readonly CompositeVisitor _compositeVisitor;
 
         /// <summary>
         ///     Creates OsmTileLoader.
@@ -33,22 +33,28 @@ namespace Mercraft.Maps.Osm
             _elementSourceProvider = elementSourceProvider;
             _elementManager = elementManager;
             _modelVisitor = modelVisitor;
-            _objectPool = objectPool;
+
+            _compositeVisitor = new CompositeVisitor(new List<IElementVisitor>
+            {
+                new WayVisitor(modelVisitor, objectPool),
+                new NodeVisitor(modelVisitor, objectPool),
+                new RelationVisitor(modelVisitor, objectPool)
+            });
         }
 
         /// <inheritdoc />
         public void Load(Tile tile)
         {
-            var visitor = new CompositeVisitor(new List<IElementVisitor>
-            {
-                new WayVisitor(_modelVisitor, _objectPool),
-                new NodeVisitor(_modelVisitor, _objectPool),
-                new RelationVisitor(_modelVisitor, _objectPool)
-            });
-
+            // get element source for given bounding box
             var elementSource = _elementSourceProvider.Get(tile.BoundingBox);
+
+            // prepare tile
             tile.Accept(_modelVisitor);
-            _elementManager.VisitBoundingBox(tile.BoundingBox, elementSource, visitor);
+
+            // get and visit areas, ways, relations
+            _elementManager.VisitBoundingBox(tile.BoundingBox, elementSource, _compositeVisitor);
+
+            // finalize by canvas visiting
             (new Canvas()).Accept(_modelVisitor);
         }
     }
