@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using Mercraft.Core;
 using Mercraft.Infrastructure.Config;
@@ -33,7 +32,7 @@ namespace Mercraft.Maps.Osm.Data
         ///     Creates DefaultElementSourceProvider
         /// </summary>
         /// <param name="fileSystemService">File system service.</param>
-        /// <param name="trace"></param>
+        /// <param name="trace">Trace.</param>
         [Dependency]
         public DefaultElementSourceProvider(IFileSystemService fileSystemService, ITrace trace)
         {
