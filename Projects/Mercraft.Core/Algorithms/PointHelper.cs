@@ -5,7 +5,7 @@ using Mercraft.Core.Elevation;
 namespace Mercraft.Core.Algorithms
 {
     /// <summary>
-    ///     Provids some helper methods for points
+    ///     Provids some helper methods for points.
     /// </summary>
     public static class PointHelper
     {
@@ -15,8 +15,9 @@ namespace Mercraft.Core.Algorithms
         /// <param name="center">Map center.</param>
         /// <param name="geoCoordinates">Geo coordinates.</param>
         /// <param name="verticies">Output points.</param>
+        /// <param name="sort">True if verticies should be sorted.</param>
         public static void GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates, 
-            List<MapPoint> verticies)
+            List<MapPoint> verticies, bool sort = false)
         {
             var length = geoCoordinates.Count;
 
@@ -38,7 +39,8 @@ namespace Mercraft.Core.Algorithms
                 verticies.Add(point);
             }
 
-            SortVertices(verticies);
+            if (sort)
+                SortVertices(verticies);
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace Mercraft.Core.Algorithms
         /// <param name="heightMap">Heightmap.</param>
         /// <param name="geoCoordinates">Geo coordinates.</param>
         /// <param name="verticies">Verticies.</param>
-        /// <param name="sort">True if verticies should be sorted</param>
+        /// <param name="sort">True if verticies should be sorted.</param>
         public static void GetVerticies3D(GeoCoordinate center, HeightMap heightMap,
             List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies, bool sort = true)
         {

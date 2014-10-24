@@ -134,7 +134,6 @@ namespace Mercraft.Explorer.Scene
                 RoadStyleProvider = _themeProvider.Get().GetStyleProvider<IRoadStyleProvider>()
             });
 
-
             _heighMapProvider.Store(_tile.HeightMap);
             _tile.HeightMap = null;
 
