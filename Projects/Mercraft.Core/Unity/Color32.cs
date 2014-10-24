@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Mercraft.Core.Unity
 {
@@ -54,6 +53,23 @@ namespace Mercraft.Core.Unity
             rgb = (rgb << 8) + B;
 
             return rgb;
+        }
+
+        // 
+        /// <summary>
+        ///     Calculate distance to given color.This algorithm is combination both weighted Euclidean distance functions, where
+        ///     the weight factors depend on how big the "red" component of the colour is.
+        ///     http://www.compuphase.com/cmetric.htm
+        /// </summary>
+        /// <param name="other">Color.</param>
+        /// <returns>Distance.</returns>
+        public double DistanceTo(Color32 other)
+        {
+            long rmean = (R + other.R)/2;
+            long r = R - other.R;
+            long g = G - other.G;
+            long b = B - other.B;
+            return Math.Sqrt((((512 + rmean)*r*r) >> 8) + 4*g*g + (((767 - rmean)*b*b) >> 8));
         }
 
         /// <summary>

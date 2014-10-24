@@ -70,15 +70,15 @@ namespace Mercraft.Explorer.Themes
             if (!_facadeStyleCache.ContainsKey(building.Type, building.FacadeColor))
             {
                 var facadeIndex = 0;
-                var currentDiff = int.MaxValue;
-                for (int i = 0; i < facadeStyles.Count; i++)
+                var currentDiff = double.MaxValue;
+                int i = 0;
+                for (; i < facadeStyles.Count; i++)
                 {
-                    var difference = Math.Abs(building.FacadeColor.ToInt() - facadeStyles[i].Color.ToInt());
-                    if (difference < currentDiff)
+                    var difference = building.FacadeColor.DistanceTo(facadeStyles[i].Color);
+                    if (currentDiff > difference)
                     {
                         currentDiff = difference;
                         facadeIndex = i;
-                        if (currentDiff <= threshold) break;
                     }
                 }
                 facadeStyle = facadeStyles[facadeIndex];
@@ -94,10 +94,10 @@ namespace Mercraft.Explorer.Themes
             if (!_roofStyleCache.ContainsKey(building.Type, building.RoofColor))
             {
                 var roofIndex = 0;
-                var currentDiff = int.MaxValue;
+                var currentDiff = double.MaxValue;
                 for (int i = 0; i < roofStyles.Count; i++)
                 {
-                    var difference = Math.Abs(building.RoofColor.ToInt() - roofStyles[i].Color.ToInt());
+                    var difference =building.RoofColor.DistanceTo(roofStyles[i].Color);
                     if (difference < currentDiff)
                     {
                         currentDiff = difference;
