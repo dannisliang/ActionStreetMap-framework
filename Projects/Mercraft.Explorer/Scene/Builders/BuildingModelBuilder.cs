@@ -49,15 +49,6 @@ namespace Mercraft.Explorer.Scene.Builders
             return BuildBuilding(tile, rule, area, area.Points);
         }
 
-        // NOTE Why way is used to build building?
-        // TODO remove and check
-        /// <inheritdoc />
-        public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
-        {
-            base.BuildWay(tile, rule, way);
-            return BuildBuilding(tile, rule, way, way.Points);
-        }
-
         private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, List<GeoCoordinate> footPrint)
         {
             var points = ObjectPool.NewList<MapPoint>();

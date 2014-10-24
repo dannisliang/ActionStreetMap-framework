@@ -48,8 +48,9 @@ namespace Mercraft.Core.Algorithms
         /// <param name="heightMap">Heightmap.</param>
         /// <param name="geoCoordinates">Geo coordinates.</param>
         /// <param name="verticies">Verticies.</param>
+        /// <param name="sort">True if verticies should be sorted</param>
         public static void GetVerticies3D(GeoCoordinate center, HeightMap heightMap,
-            List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies)
+            List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies, bool sort = true)
         {
             var length = geoCoordinates.Count;
 
@@ -68,7 +69,8 @@ namespace Mercraft.Core.Algorithms
 
             FillHeight(center, heightMap, geoCoordinates, verticies, length);
 
-            SortVertices(verticies);
+            if(sort)
+                SortVertices(verticies);
         }
 
         /// <summary>
@@ -126,46 +128,31 @@ namespace Mercraft.Core.Algorithms
 
             switch (direction)
             {
-                case PolygonDirection.Clockwise:
+                case PolygonDirection.CountClockwise:
                     verticies.Reverse();
                     break;
-                case PolygonDirection.CountClockwise:
-                default:
-                    // TODO need to understand what to do
-                    //throw new NotImplementedException("Need to sort vertices!");
+                case PolygonDirection.Clockwise:
                     break;
+                default:
+                    throw new AlgorithmException(Strings.BugInPolygonOrderAlgorithm);
             }
         }
 
         private static PolygonDirection PointsDirection(List<MapPoint> points)
         {
-            int nCount = 0;
-            int nPoints = points.Count;
-
-            if (nPoints < 3)
+            if (points.Count < 3)
                 return PolygonDirection.Unknown;
 
-            for (int i = 0; i < nPoints; i++)
+            // Calculate signed area
+            // http://en.wikipedia.org/wiki/Shoelace_formula
+            double sum = 0.0;
+            for (int i = 0; i < points.Count; i++)
             {
-                int j = (i + 1) % nPoints;
-                int k = (i + 2) % nPoints;
-
-                double crossProduct = (points[j].X - points[i].X)
-                    * (points[k].Y - points[j].Y);
-                crossProduct = crossProduct - 
-                    ((points[j].Y - points[i].Y)* (points[k].X - points[j].X));
-
-                if (crossProduct > 0)
-                    nCount++;
-                else
-                    nCount--;
+                MapPoint v1 = points[i];
+                MapPoint v2 = points[(i + 1) % points.Count];
+                sum += (v2.X - v1.X) * (v2.Y + v1.Y);
             }
-
-            if (nCount < 0)
-                return PolygonDirection.CountClockwise;
-            if (nCount > 0)
-                return PolygonDirection.Clockwise;
-            return PolygonDirection.Unknown;
+            return sum > 0.0 ? PolygonDirection.Clockwise : PolygonDirection.CountClockwise;
         }
 
         /// <summary>
