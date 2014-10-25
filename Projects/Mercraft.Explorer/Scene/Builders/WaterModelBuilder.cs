@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
@@ -48,20 +49,23 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
-            PointHelper.GetPolygonPoints(tile.RelativeNullPoint, area.Points, verticies2D);
+            PointHelper.GetPolygonPoints(tile.HeightMap, tile.RelativeNullPoint, area.Points, verticies2D);
             var offsetPoints = GetOffsetPoints(verticies2D);
-           
+
+            // NOTE we should subtract some value from min elevation
+            // but it's better to make this value confgurable
+            var elevation = verticies2D.Min(v => v.Elevation);
             _terrainBuilder.AddElevation(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),
+                Elevation = elevation - 3, 
                 Points = offsetPoints
             });
 
-            var offsetVerticies3D = offsetPoints.GetVerticies(tile.HeightMap.MinElevation);
+            var offsetVerticies3D = offsetPoints.GetVerticies(elevation - 1f);
             var triangles = PointHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
 
-            
             ObjectPool.Store(verticies2D);
 
             BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
