@@ -42,11 +42,6 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             base.BuildArea(tile, rule, area);
 
-            if (WorldManager.Contains(area.Id))
-                return null;
-
-            IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
-
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
             PointHelper.GetPolygonPoints(tile.HeightMap, tile.RelativeNullPoint, area.Points, verticies2D);
@@ -62,12 +57,20 @@ namespace Mercraft.Explorer.Scene.Builders
                 Points = offsetPoints
             });
 
+            // do not render twice water, but allow elevation processing
+            if (WorldManager.Contains(area.Id))
+            {
+                ObjectPool.Store(verticies2D);
+                return null;
+            }
+
             var offsetVerticies3D = offsetPoints.GetVerticies(elevation - 1f);
             var triangles = PointHelper.GetTriangles(verticies2D);
             WorldManager.AddModel(area.Id);
 
             ObjectPool.Store(verticies2D);
 
+            IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
             BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
 
             return gameObjectWrapper;
