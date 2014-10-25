@@ -179,11 +179,10 @@ namespace Mercraft.Models.Terrain
             // value can affect other models (e.g. water vs road)
              if (!heightMap.IsFlat && _elevations.Any())
             {
-                var elevation = heightMap.MinElevation - 10;
                 _heightMapProcessor.Recycle(heightMap);
 
                 foreach (var elevationArea in _elevations)
-                    _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevation);
+                    _heightMapProcessor.AdjustPolygon(elevationArea.Points, elevationArea.Elevation);
                 _heightMapProcessor.Clear();
             }
         }
@@ -365,7 +364,7 @@ namespace Mercraft.Models.Terrain
 
             // clear collections to reuse
             _areas.Clear();
-            //_elevations.Clear();
+            _elevations.Clear();
             _roadElements.Clear();
             _trees.Clear();
         }
