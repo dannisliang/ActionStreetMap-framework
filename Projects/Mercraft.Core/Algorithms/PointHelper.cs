@@ -35,8 +35,12 @@ namespace Mercraft.Core.Algorithms
 
             for (int i = 0; i < length; i++)
             {
-                var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
-                verticies.Add(point);
+                // skip the same points in sequence
+                if (i == 0 || geoCoordinates[i] != geoCoordinates[i - 1])
+                {
+                    var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
+                    verticies.Add(point);
+                }
             }
 
             if (sort)
@@ -88,9 +92,13 @@ namespace Mercraft.Core.Algorithms
         {
             for (int i = 0; i < length; i++)
             {
-                var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
-                point.Elevation = heightMap.LookupHeight(point);
-                verticies.Add(point);
+                  // skip the same points in sequence
+                if (i == 0 || geoCoordinates[i] != geoCoordinates[i - 1])
+                {
+                    var point = GeoProjection.ToMapCoordinate(center, geoCoordinates[i]);
+                    point.Elevation = heightMap.LookupHeight(point);
+                    verticies.Add(point);
+                }
             }
         }
 
