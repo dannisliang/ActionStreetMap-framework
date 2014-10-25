@@ -52,7 +52,7 @@ namespace Mercraft.Models.Buildings.Roofs
             var uv = new Vector2[footprint.Count];
             for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = style.Roof.FrontUvMap.LeftBottom;
+                uv[i] = style.Roof.FrontUvMap.RightUpper;
             }
 
             return uv;
