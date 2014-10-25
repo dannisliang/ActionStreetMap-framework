@@ -35,7 +35,7 @@ namespace Mercraft.Explorer.Scene.Builders
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             var points = ObjectPool.NewList<MapPoint>();
-            PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, points);
+            PointHelper.GetPolygonPoints(tile.RelativeNullPoint, area.Points, points);
             _terrainBuilder.AddArea(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),

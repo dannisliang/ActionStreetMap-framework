@@ -9,26 +9,62 @@ namespace Mercraft.Core.Algorithms
     /// </summary>
     public static class PointHelper
     {
+        #region Points for polygons
+
         /// <summary>
-        ///     Converts geo coordinates to map coordinates.
+        ///     Converts geo coordinates to map coordinates without elevation data.
         /// </summary>
         /// <param name="center">Map center.</param>
         /// <param name="geoCoordinates">Geo coordinates.</param>
-        /// <param name="verticies">Output points.</param>
-        /// <param name="sort">True if verticies should be sorted.</param>
-        public static void GetVerticies2D(GeoCoordinate center, List<GeoCoordinate> geoCoordinates, 
-            List<MapPoint> verticies, bool sort = false)
+        /// <param name="points">Output points.</param>
+        public static void GetClockwisePolygonPoints(GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> points)
+        {
+            GetPointsNoElevation(center, geoCoordinates, points, true);
+        }
+
+        /// <summary>
+        ///     Converts geo coordinates to map coordinates with elevation data.
+        /// </summary>
+        /// <param name="heightmap">Height map.</param>
+        /// <param name="center">Map center.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="points">Output points.</param>
+        public static void GetClockwisePolygonPoints(HeightMap heightmap, GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> points)
+        {
+            GetPointsElevation(heightmap, center, geoCoordinates, points, true);
+        }
+
+        /// <summary>
+        ///     Converts geo coordinates to map coordinates without sorting.
+        /// </summary>
+        /// <param name="center">Map center.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="points">Output points.</param>
+        public static void GetPolygonPoints(GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> points)
+        {
+            GetPointsNoElevation(center, geoCoordinates, points, false);
+        }
+
+        /// <summary>
+        ///     Converts geo coordinates to map coordinates with elevation data without sorting.
+        /// </summary>
+        /// <param name="heightmap">Height map.</param>
+        /// <param name="center">Map center.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="points">Output points.</param>
+        public static void GetPolygonPoints(HeightMap heightmap, GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> points)
+        {
+            GetPointsElevation(heightmap, center, geoCoordinates, points, false);
+        }
+
+        private static void GetPointsNoElevation(GeoCoordinate center, List<GeoCoordinate> geoCoordinates, 
+            List<MapPoint> verticies, bool sort)
         {
             var length = geoCoordinates.Count;
-
-            /*for (int i = 0; i < length - 1; i++)
-            {
-                if (geoCoordinates[i] == geoCoordinates[length - 1])
-                {
-                    length--;
-                    break;
-                }
-            }*/
 
             if (geoCoordinates[0] == geoCoordinates[length - 1])
                 length--;
@@ -47,47 +83,43 @@ namespace Mercraft.Core.Algorithms
                 SortVertices(verticies);
         }
 
-        /// <summary>
-        ///     Fills verticies
-        /// </summary>
-        /// <param name="center">Center.</param>
-        /// <param name="heightMap">Heightmap.</param>
-        /// <param name="geoCoordinates">Geo coordinates.</param>
-        /// <param name="verticies">Verticies.</param>
-        /// <param name="sort">True if verticies should be sorted.</param>
-        public static void GetVerticies3D(GeoCoordinate center, HeightMap heightMap,
-            List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies, bool sort = true)
+        private static void GetPointsElevation(HeightMap heightMap, GeoCoordinate center, 
+            List<GeoCoordinate> geoCoordinates, List<MapPoint> verticies, bool sort)
         {
             var length = geoCoordinates.Count;
-
-            /*for (int i = 0; i < length - 1; i++)
-            {
-                if (geoCoordinates[i] == geoCoordinates[length - 1])
-                {
-                    length--;
-                    break;
-                }
-            }*/
-
-
             if (geoCoordinates[0] == geoCoordinates[length - 1])
                 length--;
 
-            FillHeight(center, heightMap, geoCoordinates, verticies, length);
+            FillHeight(heightMap, center, geoCoordinates, verticies, length);
 
             if(sort)
                 SortVertices(verticies);
         }
 
+        #endregion
+
         /// <summary>
         ///     Fills heighmap.
         /// </summary>
-        /// <param name="center">Center.</param>
         /// <param name="heightMap">Heightmap.</param>
+        /// <param name="center">Center.</param>
         /// <param name="geoCoordinates">Geo coordinates.</param>
         /// <param name="verticies">Verticies.</param>
-        /// <param name="length">Length.</param>
-        public static void FillHeight(GeoCoordinate center, HeightMap heightMap, List<GeoCoordinate> geoCoordinates,
+        public static void FillHeight(HeightMap heightMap, GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
+            List<MapPoint> verticies)
+        {
+            FillHeight(heightMap, center, geoCoordinates, verticies, geoCoordinates.Count);
+        }
+
+        /// <summary>
+        ///     Fills heighmap.
+        /// </summary>
+        /// <param name="heightMap">Heightmap.</param>
+        /// <param name="center">Center.</param>
+        /// <param name="geoCoordinates">Geo coordinates.</param>
+        /// <param name="verticies">Verticies.</param>
+        /// <param name="length">Count of points to be processed.</param>
+        public static void FillHeight(HeightMap heightMap, GeoCoordinate center, List<GeoCoordinate> geoCoordinates,
             List<MapPoint> verticies, int length)
         {
             for (int i = 0; i < length; i++)

@@ -48,7 +48,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
-            PointHelper.GetVerticies2D(tile.RelativeNullPoint, area.Points, verticies2D);
+            PointHelper.GetPolygonPoints(tile.RelativeNullPoint, area.Points, verticies2D);
             var offsetPoints = GetOffsetPoints(verticies2D);
            
             _terrainBuilder.AddElevation(new AreaSettings

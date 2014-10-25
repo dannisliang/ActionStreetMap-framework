@@ -38,7 +38,7 @@ namespace Mercraft.Explorer.Scene.Builders
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             var points = ObjectPool.NewList<MapPoint>();
-            PointHelper.FillHeight(tile.RelativeNullPoint, tile.HeightMap, way.Points, points, way.Points.Count);
+            PointHelper.FillHeight(tile.HeightMap, tile.RelativeNullPoint, way.Points, points);
 
             // road should be processed in one place: it's better to collect all 
             // roads and create connected road network

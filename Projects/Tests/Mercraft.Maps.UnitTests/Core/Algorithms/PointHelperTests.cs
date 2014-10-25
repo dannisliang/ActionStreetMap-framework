@@ -33,13 +33,13 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
 
             // direct order
             var points = new List<MapPoint>();
-            PointHelper.GetVerticies2D(center, geoCoordinates, points, true);
+            PointHelper.GetClockwisePolygonPoints(center, geoCoordinates, points);
             Assert.IsTrue(points.SequenceEqual(originalOrder));
 
             // reversed
             geoCoordinates.Reverse();
             points.Clear();
-            PointHelper.GetVerticies2D(center, geoCoordinates, points, true);
+            PointHelper.GetClockwisePolygonPoints(center, geoCoordinates, points);
 
             Assert.IsTrue(points.SequenceEqual(originalOrder));
         }      
