@@ -17,13 +17,12 @@ namespace Mercraft.Models.Geometry.ThickLine
         ///     Returns line elements which only consist of _points in tile.
         ///     Required for non-flat maps.
         /// </summary>
-        public static List<LineElement> GetLineElementsInTile(HeightMap heightMap, List<LineElement> elements)
+        public static List<LineElement> GetLineElementsInTile(MapPoint leftBottomCorner, MapPoint rightUpperCorner, 
+            List<LineElement> elements)
         {
             // Current implementation can filter long lines accidentally. Actually, if line which connects two _points 
             // crosses more than 1 tile border we can have problems
 
-            var leftBottomCorner = heightMap.LeftBottomCorner;
-            var rightUpperCorner = heightMap.RightUpperCorner;
             var result = new List<LineElement>(elements.Count());
 
             var isNotContinuation = false;

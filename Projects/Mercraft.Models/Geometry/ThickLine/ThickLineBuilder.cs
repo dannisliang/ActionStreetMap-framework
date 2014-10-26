@@ -61,7 +61,8 @@ namespace Mercraft.Models.Geometry.ThickLine
         {
             _heightMap = heightMap;
 
-            var lineElements = ThickLineUtils.GetLineElementsInTile(heightMap, elements);
+            var lineElements = ThickLineUtils.GetLineElementsInTile(heightMap.LeftBottomCorner, 
+                heightMap.RightUpperCorner, elements);
             var elementsCount = lineElements.Count;
             for (_elementIndex = 0; _elementIndex < elementsCount; _elementIndex++)
             {
