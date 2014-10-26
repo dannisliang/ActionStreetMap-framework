@@ -30,7 +30,6 @@ namespace Mercraft.Infrastructure.Utilities
             if (_objectStack.Count > 0)
             {
                 var list = _objectStack.Pop();
-                list.Clear();
                 return list;
             }
             return new List<T>(_listSize);
@@ -42,6 +41,7 @@ namespace Mercraft.Infrastructure.Utilities
         /// <param name="list">List to store.</param>
         public void Store(List<T> list)
         {
+            list.Clear();
             _objectStack.Push(list);
         }
     }

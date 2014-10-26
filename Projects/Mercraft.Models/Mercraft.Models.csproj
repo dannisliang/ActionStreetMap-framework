@@ -69,7 +69,7 @@
     <Compile Include="Geometry\ThickLine\ThickLineSegment.cs" />
     <Compile Include="Roads\RoadBehavior.cs" />
     <Compile Include="Roads\RoadFixBehavior.cs" />
-    <Compile Include="Geometry\Polygon.cs" />
+    <Compile Include="Geometry\Polygons\Polygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roads\IRoadStyleProvider.cs" />
     <Compile Include="Roads\RoadStyle.cs" />

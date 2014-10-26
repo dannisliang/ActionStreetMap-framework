@@ -9,6 +9,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Terrain;
 using UnityEngine;
 

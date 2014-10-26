@@ -3,7 +3,7 @@ using System.Linq;
 using Mercraft.Core;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry
+namespace Mercraft.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Represents polygon.

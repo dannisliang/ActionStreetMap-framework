@@ -5,6 +5,7 @@ using Mercraft.Core;
 using Mercraft.Core.Algorithms;
 using Mercraft.Core.World.Buildings;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Utils;
 using UnityEngine;
 
@@ -120,7 +121,7 @@ namespace Mercraft.Models.Buildings.Roofs
 
             for (int i = 0; i < uv.Length; i++)
             {
-                uv[i] = style.Roof.FrontUvMap.LeftBottom;
+                uv[i] = style.Roof.FrontUvMap.RightUpper;
             }
 
             return uv;

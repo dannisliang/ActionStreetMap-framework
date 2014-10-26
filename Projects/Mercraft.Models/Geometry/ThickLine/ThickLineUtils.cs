@@ -14,13 +14,13 @@ namespace Mercraft.Models.Geometry.ThickLine
 
         #region Line elements in tile
         /// <summary>
-        ///     Returns line elements which only consist of _points in tile.
+        ///     Returns line elements which only consist of points in tile.
         ///     Required for non-flat maps.
         /// </summary>
         public static List<LineElement> GetLineElementsInTile(MapPoint leftBottomCorner, MapPoint rightUpperCorner, 
             List<LineElement> elements)
         {
-            // Current implementation can filter long lines accidentally. Actually, if line which connects two _points 
+            // Current implementation can filter long lines accidentally. Actually, if line which connects two points 
             // crosses more than 1 tile border we can have problems
 
             var result = new List<LineElement>(elements.Count());
@@ -50,7 +50,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                     }
                     else
                     {
-                        // we left tile and, probably have more than one _points which are out of tile
+                        // we left tile and, probably have more than one points which are out of tile
                         // now we back and should find new intersection point to follow direction
                         // previous points should go to different lineElement as we don't want to connect them with current point
                         if (isIntersectionSet)
@@ -63,7 +63,7 @@ namespace Mercraft.Models.Geometry.ThickLine
                             PointBuffer.Clear();                            
                         }
 
-                        // (!_points.Any()) we filtred out _points which are located in different tile, so we should 
+                        // (!_points.Any()) we filtred out points which are located in different tile, so we should 
                         // find intersection point with tile border to render this part
                         if ((isIntersectionSet || !PointBuffer.Any()) && i != 0)
                         {
