@@ -5,7 +5,7 @@ using Mercraft.Core.Elevation;
 namespace Mercraft.Models.Geometry.Polygons
 {
     /// <summary>
-    /// 
+    ///     Provides some polygon util methods.
     /// </summary>
     public static class PolygonUtils
     {
