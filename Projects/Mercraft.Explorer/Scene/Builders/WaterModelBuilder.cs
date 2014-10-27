@@ -45,12 +45,24 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
+            // get polygon map points
             PointHelper.GetPolygonPoints(tile.HeightMap, tile.RelativeNullPoint, area.Points, verticies2D);
-            var offsetPoints = GetOffsetPoints(verticies2D);
 
-            // NOTE we should subtract some value from min elevation
-            // but it's better to make this value confgurable
+            // detect minimal elevation for water
             var elevation = verticies2D.Min(v => v.Elevation);
+
+            // cut polygon by current tile
+            PolygonUtils.ClipPolygonByTile(tile.BottomLeft, tile.TopRight, verticies2D);
+
+            // get offset points to prevent gaps between water polygon and terrain due to issues 
+            // on low terrain heightmap resolutions
+            // NOTE current polygon cut algorithm may produce self-intersection results
+            // TODO have to test current offset alhorithm
+            // TODO determine better offset constant or make it configurable
+            var offsetPoints = ObjectPool.NewList<MapPoint>(verticies2D.Count);
+            PolygonUtils.MakeOffset(verticies2D, offsetPoints, -2f);
+      
+            // add elevation
             _terrainBuilder.AddElevation(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),
@@ -58,47 +70,15 @@ namespace Mercraft.Explorer.Scene.Builders
                 Points = offsetPoints
             });
 
-            // do not render twice water, but allow elevation processing
-            if (WorldManager.Contains(area.Id))
-            {
-                ObjectPool.Store(verticies2D);
-                return null;
-            }
-
-            var offsetVerticies3D = offsetPoints.GetVerticies(elevation - 1f);
+            var vector3Ds = offsetPoints.GetVerticies(elevation - 1f);
             var triangles = PointHelper.GetTriangles(verticies2D);
-            WorldManager.AddModel(area.Id);
 
             ObjectPool.Store(verticies2D);
 
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
-            BuildObject(gameObjectWrapper, rule, offsetVerticies3D, triangles);
+            BuildObject(gameObjectWrapper, rule, vector3Ds, triangles);
 
             return gameObjectWrapper;
-        }
-
-        private List<MapPoint> GetOffsetPoints(List<MapPoint> verticies)
-        {
-            // TODO determine the best value
-            const float offset = -2f;
-            var polygon = new Polygon(verticies);
-            var result = ObjectPool.NewList<MapPoint>(verticies.Count);
-            for (int i = 0; i < polygon.Segments.Length; i++)
-            {
-                var previous = i == 0 ? polygon.Segments.Length - 1 : i - 1;
-
-                var segment1 = polygon.Segments[previous];
-                var segment2 = polygon.Segments[i];
-
-                var parallel1 = SegmentUtils.GetParallel(segment1, offset);
-                var parallel2 = SegmentUtils.GetParallel(segment2, offset);
-
-                var ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
-
-                result.Add(new MapPoint(ip1.x, ip1.z));
-            }
-
-            return result;
         }
 
         /// <summary>

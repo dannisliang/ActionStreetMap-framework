@@ -58,6 +58,7 @@
     <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestInfoModelBuilder.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestTileActivator.cs" />
     <Compile Include="Infrastructure\Stubs\PropertyClass.cs" />
+    <Compile Include="Models\Geometry\PolygonTests.cs" />
     <Compile Include="Models\Geometry\ThickLineTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
     <Compile Include="Infrastructure\InterceptionTests.cs" />
