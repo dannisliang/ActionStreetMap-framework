@@ -1,6 +1,5 @@
 ﻿using Mercraft.Core.MapCss;
 using Mercraft.Core.Scene;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Scene;
 using Mercraft.Explorer.Scene.Builders;
 using Mercraft.Explorer.Themes;
@@ -29,8 +28,6 @@ namespace Mercraft.Explorer.Bootstrappers
         /// <inheritdoc />
         public override bool Run()
         {
-            Container.Register(Component.For<WorldManager>().Use<WorldManager>().Singleton());
-
             Container.Register(Component.For<IResourceProvider>().Use<UnityResourceProvider>().Singleton());
 
             Container.Register(Component.For<IModelVisitor>().Use<TileModelLoader>().Singleton());

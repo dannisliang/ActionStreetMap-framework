@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World.Buildings;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Models.Buildings;
 

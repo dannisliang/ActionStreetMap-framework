@@ -25,7 +25,7 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             base.BuildArea(tile, rule, area);
 
-            if (WorldManager.Contains(area.Id))
+            if (tile.Registry.Contains(area.Id))
                 return null;
 
             var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, area.Points);
@@ -36,7 +36,7 @@ namespace Mercraft.Explorer.Scene.Builders
             IGameObject gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Sphere {0}", area),
                 UnityPrimitiveType.Sphere);
 
-            WorldManager.AddModel(area.Id);
+            tile.Registry.RegisterGlobal(area.Id);
 
             return BuildSphere(gameObjectWrapper, rule, area, sphereCenter, diameter, minHeight);
         }

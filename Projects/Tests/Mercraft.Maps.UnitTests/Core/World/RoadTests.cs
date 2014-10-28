@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.World.Roads;
+using Mercraft.Core.Scene.World.Roads;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core.World

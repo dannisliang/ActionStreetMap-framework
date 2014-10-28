@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Algorithms;
-using Mercraft.Core.World.Buildings;
+using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Utils;

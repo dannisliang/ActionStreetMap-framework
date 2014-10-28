@@ -1,4 +1,4 @@
-﻿using Mercraft.Core.World.Infos;
+﻿using Mercraft.Core.Scene.World.Infos;
 
 namespace Mercraft.Models.Infos
 {

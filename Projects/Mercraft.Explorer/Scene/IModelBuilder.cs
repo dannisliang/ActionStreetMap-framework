@@ -1,7 +1,6 @@
 ﻿using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World;
 using Mercraft.Explorer.Themes;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Diagnostic;
@@ -63,12 +62,6 @@ namespace Mercraft.Explorer.Scene
         /// </summary>
         [Dependency]
         public ITrace Trace { get; set; }
-
-        /// <summary>
-        ///     World manager.
-        /// </summary>
-        [Dependency]
-        public WorldManager WorldManager { get; set; }
 
         /// <summary>
         ///     Game object factory.

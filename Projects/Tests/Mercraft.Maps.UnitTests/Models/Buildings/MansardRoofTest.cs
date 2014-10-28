@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.World.Buildings;
+using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Roofs;
 using NUnit.Framework;

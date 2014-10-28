@@ -6,8 +6,8 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
+using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Core.Unity;
-using Mercraft.Core.World.Buildings;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
@@ -57,7 +57,7 @@ namespace Mercraft.Explorer.Scene.Builders
 
             var elevation = AdjustHeightMap(tile.HeightMap, points, minHeight);
 
-            if (WorldManager.Contains(model.Id))
+            if (tile.Registry.Contains(model.Id))
                 return null;
 
             var gameObject = BuildGameObject(tile, rule, model, points, elevation, minHeight);
@@ -123,7 +123,8 @@ namespace Mercraft.Explorer.Scene.Builders
 
             _builder.Build(tile.HeightMap, building, style);
 
-            WorldManager.AddBuilding(building);
+            tile.Registry.Register(building);
+            tile.Registry.RegisterGlobal(building.Id);
 
             return gameObjectWrapper;
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core.Unity;
 
-namespace Mercraft.Core.World.Buildings
+namespace Mercraft.Core.Scene.World.Buildings
 {
     /// <summary>
     ///     Represents building. See available OSM properties: http://wiki.openstreetmap.org/wiki/Buildings

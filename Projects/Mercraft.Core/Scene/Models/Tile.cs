@@ -40,6 +40,11 @@ namespace Mercraft.Core.Scene.Models
         public HeightMap HeightMap { get; set; }
 
         /// <summary>
+        ///     Gets ModelRegistry of given tile.
+        /// </summary>
+        public TileRegistry Registry { get; private set; }
+
+        /// <summary>
         ///     Gets top left point on map.
         /// </summary>
         public MapPoint TopLeft { get; private set; }
@@ -79,6 +84,8 @@ namespace Mercraft.Core.Scene.Models
 
             TopRight = new MapPoint(MapCenter.X + Size / 2, MapCenter.Y + Size / 2);
             BottomLeft = new MapPoint(MapCenter.X - Size / 2, MapCenter.Y - Size / 2);
+
+            Registry = new TileRegistry();
         }
 
         /// <summary>

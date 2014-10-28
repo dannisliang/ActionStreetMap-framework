@@ -2,7 +2,7 @@
 using System.Linq;
 using Mercraft.Infrastructure.Primitives;
 
-namespace Mercraft.Core.World.Roads
+namespace Mercraft.Core.Scene.World.Roads
 {
     /// <summary>
     ///     This class handles road element processing.

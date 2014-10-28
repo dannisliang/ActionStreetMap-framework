@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.World.Buildings;
-using Mercraft.Core.World.Infos;
-using Mercraft.Core.World.Roads;
+using Mercraft.Core.Scene.World.Buildings;
+using Mercraft.Core.Scene.World.Infos;
+using Mercraft.Core.Scene.World.Roads;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Infos;
 using Mercraft.Models.Roads;

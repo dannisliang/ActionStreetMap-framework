@@ -25,7 +25,7 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             base.BuildArea(tile, rule, area);
 
-            if (WorldManager.Contains(area.Id))
+            if (tile.Registry.Contains(area.Id))
                 return null;
 
             var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, area.Points);
@@ -40,7 +40,7 @@ namespace Mercraft.Explorer.Scene.Builders
             var gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Cylinder {0}", area),
                 UnityPrimitiveType.Cylinder);
 
-            WorldManager.AddModel(area.Id);
+            tile.Registry.RegisterGlobal(area.Id);
 
             return BuildCylinder(gameObjectWrapper, rule, area, cylinderCenter, diameter, actualHeight, minHeight);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.World
+namespace Mercraft.Core.Scene.World
 {
     /// <summary>
     ///     Provides location information about the object

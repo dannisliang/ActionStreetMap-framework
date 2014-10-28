@@ -1,4 +1,4 @@
-﻿using Mercraft.Core.World.Roads;
+﻿using Mercraft.Core.Scene.World.Roads;
 
 namespace Mercraft.Models.Roads
 {

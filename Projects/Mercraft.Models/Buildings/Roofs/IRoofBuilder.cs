@@ -1,4 +1,4 @@
-﻿using Mercraft.Core.World.Buildings;
+﻿using Mercraft.Core.Scene.World.Buildings;
 
 namespace Mercraft.Models.Buildings.Roofs
 {

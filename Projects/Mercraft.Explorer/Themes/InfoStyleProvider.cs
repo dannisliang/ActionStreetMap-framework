@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.World.Infos;
+using Mercraft.Core.Scene.World.Infos;
 using Mercraft.Models.Infos;
 
 namespace Mercraft.Explorer.Themes
