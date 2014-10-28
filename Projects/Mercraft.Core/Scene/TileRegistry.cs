@@ -64,6 +64,7 @@ namespace Mercraft.Core.Scene
         /// <param name="id">Id.</param>
         public void RegisterGlobal(long id)
         {
+            _localIds.Add(id);
             GlobalIds.Add(id);
         }
 
@@ -84,7 +85,7 @@ namespace Mercraft.Core.Scene
         /// <inheritdoc />
         public void Dispose()
         {
-            Dispose(false);
+            Dispose(true);
         }
 
         /// <inheritdoc />

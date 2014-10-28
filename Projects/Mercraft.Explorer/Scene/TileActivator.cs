@@ -38,6 +38,7 @@ namespace Mercraft.Explorer.Scene
         public void Destroy(Tile tile)
         {
             Trace.Output(Category, String.Format("Destroy tile: {0}", tile.MapCenter));
+            tile.Registry.Dispose();
             DestroyWithChildren(tile);
         }
 
