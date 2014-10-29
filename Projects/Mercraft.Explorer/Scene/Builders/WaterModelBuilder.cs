@@ -58,21 +58,21 @@ namespace Mercraft.Explorer.Scene.Builders
             // NOTE current polygon cut algorithm may produce self-intersection results
             // TODO have to test current offset alhorithm
             // TODO determine better offset constant or make it configurable
-            var offsetPoints = ObjectPool.NewList<MapPoint>(verticies2D.Count);
-            PolygonUtils.MakeOffset(verticies2D, offsetPoints, -2f);
-      
+            //var offsetPoints = ObjectPool.NewList<MapPoint>(verticies2D.Count);
+            //PolygonUtils.MakeOffset(verticies2D, offsetPoints, -2f);
+     
             // add elevation
             _terrainBuilder.AddElevation(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),
-                Elevation = elevation - 3, 
-                Points = offsetPoints
+                Elevation = elevation - 3,
+                Points = verticies2D
             });
 
-            var vector3Ds = offsetPoints.GetVerticies(elevation - 1f);
-            var triangles = PointHelper.GetTriangles(offsetPoints);
+            var vector3Ds = verticies2D.GetVerticies(elevation - 1f);
+            var triangles = PointHelper.GetTriangles(verticies2D);
 
-            ObjectPool.Store(verticies2D);
+            //ObjectPool.Store(verticies2D);
 
             IGameObject gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, area));
             BuildObject(gameObjectWrapper, rule, vector3Ds, triangles);
