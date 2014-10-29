@@ -125,6 +125,7 @@ namespace Mercraft.Maps.Osm.Data
                     indices.Add(i);
             }
 
+
             foreach (var index in indices)
             {
                 var filePath = _listIndex[index].Key;
@@ -142,8 +143,8 @@ namespace Mercraft.Maps.Osm.Data
                         _currentFile = filePath;
                     }
 
-                    var elements = base.Get(bbox);
-                    _resultElements.AddRange(elements);
+                    base.ResetProcessedIds();
+                    base.FillElements(bbox);
                 }
                 finally
                 {
@@ -151,7 +152,8 @@ namespace Mercraft.Maps.Osm.Data
                         fileStream.Dispose();
                 }
             }
-
+            _resultElements.Clear();
+            _resultElements.AddRange(base.GetElements());
             return _resultElements;
         }
 

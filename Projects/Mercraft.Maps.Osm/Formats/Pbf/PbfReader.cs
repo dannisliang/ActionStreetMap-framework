@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Ionic.Zlib;
 using ProtoBuf;
 using ProtoBuf.Meta;
@@ -59,7 +60,7 @@ namespace Mercraft.Maps.Osm.Formats.Pbf
         /// </summary>
         public bool MoveNext()
         {
-            if (_blocks.Count == 0)
+            if (!_blocks.Any())
             {
                 PrimitiveBlock block = null;
                 while ((block = ProcessBlock()) != null)

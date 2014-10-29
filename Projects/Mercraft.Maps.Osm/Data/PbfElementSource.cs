@@ -61,21 +61,28 @@ namespace Mercraft.Maps.Osm.Data
         {
             _stream = stream;
             _reader.SetStream(stream);
-            ResetPrivateState();
+            ResetProcessedIds();
+        }
+
+        /// <inheritdoc />
+        public virtual IEnumerable<Element> GetElements()
+        {
+            return Elements.Values;
         }
 
         /// <inheritdoc />
         public virtual IEnumerable<Element> Get(BoundingBox bbox)
         {
             FillElements(bbox);
-            ResetPrivateState();
+            ResetProcessedIds();
             return Elements.Values;
         }
 
-        private void ResetPrivateState()
-        {
-            //_stream.Seek(0, SeekOrigin.Begin);
-            
+        /// <summary>
+        ///     Reset processed id collections.
+        /// </summary>
+        protected void ResetProcessedIds()
+        {           
             _nodeIds.Clear();
             _wayIds.Clear();
             _relationIds.Clear();
@@ -87,7 +94,7 @@ namespace Mercraft.Maps.Osm.Data
         /// <summary>
         ///     Fills Elements collection with elements located in bounding box, but with undersolved references.
         /// </summary>
-        private void FillElements(BoundingBox bbox)
+        protected void FillElements(BoundingBox bbox)
         {
             while (_reader.MoveNext())
             {
