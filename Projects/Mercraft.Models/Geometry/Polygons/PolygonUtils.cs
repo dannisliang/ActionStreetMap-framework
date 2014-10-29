@@ -64,7 +64,9 @@ namespace Mercraft.Models.Geometry.Polygons
 
                 var ip1 = SegmentUtils.IntersectionPoint(parallel1, parallel2);
 
-                result.Add(new MapPoint(ip1.x, ip1.z));
+                // NOTE: Looks like a bug in this or verticies producer algorithm
+                if (!float.IsNaN(ip1.x) && !float.IsNaN(ip1.z))
+                    result.Add(new MapPoint(ip1.x, ip1.z));
             }
         }
     }

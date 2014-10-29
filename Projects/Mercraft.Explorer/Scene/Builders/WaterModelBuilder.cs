@@ -70,7 +70,7 @@ namespace Mercraft.Explorer.Scene.Builders
             });
 
             var vector3Ds = offsetPoints.GetVerticies(elevation - 1f);
-            var triangles = PointHelper.GetTriangles(verticies2D);
+            var triangles = PointHelper.GetTriangles(offsetPoints);
 
             ObjectPool.Store(verticies2D);
 
