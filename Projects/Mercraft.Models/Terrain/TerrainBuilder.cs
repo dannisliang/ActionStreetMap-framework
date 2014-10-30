@@ -125,7 +125,12 @@ namespace Mercraft.Models.Terrain
                 t => t.SplatIndex);
 
             _areaBuilder.Build(settings, alphaMapElements, _splatMapBuffer, _detailListBuffer);
-            return CreateTerrainGameObject(parent, settings, size, _detailListBuffer);
+            
+            var gameObject = CreateTerrainGameObject(parent, settings, size, _detailListBuffer);
+
+            ClearBuffers();
+
+            return gameObject;
         }
 
         /// <inheritdoc />
@@ -200,7 +205,6 @@ namespace Mercraft.Models.Terrain
             terrainData.size = size;
             
             // Assume that settings is the same all the time
-            // TODO do not parse it every time
             if (_splatPrototypes == null)
                 _splatPrototypes = GetSplatPrototypes(settings.SplatParams);
 
@@ -228,8 +232,6 @@ namespace Mercraft.Models.Terrain
             SetTrees(terrain, settings, size);
 
             SetDetails(terrain, settings, detailMapList);
-
-            ClearBuffers();
 
             return new GameObjectWrapper("terrain", gameObject);
         }
@@ -349,8 +351,8 @@ namespace Mercraft.Models.Terrain
 
         private void ClearBuffers()
         {
-            // this buffer is set to 1 in AreaBuilder
-            //Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
+            // also we set [x,y,0] to 1 in AreaBuilder
+            Array.Clear(_splatMapBuffer, 0, _splatMapBuffer.Length);
             _detailListBuffer.ForEach(array => Array.Clear(array, 0, array.Length));
 
             //Return lists to object pool
