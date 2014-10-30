@@ -45,19 +45,40 @@ namespace Mercraft.Maps.Osm.Visitors
 
                 if (!outerWays.Any())
                     return;
-
-                var points = ObjectPool.NewList<GeoCoordinate>();
+               
                 foreach (var outerWay in outerWays)
-                    outerWay.FillPoints(points);
-
-                // TODO process inner points!
-                ModelVisitor.VisitArea(new Area
                 {
-                    Id = relation.Id,
-                    Points = points,
-                    Tags = relation.Tags
-                });
+                    // TODO process inner points!
+                    // NOTE inner points are representing holes in area
+
+                    var points = ObjectPool.NewList<GeoCoordinate>();
+                    outerWay.FillPoints(points);
+                    ModelVisitor.VisitArea(new Area
+                    {
+                        Id = outerWay.Id,
+                        Points = points,
+                        Tags = MergeTags(relation.Tags, outerWay.Tags)
+                    });
+                }
             }
+        }
+
+        private static Dictionary<string, string> MergeTags(Dictionary<string, string> first, Dictionary<string, string> second)
+        {
+            var dict = first == null ? 
+                new Dictionary<string, string>() : 
+                new Dictionary<string, string>(first);
+
+            if (second != null)
+            {
+                foreach (var key in second.Keys)
+                {
+                    if (!dict.ContainsKey(key))
+                        dict.Add(key, second[key]);
+                }
+            }
+
+            return dict;
         }
     }
 }
