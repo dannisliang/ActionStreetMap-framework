@@ -4,7 +4,6 @@ using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Geometry.Polygons;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
@@ -32,6 +31,7 @@ namespace Mercraft.Models.Buildings.Roofs
         public bool CanBuild(Building building)
         {
             // we should use this builder only in case of dome type defined explicitly
+            // cause we expect that footprint of building has the coresponding shape (circle)
             return building.RoofType == Name;
         }
 
