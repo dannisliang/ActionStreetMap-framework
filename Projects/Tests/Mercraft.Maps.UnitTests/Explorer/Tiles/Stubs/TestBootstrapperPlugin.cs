@@ -8,6 +8,7 @@ using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours;
 using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
 using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Buildings.Roofs;
 using Mercraft.Models.Roads;
 using Mercraft.Models.Terrain;
 
@@ -44,6 +45,8 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
             Container.Register(Component.For<ITerrainBuilder>().Use<TestTerrainBuilder>());
             Container.Register(Component.For<IBuildingBuilder>().Use<TestBuildingBuilder>());
             Container.Register(Component.For<IRoadBuilder>().Use<TestRoadBuilder>());
+
+            Container.Register(Component.For<IRoofBuilder>().Use<TestDomeRoofBuilder>().Named("dome"));
 
             Container.RegisterInstance<IModelBehaviour>(_solidModelBehaviour, "solid");
             Container.RegisterInstance<IModelBehaviour>(_waterModelBehaviour, "water");

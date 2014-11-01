@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 
@@ -18,7 +19,7 @@ namespace Mercraft.Models.Geometry.Polygons
         public static void ClipPolygonByTile(MapPoint leftBottom, MapPoint rightUpper, List<MapPoint> points)
         {
             // TODO Optimize memory allocations for lists
-            var result = PolygonClipper.GetIntersectedPolygon(points, 
+            var result = PolygonClipper.GetIntersectedPolygon(points,
                 new List<MapPoint>()
                 {
                     leftBottom,
@@ -68,6 +69,27 @@ namespace Mercraft.Models.Geometry.Polygons
                 if (!float.IsNaN(ip1.x) && !float.IsNaN(ip1.z))
                     result.Add(new MapPoint(ip1.x, ip1.z));
             }
+        }
+
+        /// <summary>
+        ///     Calcs center of polygon.
+        /// </summary>
+        /// <param name="polygon">Polygon.</param>
+        /// <returns>Center of polygon.</returns>
+        public static MapPoint GetCentroid(List<MapPoint> polygon)
+        {
+            float centroidX = 0.0f;
+            float centroidY = 0.0f;
+
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                centroidX += polygon[i].X;
+                centroidY += polygon[i].Y;
+            }
+            centroidX /= polygon.Count;
+            centroidY /= polygon.Count;
+
+            return (new MapPoint(centroidX, centroidY));
         }
     }
 }

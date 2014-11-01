@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Core.Unity;
@@ -28,6 +29,9 @@ namespace Mercraft.Models.Buildings
     /// </summary>
     public class BuildingBuilder : IBuildingBuilder
     {
+        // contains true for index of roof builder if it can build roof for given building
+        private List<int> _ids = new List<int>(4);
+
         private readonly IResourceProvider _resourceProvider;
 
         /// <summary>
@@ -56,14 +60,26 @@ namespace Mercraft.Models.Buildings
         }
 
         /// <summary>
-        ///     Process unity's game object
+        ///     Process unity's game object.
         /// </summary>
         protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData)
         {
-            var gameObject = new GameObject(name);
+            GameObject gameObject = GetGameObject(meshData);
             gameObject.isStatic = true;
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
+            gameObject.name = name;
+            gameObject.renderer.sharedMaterial = _resourceProvider
+              .GetMatertial(meshData.MaterialKey);
+        }
 
+        private GameObject GetGameObject(MeshData meshData)
+        {
+            // GameObject was created directly in builder, so we can use it and ignore other meshData properties.
+            // also we expect that all components are defined
+            if (meshData.GameObject != null)
+               return meshData.GameObject.GetComponent<GameObject>();
+
+            var gameObject = new GameObject();
             var mesh = new Mesh();
             mesh.vertices = meshData.Vertices;
             mesh.triangles = meshData.Triangles;
@@ -72,25 +88,32 @@ namespace Mercraft.Models.Buildings
 
             gameObject.AddComponent<MeshFilter>().mesh = mesh;
             gameObject.AddComponent<MeshCollider>();
+            gameObject.AddComponent<MeshRenderer>();
 
-            gameObject.AddComponent<MeshRenderer>().sharedMaterial = _resourceProvider
-                .GetMatertial(meshData.MaterialKey);
+            return gameObject;
         }
 
         private IRoofBuilder GetRoofBuilder(Building building, IRoofBuilder[] roofBuildings)
         {
             // for most of buildings, roof type isn't defined, but we want to use different types
             // however, we have to check whether we can build roof using random roof builder
-
-            // contains true for index of roof builder if it can build roof for given building
-            bool[] ids = new bool[roofBuildings.Length];
+            _ids.Clear();
 
             int count = 0;
             for (int i = 0; i < roofBuildings.Length; i++)
             {
                 if (roofBuildings[i].CanBuild(building))
                 {
-                    ids[i] = true;
+                    // strong match
+                    if (roofBuildings[i].Name == building.RoofType)
+                    {
+                        _ids.Clear();
+                        _ids.Add(i);
+                        count = 1;
+                        break;
+                    }
+
+                    _ids.Add(i);
                     count++;
                 }
             }
@@ -99,14 +122,8 @@ namespace Mercraft.Models.Buildings
                 throw new InvalidOperationException(String.Format(Strings.CannotFindRoofBuilder, building.Address));
 
             // however, we don't want to use first occurrence, use building Id as seed
-            int index = 0;
-            var seed = building.Id % count;
-            while (true)
-            {
-                if (ids[index] && index == seed)
-                    return roofBuildings[index];
-                index++;
-            }
+            var index = _ids[(int) building.Id % count];
+            return roofBuildings[index];
         }
     }
 }

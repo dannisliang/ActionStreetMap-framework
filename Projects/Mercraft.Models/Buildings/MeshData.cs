@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mercraft.Core.Unity;
+using UnityEngine;
 
 namespace Mercraft.Models.Buildings
 {
@@ -26,5 +27,10 @@ namespace Mercraft.Models.Buildings
         ///     Material key.
         /// </summary>
         public string MaterialKey;
+
+        /// <summary>
+        ///     Built game object.
+        /// </summary>
+        public IGameObject GameObject;
     }
 }

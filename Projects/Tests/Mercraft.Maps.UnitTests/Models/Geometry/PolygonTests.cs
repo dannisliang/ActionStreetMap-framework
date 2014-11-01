@@ -186,5 +186,24 @@ namespace Mercraft.Maps.UnitTests.Models.Geometry
             for (int i = 0; i < expectedPoints.Count; i++)
                 Assert.AreEqual(expectedPoints[i], sourceAndResultPoints[i]);
         }
+
+        [Test]
+        public void CanGetCentroid()
+        {
+            // ARRANGE
+            var polygon = new List<MapPoint>()
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+            };
+
+            // ACT
+            var center = PolygonUtils.GetCentroid(polygon);
+
+            // ASSERT
+            Assert.AreEqual(new MapPoint(5, 5), center);
+        }
     }
 }

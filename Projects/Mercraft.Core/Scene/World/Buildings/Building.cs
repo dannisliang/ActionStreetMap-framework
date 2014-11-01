@@ -86,6 +86,11 @@ namespace Mercraft.Core.Scene.World.Buildings
         /// </summary>
         public string RoofType { get; set; }
 
+        /// <summary>
+        ///     Gets or sets roof height (see OSM roof types)
+        /// </summary>
+        public float RoofHeight { get; set; }
+
         #endregion
 
         #region Characteristics

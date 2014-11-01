@@ -69,8 +69,10 @@ namespace Mercraft.Explorer.Bootstrappers
             Container.Register(Component.For<IBuildingBuilder>().Use<BuildingBuilder>().Singleton());
             Container.Register(Component.For<IFacadeBuilder>().Use<FlatFacadeBuilder>().Named("flat").Singleton());
             // roofs
-            Container.Register(Component.For<IRoofBuilder>().Use<FlatRoofBuilder>().Named("flat").Singleton());
+
+            Container.Register(Component.For<IRoofBuilder>().Use<DomeRoofBuilder>().Named("dome").Singleton());
             Container.Register(Component.For<IRoofBuilder>().Use<MansardRoofBuilder>().Named("mansard").Singleton());
+            Container.Register(Component.For<IRoofBuilder>().Use<FlatRoofBuilder>().Named("flat").Singleton());
 
             // terrain
             Container.Register(Component.For<ITerrainBuilder>().Use<TerrainBuilder>().Singleton());

@@ -22,12 +22,17 @@ namespace Mercraft.Explorer.Helpers
 
         public static string GetRoofType(this Rule rule, string @default = null)
         {
-            return rule.EvaluateDefault<string>("roof-type", @default);
+            return rule.EvaluateDefault<string>("roof-style", @default);
         }
 
         public static Core.Unity.Color32 GetRoofColor(this Rule rule)
         {
             return rule.Evaluate<Core.Unity.Color32>("roof-color", ColorUtility.FromUnknown);
+        }
+
+        public static float GetRoofHeight(this Rule rule, float defaultValue = 0)
+        {
+            return rule.EvaluateDefault<float>("roof-height", defaultValue);
         }
 
         public static string GetRoofMaterial(this Rule rule, string @default = null)

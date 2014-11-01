@@ -220,7 +220,7 @@
 		}],
 	"roofs":[
 		{
-			"builders":["flat","flat"],
+			"builders":["flat","mansard", "dome"],
 			"size": {"height":1514, "width":1413},
 			"path": "Materials/Buildings/Building",
 			"textures":[
