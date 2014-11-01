@@ -165,6 +165,7 @@ area[building:color]														{ fill-color:eval(color(tag('building:color'))
 area[roof:shape=flat]									{ roof-style: flat;}
 area[roof:shape=mansard]									{ roof-style: flat;}
 area[roof:shape=dome]									{ roof-style: dome;}
+area[roof:shape=pyramidal]								{ roof-style: pyramidal;}
 
 area[roof:height]										{roof-height: eval(num(tag('roof:height')))}
 

@@ -36,8 +36,9 @@ namespace Mercraft.Models.Buildings.Roofs
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
 
-            var roofHeight = style.Roof.Height;
-
+            var roofHeight = building.RoofHeight > 0 ? 
+                building.RoofHeight : 
+                style.Roof.Height;
 
             if (Math.Abs(roofHeight) < 0.01f)
             {
