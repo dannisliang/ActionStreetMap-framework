@@ -48,7 +48,12 @@ namespace Mercraft.Models.Buildings.Roofs
             if(Math.Abs(diameter) < float.Epsilon)
                 throw new ArgumentException("Dome roof builder expects roof-height set to non-zero positive value");
 
-            center.SetElevation(building.Elevation + building.Height + building.MinHeight);
+            // if offset is zero, than we will use hemisphere
+            float offset = 0;
+            if (building.RoofHeight > 0)
+                offset = building.RoofHeight - diameter/2;
+
+            center.SetElevation(building.Elevation + building.Height + building.MinHeight + offset);
 
             ProcessObject(gameObjectWrapper, center, diameter);
 
