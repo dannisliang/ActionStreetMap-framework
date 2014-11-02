@@ -52,6 +52,7 @@
     <Compile Include="Buildings\MeshData.cs" />
     <Compile Include="Buildings\Roofs\DomeRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\FlatRoofBuilder.cs" />
+    <Compile Include="Buildings\Roofs\GabledRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\IRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\MansardRoofBuilder.cs" />
     <Compile Include="Buildings\Roofs\PyramidalRoofBuilder.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Details\TreeDetail.cs" />
     <Compile Include="Geometry\Polygons\PolygonUtils.cs" />
     <Compile Include="Geometry\Polygons\PolygonClipper.cs" />
+    <Compile Include="Geometry\Polygons\StraightSkeleton.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Geometry\Rect.cs" />
     <Compile Include="Geometry\Size.cs" />
