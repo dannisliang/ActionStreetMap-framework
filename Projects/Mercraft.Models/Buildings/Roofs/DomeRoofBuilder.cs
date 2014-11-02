@@ -45,9 +45,6 @@ namespace Mercraft.Models.Buildings.Roofs
             var diameter = tuple.Item1;
             var center = tuple.Item2;
 
-            if(Math.Abs(diameter) < float.Epsilon)
-                throw new ArgumentException("Dome roof builder expects roof-height set to non-zero positive value");
-
             // if offset is zero, than we will use hemisphere
             float offset = 0;
             if (building.RoofHeight > 0)

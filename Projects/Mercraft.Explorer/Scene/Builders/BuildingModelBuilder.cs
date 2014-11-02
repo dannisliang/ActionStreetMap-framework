@@ -12,6 +12,7 @@ using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Utils;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -52,17 +53,24 @@ namespace Mercraft.Explorer.Scene.Builders
         private IGameObject BuildBuilding(Tile tile, Rule rule, Model model, List<GeoCoordinate> footPrint)
         {
             var points = ObjectPool.NewList<MapPoint>();
+            
+            var simplified = ObjectPool.NewList<MapPoint>();
+
             PointHelper.GetClockwisePolygonPoints(tile.HeightMap, tile.RelativeNullPoint, footPrint, points);
             var minHeight = rule.GetMinHeight();
 
-            var elevation = AdjustHeightMap(tile.HeightMap, points, minHeight);
+            // NOTE simplification is important to build hipped/gabled roofs
+            PolygonUtils.Simplify(points, simplified);
+
+            var elevation = AdjustHeightMap(tile.HeightMap, simplified, minHeight);
 
             if (tile.Registry.Contains(model.Id))
                 return null;
 
-            var gameObject = BuildGameObject(tile, rule, model, points, elevation, minHeight);
+            var gameObject = BuildGameObject(tile, rule, model, simplified, elevation, minHeight);
 
             ObjectPool.Store(points);
+            ObjectPool.Store(simplified);
 
             return gameObject;
         }

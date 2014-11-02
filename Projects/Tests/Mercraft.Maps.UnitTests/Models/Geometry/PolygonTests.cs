@@ -224,8 +224,8 @@ namespace Mercraft.Maps.UnitTests.Models.Geometry
 
             // ASSERT
             Assert.IsNotNull(skeleton);
-            Assert.AreEqual(21, skeleton[0].Length);
-            Assert.AreEqual(2, skeleton[1].Length);
+            Assert.AreEqual(21, skeleton.Item1.Count);
+            Assert.AreEqual(2, skeleton.Item2.Count);
         }
     }
 }

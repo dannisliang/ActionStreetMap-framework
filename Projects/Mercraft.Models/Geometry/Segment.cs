@@ -29,6 +29,15 @@ namespace Mercraft.Models.Geometry
             End = end;
         }
 
+        /// <summary>
+        ///     Returns length of given segment.
+        /// </summary>
+        /// <returns>Length.</returns>
+        public float GetLength()
+        {
+            return Vector3.Distance(Start, End);
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {

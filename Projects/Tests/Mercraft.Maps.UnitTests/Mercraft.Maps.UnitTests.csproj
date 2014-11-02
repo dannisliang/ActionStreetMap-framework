@@ -60,7 +60,7 @@
     <Compile Include="Explorer\Tiles\Stubs\ModelBuilders\TestInfoModelBuilder.cs" />
     <Compile Include="Explorer\Tiles\Stubs\TestTileActivator.cs" />
     <Compile Include="Infrastructure\Stubs\PropertyClass.cs" />
-    <Compile Include="Models\Buildings\DomeRoofBuilder.cs" />
+    <Compile Include="Models\Buildings\RoofBuilderTests.cs" />
     <Compile Include="Models\Geometry\PolygonTests.cs" />
     <Compile Include="Models\Geometry\ThickLineTests.cs" />
     <Compile Include="Infrastructure\DiagnosticTest.cs" />
@@ -74,7 +74,6 @@
     <Compile Include="Core\MapCss\StylesheetTests.cs" />
     <Compile Include="Core\MapCss\RuleEvalTests.cs" />
     <Compile Include="Models\BuildingMapCssTests.cs" />
-    <Compile Include="Models\Buildings\MansardRoofTest.cs" />
     <Compile Include="Osm\ElementManagerTests.cs" />
     <Compile Include="Osm\LocationInfoTests.cs" />
     <Compile Include="Osm\NodeTests.cs" />

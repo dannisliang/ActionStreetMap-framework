@@ -166,6 +166,8 @@ area[roof:shape=flat]									{ roof-style: flat;}
 area[roof:shape=mansard]									{ roof-style: flat;}
 area[roof:shape=dome]									{ roof-style: dome;}
 area[roof:shape=pyramidal]								{ roof-style: pyramidal;}
+area[roof:shape=gabled]									{ roof-style: gabled;}
+area[roof:shape=hipped]									{ roof-style: hipped;}
 
 area[roof:height]										{roof-height: eval(num(tag('roof:height')))}
 

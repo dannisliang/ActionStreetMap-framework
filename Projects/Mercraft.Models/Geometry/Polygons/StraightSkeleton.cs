@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
+using Mercraft.Infrastructure.Primitives;
 using UnityEngine;
 
 namespace Mercraft.Models.Geometry.Polygons
@@ -10,7 +11,7 @@ namespace Mercraft.Models.Geometry.Polygons
     /// </summary>
     internal class StraightSkeleton
     {
-        public static Vector2[][] Calculate(List<MapPoint> polygon)
+        public static Tuple<List<Vector2>, List<Vector2>> Calculate(List<MapPoint> polygon)
         {
             var context = new SkeletonContext();
             context.OriginalPoints = polygon;
@@ -35,7 +36,7 @@ namespace Mercraft.Models.Geometry.Polygons
 
             CalculateTriangles(context);
 
-            return new[] {context.ResultPoints.ToArray(), context.InteriorPoints.ToArray()};
+            return new Tuple<List<Vector2>, List<Vector2>>(context.ResultPoints, context.InteriorPoints);
         }
 
         private static void CalculateTriangles(SkeletonContext context)
@@ -149,7 +150,6 @@ namespace Mercraft.Models.Geometry.Polygons
             context.ResultPoints.Add(context.UsePoints[0]);
             context.ResultPoints.Add(context.UsePoints[1]);
             context.ResultPoints.Add(context.UsePoints[2]);
-
         }
 
         private static int SmallestHypIndex(SkeletonContext context)
@@ -195,7 +195,7 @@ namespace Mercraft.Models.Geometry.Polygons
             tarad = tarad*Mathf.Deg2Rad*Mathf.Sign(Vector2.Dot(Vector2.right, dirA));
 
             Vector2 aDir90 = new Vector2(Mathf.Sin(tarad + Mathf.PI/2), Mathf.Cos(tarad + Mathf.PI/2));
-                //for use to determine reflex angle using Dot
+            //for use to determine reflex angle using Dot
 
             float tbrad = Vector2.Angle(Vector2.up, dirB);
             if (tbrad < 0) tbrad += 360;
@@ -287,7 +287,6 @@ namespace Mercraft.Models.Geometry.Polygons
             if (calculateForward)
             {
                 context.HypsForward[pointIndex] = hypA;
-
             }
             if (calculateBackward)
             {
@@ -331,7 +330,7 @@ namespace Mercraft.Models.Geometry.Polygons
             public List<float> HypsForward = new List<float>();
 
             /// <summary>
-            /// list of hypontenuse for ordering the points
+            ///     list of hypontenuse for ordering the points
             /// </summary>
             public List<float> HypsBackward = new List<float>();
         }

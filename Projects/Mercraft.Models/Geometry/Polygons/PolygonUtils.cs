@@ -91,5 +91,38 @@ namespace Mercraft.Models.Geometry.Polygons
 
             return (new MapPoint(centroidX, centroidY));
         }
+
+        /// <summary>
+        ///     Simplifies polygon by removing all vertices which have an angle close to 180°
+        ///     (i.e. where removing the vertex does not change the polygon very much).
+        /// </summary>
+        public static void Simplify(List<MapPoint> source, List<MapPoint> destination)
+        {
+            var count = source.Count;
+            bool[] delete = new bool[source.Count];
+            int deleteCount = 0;
+            for (int i = 0; i < count; i++)
+            {
+                MapPoint segmentBefore = source[i] - source[Math.Abs(i - 1)%count];
+                MapPoint segmentAfter = source[(i + 1)%count] - source[i];
+
+                double dot = segmentBefore.Normalize().Dot(segmentAfter.Normalize());
+                if (Math.Abs(dot - 1) < 0.05)
+                {
+                    delete[i] = true;
+                    deleteCount += 1;
+                }
+            }
+
+            destination.AddRange(source);
+            if (deleteCount == 0 || deleteCount > count - 3)
+                return;
+
+            for (int i = count - 1; i >= 0; i--)
+            {
+                if (delete[i])
+                    destination.RemoveAt(i);
+            }
+        }
     }
 }
