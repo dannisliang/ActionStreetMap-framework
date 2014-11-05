@@ -173,7 +173,7 @@ area[man_made=bridge]									{ z-index: 9;  builder: building; behaviour: solid
 
 
 /* flat areas */
-area[amenity],
+area[!building][amenity],
 area[natural],
 area[historic=memorial],
 area[landuse]											{ builder: splat; splat: 2; z-index: 10; fill-color: #FF0000;}
