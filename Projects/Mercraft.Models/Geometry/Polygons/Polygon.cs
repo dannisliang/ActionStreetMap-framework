@@ -31,6 +31,17 @@ namespace Mercraft.Models.Geometry.Polygons
         }
 
         /// <summary>
+        ///     Creates Polygon from MapPoints and elevation
+        /// </summary>
+        /// <param name="verticies">Verticies.</param>
+        /// <param name="elevation">Elevation.</param>
+        public Polygon(IEnumerable<MapPoint> verticies, float elevation)
+        {
+            Verticies = verticies.Select(v => new Vector3(v.X, elevation, v.Y)).ToArray();
+            ComputeSegments();
+        }
+
+        /// <summary>
         ///     Creates Polygon from Vector3.
         /// </summary>
         /// <param name="verticies">Verticies.</param>

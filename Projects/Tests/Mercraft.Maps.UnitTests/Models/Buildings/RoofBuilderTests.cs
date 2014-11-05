@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Scene.World.Buildings;
+using Mercraft.Explorer.Infrastructure;
 using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs;
 using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
 using Mercraft.Models.Buildings;
@@ -55,7 +56,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
         public void CanBuildGabled()
         {
             // ARRANGE
-            var roofBuilder = new GabledRoofBuilder();
+            var roofBuilder = new GabledRoofBuilder(new ObjectPool());
 
             // ACT
             var meshData = roofBuilder.Build(new Building()
@@ -80,9 +81,9 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
 
             // ASSERT
             Assert.IsNotNull(meshData);
-            Assert.AreEqual(18, meshData.Vertices.Length);
+            Assert.AreEqual(14, meshData.Vertices.Length);
             Assert.AreEqual(18, meshData.Triangles.Length);
-            Assert.AreEqual(18, meshData.UV.Length);
+            Assert.AreEqual(14, meshData.UV.Length);
         }
 
         [Test]

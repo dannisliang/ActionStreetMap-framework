@@ -124,5 +124,16 @@ namespace Mercraft.Models.Geometry.Polygons
                     destination.RemoveAt(i);
             }
         }
+
+        /// <summary>
+        ///     Simplifies polygon using Douglas Peucker algorithim.
+        /// </summary>
+        /// <param name="source">Source.</param>
+        /// <param name="destination">Destination.</param>
+        /// <param name="tolerance">Tolerance.</param>
+        public static void Simplify(List<MapPoint> source, List<MapPoint> destination, float tolerance)
+        {
+            DouglasPeuckerReduction.Reduce(source, destination, tolerance);
+        }
     }
 }
