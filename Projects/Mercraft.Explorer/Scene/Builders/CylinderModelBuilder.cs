@@ -32,6 +32,8 @@ namespace Mercraft.Explorer.Scene.Builders
             var diameter = circle.Item1;
             var cylinderCenter = circle.Item2;
 
+            var elevation = tile.HeightMap.LookupHeight(cylinderCenter);
+
             var height = rule.GetHeight();
             var minHeight = rule.GetMinHeight();
 
@@ -42,19 +44,19 @@ namespace Mercraft.Explorer.Scene.Builders
 
             tile.Registry.RegisterGlobal(area.Id);
 
-            return BuildCylinder(gameObjectWrapper, rule, area, cylinderCenter, diameter, actualHeight, minHeight);
+            return BuildCylinder(gameObjectWrapper, rule, area, cylinderCenter, diameter, actualHeight, elevation+ minHeight);
         }
 
         /// <summary>
         ///     Process unity specific data.
         /// </summary>
         protected virtual IGameObject BuildCylinder(IGameObject gameObjectWrapper, Rule rule, Model model,
-            MapPoint cylinderCenter, float diameter, float actualHeight, float minHeight)
+            MapPoint cylinderCenter, float diameter, float actualHeight, float heightOffset)
         {
             var cylinder = gameObjectWrapper.GetComponent<GameObject>();
 
             cylinder.transform.localScale = new Vector3(diameter, actualHeight, diameter);
-            cylinder.transform.position = new Vector3(cylinderCenter.X, minHeight + actualHeight, cylinderCenter.Y);
+            cylinder.transform.position = new Vector3(cylinderCenter.X, heightOffset + actualHeight, cylinderCenter.Y);
 
             cylinder.AddComponent<MeshRenderer>();
             cylinder.renderer.material = rule.GetMaterial(ResourceProvider);

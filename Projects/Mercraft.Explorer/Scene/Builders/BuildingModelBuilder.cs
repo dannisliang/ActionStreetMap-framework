@@ -54,23 +54,23 @@ namespace Mercraft.Explorer.Scene.Builders
         {
             var points = ObjectPool.NewList<MapPoint>();
             
-            var simplified = ObjectPool.NewList<MapPoint>();
+            //var simplified = ObjectPool.NewList<MapPoint>();
 
             PointHelper.GetClockwisePolygonPoints(tile.HeightMap, tile.RelativeNullPoint, footPrint, points);
             var minHeight = rule.GetMinHeight();
 
             // NOTE simplification is important to build hipped/gabled roofs
-            PolygonUtils.Simplify(points, simplified);
+            //PolygonUtils.Simplify(points, simplified);
 
-            var elevation = AdjustHeightMap(tile.HeightMap, simplified, minHeight);
+            var elevation = AdjustHeightMap(tile.HeightMap, points, minHeight);
 
             if (tile.Registry.Contains(model.Id))
                 return null;
 
-            var gameObject = BuildGameObject(tile, rule, model, simplified, elevation, minHeight);
+            var gameObject = BuildGameObject(tile, rule, model, points, elevation, minHeight);
 
             ObjectPool.Store(points);
-            ObjectPool.Store(simplified);
+            //ObjectPool.Store(simplified);
 
             return gameObject;
         }

@@ -33,19 +33,21 @@ namespace Mercraft.Explorer.Scene.Builders
             var sphereCenter = circle.Item2;
             var minHeight = rule.GetMinHeight();
 
+            var elevation = tile.HeightMap.LookupHeight(sphereCenter);
+
             IGameObject gameObjectWrapper = GameObjectFactory.CreatePrimitive(String.Format("Sphere {0}", area),
                 UnityPrimitiveType.Sphere);
 
             tile.Registry.RegisterGlobal(area.Id);
 
-            return BuildSphere(gameObjectWrapper, rule, area, sphereCenter, diameter, minHeight);
+            return BuildSphere(gameObjectWrapper, rule, area, sphereCenter, diameter, elevation + minHeight);
         }
 
         /// <summary>
         ///     Process unity specific data.
         /// </summary>
         protected virtual IGameObject BuildSphere(IGameObject gameObjectWrapper, Rule rule, Model model, 
-            MapPoint sphereCenter, float diameter, float minHeight)
+            MapPoint sphereCenter, float diameter, float heightOffset)
         {
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
 
@@ -54,7 +56,7 @@ namespace Mercraft.Explorer.Scene.Builders
             sphere.renderer.material.color = rule.GetFillUnityColor();
 
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
-            sphere.transform.position = new Vector3(sphereCenter.X, minHeight + diameter/2, sphereCenter.Y);
+            sphere.transform.position = new Vector3(sphereCenter.X, heightOffset + diameter/2, sphereCenter.Y);
 
             return gameObjectWrapper;
         }

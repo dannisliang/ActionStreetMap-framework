@@ -9,7 +9,7 @@ namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
     class TestSphereModelBuilder: SphereModelBuilder
     {
         protected override IGameObject BuildSphere(IGameObject gameObjectWrapper, Rule rule, Model model, MapPoint sphereCenter, float diameter,
-            float minHeight)
+            float heightOffset)
         {
             // Do nothing
             return null;
