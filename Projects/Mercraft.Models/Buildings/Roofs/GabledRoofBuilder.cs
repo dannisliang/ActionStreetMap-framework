@@ -71,8 +71,8 @@ namespace Mercraft.Models.Buildings.Roofs
             var centroidVector = new Vector3(centroidPoint.X, longestSegment.Start.y, centroidPoint.Y);
 
             // 4. get something like center line
-            Vector3 p1 = centroidVector + length * ridgeDirection;
-            Vector3 p2 = centroidVector - length * ridgeDirection;
+            Vector3 p1 = centroidVector + length * length * ridgeDirection;
+            Vector3 p2 = centroidVector - length * length * ridgeDirection;
             var centerSegment = new Segment(p1, p2);
 
             // 5. detect segments which have intesection with center line

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mercraft.Core;
 
 namespace Mercraft.Models.Geometry.Polygons
@@ -33,19 +34,24 @@ namespace Mercraft.Models.Geometry.Polygons
             while (source[firstPoint].Equals(source[lastPoint]))
                 lastPoint--;
 
-            Reduce(source, firstPoint, lastPoint, tolerance, ref _pointIndexsToKeep);
+            Reduce(source, firstPoint, lastPoint, tolerance);
 
             _pointIndexsToKeep.Sort();
 
-            foreach (Int32 index in _pointIndexsToKeep)
+            for (int i = 0; i < _pointIndexsToKeep.Count; i++)
+            {
+                var index = _pointIndexsToKeep[i];
+                // NOTE do not add items twice due to bug in implementation
+                if (i > 0 && _pointIndexsToKeep[i - 1] == _pointIndexsToKeep[i])
+                    continue;
                 destination.Add(source[index]);
+            }
         }
 
         /// <summary>
         ///     Douglases the peucker reduction.
         /// </summary>
-        private static void Reduce(List<MapPoint> source, Int32 firstPoint, Int32 lastPoint, Double tolerance,
-            ref List<Int32> pointIndexsToKeep)
+        private static void Reduce(List<MapPoint> source, Int32 firstPoint, Int32 lastPoint, Double tolerance)
         {
             Double maxDistance = 0;
             Int32 indexFarthest = 0;
@@ -60,13 +66,16 @@ namespace Mercraft.Models.Geometry.Polygons
                 }
             }
 
-            if (maxDistance > tolerance && indexFarthest != 0)
+         
+            if (maxDistance > tolerance && indexFarthest != 0
+                // NOTE second rule is perventing stack overflow due to bug in implementation
+                && _pointIndexsToKeep.Count <= source.Count) 
             {
                 //Add the largest point that exceeds the tolerance
-                pointIndexsToKeep.Add(indexFarthest);
+                _pointIndexsToKeep.Add(indexFarthest);
 
-                Reduce(source, firstPoint, indexFarthest, tolerance, ref pointIndexsToKeep);
-                Reduce(source, indexFarthest, lastPoint, tolerance, ref pointIndexsToKeep);
+                Reduce(source, firstPoint, indexFarthest, tolerance);
+                Reduce(source, indexFarthest, lastPoint, tolerance);
             }
         }
 

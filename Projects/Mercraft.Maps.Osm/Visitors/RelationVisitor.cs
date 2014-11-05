@@ -48,9 +48,13 @@ namespace Mercraft.Maps.Osm.Visitors
                
                 foreach (var outerWay in outerWays)
                 {
+                    // TODO log this!
+                    if (!outerWay.IsPolygon)
+                        continue;
+
                     // TODO process inner points!
                     // NOTE inner points are representing holes in area
-
+                    
                     var points = ObjectPool.NewList<GeoCoordinate>();
                     outerWay.FillPoints(points);
                     ModelVisitor.VisitArea(new Area
