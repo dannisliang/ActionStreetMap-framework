@@ -22,8 +22,8 @@ namespace Mercraft.Models.Buildings.Roofs
         /// <inheritdoc />
         public virtual MeshData Build(Building building, BuildingStyle style)
         {
-            var height = building.Footprint[0].Elevation + building.Height;
-            var roofHeight = building.RoofHeight + height;
+            var roofHeight = building.RoofHeight > 0 ? building.RoofHeight : style.Roof.Height;
+            var roofOffset = building.Elevation + building.MinHeight + building.Height;
 
             var skeleton = StraightSkeleton.Calculate(building.Footprint);
             
@@ -37,7 +37,7 @@ namespace Mercraft.Models.Buildings.Roofs
             for (int i = 0; i < skeletVertices.Count; i++)
             {
                 var vertex = skeletVertices[i];
-                var y = skeleton.Item2.Any(t => vertex == t) ? roofHeight : height;
+                var y = skeleton.Item2.Any(t => vertex == t) ? roofHeight + roofOffset : roofOffset;
                 vertices[i].Set(vertex.x, y, vertex.y);
                 triangles[i] = i;
                 uv[i] = style.Roof.FrontUvMap.RightUpper;

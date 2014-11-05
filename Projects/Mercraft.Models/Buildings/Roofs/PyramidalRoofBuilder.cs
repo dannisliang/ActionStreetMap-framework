@@ -25,15 +25,14 @@ namespace Mercraft.Models.Buildings.Roofs
         /// <inheritdoc />
         public MeshData Build(Building building, BuildingStyle style)
         {
-            var roofHeight = building.RoofHeight > 0 ?
-                building.RoofHeight :
-                style.Roof.Height;
-
+            var roofHeight = (building.RoofHeight > 0 ? building.RoofHeight : style.Roof.Height);
+            var roofOffset = building.Elevation + building.MinHeight + building.Height;
+            
             var center = PolygonUtils.GetCentroid(building.Footprint);
 
             return new MeshData()
             {
-                Vertices = GetVerticies3D(center, building.Footprint, building.Elevation + building.Height, roofHeight),
+                Vertices = GetVerticies3D(center, building.Footprint, roofOffset, roofHeight),
                 Triangles = GetTriangles(building.Footprint),
                 UV = GetUV(building.Footprint, style),
                 MaterialKey = style.Roof.Path,
@@ -51,7 +50,7 @@ namespace Mercraft.Models.Buildings.Roofs
             return triangles;
         }
 
-        private Vector3[] GetVerticies3D(MapPoint center, List<MapPoint> footprint, float height, float roofHeight)
+        private Vector3[] GetVerticies3D(MapPoint center, List<MapPoint> footprint, float roofOffset, float roofHeight)
         {
             var length = footprint.Count;
             var verticies = new Vector3[length*3];
@@ -60,9 +59,9 @@ namespace Mercraft.Models.Buildings.Roofs
                 var vertIndex = i*3;
                 var nextIndex = i == (length - 1) ? 0 : i + 1;
 
-                verticies[vertIndex] = new Vector3(footprint[i].X, height, footprint[i].Y);
-                verticies[vertIndex + 1] = new Vector3(footprint[nextIndex].X, height, footprint[nextIndex].Y);
-                verticies[vertIndex + 2] = new Vector3(center.X, height + roofHeight, center.Y);
+                verticies[vertIndex] = new Vector3(footprint[i].X, roofOffset, footprint[i].Y);
+                verticies[vertIndex + 1] = new Vector3(footprint[nextIndex].X, roofOffset, footprint[nextIndex].Y);
+                verticies[vertIndex + 2] = new Vector3(center.X, roofOffset + roofHeight, center.Y);
             }
 
             return verticies;

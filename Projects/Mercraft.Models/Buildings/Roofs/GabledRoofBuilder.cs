@@ -53,9 +53,10 @@ namespace Mercraft.Models.Buildings.Roofs
         {
             Reset();
             _style = style;
-            var height = building.Elevation + building.Height;
-            var roofHeight = height + building.RoofHeight;
-            var polygon = new Polygon(building.Footprint, height);
+            var roofOffset = building.Elevation + building.Height + building.MinHeight;
+            var roofHeight = roofOffset + (building.RoofHeight > 0 ? building.RoofHeight : style.Roof.Height);
+
+            var polygon = new Polygon(building.Footprint, roofOffset);
 
             // 1. detect the longest segment
             float length;

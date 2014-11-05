@@ -36,9 +36,8 @@ namespace Mercraft.Models.Buildings.Roofs
             var polygon = new Polygon(building.Footprint);
             var offset = 2f; // TODO
 
-            var roofHeight = building.RoofHeight > 0 ? 
-                building.RoofHeight : 
-                style.Roof.Height;
+            var roofHeight = building.RoofHeight > 0 ? building.RoofHeight : style.Roof.Height;
+            var roofOffset = building.Elevation + building.MinHeight + building.Height;
 
             if (Math.Abs(roofHeight) < 0.01f)
             {
@@ -46,7 +45,7 @@ namespace Mercraft.Models.Buildings.Roofs
                 roofHeight = (float) random.NextDouble(0.5f, 3);
             }
 
-            var verticies3D = GetVerticies3D(polygon, building.Height, offset, building.Elevation, roofHeight);
+            var verticies3D = GetVerticies3D(polygon, offset, roofOffset, roofHeight);
 
             return new MeshData
             {
@@ -57,13 +56,12 @@ namespace Mercraft.Models.Buildings.Roofs
             };
         }
 
-        private Vector3[] GetVerticies3D(Polygon polygon, float buildingHeight, float offset,
-            float elevation, float roofHeight)
+        private Vector3[] GetVerticies3D(Polygon polygon, float offset,
+            float roofOffset, float roofHeight)
         {
             var verticies = new List<Vector3>(polygon.Verticies.Length * 2);
             var topVerticies = new List<Vector3>(polygon.Verticies.Length);
-            var buildingTop = elevation + buildingHeight;
-            var roofTop = buildingTop + roofHeight;
+            var roofTop = roofOffset + roofHeight;
 
             for (int i = 0; i < polygon.Segments.Length; i++)
             {
@@ -83,10 +81,10 @@ namespace Mercraft.Models.Buildings.Roofs
 
                 // TODO check whether offset is correct for intersection
 
-                verticies.Add(new Vector3(segment1.End.x, buildingTop, segment1.End.z));
+                verticies.Add(new Vector3(segment1.End.x, roofOffset, segment1.End.z));
                 verticies.Add(new Vector3(ip1.x, roofTop, ip1.z));
 
-                verticies.Add(new Vector3(segment2.End.x, buildingTop, segment2.End.z));
+                verticies.Add(new Vector3(segment2.End.x, roofOffset, segment2.End.z));
                 verticies.Add(new Vector3(ip2.x, roofTop, ip2.z));
 
                 topVerticies.Add(new Vector3(ip1.x, roofTop, ip1.z));

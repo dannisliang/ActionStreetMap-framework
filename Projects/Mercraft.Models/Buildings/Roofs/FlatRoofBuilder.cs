@@ -24,25 +24,26 @@ namespace Mercraft.Models.Buildings.Roofs
         /// <inheritdoc />
         public MeshData Build(Building building, BuildingStyle style)
         {
+            var roofOffset = building.Elevation + building.MinHeight + building.Height;
+
             return new MeshData
             {
-                Vertices = GetVerticies3D(building.Footprint, building.Elevation + building.MinHeight, building.Height),
+                Vertices = GetVerticies3D(building.Footprint, roofOffset),
                 Triangles = Triangulator.Triangulate(building.Footprint),
                 UV = GetUV(building.Footprint, style),
                 MaterialKey = style.Roof.Path,
             };
         }
 
-        private Vector3[] GetVerticies3D(List<MapPoint> footprint, float elevation, float height)
+        private Vector3[] GetVerticies3D(List<MapPoint> footprint, float roofOffset)
         {
             var length = footprint.Count;
             var vertices3D = new Vector3[length];
             
-            var top = elevation + height;
-            
+           
             for (int i = 0; i < length; i++)
             {
-                vertices3D[i] = new Vector3(footprint[i].X, top, footprint[i].Y);
+                vertices3D[i] = new Vector3(footprint[i].X, roofOffset, footprint[i].Y);
             }
             return vertices3D;
         }
