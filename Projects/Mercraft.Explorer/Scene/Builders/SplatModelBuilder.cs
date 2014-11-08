@@ -1,10 +1,15 @@
-﻿using Mercraft.Core;
+﻿using System;
+using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Core.Algorithms;
+using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Details;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -44,7 +49,39 @@ namespace Mercraft.Explorer.Scene.Builders
                 Points = points
             });
 
+            if (rule.IsForest())
+                GenerateTrees(tile.HeightMap, points, (int) area.Id);
+
             return null;
+        }
+
+        private void GenerateTrees(HeightMap heightMap, List<MapPoint> points, int seed)
+        {
+            // triangulate polygon
+            var triangles = Triangulator.Triangulate(points);
+            
+            var rnd = new Random(seed);
+            // this cycle generate points inside each triangle
+            // count of points is based on triangle area
+            for (int i = 0; i < triangles.Length;)
+            {
+                // get triangle vertices
+                var p1 = points[triangles[i++]];
+                var p2 = points[triangles[i++]];
+                var p3 = points[triangles[i++]];
+
+                var area = TriangleUtils.GetTriangleArea(p1, p2, p3);
+                var count = area / 200;
+                for (int j = 0; j < count; j++)
+                {
+                    var point = TriangleUtils.GetRandomPoint(p1, p2, p3, rnd.NextDouble(), rnd.NextDouble());
+                    point.Elevation = heightMap.LookupHeight(point);
+                    _terrainBuilder.AddTree(new TreeDetail()
+                    {
+                        Point = point
+                    });
+                }
+            }
         }
     }
 }

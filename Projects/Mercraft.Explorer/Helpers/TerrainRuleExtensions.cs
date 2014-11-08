@@ -40,5 +40,10 @@ namespace Mercraft.Explorer.Helpers
         {
             return rule.EvaluateDefault<int>("terrainDetail", AreaSettings.DefaultDetailIndex);
         }
+
+        public static bool IsForest(this Rule rule)
+        {
+            return rule.EvaluateDefault<bool>("forest", false);
+        }
     }
 }

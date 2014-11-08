@@ -225,6 +225,9 @@ area[natural=wood],
 area[leisure=park],		
 area[landuse=forest] 									{ builder: splat; splat: 1; terrainDetail:0; fill-color: #8dc56c; }
 
+area[natural=wood],	
+area[landuse=forest]										{ forest:true;}
+
 area[landuse=meadow],
 area[landuse=farmland],
 area[landuse=scrub],

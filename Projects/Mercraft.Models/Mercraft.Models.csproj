@@ -63,6 +63,7 @@
     <Compile Include="Geometry\Polygons\PolygonUtils.cs" />
     <Compile Include="Geometry\Polygons\PolygonClipper.cs" />
     <Compile Include="Geometry\Polygons\StraightSkeleton.cs" />
+    <Compile Include="Geometry\TriangleUtils.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Geometry\Rect.cs" />
     <Compile Include="Geometry\Size.cs" />
