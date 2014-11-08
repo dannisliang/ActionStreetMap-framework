@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Utilities;

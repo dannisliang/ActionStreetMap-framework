@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Infrastructure.Primitives;
 using Mercraft.Infrastructure.Utilities;
 using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.Polygons;
+using Mercraft.Models.Geometry.Primitives;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs

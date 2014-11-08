@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
+using Mercraft.Core.Utilities;
+using Mercraft.Models.Geometry;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core.Algorithms
@@ -33,13 +34,13 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
 
             // direct order
             var points = new List<MapPoint>();
-            PointHelper.GetClockwisePolygonPoints(center, geoCoordinates, points);
+            PointUtils.GetClockwisePolygonPoints(center, geoCoordinates, points);
             Assert.IsTrue(points.SequenceEqual(originalOrder));
 
             // reversed
             geoCoordinates.Reverse();
             points.Clear();
-            PointHelper.GetClockwisePolygonPoints(center, geoCoordinates, points);
+            PointUtils.GetClockwisePolygonPoints(center, geoCoordinates, points);
 
             Assert.IsTrue(points.SequenceEqual(originalOrder));
         }      

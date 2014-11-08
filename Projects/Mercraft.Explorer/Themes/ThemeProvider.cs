@@ -9,12 +9,12 @@ using Mercraft.Infrastructure.IO;
 using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Geometry;
+using Mercraft.Models.Geometry.Primitives;
 using Mercraft.Models.Infos;
 using Mercraft.Models.Roads;
 using UnityEngine;
 
-using Rect = Mercraft.Models.Geometry.Rect;
+using Rect = Mercraft.Models.Geometry.Primitives.Rect;
 
 namespace Mercraft.Explorer.Themes
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
@@ -12,6 +11,7 @@ using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
 using Mercraft.Models.Buildings;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Utils;
 
@@ -56,7 +56,7 @@ namespace Mercraft.Explorer.Scene.Builders
             
             //var simplified = ObjectPool.NewList<MapPoint>();
 
-            PointHelper.GetClockwisePolygonPoints(tile.HeightMap, tile.RelativeNullPoint, footPrint, points);
+            PointUtils.GetClockwisePolygonPoints(tile.HeightMap, tile.RelativeNullPoint, footPrint, points);
             var minHeight = rule.GetMinHeight();
 
             // NOTE simplification is important to build hipped/gabled roofs

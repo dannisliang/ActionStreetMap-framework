@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Algorithms;
-using Mercraft.Core.Elevation;
+﻿using Mercraft.Core.Elevation;
 using Mercraft.Core.Unity;
+using Mercraft.Core.Utilities;
 
 namespace Mercraft.Core.Scene.Models
 {

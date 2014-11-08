@@ -9,7 +9,7 @@ using Mercraft.Models.Buildings;
 using Mercraft.Models.Buildings.Roofs;
 using NUnit.Framework;
 using UnityEngine;
-using Rect = Mercraft.Models.Geometry.Rect;
+using Rect = Mercraft.Models.Geometry.Primitives.Rect;
 
 namespace Mercraft.Maps.UnitTests.Models.Buildings
 {

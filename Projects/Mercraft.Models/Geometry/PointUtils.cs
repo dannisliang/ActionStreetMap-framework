@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mercraft.Core;
 using Mercraft.Core.Elevation;
+using Mercraft.Core.Utilities;
 
-namespace Mercraft.Core.Algorithms
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     ///     Provids some helper methods for points.
     /// </summary>
-    public static class PointHelper
+    public static class PointUtils
     {
         #region Points for polygons
 

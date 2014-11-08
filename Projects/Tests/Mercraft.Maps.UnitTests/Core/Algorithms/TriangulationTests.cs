@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Explorer.Infrastructure;
 using Mercraft.Infrastructure.Diagnostic;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Visitors;
 using Mercraft.Maps.UnitTests.Osm;
+using Mercraft.Models.Geometry;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core.Algorithms
@@ -55,15 +55,15 @@ namespace Mercraft.Maps.UnitTests.Core.Algorithms
             foreach (var area in scene.Areas)
             {
                 var verticies = new List<MapPoint>();
-                PointHelper.GetClockwisePolygonPoints(TestHelper.BerlinGeoCenter, area.Points, verticies);
-                PointHelper.GetTriangles3D(verticies);
+                PointUtils.GetClockwisePolygonPoints(TestHelper.BerlinGeoCenter, area.Points, verticies);
+                PointUtils.GetTriangles3D(verticies);
             }
 
             foreach (var way in scene.Ways)
             {
                 var verticies = new List<MapPoint>();
-                PointHelper.GetPolygonPoints(TestHelper.BerlinGeoCenter, way.Points, verticies);
-                var triangles = PointHelper.GetTriangles3D(verticies);
+                PointUtils.GetPolygonPoints(TestHelper.BerlinGeoCenter, way.Points, verticies);
+                var triangles = PointUtils.GetTriangles3D(verticies);
             }
         }
     }

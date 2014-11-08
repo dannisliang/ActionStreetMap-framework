@@ -1,9 +1,9 @@
 ﻿using System;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Scene.World.Buildings;
 using Mercraft.Core.Unity;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Models.Buildings.Roofs
@@ -40,7 +40,7 @@ namespace Mercraft.Models.Buildings.Roofs
         {
             IGameObject gameObjectWrapper = _gameObjectFactory.CreatePrimitive(Name, UnityPrimitiveType.Sphere);
 
-            var tuple = CircleHelper.GetCircle(building.Footprint);
+            var tuple = CircleUtils.GetCircle(building.Footprint);
 
             var diameter = tuple.Item1;
             var center = tuple.Item2;

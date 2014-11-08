@@ -1,5 +1,6 @@
 ﻿using System;
 using Mercraft.Core;
+using Mercraft.Models.Geometry.Primitives;
 using UnityEngine;
 
 namespace Mercraft.Models.Geometry.ThickLine

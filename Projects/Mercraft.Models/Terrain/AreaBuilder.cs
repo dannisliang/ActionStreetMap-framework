@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Models.Geometry.Polygons;
+using Mercraft.Models.Geometry.Primitives;
 
 namespace Mercraft.Models.Terrain
 {

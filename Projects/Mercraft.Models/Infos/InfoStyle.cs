@@ -1,4 +1,5 @@
 ﻿using Mercraft.Models.Geometry;
+using Mercraft.Models.Geometry.Primitives;
 
 namespace Mercraft.Models.Infos
 {

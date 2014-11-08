@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
+using Mercraft.Core.Utilities;
 using Mercraft.Maps.Osm;
 using Mercraft.Maps.Osm.Data;
 using Mercraft.Maps.Osm.Entities;

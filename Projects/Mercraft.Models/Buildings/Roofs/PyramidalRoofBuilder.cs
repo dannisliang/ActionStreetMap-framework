@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Scene.World.Buildings;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.Polygons;
 using UnityEngine;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
 using Mercraft.Infrastructure.Primitives;
+using Mercraft.Models.Geometry.Primitives;
 using Mercraft.Models.Utils;
 using UnityEngine;
 

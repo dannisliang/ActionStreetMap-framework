@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Mercraft.Core;
 
-namespace Mercraft.Core.Algorithms
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     ///     Provides logic to do triangulation.
     /// </summary>
-    public class Triangulator
+    internal class Triangulator
     {
         private static readonly List<int> Indices = new List<int>(256);
 

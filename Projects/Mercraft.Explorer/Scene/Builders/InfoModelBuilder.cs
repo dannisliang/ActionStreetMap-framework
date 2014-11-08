@@ -1,10 +1,10 @@
 ﻿using System;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Scene.World.Infos;
 using Mercraft.Core.Unity;
+using Mercraft.Core.Utilities;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Models.Infos;
 using UnityEngine;

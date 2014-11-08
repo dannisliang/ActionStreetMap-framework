@@ -1,6 +1,6 @@
 ﻿using System;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
+using Mercraft.Core.Utilities;
 using NUnit.Framework;
 
 namespace Mercraft.Maps.UnitTests.Core.Algorithms

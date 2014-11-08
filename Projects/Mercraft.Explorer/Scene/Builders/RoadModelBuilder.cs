@@ -1,6 +1,5 @@
 ﻿using System;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Scene.World.Roads;
@@ -8,6 +7,7 @@ using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
 using Mercraft.Maps.Osm.Helpers;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Terrain;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -38,7 +38,7 @@ namespace Mercraft.Explorer.Scene.Builders
         public override IGameObject BuildWay(Tile tile, Rule rule, Way way)
         {
             var points = ObjectPool.NewList<MapPoint>();
-            PointHelper.FillHeight(tile.HeightMap, tile.RelativeNullPoint, way.Points, points);
+            PointUtils.FillHeight(tile.HeightMap, tile.RelativeNullPoint, way.Points, points);
 
             // road should be processed in one place: it's better to collect all 
             // roads and create connected road network

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
@@ -40,7 +39,7 @@ namespace Mercraft.Explorer.Scene.Builders
         public override IGameObject BuildArea(Tile tile, Rule rule, Area area)
         {
             var points = ObjectPool.NewList<MapPoint>();
-            PointHelper.GetPolygonPoints(tile.RelativeNullPoint, area.Points, points);
+            PointUtils.GetPolygonPoints(tile.RelativeNullPoint, area.Points, points);
             _terrainBuilder.AddArea(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),
@@ -58,7 +57,7 @@ namespace Mercraft.Explorer.Scene.Builders
         private void GenerateTrees(List<MapPoint> points, int seed)
         {
             // triangulate polygon
-            var triangles = Triangulator.Triangulate(points);
+            var triangles = PolygonUtils.Triangulate(points);
             
             var rnd = new Random(seed);
             // this cycle generate points inside each triangle

@@ -1,4 +1,5 @@
 ﻿using System;
+using Mercraft.Models.Geometry.Primitives;
 using UnityEngine;
 
 namespace Mercraft.Models.Geometry

@@ -51,11 +51,8 @@
     <Compile Include="..\AssemblyInfoBase.cs">
       <Link>Properties\AssemblyInfoBase.cs</Link>
     </Compile>
-    <Compile Include="Algorithms\AlgorithmException.cs" />
-    <Compile Include="Algorithms\CyrcleHelper.cs" />
-    <Compile Include="Algorithms\Triangulator.cs" />
-    <Compile Include="Algorithms\GeoProjection.cs" />
-    <Compile Include="Algorithms\PointHelper.cs" />
+    <Compile Include="AlgorithmException.cs" />
+    <Compile Include="Utilities\GeoProjection.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Elevation\HeightMap.cs" />
     <Compile Include="Elevation\HeightMapProvider.cs" />

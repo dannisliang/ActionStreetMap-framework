@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 
-namespace Mercraft.Models.Geometry
+namespace Mercraft.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Implements simple scan-line algorithm. Code ported from existing java code found in Internet.

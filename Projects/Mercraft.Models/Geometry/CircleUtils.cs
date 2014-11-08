@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercraft.Core;
+using Mercraft.Core.Utilities;
 using Mercraft.Infrastructure.Primitives;
 
-namespace Mercraft.Core.Algorithms
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     ///     Provides circle helper methods.
     /// </summary>
-    public static class CircleHelper
+    public static class CircleUtils
     {
         private const double ConvertionCoefficient = (6378137 * Math.PI) / 180;
 

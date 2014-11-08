@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.ThickLine;
 using UnityEngine;
 
@@ -37,7 +37,7 @@ namespace Mercraft.Explorer.Scene.Builders
             var gameObjectWrapper = GameObjectFactory.CreateNew(String.Format("{0} {1}", Name, way));
 
             var points = ObjectPool.NewList<MapPoint>();
-            PointHelper.FillHeight(tile.HeightMap, tile.RelativeNullPoint, way.Points, points);
+            PointUtils.FillHeight(tile.HeightMap, tile.RelativeNullPoint, way.Points, points);
             
             // reuse lines
             _lines.Clear();

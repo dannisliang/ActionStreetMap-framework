@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Models.Geometry
+﻿namespace Mercraft.Models.Geometry.Primitives
 {
     /// <summary>
     ///     Represents size type.

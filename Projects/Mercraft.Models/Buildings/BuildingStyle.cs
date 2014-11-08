@@ -1,6 +1,6 @@
 ﻿using Mercraft.Models.Buildings.Facades;
 using Mercraft.Models.Buildings.Roofs;
-using Rect = Mercraft.Models.Geometry.Rect;
+using Rect = Mercraft.Models.Geometry.Primitives.Rect;
 using Color32 = Mercraft.Core.Unity.Color32;
 
 namespace Mercraft.Models.Buildings

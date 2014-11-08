@@ -1,5 +1,5 @@
 ﻿using Color32 = Mercraft.Core.Unity.Color32;
-using Rect = Mercraft.Models.Geometry.Rect;
+using Rect = Mercraft.Models.Geometry.Primitives.Rect;
 
 namespace Mercraft.Models.Roads
 {

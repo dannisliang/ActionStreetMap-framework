@@ -1,10 +1,10 @@
 ﻿using System;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
+using Mercraft.Models.Geometry;
 using UnityEngine;
 
 namespace Mercraft.Explorer.Scene.Builders
@@ -28,7 +28,7 @@ namespace Mercraft.Explorer.Scene.Builders
             if (tile.Registry.Contains(area.Id))
                 return null;
 
-            var circle = CircleHelper.GetCircle(tile.RelativeNullPoint, area.Points);
+            var circle = CircleUtils.GetCircle(tile.RelativeNullPoint, area.Points);
             var diameter = circle.Item1;
             var sphereCenter = circle.Item2;
             var minHeight = rule.GetMinHeight();

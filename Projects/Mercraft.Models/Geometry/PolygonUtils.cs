@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 using Mercraft.Core.Elevation;
+using Mercraft.Models.Geometry.Polygons;
+using Mercraft.Models.Geometry.Primitives;
 
-namespace Mercraft.Models.Geometry.Polygons
+namespace Mercraft.Models.Geometry
 {
     /// <summary>
     ///     Provides some polygon util methods.
     /// </summary>
     public static class PolygonUtils
     {
+        /// <summary>
+        ///     Triangulates given polygon.
+        /// </summary>
+        /// <param name="points">Points which represents polygon.</param>
+        /// <param name="reverse">Reverse points.</param>
+        /// <returns>Triangles.</returns>
+        public static int[] Triangulate(List<MapPoint> points, bool reverse = true)
+        {
+            return Triangulator.Triangulate(points, reverse);
+        }
+
         /// <summary>
         ///     Cuts given polygon by tile corners.
         /// </summary>

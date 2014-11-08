@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mercraft.Core;
 
-namespace Mercraft.Models.Geometry
+namespace Mercraft.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Provides implementation of simplified scan line algorithm to process polygons.

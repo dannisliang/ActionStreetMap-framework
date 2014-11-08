@@ -1,7 +1,6 @@
 ﻿using System;
-using Mercraft.Core.Utilities;
 
-namespace Mercraft.Core.Algorithms
+namespace Mercraft.Core.Utilities
 {
     /// <summary>
     /// Provides the methods to convert geo coordinates to map coordinates and vice versa

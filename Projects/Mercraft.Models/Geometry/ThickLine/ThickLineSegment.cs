@@ -1,4 +1,6 @@
 ﻿
+using Mercraft.Models.Geometry.Primitives;
+
 namespace Mercraft.Models.Geometry.ThickLine
 {
     /// <summary>

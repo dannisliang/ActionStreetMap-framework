@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Mercraft.Core.Algorithms
+namespace Mercraft.Core
 {
     /// <summary>
-    ///     Used to highlight bugs in algortihms use in app.
+    ///     Used to highlight bugs in algortihms of app.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly")]
     [Serializable]

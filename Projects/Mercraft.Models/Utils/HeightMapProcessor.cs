@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.Elevation;
 using Mercraft.Models.Geometry;
+using Mercraft.Models.Geometry.Polygons;
 
 namespace Mercraft.Models.Utils
 {
@@ -81,7 +81,7 @@ namespace Mercraft.Models.Utils
 
             // NOTE: this is experimental - simple scan line is faster, but it was designed
             // to work with short road elements which are just rectangles
-            if (PointHelper.IsConvex(PolygonMapPointBuffer))
+            if (PointUtils.IsConvex(PolygonMapPointBuffer))
             {
                 SimpleScanLine.Fill(PolygonMapPointBuffer, _size, (scanline, s, e) =>
                     Fill(scanline, s, e, elevation));

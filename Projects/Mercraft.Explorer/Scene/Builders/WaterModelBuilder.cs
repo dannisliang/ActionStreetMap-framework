@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mercraft.Core;
-using Mercraft.Core.Algorithms;
 using Mercraft.Core.MapCss.Domain;
 using Mercraft.Core.Scene.Models;
 using Mercraft.Core.Unity;
 using Mercraft.Explorer.Helpers;
 using Mercraft.Infrastructure.Dependencies;
+using Mercraft.Models.Geometry;
 using Mercraft.Models.Geometry.Polygons;
 using Mercraft.Models.Terrain;
 using UnityEngine;
@@ -45,7 +45,7 @@ namespace Mercraft.Explorer.Scene.Builders
             var verticies2D = ObjectPool.NewList<MapPoint>();
 
             // get polygon map points
-            PointHelper.GetPolygonPoints(tile.HeightMap, tile.RelativeNullPoint, area.Points, verticies2D);
+            PointUtils.GetPolygonPoints(tile.HeightMap, tile.RelativeNullPoint, area.Points, verticies2D);
 
             // detect minimal elevation for water
             var elevation = verticies2D.Min(v => v.Elevation);
@@ -70,7 +70,7 @@ namespace Mercraft.Explorer.Scene.Builders
             });
 
             var vector3Ds = verticies2D.GetVerticies(elevation - 1f);
-            var triangles = PointHelper.GetTriangles(verticies2D);
+            var triangles = PointUtils.GetTriangles(verticies2D);
 
             //ObjectPool.Store(verticies2D);
 

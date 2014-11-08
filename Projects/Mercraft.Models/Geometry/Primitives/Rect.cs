@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mercraft.Models.Geometry
+namespace Mercraft.Models.Geometry.Primitives
 {
     /// <summary>
     ///     Represent rectangle.
