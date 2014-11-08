@@ -34,8 +34,6 @@ namespace Mercraft.Explorer.Scene.Builders
         public override IGameObject BuildNode(Tile tile, Rule rule, Node node)
         {
             var mapPoint = GeoProjection.ToMapCoordinate(tile.RelativeNullPoint, node.Point);
-            mapPoint.Elevation = tile.HeightMap.LookupHeight(mapPoint);
-
             _terrainBuilder.AddTree(new TreeDetail
             {
                 Id = node.Id,

@@ -50,12 +50,12 @@ namespace Mercraft.Explorer.Scene.Builders
             });
 
             if (rule.IsForest())
-                GenerateTrees(tile.HeightMap, points, (int) area.Id);
+                GenerateTrees(points, (int) area.Id);
 
             return null;
         }
 
-        private void GenerateTrees(HeightMap heightMap, List<MapPoint> points, int seed)
+        private void GenerateTrees(List<MapPoint> points, int seed)
         {
             // triangulate polygon
             var triangles = Triangulator.Triangulate(points);
@@ -75,7 +75,6 @@ namespace Mercraft.Explorer.Scene.Builders
                 for (int j = 0; j < count; j++)
                 {
                     var point = TriangleUtils.GetRandomPoint(p1, p2, p3, rnd.NextDouble(), rnd.NextDouble());
-                    point.Elevation = heightMap.LookupHeight(point);
                     _terrainBuilder.AddTree(new TreeDetail()
                     {
                         Point = point
