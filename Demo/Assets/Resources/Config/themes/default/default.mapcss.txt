@@ -246,6 +246,7 @@ area[landuse=railway]									{ fill-color: #dfd1d6;}
 
 /* water */
 area[natural=water],	
+area[landuse=basin],	
 area[waterway=riverbank], 
 area[waterway=dock]										{ z-index: 9; fill-color: #a3c3ec; builder: water; material: Water/Daylight_Simple_Water; behaviour: water; layer:4;}
 
@@ -286,6 +287,7 @@ way[highway=path][foot=designated]						{ fill-color: #FA8072; width:3.5; }
 
 way[highway=service]									{ fill-color: #FFFFFF; width:3; }
 
+way[highway=footway] 									{width:2;}
 
 way[barrier]											{ builder: barrier; material: Roads/Road; texture:Roads/Road; height:2; width:0.2;  }
 
@@ -587,7 +589,6 @@ node[waterway=weir]							                { z-index:16; builder:info; key:water_
 
 
 /* Shouldn't be shown */
-way[highway=footway],
 way[level<0],
 way[layer<0], 											
 area[level<0],
