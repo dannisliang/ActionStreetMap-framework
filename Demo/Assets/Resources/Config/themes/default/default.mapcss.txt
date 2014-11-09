@@ -197,7 +197,7 @@ area[landuse=construction] 								{ fill-color: #9d9d6c; fill-opacity: 0.7;}
 
 area[amenity=parking][parking=surface]					{ fill-color: #f7efb7;}
 
-area[amenity],
+/*area[amenity],*/
 area[natural=beach]										{ fill-color: #22FF11; }
 
 area[amenity=university],

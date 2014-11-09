@@ -50,10 +50,15 @@ namespace Mercraft.Explorer.Scene.Builders
             MapPoint sphereCenter, float diameter, float heightOffset)
         {
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
+            sphere.isStatic = true;
+            sphere.renderer.sharedMaterial = rule.GetMaterial(ResourceProvider);
 
-            sphere.AddComponent<MeshRenderer>();
-            sphere.renderer.material = rule.GetMaterial(ResourceProvider);
-            sphere.renderer.material.color = rule.GetFillUnityColor();
+            // TODO use defined color
+            Mesh mesh = sphere.renderer.GetComponent<MeshFilter>().mesh;
+            var uv = mesh.uv;
+            for (int i = 0; i < uv.Length; i++)
+                uv[i] = new Vector2(0, 0);
+            mesh.uv = uv;
 
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
             sphere.transform.position = new Vector3(sphereCenter.X, heightOffset + diameter/2, sphereCenter.Y);

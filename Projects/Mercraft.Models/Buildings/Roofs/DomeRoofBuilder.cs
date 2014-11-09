@@ -52,7 +52,7 @@ namespace Mercraft.Models.Buildings.Roofs
 
             center.SetElevation(building.Elevation + building.Height + building.MinHeight + offset);
 
-            ProcessObject(gameObjectWrapper, center, diameter);
+            ProcessObject(gameObjectWrapper, center, diameter, style);
 
             return new MeshData()
             {
@@ -67,11 +67,19 @@ namespace Mercraft.Models.Buildings.Roofs
         /// <param name="gameObjectWrapper">GameObject wrapper.</param>
         /// <param name="center">Sphere center.</param>
         /// <param name="diameter">Diameter.</param>
-        protected virtual void ProcessObject(IGameObject gameObjectWrapper, MapPoint center, float diameter)
+        /// <param name="style">Building style.</param>
+        protected virtual void ProcessObject(IGameObject gameObjectWrapper, MapPoint center, float diameter, BuildingStyle style)
         {
             var sphere = gameObjectWrapper.GetComponent<GameObject>();
             sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
             sphere.transform.position = new Vector3(center.X, center.Elevation, center.Y);
+
+            // TODO Is there better way to set uv map?
+            Mesh mesh = sphere.renderer.GetComponent<MeshFilter>().mesh;
+            var uv = mesh.uv;
+            for (int i = 0; i < uv.Length; i++)
+                uv[i] = style.Roof.FrontUvMap.RightUpper;
+            mesh.uv = uv;
         }
     }
 }

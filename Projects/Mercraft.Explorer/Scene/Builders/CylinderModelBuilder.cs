@@ -59,8 +59,14 @@ namespace Mercraft.Explorer.Scene.Builders
             cylinder.transform.position = new Vector3(cylinderCenter.X, heightOffset + actualHeight, cylinderCenter.Y);
 
             cylinder.AddComponent<MeshRenderer>();
-            cylinder.renderer.material = rule.GetMaterial(ResourceProvider);
-            cylinder.renderer.material.color = rule.GetFillUnityColor();
+            cylinder.renderer.sharedMaterial = rule.GetMaterial(ResourceProvider);
+
+            // TODO use defined color
+            Mesh mesh = cylinder.renderer.GetComponent<MeshFilter>().mesh;
+            var uv = mesh.uv;
+            for (int i = 0; i < uv.Length; i++)
+                uv[i] = new Vector2(0, 0);
+            mesh.uv = uv;
 
             return gameObjectWrapper;
         }
