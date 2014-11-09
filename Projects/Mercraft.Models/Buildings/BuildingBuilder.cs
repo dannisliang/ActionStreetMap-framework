@@ -65,7 +65,7 @@ namespace Mercraft.Models.Buildings
         protected virtual void AttachChildGameObject(IGameObject parent, string name, MeshData meshData)
         {
             GameObject gameObject = GetGameObject(meshData);
-            //gameObject.isStatic = true;
+            gameObject.isStatic = true;
             gameObject.transform.parent = parent.GetComponent<GameObject>().transform;
             gameObject.name = name;
             gameObject.renderer.sharedMaterial = _resourceProvider
