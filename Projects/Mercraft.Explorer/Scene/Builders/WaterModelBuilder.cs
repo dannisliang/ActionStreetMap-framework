@@ -65,7 +65,7 @@ namespace Mercraft.Explorer.Scene.Builders
             _terrainBuilder.AddElevation(new AreaSettings
             {
                 ZIndex = rule.GetZIndex(),
-                Elevation = elevation - 3,
+                Elevation = elevation - 10,
                 Points = verticies2D
             });
 

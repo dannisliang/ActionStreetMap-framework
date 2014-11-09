@@ -45,7 +45,7 @@ area[min_height]											{ min_height: eval(num(tag('min_height')));}
 
 area[building=residential], 	
 area[building=yes]										{ builder: building; building-style:residential;}
-area[building:part]										{ part: true; building-style: part;}	
+area[building:part],area[building=yes]					{ part: true; building-style: part;}	
 
 area[building:shape=sphere]								{ builder: sphere; material: Buildings/Building;}
 area[building:shape=cylinder]							{ builder: cylinder; material: Buildings/Building;}					
