@@ -4,9 +4,8 @@ using System.Reactive.Linq;
 using Mercraft.Core;
 using Mercraft.Core.Scene;
 using Mercraft.Core.Scene.Models;
-using Mercraft.Maps.UnitTests;
 
-namespace Mercraft.Console.Listeners
+namespace Mercraft.Maps.UnitTests
 {
     public class DemoTileListener
     {
