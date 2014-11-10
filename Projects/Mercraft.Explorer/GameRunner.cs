@@ -1,4 +1,5 @@
-﻿using Mercraft.Core;
+﻿using System;
+using Mercraft.Core;
 using Mercraft.Infrastructure.Bootstrap;
 using Mercraft.Infrastructure.Dependencies;
 
@@ -30,6 +31,7 @@ namespace Mercraft.Explorer
         public GeoCoordinate RelativeNullPoint
         {
             get { return _positionListener.RelativeNullPoint; }
+            set { throw new InvalidOperationException(Strings.CannotChangeRelativeNullPoint); }
         }
 
         /// <summary>
@@ -62,9 +64,9 @@ namespace Mercraft.Explorer
         public void RunGame(GeoCoordinate coordinate)
         {
             _positionListener = _container.Resolve<IPositionListener>();
+            _positionListener.RelativeNullPoint = coordinate;
 
             OnGeoPositionChanged(coordinate);
-            OnMapPositionChanged(new MapPoint(0, 0));
         }
 
         /// <inheritdoc />

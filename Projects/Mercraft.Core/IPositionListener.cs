@@ -8,7 +8,7 @@
         /// <summary>
         ///     This geo coordinate is mapped to (0, 0, 0) map coordinate.
         /// </summary>
-        GeoCoordinate RelativeNullPoint { get; }
+        GeoCoordinate RelativeNullPoint { get; set; }
 
         /// <summary>
         ///     Called when map position is changed. It should occur when character moves.

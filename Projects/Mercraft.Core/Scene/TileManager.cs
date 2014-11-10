@@ -41,7 +41,7 @@ namespace Mercraft.Core.Scene
         /// <summary>
         ///     Gets relative null point
         /// </summary>
-        public GeoCoordinate RelativeNullPoint { get; private set; }
+        public GeoCoordinate RelativeNullPoint { get; set; }
 
         /// <summary>
         ///     Gets current tile.
@@ -101,9 +101,8 @@ namespace Mercraft.Core.Scene
         /// <inheritdoc />
         public void OnGeoPositionChanged(GeoCoordinate position)
         {
-            RelativeNullPoint = position;
-            // TODO destroy everything
-            // NOTE we don't expect geo position changes without restart scene
+            var mapPoint = GeoProjection.ToMapCoordinate(RelativeNullPoint, position);
+            OnMapPositionChanged(mapPoint);
         }
 
         #region Activation
