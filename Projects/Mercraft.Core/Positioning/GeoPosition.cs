@@ -8,14 +8,9 @@ namespace Mercraft.Core.Positioning
     public class GeoPosition
     {
         /// <summary>
-        ///     Longitude.
+        ///     Geo coordinate.
         /// </summary>
-        public double Longitude = 0.0;
-
-        /// <summary>
-        ///     Latitude.
-        /// </summary>
-        public double Latitude = 0.0;
+        public GeoCoordinate Coordinate;
 
         /// <summary>
         ///     Speed in km/h
@@ -67,7 +62,7 @@ namespace Mercraft.Core.Positioning
         /// <inheritdoc />
         public override string ToString()
         {
-            return "Position: {Latitude=" + Latitude + " Longitude=" + Longitude
+            return "Position: {" + Coordinate
                    + "} S:" + Speed + "km/h C:" + Course
                    + " H:" + Hdop
                    + " P:" + PositionFixIndicator

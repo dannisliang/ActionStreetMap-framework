@@ -26,23 +26,25 @@ namespace Mercraft.Maps.UnitTests
         //52.53057 13.38687 52.52940 13.39022
         public const string TestXmlFilePath = @"..\..\..\..\Tests\TestAssets\Osm\berlin_house.osm.xml";
 
+        public const string TestNmeaFilePath = @"..\..\..\..\Tests\TestAssets\Nmea\berlin_seestr_speed_increasing.nme";
+
         public const string TestBigPbfIndexListPath = @"Maps";
 
         public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.json";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
         public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Resources\Config\themes\default\default.mapcss";
 
-        public static IGameRunner GetGameRunner()
+        public static GameRunner GetGameRunner()
         {
             return GetGameRunner(new Container());
         }
 
-        public static IGameRunner GetGameRunner(IContainer container)
+        public static GameRunner GetGameRunner(IContainer container)
         {
             return GetGameRunner(container, new MessageBus());
         }
 
-        public static IGameRunner GetGameRunner(IContainer container, MessageBus messageBus)
+        public static GameRunner GetGameRunner(IContainer container, MessageBus messageBus)
         {
             // these items are used during boot process
             var fileSystemService = GetFileSystemService();

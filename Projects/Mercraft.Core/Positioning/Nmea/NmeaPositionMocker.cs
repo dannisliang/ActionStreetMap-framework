@@ -20,6 +20,18 @@ namespace Mercraft.Core.Positioning.Nmea
         private const NmeaMessageType CycleStartMsgType = NmeaMessageType.GGA;
 
         /// <summary>
+        ///     Fired once mocking is done or stopped.
+        /// </summary>
+        public event EventHandler OnDone;
+
+        private void FireDone()
+        {
+            var tmp = OnDone;
+            if (tmp != null)
+                tmp(this, new EventArgs());
+        }
+
+        /// <summary>
         ///     Creates NmeaPositionMocker.
         /// </summary>
         /// <param name="stream">Nmea stream.</param>
@@ -60,6 +72,7 @@ namespace Mercraft.Core.Positioning.Nmea
                 _positionDateTime = currentDateTime;
             }
             _isStarted = false;
+            FireDone();
         }
 
         /// <summary>
@@ -99,6 +112,7 @@ namespace Mercraft.Core.Positioning.Nmea
         private void ParseRMC(NmeaMessage message)
         {
             var f = (NmeaField) message.Fields[RMC.FieldIds.Status];
+            double longitude = 0, latitude = 0;
             if ((f != null) && f.HasValue)
             {
                 char status = f.GetChar((char) 0);
@@ -108,12 +122,12 @@ namespace Mercraft.Core.Positioning.Nmea
                 f = (NmeaField) message.Fields[RMC.FieldIds.X];
                 if ((f != null) && f.HasValue)
                 {
-                    _position.Longitude = f.GetDouble(_position.Longitude);
+                    longitude = f.GetDouble(_position.Coordinate.Longitude);
                 }
                 f = (NmeaField) message.Fields[RMC.FieldIds.Y];
                 if ((f != null) && f.HasValue)
                 {
-                    _position.Latitude = f.GetDouble(_position.Latitude);
+                    latitude = f.GetDouble(_position.Coordinate.Latitude);
                 }
                 f = (NmeaField) message.Fields[RMC.FieldIds.Utc];
                 if ((f != null) && f.HasValue)
@@ -136,11 +150,13 @@ namespace Mercraft.Core.Positioning.Nmea
                     _position.Course = f.GetDouble(_position.Course);
                 }
             }
+            _position.Coordinate = new GeoCoordinate((float)latitude, (float)longitude);
         }
 
         private void ParseCGA(NmeaMessage message)
         {
             GeoPosition position = new GeoPosition();
+            double longitude = 0, latitude = 0;
             var f = (NmeaField) message.Fields[GGA.FieldIds.PositionFixIndicator];
             if ((f != null) && f.HasValue)
             {
@@ -149,12 +165,12 @@ namespace Mercraft.Core.Positioning.Nmea
             f = (NmeaField) message.Fields[GGA.FieldIds.X];
             if ((f != null) && f.HasValue)
             {
-                position.Longitude = f.GetDouble(position.Longitude);
+                longitude = f.GetDouble(_position.Coordinate.Longitude);
             }
             f = (NmeaField) message.Fields[GGA.FieldIds.Y];
             if ((f != null) && f.HasValue)
             {
-                position.Latitude = f.GetDouble(position.Latitude);
+                latitude = f.GetDouble(_position.Coordinate.Latitude);
             }
             f = (NmeaField) message.Fields[GGA.FieldIds.Utc];
             if ((f != null) && f.HasValue)
@@ -171,6 +187,7 @@ namespace Mercraft.Core.Positioning.Nmea
             {
                 position.Hdop = f.GetInt(position.Hdop);
             }
+            _position.Coordinate = new GeoCoordinate((float)latitude, (float)longitude);
         }
 
         /// <inheritdoc />

@@ -1,42 +1,74 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Scene;
+﻿using System;
+using System.IO;
+using System.Reactive.Linq;
+using System.Threading;
+using Mercraft.Core;
+using Mercraft.Core.Positioning;
+using Mercraft.Core.Positioning.Nmea;
 using Mercraft.Infrastructure.Dependencies;
 
 namespace Mercraft.Maps.UnitTests
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private readonly GeoCoordinate _startGeoCoordinate = new GeoCoordinate(52.5499766666667, 13.350695);
+        private readonly string _nmeaFilePath = TestHelper.TestNmeaFilePath;
+
+        private readonly Container _container = new Container();
+        private readonly MessageBus _messageBus = new MessageBus();
+        private readonly PerformanceLogger _logger = new PerformanceLogger();
+        private readonly DemoTileListener _tileListener;
+        private IPositionListener _positionListener;
+
+        private readonly ManualResetEvent _waitEvent = new ManualResetEvent(false);
+
+        public Program()
         {
-            RunGame();
+            // NOTE not used directly but it subscribes to messages from message bus
+            // and logs them to console
+            _tileListener = new DemoTileListener(_messageBus, _logger);
         }
 
-        public static void RunGame()
+        private static void Main(string[] args)
         {
-            var messageBus = new MessageBus();
-            var logger = new PerformanceLogger();
-            var tileListener = new DemoTileListener(messageBus, logger);
+            var program = new Program();
+            program.RunGame();
+            program.RunMocker();
+            program.Wait();
+        }
 
-            logger.Start();
-            var container = new Container();
-            var componentRoot = TestHelper.GetGameRunner(container, messageBus);
-            //componentRoot.RunGame(new GeoCoordinate(40.7702587, -73.9827844));
-            //componentRoot.RunGame(new GeoCoordinate(40.7682664, -73.9820302));
-            //componentRoot.RunGame(new GeoCoordinate(52.5195675, 13.3621738));
-
-            componentRoot.RunGame(new GeoCoordinate(52.5147205, 13.3510851));
-
-            var tileManager = container.Resolve<IPositionListener>() as TileManager;
-
-            /*for (int i = 0; i < 1000; i++)
+        public void RunMocker()
+        {
+            Action<TimeSpan> delayAction = Thread.Sleep;
+            using (Stream stream = new FileStream(_nmeaFilePath, FileMode.Open))
             {
-                tileManager.OnMapPositionChanged(new MapPoint(-i*10 + 0.1f, 0.1f));
-            }*/
+                var mocker = new NmeaPositionMocker(stream, _messageBus);
+                mocker.OnDone += (s, e) => _waitEvent.Set();
+                mocker.Start(delayAction);
+            }
+        }
 
-            //tileManager.OnMapPositionChanged(new MapPoint(500, 0.1f));
+        public void RunGame()
+        {
+            _logger.Start();
+            var componentRoot = TestHelper.GetGameRunner(_container, _messageBus);
 
-            logger.Stop();
-            System.Console.WriteLine("Tiles: {0}", tileManager.Count);
+            // start game on default position
+            componentRoot.RunGame(_startGeoCoordinate);
+
+            _positionListener = _container.Resolve<IPositionListener>();
+
+            _messageBus.AsObservable<GeoPosition>().Do(position =>
+            {
+                Console.WriteLine("GeoPosition: {0}", position);
+                _positionListener.OnGeoPositionChanged(position.Coordinate);
+            }).Subscribe();
+        }
+
+        public void Wait()
+        {
+            _waitEvent.WaitOne(TimeSpan.FromSeconds(60));
+            _logger.Stop();
         }
     }
 }
