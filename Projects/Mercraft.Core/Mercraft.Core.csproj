@@ -52,6 +52,21 @@
       <Link>Properties\AssemblyInfoBase.cs</Link>
     </Compile>
     <Compile Include="AlgorithmException.cs" />
+    <Compile Include="Positioning\Nmea\ActualNmeaValueType.cs" />
+    <Compile Include="Positioning\Nmea\Error.cs" />
+    <Compile Include="Positioning\Nmea\GGA.cs" />
+    <Compile Include="Positioning\Nmea\GLL.cs" />
+    <Compile Include="Positioning\GeoPosition.cs" />
+    <Compile Include="Positioning\Nmea\GSA.cs" />
+    <Compile Include="Positioning\Nmea\GSV.cs" />
+    <Compile Include="Positioning\Nmea\NmeaField.cs" />
+    <Compile Include="Positioning\Nmea\NmeaMessage.cs" />
+    <Compile Include="Positioning\Nmea\NmeaMessageType.cs" />
+    <Compile Include="Positioning\Nmea\NmeaParser.cs" />
+    <Compile Include="Positioning\Nmea\NmeaPositionMocker.cs" />
+    <Compile Include="Positioning\Nmea\NmeaUtils.cs" />
+    <Compile Include="Positioning\Nmea\NmeaValueType.cs" />
+    <Compile Include="Positioning\Nmea\RMC.cs" />
     <Compile Include="Utilities\GeoProjection.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Elevation\HeightMap.cs" />
