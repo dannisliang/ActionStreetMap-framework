@@ -5,6 +5,8 @@ namespace Mercraft.Core.Positioning.Nmea
 {
     /// <summary>
     ///     Provides the way to mock real position changes using NMEA files.
+    ///     Uses slightly refactored code which is found here: https://code.google.com/p/nmeasharp/.
+    ///     TODO refactor classes of this namespace to support used code style.
     /// </summary>
     public sealed class NmeaPositionMocker : IDisposable
     {
@@ -13,6 +15,7 @@ namespace Mercraft.Core.Positioning.Nmea
 
         private GeoPosition _position;
         private DateTime? _positionDateTime;
+        private bool _isStarted;
 
         private const NmeaMessageType CycleStartMsgType = NmeaMessageType.GGA;
 
@@ -36,13 +39,14 @@ namespace Mercraft.Core.Positioning.Nmea
             _positionDateTime = null;
             _position = new GeoPosition();
             string line;
+            _isStarted = true;
             while ((line = _parser.ReadLine()) != null)
             {
-                if (line.Length <= 0)
-                    continue;
+                if (!_isStarted) break;
+
+                if (line.Length <= 0) continue;
 
                 var message = _parser.ParseLine(line);
-
                 if (message == null || !CanSetPositionFromMessage(message) || _position.Date.Year < 2001)
                     continue;
 
@@ -55,6 +59,26 @@ namespace Mercraft.Core.Positioning.Nmea
                 }
                 _positionDateTime = currentDateTime;
             }
+            _isStarted = false;
+        }
+
+        /// <summary>
+        ///     Gets mocker state.
+        /// </summary>
+        public bool IsRunning
+        {
+            get
+            {
+                return _isStarted;
+            }
+        }
+
+        /// <summary>
+        ///     Stops mocker.
+        /// </summary>
+        public void Stop()
+        {
+            _isStarted = false;
         }
 
         private bool CanSetPositionFromMessage(NmeaMessage message)

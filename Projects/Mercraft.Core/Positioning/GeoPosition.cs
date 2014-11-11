@@ -67,7 +67,7 @@ namespace Mercraft.Core.Positioning
         /// <inheritdoc />
         public override string ToString()
         {
-            return "Position: {Longitude=" + Longitude + " Latitude=" + Latitude
+            return "Position: {Latitude=" + Latitude + " Longitude=" + Longitude
                    + "} S:" + Speed + "km/h C:" + Course
                    + " H:" + Hdop
                    + " P:" + PositionFixIndicator
