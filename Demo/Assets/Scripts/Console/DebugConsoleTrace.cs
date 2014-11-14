@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using Assets.Scripts.Console.Utils;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Console
 {

@@ -46,23 +46,23 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="ActionStreetMap.Core">
+      <HintPath>Assets\Plugins\ActionStreetMap.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionStreetMap.Explorer">
+      <HintPath>Assets\Plugins\ActionStreetMap.Explorer.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionStreetMap.Infrastructure">
+      <HintPath>Assets\Plugins\ActionStreetMap.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionStreetMap.Models">
+      <HintPath>Assets\Plugins\ActionStreetMap.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionStreetMap.Osm">
+      <HintPath>Assets\Plugins\ActionStreetMap.Osm.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr3.Runtime">
       <HintPath>Assets\Plugins\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Core">
-      <HintPath>Assets\Plugins\Mercraft.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Explorer">
-      <HintPath>Assets\Plugins\Mercraft.Explorer.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Infrastructure">
-      <HintPath>Assets\Plugins\Mercraft.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Maps.Osm">
-      <HintPath>Assets\Plugins\Mercraft.Maps.Osm.dll</HintPath>
-    </Reference>
-    <Reference Include="Mercraft.Models">
-      <HintPath>Assets\Plugins\Mercraft.Models.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>Assets\Plugins\protobuf-net.dll</HintPath>
@@ -84,9 +84,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Character\ActionStreetMapBehavior.cs" />
     <Compile Include="Assets\Scripts\Character\DemoBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Character\LocationInfoSearcher.cs" />
-    <Compile Include="Assets\Scripts\Character\MercraftRunner.cs" />
     <Compile Include="Assets\Scripts\Console\Commands\CommandManager.cs" />
     <Compile Include="Assets\Scripts\Console\Commands\GrepCommand.cs" />
     <Compile Include="Assets\Scripts\Console\Commands\ICommand.cs" />

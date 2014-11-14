@@ -3,20 +3,20 @@ using System.Reactive.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Demo;
-using Mercraft.Core;
-using Mercraft.Explorer;
-using Mercraft.Explorer.Bootstrappers;
-using Mercraft.Infrastructure;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Core;
+using ActionStreetMap.Explorer;
+using ActionStreetMap.Explorer.Bootstrappers;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.IO;
 using UnityEngine;
+using Component = ActionStreetMap.Infrastructure.Dependencies.Component;
 
 namespace Assets.Scripts.Character
 {
-    public class MercraftRunner : MonoBehaviour
+    public class ActionStreetMapBehavior : MonoBehaviour
     {
         public float Delta = 10;
 
@@ -68,14 +68,14 @@ namespace Assets.Scripts.Character
                 container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", fileSystemService));
 
                 // actual boot service
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperService>().Use<BootstrapperService>());
+                container.Register(Component.For<IBootstrapperService>().Use<BootstrapperService>());
 
                 // boot plugins
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
-                container.Register(Mercraft.Infrastructure.Dependencies.Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
+                container.Register(Component.For<IBootstrapperPlugin>().Use<InfrastructureBootstrapper>().Named("infrastructure"));
+                container.Register(Component.For<IBootstrapperPlugin>().Use<OsmBootstrapper>().Named("osm"));
+                container.Register(Component.For<IBootstrapperPlugin>().Use<TileBootstrapper>().Named("tile"));
+                container.Register(Component.For<IBootstrapperPlugin>().Use<SceneBootstrapper>().Named("scene"));
+                container.Register(Component.For<IBootstrapperPlugin>().Use<DemoBootstrapper>().Named("demo"));
 
                 container.RegisterInstance(_trace);
 

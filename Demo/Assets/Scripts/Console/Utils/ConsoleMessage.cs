@@ -1,4 +1,4 @@
-﻿using Mercraft.Infrastructure.Diagnostic;
+﻿using ActionStreetMap.Infrastructure.Diagnostic;
 using UnityEngine;
 
 namespace Assets.Scripts.Console.Utils

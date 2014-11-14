@@ -1,9 +1,9 @@
 ﻿using System;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World;
-using Mercraft.Core.Unity;
-using Mercraft.Maps.Osm.Helpers;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Maps.Osm.Helpers;
 using UnityEngine;
 
 namespace Assets.Scripts.Map

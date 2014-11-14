@@ -1,8 +1,8 @@
 ﻿using System;
 using Assets.Scripts.Map;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Interactions;
-using Mercraft.Infrastructure.Bootstrap;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Explorer.Interactions;
+using ActionStreetMap.Infrastructure.Bootstrap;
 
 namespace Assets.Scripts.Character
 {

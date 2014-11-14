@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Demo
 {
