@@ -85,19 +85,19 @@
     <Compile Include="Scene\TileModelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Core\ActionStreetMap.Core.csproj">
+    <ProjectReference Include="..\ActionStreetMap.Core\ActionStreetMap.Core.csproj">
       <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
       <Name>ActionStreetMap.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj">
+    <ProjectReference Include="..\ActionStreetMap.Infrastructure\ActionStreetMap.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
       <Name>ActionStreetMap.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Maps.Osm\ActionStreetMap.Osm.csproj">
+    <ProjectReference Include="..\ActionStreetMap.Osm\ActionStreetMap.Osm.csproj">
       <Project>{f07af685-2554-4032-a35f-bb6d5632f1c2}</Project>
       <Name>ActionStreetMap.Osm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Models\ActionStreetMap.Models.csproj">
+    <ProjectReference Include="..\ActionStreetMap.Models\ActionStreetMap.Models.csproj">
       <Project>{960505d9-47c8-4123-ad1f-7eb663c33990}</Project>
       <Name>ActionStreetMap.Models</Name>
     </ProjectReference>

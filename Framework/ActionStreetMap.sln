@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Core", "Mercraft.Core\ActionStreetMap.Core.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Core", "ActionStreetMap.Core\ActionStreetMap.Core.csproj", "{78C3B696-0486-41F9-BA24-5E85F417D98F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Infrastructure", "Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj", "{C77A889A-90D7-4787-A6BC-35772473639E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Infrastructure", "ActionStreetMap.Infrastructure\ActionStreetMap.Infrastructure.csproj", "{C77A889A-90D7-4787-A6BC-35772473639E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Osm", "Mercraft.Maps.Osm\ActionStreetMap.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Osm", "ActionStreetMap.Osm\ActionStreetMap.Osm.csproj", "{F07AF685-2554-4032-A35F-BB6D5632F1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Explorer", "Mercraft.Explorer\ActionStreetMap.Explorer.csproj", "{F931971C-D22F-436B-B1CB-ED4B941810E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Explorer", "ActionStreetMap.Explorer\ActionStreetMap.Explorer.csproj", "{F931971C-D22F-436B-B1CB-ED4B941810E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Models", "Mercraft.Models\ActionStreetMap.Models.csproj", "{960505D9-47C8-4123-AD1F-7EB663C33990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Models", "ActionStreetMap.Models\ActionStreetMap.Models.csproj", "{960505D9-47C8-4123-AD1F-7EB663C33990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Tests", "Tests\Mercraft.Maps.UnitTests\ActionStreetMap.Tests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionStreetMap.Tests", "Tests\ActionStreetMap.Tests\ActionStreetMap.Tests.csproj", "{427274F0-276E-401B-960C-D78DDAF24B5B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B7524B4F-6C0D-48F1-AD9E-132C897C6F70}"
 	ProjectSection(SolutionItems) = preProject

@@ -131,7 +131,7 @@
     <Compile Include="Utilities\TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj">
+    <ProjectReference Include="..\ActionStreetMap.Infrastructure\ActionStreetMap.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
       <Name>ActionStreetMap.Infrastructure</Name>
     </ProjectReference>
