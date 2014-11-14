@@ -5,13 +5,13 @@ using ActionStreetMap.Core.Scene.World.Buildings;
 using ActionStreetMap.Explorer.Infrastructure;
 using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Models.Buildings.Roofs;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders;
 using NUnit.Framework;
 using UnityEngine;
 using Rect = ActionStreetMap.Models.Geometry.Primitives.Rect;
 
-namespace ActionStreetMap.Maps.UnitTests.Models.Buildings
+namespace ActionStreetMap.Tests.Models.Buildings
 {
     [TestFixture]
     public class RoofBuilderTests

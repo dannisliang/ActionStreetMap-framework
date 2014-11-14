@@ -6,9 +6,9 @@ using ActionStreetMap.Infrastructure.Bootstrap;
 using ActionStreetMap.Infrastructure.Config;
 using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.IO;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     public static class TestHelper
     {

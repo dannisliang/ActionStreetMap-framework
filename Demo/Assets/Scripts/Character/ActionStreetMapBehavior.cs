@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive.Linq;
 using Assets.Scripts.Console;
 using Assets.Scripts.Console.Utils;
 using Assets.Scripts.Demo;
@@ -22,13 +21,13 @@ namespace Assets.Scripts.Character
 
         private GameRunner _gameRunner;
 
+        private DemoTileListener _messageListener;
+
         private ITrace _trace;
 
         private Vector2 _position2D;
         
         private DebugConsole _console;
-
-        private event DataEventHandler<MapPoint> CharacterMove;
 
         // Use this for initialization
         private void Start()
@@ -37,19 +36,17 @@ namespace Assets.Scripts.Character
         }
 
         // Update is called once per frame
-        void Update () {
+        private void Update()
+        {
+            // NOTE we do no want to call ASM logic on every small position change
+            // However, Delta should be less than defined offset value in configuration
             if (Math.Abs(transform.position.x - _position2D.x) > Delta
                 || Math.Abs(transform.position.z - _position2D.y) > Delta)
             {
                 _position2D = new Vector2(transform.position.x, transform.position.z);
-                if (CharacterMove != null)
-                {
-                    CharacterMove(this, new DataEventArgs<MapPoint>(
-                        new MapPoint(transform.position.x, transform.position.z)));
-                }
+                _gameRunner.OnMapPositionChanged(new MapPoint(transform.position.x, transform.position.z));
             }
         }
-
 
         #region Initialization
 
@@ -79,7 +76,8 @@ namespace Assets.Scripts.Character
 
                 container.RegisterInstance(_trace);
 
-                InitializeMessageBusListeners(messageBus);
+                // this class will listen messages about tile processing from ASM engine
+                _messageListener = new DemoTileListener(messageBus, _trace);
 
                 // interception
                 //container.AllowProxy = true;
@@ -94,12 +92,6 @@ namespace Assets.Scripts.Character
                 _console.LogMessage(new ConsoleMessage("Error running game:" + ex.ToString(), RecordType.Error, Color.red));
                 throw;
             }
-
-            // subscribe on position changes
-            Observable.FromEventPattern<DataEventHandler<MapPoint>, DataEventArgs<MapPoint>>(h =>
-               CharacterMove += h, h => CharacterMove -= h)
-              .Do(e => _gameRunner.OnMapPositionChanged(e.EventArgs.Data))
-              .Subscribe();
         }
 
         private void InitializeConsole(IContainer container)
@@ -112,25 +104,6 @@ namespace Assets.Scripts.Character
             //_console.CommandManager.Register("scene", new SceneCommand(container));
         }
 
-        private void InitializeMessageBusListeners(IMessageBus messageBus)
-        {
-            // NOTE not sure that these classes won't be collected during GC
-            new DemoTileListener(messageBus, _trace);
-        }
-
         #endregion
     }
-
-    public delegate void DataEventHandler<T>(object sender, DataEventArgs<T> e);
-
-    public class DataEventArgs<T> : EventArgs
-    {
-        public DataEventArgs(T data)
-        {
-            Data = data;
-        }
-
-        public T Data { get; protected set; }
-    }
-
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     /// <summary>
     ///     Helper class for performance measurement

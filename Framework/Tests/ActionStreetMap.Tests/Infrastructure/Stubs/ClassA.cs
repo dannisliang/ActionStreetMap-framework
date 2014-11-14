@@ -2,7 +2,7 @@
 using System.Reflection;
 using ActionStreetMap.Infrastructure.Dependencies.Interception;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Tests.Infrastructure.Stubs
 {
     public interface IClassA
     {

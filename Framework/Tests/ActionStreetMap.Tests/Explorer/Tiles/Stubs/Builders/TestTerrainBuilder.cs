@@ -7,7 +7,7 @@ using ActionStreetMap.Models.Terrain;
 using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders
 {
     public class TestTerrainBuilder: TerrainBuilder
     {

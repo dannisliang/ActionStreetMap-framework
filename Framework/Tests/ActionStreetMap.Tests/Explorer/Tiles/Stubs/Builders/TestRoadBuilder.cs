@@ -5,7 +5,7 @@ using ActionStreetMap.Models.Roads;
 using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders
 {
     public class TestRoadBuilder: RoadBuilder
     {

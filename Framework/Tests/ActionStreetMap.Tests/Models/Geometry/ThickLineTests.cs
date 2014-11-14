@@ -6,7 +6,7 @@ using ActionStreetMap.Models.Geometry.ThickLine;
 using Moq;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Models.Geometry
+namespace ActionStreetMap.Tests.Models.Geometry
 {
     [TestFixture]
     public class ThickLineTests

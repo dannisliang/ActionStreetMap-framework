@@ -1,7 +1,7 @@
 ﻿using ActionStreetMap.Core.Unity;
 using ActionStreetMap.Explorer.Infrastructure;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs
 {
     public class TestGameObjectFactory : GameObjectFactory
     {

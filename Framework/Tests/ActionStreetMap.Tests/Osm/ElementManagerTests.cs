@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using ActionStreetMap.Core;
 using ActionStreetMap.Core.Utilities;
-using ActionStreetMap.Maps.Osm;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Visitors;
 using Moq;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     [TestFixture]
     public class ElementManagerTests

@@ -4,7 +4,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Unity;
 using ActionStreetMap.Explorer.Scene.Builders;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.ModelBuilders
 {
     class TestSphereModelBuilder: SphereModelBuilder
     {

@@ -2,7 +2,7 @@
 using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.IO;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     public class TestFileSystemService: IFileSystemService
     {

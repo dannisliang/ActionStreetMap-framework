@@ -5,7 +5,7 @@ using ActionStreetMap.Core.Scene.Models;
 using Moq;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.Elevation
+namespace ActionStreetMap.Tests.Core.Elevation
 {
     [TestFixture]
     public class HeightMapTests

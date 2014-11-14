@@ -1,10 +1,10 @@
 ﻿
 using System.Collections.Generic;
 using ActionStreetMap.Core;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Format.Xml.v0_6;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Format.Xml.v0_6;
 
-namespace ActionStreetMap.Maps.Osm.Formats.Xml
+namespace ActionStreetMap.Osm.Formats.Xml
 {
     /// <summary>
     /// Converts simple objects from/to xml equivalents.

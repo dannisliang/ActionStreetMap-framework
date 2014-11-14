@@ -1,6 +1,6 @@
 ﻿using ActionStreetMap.Infrastructure.IO;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     /// <summary>
     ///  Test path provider encapsulates assets and test build path differences. As web player is choosen

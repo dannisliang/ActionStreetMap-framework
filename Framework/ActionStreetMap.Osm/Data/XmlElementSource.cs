@@ -4,12 +4,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Format.Xml.v0_6;
-using ActionStreetMap.Maps.Osm.Formats.Xml;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Format.Xml.v0_6;
+using ActionStreetMap.Osm.Formats.Xml;
 using Ionic.Zlib;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     A stream reader that reads from OSM Xml.

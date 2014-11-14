@@ -1,7 +1,7 @@
 ﻿using ActionStreetMap.Infrastructure.Bootstrap;
 using ActionStreetMap.Infrastructure.Dependencies;
-using ActionStreetMap.Maps.Osm;
-using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Osm;
+using ActionStreetMap.Osm.Data;
 
 namespace ActionStreetMap.Explorer.Bootstrappers
 {

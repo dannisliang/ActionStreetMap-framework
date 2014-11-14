@@ -3,7 +3,7 @@ using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Scene.World;
 using ActionStreetMap.Core.Unity;
-using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Osm.Helpers;
 using UnityEngine;
 
 namespace Assets.Scripts.Map

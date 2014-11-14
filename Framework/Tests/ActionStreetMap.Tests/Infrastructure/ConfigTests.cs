@@ -3,7 +3,7 @@ using System.Linq;
 using ActionStreetMap.Infrastructure.Config;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Tests.Infrastructure
 {
     [TestFixture]
     public class ConfigTests

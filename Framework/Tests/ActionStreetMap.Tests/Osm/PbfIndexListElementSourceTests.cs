@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using ActionStreetMap.Core;
 using ActionStreetMap.Infrastructure.Diagnostic;
-using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Osm.Data;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     [TestFixture]
     public class PbfIndexListElementSourceTests

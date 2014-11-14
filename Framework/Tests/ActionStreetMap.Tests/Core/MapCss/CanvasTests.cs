@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Tests.Core.MapCss
 {
     [TestFixture]
     public class CanvasTests

@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Linq;
 using ActionStreetMap.Core;
-using ActionStreetMap.Maps.Osm;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.UnitTests.Osm.Stubs;
+using ActionStreetMap.Osm;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Tests.Osm.Stubs;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     [TestFixture]
     internal class ElementTests

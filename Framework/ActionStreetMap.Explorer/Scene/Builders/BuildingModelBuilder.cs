@@ -8,7 +8,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Scene.World.Buildings;
 using ActionStreetMap.Core.Unity;
 using ActionStreetMap.Infrastructure.Dependencies;
-using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Osm.Helpers;
 using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Models.Geometry;
 using ActionStreetMap.Models.Utils;

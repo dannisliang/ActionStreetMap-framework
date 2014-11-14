@@ -5,7 +5,7 @@ using ActionStreetMap.Core;
 using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Core.Scene.Models;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     public class DemoTileListener
     {

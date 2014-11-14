@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Character
 {
+    /// <summary>
+    ///     Naive implementation for displaying information about current position 
+    ///     I think I have ideas how to improve that (IB)
+    /// </summary>
     public class LocationInfoSearcher : MonoBehaviour
     {
         private float _scanFrequency = 3.0f;

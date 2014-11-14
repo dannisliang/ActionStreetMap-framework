@@ -9,7 +9,7 @@ using ActionStreetMap.Explorer.Helpers;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Tests.Core.MapCss
 {
     [TestFixture]
     internal class RuleEvalTests

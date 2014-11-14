@@ -3,7 +3,7 @@ using ActionStreetMap.Explorer.Scene;
 using ActionStreetMap.Infrastructure.Dependencies;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer
+namespace ActionStreetMap.Tests.Explorer
 {
     [TestFixture]
     public class BootstrapperTests

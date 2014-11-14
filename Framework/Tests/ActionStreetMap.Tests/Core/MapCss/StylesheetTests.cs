@@ -2,7 +2,7 @@
 using ActionStreetMap.Core.MapCss;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Tests.Core.MapCss
 {
     [TestFixture]
     public class StylesheetTests

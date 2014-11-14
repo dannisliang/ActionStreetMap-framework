@@ -4,7 +4,7 @@ using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles
+namespace ActionStreetMap.Tests.Explorer.Tiles
 {
     [TestFixture]
     public class RealTileManagerTests

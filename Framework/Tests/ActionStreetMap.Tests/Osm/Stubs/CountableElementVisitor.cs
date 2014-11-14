@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm.Stubs
+namespace ActionStreetMap.Tests.Osm.Stubs
 {
     public class CountableElementVisitor: IElementVisitor
     {

@@ -4,10 +4,10 @@ using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.Utilities;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.Osm
+namespace ActionStreetMap.Osm
 {
     /// <summary>
     ///     Loads tile from OSM element source.

@@ -4,7 +4,7 @@ using ActionStreetMap.Core.Unity;
 using ActionStreetMap.Explorer.Scene.Builders;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.ModelBuilders
 {
     class TestBarrierModelBuilder: BarrierModelBuilder
     {

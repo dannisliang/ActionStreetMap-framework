@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using ActionStreetMap.Core;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     An in-memory data repository of OSM data primitives.

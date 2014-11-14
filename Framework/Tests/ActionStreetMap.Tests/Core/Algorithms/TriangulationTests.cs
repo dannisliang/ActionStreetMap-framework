@@ -2,14 +2,14 @@
 using ActionStreetMap.Core;
 using ActionStreetMap.Explorer.Infrastructure;
 using ActionStreetMap.Infrastructure.Diagnostic;
-using ActionStreetMap.Maps.Osm;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Visitors;
-using ActionStreetMap.Maps.UnitTests.Osm;
+using ActionStreetMap.Osm;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Visitors;
+using ActionStreetMap.Tests.Osm;
 using ActionStreetMap.Models.Geometry;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.Algorithms
+namespace ActionStreetMap.Tests.Core.Algorithms
 {
     /// <summary>
     ///     These tests test functionality which seems to be depricated in near future (?)

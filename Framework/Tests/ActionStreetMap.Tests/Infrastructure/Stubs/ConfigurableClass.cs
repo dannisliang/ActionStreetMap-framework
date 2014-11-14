@@ -1,7 +1,7 @@
 ﻿using System;
 using ActionStreetMap.Infrastructure.Config;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Tests.Infrastructure.Stubs
 {
     class ConfigurableClass: IConfigurable
     {

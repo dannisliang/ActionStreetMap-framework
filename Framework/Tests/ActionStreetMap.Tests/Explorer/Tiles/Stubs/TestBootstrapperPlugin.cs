@@ -4,15 +4,15 @@ using ActionStreetMap.Explorer.Scene;
 using ActionStreetMap.Infrastructure.Bootstrap;
 using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.Diagnostic;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
-using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs.Behaviours;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders;
+using ActionStreetMap.Tests.Explorer.Tiles.Stubs.ModelBuilders;
 using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Models.Buildings.Roofs;
 using ActionStreetMap.Models.Roads;
 using ActionStreetMap.Models.Terrain;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs
 {
     /// <summary>
     ///     This plugin overrides registration of non-testable classes

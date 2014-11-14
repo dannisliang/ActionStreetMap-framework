@@ -2,7 +2,7 @@
 using System.Text;
 using ActionStreetMap.Infrastructure.Diagnostic;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Tests.Infrastructure.Stubs
 {
     public class TestStringBuilderTrace: DefaultTrace
     {

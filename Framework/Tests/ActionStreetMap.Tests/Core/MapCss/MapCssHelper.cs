@@ -9,7 +9,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Infrastructure.Config;
 using Moq;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Tests.Core.MapCss
 {
     public static class MapCssHelper
     {

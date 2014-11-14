@@ -1,10 +1,10 @@
 ﻿using System.Text;
 using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
-using ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs;
+using ActionStreetMap.Tests.Infrastructure.Stubs;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Tests.Infrastructure
 {
     [TestFixture]
     public class InterceptionTests

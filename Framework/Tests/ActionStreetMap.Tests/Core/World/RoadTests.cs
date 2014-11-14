@@ -4,7 +4,7 @@ using ActionStreetMap.Core;
 using ActionStreetMap.Core.Scene.World.Roads;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.World
+namespace ActionStreetMap.Tests.Core.World
 {
     [TestFixture]
     public class RoadTests

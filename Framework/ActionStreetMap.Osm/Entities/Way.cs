@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using ActionStreetMap.Core;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.Osm.Entities
+namespace ActionStreetMap.Osm.Entities
 {
     /// <summary>
     ///     Represents a simple way.

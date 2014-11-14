@@ -7,7 +7,7 @@ using ActionStreetMap.Core.Positioning;
 using ActionStreetMap.Core.Positioning.Nmea;
 using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace ActionStreetMap.Maps.UnitTests
+namespace ActionStreetMap.Tests
 {
     internal class Program
     {

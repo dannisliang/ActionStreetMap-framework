@@ -9,7 +9,7 @@ using ActionStreetMap.Models.Buildings.Facades;
 using ActionStreetMap.Models.Buildings.Roofs;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Themes
+namespace ActionStreetMap.Tests.Explorer.Themes
 {
     [TestFixture]
     public class ThemeProviderTests

@@ -6,7 +6,7 @@ using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Core.Unity;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Themes
+namespace ActionStreetMap.Tests.Explorer.Themes
 {
     [TestFixture]
     public class BuildingTextureBalancerTests

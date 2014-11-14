@@ -5,7 +5,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Scene.World.Roads;
 using ActionStreetMap.Core.Unity;
 using ActionStreetMap.Infrastructure.Dependencies;
-using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Osm.Helpers;
 using ActionStreetMap.Models.Geometry;
 using ActionStreetMap.Models.Terrain;
 using ActionStreetMap.Explorer.Helpers;

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Osm.Helpers;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     [TestFixture]
     public class LocationInfoTests

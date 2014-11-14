@@ -5,7 +5,7 @@ using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Explorer.Scene;
 using ActionStreetMap.Infrastructure.Bootstrap;
 using ActionStreetMap.Infrastructure.Dependencies;
-using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Osm;
 
 namespace ActionStreetMap.Explorer.Bootstrappers
 {

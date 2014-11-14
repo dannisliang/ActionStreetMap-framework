@@ -5,7 +5,7 @@ using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Models.Terrain;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.ModelBuilders
 {
     class TestWaterModelBuilder : WaterModelBuilder
     {

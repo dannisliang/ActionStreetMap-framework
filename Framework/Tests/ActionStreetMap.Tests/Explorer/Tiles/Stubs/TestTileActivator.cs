@@ -1,7 +1,7 @@
 ﻿using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Explorer.Scene;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs
 {
     public class TestTileActivator: TileActivator
     {

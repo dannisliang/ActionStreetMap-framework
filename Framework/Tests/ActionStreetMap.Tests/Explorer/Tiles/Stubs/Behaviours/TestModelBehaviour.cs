@@ -2,7 +2,7 @@
 using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Unity;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.Behaviours
 {
     public class TestModelBehaviour : IModelBehaviour
     {

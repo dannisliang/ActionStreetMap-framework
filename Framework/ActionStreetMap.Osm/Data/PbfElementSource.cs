@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using ActionStreetMap.Core;
 using ActionStreetMap.Infrastructure.Utilities;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Formats.Pbf;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Formats.Pbf;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     Pbf element source.

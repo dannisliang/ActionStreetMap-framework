@@ -4,7 +4,7 @@ using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Models.Utils;
 using Color32 = UnityEngine.Color32;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders
 {
     public class TestBuildingBuilder: BuildingBuilder
     {

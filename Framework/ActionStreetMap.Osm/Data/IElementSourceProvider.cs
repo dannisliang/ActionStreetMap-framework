@@ -6,7 +6,7 @@ using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Infrastructure.Diagnostic;
 using ActionStreetMap.Infrastructure.IO;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     Provides the way to get OSM datasource by geocoordinate.

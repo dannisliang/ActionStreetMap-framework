@@ -6,7 +6,7 @@ using ActionStreetMap.Models.Geometry.Primitives;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace ActionStreetMap.Maps.UnitTests.Models.Geometry
+namespace ActionStreetMap.Tests.Models.Geometry
 {
     [TestFixture]
     public class PolygonTests

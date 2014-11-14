@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Core.Scene.Models;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     public class TestModelVisitor: IModelVisitor
     {

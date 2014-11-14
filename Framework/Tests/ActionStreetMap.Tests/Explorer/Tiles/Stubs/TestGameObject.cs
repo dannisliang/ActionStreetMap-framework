@@ -1,6 +1,6 @@
 ﻿using ActionStreetMap.Core.Unity;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs
 {
     class TestGameObject: IGameObject
     {

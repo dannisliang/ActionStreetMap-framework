@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using ActionStreetMap.Core;
-using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Osm.Entities;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     Represents an abstract source of Element objects.

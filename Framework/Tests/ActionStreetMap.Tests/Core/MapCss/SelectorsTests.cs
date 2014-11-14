@@ -5,7 +5,7 @@ using ActionStreetMap.Core.MapCss;
 using ActionStreetMap.Core.Scene.Models;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Tests.Core.MapCss
 {
     [TestFixture]
     public class SelectorsTests

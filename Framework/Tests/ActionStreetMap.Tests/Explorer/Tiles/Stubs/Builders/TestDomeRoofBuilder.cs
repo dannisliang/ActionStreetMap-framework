@@ -4,7 +4,7 @@ using ActionStreetMap.Infrastructure.Dependencies;
 using ActionStreetMap.Models.Buildings;
 using ActionStreetMap.Models.Buildings.Roofs;
 
-namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders
 {
     public class TestDomeRoofBuilder: DomeRoofBuilder
     {

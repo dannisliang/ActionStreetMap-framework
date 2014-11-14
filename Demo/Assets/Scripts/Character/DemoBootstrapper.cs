@@ -6,6 +6,9 @@ using ActionStreetMap.Infrastructure.Bootstrap;
 
 namespace Assets.Scripts.Character
 {
+    /// <summary>
+    ///    Adds some specific services to default bootstrapper pipeline
+    /// </summary>
     public class DemoBootstrapper: BootstrapperPlugin
     {
         private CompositeModelBehaviour _solidModelBehavior;

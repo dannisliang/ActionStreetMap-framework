@@ -2,10 +2,10 @@
 using System.Linq;
 using ActionStreetMap.Infrastructure.Config;
 using ActionStreetMap.Infrastructure.Dependencies;
-using ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs;
+using ActionStreetMap.Tests.Infrastructure.Stubs;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Tests.Infrastructure
 {
     [TestFixture]
     public class ContainerTests

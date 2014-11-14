@@ -1,4 +1,4 @@
-﻿namespace ActionStreetMap.Maps.Osm.Entities
+﻿namespace ActionStreetMap.Osm.Entities
 {
     /// <summary>
     ///     Represents simple relation member.

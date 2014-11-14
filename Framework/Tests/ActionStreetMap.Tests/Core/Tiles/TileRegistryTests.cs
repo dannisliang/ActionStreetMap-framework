@@ -5,7 +5,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Core.Scene.World.Infos;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.Tiles
+namespace ActionStreetMap.Tests.Core.Tiles
 {
     [TestFixture]
     public class TileRegistryTests

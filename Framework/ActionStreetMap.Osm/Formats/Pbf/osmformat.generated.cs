@@ -7,7 +7,7 @@ using System.CodeDom.Compiler;
 
 #pragma warning disable 1591
 
-namespace ActionStreetMap.Maps.Osm.Formats.Pbf
+namespace ActionStreetMap.Osm.Formats.Pbf
 {
     /// <summary>
   /// 

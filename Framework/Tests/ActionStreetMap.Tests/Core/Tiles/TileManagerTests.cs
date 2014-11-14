@@ -6,7 +6,7 @@ using ActionStreetMap.Infrastructure.Config;
 using Moq;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core.Tiles
+namespace ActionStreetMap.Tests.Core.Tiles
 {
     [TestFixture]
     internal class TileManagerTests

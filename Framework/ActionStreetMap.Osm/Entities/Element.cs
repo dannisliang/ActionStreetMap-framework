@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.Osm.Entities
+namespace ActionStreetMap.Osm.Entities
 {
     /// <summary>
     ///     Primive used as a base class for any osm object that has a meaning on the map (NodeIds, Ways and Relations).

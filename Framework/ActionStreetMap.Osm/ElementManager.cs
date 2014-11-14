@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using ActionStreetMap.Core;
 using ActionStreetMap.Infrastructure.Primitives;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Entities;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Entities;
+using ActionStreetMap.Osm.Visitors;
 
-namespace ActionStreetMap.Maps.Osm
+namespace ActionStreetMap.Osm
 {
     /// <summary>
     ///     Manages elements in bbox. Stateful class (not thread safe!)

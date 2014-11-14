@@ -2,7 +2,7 @@
 using ActionStreetMap.Core;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Core
+namespace ActionStreetMap.Tests.Core
 {
     [TestFixture]
     public class BoundingBoxTests

@@ -2,13 +2,13 @@
 using ActionStreetMap.Core;
 using ActionStreetMap.Explorer.Infrastructure;
 using ActionStreetMap.Infrastructure.Diagnostic;
-using ActionStreetMap.Maps.Osm;
-using ActionStreetMap.Maps.Osm.Data;
-using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Osm;
+using ActionStreetMap.Osm.Data;
+using ActionStreetMap.Osm.Visitors;
 using ActionStreetMap.Core.Scene;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Osm
+namespace ActionStreetMap.Tests.Osm
 {
     [TestFixture]
     public class NodeTests

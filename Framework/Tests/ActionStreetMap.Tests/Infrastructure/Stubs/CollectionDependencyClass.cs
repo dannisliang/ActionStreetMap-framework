@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Tests.Infrastructure.Stubs
 {
     public class CollectionDependencyClass
     {

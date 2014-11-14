@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ActionStreetMap.Core.Scene.World;
 
-namespace ActionStreetMap.Maps.Osm.Helpers
+namespace ActionStreetMap.Osm.Helpers
 {
     /// <summary>
     ///     Extracts Address from OSM tag collection.

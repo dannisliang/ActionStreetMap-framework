@@ -8,6 +8,9 @@ using ActionStreetMap.Infrastructure.Diagnostic;
 
 namespace Assets.Scripts.Demo
 {
+    /// <summary>
+    ///     Listens for tile specific messages
+    /// </summary>
     public class DemoTileListener
     {
         private const string LogTag = "Tile";
@@ -20,14 +23,20 @@ namespace Assets.Scripts.Demo
         {
             _trace = trace;
 
-            //messageBus.AsObservable<TileFoundMessage>().Do(m => OnTileFound(m.Tile, m.Position)).Subscribe();
             messageBus.AsObservable<TileLoadStartMessage>().Do(m => OnTileBuildStarted(m.TileCenter)).Subscribe();
             messageBus.AsObservable<TileLoadFinishMessage>().Do(m => OnTileBuildFinished(m.Tile)).Subscribe();
+            messageBus.AsObservable<TileActivateMessage>().Do(m => OnTileActivated(m.Tile)).Subscribe();
+            messageBus.AsObservable<TileDeactivateMessage>().Do(m => OnTileDeactivated(m.Tile)).Subscribe();
+            messageBus.AsObservable<TileDestroyMessage>().Do(m => OnTileDestroyed(m.Tile)).Subscribe();
+        }
+
+        private void OnTileDestroyed(Tile tile)
+        {
+            _trace.Normal(LogTag, String.Format("Tile destroyed: center:{0}", tile.MapCenter));
         }
 
         public void OnTileFound(Tile tile, MapPoint position)
         {
-            //_trace.Normal(LogTag, String.Format("Position {0} is found in tile with center {1}", position, tile.MapCenter));
         }
 
         public void OnTileBuildStarted(MapPoint center)
@@ -39,11 +48,21 @@ namespace Assets.Scripts.Demo
         public void OnTileBuildFinished(Tile tile)
         {
             _stopwatch.Stop();
-            _trace.Normal(LogTag, String.Format("Tile of size {0} is built in {1} ms",
-                tile.Size, _stopwatch.ElapsedMilliseconds));
+            System.Console.WriteLine("Tile of size {0} is loaded in {1} ms", tile.Size, _stopwatch.ElapsedMilliseconds);
+            _trace.Normal(LogTag, String.Format("DemoTileListener.OnTileBuildFinished: before GC"));
             GC.Collect();
+            _trace.Normal(LogTag, String.Format("DemoTileListener.OnTileBuildFinished: after GC"));
             _stopwatch.Reset();
+        }
 
+        private void OnTileActivated(Tile tile)
+        {
+            _trace.Normal(LogTag, String.Format("Tile activated: center:{0}", tile.MapCenter));
+        }
+
+        private void OnTileDeactivated(Tile tile)
+        {
+            _trace.Normal(LogTag, String.Format("Tile deactivated: center:{0}", tile.MapCenter));
         }
     }
 }

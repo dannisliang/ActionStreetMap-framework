@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Osm.Entities;
 
-namespace ActionStreetMap.Maps.Osm.Visitors
+namespace ActionStreetMap.Osm.Visitors
 {
     /// <summary>
     ///     Holds list of visitors.

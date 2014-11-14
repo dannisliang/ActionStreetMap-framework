@@ -4,10 +4,10 @@ using ActionStreetMap.Core;
 using ActionStreetMap.Core.Scene;
 using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Infrastructure.Utilities;
-using ActionStreetMap.Maps.Osm.Extensions;
-using Way = ActionStreetMap.Maps.Osm.Entities.Way;
+using ActionStreetMap.Osm.Extensions;
+using Way = ActionStreetMap.Osm.Entities.Way;
 
-namespace ActionStreetMap.Maps.Osm.Visitors
+namespace ActionStreetMap.Osm.Visitors
 {
     /// <inheritdoc />
     public class WayVisitor : ElementVisitor

@@ -6,7 +6,7 @@ using ActionStreetMap.Core.Scene.Models;
 using ActionStreetMap.Explorer.Helpers;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Models
+namespace ActionStreetMap.Tests.Models
 {
     [TestFixture]
     public class BuildingMapCssTests

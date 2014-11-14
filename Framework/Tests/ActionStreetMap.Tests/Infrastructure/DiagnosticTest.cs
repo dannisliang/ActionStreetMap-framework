@@ -2,7 +2,7 @@
 using ActionStreetMap.Infrastructure.Diagnostic;
 using NUnit.Framework;
 
-namespace ActionStreetMap.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Tests.Infrastructure
 {
     [TestFixture]
     public class DiagnosticTest

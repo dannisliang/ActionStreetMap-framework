@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 using ActionStreetMap.Core;
 using ActionStreetMap.Infrastructure.Diagnostic;
 using ActionStreetMap.Infrastructure.IO;
-using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Osm.Entities;
 
-namespace ActionStreetMap.Maps.Osm.Data
+namespace ActionStreetMap.Osm.Data
 {
     /// <summary>
     ///     Creates pbf element source which support index list files which are result of osm splitter processing.
