@@ -27,6 +27,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{2135E3C4-5C08-4BDF-8E61-2742C89EC952}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfoBase.cs = AssemblyInfoBase.cs
+		NOTICE = NOTICE
 	EndProjectSection
 EndProject
 Global
