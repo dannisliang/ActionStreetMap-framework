@@ -27,8 +27,8 @@ namespace ActionStreetMap.Maps.UnitTests.Osm
             perfLogger.Stop();
 
             // ASSERT
-            Assert.Less(perfLogger.Memory, 30, "Memory consumption to high!");
-            Assert.Less(perfLogger.Seconds, 10, "Time consumption to high!");
+            Assert.Less(perfLogger.Memory, 45, "Memory consumption to high!");
+            Assert.Less(perfLogger.Seconds, 3, "Time consumption to high!");
         }
     }
 }
