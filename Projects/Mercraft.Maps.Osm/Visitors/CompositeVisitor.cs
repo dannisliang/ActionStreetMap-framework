@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Entities;
 
-namespace Mercraft.Maps.Osm.Visitors
+namespace ActionStreetMap.Maps.Osm.Visitors
 {
     /// <summary>
     ///     Holds list of visitors.

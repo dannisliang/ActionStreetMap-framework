@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.MapCss;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Utilities;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Explorer.Helpers;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
 {
     [TestFixture]
     internal class RuleEvalTests
@@ -345,9 +345,9 @@ namespace Mercraft.Maps.UnitTests.Core.MapCss
             Assert.IsTrue(stylesheet.GetModelRule(node).IsApplicable);
         }
 
-        private Mercraft.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)
+        private ActionStreetMap.Core.Unity.Color32 GetOriginalColorTypeObject(Color32 color)
         {
-            return new Mercraft.Core.Unity.Color32(color.r, color.g, color.b, color.a);
+            return new ActionStreetMap.Core.Unity.Color32(color.r, color.g, color.b, color.a);
         }
     }
 }

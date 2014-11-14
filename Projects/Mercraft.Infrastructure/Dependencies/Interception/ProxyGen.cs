@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Dependencies.Interception
+﻿namespace ActionStreetMap.Infrastructure.Dependencies.Interception
 {
 #if SANDBOX
     using System;

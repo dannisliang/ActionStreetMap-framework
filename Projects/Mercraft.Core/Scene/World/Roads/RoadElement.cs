@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mercraft.Core.Scene.World.Roads
+namespace ActionStreetMap.Core.Scene.World.Roads
 {
     /// <summary>
     ///     Represents certain part of road

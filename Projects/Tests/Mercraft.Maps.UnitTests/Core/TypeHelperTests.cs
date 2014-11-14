@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Utilities;
+﻿using ActionStreetMap.Core.Utilities;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core
+namespace ActionStreetMap.Maps.UnitTests.Core
 {
     [TestFixture]
     public class TypeHelperTests

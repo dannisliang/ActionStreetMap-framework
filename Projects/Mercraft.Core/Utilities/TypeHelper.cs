@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     internal static class SanitizeHelper
     {

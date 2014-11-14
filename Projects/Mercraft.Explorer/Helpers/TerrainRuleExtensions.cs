@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Models.Terrain;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Models.Terrain;
 
-namespace Mercraft.Explorer.Helpers
+namespace ActionStreetMap.Explorer.Helpers
 {
     internal static class TerrainRuleExtensions
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception
 {
     /// <summary>
     ///     Represents interception context which provide the way create proxy objects and interact with interceptors.

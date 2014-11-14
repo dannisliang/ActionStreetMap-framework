@@ -1,10 +1,10 @@
 ﻿using System;
-using Mercraft.Core.Scene;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Maps.Osm.Entities;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Maps.Osm.Entities;
 
-namespace Mercraft.Maps.Osm.Visitors
+namespace ActionStreetMap.Maps.Osm.Visitors
 {
     /// <summary>
     ///     Visitor for OSM elements.

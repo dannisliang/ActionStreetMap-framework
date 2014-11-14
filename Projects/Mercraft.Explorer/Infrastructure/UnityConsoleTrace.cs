@@ -1,8 +1,8 @@
 ﻿using System;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Infrastructure
+namespace ActionStreetMap.Explorer.Infrastructure
 {
     /// <summary>
     ///     UnityConsole trace

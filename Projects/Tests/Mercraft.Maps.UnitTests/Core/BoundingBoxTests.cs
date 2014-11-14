@@ -1,8 +1,8 @@
 ﻿using System;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core
+namespace ActionStreetMap.Maps.UnitTests.Core
 {
     [TestFixture]
     public class BoundingBoxTests

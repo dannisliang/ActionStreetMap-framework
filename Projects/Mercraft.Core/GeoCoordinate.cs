@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Utilities;
+﻿using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Core
+namespace ActionStreetMap.Core
 {
     /// <summary>
     ///     Represents regular geo coordinate with latitude and longitude.

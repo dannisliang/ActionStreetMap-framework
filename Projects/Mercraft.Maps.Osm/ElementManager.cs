@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Primitives;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Visitors;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Primitives;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.Osm
+namespace ActionStreetMap.Maps.Osm
 {
     /// <summary>
     ///     Manages elements in bbox. Stateful class (not thread safe!)

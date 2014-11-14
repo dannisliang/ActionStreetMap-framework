@@ -1,9 +1,9 @@
 ﻿using System;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
 
-namespace Mercraft.Core.MapCss.Visitors.Eval
+namespace ActionStreetMap.Core.MapCss.Visitors.Eval
 {
     /// <summary>
     ///     Builds color from RGB representation

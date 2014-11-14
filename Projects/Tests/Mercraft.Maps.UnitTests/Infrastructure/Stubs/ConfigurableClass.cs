@@ -1,7 +1,7 @@
 ﻿using System;
-using Mercraft.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Config;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
 {
     class ConfigurableClass: IConfigurable
     {

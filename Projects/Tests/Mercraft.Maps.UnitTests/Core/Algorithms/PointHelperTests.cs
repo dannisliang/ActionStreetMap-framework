@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Utilities;
-using Mercraft.Models.Geometry;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Models.Geometry;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Algorithms
+namespace ActionStreetMap.Maps.UnitTests.Core.Algorithms
 {
     [TestFixture]
     public class PointHelperTests

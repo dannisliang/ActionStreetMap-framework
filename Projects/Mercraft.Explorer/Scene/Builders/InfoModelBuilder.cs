@@ -1,15 +1,15 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Core.Unity;
-using Mercraft.Core.Utilities;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Models.Infos;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Models.Infos;
+using ActionStreetMap.Explorer.Helpers;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides logic to build info models.

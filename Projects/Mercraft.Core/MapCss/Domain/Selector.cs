@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Utilities;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Core.MapCss.Domain
+namespace ActionStreetMap.Core.MapCss.Domain
 {
     /// <summary>
     ///     Represents MapCSS selector.

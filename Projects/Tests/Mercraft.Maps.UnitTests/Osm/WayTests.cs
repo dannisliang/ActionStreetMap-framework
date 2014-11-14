@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Infrastructure;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Visitors;
+using ActionStreetMap.Core;
+using ActionStreetMap.Explorer.Infrastructure;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Core.Scene;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     [TestFixture]
     public class WayTests

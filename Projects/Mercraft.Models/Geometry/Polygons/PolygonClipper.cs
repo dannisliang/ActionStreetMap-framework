@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Geometry.Polygons
+namespace ActionStreetMap.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Sutherland-Hodgman algorithm implementation which provides the way to clip the subject polygon against the clip

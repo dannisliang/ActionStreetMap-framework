@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Mercraft.Models.Utils
+namespace ActionStreetMap.Models.Utils
 {
     internal static class RandomHelper
     {

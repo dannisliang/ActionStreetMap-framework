@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Unity;
-using Mercraft.Core.Utilities;
-using Mercraft.Explorer.Themes;
-using Mercraft.Models.Buildings;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Explorer.Themes;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Core.Unity;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Themes
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Themes
 {
     [TestFixture]
     public class BuildingTextureBalancerTests

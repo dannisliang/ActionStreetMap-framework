@@ -1,10 +1,10 @@
 ﻿using System.Text;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
-using Mercraft.Maps.UnitTests.Infrastructure.Stubs;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
+using ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure
 {
     [TestFixture]
     public class InterceptionTests

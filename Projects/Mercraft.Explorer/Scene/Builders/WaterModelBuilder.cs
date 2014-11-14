@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Terrain;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Explorer.Helpers;
+using ActionStreetMap.Models.Geometry.Polygons;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides logic to build water.

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Geometry.Polygons
+namespace ActionStreetMap.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Implements the Douglas Peucker algorithim to reduce the number of points

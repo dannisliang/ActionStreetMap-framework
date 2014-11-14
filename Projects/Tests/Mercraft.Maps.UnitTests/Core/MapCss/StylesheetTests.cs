@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Mercraft.Core.MapCss;
+using ActionStreetMap.Core.MapCss;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
 {
     [TestFixture]
     public class StylesheetTests

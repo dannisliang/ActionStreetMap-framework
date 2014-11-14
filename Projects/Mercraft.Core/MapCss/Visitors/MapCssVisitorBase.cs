@@ -1,7 +1,7 @@
-﻿using Antlr.Runtime.Tree;
-using Mercraft.Core.MapCss.Domain;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using Antlr.Runtime.Tree;
 
-namespace Mercraft.Core.MapCss.Visitors
+namespace ActionStreetMap.Core.MapCss.Visitors
 {
     /// <summary>
     ///     Provides null realization of IMapCssVisitor

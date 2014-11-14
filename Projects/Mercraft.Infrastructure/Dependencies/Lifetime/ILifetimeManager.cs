@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Mercraft.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Config;
 
-namespace Mercraft.Infrastructure.Dependencies.Lifetime
+namespace ActionStreetMap.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
     ///     Manages lifetime of object creation.

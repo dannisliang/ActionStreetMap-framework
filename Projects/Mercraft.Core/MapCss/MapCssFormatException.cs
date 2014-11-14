@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.MapCss
+namespace ActionStreetMap.Core.MapCss
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly")]
     [Serializable]

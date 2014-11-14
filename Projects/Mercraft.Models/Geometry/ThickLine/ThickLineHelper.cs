@@ -1,9 +1,9 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Models.Geometry.Primitives;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     internal static class ThickLineHelper
     {

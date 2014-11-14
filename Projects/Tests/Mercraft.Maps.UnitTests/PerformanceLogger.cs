@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     /// <summary>
     ///     Helper class for performance measurement

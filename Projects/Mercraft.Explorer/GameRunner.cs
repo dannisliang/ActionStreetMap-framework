@@ -1,9 +1,9 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace Mercraft.Explorer
+namespace ActionStreetMap.Explorer
 {
     /// <summary>
     ///     Represents application component root.

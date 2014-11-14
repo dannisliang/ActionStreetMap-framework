@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Maps.Osm.Visitors;
+using ActionStreetMap.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.Osm.Entities
+namespace ActionStreetMap.Maps.Osm.Entities
 {
     /// <summary>
     ///     Primive used as a base class for any osm object that has a meaning on the map (NodeIds, Ways and Relations).

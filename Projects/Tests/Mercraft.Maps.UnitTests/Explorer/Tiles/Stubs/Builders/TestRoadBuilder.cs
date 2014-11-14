@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
 {
     public class TestRoadBuilder: RoadBuilder
     {

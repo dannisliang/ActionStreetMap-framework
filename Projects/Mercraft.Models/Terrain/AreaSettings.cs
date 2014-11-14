@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Defines area settings.

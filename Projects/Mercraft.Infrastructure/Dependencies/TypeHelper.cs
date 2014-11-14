@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Mercraft.Infrastructure.Utilities;
+using ActionStreetMap.Infrastructure.Utilities;
 
-namespace Mercraft.Infrastructure.Dependencies
+namespace ActionStreetMap.Infrastructure.Dependencies
 {
     internal static class TypeHelper
     {

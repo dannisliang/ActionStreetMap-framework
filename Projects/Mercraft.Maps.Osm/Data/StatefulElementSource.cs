@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Visitors;
+using ActionStreetMap.Core;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     An in-memory data repository of OSM data primitives.

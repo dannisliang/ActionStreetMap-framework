@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mercraft.Models.Utils
+namespace ActionStreetMap.Models.Utils
 {
     /// <summary>
     ///     Defines behavior of Unity's resource loader/provider.

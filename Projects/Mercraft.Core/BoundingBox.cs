@@ -1,7 +1,7 @@
 ﻿using System;
-using Mercraft.Core.Utilities;
+using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Core
+namespace ActionStreetMap.Core
 {
     /// <summary>
     ///     Represents bounding box. See details:

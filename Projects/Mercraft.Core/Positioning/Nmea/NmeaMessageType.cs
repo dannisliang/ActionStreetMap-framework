@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.Positioning.Nmea
+﻿namespace ActionStreetMap.Core.Positioning.Nmea
 {
     internal enum NmeaMessageType
     {

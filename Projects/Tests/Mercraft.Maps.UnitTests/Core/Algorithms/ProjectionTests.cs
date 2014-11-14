@@ -1,9 +1,9 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.Utilities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Utilities;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Algorithms
+namespace ActionStreetMap.Maps.UnitTests.Core.Algorithms
 {
     [TestFixture]
     public class ProjectionTests

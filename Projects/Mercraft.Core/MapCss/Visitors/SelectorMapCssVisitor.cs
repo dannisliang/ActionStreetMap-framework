@@ -1,8 +1,8 @@
 ﻿using System;
+using ActionStreetMap.Core.MapCss.Domain;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.MapCss.Domain;
 
-namespace Mercraft.Core.MapCss.Visitors
+namespace ActionStreetMap.Core.MapCss.Visitors
 {
     /// <summary>
     ///     Selector visitor.

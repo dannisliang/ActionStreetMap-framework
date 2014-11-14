@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors
 {
     /// <summary>
     ///     Executes method source method.

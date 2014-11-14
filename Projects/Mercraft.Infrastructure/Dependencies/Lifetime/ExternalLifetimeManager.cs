@@ -1,7 +1,7 @@
 ﻿using System;
-using Mercraft.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Config;
 
-namespace Mercraft.Infrastructure.Dependencies.Lifetime
+namespace ActionStreetMap.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
     ///     Wraps already created instance using WeakReference object

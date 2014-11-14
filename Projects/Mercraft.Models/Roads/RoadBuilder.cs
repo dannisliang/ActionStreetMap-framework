@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Geometry.ThickLine;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Geometry.ThickLine;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Roads
+namespace ActionStreetMap.Models.Roads
 {
     /// <summary>
     ///     Provides the way to build road using road model.

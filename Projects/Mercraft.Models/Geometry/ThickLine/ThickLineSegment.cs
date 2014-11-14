@@ -1,7 +1,7 @@
 ﻿
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Primitives;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     /// <summary>
     ///     Represents thick line segment.

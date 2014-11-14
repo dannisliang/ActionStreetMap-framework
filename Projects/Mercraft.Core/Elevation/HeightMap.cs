@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.Elevation
+namespace ActionStreetMap.Core.Elevation
 {
     /// <summary>
     ///     Represents heightmap - object which provides information about elevation in given point.

@@ -1,10 +1,10 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Scene.Builders;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Scene.Builders;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
 {
     public class TestCylinderModelBuilder : CylinderModelBuilder
     {

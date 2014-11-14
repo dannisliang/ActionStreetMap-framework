@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mercraft.Core.Scene.Models
+namespace ActionStreetMap.Core.Scene.Models
 {
     /// <summary>
     ///     Represents connected polygon. Used for buildings, park areas, etc.

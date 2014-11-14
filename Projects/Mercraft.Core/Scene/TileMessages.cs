@@ -1,7 +1,7 @@
 ﻿
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Core.Scene
+namespace ActionStreetMap.Core.Scene
 {
     #region Lookup
     /// <summary>

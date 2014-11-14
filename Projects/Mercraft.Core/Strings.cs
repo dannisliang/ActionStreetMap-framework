@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core
+﻿namespace ActionStreetMap.Core
 {
     internal static class Strings
     {

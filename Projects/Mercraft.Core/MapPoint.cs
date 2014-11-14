@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core
+namespace ActionStreetMap.Core
 {
     /// <summary>
     ///     Represents map point in two dimensional space. However contains associated elevation with it.

@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Config
+﻿namespace ActionStreetMap.Infrastructure.Config
 {
     /// <summary>
     ///     Configurable through DI container class

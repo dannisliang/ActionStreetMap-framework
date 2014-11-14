@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.Scene.World.Infos
+﻿namespace ActionStreetMap.Core.Scene.World.Infos
 {
     /// <summary>
     ///     This class is associated with OSM node.

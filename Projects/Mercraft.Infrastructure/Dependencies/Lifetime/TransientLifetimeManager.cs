@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies.Interception;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies.Interception;
 
-namespace Mercraft.Infrastructure.Dependencies.Lifetime
+namespace ActionStreetMap.Infrastructure.Dependencies.Lifetime
 {
     /// <summary>
     ///     Every time build a new instance

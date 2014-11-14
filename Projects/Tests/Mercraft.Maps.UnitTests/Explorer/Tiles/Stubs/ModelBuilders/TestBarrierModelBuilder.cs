@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Scene.Builders;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Scene.Builders;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
 {
     class TestBarrierModelBuilder: BarrierModelBuilder
     {

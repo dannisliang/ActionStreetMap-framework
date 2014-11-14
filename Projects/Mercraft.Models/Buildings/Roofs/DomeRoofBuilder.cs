@@ -1,12 +1,12 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Geometry;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Geometry;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings.Roofs
+namespace ActionStreetMap.Models.Buildings.Roofs
 {
     /// <summary>
     ///     Builds dome roof.

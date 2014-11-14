@@ -1,5 +1,5 @@
 ﻿
-namespace Mercraft.Core.Scene.Models
+namespace ActionStreetMap.Core.Scene.Models
 {
     /// <summary>
     ///     Represents Node - point on map with associated tags.

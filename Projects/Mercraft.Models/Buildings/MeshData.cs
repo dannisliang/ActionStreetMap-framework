@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Unity;
+﻿using ActionStreetMap.Core.Unity;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace ActionStreetMap.Models.Buildings
 {
     /// <summary>
     ///     Stored data associated with mesh 

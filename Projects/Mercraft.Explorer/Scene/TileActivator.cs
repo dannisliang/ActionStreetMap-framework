@@ -1,11 +1,11 @@
 ﻿using System;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Scene
+namespace ActionStreetMap.Explorer.Scene
 {
     /// <summary>
     ///     Represents default tile activator. 

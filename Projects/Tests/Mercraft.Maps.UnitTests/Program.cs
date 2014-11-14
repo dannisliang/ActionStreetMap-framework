@@ -2,12 +2,12 @@
 using System.IO;
 using System.Reactive.Linq;
 using System.Threading;
-using Mercraft.Core;
-using Mercraft.Core.Positioning;
-using Mercraft.Core.Positioning.Nmea;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Positioning;
+using ActionStreetMap.Core.Positioning.Nmea;
+using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     internal class Program
     {

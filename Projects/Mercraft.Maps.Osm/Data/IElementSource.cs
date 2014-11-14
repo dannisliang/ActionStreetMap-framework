@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Maps.Osm.Entities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Maps.Osm.Entities;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     Represents an abstract source of Element objects.

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     Provides the way to get OSM datasource by geocoordinate.

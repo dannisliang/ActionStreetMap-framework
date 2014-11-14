@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Unity;
+﻿using ActionStreetMap.Core.Unity;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
 {
     class TestGameObject: IGameObject
     {

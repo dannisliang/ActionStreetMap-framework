@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Unity;
+using ActionStreetMap.Core.Unity;
 
-namespace Mercraft.Core.Scene.World.Roads
+namespace ActionStreetMap.Core.Scene.World.Roads
 {
     /// <summary>
     ///     Represents road which can consist of different road elements. This is useful for smooth road rendering

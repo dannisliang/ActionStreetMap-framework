@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Models.Infos;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Models.Infos;
 
-namespace Mercraft.Explorer.Themes
+namespace ActionStreetMap.Explorer.Themes
 {
     /// <summary>
     ///     Default info style provider which uses key-value map.

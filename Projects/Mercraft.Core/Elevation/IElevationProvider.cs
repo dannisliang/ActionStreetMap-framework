@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.Elevation
+﻿namespace ActionStreetMap.Core.Elevation
 {
     /// <summary>
     ///     Defines behavior of elevation provider.

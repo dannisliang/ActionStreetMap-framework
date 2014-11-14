@@ -1,10 +1,10 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Roofs;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Buildings.Roofs;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
 {
     public class TestDomeRoofBuilder: DomeRoofBuilder
     {

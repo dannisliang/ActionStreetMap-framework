@@ -1,11 +1,11 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Scene.Builders;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Terrain;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Scene.Builders;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Terrain;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
 {
     class TestWaterModelBuilder : WaterModelBuilder
     {

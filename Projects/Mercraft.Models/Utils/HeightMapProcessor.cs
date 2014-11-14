@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Geometry.Polygons;
 
-namespace Mercraft.Models.Utils
+namespace ActionStreetMap.Models.Utils
 {
     /// <summary>
     ///     Provides logic to adjust height of terrain.

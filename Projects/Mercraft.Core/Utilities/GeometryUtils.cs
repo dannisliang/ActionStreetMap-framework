@@ -1,5 +1,5 @@
 ﻿
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     internal class GeometryUtils
     {

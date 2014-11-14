@@ -1,7 +1,7 @@
-﻿using Mercraft.Core;
-using Mercraft.Maps.Osm.Visitors;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.Osm.Entities
+namespace ActionStreetMap.Maps.Osm.Entities
 {
     /// <summary>
     ///     Represents a simple node.

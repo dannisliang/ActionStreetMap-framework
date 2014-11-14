@@ -1,13 +1,13 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Elevation.Srtm;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Scene;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Elevation.Srtm;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Explorer.Scene;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Maps.Osm;
 
-namespace Mercraft.Explorer.Bootstrappers
+namespace ActionStreetMap.Explorer.Bootstrappers
 {
     /// <summary>
     ///     Register tile processing classes.

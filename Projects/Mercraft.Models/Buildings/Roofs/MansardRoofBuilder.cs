@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Polygons;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings.Roofs
+namespace ActionStreetMap.Models.Buildings.Roofs
 {
     /// <summary>
     ///     Builds mansard roof.

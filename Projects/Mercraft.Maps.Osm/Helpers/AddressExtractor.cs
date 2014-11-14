@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.World;
+using ActionStreetMap.Core.Scene.World;
 
-namespace Mercraft.Maps.Osm.Helpers
+namespace ActionStreetMap.Maps.Osm.Helpers
 {
     /// <summary>
     ///     Extracts Address from OSM tag collection.

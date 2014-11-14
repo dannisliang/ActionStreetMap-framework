@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.UnitTests.Infrastructure.Stubs;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure
 {
     [TestFixture]
     public class ContainerTests

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Mercraft.Infrastructure.Dependencies.Interception;
+using ActionStreetMap.Infrastructure.Dependencies.Interception;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
 {
     public interface IClassA
     {

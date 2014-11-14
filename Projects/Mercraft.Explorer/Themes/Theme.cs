@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Infos;
-using Mercraft.Models.Roads;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Infos;
+using ActionStreetMap.Models.Roads;
 
-namespace Mercraft.Explorer.Themes
+namespace ActionStreetMap.Explorer.Themes
 {
     /// <summary>
     ///     Represents game theme. Bridge to style providers for different models.

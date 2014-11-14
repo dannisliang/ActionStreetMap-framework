@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace Mercraft.Infrastructure.Bootstrap
+namespace ActionStreetMap.Infrastructure.Bootstrap
 {
     /// <summary>
     ///     Provides default functionality to execute startup plugins.

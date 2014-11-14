@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Models.Geometry.Polygons;
+using ActionStreetMap.Models.Geometry.Primitives;
 
-namespace Mercraft.Models.Geometry
+namespace ActionStreetMap.Models.Geometry
 {
     /// <summary>
     ///     Provides some polygon util methods.

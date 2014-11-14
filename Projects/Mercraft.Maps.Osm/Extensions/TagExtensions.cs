@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mercraft.Maps.Osm.Extensions
+namespace ActionStreetMap.Maps.Osm.Extensions
 {
     /// <summary>
     ///     Contains extensions that aid in interpreting some of the OSM-tags.

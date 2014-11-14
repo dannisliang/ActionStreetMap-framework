@@ -1,9 +1,9 @@
 ﻿using System;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace Mercraft.Core.Elevation
+namespace ActionStreetMap.Core.Elevation
 {
     /// <summary>
     ///     Defines behavior of heightmap provider.

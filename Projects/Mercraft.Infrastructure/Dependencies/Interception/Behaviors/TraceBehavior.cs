@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors
 {
     /// <summary>
     ///     This behavior logs methods signature and result call to output.

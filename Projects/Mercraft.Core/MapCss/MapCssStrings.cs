@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.MapCss
+﻿namespace ActionStreetMap.Core.MapCss
 {
     internal static class MapCssStrings
     {

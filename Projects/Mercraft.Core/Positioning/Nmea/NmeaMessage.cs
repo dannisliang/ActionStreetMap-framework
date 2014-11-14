@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 
-namespace Mercraft.Core.Positioning.Nmea
+namespace ActionStreetMap.Core.Positioning.Nmea
 {
     internal class NmeaMessage
     {

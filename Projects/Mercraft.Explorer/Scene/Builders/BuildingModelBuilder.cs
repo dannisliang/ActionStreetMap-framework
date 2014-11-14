@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm.Helpers;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Utils;
+using ActionStreetMap.Explorer.Helpers;
+using ActionStreetMap.Models.Geometry.Polygons;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides logic to build buildings.

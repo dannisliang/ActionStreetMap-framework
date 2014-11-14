@@ -1,6 +1,6 @@
-﻿using Mercraft.Infrastructure.IO;
+﻿using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     /// <summary>
     ///  Test path provider encapsulates assets and test build path differences. As web player is choosen

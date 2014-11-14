@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Unity;
-using Mercraft.Explorer.Infrastructure;
+﻿using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Infrastructure;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
 {
     public class TestGameObjectFactory : GameObjectFactory
     {

@@ -4,11 +4,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Format.Xml.v0_6;
+using ActionStreetMap.Maps.Osm.Formats.Xml;
 using Ionic.Zlib;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Formats.Xml;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     A stream reader that reads from OSM Xml.
@@ -54,9 +55,9 @@ namespace Mercraft.Maps.Osm.Data
         public override void Initialize()
         {
             _next = null;
-            _serNode = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.node));
-            _serWay = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.way));
-            _serRelation = new XmlSerializer(typeof (Mercraft.Maps.Osm.Format.Xml.v0_6.relation));
+            _serNode = new XmlSerializer(typeof (node));
+            _serWay = new XmlSerializer(typeof (way));
+            _serRelation = new XmlSerializer(typeof (relation));
 
             Reset();
             Initialize(this);
@@ -127,29 +128,29 @@ namespace Mercraft.Maps.Osm.Data
                     {
                         case "node":
                             osmObj = _serNode.Deserialize(reader);
-                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.node)
+                            if (osmObj is node)
                             {
                                 _next =
-                                    XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.node);
+                                    XmlSimpleConverter.ConvertToSimple(osmObj as node);
                                 return true;
                             }
                             break;
                         case "way":
                             osmObj = _serWay.Deserialize(reader);
-                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.way)
+                            if (osmObj is way)
                             {
                                 _next =
-                                    XmlSimpleConverter.ConvertToSimple(osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.way);
+                                    XmlSimpleConverter.ConvertToSimple(osmObj as way);
                                 return true;
                             }
                             break;
                         case "relation":
                             osmObj = _serRelation.Deserialize(reader);
-                            if (osmObj is Mercraft.Maps.Osm.Format.Xml.v0_6.relation)
+                            if (osmObj is relation)
                             {
                                 _next =
                                     XmlSimpleConverter.ConvertToSimple(
-                                        osmObj as Mercraft.Maps.Osm.Format.Xml.v0_6.relation);
+                                        osmObj as relation);
                                 return true;
                             }
                             break;

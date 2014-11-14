@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     /// <summary>
     ///     Defines thick line util methods.

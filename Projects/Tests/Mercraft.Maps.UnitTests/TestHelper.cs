@@ -1,14 +1,14 @@
 ﻿
-using Mercraft.Core;
-using Mercraft.Explorer;
-using Mercraft.Explorer.Bootstrappers;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.IO;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs;
+using ActionStreetMap.Core;
+using ActionStreetMap.Explorer;
+using ActionStreetMap.Explorer.Bootstrappers;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.IO;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     public static class TestHelper
     {

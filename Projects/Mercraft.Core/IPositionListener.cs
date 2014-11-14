@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core
+﻿namespace ActionStreetMap.Core
 {
     /// <summary>
     ///     Represents listener for map and geo coordinate changes.

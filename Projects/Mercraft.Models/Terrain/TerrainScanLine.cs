@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Polygons;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Custom version of Scanline algorithm to process terrain data

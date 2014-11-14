@@ -51,7 +51,7 @@ using System.Text;
 
 #pragma warning disable 1591
 
-namespace Mercraft.Infrastructure.Formats.Json
+namespace ActionStreetMap.Infrastructure.Formats.Json
 {
     public enum JSONBinaryTag
     {

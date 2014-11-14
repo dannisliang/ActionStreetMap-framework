@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Models.Geometry;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Models.Geometry;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings.Facades
+namespace ActionStreetMap.Models.Buildings.Facades
 {
     /// <summary>
     ///     Builds flat facade.

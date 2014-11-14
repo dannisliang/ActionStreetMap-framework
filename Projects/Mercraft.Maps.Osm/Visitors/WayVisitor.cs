@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Maps.Osm.Extensions;
-using Way = Mercraft.Maps.Osm.Entities.Way;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Maps.Osm.Extensions;
+using Way = ActionStreetMap.Maps.Osm.Entities.Way;
 
-namespace Mercraft.Maps.Osm.Visitors
+namespace ActionStreetMap.Maps.Osm.Visitors
 {
     /// <inheritdoc />
     public class WayVisitor : ElementVisitor
@@ -49,7 +49,7 @@ namespace Mercraft.Maps.Osm.Visitors
         }
 
         /// <inheritdoc />
-        public override void VisitWay(Way way)
+        public override void VisitWay(Entities.Way way)
         {
             if (!IsArea(way.Tags))
             {
@@ -83,7 +83,7 @@ namespace Mercraft.Maps.Osm.Visitors
         ///     Returns merged tags. We cannot do this in place as Way can be reused
         ///     in case of cross tile processing logic is applied
         /// </summary>
-        private Dictionary<string, string> GetMergedTags(Way way)
+        private Dictionary<string, string> GetMergedTags(Entities.Way way)
         {
             var tags = way.Tags == null
                 ? new Dictionary<string, string>()

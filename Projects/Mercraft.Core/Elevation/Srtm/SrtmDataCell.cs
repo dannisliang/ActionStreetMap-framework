@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Core.Elevation.Srtm
+namespace ActionStreetMap.Core.Elevation.Srtm
 {
     /// <summary>
     ///     Represents SRTM data cell.

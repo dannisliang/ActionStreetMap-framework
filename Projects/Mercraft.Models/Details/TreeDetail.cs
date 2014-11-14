@@ -1,6 +1,6 @@
-﻿using Mercraft.Core;
+﻿using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Details
+namespace ActionStreetMap.Models.Details
 {
     /// <summary>
     ///     Represents a tree. Actually, it can define additional info like height, description, type, etc. as OSM supports this

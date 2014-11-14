@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.Models;
+﻿using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Core.Scene
+namespace ActionStreetMap.Core.Scene
 {
     /// <summary>
     ///     Defines logic for tile activation, deactivation and destroy.

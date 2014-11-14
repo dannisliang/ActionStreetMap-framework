@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.Scene.Models
+﻿namespace ActionStreetMap.Core.Scene.Models
 {
     /// <summary>
     ///     Represents canvas (terrain).

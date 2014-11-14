@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Core.MapCss.Domain
+namespace ActionStreetMap.Core.MapCss.Domain
 {
     /// <summary>
     ///     Represents MapCSS rule for certain model.

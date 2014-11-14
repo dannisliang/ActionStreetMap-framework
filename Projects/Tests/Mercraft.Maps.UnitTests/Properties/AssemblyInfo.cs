@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mercraft.Maps.UnitTests")]
-[assembly: AssemblyDescription("Contains unit test")]
+[assembly: AssemblyTitle("ActionStreetMap.Tests")]
+[assembly: AssemblyDescription("Contains integration and unit tests")]
 [assembly: AssemblyConfiguration("")]
 
 

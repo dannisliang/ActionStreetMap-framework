@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Core.Elevation.Srtm
+namespace ActionStreetMap.Core.Elevation.Srtm
 {
     /// <summary>
     ///     This class provides elevation from SRTM data which can be found here: http://dds.cr.usgs.gov/srtm/

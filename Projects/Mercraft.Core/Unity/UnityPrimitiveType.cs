@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Core.Unity
+﻿namespace ActionStreetMap.Core.Unity
 {
     /// <summary>
     ///     The various primitives that can be created using Unity's GameObject.CreatePrimitive function.

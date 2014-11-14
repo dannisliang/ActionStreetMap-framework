@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Buildings.Roofs;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings
+namespace ActionStreetMap.Models.Buildings
 {
     /// <summary>
     ///     Defines building builder logic.

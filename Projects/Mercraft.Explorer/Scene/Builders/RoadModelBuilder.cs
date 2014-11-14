@@ -1,16 +1,16 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm.Helpers;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Terrain;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Maps.Osm.Helpers;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Explorer.Helpers;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides the way to process roads.

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Core.Scene.World.Roads;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Core.Scene.World.Roads;
 
-namespace Mercraft.Core.Scene
+namespace ActionStreetMap.Core.Scene
 {
     /// <summary>
     ///    Provides the way to register and unregister world specific objects (e.g. buildings, roads, etc.) in tile.

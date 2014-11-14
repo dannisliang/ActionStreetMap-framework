@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Geometry.Polygons
+namespace ActionStreetMap.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Provides implementation of simplified scan line algorithm to process polygons.

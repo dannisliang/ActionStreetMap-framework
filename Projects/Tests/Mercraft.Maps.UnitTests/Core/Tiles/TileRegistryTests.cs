@@ -1,11 +1,11 @@
 ﻿
 using System;
-using Mercraft.Core;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World.Infos;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World.Infos;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Tiles
+namespace ActionStreetMap.Maps.UnitTests.Core.Tiles
 {
     [TestFixture]
     public class TileRegistryTests

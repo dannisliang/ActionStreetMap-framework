@@ -1,7 +1,7 @@
 ﻿
-using Mercraft.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Scene.World.Buildings;
 
-namespace Mercraft.Models.Buildings.Facades
+namespace ActionStreetMap.Models.Buildings.Facades
 {
     /// <summary>
     ///     Defines facade builder logic.

@@ -1,9 +1,9 @@
 ﻿using System;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.MapCss.Visitors.Eval;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.MapCss.Visitors.Eval;
 
-namespace Mercraft.Core.MapCss.Visitors
+namespace ActionStreetMap.Core.MapCss.Visitors
 {
     /// <summary>
     ///     Provides logic to parse declarations.

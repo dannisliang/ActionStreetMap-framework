@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     internal static class MathUtility
     {

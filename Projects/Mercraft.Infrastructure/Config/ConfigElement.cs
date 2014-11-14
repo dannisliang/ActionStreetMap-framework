@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Formats.Json;
+using ActionStreetMap.Infrastructure.Formats.Json;
 
-namespace Mercraft.Infrastructure.Config
+namespace ActionStreetMap.Infrastructure.Config
 {
     /// <summary>
     ///     Represens a single element of xml.

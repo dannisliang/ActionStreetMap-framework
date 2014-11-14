@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Scene.Models;
-using Mercraft.Explorer.Scene;
+﻿using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Explorer.Scene;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
 {
     public class TestTileActivator: TileActivator
     {

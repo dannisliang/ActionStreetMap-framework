@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Models
+﻿namespace ActionStreetMap.Models
 {
     internal static class Strings
     {

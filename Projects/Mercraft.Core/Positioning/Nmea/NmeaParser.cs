@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace Mercraft.Core.Positioning.Nmea
+namespace ActionStreetMap.Core.Positioning.Nmea
 {
     internal class NmeaParser: IDisposable
     {

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Geometry.Polygons;
+using ActionStreetMap.Models.Geometry.Primitives;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Models.Geometry
+namespace ActionStreetMap.Maps.UnitTests.Models.Geometry
 {
     [TestFixture]
     public class PolygonTests

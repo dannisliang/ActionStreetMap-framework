@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     public class TestModelVisitor: IModelVisitor
     {

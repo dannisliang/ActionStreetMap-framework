@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Unity;
+﻿using ActionStreetMap.Core.Unity;
 using UnityEngine;
 
-namespace Mercraft.Models.Utils
+namespace ActionStreetMap.Models.Utils
 {
     internal class GameObjectWrapper : IGameObject
     {

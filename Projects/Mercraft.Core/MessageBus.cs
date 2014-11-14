@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace Mercraft.Core
+namespace ActionStreetMap.Core
 {
     /// <summary>
     ///    Represens message bus to send messages between various components.

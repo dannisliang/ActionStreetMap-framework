@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Utilities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Models.Geometry
+namespace ActionStreetMap.Models.Geometry
 {
     /// <summary>
     ///     Provids some helper methods for points.

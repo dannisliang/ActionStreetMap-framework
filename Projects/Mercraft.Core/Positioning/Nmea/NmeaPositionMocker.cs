@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Mercraft.Core.Positioning.Nmea
+namespace ActionStreetMap.Core.Positioning.Nmea
 {
     /// <summary>
     ///     Provides the way to mock real position changes using NMEA files.

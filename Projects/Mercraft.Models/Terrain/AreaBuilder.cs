@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Polygons;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Fills alphamap and detail maps of TerrainData using TerrainSettings provided.

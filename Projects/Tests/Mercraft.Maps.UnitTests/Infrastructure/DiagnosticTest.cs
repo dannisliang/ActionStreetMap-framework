@@ -1,8 +1,8 @@
 ﻿using System;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure
 {
     [TestFixture]
     public class DiagnosticTest

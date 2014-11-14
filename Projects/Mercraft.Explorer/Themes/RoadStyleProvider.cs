@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Models.Roads;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Models.Roads;
 
-namespace Mercraft.Explorer.Themes
+namespace ActionStreetMap.Explorer.Themes
 {
     /// <summary>
     ///     Default road style provider.

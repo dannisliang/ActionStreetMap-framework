@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Interactions
+namespace ActionStreetMap.Explorer.Interactions
 {
     /// <summary>
     ///     Defines model behavior which consists of list of mono behaviors.

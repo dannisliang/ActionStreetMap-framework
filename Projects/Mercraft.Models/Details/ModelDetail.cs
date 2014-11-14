@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mercraft.Models.Details
+namespace ActionStreetMap.Models.Details
 {
     /// <summary>
     ///     Represents detail model.

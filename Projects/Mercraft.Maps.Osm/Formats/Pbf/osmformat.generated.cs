@@ -7,7 +7,7 @@ using System.CodeDom.Compiler;
 
 #pragma warning disable 1591
 
-namespace Mercraft.Maps.Osm.Formats.Pbf
+namespace ActionStreetMap.Maps.Osm.Formats.Pbf
 {
     /// <summary>
   /// 

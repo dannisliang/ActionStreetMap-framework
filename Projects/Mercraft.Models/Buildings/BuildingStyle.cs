@@ -1,9 +1,9 @@
-﻿using Mercraft.Models.Buildings.Facades;
-using Mercraft.Models.Buildings.Roofs;
-using Rect = Mercraft.Models.Geometry.Primitives.Rect;
-using Color32 = Mercraft.Core.Unity.Color32;
+﻿using ActionStreetMap.Models.Buildings.Facades;
+using ActionStreetMap.Models.Buildings.Roofs;
+using Rect = ActionStreetMap.Models.Geometry.Primitives.Rect;
+using Color32 = ActionStreetMap.Core.Unity.Color32;
 
-namespace Mercraft.Models.Buildings
+namespace ActionStreetMap.Models.Buildings
 {
     /// <summary>
     ///     Defines building style.
@@ -45,7 +45,7 @@ namespace Mercraft.Models.Buildings
             /// <summary>
             ///     Color.
             /// </summary>
-            public Color32 Color;
+            public Core.Unity.Color32 Color;
 
             /// <summary>
             ///     Material path.
@@ -60,12 +60,12 @@ namespace Mercraft.Models.Buildings
             /// <summary>
             ///     Fron uv map.
             /// </summary>
-            public Rect FrontUvMap;
+            public Geometry.Primitives.Rect FrontUvMap;
 
             /// <summary>
             ///     Side uv map.
             /// </summary>
-            public Rect SideUvMap;
+            public Geometry.Primitives.Rect SideUvMap;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Mercraft.Models.Buildings
             /// <summary>
             ///     Color.
             /// </summary>
-            public Color32 Color;
+            public Core.Unity.Color32 Color;
 
             /// <summary>
             ///     Material path.
@@ -106,17 +106,17 @@ namespace Mercraft.Models.Buildings
             /// <summary>
             ///     Front uv map.
             /// </summary>
-            public Rect FrontUvMap;
+            public Geometry.Primitives.Rect FrontUvMap;
 
             /// <summary>
             ///     Back uv map.
             /// </summary>
-            public Rect BackUvMap;
+            public Geometry.Primitives.Rect BackUvMap;
 
             /// <summary>
             ///     Side uv map.
             /// </summary>
-            public Rect SideUvMap;
+            public Geometry.Primitives.Rect SideUvMap;
         }
 
         #endregion

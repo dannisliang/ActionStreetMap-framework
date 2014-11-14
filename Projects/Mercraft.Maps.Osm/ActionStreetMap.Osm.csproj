@@ -7,8 +7,8 @@
     <ProjectGuid>{F07AF685-2554-4032-A35F-BB6D5632F1C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercraft.Maps.Osm</RootNamespace>
-    <AssemblyName>Mercraft.Maps.Osm</AssemblyName>
+    <RootNamespace>ActionStreetMap.Osm</RootNamespace>
+    <AssemblyName>ActionStreetMap.Osm</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Mercraft.Maps.Osm.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ActionStreetMap.Osm.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
@@ -83,13 +83,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">
+    <ProjectReference Include="..\Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
-      <Name>Mercraft.Infrastructure</Name>
+      <Name>ActionStreetMap.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
+    <ProjectReference Include="..\Mercraft.Core\ActionStreetMap.Core.csproj">
       <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
-      <Name>Mercraft.Core</Name>
+      <Name>ActionStreetMap.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

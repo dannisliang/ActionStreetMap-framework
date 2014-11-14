@@ -7,8 +7,8 @@
     <ProjectGuid>{960505D9-47C8-4123-AD1F-7EB663C33990}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercraft.Models</RootNamespace>
-    <AssemblyName>Mercraft.Models</AssemblyName>
+    <RootNamespace>ActionStreetMap.Models</RootNamespace>
+    <AssemblyName>ActionStreetMap.Models</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Mercraft.Models.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ActionStreetMap.Models.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -101,13 +101,13 @@
     <Compile Include="Geometry\SegmentUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercraft.Core\Mercraft.Core.csproj">
+    <ProjectReference Include="..\Mercraft.Core\ActionStreetMap.Core.csproj">
       <Project>{78c3b696-0486-41f9-ba24-5e85f417d98f}</Project>
-      <Name>Mercraft.Core</Name>
+      <Name>ActionStreetMap.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">
+    <ProjectReference Include="..\Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
-      <Name>Mercraft.Infrastructure</Name>
+      <Name>ActionStreetMap.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Maps.Osm.Data;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Maps.Osm.Data;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     [TestFixture]
     public class PbfIndexListElementSourceTests

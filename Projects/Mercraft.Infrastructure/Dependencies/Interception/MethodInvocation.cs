@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception
 {
     /// <summary>
     ///     Represents a call of method.

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Models.Geometry.ThickLine;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Models.Geometry.ThickLine;
 using Moq;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Models.Geometry
+namespace ActionStreetMap.Maps.UnitTests.Models.Geometry
 {
     [TestFixture]
     public class ThickLineTests

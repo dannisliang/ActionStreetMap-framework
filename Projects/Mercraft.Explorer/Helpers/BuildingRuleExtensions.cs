@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Utilities;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Explorer.Helpers
+namespace ActionStreetMap.Explorer.Helpers
 {
     internal static class BuildingRuleExtensions
     {

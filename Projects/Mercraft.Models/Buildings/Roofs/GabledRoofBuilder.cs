@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Primitives;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Polygons;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Primitives;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Polygons;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings.Roofs
+namespace ActionStreetMap.Models.Buildings.Roofs
 {
     /// <summary>
     ///     Builds gabled roof.

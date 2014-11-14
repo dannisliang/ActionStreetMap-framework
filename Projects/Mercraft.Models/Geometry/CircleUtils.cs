@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Utilities;
-using Mercraft.Infrastructure.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.Primitives;
 
-namespace Mercraft.Models.Geometry
+namespace ActionStreetMap.Models.Geometry
 {
     /// <summary>
     ///     Provides circle helper methods.

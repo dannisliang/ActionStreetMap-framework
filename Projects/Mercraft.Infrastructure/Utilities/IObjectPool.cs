@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace Mercraft.Infrastructure.Utilities
+namespace ActionStreetMap.Infrastructure.Utilities
 {
     /// <summary>
     ///     Represents object pool which is used to reduced amount of memory allocations.

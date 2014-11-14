@@ -1,12 +1,12 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Core.Utilities;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Details;
-using Mercraft.Models.Terrain;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Details;
+using ActionStreetMap.Models.Terrain;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides the way to process trees.

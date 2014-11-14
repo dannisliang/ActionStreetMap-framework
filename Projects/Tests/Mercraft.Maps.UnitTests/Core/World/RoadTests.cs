@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Roads;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Roads;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.World
+namespace ActionStreetMap.Maps.UnitTests.Core.World
 {
     [TestFixture]
     public class RoadTests

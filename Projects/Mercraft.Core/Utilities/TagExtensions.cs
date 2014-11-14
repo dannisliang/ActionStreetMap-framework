@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     internal static class TagExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.Unity
+namespace ActionStreetMap.Core.Unity
 {
     /// <summary>
     ///     Defines RGBA color

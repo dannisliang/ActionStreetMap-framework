@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.World.Buildings;
+﻿using ActionStreetMap.Core.Scene.World.Buildings;
 
-namespace Mercraft.Models.Buildings.Roofs
+namespace ActionStreetMap.Models.Buildings.Roofs
 {
     /// <summary>
     ///     Defines roof builder logic.

@@ -1,8 +1,8 @@
-﻿using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.IO;
+﻿using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Infrastructure.Bootstrap
+namespace ActionStreetMap.Infrastructure.Bootstrap
 {
     /// <summary>
     ///     Represents a bootstrapper plugin.

@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.World.Buildings;
+﻿using ActionStreetMap.Core.Scene.World.Buildings;
 
-namespace Mercraft.Models.Buildings
+namespace ActionStreetMap.Models.Buildings
 {
     /// <summary>
     ///     Specifies buildings style provider logic.

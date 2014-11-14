@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Geometry.Primitives;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Infrastructure.Primitives;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     /// <summary>
     ///     Builds thick 2D line in 3D space.

@@ -1,11 +1,11 @@
-﻿using Mercraft.Core.Unity;
-using Mercraft.Explorer.Infrastructure;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.Utilities;
+﻿using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Infrastructure;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Utilities;
 
-namespace Mercraft.Explorer.Bootstrappers
+namespace ActionStreetMap.Explorer.Bootstrappers
 {
     /// <summary>
     ///     Register infrastructure classes.

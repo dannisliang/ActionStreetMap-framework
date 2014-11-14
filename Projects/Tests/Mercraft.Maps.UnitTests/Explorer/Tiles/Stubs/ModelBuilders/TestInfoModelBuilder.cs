@@ -1,11 +1,11 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Scene.Builders;
-using Mercraft.Models.Infos;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Scene.Builders;
+using ActionStreetMap.Models.Infos;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders
 {
     public class TestInfoModelBuilder : InfoModelBuilder
     {

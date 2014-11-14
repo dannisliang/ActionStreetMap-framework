@@ -1,6 +1,6 @@
-﻿using Mercraft.Core;
+﻿using ActionStreetMap.Core;
 
-namespace Mercraft.Explorer
+namespace ActionStreetMap.Explorer
 {
     /// <summary>
     ///     Represents entry point class for Mercraft logic.

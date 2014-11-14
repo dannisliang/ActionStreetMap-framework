@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     public class TestFileSystemService: IFileSystemService
     {

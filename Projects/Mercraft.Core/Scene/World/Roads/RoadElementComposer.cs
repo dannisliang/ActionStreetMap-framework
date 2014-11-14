@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Primitives;
+using ActionStreetMap.Infrastructure.Primitives;
 
-namespace Mercraft.Core.Scene.World.Roads
+namespace ActionStreetMap.Core.Scene.World.Roads
 {
     /// <summary>
     ///     This class handles road element processing.

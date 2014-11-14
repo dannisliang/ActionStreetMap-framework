@@ -1,8 +1,8 @@
-﻿using Mercraft.Core.Elevation;
-using Mercraft.Core.Unity;
-using Mercraft.Core.Utilities;
+﻿using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Core.Utilities;
 
-namespace Mercraft.Core.Scene.Models
+namespace ActionStreetMap.Core.Scene.Models
 {
     /// <summary>
     ///     Represents map tile.

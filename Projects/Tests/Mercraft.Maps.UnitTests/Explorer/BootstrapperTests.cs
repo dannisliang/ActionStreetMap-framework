@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Mercraft.Explorer.Scene;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Explorer.Scene;
+using ActionStreetMap.Infrastructure.Dependencies;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Explorer
+namespace ActionStreetMap.Maps.UnitTests.Explorer
 {
     [TestFixture]
     public class BootstrapperTests

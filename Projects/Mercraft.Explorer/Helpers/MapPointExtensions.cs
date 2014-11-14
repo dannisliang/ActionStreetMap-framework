@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Helpers
+namespace ActionStreetMap.Explorer.Helpers
 {
     internal static class MapPointExtensions
     {

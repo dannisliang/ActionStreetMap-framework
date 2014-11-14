@@ -1,9 +1,9 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Utilities;
-using Mercraft.Models.Utils;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Helpers
+namespace ActionStreetMap.Explorer.Helpers
 {
     internal static class ModelRuleExtensions
     {

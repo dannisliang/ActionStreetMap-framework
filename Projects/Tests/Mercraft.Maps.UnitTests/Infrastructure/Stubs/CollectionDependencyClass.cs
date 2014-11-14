@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mercraft.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Dependencies;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
 {
     public class CollectionDependencyClass
     {

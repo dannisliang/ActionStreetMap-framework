@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.UnitTests.Osm.Stubs;
+using ActionStreetMap.Core;
+using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.UnitTests.Osm.Stubs;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     [TestFixture]
     internal class ElementTests

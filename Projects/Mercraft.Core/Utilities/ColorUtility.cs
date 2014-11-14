@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Unity;
+using ActionStreetMap.Core.Unity;
 
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     /// <summary>
     ///     Provides helper method to work with colors.

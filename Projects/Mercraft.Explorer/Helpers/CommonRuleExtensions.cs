@@ -1,8 +1,8 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Scene;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Explorer.Scene;
 
-namespace Mercraft.Explorer.Helpers
+namespace ActionStreetMap.Explorer.Helpers
 {
     /// <summary>
     ///     Provides methods for basic mapcss properties receiving

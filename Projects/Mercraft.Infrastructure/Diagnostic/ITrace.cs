@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Infrastructure.Diagnostic
+namespace ActionStreetMap.Infrastructure.Diagnostic
 {
     /// <summary>
     ///     Represents a tracer for tracing subsystem.

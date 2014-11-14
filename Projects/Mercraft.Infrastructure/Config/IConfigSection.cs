@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mercraft.Infrastructure.Config
+namespace ActionStreetMap.Infrastructure.Config
 {
     /// <summary>
     ///     Represens a config entry.

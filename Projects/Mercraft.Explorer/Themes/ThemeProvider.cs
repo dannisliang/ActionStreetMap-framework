@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Utilities;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Formats.Json;
-using Mercraft.Infrastructure.IO;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Facades;
-using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Geometry.Primitives;
-using Mercraft.Models.Infos;
-using Mercraft.Models.Roads;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Formats.Json;
+using ActionStreetMap.Infrastructure.IO;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Buildings.Facades;
+using ActionStreetMap.Models.Buildings.Roofs;
+using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Infos;
+using ActionStreetMap.Models.Roads;
 using UnityEngine;
 
-using Rect = Mercraft.Models.Geometry.Primitives.Rect;
+using Rect = ActionStreetMap.Models.Geometry.Primitives.Rect;
 
-namespace Mercraft.Explorer.Themes
+namespace ActionStreetMap.Explorer.Themes
 {
     /// <summary>
     ///     Defines theme provider logic
@@ -245,7 +245,7 @@ namespace Mercraft.Explorer.Themes
             }
         }
 
-        private Rect GetUvMap(string value, Size size)
+        private Models.Geometry.Primitives.Rect GetUvMap(string value, Size size)
         {
             // expect x,y,width,height and (0,0) is left bottom corner
             if (value == null)
@@ -265,7 +265,7 @@ namespace Mercraft.Explorer.Themes
             var leftBottom = new Vector2(x / size.Width, y / size.Height);
             var rightUpper = new Vector2((x + width) / size.Width, (y + height) / size.Height);
 
-            return new Rect(leftBottom, rightUpper);
+            return new Models.Geometry.Primitives.Rect(leftBottom, rightUpper);
         }
     }
 }

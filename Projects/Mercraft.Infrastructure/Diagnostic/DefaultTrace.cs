@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Infrastructure.Diagnostic
+namespace ActionStreetMap.Infrastructure.Diagnostic
 {
     /// <summary>
     ///     Empty trace which simplifies logging via inheritance.

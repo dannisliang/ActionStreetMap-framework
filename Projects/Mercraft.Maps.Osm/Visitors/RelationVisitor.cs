@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Maps.Osm.Entities;
-using Way = Mercraft.Maps.Osm.Entities.Way;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Maps.Osm.Entities;
+using Way = ActionStreetMap.Maps.Osm.Entities.Way;
 
-namespace Mercraft.Maps.Osm.Visitors
+namespace ActionStreetMap.Maps.Osm.Visitors
 {
     /// <summary>
     ///     Relation visitor.
@@ -29,11 +29,11 @@ namespace Mercraft.Maps.Osm.Visitors
                 relation.Tags.TryGetValue("type", out actualValue) && 
                 actualValue == "multipolygon")
             {
-                var innerWays = new List<Way>();
-                var outerWays = new List<Way>();
+                var innerWays = new List<Entities.Way>();
+                var outerWays = new List<Entities.Way>();
                 foreach (var member in relation.Members)
                 {
-                    var way = member.Member as Way;
+                    var way = member.Member as Entities.Way;
                     if(way == null)
                         continue;
 

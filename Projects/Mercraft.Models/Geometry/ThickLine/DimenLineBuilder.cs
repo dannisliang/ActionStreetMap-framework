@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.Elevation;
+using ActionStreetMap.Core.Elevation;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     /// <summary>
     ///     Thick line with height and width in 3D space. Can be used to represent barriers.

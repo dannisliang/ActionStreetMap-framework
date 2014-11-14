@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.MapCss;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Terrain;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Themes;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Explorer.Helpers;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Scene
+namespace ActionStreetMap.Explorer.Scene
 {
     /// <summary>
     ///     Represents class responsible to process all models for tile.

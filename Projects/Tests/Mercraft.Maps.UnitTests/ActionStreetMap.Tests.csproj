@@ -7,8 +7,8 @@
     <ProjectGuid>{427274F0-276E-401B-960C-D78DDAF24B5B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercraft.Maps.UnitTests</RootNamespace>
-    <AssemblyName>Mercraft.Maps.UnitTests</AssemblyName>
+    <RootNamespace>ActionStreetMap.Tests</RootNamespace>
+    <AssemblyName>ActionStreetMap.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -128,25 +128,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Mercraft.Explorer\Mercraft.Explorer.csproj">
+    <ProjectReference Include="..\..\Mercraft.Explorer\ActionStreetMap.Explorer.csproj">
       <Project>{f931971c-d22f-436b-b1cb-ed4b941810e4}</Project>
-      <Name>Mercraft.Explorer</Name>
+      <Name>ActionStreetMap.Explorer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mercraft.Infrastructure\Mercraft.Infrastructure.csproj">
+    <ProjectReference Include="..\..\Mercraft.Infrastructure\ActionStreetMap.Infrastructure.csproj">
       <Project>{c77a889a-90d7-4787-a6bc-35772473639e}</Project>
-      <Name>Mercraft.Infrastructure</Name>
+      <Name>ActionStreetMap.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mercraft.Maps.Osm\Mercraft.Maps.Osm.csproj">
+    <ProjectReference Include="..\..\Mercraft.Maps.Osm\ActionStreetMap.Osm.csproj">
       <Project>{f07af685-2554-4032-a35f-bb6d5632f1c2}</Project>
-      <Name>Mercraft.Maps.Osm</Name>
+      <Name>ActionStreetMap.Osm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mercraft.Core\Mercraft.Core.csproj">
+    <ProjectReference Include="..\..\Mercraft.Core\ActionStreetMap.Core.csproj">
       <Project>{78C3B696-0486-41F9-BA24-5E85F417D98F}</Project>
-      <Name>Mercraft.Core</Name>
+      <Name>ActionStreetMap.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mercraft.Models\Mercraft.Models.csproj">
+    <ProjectReference Include="..\..\Mercraft.Models\ActionStreetMap.Models.csproj">
       <Project>{960505d9-47c8-4123-ad1f-7eb663c33990}</Project>
-      <Name>Mercraft.Models</Name>
+      <Name>ActionStreetMap.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

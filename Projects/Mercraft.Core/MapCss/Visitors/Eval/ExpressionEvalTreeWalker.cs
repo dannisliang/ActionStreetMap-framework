@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Core.Utilities;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Core.Utilities;
 
-namespace Mercraft.Core.MapCss.Visitors.Eval
+namespace ActionStreetMap.Core.MapCss.Visitors.Eval
 {
     /// <summary>
     ///     Naive implementation of Eval expression builder

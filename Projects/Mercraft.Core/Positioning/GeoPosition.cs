@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.Positioning
+namespace ActionStreetMap.Core.Positioning
 {
     /// <summary>
     ///     Represent geo position which is produced by location services (e.g. GLONASS, GPS).

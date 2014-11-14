@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Utilities;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Primitives;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Primitives;
 
-namespace Mercraft.Core.Scene
+namespace ActionStreetMap.Core.Scene
 {
     /// <summary>
     ///     This class listens to position changes and manages tile processing

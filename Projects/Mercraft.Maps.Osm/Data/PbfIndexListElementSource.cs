@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.IO;
-using Mercraft.Maps.Osm.Entities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.IO;
+using ActionStreetMap.Maps.Osm.Entities;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     Creates pbf element source which support index list files which are result of osm splitter processing.

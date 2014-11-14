@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Terrain;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
 {
     public class TestTerrainBuilder: TerrainBuilder
     {

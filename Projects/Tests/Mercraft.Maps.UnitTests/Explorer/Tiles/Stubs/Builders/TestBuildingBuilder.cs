@@ -1,10 +1,10 @@
-﻿using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Utils;
+﻿using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Utils;
 using Color32 = UnityEngine.Color32;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders
 {
     public class TestBuildingBuilder: BuildingBuilder
     {

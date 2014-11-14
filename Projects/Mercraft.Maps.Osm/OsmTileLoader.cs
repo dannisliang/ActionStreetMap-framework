@@ -1,13 +1,13 @@
 ﻿
 using System.Collections.Generic;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Core.Scene;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Visitors;
 
-namespace Mercraft.Maps.Osm
+namespace ActionStreetMap.Maps.Osm
 {
     /// <summary>
     ///     Loads tile from OSM element source.

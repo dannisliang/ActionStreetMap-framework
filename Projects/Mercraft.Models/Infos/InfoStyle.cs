@@ -1,7 +1,7 @@
-﻿using Mercraft.Models.Geometry;
-using Mercraft.Models.Geometry.Primitives;
+﻿using ActionStreetMap.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry;
 
-namespace Mercraft.Models.Infos
+namespace ActionStreetMap.Models.Infos
 {
     /// <summary>
     ///     Defines style for information node.

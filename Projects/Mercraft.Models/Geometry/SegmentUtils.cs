@@ -1,8 +1,8 @@
 ﻿using System;
-using Mercraft.Models.Geometry.Primitives;
+using ActionStreetMap.Models.Geometry.Primitives;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry
+namespace ActionStreetMap.Models.Geometry
 {
     /// <summary>
     ///     Segment utils.

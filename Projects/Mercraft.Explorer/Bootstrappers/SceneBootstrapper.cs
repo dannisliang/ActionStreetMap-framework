@@ -1,19 +1,19 @@
-﻿using Mercraft.Core.MapCss;
-using Mercraft.Core.Scene;
-using Mercraft.Explorer.Scene;
-using Mercraft.Explorer.Scene.Builders;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Facades;
-using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Terrain;
-using Mercraft.Models.Utils;
+﻿using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Explorer.Scene;
+using ActionStreetMap.Explorer.Scene.Builders;
+using ActionStreetMap.Explorer.Themes;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Buildings.Facades;
+using ActionStreetMap.Models.Buildings.Roofs;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Models.Utils;
 
-namespace Mercraft.Explorer.Bootstrappers
+namespace ActionStreetMap.Explorer.Bootstrappers
 {
     /// <summary>
     ///     Register scene specific classes.

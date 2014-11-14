@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Geometry.ThickLine
+namespace ActionStreetMap.Models.Geometry.ThickLine
 {
     /// <summary>
     ///     Represents line element.

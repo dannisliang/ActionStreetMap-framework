@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Formats.Pbf;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Formats.Pbf;
 
-namespace Mercraft.Maps.Osm.Data
+namespace ActionStreetMap.Maps.Osm.Data
 {
     /// <summary>
     ///     Pbf element source.

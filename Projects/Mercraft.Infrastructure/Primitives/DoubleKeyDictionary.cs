@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Mercraft.Infrastructure.Primitives
+namespace ActionStreetMap.Infrastructure.Primitives
 {
     /// <summary>
     ///     A double key dictionary.

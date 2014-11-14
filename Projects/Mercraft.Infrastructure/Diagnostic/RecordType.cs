@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Diagnostic
+﻿namespace ActionStreetMap.Infrastructure.Diagnostic
 {
     /// <summary>
     ///     Defines trace record types.

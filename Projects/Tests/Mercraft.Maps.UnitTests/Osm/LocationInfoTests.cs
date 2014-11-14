@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Mercraft.Maps.Osm.Helpers;
+using ActionStreetMap.Maps.Osm.Helpers;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     [TestFixture]
     public class LocationInfoTests

@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.IO
+﻿namespace ActionStreetMap.Infrastructure.IO
 {
     /// <summary>
     ///     Defines path resolver interface. It's used to substitute path if necessary.

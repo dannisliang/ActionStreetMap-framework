@@ -1,8 +1,8 @@
-﻿using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
+﻿using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours
 {
     public class TestModelBehaviour : IModelBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core.Utilities
+namespace ActionStreetMap.Core.Utilities
 {
     /// <summary>
     /// Provides the methods to convert geo coordinates to map coordinates and vice versa

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Primitives;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Primitives;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry.Polygons
+namespace ActionStreetMap.Models.Geometry.Polygons
 {
     /// <summary>
     ///     Compute skeleton. Reused algorithm found in Internet.

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
+using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception
 {
     /// <summary>
     ///     Represents interceptor which is able to intercept interface

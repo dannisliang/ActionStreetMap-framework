@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Helpers;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Models.Details;
-using Mercraft.Models.Geometry;
-using Mercraft.Models.Terrain;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Models.Details;
+using ActionStreetMap.Models.Geometry;
+using ActionStreetMap.Models.Terrain;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Explorer.Helpers;
 
-namespace Mercraft.Explorer.Scene.Builders
+namespace ActionStreetMap.Explorer.Scene.Builders
 {
     /// <summary>
     ///     Provides the way to process splat areas.

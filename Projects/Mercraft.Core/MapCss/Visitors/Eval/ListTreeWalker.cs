@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using ActionStreetMap.Core.Scene.Models;
 using Antlr.Runtime.Tree;
-using Mercraft.Core.Scene.Models;
 
-namespace Mercraft.Core.MapCss.Visitors.Eval
+namespace ActionStreetMap.Core.MapCss.Visitors.Eval
 {
     /// <summary>
     ///     Provides logic for getting comma-separated list of values.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Core
+namespace ActionStreetMap.Core
 {
     /// <summary>
     ///     Used to highlight bugs in algortihms of app.

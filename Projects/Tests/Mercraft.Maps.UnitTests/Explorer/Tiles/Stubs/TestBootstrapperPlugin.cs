@@ -1,18 +1,18 @@
-﻿using Mercraft.Core.Scene;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Scene;
-using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Roofs;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Terrain;
+﻿using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Scene;
+using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Buildings.Roofs;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Terrain;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs
 {
     /// <summary>
     ///     This plugin overrides registration of non-testable classes

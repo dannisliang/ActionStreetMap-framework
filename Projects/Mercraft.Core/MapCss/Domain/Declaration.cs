@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core.MapCss.Visitors.Eval;
+using ActionStreetMap.Core.MapCss.Visitors.Eval;
 
-namespace Mercraft.Core.MapCss.Domain
+namespace ActionStreetMap.Core.MapCss.Domain
 {
     /// <summary>
     ///     MapCSS declaration (e.g. 'fill-color:red')

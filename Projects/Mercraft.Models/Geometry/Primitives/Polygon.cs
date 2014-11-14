@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 using UnityEngine;
 
-namespace Mercraft.Models.Geometry.Primitives
+namespace ActionStreetMap.Models.Geometry.Primitives
 {
     /// <summary>
     ///     Represents polygon.

@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.World.Infos;
+﻿using ActionStreetMap.Core.Scene.World.Infos;
 
-namespace Mercraft.Models.Infos
+namespace ActionStreetMap.Models.Infos
 {
     /// <summary>
     ///     Defines info style provider.

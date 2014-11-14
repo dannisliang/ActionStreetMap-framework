@@ -1,13 +1,13 @@
-﻿using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Utils;
+﻿using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Explorer.Themes;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Models.Utils;
 
-namespace Mercraft.Explorer.Scene
+namespace ActionStreetMap.Explorer.Scene
 {
     /// <summary>
     ///     Defines model builder logic.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Mercraft.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Config;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure
 {
     [TestFixture]
     public class ConfigTests

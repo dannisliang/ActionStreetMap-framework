@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Maps.Osm.Entities
+﻿namespace ActionStreetMap.Maps.Osm.Entities
 {
     /// <summary>
     ///     Represents simple relation member.

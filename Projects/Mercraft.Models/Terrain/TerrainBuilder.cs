@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Utilities;
-using Mercraft.Models.Details;
-using Mercraft.Models.Roads;
-using Mercraft.Models.Utils;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Utilities;
+using ActionStreetMap.Models.Details;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Utils;
 using UnityEngine;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Defines terrain builder.

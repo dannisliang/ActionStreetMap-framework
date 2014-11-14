@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Infrastructure.Primitives;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Infrastructure.Primitives;
 using UnityEngine;
 
-namespace Mercraft.Models.Roads
+namespace ActionStreetMap.Models.Roads
 {
     /// <summary>
     ///     This class tries to remove Detial from road in right direction.

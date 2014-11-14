@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Infrastructure.Utilities
+namespace ActionStreetMap.Infrastructure.Utilities
 {
     internal static class Guard
     {

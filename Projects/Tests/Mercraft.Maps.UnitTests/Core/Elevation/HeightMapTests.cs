@@ -1,11 +1,11 @@
 ﻿using System;
-using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Scene.Models;
 using Moq;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Elevation
+namespace ActionStreetMap.Maps.UnitTests.Core.Elevation
 {
     [TestFixture]
     public class HeightMapTests

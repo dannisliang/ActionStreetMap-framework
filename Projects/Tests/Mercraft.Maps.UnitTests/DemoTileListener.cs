@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
-using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Maps.UnitTests
+namespace ActionStreetMap.Maps.UnitTests
 {
     public class DemoTileListener
     {

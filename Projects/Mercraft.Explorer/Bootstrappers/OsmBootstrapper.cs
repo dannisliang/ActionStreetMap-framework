@@ -1,9 +1,9 @@
-﻿using Mercraft.Infrastructure.Bootstrap;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
+﻿using ActionStreetMap.Infrastructure.Bootstrap;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Maps.Osm.Data;
 
-namespace Mercraft.Explorer.Bootstrappers
+namespace ActionStreetMap.Explorer.Bootstrappers
 {
     /// <summary>
     ///     Register OSM-specific classes.

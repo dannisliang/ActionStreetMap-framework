@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Infrastructure.Utilities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Infrastructure.Utilities;
 
-namespace Mercraft.Explorer.Infrastructure
+namespace ActionStreetMap.Explorer.Infrastructure
 {
     /// <summary>
     ///     Defines default object pool.

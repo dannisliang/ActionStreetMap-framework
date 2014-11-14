@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors
 {
     /// <summary>
     ///     Defines behavior for profiling.

@@ -1,8 +1,8 @@
-﻿using Mercraft.Infrastructure.Primitives;
-using Mercraft.Maps.UnitTests.Infrastructure.Stubs;
+﻿using ActionStreetMap.Infrastructure.Primitives;
+using ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure
 {
     [TestFixture]
     public class PrimitiveTypeTests

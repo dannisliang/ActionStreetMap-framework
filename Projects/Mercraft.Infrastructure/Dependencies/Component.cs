@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies.Interception;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
-using Mercraft.Infrastructure.Dependencies.Lifetime;
-using Mercraft.Infrastructure.Utilities;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies.Interception;
+using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
+using ActionStreetMap.Infrastructure.Dependencies.Lifetime;
+using ActionStreetMap.Infrastructure.Utilities;
 
-namespace Mercraft.Infrastructure.Dependencies
+namespace ActionStreetMap.Infrastructure.Dependencies
 {
     /// <summary>
     ///     Simplifies usage of DI container.

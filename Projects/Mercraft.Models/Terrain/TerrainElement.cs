@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Defines terrain element.

@@ -1,8 +1,8 @@
 ﻿using System;
-using Mercraft.Core.Unity;
+using ActionStreetMap.Core.Unity;
 using UnityEngine;
 
-namespace Mercraft.Explorer.Infrastructure
+namespace ActionStreetMap.Explorer.Infrastructure
 {
     /// <summary>
     ///     Represents default GameObject factory.

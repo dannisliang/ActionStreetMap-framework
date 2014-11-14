@@ -1,9 +1,10 @@
 ﻿
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Maps.Osm.Entities;
+using ActionStreetMap.Core;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Format.Xml.v0_6;
 
-namespace Mercraft.Maps.Osm.Formats.Xml
+namespace ActionStreetMap.Maps.Osm.Formats.Xml
 {
     /// <summary>
     /// Converts simple objects from/to xml equivalents.
@@ -11,7 +12,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
     internal static class XmlSimpleConverter
     {
 
-        internal static Node ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.node nd)
+        internal static Node ConvertToSimple(node nd)
         {
             Node node = new Node();
 
@@ -56,7 +57,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return node;
         }
 
-        internal static Way ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.way wa)
+        internal static Way ConvertToSimple(way wa)
         {
             Way way = new Way();
 
@@ -82,7 +83,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return way;
         }
 
-        internal static Relation ConvertToSimple(Mercraft.Maps.Osm.Format.Xml.v0_6.relation re)
+        internal static Relation ConvertToSimple(relation re)
         {
             Relation relation = new Relation();
 
@@ -101,7 +102,7 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                 relation.Members = new List<RelationMember>();
                 for (int idx = 0; idx < re.member.Length; idx++)
                 {
-                    Mercraft.Maps.Osm.Format.Xml.v0_6.member mem = re.member[idx];
+                    member mem = re.member[idx];
                     RelationMember relationMember = new RelationMember();
                     // set memberid
                     if (mem.refSpecified)
@@ -117,13 +118,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
                     {
                         switch (mem.type)
                         {
-                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.node:
+                            case memberType.node:
                                 relationMember.Member = new Node();
                                 break;
-                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.way:
+                            case memberType.way:
                                 relationMember.Member = new Way();
                                 break;
-                            case Mercraft.Maps.Osm.Format.Xml.v0_6.memberType.relation:
+                            case memberType.relation:
                                 relationMember.Member = new Way();
                                 break;
                         }
@@ -136,13 +137,13 @@ namespace Mercraft.Maps.Osm.Formats.Xml
             return relation;
         }
 
-        private static Dictionary<string, string> ConvertToTags(Mercraft.Maps.Osm.Format.Xml.v0_6.tag[] tag)
+        private static Dictionary<string, string> ConvertToTags(tag[] tag)
         {
             Dictionary<string, string> tags = null;
             if (tag != null && tag.Length > 0)
             {
                 tags = new Dictionary<string, string>(tag.Length);
-                foreach (Mercraft.Maps.Osm.Format.Xml.v0_6.tag t in tag)
+                foreach (tag t in tag)
                 {
                     tags.Add(t.k, t.v);
                 }

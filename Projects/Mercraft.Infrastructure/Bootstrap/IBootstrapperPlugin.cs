@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Bootstrap
+﻿namespace ActionStreetMap.Infrastructure.Bootstrap
 {
     /// <summary>
     ///     Represents a startup plugin.

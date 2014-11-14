@@ -1,7 +1,7 @@
 ﻿using System;
-using Mercraft.Infrastructure.Dependencies.Lifetime;
+using ActionStreetMap.Infrastructure.Dependencies.Lifetime;
 
-namespace Mercraft.Infrastructure.Dependencies
+namespace ActionStreetMap.Infrastructure.Dependencies
 {
     /// <summary>
     ///     Defines the extension methods for Component class.

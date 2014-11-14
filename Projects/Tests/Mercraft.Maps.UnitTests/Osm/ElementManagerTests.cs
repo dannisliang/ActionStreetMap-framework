@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mercraft.Core;
-using Mercraft.Core.Utilities;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Entities;
-using Mercraft.Maps.Osm.Visitors;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Entities;
+using ActionStreetMap.Maps.Osm.Visitors;
 using Moq;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Osm
+namespace ActionStreetMap.Maps.UnitTests.Osm
 {
     [TestFixture]
     public class ElementManagerTests

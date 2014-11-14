@@ -7,7 +7,7 @@ using Ionic.Zlib;
 using ProtoBuf;
 using ProtoBuf.Meta;
 
-namespace Mercraft.Maps.Osm.Formats.Pbf
+namespace ActionStreetMap.Maps.Osm.Formats.Pbf
 {
     /// <summary>
     ///     Reads PBF files.

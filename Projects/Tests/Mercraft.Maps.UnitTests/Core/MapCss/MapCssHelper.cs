@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Mercraft.Core;
-using Mercraft.Core.MapCss;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Config;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Config;
 using Moq;
 
-namespace Mercraft.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
 {
     public static class MapCssHelper
     {

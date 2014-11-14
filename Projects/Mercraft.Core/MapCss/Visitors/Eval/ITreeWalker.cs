@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.Models;
+﻿using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Core.MapCss.Visitors.Eval
+namespace ActionStreetMap.Core.MapCss.Visitors.Eval
 {
     /// <summary>
     ///     Defines logic for processing of parse tree for given model and returning result.

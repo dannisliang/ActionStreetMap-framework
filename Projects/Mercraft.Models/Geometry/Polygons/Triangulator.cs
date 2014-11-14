@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
+using ActionStreetMap.Core;
 
-namespace Mercraft.Models.Geometry
+namespace ActionStreetMap.Models.Geometry
 {
     /// <summary>
     ///     Provides logic to do triangulation.

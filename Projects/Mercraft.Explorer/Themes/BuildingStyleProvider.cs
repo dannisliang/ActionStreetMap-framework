@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Unity;
-using Mercraft.Infrastructure.Primitives;
-using Mercraft.Models.Buildings;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Unity;
+using ActionStreetMap.Infrastructure.Primitives;
+using ActionStreetMap.Models.Buildings;
 
-namespace Mercraft.Explorer.Themes
+namespace ActionStreetMap.Explorer.Themes
 {
     /// <summary>
     ///     Provides the way to get BuildingStyle using Building. This implementation uses color as key to find style.

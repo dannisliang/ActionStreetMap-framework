@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Infrastructure.Dependencies.Interception.Behaviors
+﻿namespace ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors
 {
     /// <summary>
     ///     Represents an additional behavior of method invocation.

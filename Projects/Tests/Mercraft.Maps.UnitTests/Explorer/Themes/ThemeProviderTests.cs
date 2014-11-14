@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Core.Scene.World.Infos;
-using Mercraft.Core.Scene.World.Roads;
-using Mercraft.Core.Utilities;
-using Mercraft.Explorer.Themes;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Models.Buildings.Facades;
-using Mercraft.Models.Buildings.Roofs;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Core.Scene.World.Infos;
+using ActionStreetMap.Core.Scene.World.Roads;
+using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Explorer.Themes;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Models.Buildings.Facades;
+using ActionStreetMap.Models.Buildings.Roofs;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Themes
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Themes
 {
     [TestFixture]
     public class ThemeProviderTests

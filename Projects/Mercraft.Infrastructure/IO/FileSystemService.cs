@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Mercraft.Infrastructure.IO
+namespace ActionStreetMap.Infrastructure.IO
 {
     /// <summary>
     ///     Provides a way to interact with regular file system.

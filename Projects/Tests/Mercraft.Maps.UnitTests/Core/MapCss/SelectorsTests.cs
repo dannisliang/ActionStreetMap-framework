@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Mercraft.Core;
-using Mercraft.Core.MapCss;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.Scene.Models;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.MapCss
+namespace ActionStreetMap.Maps.UnitTests.Core.MapCss
 {
     [TestFixture]
     public class SelectorsTests

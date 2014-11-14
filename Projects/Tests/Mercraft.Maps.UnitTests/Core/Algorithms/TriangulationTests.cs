@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Explorer.Infrastructure;
-using Mercraft.Infrastructure.Diagnostic;
-using Mercraft.Maps.Osm;
-using Mercraft.Maps.Osm.Data;
-using Mercraft.Maps.Osm.Visitors;
-using Mercraft.Maps.UnitTests.Osm;
-using Mercraft.Models.Geometry;
+using ActionStreetMap.Core;
+using ActionStreetMap.Explorer.Infrastructure;
+using ActionStreetMap.Infrastructure.Diagnostic;
+using ActionStreetMap.Maps.Osm;
+using ActionStreetMap.Maps.Osm.Data;
+using ActionStreetMap.Maps.Osm.Visitors;
+using ActionStreetMap.Maps.UnitTests.Osm;
+using ActionStreetMap.Models.Geometry;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Algorithms
+namespace ActionStreetMap.Maps.UnitTests.Core.Algorithms
 {
     /// <summary>
     ///     These tests test functionality which seems to be depricated in near future (?)

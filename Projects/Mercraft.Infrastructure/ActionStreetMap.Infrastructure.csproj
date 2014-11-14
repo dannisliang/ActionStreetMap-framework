@@ -7,8 +7,8 @@
     <ProjectGuid>{C77A889A-90D7-4787-A6BC-35772473639E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercraft.Infrastructure</RootNamespace>
-    <AssemblyName>Mercraft.Infrastructure</AssemblyName>
+    <RootNamespace>ActionStreetMap.Infrastructure</RootNamespace>
+    <AssemblyName>ActionStreetMap.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Mercraft.Infrastructure.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ActionStreetMap.Infrastructure.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

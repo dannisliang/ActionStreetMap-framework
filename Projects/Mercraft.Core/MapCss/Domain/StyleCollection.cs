@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Core.Scene.Models;
+using ActionStreetMap.Core.Scene.Models;
 
-namespace Mercraft.Core.MapCss.Domain
+namespace ActionStreetMap.Core.MapCss.Domain
 {
     /// <summary>
     ///     Contains some performance optimizations for rule processing

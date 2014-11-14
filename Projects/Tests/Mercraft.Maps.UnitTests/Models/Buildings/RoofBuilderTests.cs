@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mercraft.Core;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Explorer.Infrastructure;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs;
-using Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
-using Mercraft.Models.Buildings;
-using Mercraft.Models.Buildings.Roofs;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Explorer.Infrastructure;
+using ActionStreetMap.Models.Buildings;
+using ActionStreetMap.Models.Buildings.Roofs;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs;
+using ActionStreetMap.Maps.UnitTests.Explorer.Tiles.Stubs.Builders;
 using NUnit.Framework;
 using UnityEngine;
-using Rect = Mercraft.Models.Geometry.Primitives.Rect;
+using Rect = ActionStreetMap.Models.Geometry.Primitives.Rect;
 
-namespace Mercraft.Maps.UnitTests.Models.Buildings
+namespace ActionStreetMap.Maps.UnitTests.Models.Buildings
 {
     [TestFixture]
     public class RoofBuilderTests
@@ -39,7 +39,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
                 Roof = new BuildingStyle.RoofStyle()
                 {
                     Builders = new IRoofBuilder[] { new FlatRoofBuilder(), },
-                    FrontUvMap = new Rect(new Vector2(), new Vector2()),
+                    FrontUvMap = new ActionStreetMap.Models.Geometry.Primitives.Rect(new Vector2(), new Vector2()),
                     Material = "",
                 },
                 Facade = new BuildingStyle.FacadeStyle()
@@ -75,7 +75,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
             {
                 Roof = new BuildingStyle.RoofStyle()
                 {
-                    FrontUvMap = new Rect(new Vector2(), new Vector2())
+                    FrontUvMap = new ActionStreetMap.Models.Geometry.Primitives.Rect(new Vector2(), new Vector2())
                 }
             });
 
@@ -109,7 +109,7 @@ namespace Mercraft.Maps.UnitTests.Models.Buildings
             {
                 Roof = new BuildingStyle.RoofStyle()
                 {
-                    FrontUvMap = new Rect(new Vector2(), new Vector2())
+                    FrontUvMap = new ActionStreetMap.Models.Geometry.Primitives.Rect(new Vector2(), new Vector2())
                 }
             });
 

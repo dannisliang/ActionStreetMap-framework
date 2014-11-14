@@ -1,6 +1,6 @@
-﻿using Mercraft.Core.Scene.World.Roads;
+﻿using ActionStreetMap.Core.Scene.World.Roads;
 
-namespace Mercraft.Models.Roads
+namespace ActionStreetMap.Models.Roads
 {
     /// <summary>
     ///     Defines road style provider logic.

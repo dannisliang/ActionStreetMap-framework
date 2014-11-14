@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Mercraft.Infrastructure.Dependencies.Interception;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
-using Mercraft.Infrastructure.Dependencies.Lifetime;
+using ActionStreetMap.Infrastructure.Dependencies.Interception;
+using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
+using ActionStreetMap.Infrastructure.Dependencies.Lifetime;
 
-namespace Mercraft.Infrastructure.Dependencies
+namespace ActionStreetMap.Infrastructure.Dependencies
 {
     /// <summary>
     ///     Represents dependency injection container.

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Models.Details;
-using Mercraft.Models.Roads;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Models.Roads;
+using ActionStreetMap.Models.Details;
 using UnityEngine;
 
-namespace Mercraft.Models.Terrain
+namespace ActionStreetMap.Models.Terrain
 {
     /// <summary>
     ///     Defines terrain settings.

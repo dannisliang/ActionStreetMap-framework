@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercraft.Infrastructure.Formats.Json;
-using Mercraft.Infrastructure.IO;
+using ActionStreetMap.Infrastructure.Formats.Json;
+using ActionStreetMap.Infrastructure.IO;
 
-namespace Mercraft.Infrastructure.Config
+namespace ActionStreetMap.Infrastructure.Config
 {
     /// <summary>
     ///     Represens a JSON config entry.

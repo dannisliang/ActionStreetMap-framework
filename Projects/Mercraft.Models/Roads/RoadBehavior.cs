@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Scene.World.Roads;
+﻿using ActionStreetMap.Core.Scene.World.Roads;
 using UnityEngine;
 
-namespace Mercraft.Models.Roads
+namespace ActionStreetMap.Models.Roads
 {
     /// <summary>
     ///     Represents road behavior which can be useful to tweak road after game starts.

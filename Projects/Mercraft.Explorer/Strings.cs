@@ -1,4 +1,4 @@
-﻿namespace Mercraft.Explorer
+﻿namespace ActionStreetMap.Explorer
 {
     internal static class Strings
     {

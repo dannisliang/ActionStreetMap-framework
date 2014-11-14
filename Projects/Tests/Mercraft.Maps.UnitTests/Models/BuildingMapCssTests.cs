@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Mercraft.Core;
-using Mercraft.Core.MapCss;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Explorer.Helpers;
+using ActionStreetMap.Core;
+using ActionStreetMap.Core.MapCss;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Explorer.Helpers;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Models
+namespace ActionStreetMap.Maps.UnitTests.Models
 {
     [TestFixture]
     public class BuildingMapCssTests

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Infrastructure.Dependencies.Interception
+namespace ActionStreetMap.Infrastructure.Dependencies.Interception
 {
     /// <summary>
     ///     Represents a result of method invocation.

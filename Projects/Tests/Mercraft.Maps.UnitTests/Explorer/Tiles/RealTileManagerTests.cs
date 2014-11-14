@@ -1,10 +1,10 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Scene;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.Dependencies.Interception.Behaviors;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Explorer.Tiles
+namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles
 {
     [TestFixture]
     public class RealTileManagerTests

@@ -1,12 +1,12 @@
-﻿using Mercraft.Core;
-using Mercraft.Core.Elevation;
-using Mercraft.Core.Scene;
-using Mercraft.Core.Scene.Models;
-using Mercraft.Infrastructure.Config;
+﻿using ActionStreetMap.Core;
+using ActionStreetMap.Core.Elevation;
+using ActionStreetMap.Core.Scene;
+using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Infrastructure.Config;
 using Moq;
 using NUnit.Framework;
 
-namespace Mercraft.Maps.UnitTests.Core.Tiles
+namespace ActionStreetMap.Maps.UnitTests.Core.Tiles
 {
     [TestFixture]
     internal class TileManagerTests

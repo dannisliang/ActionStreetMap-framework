@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Mercraft.Core.Scene.World.Buildings;
-using Mercraft.Models.Geometry.Polygons;
+using ActionStreetMap.Core.Scene.World.Buildings;
+using ActionStreetMap.Models.Geometry.Polygons;
 using UnityEngine;
 
-namespace Mercraft.Models.Buildings.Roofs
+namespace ActionStreetMap.Models.Buildings.Roofs
 {
     /// <summary>
     ///     Builds hipped roof.

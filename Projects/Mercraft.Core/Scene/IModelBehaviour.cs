@@ -1,7 +1,7 @@
-﻿using Mercraft.Core.Scene.Models;
-using Mercraft.Core.Unity;
+﻿using ActionStreetMap.Core.Scene.Models;
+using ActionStreetMap.Core.Unity;
 
-namespace Mercraft.Core.Scene
+namespace ActionStreetMap.Core.Scene
 {
     /// <summary>
     ///     Defines ModelBehavior whcih can implement any additional logic associated with given model and its game object.

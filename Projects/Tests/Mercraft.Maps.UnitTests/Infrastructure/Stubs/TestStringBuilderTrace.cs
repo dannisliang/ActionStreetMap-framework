@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using Mercraft.Infrastructure.Diagnostic;
+using ActionStreetMap.Infrastructure.Diagnostic;
 
-namespace Mercraft.Maps.UnitTests.Infrastructure.Stubs
+namespace ActionStreetMap.Maps.UnitTests.Infrastructure.Stubs
 {
     public class TestStringBuilderTrace: DefaultTrace
     {

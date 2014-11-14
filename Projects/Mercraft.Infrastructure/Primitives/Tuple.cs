@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercraft.Infrastructure.Primitives
+namespace ActionStreetMap.Infrastructure.Primitives
 {
     /// <summary>
     ///     Tuple implementation.

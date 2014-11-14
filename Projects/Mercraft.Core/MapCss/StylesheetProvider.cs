@@ -1,12 +1,12 @@
 ﻿using System.IO;
+using ActionStreetMap.Core.MapCss.Domain;
+using ActionStreetMap.Core.MapCss.Visitors;
+using ActionStreetMap.Infrastructure.Config;
+using ActionStreetMap.Infrastructure.Dependencies;
+using ActionStreetMap.Infrastructure.IO;
 using Antlr.Runtime;
-using Mercraft.Core.MapCss.Domain;
-using Mercraft.Core.MapCss.Visitors;
-using Mercraft.Infrastructure.Config;
-using Mercraft.Infrastructure.Dependencies;
-using Mercraft.Infrastructure.IO;
 
-namespace Mercraft.Core.MapCss
+namespace ActionStreetMap.Core.MapCss
 {
     /// <summary>
     ///     Defines provider which returns stylesheet

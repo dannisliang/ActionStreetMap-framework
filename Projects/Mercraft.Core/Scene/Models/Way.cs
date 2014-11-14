@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mercraft.Core.Scene.Models
+namespace ActionStreetMap.Core.Scene.Models
 {
     /// <summary>
     ///     Represents a set of connected points. For example, used for roads
