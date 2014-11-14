@@ -1,14 +1,14 @@
-Mercraft is engine for building real city environment dynamically using OSM data.
+ActionStreetMap (ASM) is engine for building real city environment dynamically using OSM data.
 
 The main goal is simulate real city which includes:
 	* rendering of different models like buildings, roads, parks, rivers, etc. using OSM data for given location using terrain tiling approach (DONE partially)
 	* render non-flat world by using Data Elevation Model (DEM) files (DONE partially)
 	* add character to the scene which is capable to interact with this environment (DONE partially)
-	* fill environment by people, cars, animals with realistic behavior (Not started)
+	* fill environment by people, cars, animals with realistic behaviour (Not started)
 	* using some external services to extend environment (for example, weather, famous places, events, public transport schedule, etc.) (Not started)
 	* Multiplayer (Not started)
 
-It should be possible to build different 3D-games (either car simulations or GTA 2/3 like games) or some helpers on top this engine especially for mobile devices. Actually, game world should be limited only by OSM maps which means that game world is almost entire Earth
+It should be possible to build different 3D-games (either car simulations or GTA 2/3 like games) or some helpers on top this framework especially for mobile devices. Actually, game world should be limited only by OSM maps which means that game world is almost entire Earth
 		
 Development
 
@@ -19,7 +19,7 @@ Vocabulary:
 		* OSM - OpenStreetMap which provides open map data
 		* Pbf - binary file format for storing OSM data
 			Download links for different areas (or for entire planet) can be found here: http://wiki.openstreetmap.org/wiki/Planet.osm
-		* Splitter - tool for splitting OSM files to smaller ones. Besides Mercraft engine supports regular pbf files, splitting with created index file allows to increase performance in orders of magnitude. It makes preprocessing of downloaded pbf files as must have.
+		* Splitter - tool for splitting OSM files to smaller ones. Besides ASM framework supports regular pbf files, splitting with created index file allows to increase performance in orders of magnitude. It makes preprocessing of downloaded pbf files as must have.
 			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
 			Newest version of original tool can be downloaded here: http://www.mkgmap.org.uk/download/splitter.html	
 		* SRTM - DEM files which contain elevation information for given geo coordinate. 
@@ -28,7 +28,7 @@ Vocabulary:
 		* Bounding box (bbox) - something like http://en.wikipedia.org/wiki/Minimum_bounding_box
 
 	Application specific:
-		* Mercraft - project name
+		* ActionStreetMap - project name
 		* Tile - terrain square of certain size which contains loaded game objects (buildings, roads, etc). You can see tile object and its children in editor once it is generated.
 		* MapCSS - a CSS-like language for map stylesheets (http://wiki.openstreetmap.org/wiki/MapCSS. It allows to use declarative approach to process OSM tags instead of processing them in code.
 			NOTE: App implementation uses custom syntax in some places, but the general idea is the same.
