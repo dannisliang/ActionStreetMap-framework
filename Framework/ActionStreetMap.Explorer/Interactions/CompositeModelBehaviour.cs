@@ -38,7 +38,7 @@ namespace ActionStreetMap.Explorer.Interactions
                     .AddComponent(behaviour);
 
                 // NOTE inject gameObject and model in case of our IModelBehavior
-                // which allows us to use Mercraft's Model inside Unity's MonoBehavior
+                // which allows us to use ASM's Model inside Unity's MonoBehavior
                 var modelBehaviour = component as IModelBehaviour;
                 if (modelBehaviour != null)
                 {

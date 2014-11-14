@@ -68,7 +68,7 @@ namespace ActionStreetMap.Maps.UnitTests.Infrastructure
                 var result = classA.SayHello("Ilya");
 
                 // ASSERT
-                Assert.AreEqual("Mercraft.Dynamics.IClassAProxy", classA.GetType().FullName);
+                Assert.AreEqual("ActionStreetMap.Dynamics.IClassAProxy", classA.GetType().FullName);
                 Assert.AreEqual("Hello from A1, Ilya", result);
             }
         }
@@ -112,7 +112,7 @@ namespace ActionStreetMap.Maps.UnitTests.Infrastructure
                 var result = classA.SayHello("Ilya");
 
                 // ASSERT
-                Assert.AreEqual("Mercraft.Dynamics.IClassAProxy", classA.GetType().FullName);
+                Assert.AreEqual("ActionStreetMap.Dynamics.IClassAProxy", classA.GetType().FullName);
                 Assert.AreEqual("Hello from A1, Ilya", result);
             }
         }

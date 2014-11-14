@@ -3,7 +3,7 @@
 namespace ActionStreetMap.Explorer
 {
     /// <summary>
-    ///     Represents entry point class for Mercraft logic.
+    ///     Represents entry point class for ASM logic.
     /// </summary>
     public interface IGameRunner
     {

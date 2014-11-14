@@ -52,7 +52,7 @@ namespace ActionStreetMap.Maps.UnitTests.Explorer.Tiles
 
             // ASSERT
             Assert.IsNotNull(tileLoader);
-            Assert.IsTrue(tileLoader.GetType().FullName.Contains("Mercraft.Dynamics"));
+            Assert.IsTrue(tileLoader.GetType().FullName.Contains("ActionStreetMap.Dynamics"));
         }
     }
 }

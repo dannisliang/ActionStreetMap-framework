@@ -23,7 +23,7 @@
     /// </summary>
     internal static class ProxyGen
     {
-        private const string AssemblyName = "Mercraft.Dynamics";
+        private const string AssemblyName = "ActionStreetMap.Dynamics";
         private static readonly ModuleBuilder ModuleBuilder;
         private static readonly Dictionary<Type, Type> Map = new Dictionary<Type, Type>();
 

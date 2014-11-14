@@ -25,92 +25,92 @@
     <CppCommentsFixup>False</CppCommentsFixup>
     <CleanIntermediates>True</CleanIntermediates>
     <DocumentationSources>
-      <DocumentationSource sourceFile="Mercraft.sln" />
+      <DocumentationSource sourceFile="ActionStreetMap.sln" />
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core" isDocumented="True">This namespace contains essential core classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Elevation" isDocumented="True">This namespace contains classes which process elevation data.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Elevation.Srtm" isDocumented="True">This namespace contains classes to process SRTM elevation files. You can find additional info and download links here: http://www2.jpl.nasa.gov/srtm/</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.MapCss" isDocumented="True">This namespace contains classes to work with MapCSS format. You can read more here: http://wiki.openstreetmap.org/wiki/MapCSS</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Positioning" isDocumented="True">This namespace contains classes to process geo position logic.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.MapCss.Domain" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.MapCss.Visitors" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.MapCss.Visitors.Eval" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.Positioning.Nmea" isDocumented="True">This namespace contains classes to read NMEA files. You can read more here: http://wiki.openstreetmap.org/wiki/NMEA</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Scene" isDocumented="True">This namespace contains classes which represent or used to create/process scene models (e.g. building, roads, etc.).</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Scene.Models" isDocumented="True">This namespace contains classes which represent map data primitives. So far, they are closely related to OSM primitives. You can find additional information about them here: http://wiki.openstreetmap.org/wiki/Elements.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Scene.World" isDocumented="True">This namespace contains classes which represent abstractions of real world (e.g. building, road, address, etc.)</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Scene.World.Buildings" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.Scene.World.Infos" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.Scene.World.Roads" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core.Unity" isDocumented="True">This namespace contains classes which used to substitute Unity classes</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Core.Utilities" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer" isDocumented="True">This namespace contains classes which provides the way to create application with predefined or modified configuration.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Bootstrappers" isDocumented="True">This namespace contains classes applicaiton bootstrappers. The goal of bootstrapper is registration of used classes in dependency injection container.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Infrastructure" isDocumented="True">This namespace contains infrastructure specific classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Interactions" isDocumented="True">This namespace contains classes which allow to extend created game objects with custom or MonoBehavior</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Scene" isDocumented="True">This namespace contains classes which is used to build tile specific scene.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Scene.Builders" isDocumented="True">This namespace contains classes which create game objects and models from map data primitives.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer.Themes" isDocumented="True">This namespace contains classes which provides the way to style application.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Bootstrap" isDocumented="True">This namespace contains classes which define bootstrapping flow.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Config" isDocumented="True">This namespace contains classes which provide the way to use configuration in application.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Dependencies" isDocumented="True">This namespace contains classes to support dependency injection container.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Dependencies.Interception" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Dependencies.Interception.Behaviors" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Dependencies.Lifetime" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Diagnostic" isDocumented="True">This namespace contains classes for diagnostic purposes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Formats.Json" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.IO" isDocumented="True">This namespace contains classes for working with file system.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Primitives" isDocumented="True">This namespace contains classes which represent primitive types.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure.Utilities" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm" isDocumented="True">This namespace contains classes OpenStreetMap specific classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Data" isDocumented="True">This namespace contains classes to process osm map data (e.g. pbf, xml, etc.)</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Entities" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Extensions" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Format.Xml.v0_6" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Formats.Pbf" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Helpers" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.Osm.Visitors" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core.Algorithms" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core.Elevation" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core.MapCss" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core.Tiles" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Core.World" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Themes" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Tiles" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Behaviours" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.Builders" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Explorer.Tiles.Stubs.ModelBuilders" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Infrastructure" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Infrastructure.Stubs" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Models" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Models.Buildings" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Models.Geometry" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Osm" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Maps.UnitTests.Osm.Stubs" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Buildings" isDocumented="True">This namespace contains classes to create buildings.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Buildings.Facades" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Buildings.Roofs" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Details" isDocumented="True">This namespace contains classes to create details (e.g. bus stop, traffic light, etc.).</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Geometry" isDocumented="True">This namespace contains classes which represent some geometry primitive or algorithm.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Geometry.Polygons" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Geometry.Primitives" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Geometry.ThickLine" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Models.Infos" isDocumented="True">This namespace contains classes to build info object.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Roads" isDocumented="True">This namespace contains classes to build road.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Terrain" isDocumented="True">This namespace contains classes to build Unity terrain.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models.Utils" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft (Group)" isGroup="True" isDocumented="False" />
-      <NamespaceSummaryItem name="Mercraft.Core (Group)" isGroup="True" isDocumented="True">This namespace contains essential Unity independed classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Explorer (Group)" isGroup="True" isDocumented="True">This namespace contains classes which provides the way to create application with predefined or modified configuration.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Infrastructure (Group)" isGroup="True" isDocumented="True">This namespace contains application infrastructure classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Maps (Group)" isGroup="True" isDocumented="True">This namespace contains classes OpenStreetMap specific classes.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Mercraft.Models (Group)" isGroup="True" isDocumented="True">This namespace contains classes which process models and create game objects.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core" isDocumented="True">This namespace contains essential core classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Elevation" isDocumented="True">This namespace contains classes which process elevation data.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Elevation.Srtm" isDocumented="True">This namespace contains classes to process SRTM elevation files. You can find additional info and download links here: http://www2.jpl.nasa.gov/srtm/</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.MapCss" isDocumented="True">This namespace contains classes to work with MapCSS format. You can read more here: http://wiki.openstreetmap.org/wiki/MapCSS</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Positioning" isDocumented="True">This namespace contains classes to process geo position logic.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.MapCss.Domain" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.MapCss.Visitors" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.MapCss.Visitors.Eval" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Positioning.Nmea" isDocumented="True">This namespace contains classes to read NMEA files. You can read more here: http://wiki.openstreetmap.org/wiki/NMEA</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene" isDocumented="True">This namespace contains classes which represent or used to create/process scene models (e.g. building, roads, etc.).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene.Models" isDocumented="True">This namespace contains classes which represent map data primitives. So far, they are closely related to OSM primitives. You can find additional information about them here: http://wiki.openstreetmap.org/wiki/Elements.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene.World" isDocumented="True">This namespace contains classes which represent abstractions of real world (e.g. building, road, address, etc.)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene.World.Buildings" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene.World.Infos" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Scene.World.Roads" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Unity" isDocumented="True">This namespace contains classes which used to substitute Unity classes</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Core.Utilities" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer" isDocumented="True">This namespace contains classes which provides the way to create application with predefined or modified configuration.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Bootstrappers" isDocumented="True">This namespace contains classes applicaiton bootstrappers. The goal of bootstrapper is registration of used classes in dependency injection container.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Infrastructure" isDocumented="True">This namespace contains infrastructure specific classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Interactions" isDocumented="True">This namespace contains classes which allow to extend created game objects with custom or MonoBehavior</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Scene" isDocumented="True">This namespace contains classes which is used to build tile specific scene.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Scene.Builders" isDocumented="True">This namespace contains classes which create game objects and models from map data primitives.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer.Themes" isDocumented="True">This namespace contains classes which provides the way to style application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Bootstrap" isDocumented="True">This namespace contains classes which define bootstrapping flow.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Config" isDocumented="True">This namespace contains classes which provide the way to use configuration in application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Dependencies" isDocumented="True">This namespace contains classes to support dependency injection container.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Dependencies.Interception" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Dependencies.Interception.Behaviors" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Dependencies.Lifetime" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Diagnostic" isDocumented="True">This namespace contains classes for diagnostic purposes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Formats.Json" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.IO" isDocumented="True">This namespace contains classes for working with file system.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Primitives" isDocumented="True">This namespace contains classes which represent primitive types.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure.Utilities" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Osm" isDocumented="True">This namespace contains classes OpenStreetMap specific classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Data" isDocumented="True">This namespace contains classes to process osm map data (e.g. pbf, xml, etc.)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Entities" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Extensions" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Format.Xml.v0_6" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Formats.Pbf" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Helpers" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Osm.Visitors" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core.Algorithms" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core.Elevation" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core.MapCss" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core.Tiles" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Core.World" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Themes" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Tiles" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Tiles.Stubs" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Tiles.Stubs.Behaviours" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Tiles.Stubs.Builders" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Explorer.Tiles.Stubs.ModelBuilders" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Infrastructure" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Infrastructure.Stubs" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Models" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Models.Buildings" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Models.Geometry" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Osm" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Tests.Osm.Stubs" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Buildings" isDocumented="True">This namespace contains classes to create buildings.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Buildings.Facades" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Buildings.Roofs" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Details" isDocumented="True">This namespace contains classes to create details (e.g. bus stop, traffic light, etc.).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Geometry" isDocumented="True">This namespace contains classes which represent some geometry primitive or algorithm.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Geometry.Polygons" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Geometry.Primitives" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Geometry.ThickLine" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Infos" isDocumented="True">This namespace contains classes to build info object.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Roads" isDocumented="True">This namespace contains classes to build road.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Terrain" isDocumented="True">This namespace contains classes to build Unity terrain.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models.Utils" isDocumented="True">This namespace contains utility classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap (Group)" isGroup="True" isDocumented="False" />
+      <NamespaceSummaryItem name="ActionStreetMap.Core (Group)" isGroup="True" isDocumented="True">This namespace contains essential Unity independed classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Explorer (Group)" isGroup="True" isDocumented="True">This namespace contains classes which provides the way to create application with predefined or modified configuration.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Infrastructure (Group)" isGroup="True" isDocumented="True">This namespace contains application infrastructure classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Maps (Group)" isGroup="True" isDocumented="True">This namespace contains classes OpenStreetMap specific classes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="ActionStreetMap.Models (Group)" isGroup="True" isDocumented="True">This namespace contains classes which process models and create game objects.</NamespaceSummaryItem>
     </NamespaceSummaries>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>True</NamespaceGrouping>
@@ -120,7 +120,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
-    <HelpTitle>Mercraft Documentation</HelpTitle>
+    <HelpTitle>ActionStreetMap Documentation</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
