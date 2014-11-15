@@ -10,11 +10,11 @@ namespace Assets.Scripts.Demo
     ///  it contains hardcoded paths to demo files as web player doesn't support 
     ///  reading from disk
     /// </summary>
-    public class DemoWebFileSystemService : IFileSystemService
+    public class WebFileSystemService : IFileSystemService
     {
         private readonly IPathResolver _pathResolver;
 
-        public DemoWebFileSystemService(IPathResolver pathResolver)
+        public WebFileSystemService(IPathResolver pathResolver)
         {
             _pathResolver = pathResolver;
         }

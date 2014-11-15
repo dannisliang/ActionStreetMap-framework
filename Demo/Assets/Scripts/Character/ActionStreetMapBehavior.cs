@@ -55,11 +55,11 @@ namespace Assets.Scripts.Character
             // create and register DebugConsole inside Container
             var container = new Container();
             var messageBus = new MessageBus();
-            var pathResolver = new WebPathResolver();
+            var pathResolver = new WinPathResolver();
             InitializeConsole(container);
             try
             {
-                var fileSystemService = new DemoWebFileSystemService(pathResolver);
+                var fileSystemService = new FileSystemService(pathResolver);
                 container.RegisterInstance(typeof(IPathResolver), pathResolver);
                 container.RegisterInstance(typeof (IFileSystemService), fileSystemService);
                 container.RegisterInstance<IConfigSection>(new ConfigSection(@"Config/settings.json", fileSystemService));

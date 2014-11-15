@@ -48,10 +48,8 @@ namespace Assets.Scripts.Demo
         public void OnTileBuildFinished(Tile tile)
         {
             _stopwatch.Stop();
-            System.Console.WriteLine("Tile of size {0} is loaded in {1} ms", tile.Size, _stopwatch.ElapsedMilliseconds);
-            _trace.Normal(LogTag, String.Format("DemoTileListener.OnTileBuildFinished: before GC"));
+            _trace.Normal(LogTag, String.Format("Tile of size {0} is loaded in {1} ms. Trigger GC.", tile.Size, _stopwatch.ElapsedMilliseconds));
             GC.Collect();
-            _trace.Normal(LogTag, String.Format("DemoTileListener.OnTileBuildFinished: after GC"));
             _stopwatch.Reset();
         }
 

@@ -21,7 +21,7 @@ namespace ActionStreetMap.Tests.Osm
                 BoundingBox.CreateBoundingBox(TestHelper.BerlinInvalidenStr, 100));
 
             // ASSERT
-            Assert.AreEqual(elements.Count(), 577);
+            Assert.AreEqual(577, elements.Count());
         }
     }
 }

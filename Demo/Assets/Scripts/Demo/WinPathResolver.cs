@@ -2,16 +2,16 @@
 
 namespace Assets.Scripts.Demo
 {
-    public class DemoPathResolver : IPathResolver
+    /// <summary>
+    ///     Resolves path on Windows OS
+    /// </summary>
+    public class WinPathResolver : IPathResolver
     {
         public string Resolve(string path)
         {           
             // WINDOWS
-            if (path.EndsWith(".mapcss") || path.EndsWith(".json"))
+            if (path.StartsWith("Config") || path.StartsWith("Maps"))
                 path = "Assets//Resources//" + path;
-
-            if (path.EndsWith(".mapcss"))
-                path += ".txt";
 
             return path;
         }

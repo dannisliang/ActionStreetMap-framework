@@ -19,7 +19,7 @@ namespace ActionStreetMap.Tests
         public static readonly GeoCoordinate BerlinVolksPark = new GeoCoordinate(52.526437, 13.432122);
 
         public const string ConfigTestRootFile = "test.json";
-        public const string ConfigAppRootFile = @"..\..\..\..\..\Demo\Assets\Resources\Config\settings.json";
+        public const string ConfigAppRootFile = @"..\..\..\..\Tests\TestAssets\DemoResources\Config\settings.json";
 
         public const string TestPbfFilePath = @"..\..\..\..\Tests\TestAssets\Osm\kempen.osm.pbf";
 
@@ -32,7 +32,7 @@ namespace ActionStreetMap.Tests
 
         public const string TestThemeFile = @"..\..\..\..\Tests\TestAssets\Themes\theme.json";
         public const string TestBaseMapcssFile = @"..\..\..\..\Tests\TestAssets\Mapcss\base.mapcss";
-        public const string DefaultMapcssFile = @"..\..\..\..\..\Demo\Assets\Resources\Config\themes\default\default.mapcss";
+        public const string DefaultMapcssFile = @"..\..\..\..\Tests\TestAssets\DemoResources\Config\themes\default\default.mapcss";
 
         public static GameRunner GetGameRunner()
         {
@@ -66,7 +66,7 @@ namespace ActionStreetMap.Tests
 
         public static IFileSystemService GetFileSystemService()
         {
-            return new TestFileSystemService(new TestPathResolver());
+            return new FileSystemService(new TestPathResolver());
         }
     }
 }
