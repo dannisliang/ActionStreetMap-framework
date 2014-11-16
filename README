@@ -28,7 +28,7 @@ Vocabulary:
 		* Bounding box (bbox) - something like http://en.wikipedia.org/wiki/Minimum_bounding_box
 
 	Application specific:
-		* ActionStreetMap - project name
+		* ActionStreetMap - project name. "StreetMap" is related to OpenStreetMap project, "Action" means that you can interact with map objects.
 		* Tile - terrain square of certain size which contains loaded game objects (buildings, roads, etc). You can see tile object and its children in editor once it is generated.
 		* MapCSS - a CSS-like language for map stylesheets (http://wiki.openstreetmap.org/wiki/MapCSS. It allows to use declarative approach to process OSM tags instead of processing them in code.
 			NOTE: App implementation uses custom syntax in some places, but the general idea is the same.
@@ -39,9 +39,51 @@ Vocabulary:
 
 Useful links:	
 	http://wiki.openstreetmap.org : for all OSM specific questions
-		
-Current tasks:
+	http://wiki.openstreetmap.org/wiki/Planet.osm - download map files
+	http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ SRTM files
+	
+HOW TO
+	* Use map of different places
+		1. Download pbf file of desired place from any source (e.g. http://download.geofabrik.de/)
+		2. Split it using splitter tool. This tool splits big osm file to smaller ones and creates index file which helps to increase performance.
+			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
+			Newest version of original tool can be downloaded here: http://www.mkgmap.org.uk/download/splitter.html	
+		3. Download elevation data file (SRTM) of given area from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Unpack it.
+		4. Modify Assets\Resources\Config\settings.json config:
+			* "mapdata" should be set to folder which contains split result of pbf file.
+			* "elevationdata" should be set to folder which contains downloaded SRTM files with .hgt extension
+			* "position" should be set to geo coordinate of desired place
+
+FAQ
+	* I got exception like "Exception: SRTM data cell not found: Maps/elevation\N52E013.hgt"
+		Reason: application cannot find elevation data file of given area.
+		Fix: Download N52E013 (use filename from your error message!) from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Then ensure that "elevationdata" is set to folder which contains that file.
+	* I got exception like "FileNotFoundException: Could not find file "<...>\Demo\Assets\Resources\Maps\osm\berlin\00000013.osm.pbf""
+		Reason: areas.list is an index file and it represents a result of splitting pbf file. So, it contains record for given area and this record says that 00000013.osm.pbf contains data
+		for it. However, this file cannot be found
+		Fix: Check whether all files which are described in areas.list present on disk.
+	* I got empty terrain
+		Reason: No areas.list were found.
+		Fix: Follow "Use map of different places" section from HOW TO
+	* Strange buildings, terrain...
+		Reason: bugs in ASM framework or mapCSS rules
+		Fix: Check bug list and report bug if it's something new. Please provides steps how to reproduce.
+
+Known issues:
+	* No processing of multipolygon inner ways. 
+	* Issues with multipolygon processing: no parts of buildings. Example: 55.75406,37.62116 (Moscow, Red square)
+	* Wrong elevation smooth processing
+	* Cross tile elevation issues with buildings
+	* Overlapping roads
+	* Trees/grass on roads
+	* No sea rendering
+	* Not all roof types are supported
+	* UV mapping of roof is wrong
+	...
+
+Backlog:
 	Top priority:
+		* Multipolygon improvement
 		* Improve road processing by road network creation and improve their rendering
 		* Decrease tile loading time
 	
