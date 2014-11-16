@@ -49,11 +49,11 @@ HOW TO
 			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
 			Newest version of original tool can be downloaded here: http://www.mkgmap.org.uk/download/splitter.html	
 		3. Download elevation data file (SRTM) of given area from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Unpack it.
+			NOTE: probably, you have to change y-position of your character in Editor before launch. It depends on elevation in your place.
 		4. Modify Assets\Resources\Config\settings.json config:
 			* "mapdata" should be set to folder which contains split result of pbf file.
 			* "elevationdata" should be set to folder which contains downloaded SRTM files with .hgt extension
 			* "position" should be set to geo coordinate of desired place
-
 FAQ
 	* I got exception like "Exception: SRTM data cell not found: Maps/elevation\N52E013.hgt"
 		Reason: application cannot find elevation data file of given area.
