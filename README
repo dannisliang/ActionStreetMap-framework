@@ -8,7 +8,7 @@ The main goal is simulate real city which includes:
 	* using some external services to extend environment (for example, weather, famous places, events, public transport schedule, etc.) (Not started)
 	* Multiplayer (Not started)
 
-It should be possible to build different 3D-games (either car simulations or GTA 2/3 like games) or some helpers on top this framework especially for mobile devices. Actually, game world should be limited only by OSM maps which means that game world is almost entire Earth
+It should be possible to build different 3D-games (either car simulations or GTA 2/3 like games) or some map tools on top this framework especially for mobile devices. Actually, game world should be limited only by OSM maps which means that game world is almost entire Earth.
 		
 Development
 
@@ -43,7 +43,7 @@ Useful links:
 	http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ SRTM files
 	
 HOW TO
-	* Use map of different places
+	* Use map of different place
 		1. Download pbf file of desired place from any source (e.g. http://download.geofabrik.de/)
 		2. Split it using splitter tool. This tool splits big osm file to smaller ones and creates index file which helps to increase performance.
 			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
@@ -55,6 +55,16 @@ HOW TO
 			* "elevationdata" should be set to folder which contains downloaded SRTM files with .hgt extension
 			* "position" should be set to geo coordinate of desired place
 FAQ
+	* I don't like building/roads textures. Is it possible to use custom ones?
+		Yes, it's possible. ASM engine provides the way to customize rendered models using themes depending on OSM data. By default, RAL atlas texture is used (http://en.wikipedia.org/wiki/RAL_colour_standard) which allows to use different colors. However, you can write your own theme which will use real facade textures for buildings.
+	* I don't like terrain textures. Is it possible to change them?
+		Yes, it's possible. MapCSS file is responsible for that.
+	* I got empty terrain
+		Reason: No areas.list were found.
+		Fix: Follow "Use map of different places" section from HOW TO
+	* Strange buildings, terrain...
+		Reason: bugs in ASM framework or mapCSS rules
+		Fix: Check bug list and report bug if it's something new. Please provides steps how to reproduce.
 	* I got exception like "Exception: SRTM data cell not found: Maps/elevation\N52E013.hgt"
 		Reason: application cannot find elevation data file of given area.
 		Fix: Download N52E013 (use filename from your error message!) from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Then ensure that "elevationdata" is set to folder which contains that file.
@@ -62,15 +72,9 @@ FAQ
 		Reason: areas.list is an index file and it represents a result of splitting pbf file. So, it contains record for given area and this record says that 00000013.osm.pbf contains data
 		for it. However, this file cannot be found
 		Fix: Check whether all files which are described in areas.list present on disk.
-	* I got empty terrain
-		Reason: No areas.list were found.
-		Fix: Follow "Use map of different places" section from HOW TO
-	* Strange buildings, terrain...
-		Reason: bugs in ASM framework or mapCSS rules
-		Fix: Check bug list and report bug if it's something new. Please provides steps how to reproduce.
 
 Known issues:
-	* No processing of multipolygon inner ways. 
+	* No processing of multipolygon inner ways. It leads to missing areas (lakes, green zones, buildings, etc.)
 	* Issues with multipolygon processing: no parts of buildings. Example: 55.75406,37.62116 (Moscow, Red square)
 	* Wrong elevation smooth processing
 	* Cross tile elevation issues with buildings
@@ -83,7 +87,7 @@ Known issues:
 
 Backlog:
 	Top priority:
-		* Multipolygon improvement
+		* Multipolygon improvements
 		* Improve road processing by road network creation and improve their rendering
 		* Decrease tile loading time
 	
@@ -94,8 +98,20 @@ Backlog:
 		* Visualize zone loading process
 		* improve/refactor DebugConsole: console should support various commands (e.g. statistic, osm specific debug info)
 
+Structure
+	ActionStreetMap consists of two repositories:
+		* Framework - source code of ASM framework. Microsoft Visual Studio 2013 solution, .NET 3.5 as target platform, Unity is referenced via UnityEngine.dll assembly.
+		* Demo - source code of usage example. Unity project, Framework is referenced via assemblies.
+		
 Software architecture
-	TODO
+	* ASM is built using Component Root and Dependency Injection patterns
+	* ASM consists of the following projects:
+		* ActionStreetMap.Infrastructure - contains classes which helps to create framework.
+		* ActionStreetMap.Core - contains classes of core map logic (e.g. MapCSS parser, Scene classes).
+		* ActionStreetMap.Osm - contains OSM specific classes (e.g OSM parser, element visitors).
+		* ActionStreetMap.Models - contains classes which builds unity game objects from real world abstractions.
+		* ActionStreetMap.Explorer - contains application specific logic (e.g. MapCSS declaration rules, model builders).
+		* ActionStreetMap.Tests - contains unit and integration tests. Also has Main function to run logic as console application (useful for profiling).
 	
 Development Tips:
 	Do not use Singleton pattern
