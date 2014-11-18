@@ -87,7 +87,7 @@ Known issues:
 
 Backlog:
 	Top priority:
-		* Multipolygon improvements
+		* Multi-polygon improvements
 		* Improve road processing by road network creation and improve their rendering
 		* Decrease tile loading time
 	
@@ -98,6 +98,11 @@ Backlog:
 		* Visualize zone loading process
 		* improve/refactor DebugConsole: console should support various commands (e.g. statistic, osm specific debug info)
 
+Open questions (or ideas):
+	* How to generate side walks between buildings and roads?
+	* How to build and render road network?
+	* How to allow user to select start position of given area (would be nice to show 2D OSM map)?
+		
 Structure
 	ActionStreetMap consists of two repositories:
 		* Framework - source code of ASM framework. Microsoft Visual Studio 2013 solution, .NET 3.5 as target platform, Unity is referenced via UnityEngine.dll assembly.
