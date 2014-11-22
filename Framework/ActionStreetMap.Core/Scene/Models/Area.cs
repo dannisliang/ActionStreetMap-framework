@@ -15,7 +15,7 @@ namespace ActionStreetMap.Core.Scene.Models
         /// <summary>
         ///     Gets or sets points for holes inside this polygon.
         /// </summary>
-        public List<GeoCoordinate> Holes { get; set; }
+        public List<List<GeoCoordinate>> Holes { get; set; }
 
         /// <inheritdoc />
         public override bool IsClosed

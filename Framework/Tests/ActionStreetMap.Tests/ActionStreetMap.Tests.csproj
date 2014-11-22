@@ -86,6 +86,7 @@
     <Compile Include="Osm\LocationInfoTests.cs" />
     <Compile Include="Osm\NodeTests.cs" />
     <Compile Include="Osm\PbfIndexListElementSourceTests.cs" />
+    <Compile Include="Osm\MultipolygonProcessorTests.cs" />
     <Compile Include="Osm\TestModelVisitor.cs" />
     <Compile Include="Osm\WayTests.cs" />
     <Compile Include="PerformanceLogger.cs" />

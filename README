@@ -101,7 +101,7 @@ Backlog:
 Open questions (or ideas):
 	* How to generate side walks between buildings and roads?
 	* How to build and render road network?
-	* How to allow user to select start position of given area (would be nice to show 2D OSM map)?
+	* How to allow user to select start position of given area? So far user has to modify config (would be nice to show 2D OSM map).
 		
 Structure
 	ActionStreetMap consists of two repositories:

@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Data\XmlElementSource.cs" />
     <Compile Include="Formats\Xml\XmlSimpleConverter.cs" />
+    <Compile Include="Helpers\MultipolygonProcessor.cs" />
     <Compile Include="OsmTileLoader.cs" />
     <Compile Include="Visitors\NodeVisitor.cs" />
     <Compile Include="Visitors\RelationVisitor.cs" />
