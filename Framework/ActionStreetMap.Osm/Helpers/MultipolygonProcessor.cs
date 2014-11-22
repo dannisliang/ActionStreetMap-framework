@@ -8,15 +8,15 @@ using Area = ActionStreetMap.Core.Scene.Models.Area;
 namespace ActionStreetMap.Osm.Helpers
 {
     /// <summary>
-    ///     Implements algorithm to build Model areas from multipolygon relation
+    ///     Implements algorithm to build Model areas from multipolygon relation.
     /// </summary>
     internal static class MultipolygonProcessor
     {
         /// <summary>
-        ///     Fills area list by processing multipolygons from given relation
+        ///     Fills area list by processing multipolygons from given relation.
         /// </summary>
-        /// <param name="relation">Relation</param>
-        /// <param name="areas">List of areas</param>
+        /// <param name="relation">Relation.</param>
+        /// <param name="areas">List of areas.</param>
         public static void FillAreas(Relation relation, List<Area> areas)
         {
             string actualValue;
@@ -35,6 +35,7 @@ namespace ActionStreetMap.Osm.Helpers
                 var way = member.Member as Way;
                 if (way == null || !way.Nodes.Any())
                     continue;
+
                 if (member.Role == "outer")
                     outerIndecies.Add(sequences.Count);
                 else if (member.Role == "inner")
@@ -42,7 +43,8 @@ namespace ActionStreetMap.Osm.Helpers
                 else 
                     continue;
               
-                var sequence = new NodeSequence(way);
+                // TODO what should be used as Id?
+                var sequence = new NodeSequence(relation.Id, way);
                 if (!sequence.IsClosed)
                     allClosed = false;
                 sequences.Add(sequence);
@@ -61,6 +63,7 @@ namespace ActionStreetMap.Osm.Helpers
             var outer = sequences[outerIndecies[0]];
             areas.Add(new Area()
             {
+                Id = outer.Id,
                 Tags = GetTags(relation, outer),
                 Points = outer.Coordinates,
                 Holes = innerIndecies.Select(i => sequences[i].Coordinates).ToList()
@@ -69,7 +72,6 @@ namespace ActionStreetMap.Osm.Helpers
 
         private static void ComplexCase(Relation relation, List<Area> areas, List<NodeSequence> sequences)
         {
-            // TODO set correct tags!
             var rings = CreateRings(sequences);
             if (rings == null)
                 return;
@@ -95,11 +97,9 @@ namespace ActionStreetMap.Osm.Helpers
                     NodeSequence assignedSequence = null;
                     foreach (NodeSequence sequence in sequences)
                     {
-                        if (currentRing.TryAdd(sequence))
-                        {
-                            assignedSequence = sequence;
-                            break;
-                        }
+                        if (!currentRing.TryAdd(sequence)) continue;
+                        assignedSequence = sequence;
+                        break;
                     }
 
                     if (assignedSequence != null)
@@ -137,12 +137,11 @@ namespace ActionStreetMap.Osm.Helpers
                             break;
                         }
                     }
+                    if (containedInOtherRings) 
+                        continue;
 
-                    if (!containedInOtherRings)
-                    {
-                        outer = candidate;
-                        break;
-                    }
+                    outer = candidate;
+                    break;
                 }
 
                 // find inner rings of that ring
@@ -160,7 +159,6 @@ namespace ActionStreetMap.Osm.Helpers
                                 break;
                             }
                         }
-
                         if (!containedInOthers)
                             inners.Add(ring);
                     }
@@ -173,7 +171,7 @@ namespace ActionStreetMap.Osm.Helpers
 
                 var area = new Area()
                 {
-                    Id = relation.Id,
+                    Id = outer.Id,
                     Tags = GetTags(relation, outer),
                     Points = outer.Coordinates,
                     Holes = holes
@@ -200,17 +198,20 @@ namespace ActionStreetMap.Osm.Helpers
         {
             private readonly List<Node> _nodes;
             private List<GeoCoordinate> _coordinates;
+            private long _id;
 
             public Dictionary<string, string> Tags { get; set; } 
 
-            public NodeSequence(Way way)
+            public NodeSequence(long id, Way way)
             {
                 _nodes = new List<Node>(way.Nodes);
+                _id = id;
                 Tags = way.Tags;
             }
 
             public NodeSequence(NodeSequence sequence)
             {
+                _id = sequence.Id;
                 _nodes = new List<Node>(sequence._nodes);
             }
 
@@ -271,6 +272,8 @@ namespace ActionStreetMap.Osm.Helpers
 
             public bool IsClosed { get { return _nodes.First().Coordinate == _nodes.Last().Coordinate; } }
 
+            public long Id { get { return _id; }}
+
             public List<GeoCoordinate> Coordinates
             {
                 get { return _coordinates ?? (_coordinates = _nodes.Select(n => n.Coordinate).ToList()); }
@@ -295,7 +298,7 @@ namespace ActionStreetMap.Osm.Helpers
             }
 
             /// <summary>
-            ///     Checks whether point is in polygon. Have this function here so far
+            ///     Checks whether point is in polygon. Define this function here so far
             /// </summary>
             private static bool IsPointInPolygon(GeoCoordinate point, List<GeoCoordinate> verts)
             {
@@ -311,7 +314,6 @@ namespace ActionStreetMap.Osm.Helpers
                 return c;
             }
         }
-
         #endregion
     }
 }

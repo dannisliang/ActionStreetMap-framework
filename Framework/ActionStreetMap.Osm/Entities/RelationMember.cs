@@ -1,4 +1,6 @@
-﻿namespace ActionStreetMap.Osm.Entities
+﻿using System;
+
+namespace ActionStreetMap.Osm.Entities
 {
     /// <summary>
     ///     Represents simple relation member.
@@ -19,5 +21,10 @@
         ///     Member role.
         /// </summary>
         public string Role { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0}[{1}]:{2}", Role, MemberId, Member);
+        }
     }
 }
