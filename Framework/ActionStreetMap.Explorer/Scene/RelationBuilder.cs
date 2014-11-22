@@ -7,15 +7,25 @@ using ActionStreetMap.Infrastructure.Diagnostic;
 
 namespace ActionStreetMap.Explorer.Scene
 {
+    /// <summary>
+    ///     Provides the way to build models from relations. 
+    /// </summary>
     public class RelationBuilder
     {
         private const string OutlineTypeKey = "outline";
         private HashSet<long> _outlines = new HashSet<long>(); 
         private List<Relation> _relations = new List<Relation>(32);
 
+        /// <summary>
+        ///     Gets or sets trace.
+        /// </summary>
         [Dependency]
         public ITrace Trace { get; set; }
 
+        /// <summary>
+        ///     Adds relation to collection.
+        /// </summary>
+        /// <param name="relation"></param>
         public void Add(Relation relation)
         {
             _relations.Add(relation);
@@ -30,6 +40,10 @@ namespace ActionStreetMap.Explorer.Scene
             // TODO process parts
         }
 
+        /// <summary>
+        ///     Visits and builds models from relations.
+        /// </summary>
+        /// <param name="visitor">ModelVisitor.</param>
         public void Build(IModelVisitor visitor)
         {
             foreach (var relation in _relations)

@@ -64,6 +64,7 @@ namespace ActionStreetMap.Explorer.Scene
             _tile.GameObject = _gameObjectFactory.CreateNew("tile");
         }
 
+        /// <inheritdoc />
         public void VisitRelation(Relation relation)
         {
             _relationBuilder.Add(relation);
