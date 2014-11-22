@@ -29,6 +29,7 @@ namespace ActionStreetMap.Explorer.Scene
         private readonly IModelBehaviour[] _behaviours;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly IThemeProvider _themeProvider;
+        private readonly RelationBuilder _relationBuilder;
         private readonly Stylesheet _stylesheet;
 
         private Tile _tile;
@@ -39,7 +40,7 @@ namespace ActionStreetMap.Explorer.Scene
         [Dependency]
         public TileModelLoader(IGameObjectFactory gameObjectFactory, IThemeProvider themeProvider,
             IHeightMapProvider heighMapProvider, ITerrainBuilder terrainBuilder, IStylesheetProvider stylesheetProvider,
-            IEnumerable<IModelBuilder> builders, IEnumerable<IModelBehaviour> behaviours,
+            RelationBuilder relationBuilder, IEnumerable<IModelBuilder> builders, IEnumerable<IModelBehaviour> behaviours,
             IObjectPool objectPool)
         {
             _heighMapProvider = heighMapProvider;
@@ -50,6 +51,7 @@ namespace ActionStreetMap.Explorer.Scene
             _behaviours = behaviours.ToArray();
             _gameObjectFactory = gameObjectFactory;
             _themeProvider = themeProvider;
+            _relationBuilder = relationBuilder;
             _stylesheet = stylesheetProvider.Get();
         }
 
@@ -60,6 +62,11 @@ namespace ActionStreetMap.Explorer.Scene
         {
             _tile = tile;
             _tile.GameObject = _gameObjectFactory.CreateNew("tile");
+        }
+
+        public void VisitRelation(Relation relation)
+        {
+            _relationBuilder.Add(relation);
         }
 
         /// <inheritdoc />
@@ -116,6 +123,9 @@ namespace ActionStreetMap.Explorer.Scene
         /// <inheritdoc />
         public void VisitCanvas(Canvas canvas)
         {
+            // NOTE relation builder should be run after all models are visited
+            _relationBuilder.Build(this);
+
             var rule = _stylesheet.GetCanvasRule(canvas);
 
             if (_tile.HeightMap.IsFlat)

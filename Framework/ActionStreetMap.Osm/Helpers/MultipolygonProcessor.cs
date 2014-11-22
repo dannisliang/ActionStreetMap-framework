@@ -19,11 +19,6 @@ namespace ActionStreetMap.Osm.Helpers
         /// <param name="areas">List of areas.</param>
         public static void FillAreas(Relation relation, List<Area> areas)
         {
-            string actualValue;
-            if (relation.Tags == null || !relation.Tags.TryGetValue("type", out actualValue) ||
-                actualValue != "multipolygon")
-                return;
-
             // see http://wiki.openstreetmap.org/wiki/Relation:multipolygon/Algorithm
             bool allClosed = true;
             int memberCount = relation.Members.Count;
@@ -61,10 +56,16 @@ namespace ActionStreetMap.Osm.Helpers
         {
             // TODO set correct tags!
             var outer = sequences[outerIndecies[0]];
+            
+            // TODO investigate case of null/empty tags
+            var tags = GetTags(relation, outer);
+            if (tags == null || !tags.Any())
+                return;
+
             areas.Add(new Area()
             {
                 Id = outer.Id,
-                Tags = GetTags(relation, outer),
+                Tags = tags,
                 Points = outer.Coordinates,
                 Holes = innerIndecies.Select(i => sequences[i].Coordinates).ToList()
             });
@@ -169,15 +170,18 @@ namespace ActionStreetMap.Osm.Helpers
                 foreach (NodeSequence innerRing in inners)
                     holes.Add(innerRing.Coordinates);
 
-                var area = new Area()
+                // TODO investigate case of null/empty tags
+                var tags = GetTags(relation, outer);
+                if (tags != null && tags.Any())
                 {
-                    Id = outer.Id,
-                    Tags = GetTags(relation, outer),
-                    Points = outer.Coordinates,
-                    Holes = holes
-                };
-
-                areas.Add(area);
+                    areas.Add(new Area()
+                    {
+                        Id = outer.Id,
+                        Tags = tags,
+                        Points = outer.Coordinates,
+                        Holes = holes
+                    });
+                }
 
                 rings.Remove(outer);
                 // remove all innerRings

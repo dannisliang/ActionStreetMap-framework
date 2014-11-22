@@ -8,10 +8,16 @@ namespace ActionStreetMap.Core.Scene
     public interface IModelVisitor
     {
         /// <summary>
-        ///     Visits tile.
+        ///     Visits tile. Called first.
         /// </summary>
         /// <param name="tile">Tile.</param>
         void VisitTile(Tile tile);
+
+        /// <summary>
+        ///     Visits relation.
+        /// </summary>
+        /// <param name="relation">Relation.</param>
+        void VisitRelation(Relation relation);
 
         /// <summary>
         ///     Visits area.
@@ -32,7 +38,7 @@ namespace ActionStreetMap.Core.Scene
         void VisitNode(Node node);
 
         /// <summary>
-        ///     Visits canvas.
+        ///     Visits canvas. Called last.
         /// </summary>
         /// <param name="canvas">Canvas.</param>
         void VisitCanvas(Canvas canvas);

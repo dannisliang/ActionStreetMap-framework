@@ -56,6 +56,7 @@
     <Compile Include="..\..\AssemblyInfoBase.cs">
       <Link>Properties\AssemblyInfoBase.cs</Link>
     </Compile>
+    <Compile Include="ConsoleTrace.cs" />
     <Compile Include="Core\Algorithms\PointHelperTests.cs" />
     <Compile Include="Core\Elevation\HeightMapTests.cs" />
     <Compile Include="Core\Algorithms\ProjectionTests.cs" />

@@ -2,11 +2,12 @@
 using System.Linq;
 using ActionStreetMap.Core;
 using ActionStreetMap.Core.Scene.Models;
-using ActionStreetMap.Osm.Entities;
 using ActionStreetMap.Osm.Helpers;
 using NUnit.Framework;
 using Node = ActionStreetMap.Osm.Entities.Node;
 using Way = ActionStreetMap.Osm.Entities.Way;
+using Relation = ActionStreetMap.Osm.Entities.Relation;
+using RelationMember = ActionStreetMap.Osm.Entities.RelationMember;
 
 namespace ActionStreetMap.Tests.Osm
 {
@@ -24,7 +25,8 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag","tags"}
                 },
                 Members = new List<RelationMember>()
                 {
@@ -55,7 +57,8 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag","tags"}
                 },
                 Members = new List<RelationMember>()
                 {
@@ -92,15 +95,16 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag", "tags"}
                 },
                 Members = new List<RelationMember>()
                 {
                     CreateRelationWayMember("outer", new MapPoint(0, 0), new MapPoint(3, 5),
-                        new MapPoint(7, 3)), 
-                      CreateRelationWayMember("outer", new MapPoint(7, 3), new MapPoint(8, -1), 
-                      new MapPoint(3, -4), new MapPoint(0, 0)),
-                  
+                        new MapPoint(7, 3)),
+                    CreateRelationWayMember("outer", new MapPoint(7, 3), new MapPoint(8, -1),
+                        new MapPoint(3, -4), new MapPoint(0, 0)),
+
                 }
             };
             var areas = new List<Area>();
@@ -123,7 +127,8 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag","tags"}
                 },
                 Members = new List<RelationMember>()
                 {
@@ -155,7 +160,8 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag","tags"}
                 },
                 Members = new List<RelationMember>()
                 {
@@ -197,7 +203,8 @@ namespace ActionStreetMap.Tests.Osm
             {
                 Tags = new Dictionary<string, string>()
                 {
-                    {"type", "multipolygon"}
+                    {"type", "multipolygon"},
+                    {"tag","tags"}
                 },
                 Members = new List<RelationMember>()
                 {

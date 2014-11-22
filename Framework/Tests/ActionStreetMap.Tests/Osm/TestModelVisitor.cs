@@ -7,6 +7,7 @@ namespace ActionStreetMap.Tests.Osm
 {
     public class TestModelVisitor: IModelVisitor
     {
+        public List<Relation> Relations = new List<Relation>();
         public List<Area> Areas = new List<Area>();
         public List<Way> Ways = new List<Way>();
         public List<Node> Nodes = new List<Node>();
@@ -15,6 +16,11 @@ namespace ActionStreetMap.Tests.Osm
         public void VisitTile(Tile tile)
         {
             
+        }
+
+        public void VisitRelation(Relation relation)
+        {
+            Relations.Add(relation);
         }
 
         public void VisitArea(Area area)

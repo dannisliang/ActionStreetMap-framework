@@ -29,7 +29,7 @@ namespace ActionStreetMap.Tests.Explorer.Tiles.Stubs
 
         public override bool Run()
         {
-            Container.Register(Component.For<ITrace>().Use<DefaultTrace>());
+            Container.Register(Component.For<ITrace>().Use<ConsoleTrace>());
 
             Container.Register(Component.For<IGameObjectFactory>().Use<TestGameObjectFactory>());
 

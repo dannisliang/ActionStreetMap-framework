@@ -79,6 +79,9 @@ namespace ActionStreetMap.Explorer.Bootstrappers
 
             // terrain
             Container.Register(Component.For<ITerrainBuilder>().Use<TerrainBuilder>().Singleton());
+
+            // relation specific processing
+            Container.Register(Component.For<RelationBuilder>().Use<RelationBuilder>().Singleton());
             
             // roads
             Container.Register(Component.For<IRoadStyleProvider>().Use<RoadStyleProvider>().Singleton());
