@@ -10,7 +10,7 @@
 <li>using some external services to extend environment (e.g. weather, famous places, events, public transport schedule, etc.) (Not started).</li>
 <li>Multiplayer (Not started).</li>
 </ul>
-<p>The engine can be used to build different 3D-games (like car simulations or GTA 2/3 ) or for some map tools on top of this framework (target is mobile devices). Actually, in this case the game world can be limited only by OSM maps which means that it will cover almost entire Earth.</li></p>
+<p>The engine can be used to build different 3D-games (like car simulations or GTA 2/3 ) or for some map tools on top of this framework (target is mobile devices). Actually, in this case the game world can be limited only by OSM maps which means that it will cover almost entire Earth. More info can be found <a href="http://actionstreetmap.github.io/demo/">here</a>.</p>
 
 <p>Used technologies: Unity3D, C# (JavaScript is possible for Unity scripting in Demo app)</p>
 			
