@@ -1,4 +1,3 @@
-```html
 <h2>Description</h2>
 <p>ActionStreetMap is an engine for building real city environment dynamically using OSM data.</p>
 <img src="http://actionstreetmap.github.io/demo/images/Moscow_tower.png"/>
@@ -41,4 +40,3 @@
 	<li>Follow GRASP and SOLID principles.</li>
 	<li>Use TDD approach.</li>
 </ul>
-```
