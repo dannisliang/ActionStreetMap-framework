@@ -1,125 +1,42 @@
-ActionStreetMap (ASM) is engine for building real city environment dynamically using OSM data.
+<h2>Description</h2>
+<p>ActionStreetMap is an engine for building real city environment dynamically using OSM data.</p>
+<img src="http://actionstreetmap.github.io/demo/images/Moscow_tower.png"/>
+<p>The main goal is to simulate a real city, including following options:</p>
+<ul>
+<li>rendering of different models (e.g. buildings, roads, parks, rivers, etc.) using OSM data for given location and using terrain tiling approach (DONE partially).</li>
+<li>rendering of non-flat world by using Data Elevation Model (DEM) files (DONE partially).</li>
+<li>adding a character to the scene, which makes it capable to interact with the environment (DONE partially).</li>
+<li>filling environment with people, cars, animals, which have realistic behaviour (Not started.)</li>
+<li>using some external services to extend environment (e.g. weather, famous places, events, public transport schedule, etc.) (Not started).</li>
+<li>Multiplayer (Not started).</li>
+</ul>
+<p>The engine can be used to build different 3D-games (like car simulations or GTA 2/3 ) or for some map tools on top of this framework (target is mobile devices). Actually, in this case the game world can be limited only by OSM maps which means that it will cover almost entire Earth.</li></p>
 
-The main goal is simulate real city which includes:
-	* rendering of different models like buildings, roads, parks, rivers, etc. using OSM data for given location using terrain tiling approach (DONE partially)
-	* render non-flat world by using Data Elevation Model (DEM) files (DONE partially)
-	* add character to the scene which is capable to interact with this environment (DONE partially)
-	* fill environment by people, cars, animals with realistic behaviour (Not started)
-	* using some external services to extend environment (for example, weather, famous places, events, public transport schedule, etc.) (Not started)
-	* Multiplayer (Not started)
-
-It should be possible to build different 3D-games (either car simulations or GTA 2/3 like games) or some map tools on top this framework especially for mobile devices. Actually, game world should be limited only by OSM maps which means that game world is almost entire Earth.
-		
-Development
-
-	Technologies: Unity3D, C# (JavaScript is possible for Unity scripting)
-	
-Vocabulary:
-	General:
-		* OSM - OpenStreetMap which provides open map data
-		* Pbf - binary file format for storing OSM data
-			Download links for different areas (or for entire planet) can be found here: http://wiki.openstreetmap.org/wiki/Planet.osm
-		* Splitter - tool for splitting OSM files to smaller ones. Besides ASM framework supports regular pbf files, splitting with created index file allows to increase performance in orders of magnitude. It makes preprocessing of downloaded pbf files as must have.
-			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
-			Newest version of original tool can be downloaded here: http://www.mkgmap.org.uk/download/splitter.html	
-		* SRTM - DEM files which contain elevation information for given geo coordinate. 
-			Can be downloaded for free: http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/
-		* Way/Node/Relation - OSM primitives (http://wiki.openstreetmap.org/wiki/Elements)
-		* Bounding box (bbox) - something like http://en.wikipedia.org/wiki/Minimum_bounding_box
-
-	Application specific:
-		* ActionStreetMap - project name. "StreetMap" is related to OpenStreetMap project, "Action" means that you can interact with map objects.
-		* Tile - terrain square of certain size which contains loaded game objects (buildings, roads, etc). You can see tile object and its children in editor once it is generated.
-		* MapCSS - a CSS-like language for map stylesheets (http://wiki.openstreetmap.org/wiki/MapCSS. It allows to use declarative approach to process OSM tags instead of processing them in code.
-			NOTE: App implementation uses custom syntax in some places, but the general idea is the same.
+<p>Used technologies: Unity3D, C# (JavaScript is possible for Unity scripting in Demo app)</p>
 			
-		* DebugConsole - debugger console which is available in game. Provides the way to see log messages 
-			and perform custom commands like get information about current loaded zone/tile, etc.
-			NOTE: under development
+<h2>Structure</h2>
+<p>ActionStreetMap consists of two repositories:</p>
+<ul>
+	<li><a href="https://github.com/ActionStreetMap/framework">Framework</a> contains source code of ASM framework (Microsoft Visual Studio 2013 solution, .NET 3.5 as target platform, Unity is referenced via UnityEngine.dll assembly).</li>
+	<li><a href="https://github.com/ActionStreetMap/demo">Demo</a> contains source code of showcase (Unity project, ASM framework is referenced via assemblies).</li>
+</ul>
 
-Useful links:	
-	http://wiki.openstreetmap.org : for all OSM specific questions
-	http://wiki.openstreetmap.org/wiki/Planet.osm - download map files
-	http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ SRTM files
-	
-HOW TO
-	* Use map of different place
-		1. Download pbf file of desired place from any source (e.g. http://download.geofabrik.de/)
-		2. Split it using splitter tool. This tool splits big osm file to smaller ones and creates index file which helps to increase performance.
-			NOTE: this tool is committed to project repository: Tools\Splitter. Please read the corresponding README file. Actually, all you need is to run bat file with arguments.
-			Newest version of original tool can be downloaded here: http://www.mkgmap.org.uk/download/splitter.html	
-		3. Download elevation data file (SRTM) of given area from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Unpack it.
-			NOTE: probably, you have to change y-position of your character in Editor before launch. It depends on elevation in your place.
-		4. Modify Assets\Resources\Config\settings.json config:
-			* "mapdata" should be set to folder which contains split result of pbf file.
-			* "elevationdata" should be set to folder which contains downloaded SRTM files with .hgt extension
-			* "position" should be set to geo coordinate of desired place
-FAQ
-	* I don't like building/roads textures. Is it possible to use custom ones?
-		Yes, it's possible. ASM engine provides the way to customize rendered models using themes depending on OSM data. By default, RAL atlas texture is used (http://en.wikipedia.org/wiki/RAL_colour_standard) which allows to use different colors. However, you can write your own theme which will use real facade textures for buildings.
-	* I don't like terrain textures. Is it possible to change them?
-		Yes, it's possible. MapCSS file is responsible for that.
-	* I got empty terrain
-		Reason: No areas.list were found.
-		Fix: Follow "Use map of different places" section from HOW TO
-	* Strange buildings, terrain...
-		Reason: bugs in ASM framework or mapCSS rules
-		Fix: Check bug list and report bug if it's something new. Please provides steps how to reproduce.
-	* I got exception like "Exception: SRTM data cell not found: Maps/elevation\N52E013.hgt"
-		Reason: application cannot find elevation data file of given area.
-		Fix: Download N52E013 (use filename from your error message!) from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/ . Then ensure that "elevationdata" is set to folder which contains that file.
-	* I got exception like "FileNotFoundException: Could not find file "<...>\Demo\Assets\Resources\Maps\osm\berlin\00000013.osm.pbf""
-		Reason: areas.list is an index file and it represents a result of splitting pbf file. So, it contains record for given area and this record says that 00000013.osm.pbf contains data
-		for it. However, this file cannot be found
-		Fix: Check whether all files which are described in areas.list present on disk.
-
-Known issues:
-	* No processing of multipolygon inner ways. It leads to missing areas (lakes, green zones, buildings, etc.)
-	* Issues with multipolygon processing: no parts of buildings. Example: 55.75406,37.62116 (Moscow, Red square)
-	* Wrong elevation smooth processing
-	* Cross tile elevation issues with buildings
-	* Overlapping roads
-	* Trees/grass on roads
-	* No sea rendering
-	* Not all roof types are supported
-	* UV mapping of roof is wrong
-	...
-
-Backlog:
-	Top priority:
-		* Multi-polygon improvements
-		* Improve road processing by road network creation and improve their rendering
-		* Decrease tile loading time
-	
-	Core features:
-		* Add cars, people, etc. (requires AI and logic for putting these objects into world)
 		
-	Nice to have:
-		* Visualize zone loading process
-		* improve/refactor DebugConsole: console should support various commands (e.g. statistic, osm specific debug info)
+<h2>Software architecture</h2>
+<p>ASM is built using Component Root and Dependency Injection patterns and consists of the following projects:</p>
+<ul>
+<li><b>ActionStreetMap.Infrastructure</b> - contains classes which helps to create framework.</li>
+<li><b>ActionStreetMap.Core</b> contains classes of core map logic (e.g. MapCSS parser, Scene classes).</li>
+<li><b>ActionStreetMap.Osm</b> contains OSM specific classes (e.g OSM parser, element visitors).</li>
+<li><b>ActionStreetMap.Models</b> contains classes which builds unity game objects from real world abstractions.</li>
+<li><b>ActionStreetMap.Explorer</b> contains application specific logic (e.g. MapCSS declaration rules, model builders).</li>
+<li><b>ActionStreetMap.Tests</b> contains unit and integration tests. Also has Main function to run logic as console application (useful for profiling).</li>
+</ul>
 
-Open questions (or ideas):
-	* How to generate side walks between buildings and roads?
-	* How to build and render road network?
-	* How to allow user to select start position of given area? So far user has to modify config (would be nice to show 2D OSM map).
-		
-Structure
-	ActionStreetMap consists of two repositories:
-		* Framework - source code of ASM framework. Microsoft Visual Studio 2013 solution, .NET 3.5 as target platform, Unity is referenced via UnityEngine.dll assembly.
-		* Demo - source code of usage example. Unity project, Framework is referenced via assemblies.
-		
-Software architecture
-	* ASM is built using Component Root and Dependency Injection patterns
-	* ASM consists of the following projects:
-		* ActionStreetMap.Infrastructure - contains classes which helps to create framework.
-		* ActionStreetMap.Core - contains classes of core map logic (e.g. MapCSS parser, Scene classes).
-		* ActionStreetMap.Osm - contains OSM specific classes (e.g OSM parser, element visitors).
-		* ActionStreetMap.Models - contains classes which builds unity game objects from real world abstractions.
-		* ActionStreetMap.Explorer - contains application specific logic (e.g. MapCSS declaration rules, model builders).
-		* ActionStreetMap.Tests - contains unit and integration tests. Also has Main function to run logic as console application (useful for profiling).
-	
-Development Tips:
-	Do not use Singleton pattern
-	Do not use DI as Service Locator
-	Follow GRASP and SOLID principles
-	Use TDD approach
+<h3>Development Tips</h3>
+<ul>
+	<li>Do not use Singleton pattern.</li>
+	<li>Do not use DI as Service Locator.</li>
+	<li>Follow GRASP and SOLID principles.</li>
+	<li>Use TDD approach.</li>
+</ul>
