@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using ActionStreetMap.Core;
 using ActionStreetMap.Core.Utilities;
 using ActionStreetMap.Osm;
@@ -167,9 +166,17 @@ namespace ActionStreetMap.Tests.Osm
         }
         #endregion
 
-        #region Test which are using pbf source
+        #region Tests which are using pbf source
 
-        // test file contains:
+        // NOTE preparated pbf files are easier to test and debug than mocks
+
+        // test file:
+        //  7         8    9       10   
+        //               
+        //    14        13       12   11
+        //
+        //            4    3
+        //  6     5            2    1
         // way=100 (1,2,3), way=101 (3,4,5), way=102 (5,6,7), way=103 (8,9,10,11,1)
         // relation includes all ways as outer
         //
@@ -199,6 +206,53 @@ namespace ActionStreetMap.Tests.Osm
                 Assert.IsNotNull(relation, "Cannot find relation");
                 Assert.AreEqual(4, relation.Members.Count);
                 Assert.IsTrue(relation.Members.Distinct().Count() == 4);
+            }
+        }
+
+        // NOTE test file is slightly different - just removed all unused in test nodes
+        [TestCase(53.02477692964, 27.56647518709, 53.02460731988, 27.59057969346)]
+        public void CanLoadOneWayCrossTile(double middlePointLat, double middlePointLon, double centerPointLat, double centerPointLon)
+        {
+            // TODO this testcase doesn't cover cross tile ways in different pbf files!
+            // ARRANGE
+            var elementManager = new ElementManager();
+            var middlePoint = new GeoCoordinate(middlePointLat, middlePointLon);
+            var testDataCenter = new GeoCoordinate(centerPointLat, centerPointLon);
+            var tileSize = GeoCoordinateHelper.CalcDistance(testDataCenter, middlePoint);
+            var boundingBox = BoundingBox.CreateBoundingBox(testDataCenter, tileSize);
+            using (var pbfDataSource = new PbfElementSource(new FileStream(TestHelper.TestOneWayCrossTilePbf, FileMode.Open)))
+            {
+                var elementVisitor = new CountableElementVisitor();
+
+                // ACT
+                elementManager.VisitBoundingBox(boundingBox, pbfDataSource, elementVisitor);
+
+                // ASSERT
+                var way = elementVisitor.Elements.SingleOrDefault(e => e is Way) as Way;
+                Assert.IsNotNull(way, "Cannot find way!");
+                Assert.AreEqual(8, way.Nodes.Count, "Unable to resolve all nodes!");
+                for (int i = 0; i < 8; i++)
+                    Assert.AreEqual(i == 7 ? 1 : i + 1, way.Nodes[i].Id, "Something wrong with node order!");
+                // check that all nodes except first and last contain different coordinates
+                Assert.AreEqual(7, way.Nodes.Distinct(new NodeEqualityComparer()).Count(), "Something wrong with node data!");
+            }
+        }
+
+        #endregion
+
+
+        #region Helpes
+
+        private class NodeEqualityComparer : IEqualityComparer<Node>
+        {
+            public bool Equals(Node x, Node y)
+            {
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(Node obj)
+            {
+                return obj.GetHashCode();
             }
         }
 

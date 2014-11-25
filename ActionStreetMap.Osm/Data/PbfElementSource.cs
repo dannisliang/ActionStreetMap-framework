@@ -141,6 +141,8 @@ namespace ActionStreetMap.Osm.Data
             while (_reader.MoveNext())
             {
                 var block = _reader.Current;
+                // NOTE take a look at second parameter: it's null and this is 
+                // performance optimization to filter out nodes as early as possible
                 ProcessPrimitiveBlock(block, null);
                 foreach (var primitiveGroup in block.primitivegroup)
                 {
