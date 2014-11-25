@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ActionStreetMap.Core;
@@ -8,6 +9,7 @@ using ActionStreetMap.Osm;
 using ActionStreetMap.Osm.Data;
 using ActionStreetMap.Osm.Entities;
 using ActionStreetMap.Osm.Visitors;
+using ActionStreetMap.Tests.Osm.Stubs;
 using Moq;
 using NUnit.Framework;
 
@@ -16,6 +18,7 @@ namespace ActionStreetMap.Tests.Osm
     [TestFixture]
     public class ElementManagerTests
     {
+        #region Tests which are using mocks
         [Test(Description = "Tests whether we can process way which crosses tile border once (should be loaded for two tiles)")]
         public void CanProcessWayCrossingBorderOnce()
         {
@@ -162,5 +165,43 @@ namespace ActionStreetMap.Tests.Osm
 
             return geoCoordinate;
         }
+        #endregion
+
+        #region Test which are using pbf source
+
+        // test file contains:
+        // way=100 (1,2,3), way=101 (3,4,5), way=102 (5,6,7), way=103 (8,9,10,11,1)
+        // relation includes all ways as outer
+        //
+        // right center. Split by middle point divides to 1, 2, 3, 9, 10, 11 (+12) node ids
+        // affected way ids: 100, 101, 103
+        [TestCase(53.02477692964, 27.56647518709, 53.02460731988, 27.59057969346)]
+        // left point. Split by middle point divides to  4, 5, 6, 7, 8 (+14) node ids
+        // affected way ids: 101, 102, 103
+        [TestCase(53.02477692964, 27.56647518709, 53.02470575919, 27.54510491297)]
+        public void CanLoadFullRelationAcrossTile(double middlePointLat, double middlePointLon, double centerPointLat, double centerPointLon)
+        {
+            // ARRANGE
+            var elementManager = new ElementManager();
+            var middlePoint = new GeoCoordinate(middlePointLat, middlePointLon);
+            var testDataCenter = new GeoCoordinate(centerPointLat, centerPointLon);
+            var tileSize = GeoCoordinateHelper.CalcDistance(testDataCenter, middlePoint);
+            var boundingBox = BoundingBox.CreateBoundingBox(testDataCenter, tileSize);
+            using (var pbfDataSource = new PbfElementSource(new FileStream(TestHelper.TestMulitplyOuterWaysInRelationPbf, FileMode.Open)))
+            {
+                var elementVisitor = new CountableElementVisitor();
+
+                // ACT
+                elementManager.VisitBoundingBox(boundingBox, pbfDataSource, elementVisitor);
+
+                // ASSERT
+                var relation = elementVisitor.Elements.SingleOrDefault(e => e is Relation) as Relation;
+                Assert.IsNotNull(relation, "Cannot find relation");
+                Assert.AreEqual(4, relation.Members.Count);
+                Assert.IsTrue(relation.Members.Distinct().Count() == 4);
+            }
+        }
+
+        #endregion
     }
 }
