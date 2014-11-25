@@ -125,11 +125,9 @@ namespace ActionStreetMap.Osm.Data
                     indices.Add(i);
             }
 
-
             foreach (var index in indices)
             {
                 var filePath = _listIndex[index].Key;
-
                 Stream fileStream = null;
                 try
                 {

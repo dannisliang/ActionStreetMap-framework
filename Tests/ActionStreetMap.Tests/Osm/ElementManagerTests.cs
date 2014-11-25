@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using ActionStreetMap.Core;
 using ActionStreetMap.Core.Utilities;
+using ActionStreetMap.Infrastructure.IO;
 using ActionStreetMap.Osm;
 using ActionStreetMap.Osm.Data;
 using ActionStreetMap.Osm.Entities;
@@ -210,17 +211,21 @@ namespace ActionStreetMap.Tests.Osm
         }
 
         // NOTE test file is slightly different - just removed all unused in test nodes
-        [TestCase(53.02477692964, 27.56647518709, 53.02460731988, 27.59057969346)]
-        public void CanLoadOneWayCrossTile(double middlePointLat, double middlePointLon, double centerPointLat, double centerPointLon)
+        [TestCase(TestHelper.TestOneWayCrossIndexDir, true, 53.02477692964, 27.56647518709, 53.02460731988, 27.59057969346, 
+            Description = "Tests whether we can process way which is defined in two different tiles and files")]
+        [TestCase(TestHelper.TestOneWayCrossTilePbf, false, 53.02477692964, 27.56647518709, 53.02460731988, 27.59057969346, 
+            Description = "Tests whether we can process way which is defined in different tile, but same file")]
+        public void CanLoadOneWayCrossTile(string fileName, bool isList, double middlePointLat, double middlePointLon, double centerPointLat, double centerPointLon)
         {
-            // TODO this testcase doesn't cover cross tile ways in different pbf files!
             // ARRANGE
             var elementManager = new ElementManager();
             var middlePoint = new GeoCoordinate(middlePointLat, middlePointLon);
             var testDataCenter = new GeoCoordinate(centerPointLat, centerPointLon);
             var tileSize = GeoCoordinateHelper.CalcDistance(testDataCenter, middlePoint);
             var boundingBox = BoundingBox.CreateBoundingBox(testDataCenter, tileSize);
-            using (var pbfDataSource = new PbfElementSource(new FileStream(TestHelper.TestOneWayCrossTilePbf, FileMode.Open)))
+            using (var pbfDataSource = isList? 
+                new PbfIndexListElementSource(fileName, new FileSystemService(new TestPathResolver()), new ConsoleTrace() ) : 
+                new PbfElementSource(new FileStream(fileName, FileMode.Open)))
             {
                 var elementVisitor = new CountableElementVisitor();
 
@@ -239,7 +244,6 @@ namespace ActionStreetMap.Tests.Osm
         }
 
         #endregion
-
 
         #region Helpes
 

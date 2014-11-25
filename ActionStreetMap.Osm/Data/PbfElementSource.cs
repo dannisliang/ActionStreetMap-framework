@@ -75,17 +75,25 @@ namespace ActionStreetMap.Osm.Data
         {
             FillElements(bbox);
             ResetProcessedIds();
+            ResetUnresolvedId();
             return Elements.Values;
         }
 
         /// <summary>
-        ///     Reset processed id collections.
+        ///     Resets processed id collections.
         /// </summary>
         protected void ResetProcessedIds()
         {           
             _nodeIds.Clear();
             _wayIds.Clear();
             _relationIds.Clear();
+        }
+
+        /// <summary>
+        ///     Resets unresolved id.
+        /// </summary>
+        protected void ResetUnresolvedId()
+        {
             _unresolvedNodes.Clear();
         }
 
